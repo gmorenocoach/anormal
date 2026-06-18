@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Café con Propósito — Mi Mi Siguiente Ciclo</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Barlow:wght@300;400;500&family=Barlow+Condensed:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+
+:root{--bg:#0A0F1E;--bg2:#0E1525;--bg3:#131D30;--bg4:#1A2640;
+--gold:#C9A84C;--gold2:#E8C96A;--gold3:#F5E0A0;
+--gd:rgba(201,168,76,.13);--gb:rgba(201,168,76,.28);
+--text:#EAE6DC;--dim:#8A95A8;--faint:#3A4558;
+--acc:#4A9EBF;--acd:rgba(74,158,191,.13);--acb:rgba(74,158,191,.28);
+--grn:#4ABF7A;--grd:rgba(74,191,122,.12);--grb:rgba(74,191,122,.28);
+--pur:#9B7FD4;--pud:rgba(155,127,212,.12);--pub:rgba(155,127,212,.28);
+--r:4px;--rm:8px;--rl:14px}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font-weight:300;font-size:15px;line-height:1.65;min-height:100vh}
+body::before{content:"";position:fixed;inset:0;background:radial-gradient(ellipse at 20% 50%,rgba(201,168,76,.04),transparent 60%),radial-gradient(ellipse at 80% 20%,rgba(74,158,191,.04),transparent 50%);pointer-events:none;z-index:0}
+.app{position:relative;z-index:1;max-width:740px;margin:0 auto;padding:0 22px 80px}
+.prog{display:flex;align-items:center;margin-bottom:28px;overflow-x:auto;padding-bottom:3px}
+.ps{display:flex;align-items:center;gap:5px;white-space:nowrap;padding:3px 0;cursor:default;flex-shrink:0}
+.ps.done{cursor:pointer}
+.pn{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:500;border:1px solid var(--faint);color:var(--faint);transition:all .3s;flex-shrink:0}
+.ps.done .pn{border-color:var(--gold);color:var(--gold);background:var(--gd)}
+.ps.act .pn{border-color:var(--gold2);color:var(--bg);background:var(--gold2)}
+.ptxt{font-size:9px;letter-spacing:.07em;text-transform:uppercase;color:var(--faint);transition:color .3s}
+.ps.done .ptxt,.ps.act .ptxt{color:var(--gold)}
+.pln{flex:1;min-width:6px;height:1px;background:var(--faint);margin:0 4px;opacity:.2;transition:all .3s}
+.pln.done{background:var(--gold);opacity:.4}
+.panel{display:none}.panel.act{display:block;animation:fu .35s ease}
+@keyframes fu{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.pbadge{display:inline-flex;align-items:center;gap:8px;background:var(--gd);border:1px solid var(--gb);border-radius:var(--rl);padding:6px 14px;margin-bottom:16px}
+.pbadge-q{font-family:"Cormorant Garamond",serif;font-size:18px;color:var(--gold2);font-weight:300;font-style:italic}
+.ph{margin-bottom:20px}
+.ph-s{font-family:"Barlow Condensed",sans-serif;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:4px}
+.ph-t{font-family:"Cormorant Garamond",serif;font-size:clamp(18px,4vw,28px);font-weight:300;color:var(--gold2);line-height:1.15;margin-bottom:4px}
+.ph-d{font-size:13px;color:var(--dim);line-height:1.8;max-width:520px}
+.card{background:var(--bg2);border:1px solid rgba(255,255,255,.055);border-radius:var(--rl);padding:18px 22px;margin-bottom:11px}
+.card.gold{border-color:var(--gb);background:linear-gradient(135deg,var(--bg2),var(--bg3))}
+.card.pur{border-color:var(--pub);background:linear-gradient(135deg,var(--bg2),var(--pud))}
+.card.acc{border-color:var(--acb);background:linear-gradient(135deg,var(--bg2),var(--acd))}
+.card.grn{border-color:var(--grb);background:linear-gradient(135deg,var(--bg2),var(--grd))}
+.cl{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:9px}
+.cl.b{color:var(--acc)}.cl.p{color:var(--pur)}.cl.g{color:var(--grn)}
+.ct{font-size:13px;color:var(--dim);line-height:1.8}
+.il{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-bottom:5px;display:block}
+.inp{background:var(--bg3);border:1px solid rgba(255,255,255,.07);border-radius:var(--r);color:var(--text);font-family:"Barlow",sans-serif;font-size:14px;font-weight:300;padding:9px 13px;width:100%;outline:none;transition:border-color .2s}
+.inp:focus{border-color:var(--gold)}
+.inp::placeholder{color:var(--faint)}
+.irow{display:flex;gap:9px;flex-wrap:wrap}
+.bp{background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--bg);border:none;border-radius:var(--r);font-family:"Barlow Condensed",sans-serif;font-size:12px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;padding:11px 26px;cursor:pointer;transition:opacity .2s,transform .15s}
+.bp:hover{opacity:.9;transform:translateY(-1px)}
+.bs{background:transparent;color:var(--gold);border:1px solid var(--gb);border-radius:var(--r);font-family:"Barlow Condensed",sans-serif;font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;padding:7px 16px;cursor:pointer}
+.bn{background:transparent;color:var(--dim);border:1px solid rgba(255,255,255,.07);border-radius:var(--r);font-family:"Barlow",sans-serif;font-size:13px;padding:8px 16px;cursor:pointer}
+.bn:hover{border-color:var(--gold);color:var(--gold)}
+.rta{background:var(--bg2);border:1px solid rgba(255,255,255,.07);border-radius:var(--r);color:var(--text);font-family:"Barlow",sans-serif;font-size:13px;padding:9px 11px;width:100%;outline:none;resize:vertical;line-height:1.65;transition:border-color .2s}
+.rta:focus{border-color:var(--gold)}
+.rta::placeholder{color:var(--faint)}
+.ciclo-card{border-radius:var(--rl);padding:20px 22px;margin-bottom:14px;border:1.5px solid}
+.ciclo-card.actual{border-color:var(--gold);background:linear-gradient(135deg,var(--bg2),rgba(201,168,76,.06))}
+.ciclo-card.prox{border-color:rgba(74,191,122,.4);background:linear-gradient(135deg,var(--bg2),rgba(74,191,122,.05))}
+.ciclo-card.prox2{border-color:rgba(74,158,191,.4);background:linear-gradient(135deg,var(--bg2),rgba(74,158,191,.05))}
+.ciclo-badge{display:inline-flex;align-items:center;gap:7px;margin-bottom:12px;flex-wrap:wrap}
+.ciclo-num{font-family:"Cormorant Garamond",serif;font-size:42px;font-weight:300;line-height:1;flex-shrink:0}
+.ciclo-info{flex:1}
+.ciclo-tipo{font-size:10px;letter-spacing:.14em;text-transform:uppercase;font-weight:500;margin-bottom:2px}
+.ciclo-nombre{font-family:"Cormorant Garamond",serif;font-size:18px;font-weight:300;color:var(--gold2)}
+.ciclo-edades{font-size:12px;color:var(--dim)}
+.prop-blk{background:var(--bg4);border-radius:var(--rm);padding:13px 15px;margin-bottom:9px;border-left:3px solid}
+.prop-blk-l{font-size:10px;letter-spacing:.13em;text-transform:uppercase;font-weight:500;margin-bottom:5px}
+.prop-blk-hint{font-size:12px;color:var(--dim);line-height:1.55;margin-bottom:7px;font-style:italic}
+.dmsg{background:linear-gradient(135deg,rgba(201,168,76,.07),rgba(74,158,191,.05));border:1px solid var(--gb);border-radius:var(--rl);padding:12px 16px;margin-bottom:11px;text-align:center}
+.dm-l{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:4px}
+.dm-t{font-family:"Cormorant Garamond",serif;font-size:14px;font-style:italic;color:var(--gold3);line-height:1.8}
+.cierre{background:linear-gradient(135deg,rgba(155,127,212,.1),rgba(201,168,76,.07));border:1px solid var(--pub);border-radius:var(--rl);padding:22px 18px;margin-top:14px;text-align:center}
+.ct2{font-family:"Cormorant Garamond",serif;font-size:20px;color:var(--gold2);margin-bottom:9px;font-style:italic;line-height:1.3}
+.cp{font-size:13px;color:var(--dim);line-height:1.85;max-width:460px;margin:0 auto 10px}
+.nav{display:flex;justify-content:space-between;align-items:center;margin-top:18px;padding-top:12px;border-top:1px solid rgba(255,255,255,.05)}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--gb);border-radius:2px}
+@media(max-width:560px){.app{padding:0 14px 60px}}
+
+
+
+
+/* VIDEO BANNER */
+.vid-banner{background:linear-gradient(135deg,rgba(201,168,76,.07),rgba(74,158,191,.04));border:1px solid rgba(201,168,76,.2);border-radius:14px;overflow:hidden;margin:0 22px 20px;display:none}
+.vid-banner.show{display:block}
+.vid-banner-hdr{padding:10px 16px;border-bottom:1px solid rgba(255,255,255,.05);display:flex;align-items:center;justify-content:space-between}
+.vid-banner-lbl{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#C9A84C;font-weight:500;font-family:Barlow Condensed,sans-serif}
+.vid-banner-mod{font-size:11px;color:#8A95A8}
+.vid-banner-player{position:relative;width:100%;aspect-ratio:16/9;background:#060A14}
+.vid-banner-player iframe{position:absolute;inset:0;width:100%;height:100%;border:none}
+.vid-banner-ph{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center;padding:20px}
+.vid-ph-icon{width:44px;height:44px;border-radius:50%;background:rgba(201,168,76,.13);border:1.5px solid rgba(201,168,76,.28);display:flex;align-items:center;justify-content:center;font-size:16px;color:#E8C96A}
+.vid-ph-t{font-family:Cormorant Garamond,serif;font-size:15px;color:#E8C96A;font-weight:300}
+.vid-ph-d{font-size:11px;color:#3A4558;line-height:1.55;max-width:240px}
+@media(max-width:560px){.vid-banner{margin:0 14px 16px}}
+
+
+/* BOTON BRUJULA */
+.brujula-btn-fixed{position:fixed;bottom:22px;right:22px;z-index:500;display:flex;flex-direction:column;align-items:flex-end;gap:6px}
+.brujula-btn{display:flex;align-items:center;gap:8px;background:linear-gradient(135deg,rgba(201,168,76,.15),rgba(201,168,76,.08));border:1px solid rgba(201,168,76,.35);border-radius:30px;padding:10px 16px;cursor:pointer;transition:all .25s;text-decoration:none;backdrop-filter:blur(8px)}
+.brujula-btn:hover{background:linear-gradient(135deg,rgba(201,168,76,.25),rgba(201,168,76,.15));border-color:rgba(201,168,76,.6);transform:translateY(-2px)}
+.brujula-btn-icon{font-family:"Cormorant Garamond",serif;font-size:18px;color:var(--gold2);font-weight:300;line-height:1}
+.brujula-btn-txt{font-size:11px;font-family:"Barlow Condensed",sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--gold2);font-weight:500}
+.brujula-toast{background:var(--bg3);border:1px solid var(--gb);border-radius:var(--rm,10px);padding:9px 14px;font-size:12px;color:var(--gold3);font-family:"Barlow",sans-serif;max-width:220px;text-align:right;line-height:1.5;display:none;animation:btoast .3s ease}
+.brujula-toast.show{display:block}
+@keyframes btoast{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
+</style>
+</head>
+<body>
+
+<!-- VIDEO BANNER: Mi Siguiente Ciclo -->
+<div class="vid-banner" id="vid-banner-ciclo">
+  <div class="vid-banner-hdr">
+    <div class="vid-banner-lbl">Introducción al módulo</div>
+    <div class="vid-banner-mod">Mi Siguiente Ciclo</div>
+  </div>
+  <div class="vid-banner-player" id="vid-player-ciclo">
+    <div class="vid-banner-ph">
+      <div class="vid-ph-icon">&#9654;</div>
+      <div class="vid-ph-t">Video de introducción</div>
+      <div class="vid-ph-d">Alonso te explica lo que encontrarás en este módulo y cómo aprovecharlo al máximo.</div>
+    </div>
+  </div>
+</div>
+<div class="app" id="app"></div>
+<script>
+// ============================================================
+// WIDGET DE PRINCIPIOS Y COMPROMISOS - Anormal / Cafe con Proposito
+// v2.0 - Con recordatorio no negociable y orden original de principios
+// ============================================================
+
+var MODULO_PRINCIPIOS = {"bienvenida":[1,4,14],"rueda":[11,12],"elementos":[11,12],"camino":[5,9],"subnums":[5],"mapa":[9],"flechas":[9],"nombre":[5,9],"personas":[9,13],"dolan":[12,13],"perfil":[9],"septenios":[3,16],"ecg":[2,10],"nino":[2,3,7],"ikigai":[6,8,17],"ciclo":[15,16],"plan":[13,15,16],"dashboard":[18,9]};
+
+var PRINCIPIOS_DB = [{"num": 1, "titulo": "\u2200gradecer", "sesion": "bienvenida", "color": "#C9A84C", "no_negociable": "Mientras avanzas en este proceso, la gratitud no es opcional. Es el lente desde el que lees cada resultado, cada ejercicio, cada descubrimiento sobre ti mismo."}, {"num": 2, "titulo": "\u2200vanza en el perd\u00f3n", "sesion": "sesion3", "color": "#D4537E", "no_negociable": "Sin perd\u00f3n no hay transformaci\u00f3n real. Puedes completar todos los ejercicios \u2014 pero si cargas resentimiento, el proceso no puede hacer su trabajo completo."}, {"num": 3, "titulo": "\u2200provecha el dolor", "sesion": "sesion3", "color": "#D4537E", "no_negociable": "El dolor que emerja en este proceso no es se\u00f1al de que algo sale mal. Es la se\u00f1al de que algo est\u00e1 cambiando. No te detengas."}, {"num": 4, "titulo": "\u2200p\u00fantale al compromiso", "sesion": "bienvenida", "color": "#C9A84C", "no_negociable": "Ya te comprometiste al entrar. Ese compromiso no vence. Cada vez que sientas que quieres pausar, recuerda: te comprometiste antes de saber el c\u00f3mo. Conf\u00eda."}, {"num": 5, "titulo": "\u2200prende a normalizar lo extraordinario", "sesion": "sesion2", "color": "#9B7FD4", "no_negociable": "Lo que descubras sobre ti en esta sesi\u00f3n debe convertirse en tu nueva normalidad, no en un dato interesante que olvidas en una semana."}, {"num": 6, "titulo": "\u2200taca el miedo", "sesion": "sesion4", "color": "#E8C96A", "no_negociable": "Declarar tu prop\u00f3sito de vida activa todos tus miedos. Eso es normal y es buena se\u00f1al. La \u00fanica respuesta \u2200normal es seguir avanzando."}, {"num": 7, "titulo": "\u2200prende cero excusas", "sesion": "sesion3", "color": "#D4537E", "no_negociable": "Una excusa no te saca del proceso. Te saca de tu m\u00e1ximo potencial. Recuerda tu compromiso."}, {"num": 8, "titulo": "\u2200prende a pagar el precio", "sesion": "sesion4", "color": "#E8C96A", "no_negociable": "Vivir tu prop\u00f3sito tiene un precio real. Identificarlo aqu\u00ed y aceptarlo es el acto de honestidad que hace que el plan de vida funcione."}, {"num": 9, "titulo": "\u2200sume responsabilidad total", "sesion": "sesion2", "color": "#9B7FD4", "no_negociable": "Lo que tu numerolog\u00eda y tus valores revelan no es un destino fijo. Es un mapa. T\u00fa decides c\u00f3mo usarlo. Eso es responsabilidad total."}, {"num": 10, "titulo": "\u2200poyo emocional como combustible", "sesion": "sesion3", "color": "#D4537E", "no_negociable": "El dolor emocional que emerge en esta sesi\u00f3n no es un obst\u00e1culo. Es combustible. La intensidad que sientes es proporcional a la transformaci\u00f3n que viene."}, {"num": 11, "titulo": "\u2200palancamiento: la verdad contigo mismo", "sesion": "sesion1", "color": "#C9A84C", "no_negociable": "El diagn\u00f3stico solo funciona si eres brutalmente honesto. El n\u00famero que le das a cada \u00e1rea de tu vida debe reflejar la realidad, no c\u00f3mo quisieras que fuera."}, {"num": 12, "titulo": "\u2200doptas lo que toleras", "sesion": "sesion1", "color": "#C9A84C", "no_negociable": "Las \u00e1reas con calificaci\u00f3n baja son exactamente lo que has estado tolerando. Verlo sin juzgarte es el primer paso. Seguir toler\u00e1ndolo despu\u00e9s de verlo es la excusa."}, {"num": 13, "titulo": "\u2200pr\u00f3piate la insatisfacci\u00f3n", "sesion": "sesion2", "color": "#9B7FD4", "no_negociable": "La brecha entre tus valores declarados y los que realmente vives no es una falla \u2014 es informaci\u00f3n. Usa esa insatisfacci\u00f3n como motor, no como excusa."}, {"num": 14, "titulo": "\u2200dopta m\u00e9todos probados", "sesion": "bienvenida", "color": "#C9A84C", "no_negociable": "Esta plataforma integra metodolog\u00edas con d\u00e9cadas de validaci\u00f3n. Tu trabajo es aplicarlas con honestidad, no cuestionarlas antes de vivirlas."}, {"num": 15, "titulo": "\u2200lcanza el resultado, luego mejora", "sesion": "sesion5", "color": "#4ABF7A", "no_negociable": "Tu plan de vida no necesita ser perfecto para empezar. Necesita ser tuyo y necesita empezar. La acci\u00f3n imperfecta ejecutada vale m\u00e1s que el plan perfecto que nunca sale."}, {"num": 16, "titulo": "\u2200celera el proceso", "sesion": "sesion5", "color": "#4ABF7A", "no_negociable": "Cada d\u00eda que pasa sin ejecutar el plan es un d\u00eda que no vuelve. La urgencia no es ansiedad \u2014 es el respeto que le tienes a tu propio tiempo."}, {"num": 17, "titulo": "\u2200tenci\u00f3n y enfoque constante", "sesion": "sesion4", "color": "#E8C96A", "no_negociable": "Haz este m\u00f3dulo sin interrupciones. Lo que emerja es proporcional a tu concentraci\u00f3n."}, {"num": 18, "titulo": "\u2200lcanzas la anormalidad", "sesion": "sesion5", "color": "#4ABF7A", "no_negociable": "Completar este proceso te convierte en alguien diferente. Esa diferencia ser\u00e1 visible \u2014 y no todos la aplaudir\u00e1n. Esa resistencia confirma que el proceso funcion\u00f3."}];
+
+// Principios acumulados que el participante ya ha visto
+var PRINCIPIOS_VISTOS = (function(){
+  var v = {};
+  PRINCIPIOS_DB.forEach(function(pr){ v[pr.num] = false; });
+  return v;
+})();
+
+function buildWidgetPrincipios(moduloId, contenedor, onComplete) {
+  var principiosIds = MODULO_PRINCIPIOS[moduloId] || [];
+  if (!principiosIds.length) { if (onComplete) onComplete(); return; }
+
+  // Principios acumulados anteriores (ya vistos en modulos previos)
+  var anteriores = [];
+  PRINCIPIOS_DB.forEach(function(pr){
+    if(PRINCIPIOS_VISTOS[pr.num] && principiosIds.indexOf(pr.num) < 0){
+      anteriores.push(pr);
+    }
+  });
+
+  var compromisos_mod = {};
+  var paso = 0;
+  // Fases: -1=recordatorio, 0..N-1=principios, N=compromisos
+  var FASE_RECORD = -1;
+  var totalPasos = principiosIds.length + 1;
+  var hayAnteriores = anteriores.length > 0;
+
+  // Crear overlay
+  var overlay = document.createElement("div");
+  overlay.style.cssText = "position:fixed;inset:0;background:rgba(4,8,16,.97);z-index:2000;display:flex;align-items:center;justify-content:center;padding:16px;animation:wfadeIn .3s ease";
+
+  var box = document.createElement("div");
+  box.style.cssText = "background:#0A0F1E;border:1px solid rgba(201,168,76,.25);border-radius:20px;width:100%;max-width:560px;max-height:92vh;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 24px 64px rgba(0,0,0,.6)";
+
+  // Header
+  var hdr = document.createElement("div");
+  hdr.style.cssText = "padding:18px 22px 14px;border-bottom:1px solid rgba(255,255,255,.06);flex-shrink:0";
+  var htop = document.createElement("div");
+  htop.style.cssText = "display:flex;align-items:center;justify-content:space-between;margin-bottom:10px";
+  var hlogo = document.createElement("div");
+  hlogo.style.cssText = "font-family:Cormorant Garamond,serif;font-size:20px;color:#E8C96A;font-weight:300;letter-spacing:.02em";
+  hlogo.textContent = "\u2200normal";
+  var hstep = document.createElement("div");
+  hstep.id = "wp-step";
+  hstep.style.cssText = "font-size:10px;color:#3A4558;letter-spacing:.12em;text-transform:uppercase;font-family:Barlow Condensed,sans-serif";
+  htop.appendChild(hlogo); htop.appendChild(hstep);
+  var hbar = document.createElement("div");
+  hbar.style.cssText = "height:2px;background:#1A2640;border-radius:1px;overflow:hidden";
+  var hfill = document.createElement("div");
+  hfill.id = "wp-fill";
+  hfill.style.cssText = "height:100%;background:linear-gradient(90deg,#C9A84C,#E8C96A);border-radius:1px;transition:width .4s ease;width:0%";
+  hbar.appendChild(hfill); hdr.appendChild(htop); hdr.appendChild(hbar);
+  box.appendChild(hdr);
+
+  // Body
+  var body = document.createElement("div");
+  body.style.cssText = "flex:1;overflow-y:auto;padding:0 22px";
+
+  // Footer
+  var ftr = document.createElement("div");
+  ftr.style.cssText = "padding:14px 22px;border-top:1px solid rgba(255,255,255,.06);flex-shrink:0;display:flex;justify-content:space-between;align-items:center;gap:10px";
+
+  function upProg(){
+    var pct = paso < 0 ? 0 : Math.round(((paso+1)/totalPasos)*100);
+    var f=document.getElementById("wp-fill"); if(f)f.style.width=pct+"%";
+    var s=document.getElementById("wp-step");
+    if(s)s.textContent = paso < 0 ? "Recordatorio" : paso < principiosIds.length ? "Principio "+(paso+1)+" de "+principiosIds.length : "Mis compromisos";
+  }
+
+  function showPaso(){
+    body.innerHTML=""; ftr.innerHTML=""; upProg();
+
+    // FASE RECORDATORIO
+    if(paso===FASE_RECORD && hayAnteriores){
+      var sec=document.createElement("div"); sec.style.cssText="padding:20px 0";
+      var icon=document.createElement("div");icon.style.cssText="text-align:center;margin-bottom:16px";
+      var iconInner=document.createElement("div");iconInner.style.cssText="display:inline-flex;align-items:center;justify-content:center;width:52px;height:52px;border-radius:50%;background:rgba(212,83,126,.12);border:1.5px solid rgba(212,83,126,.35)";
+      iconInner.innerHTML="<span style='font-size:22px;color:#D4537E'>!</span>";
+      icon.appendChild(iconInner); sec.appendChild(icon);
+
+      var rt=document.createElement("div");rt.style.cssText="font-family:Cormorant Garamond,serif;font-size:22px;color:#E8C96A;text-align:center;margin-bottom:8px;font-weight:300;line-height:1.3";
+      rt.textContent="Antes de continuar"; sec.appendChild(rt);
+
+      var rs=document.createElement("div");rs.style.cssText="font-size:13px;color:#8A95A8;text-align:center;margin-bottom:18px;line-height:1.75;max-width:400px;margin-left:auto;margin-right:auto";
+      rs.innerHTML="Los principios que has aceptado <strong style='color:#F5E0A0'>no son opcionales ni negociables</strong>. Son el estándar que elegiste cuando decidiste entrar al camino ∀normal.";
+      sec.appendChild(rs);
+
+      var aviso=document.createElement("div");aviso.style.cssText="background:rgba(212,83,126,.07);border:1px solid rgba(212,83,126,.2);border-radius:12px;padding:14px 16px;margin-bottom:14px";
+      var avisoT=document.createElement("div");avisoT.style.cssText="font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#D4537E;font-weight:500;margin-bottom:8px;font-family:Barlow Condensed,sans-serif";
+      avisoT.textContent="Recuerda — Principios que ya aceptaste";aviso.appendChild(avisoT);
+      anteriores.slice(-3).forEach(function(pr){
+        var prow=document.createElement("div");prow.style.cssText="display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.04)";
+        var pn=document.createElement("div");pn.style.cssText="font-family:Cormorant Garamond,serif;font-size:18px;font-weight:300;color:"+pr.color+";min-width:30px";pn.textContent="∀"+pr.num;
+        var pt=document.createElement("div");pt.style.cssText="font-size:12px;color:#8A95A8";pt.textContent=pr.titulo;
+        prow.appendChild(pn);prow.appendChild(pt);aviso.appendChild(prow);
+      });
+      if(anteriores.length>3){var mas=document.createElement("div");mas.style.cssText="font-size:11px;color:#3A4558;margin-top:6px;text-align:center";mas.textContent="+ "+(anteriores.length-3)+" principios anteriores";aviso.appendChild(mas);}
+      sec.appendChild(aviso);
+
+      var pregunta=document.createElement("div");pregunta.style.cssText="background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.2);border-radius:10px;padding:12px 16px;text-align:center";
+      pregunta.innerHTML="<span style='font-family:Cormorant Garamond,serif;font-size:16px;color:#E8C96A;font-style:italic'>Una excusa no te saca de la plataforma — te saca de tu máximo potencial.<br>¿Sigues dentro del camino ∀normal?</span>";
+      sec.appendChild(pregunta);
+      body.appendChild(sec);
+
+      ftr.appendChild(document.createElement("span"));
+      var btnSi=document.createElement("button");btnSi.style.cssText="background:linear-gradient(135deg,#C9A84C,#E8C96A);color:#060A14;border:none;border-radius:4px;font-family:Barlow Condensed,sans-serif;font-size:12px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;padding:11px 26px;cursor:pointer";
+      btnSi.textContent="Sí, sigo dentro";
+      btnSi.onclick=function(){paso=0;showPaso();};
+      ftr.appendChild(btnSi);
+      return;
+    }
+
+    // FASE PRINCIPIOS
+    if(paso >= 0 && paso < principiosIds.length){
+      var pId=principiosIds[paso];
+      var pr=PRINCIPIOS_DB.find(function(p2){return p2.num===pId;});
+      if(!pr){paso++;showPaso();return;}
+      PRINCIPIOS_VISTOS[pr.num]=true;
+
+      var sec2=document.createElement("div");sec2.style.cssText="padding:20px 0";
+      var numDiv=document.createElement("div");numDiv.style.cssText="font-family:Cormorant Garamond,serif;font-size:60px;font-weight:300;line-height:1;color:"+pr.color+";opacity:.2;margin-bottom:2px";numDiv.textContent="∀"+pr.num;
+      sec2.appendChild(numDiv);
+      var tit=document.createElement("div");tit.style.cssText="font-family:Cormorant Garamond,serif;font-size:26px;font-weight:300;color:"+pr.color+";margin-bottom:14px;line-height:1.2";tit.textContent=pr.titulo;sec2.appendChild(tit);
+
+      if(pr.no_negociable){
+        var nnBlk=document.createElement("div");nnBlk.style.cssText="background:rgba(212,83,126,.07);border:1px solid rgba(212,83,126,.2);border-radius:10px;padding:11px 14px;margin-bottom:12px;display:flex;align-items:flex-start;gap:10px";
+        var nnIcon=document.createElement("div");nnIcon.style.cssText="font-size:14px;color:#D4537E;flex-shrink:0;margin-top:1px";nnIcon.textContent="!";
+        var nnTxt=document.createElement("div");
+        var nnLabel=document.createElement("div");nnLabel.style.cssText="font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#D4537E;font-weight:500;margin-bottom:4px;font-family:Barlow Condensed,sans-serif";nnLabel.textContent="No negociable";
+        var nnCont=document.createElement("div");nnCont.style.cssText="font-size:12px;color:#EAE6DC;line-height:1.65";nnCont.textContent=pr.no_negociable;
+        nnTxt.appendChild(nnLabel);nnTxt.appendChild(nnCont);nnBlk.appendChild(nnIcon);nnBlk.appendChild(nnTxt);sec2.appendChild(nnBlk);
+      }
+
+      if(pr.aplicacion){
+        var aplBlk=document.createElement("div");aplBlk.style.cssText="background:#1A2640;border-radius:10px;padding:12px 14px;border-left:3px solid "+pr.color+";margin-bottom:12px";
+        var aplL=document.createElement("div");aplL.style.cssText="font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:"+pr.color+";margin-bottom:4px;font-weight:500;font-family:Barlow Condensed,sans-serif";aplL.textContent="En este módulo";
+        var aplT=document.createElement("div");aplT.style.cssText="font-size:13px;color:#EAE6DC;line-height:1.65;font-style:italic";aplT.textContent=pr.aplicacion;
+        aplBlk.appendChild(aplL);aplBlk.appendChild(aplT);sec2.appendChild(aplBlk);
+      }
+
+      body.appendChild(sec2);
+
+      var btnP=paso>0?document.createElement("button"):document.createElement("span");
+      if(paso>0){btnP.style.cssText="background:transparent;color:#3A4558;border:1px solid #1E2A3A;border-radius:4px;font-family:Barlow,sans-serif;font-size:13px;padding:9px 16px;cursor:pointer";btnP.textContent="Anterior";btnP.onclick=function(){paso--;showPaso();};}
+      ftr.appendChild(btnP);
+      var btnN2=document.createElement("button");btnN2.style.cssText="background:linear-gradient(135deg,#C9A84C,#E8C96A);color:#060A14;border:none;border-radius:4px;font-family:Barlow Condensed,sans-serif;font-size:12px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;padding:11px 26px;cursor:pointer";
+      btnN2.textContent=paso<principiosIds.length-1?"Siguiente principio":"Mis compromisos";
+      btnN2.onclick=function(){paso++;showPaso();};ftr.appendChild(btnN2);
+      return;
+    }
+
+    // FASE COMPROMISOS
+    var sec3=document.createElement("div");sec3.style.cssText="padding:20px 0";
+    var ct=document.createElement("div");ct.style.cssText="font-family:Cormorant Garamond,serif;font-size:22px;color:#E8C96A;margin-bottom:6px;font-weight:300";ct.textContent="Mis compromisos para este módulo";sec3.appendChild(ct);
+    var cs=document.createElement("div");cs.style.cssText="font-size:13px;color:#8A95A8;margin-bottom:18px;line-height:1.65";cs.textContent="Los principios te dieron el marco. Ahora escribe qué harás diferente a partir de hoy en este módulo.";sec3.appendChild(cs);
+    principiosIds.forEach(function(pId2){
+      var pr2=PRINCIPIOS_DB.find(function(p2){return p2.num===pId2;});if(!pr2)return;
+      var blk=document.createElement("div");blk.style.cssText="margin-bottom:14px;background:#131D30;border-radius:10px;padding:13px 15px;border-left:3px solid "+pr2.color;
+      var bt=document.createElement("div");bt.style.cssText="font-size:11px;font-weight:500;color:"+pr2.color+";margin-bottom:6px;letter-spacing:.08em;text-transform:uppercase;font-family:Barlow Condensed,sans-serif";bt.textContent="∀"+pr2.num+" · "+pr2.titulo;blk.appendChild(bt);
+      var ta=document.createElement("textarea");ta.style.cssText="background:#0A0F1E;border:1px solid rgba(255,255,255,.07);border-radius:6px;color:#EAE6DC;font-family:Barlow,sans-serif;font-size:13px;padding:9px 12px;width:100%;min-height:70px;outline:none;resize:vertical;line-height:1.6;transition:border-color .2s";
+      ta.placeholder="Describe qué cambiarás o harás diferente a partir de hoy...";ta.value=compromisos_mod["p"+pId2]||"";
+      ta.onfocus=function(){this.style.borderColor=pr2.color;};ta.onblur=function(){this.style.borderColor="rgba(255,255,255,.07)";};
+      ta.oninput=(function(pid){return function(){compromisos_mod["p"+pid]=this.value;};})(pId2);
+      blk.appendChild(ta);sec3.appendChild(blk);
+    });
+    body.appendChild(sec3);
+
+    var btnB2=document.createElement("button");btnB2.style.cssText="background:transparent;color:#3A4558;border:1px solid #1E2A3A;border-radius:4px;font-family:Barlow,sans-serif;font-size:13px;padding:9px 16px;cursor:pointer";btnB2.textContent="Revisar";btnB2.onclick=function(){paso--;showPaso();};ftr.appendChild(btnB2);
+    var btnFin=document.createElement("button");btnFin.style.cssText="background:linear-gradient(135deg,#C9A84C,#E8C96A);color:#060A14;border:none;border-radius:4px;font-family:Barlow Condensed,sans-serif;font-size:12px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;padding:11px 26px;cursor:pointer";
+    btnFin.textContent="Comenzar el módulo";
+    btnFin.onclick=function(){
+      if(window.guardarCompromisosModulo)window.guardarCompromisosModulo(moduloId,compromisos_mod);
+      document.body.removeChild(overlay);
+      if(onComplete)onComplete();
+    };
+    ftr.appendChild(btnFin);
+  }
+
+  box.appendChild(body);box.appendChild(ftr);overlay.appendChild(box);
+
+  var style=document.createElement("style");
+  style.textContent="@keyframes wfadeIn{from{opacity:0}to{opacity:1}} .wp-scroll::-webkit-scrollbar{width:4px} .wp-scroll::-webkit-scrollbar-thumb{background:rgba(201,168,76,.28);border-radius:2px}";
+  document.head.appendChild(style);
+  document.body.appendChild(overlay);
+
+  // Arrancar en recordatorio si hay anteriores, si no en principios
+  paso = hayAnteriores ? FASE_RECORD : 0;
+  showPaso();
+}
+
+window.guardarCompromisosModulo = function(moduloId, compromisos){
+  if(!window.COMPROMISOS_PROCESO)window.COMPROMISOS_PROCESO={};
+  window.COMPROMISOS_PROCESO[moduloId]=compromisos;
+};
+
+</script>
+<script>
+// ============================================================
+// ANORMAL - Módulo de datos compartidos entre módulos
+// Usa sessionStorage para pasar datos entre páginas HTML
+// ============================================================
+
+var ANORMAL = {
+  
+  // Leer todos los datos del proceso
+  getData: function() {
+    try {
+      var raw = sessionStorage.getItem('anormal_proceso');
+      return raw ? JSON.parse(raw) : {};
+    } catch(e) { return {}; }
+  },
+  
+  // Guardar datos del proceso
+  setData: function(data) {
+    try {
+      sessionStorage.setItem('anormal_proceso', JSON.stringify(data));
+    } catch(e) {}
+  },
+  
+  // Actualizar una sección específica
+  update: function(section, value) {
+    var data = this.getData();
+    data[section] = value;
+    this.setData(data);
+  },
+  
+  // Agregar un compromiso/hábito a la agenda central
+  addAgenda: function(item) {
+    // item = {modulo, titulo, descripcion, fecha, periodicidad, tipo}
+    var data = this.getData();
+    if (!data.agenda) data.agenda = [];
+    item.id = 'ag_' + Date.now() + '_' + Math.random().toString(36).slice(2,6);
+    item.cumplido = false;
+    item.fechaCreacion = new Date().toLocaleDateString('es-CO');
+    data.agenda.push(item);
+    this.setData(data);
+    return item.id;
+  },
+  
+  // Guardar lo marcado en septenios para que fluya al ECG y al Niño Interior
+  saveSeptenios: function(checklistEstado, cicloActual, nombre, genero) {
+    var doloresPorCiclo = [];
+    
+    Object.keys(checklistEstado).forEach(function(chkKey) {
+      var est = checklistEstado[chkKey];
+      if (!est || !est.dolor || !est.dolor.length) return;
+      
+      // Extraer número de ciclo del key ('chk-3' -> 3, 'actual-5' -> 5)
+      var cicloNum = 0;
+      if (chkKey.startsWith('chk-')) cicloNum = parseInt(chkKey.replace('chk-',''));
+      else if (chkKey.startsWith('actual-')) cicloNum = parseInt(chkKey.replace('actual-',''));
+      if (!cicloNum) return;
+      
+      // Obtener los ítems de dolor marcados
+      var cicloDatos = window.CICLOS_DATA ? window.CICLOS_DATA[String(cicloNum)] : null;
+      if (!cicloDatos) return;
+      
+      var itemsMarcados = est.dolor.map(function(idx) {
+        return cicloDatos.dolor[idx] || '';
+      }).filter(Boolean);
+      
+      var itemsAlegria = (est.alegria || []).map(function(idx) {
+        return cicloDatos.alegria[idx] || '';
+      }).filter(Boolean);
+      
+      if (itemsMarcados.length || itemsAlegria.length) {
+        doloresPorCiclo.push({
+          ciclo: cicloNum,
+          tipo: cicloDatos.tipo,
+          titulo: cicloDatos.titulo,
+          edades: cicloDatos.titulo.match(/\d+ a \d+/)?.[0] || '',
+          dolores: itemsMarcados,
+          alegrias: itemsAlegria,
+          // Preguntas respondidas
+          respuestas: [0,1,2].map(function(pi) {
+            return checklistEstado[chkKey + '-preg-' + pi] || '';
+          }).filter(Boolean)
+        });
+      }
+    });
+    
+    // Ordenar por ciclo
+    doloresPorCiclo.sort(function(a,b){return a.ciclo - b.ciclo;});
+    
+    this.update('septenios', {
+      cicloActual: cicloActual,
+      nombre: nombre,
+      genero: genero,
+      doloresPorCiclo: doloresPorCiclo,
+      fecha: new Date().toLocaleDateString('es-CO')
+    });
+  },
+  
+  // Obtener datos de septenios para el ECG
+  getSepteniosParaECG: function() {
+    var data = this.getData();
+    return data.septenios || null;
+  },
+  
+  // Obtener ciclos 1-2-3 para el Niño Interior
+  getCiclosInfancia: function() {
+    var sep = this.getSepteniosParaECG();
+    if (!sep) return [];
+    return sep.doloresPorCiclo.filter(function(c) {
+      return c.ciclo <= 3;
+    });
+  },
+  
+  // Guardar compromisos de un módulo en la agenda central
+  saveCompromisos: function(moduloId, compromisos) {
+    if (!compromisos || !Object.keys(compromisos).length) return;
+    var data = this.getData();
+    if (!data.agenda) data.agenda = [];
+    
+    Object.keys(compromisos).forEach(function(key) {
+      var texto = (compromisos[key] || '').trim();
+      if (!texto) return;
+      // Evitar duplicados del mismo módulo+key
+      var exists = data.agenda.some(function(item) {
+        return item.moduloId === moduloId && item.key === key;
+      });
+      if (!exists) {
+        data.agenda.push({
+          id: 'ag_' + moduloId + '_' + key,
+          moduloId: moduloId,
+          key: key,
+          tipo: 'compromiso-principio',
+          descripcion: texto,
+          fechaCreacion: new Date().toLocaleDateString('es-CO'),
+          cumplido: false,
+          periodicidad: 'diario'
+        });
+      }
+    });
+    this.setData(data);
+  },
+
+  // ============================================================
+  // FASE 1 — ¿Quién soy? — guardado genérico por módulo
+  // ============================================================
+
+  // Guardar el resultado de un módulo de Fase 1 (o cualquier fase)
+  // moduloId: 'rueda' | 'elementos' | 'camino' | 'subnumeros' | 'mapa' |
+  //           'flechas' | 'nombre' | 'personas' | 'dolan' | 'ikigai' |
+  //           'siguiente_ciclo' | 'plan_vida'
+  saveFaseModulo: function(moduloId, resultado) {
+    var data = this.getData();
+    if (!data.fase1) data.fase1 = {};
+    if (!data.fase3) data.fase3 = {};
+    var fase3Ids = ['ikigai', 'siguiente_ciclo', 'plan_vida'];
+    var bucket = fase3Ids.indexOf(moduloId) >= 0 ? data.fase3 : data.fase1;
+    bucket[moduloId] = resultado;
+    bucket[moduloId + '_fecha'] = new Date().toLocaleDateString('es-CO');
+    this.setData(data);
+    this.marcarModuloCompletado(moduloId);
+  },
+
+  // Leer el resultado guardado de un módulo específico
+  getFaseModulo: function(moduloId) {
+    var data = this.getData();
+    if (data.fase1 && data.fase1[moduloId] !== undefined) return data.fase1[moduloId];
+    if (data.fase3 && data.fase3[moduloId] !== undefined) return data.fase3[moduloId];
+    return null;
+  },
+
+  // Obtener todo lo guardado de Fase 1 de una vez (para Perfil Integrado)
+  getFase1Completa: function() {
+    var data = this.getData();
+    return data.fase1 || {};
+  },
+
+  // Obtener todo lo guardado de Fase 3
+  getFase3Completa: function() {
+    var data = this.getData();
+    return data.fase3 || {};
+  },
+
+  // ============================================================
+  // PROGRESO — qué módulos completó la persona (para el Dashboard)
+  // ============================================================
+
+  TODOS_LOS_MODULOS: [
+    {id:'rueda', fase:1, nombre:'Rueda de Vida'},
+    {id:'elementos', fase:1, nombre:'Elementos'},
+    {id:'camino', fase:1, nombre:'Camino de Vida'},
+    {id:'subnumeros', fase:1, nombre:'Subnúmeros'},
+    {id:'mapa', fase:1, nombre:'Mapa Energético'},
+    {id:'flechas', fase:1, nombre:'Flechas'},
+    {id:'nombre', fase:1, nombre:'Nombre'},
+    {id:'personas', fase:1, nombre:'Personas'},
+    {id:'dolan', fase:1, nombre:'Valores Dolan'},
+    {id:'perfil', fase:1, nombre:'Perfil Integrado'},
+    {id:'septenios', fase:2, nombre:'Mis Ciclos de Vida'},
+    {id:'ecg', fase:2, nombre:'Mi Trabajo Emocional'},
+    {id:'perdon', fase:2, nombre:'Mi Trabajo del Perdón'},
+    {id:'ikigai', fase:3, nombre:'Ikigai'},
+    {id:'siguiente_ciclo', fase:3, nombre:'Siguiente Ciclo'},
+    {id:'plan_vida', fase:3, nombre:'Plan de Vida'}
+  ],
+
+  marcarModuloCompletado: function(moduloId) {
+    var data = this.getData();
+    if (!data.progreso) data.progreso = {};
+    data.progreso[moduloId] = {
+      completado: true,
+      fecha: new Date().toLocaleDateString('es-CO')
+    };
+    this.setData(data);
+  },
+
+  // Devuelve la lista de módulos con su estado de completado, para pintar el Dashboard
+  getProgreso: function() {
+    var data = this.getData();
+    var progreso = data.progreso || {};
+    return this.TODOS_LOS_MODULOS.map(function(m) {
+      return {
+        id: m.id,
+        fase: m.fase,
+        nombre: m.nombre,
+        completado: !!(progreso[m.id] && progreso[m.id].completado),
+        fecha: progreso[m.id] ? progreso[m.id].fecha : null
+      };
+    });
+  },
+
+  // Porcentaje de avance total y por fase
+  getPorcentajeAvance: function() {
+    var prog = this.getProgreso();
+    var total = prog.length;
+    var hechos = prog.filter(function(m){ return m.completado; }).length;
+    var porFase = {1:{total:0,hechos:0}, 2:{total:0,hechos:0}, 3:{total:0,hechos:0}};
+    prog.forEach(function(m) {
+      porFase[m.fase].total++;
+      if (m.completado) porFase[m.fase].hechos++;
+    });
+    return {
+      total: total, hechos: hechos,
+      porcentaje: total ? Math.round((hechos/total)*100) : 0,
+      porFase: porFase
+    };
+  }
+};
+
+// Sobrescribir guardarCompromisosModulo para que también vaya a la agenda
+window.guardarCompromisosModulo = function(moduloId, compromisos) {
+  if (!window.COMPROMISOS_PROCESO) window.COMPROMISOS_PROCESO = {};
+  window.COMPROMISOS_PROCESO[moduloId] = compromisos;
+  ANORMAL.saveCompromisos(moduloId, compromisos);
+};
+
+</script>
+<script>
+// ============================================================
+// WIDGET DE PRINCIPIOS Y COMPROMISOS - Anormal / Cafe con Proposito
+// v2.0 - Con recordatorio no negociable y orden original de principios
+// ============================================================
+
+;
+
+
+
+
+var FRASES=["Quien camina con fe no necesita ver todo el camino.","El futuro no se predice \u2014 se construye desde el presente.","No hay viento favorable para quien no sabe a d\u00f3nde va.","El prop\u00f3sito no cambia con el ciclo \u2014 lo que cambia es c\u00f3mo se expresa.","Cada ciclo trae una pregunta. La sabidur\u00eda es saber cu\u00e1l es.","Lo que sembramos en un ciclo lo cosechamos en el siguiente.","La vida no se vive hacia atr\u00e1s. Se comprende hacia atr\u00e1s y se vive hacia adelante.","El que sabe para qu\u00e9 est\u00e1, soporta casi cualquier c\u00f3mo.","Un prop\u00f3sito claro convierte cada ciclo en un cap\u00edtulo con sentido.","La visi\u00f3n sin acci\u00f3n es un sue\u00f1o. La acci\u00f3n sin visi\u00f3n es una pesadilla.","Cuando sabes lo que eres, cada ciclo te da m\u00e1s de lo que buscas.","El mejor momento para plantar un \u00e1rbol fue hace 20 a\u00f1os. El segundo mejor es hoy.","Tu pr\u00f3ximo ciclo ya est\u00e1 siendo escrito por lo que haces hoy.","La plenitud no es un destino \u2014 es una forma de caminar.","Lo que dejas de cargar es tanto o m\u00e1s importante que lo que decides construir."];
+function frase(){return FRASES[new Date().getDate()%FRASES.length]||"";}
+
+var TIPO_LABEL={cuerpo:"Ciclo del Cuerpo",sentir:"Ciclo del Sentir",ser:"Ciclo del Ser"};
+var TIPO_COL={cuerpo:"var(--grn)",sentir:"var(--pur)",ser:"var(--acc)"};
+var TIPO_MAP={1:"cuerpo",2:"sentir",3:"ser",4:"cuerpo",5:"sentir",6:"ser",7:"cuerpo",8:"sentir",9:"ser",10:"cuerpo",11:"sentir",12:"ser"};
+var CICLO_NOMBRES={1:"El Origen",2:"El Brote",3:"El Despertar",4:"La Construcci\u00f3n",5:"La Crisis",6:"La Plenitud",7:"La Transformaci\u00f3n",8:"La Integraci\u00f3n",9:"La Ofrenda",10:"El Destilado",11:"La Esencia",12:"La Trascendencia"};
+
+var PREGUNTAS_TIPO = {
+  cuerpo:{
+    ser:["Tu cuerpo ser\u00e1 el protagonista de este ciclo. \u00bfQu\u00e9 relaci\u00f3n quieres tener con \u00e9l? \u00bfQu\u00e9 h\u00e1bitos de salud quieres construir?","Emocionalmente este ciclo es m\u00e1s tranquilo. \u00bfQu\u00e9 quieres sanar desde esa calma? \u00bfQu\u00e9 herida emocional merece tu atenci\u00f3n sostenida?"],
+    hacer:["Este es el ciclo del construir y el hacer. Conectado con tu prop\u00f3sito, \u00bfqu\u00e9 quieres materializar? \u00bfQu\u00e9 proyecto concreto lo expresa?","En lo profesional, \u00bfqu\u00e9 estructura quieres crear? \u00bfQu\u00e9 base s\u00f3lida quieres dejar establecida?"],
+    tener:["M\u00e1s que adquirir, este ciclo invita a consolidar. \u00bfQu\u00e9 experiencias de vida plena quieres vivir? \u00bfQu\u00e9 relaciones quieres profundizar?"]
+  },
+  sentir:{
+    ser:["Este ciclo tendr\u00e1s las emociones a flor de piel. \u00bfCu\u00e1l es la herida que merece ser sanada en este ciclo? \u00bfQu\u00e9 parte de ti necesita m\u00e1s compasi\u00f3n?","Conectado con tu prop\u00f3sito, \u00bfqui\u00e9n quieres ser cuando este ciclo termine? \u00bfQu\u00e9 versi\u00f3n de ti quieres haber construido?"],
+    hacer:["\u00bfC\u00f3mo quieres expresar tu prop\u00f3sito en este ciclo de alta sensibilidad emocional? \u00bfQu\u00e9 acciones concretas lo llevan a la vida?","Los v\u00ednculos son intensos en este ciclo. \u00bfQu\u00e9 quieres construir en tus relaciones m\u00e1s importantes?"],
+    tener:["\u00bfQu\u00e9 experiencias emocionales profundas quieres vivir en este ciclo? \u00bfCon qui\u00e9nes? \u00bfEn qu\u00e9 contextos?"]
+  },
+  ser:{
+    ser:["Las grandes preguntas de identidad llegan en este ciclo. \u00bfQui\u00e9n quieres ser cuando salgas del otro lado? \u00bfQu\u00e9 parte de ti merece morir para que otra nazca?","Tu prop\u00f3sito se prueba en los ciclos del Ser. \u00bfC\u00f3mo quieres que tu raz\u00f3n de ser se exprese en los duelos y crisis que traiga este ciclo?"],
+    hacer:["\u00bfQu\u00e9 legado quieres haber construido cuando este ciclo termine? \u00bfQu\u00e9 acci\u00f3n concreta comienza hoy?","Los hombres en ciclo del Ser necesitan acci\u00f3n que ancle la emoci\u00f3n. \u00bfCu\u00e1l es la tuya?"],
+    tener:["\u00bfQu\u00e9 quieres experimentar en este ciclo que solo es posible cuando hay claridad de prop\u00f3sito? \u00bfQu\u00e9 sue\u00f1o merece realizarse aqu\u00ed?"]
+  }
+};
+
+var S={
+  nombre:"",nv:0,alma:0,cicloActual:0,edad:0,
+  proposito:"",
+  ciclos:[],
+  reg:{},comp:{}
+};
+var STEPS=["Inicio","Ciclo actual","Siguiente ciclo","Tercer ciclo","Mi visi\u00f3n"];
+var paso=0;
+
+function calcCiclo(dd,mm,aa){
+  var hoy=new Date();var nac=new Date(aa,mm-1,dd);
+  var ed=hoy.getFullYear()-nac.getFullYear();
+  if(hoy.getMonth()<mm-1||(hoy.getMonth()===mm-1&&hoy.getDate()<dd))ed--;
+  return{edad:ed,ciclo:Math.min(Math.floor(ed/7)+1,12)};
+}
+function redS(n){if(n<10)return n;var s=0;String(n).split("").forEach(function(c){s+=parseInt(c)||0;});return redS(s);}
+function ge(id){return document.getElementById(id);}
+function mk(tag,cls,txt){var d=document.createElement(tag);if(cls)d.className=cls;if(txt!==undefined)d.textContent=txt;return d;}
+
+function rProg(){
+  var b=ge("pb");if(!b)return;b.innerHTML="";
+  for(var i=0;i<STEPS.length;i++){
+    if(i>0){var ln=mk("div","pln"+(i<=paso?" done":""));b.appendChild(ln);}
+    var s=mk("div","ps"+(i===paso?" act":i<paso?" done":""));
+    var pn=mk("div","pn",i<paso?"\u2713":String(i+1));
+    var pt=mk("span","ptxt",STEPS[i]);
+    s.appendChild(pn);s.appendChild(pt);
+    if(i<paso)(function(x){s.onclick=function(){irA(x);};})(i);
+    b.appendChild(s);
+  }
+}
+function irA(i){paso=i;rProg();document.querySelectorAll(".panel").forEach(function(p,j){p.classList.toggle("act",j===i);});window.scrollTo({top:0,behavior:"smooth"});}
+function dmsg(cont){var d=mk("div","dmsg");d.appendChild(mk("div","dm-l","Reflexi\u00f3n del d\u00eda"));d.appendChild(mk("div","dm-t",frase()));cont.appendChild(d);}
+
+function addRR(cont,key,lbl,hint,minH){
+  var wr=mk("div");wr.style.marginBottom="9px";
+  wr.appendChild(mk("label","il",lbl));
+  if(hint){var h=mk("div","ct");h.style.cssText="font-size:12px;font-style:italic;margin-bottom:6px";h.textContent=hint;wr.appendChild(h);}
+  var ta=document.createElement("textarea");ta.className="rta";ta.style.minHeight=(minH||68)+"px";
+  ta.placeholder="Escribe aqu\u00ed...";ta.value=S.reg[key]||"";
+  ta.oninput=function(){S.reg[key]=this.value;};wr.appendChild(ta);cont.appendChild(wr);
+}
+
+function buildCicloData(){
+  var c=S.cicloActual;
+  S.ciclos=[];
+  for(var i=0;i<3;i++){
+    var num=Math.min(c+i,12);
+    var tipo=TIPO_MAP[num]||"cuerpo";
+    var edadInicio=(num-1)*7;var edadFin=num*7;
+    S.ciclos.push({num:num,tipo:tipo,label:TIPO_LABEL[tipo],col:TIPO_COL[tipo],nombre:CICLO_NOMBRES[num]||"",edades:edadInicio+"\u2013"+edadFin+" a\u00f1os",esCurrent:i===0});
+  }
+}
+
+function cicloCard(ciclo,cardClass,titulo){
+  var card=mk("div","ciclo-card "+cardClass);
+  var badge=mk("div","ciclo-badge");
+  var num=mk("div","ciclo-num",String(ciclo.num));num.style.color=ciclo.col;
+  var info=mk("div","ciclo-info");
+  var tipo=mk("div","ciclo-tipo",ciclo.label);tipo.style.color=ciclo.col;
+  info.appendChild(tipo);
+  info.appendChild(mk("div","ciclo-nombre",ciclo.nombre));
+  info.appendChild(mk("div","ciclo-edades",ciclo.edades));
+  badge.appendChild(num);badge.appendChild(info);card.appendChild(badge);
+  if(titulo){var t=mk("div","cl",titulo);t.style.color=ciclo.col;card.appendChild(t);}
+  return card;
+}
+
+function bProyeccionCiclo(pIdx,cicloIdx){
+  var ciclo=S.ciclos[cicloIdx];if(!ciclo)return;
+  var p=ge("p"+pIdx);p.innerHTML="";
+  var esActual=cicloIdx===0;
+  var badge=mk("div","pbadge");
+  badge.appendChild(mk("div","pbadge-q",esActual?"Mi ciclo actual":"Ciclo "+(cicloIdx+1)+" por venir"));
+  p.appendChild(badge);
+  var ph=mk("div","ph");
+  ph.appendChild(mk("div","ph-s","Ciclo "+ciclo.num+" \u00b7 "+ciclo.label));
+  var pht=mk("div","ph-t",ciclo.nombre);pht.style.color=ciclo.col;ph.appendChild(pht);
+  ph.appendChild(mk("div","ph-d",ciclo.edades+(esActual?" \u2014 El ciclo que est\u00e1s viviendo ahora":" \u2014 Lo que viene")));
+  p.appendChild(ph);dmsg(p);
+
+  var card=cicloCard(ciclo,esActual?"actual":cicloIdx===1?"prox":"prox2","");
+  var ct=mk("div","ct");ct.style.marginBottom="14px";
+
+  var descs={
+    cuerpo:"El cuerpo es el protagonista. La salud f\u00edsica, los patrones que se repiten. Emocionalmente es el ciclo m\u00e1s tranquilo \u2014 la energ\u00eda fluye hacia el construir y lo concreto.",
+    sentir:"La sensibilidad emocional est\u00e1 a flor de piel. Las heridas emocionales m\u00e1s profundas se procesan en este tipo de ciclo. Los v\u00ednculos se intensifican.",
+    ser:"Las grandes preguntas de identidad. Los duelos, las p\u00e9rdidas, las crisis existenciales. El ciclo donde el prop\u00f3sito se prueba m\u00e1s profundamente."
+  };
+  ct.textContent=descs[ciclo.tipo]||"";card.appendChild(ct);
+
+  if(S.proposito){
+    var pb=mk("div","prop-blk");pb.style.borderLeftColor=ciclo.col;
+    var pl=mk("div","prop-blk-l","Tu prop\u00f3sito en este ciclo");pl.style.color=ciclo.col;pb.appendChild(pl);
+    pb.appendChild(mk("div","ct","\u201c"+S.proposito+"\u201d"));
+    var ph2=mk("div","prop-blk-hint","Este es el norte que gui\u00eda cada pregunta de este ciclo.");pb.appendChild(ph2);
+    card.appendChild(pb);
+  }
+  p.appendChild(card);
+
+  var pregs=PREGUNTAS_TIPO[ciclo.tipo]||{};
+  var colSer="var(--pur)",colHacer="var(--acc)",colTener="var(--grn)";
+
+  var cser=mk("div","card pur");
+  var clSer=mk("div","cl p","Ser \u2014 \u00bfQui\u00e9n quiero ser en este ciclo?");cser.appendChild(clSer);
+  (pregs.ser||[]).forEach(function(q){
+    var h=mk("div","ct");h.style.cssText="font-size:12px;font-style:italic;color:var(--dim);margin-bottom:7px";h.textContent=q;cser.appendChild(h);
+  });
+  addRR(cser,"ser-"+pIdx,"Mi intenci\u00f3n de Ser","",80);p.appendChild(cser);
+
+  var chacer=mk("div","card acc");
+  var clHacer=mk("div","cl b","Hacer \u2014 \u00bfQu\u00e9 quiero construir y hacer?");chacer.appendChild(clHacer);
+  (pregs.hacer||[]).forEach(function(q){
+    var h=mk("div","ct");h.style.cssText="font-size:12px;font-style:italic;color:var(--dim);margin-bottom:7px";h.textContent=q;chacer.appendChild(h);
+  });
+  addRR(chacer,"hacer-"+pIdx,"Mis compromisos de Hacer","",80);p.appendChild(chacer);
+
+  var ctener=mk("div","card grn");
+  var clTener=mk("div","cl g","Tener y Vivir \u2014 \u00bfQu\u00e9 quiero experimentar?");ctener.appendChild(clTener);
+  (pregs.tener||[]).forEach(function(q){
+    var h=mk("div","ct");h.style.cssText="font-size:12px;font-style:italic;color:var(--dim);margin-bottom:7px";h.textContent=q;ctener.appendChild(h);
+  });
+  addRR(ctener,"tener-"+pIdx,"Lo que quiero vivir y experimentar","",80);p.appendChild(ctener);
+
+  var csuelta=mk("div","card");
+  var clSuelta=mk("div","cl","Qu\u00e9 necesito soltar para que este ciclo fluya");csuelta.appendChild(clSuelta);
+  var ctSuelta=mk("div","ct");ctSuelta.style.marginBottom="9px";
+  ctSuelta.textContent="Lo que dejas de cargar es tan importante como lo que decides construir. \u00bfQu\u00e9 creencias, h\u00e1bitos, relaciones o miedos necesitas soltar para que este ciclo pueda darte todo lo que trae?";
+  csuelta.appendChild(ctSuelta);
+  addRR(csuelta,"soltar-"+pIdx,"Lo que suelto en este ciclo","",65);p.appendChild(csuelta);
+
+  var nav=mk("div","nav");
+  var pb2=mk("button","bn","Anterior");pb2.onclick=function(){irA(pIdx);};
+  var pn=mk("button","bp",pIdx<3?"Siguiente ciclo":"Ver mi visi\u00f3n completa");
+  pn.onclick=function(){
+    if(pIdx<3){irA(pIdx+1);}
+    else{bVision();irA(4);}
+  };
+  nav.appendChild(pb2);nav.appendChild(pn);p.appendChild(nav);
+}
+
+function bVision(){
+  var p=ge("p4");p.innerHTML="";
+  var badge=mk("div","pbadge");badge.appendChild(mk("div","pbadge-q","Mi visi\u00f3n de vida"));p.appendChild(badge);
+  var ph=mk("div","ph");
+  ph.appendChild(mk("div","ph-t","La visi\u00f3n completa de lo que viene"));
+  ph.appendChild(mk("div","ph-d","Un resumen de los tres ciclos que proyectaste \u2014 y el compromiso de vivirlos desde tu prop\u00f3sito."));
+  p.appendChild(ph);dmsg(p);
+
+  var cres=mk("div","card gold");cres.appendChild(mk("div","cl","Resumen de tus tres ciclos proyectados"));
+  S.ciclos.forEach(function(ciclo,i){
+    var blk=mk("div");blk.style.cssText="background:var(--bg4);border-radius:var(--rm);padding:13px 15px;margin-bottom:8px;border-left:3px solid "+ciclo.col;
+    var t=mk("div");t.style.cssText="font-size:12px;font-weight:500;color:"+ciclo.col+";margin-bottom:8px";
+    t.textContent="Ciclo "+ciclo.num+" \u00b7 "+ciclo.nombre+(i===0?" (ciclo actual)":"");blk.appendChild(t);
+    var ser=S.reg["ser-"+(i+1)]||"";var hacer=S.reg["hacer-"+(i+1)]||"";var tener=S.reg["tener-"+(i+1)]||"";var soltar=S.reg["soltar-"+(i+1)]||"";
+    if(ser){var row=mk("div");row.style.cssText="font-size:12px;color:var(--dim);margin-bottom:4px";row.innerHTML="<strong style='color:var(--pur)'>Ser:</strong> "+ser;blk.appendChild(row);}
+    if(hacer){var row2=mk("div");row2.style.cssText="font-size:12px;color:var(--dim);margin-bottom:4px";row2.innerHTML="<strong style='color:var(--acc)'>Hacer:</strong> "+hacer;blk.appendChild(row2);}
+    if(tener){var row3=mk("div");row3.style.cssText="font-size:12px;color:var(--dim);margin-bottom:4px";row3.innerHTML="<strong style='color:var(--grn)'>Vivir:</strong> "+tener;blk.appendChild(row3);}
+    if(soltar){var row4=mk("div");row4.style.cssText="font-size:12px;color:var(--dim)";row4.innerHTML="<strong style='color:var(--gold)'>Soltar:</strong> "+soltar;blk.appendChild(row4);}
+    cres.appendChild(blk);
+  });
+  p.appendChild(cres);
+
+  var ccomp=mk("div","card pur");ccomp.appendChild(mk("div","cl p","Mi carta de visi\u00f3n"));
+  var ctComp=mk("div","ct");ctComp.style.marginBottom="11px";
+  ctComp.innerHTML="Escribe en presente, como si ya estuvieras viviendo esta visi\u00f3n. No como un deseo \u2014 como una certeza de lo que est\u00e1s construyendo.";
+  ccomp.appendChild(ctComp);
+  addRR(ccomp,"vision-carta","Mi visi\u00f3n de vida",S.proposito?"Recuerda: tu prop\u00f3sito es \u201c"+S.proposito+"\u201d. Desde ah\u00ed escribe lo que ves.":null,140);
+  p.appendChild(ccomp);
+
+  var cierre=mk("div","cierre");
+  cierre.appendChild(mk("div","ct2","El camino no es recto.\nPero tienes br\u00fajula."));
+  cierre.appendChild(mk("div","cp","Has proyectado tus pr\u00f3ximos ciclos desde la claridad de tu prop\u00f3sito. Ahora viene la \u00faltima pieza: el plan concreto de c\u00f3mo vivirlos."));
+  var hint=mk("div");hint.style.cssText="display:inline-block;background:var(--gd);border:1px solid var(--gb);border-radius:var(--rm);padding:9px 18px;font-size:13px;color:var(--gold3);font-style:italic";
+  hint.textContent="Contin\u00faa en el archivo 7b-plan-vida.html";cierre.appendChild(hint);p.appendChild(cierre);
+
+  // Guardar el resultado consolidado de Siguiente Ciclo
+  if (window.ANORMAL) {
+    ANORMAL.saveFaseModulo("siguiente_ciclo", {
+      cicloActual: S.cicloActual,
+      proposito: S.proposito,
+      ciclos: S.ciclos,
+      visionCarta: S.reg["vision-carta"] || ""
+    });
+  }
+
+  var nav=mk("div","nav");var pb2=mk("button","bn","Anterior");pb2.onclick=function(){irA(3);};var ps=mk("button","bs","Revisar desde el inicio");ps.style.opacity=".5";ps.onclick=function(){irA(0);};nav.appendChild(pb2);nav.appendChild(ps);p.appendChild(nav);
+}
+
+function init(){
+  var app=ge("app");app.innerHTML="";
+  var hdr=mk("div");hdr.style.padding="26px 0 0";
+  var sub=mk("div");sub.style.cssText="font-family:Barlow Condensed,sans-serif;font-size:10px;letter-spacing:.2em;color:var(--gold);text-transform:uppercase;margin-bottom:4px";sub.textContent="Caf\u00e9 con Prop\u00f3sito \u00b7 \u00bfHacia d\u00f3nde voy?";
+  var tit=mk("div");tit.style.cssText="font-family:Cormorant Garamond,serif;font-size:23px;font-weight:300;color:var(--gold2);margin-bottom:18px;font-style:italic";tit.textContent="Mi siguiente ciclo";
+  hdr.appendChild(sub);hdr.appendChild(tit);app.appendChild(hdr);
+  var pb=mk("div","prog");pb.id="pb";app.appendChild(pb);
+  for(var i=0;i<STEPS.length;i++){var pn=mk("div","panel");pn.id="p"+i;app.appendChild(pn);}
+  rProg();bInicio();irA(0);
+}
+
+function bInicio(){
+  var p=ge("p0");p.innerHTML="";
+
+  // INTEGRACIÓN FASES ANTERIORES → SIGUIENTE CICLO
+  if (window.ANORMAL && !S._integracionCargada) {
+    var sep = ANORMAL.getSepteniosParaECG();
+    if (sep) {
+      if (!S.nombre && sep.nombre) S.nombre = sep.nombre;
+      if (!S.cicloActual && sep.cicloActual) S.cicloActual = sep.cicloActual;
+    }
+    var fase3 = ANORMAL.getFase3Completa();
+    if (!S.proposito && fase3.ikigai && fase3.ikigai.frase) S.proposito = fase3.ikigai.frase;
+    var fase1 = ANORMAL.getFase1Completa();
+    if (!S.nv && fase1.camino && fase1.camino.numeroCamino != null) S.nv = fase1.camino.numeroCamino;
+    if (!S.alma && fase1.nombre && fase1.nombre.resultado && fase1.nombre.resultado.alma != null) S.alma = fase1.nombre.resultado.alma;
+    S._integracionCargada = true;
+  }
+
+  // Video introductorio
+  var badge=mk("div","pbadge");badge.appendChild(mk("div","pbadge-q","\u00bfHacia d\u00f3nde voy?"));p.appendChild(badge);
+  var ph=mk("div","ph");
+  ph.appendChild(mk("div","ph-s","Fase 4 \u00b7 La proyecci\u00f3n"));
+  ph.appendChild(mk("div","ph-t","Proyecta tus pr\u00f3ximos ciclos desde tu prop\u00f3sito"));
+  ph.appendChild(mk("div","ph-d","Ya sabes qui\u00e9n eres, d\u00f3nde est\u00e1s y para qu\u00e9 est\u00e1s aqu\u00ed. Ahora usas ese conocimiento para proyectar con intenci\u00f3n lo que viene."));
+  p.appendChild(ph);dmsg(p);
+
+  var cexp=mk("div","card pur");cexp.appendChild(mk("div","cl p","C\u00f3mo funciona esta fase"));
+  var ct=mk("div","ct");
+  ct.innerHTML="Proyectar\u00e1s al menos <strong style='color:var(--gold3)'>dos ciclos hacia adelante</strong> a partir del que vives ahora. Para cada ciclo, tres preguntas guiadas por tu prop\u00f3sito:<br><br>";
+  [["var(--pur)","Ser","Qui\u00e9n quiero ser. Lo interno, lo espiritual, lo identitario."],["var(--acc)","Hacer","Qu\u00e9 quiero construir y materializar. La acci\u00f3n y el legado."],["var(--grn)","Tener y Vivir","Qu\u00e9 quiero experimentar. La vida plena, las relaciones, los momentos."]].forEach(function(item){
+    var row=mk("div");row.style.cssText="display:flex;gap:9px;align-items:flex-start;margin-bottom:7px";
+    var dot=mk("div");dot.style.cssText="width:9px;height:9px;border-radius:50%;flex-shrink:0;margin-top:5px;background:"+item[0];
+    var txt=mk("div","ct");txt.innerHTML="<strong style='color:"+item[0]+"'>"+item[1]+"</strong> \u2014 "+item[2];
+    row.appendChild(dot);row.appendChild(txt);ct.appendChild(row);
+  });
+  cexp.appendChild(ct);p.appendChild(cexp);
+
+  var cinput=mk("div","card gold");
+  var tieneCicloPrevio = !!S.cicloActual;
+  cinput.appendChild(mk("div","cl", tieneCicloPrevio ? "Tus datos — ya cargados" : "Ingresa tus datos"));
+  if (tieneCicloPrevio) {
+    var ctPrev=mk("div","ct");ctPrev.style.marginBottom="13px";
+    ctPrev.textContent="Ya sabemos que est\u00e1s en el ciclo "+S.cicloActual+" por tu trabajo en Mis Ciclos de Vida. Solo confirma tu nombre y tu prop\u00f3sito.";
+    cinput.appendChild(ctPrev);
+  }
+  var irow=mk("div","irow");irow.style.marginBottom="10px";
+  function mkF(id,lbl,ph,val,flex){var wr=mk("div");wr.style.cssText="flex:"+flex+";min-width:80px";var l=mk("label","il",lbl);var inp=document.createElement("input");inp.className="inp";inp.id=id;inp.placeholder=ph;inp.value=val||"";wr.appendChild(l);wr.appendChild(inp);return wr;}
+  irow.appendChild(mkF("inNom","Tu nombre","Tu nombre",S.nombre,"2"));
+  if (tieneCicloPrevio) {
+    irow.appendChild(mkF("inCiclo","Ciclo actual","Ej: 9",S.cicloActual,"1"));
+  } else {
+    irow.appendChild(mkF("inD","D\u00eda de nacimiento","17",S.dob_d||"","1"));
+    irow.appendChild(mkF("inM","Mes","4",S.dob_m||"","1"));
+    irow.appendChild(mkF("inA","A\u00f1o","1969",S.dob_a||"","1"));
+  }
+  cinput.appendChild(irow);
+  var propWr=mk("div");propWr.style.marginBottom="13px";propWr.appendChild(mk("label","il","Tu prop\u00f3sito de vida (del m\u00f3dulo 6a)"));
+  var propTa=document.createElement("textarea");propTa.className="rta";propTa.id="inProp";propTa.style.minHeight="50px";propTa.placeholder="Pega aqu\u00ed tu prop\u00f3sito o frase de poder...";propTa.value=S.proposito;propTa.oninput=function(){S.proposito=this.value;};propWr.appendChild(propTa);cinput.appendChild(propWr);
+  var btnStart=mk("button","bp","Comenzar la proyecci\u00f3n");
+  btnStart.onclick=function(){
+    S.nombre=(ge("inNom").value||"").trim();
+    S.proposito=(ge("inProp").value||"").trim();
+    if (tieneCicloPrevio) {
+      var cicloInput = parseInt(ge("inCiclo").value) || S.cicloActual;
+      S.cicloActual = cicloInput;
+      S.edad = (cicloInput - 1) * 7 + 3; // estimado dentro del ciclo, solo referencial
+    } else {
+      var dd=parseInt(ge("inD").value)||0;var mm=parseInt(ge("inM").value)||0;var aa=parseInt(ge("inA").value)||0;
+      if(!dd||!mm||!aa){alert("Por favor ingresa tu fecha de nacimiento completa.");return;}
+      var r=calcCiclo(dd,mm,aa);S.edad=r.edad;S.cicloActual=r.ciclo;
+    }
+    buildCicloData();
+    bProyeccionCiclo(1,0);bProyeccionCiclo(2,1);bProyeccionCiclo(3,2);
+    irA(1);
+  }
+;
+  cinput.appendChild(btnStart);p.appendChild(cinput);
+  p.appendChild(mk("div","nav"));
+}
+
+
+// INIT VIDEO BANNER
+(function(){
+  var vdb = document.getElementById("vid-banner-ciclo");
+  var vdp = document.getElementById("vid-player-ciclo");
+  var url = window.VIDEOS_MODULO && window.VIDEOS_MODULO["ciclo"] || "";
+  if(url && vdb && vdp){
+    var m2 = url.match(/(?:v=|youtu\.be\/|embed\/)([\w-]{11})/);
+    if(m2){
+      var ifr = document.createElement("iframe");
+      ifr.src = "https://www.youtube.com/embed/" + m2[1] + "?rel=0";
+      ifr.allow = "accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture";
+      ifr.allowFullscreen = true;
+      vdp.innerHTML = "";
+      vdp.appendChild(ifr);
+    }
+    vdb.classList.add("show");
+  } else if(vdb){
+    vdb.classList.add("show");
+  }
+})();
+
+buildWidgetPrincipios("ciclo", document.body, function() {
+  init();
+});
+</script>
+
+<!-- BOTON BRUJULA -->
+<div class="brujula-btn-fixed" id="brujulaFloat">
+  <div class="brujula-toast" id="brujulaToast">Registra lo que descubriste en tu Brújula de Propósito</div>
+  <a class="brujula-btn" href="brujula-proposito.html" title="Mi Brújula de Propósito">
+    <div class="brujula-btn-icon">∀</div>
+    <div class="brujula-btn-txt">Mi Brújula</div>
+  </a>
+</div>
+<script>
+// Mostrar toast motivacional a los 90 segundos de estar en el módulo
+setTimeout(function(){
+  var t=document.getElementById("brujulaToast");
+  if(t){t.classList.add("show");setTimeout(function(){t.classList.remove("show");},5000);}
+},90000);
+</script>
+
+</body>
+</html>

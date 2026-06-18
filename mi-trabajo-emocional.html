@@ -1,0 +1,1135 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mi Trabajo Emocional · ∀normal</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Barlow:wght@300;400;500&family=Barlow+Condensed:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0A0F1E;--bg2:#0E1525;--bg3:#131D30;--bg4:#1A2640;
+--gold:#C9A84C;--gold2:#E8C96A;--gold3:#F5E0A0;
+--gd:rgba(201,168,76,.13);--gb:rgba(201,168,76,.28);
+--text:#EAE6DC;--dim:#8A95A8;--faint:#3A4558;
+--acc:#4A9EBF;--acd:rgba(74,158,191,.13);--acb:rgba(74,158,191,.28);
+--grn:#4ABF7A;--grd:rgba(74,191,122,.12);--grb:rgba(74,191,122,.28);
+--red:#BF6A4A;--rdd:rgba(191,106,74,.12);--rdb:rgba(191,106,74,.28);
+--pur:#9B7FD4;--pud:rgba(155,127,212,.12);--pub:rgba(155,127,212,.28);
+--r:4px;--rm:8px;--rl:14px}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font-weight:300;font-size:15px;line-height:1.65;min-height:100vh}
+body::before{content:"";position:fixed;inset:0;background:radial-gradient(ellipse at 20% 50%,rgba(201,168,76,.04),transparent 60%),radial-gradient(ellipse at 80% 20%,rgba(74,158,191,.04),transparent 50%);pointer-events:none;z-index:0}
+.app{position:relative;z-index:1;max-width:740px;margin:0 auto;padding:0 22px 80px}
+.prog{display:flex;align-items:center;margin-bottom:32px;overflow-x:auto;padding-bottom:3px;gap:0}
+.ps{display:flex;align-items:center;gap:5px;white-space:nowrap;padding:3px 0;cursor:default;flex-shrink:0}
+.ps.done{cursor:pointer}
+.pn{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:500;border:1px solid var(--faint);color:var(--faint);transition:all .3s;flex-shrink:0}
+.ps.done .pn{border-color:var(--gold);color:var(--gold);background:var(--gd)}
+.ps.act .pn{border-color:var(--gold2);color:var(--bg);background:var(--gold2)}
+.ptxt{font-size:9px;letter-spacing:.07em;text-transform:uppercase;color:var(--faint);transition:color .3s}
+.ps.done .ptxt,.ps.act .ptxt{color:var(--gold)}
+.pln{flex:1;min-width:6px;height:1px;background:var(--faint);margin:0 4px;opacity:.2;transition:all .3s}
+.pln.done{background:var(--gold);opacity:.4}
+.panel{display:none}.panel.act{display:block;animation:fu .35s ease}
+@keyframes fu{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.pbadge{display:inline-flex;align-items:center;gap:8px;background:var(--gd);border:1px solid var(--gb);border-radius:var(--rl);padding:7px 15px;margin-bottom:18px}
+.pbadge-q{font-family:"Cormorant Garamond",serif;font-size:19px;color:var(--gold2);font-weight:300;font-style:italic}
+.pbadge-s{font-size:11px;color:var(--dim);margin-top:1px}
+.ph{margin-bottom:22px}
+.ph-s{font-family:"Barlow Condensed",sans-serif;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:5px}
+.ph-t{font-family:"Cormorant Garamond",serif;font-size:clamp(19px,4vw,29px);font-weight:300;color:var(--gold2);line-height:1.15;margin-bottom:5px}
+.ph-d{font-size:13px;color:var(--dim);line-height:1.8;max-width:520px}
+.card{background:var(--bg2);border:1px solid rgba(255,255,255,.055);border-radius:var(--rl);padding:18px 22px;margin-bottom:12px}
+.card.gold{border-color:var(--gb);background:linear-gradient(135deg,var(--bg2),var(--bg3))}
+.card.acc{border-color:var(--acb)}
+.card.pur{border-color:var(--pub);background:linear-gradient(135deg,var(--bg2),var(--pud))}
+.card.red{border-color:var(--rdb);background:linear-gradient(135deg,var(--bg2),var(--rdd))}
+.card.grn{border-color:var(--grb);background:linear-gradient(135deg,var(--bg2),var(--grd))}
+.cl{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:9px}
+.cl.b{color:var(--acc)}.cl.p{color:var(--pur)}.cl.r{color:#E09070}.cl.g{color:var(--grn)}
+.ct{font-size:13px;color:var(--dim);line-height:1.8}
+.dv{height:1px;background:var(--gb);margin:14px 0;opacity:.3}
+.il{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-bottom:5px;display:block}
+.inp{background:var(--bg3);border:1px solid rgba(255,255,255,.07);border-radius:var(--r);color:var(--text);font-family:"Barlow",sans-serif;font-size:14px;font-weight:300;padding:9px 13px;width:100%;outline:none;transition:border-color .2s}
+.inp:focus{border-color:var(--gold)}
+.inp::placeholder{color:var(--faint)}
+.irow{display:flex;gap:9px;flex-wrap:wrap}
+.bp{background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--bg);border:none;border-radius:var(--r);font-family:"Barlow Condensed",sans-serif;font-size:12px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;padding:11px 26px;cursor:pointer;transition:opacity .2s,transform .15s}
+.bp:hover{opacity:.9;transform:translateY(-1px)}
+.bs{background:transparent;color:var(--gold);border:1px solid var(--gb);border-radius:var(--r);font-family:"Barlow Condensed",sans-serif;font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;padding:8px 18px;cursor:pointer;transition:all .2s}
+.bs:hover{background:var(--gd)}
+.bn{background:transparent;color:var(--dim);border:1px solid rgba(255,255,255,.07);border-radius:var(--r);font-family:"Barlow",sans-serif;font-size:13px;padding:9px 17px;cursor:pointer;transition:all .2s}
+.bn:hover{border-color:var(--gold);color:var(--gold)}
+/* Silueta */
+.body-wrap{display:flex;gap:18px;align-items:flex-start;flex-wrap:wrap;margin-bottom:12px}
+.silueta-col{flex-shrink:0;width:120px}
+.emo-col{flex:1;min-width:200px}
+/* Emoción cards */
+.em-card{background:var(--bg3);border-radius:var(--rm);padding:12px 14px;margin-bottom:7px;border:1.5px solid rgba(255,255,255,.06);cursor:pointer;transition:border-color .2s,background .2s}
+.em-card.sel{border-width:2px}
+.em-n{font-size:13px;font-weight:400;margin-bottom:3px}
+.em-sub{font-size:12px;font-style:italic;margin-bottom:4px;line-height:1.5}
+.em-org{font-size:10px;letter-spacing:.1em;text-transform:uppercase;font-weight:500;margin-bottom:4px}
+.em-det{font-size:12px;color:var(--dim);line-height:1.7;margin-top:8px;padding-top:8px;border-top:1px solid rgba(255,255,255,.05);display:none}
+.em-card.sel .em-det{display:block}
+.em-blk{background:var(--bg4);border-radius:var(--r);padding:9px 11px;margin-bottom:7px;border-left:2px solid}
+.em-blk-l{font-size:9px;letter-spacing:.12em;text-transform:uppercase;font-weight:500;margin-bottom:4px}
+.chakra-row{display:flex;align-items:center;gap:7px;margin:4px 0}
+.chakra-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+.afect-chk{display:flex;align-items:flex-start;gap:7px;padding:4px 0;cursor:pointer}
+.afect-box{width:14px;height:14px;border-radius:3px;border:1.5px solid var(--faint);flex-shrink:0;margin-top:2px;display:flex;align-items:center;justify-content:center;transition:all .2s}
+/* ECG */
+.ecg-box{background:var(--bg3);border-radius:var(--rl);padding:16px;margin-bottom:12px}
+.ciclo-blk{background:var(--bg3);border-radius:var(--rm);padding:13px 16px;margin-bottom:8px;border:1px solid rgba(255,255,255,.06)}
+.ev-row{display:flex;gap:6px;align-items:center;margin-bottom:6px;flex-wrap:wrap}
+.ev-tipo{width:28px;height:28px;border-radius:var(--r);border:1px solid;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:13px;transition:all .18s;background:transparent;flex-shrink:0}
+.ev-tipo.alegria{border-color:var(--gb);color:var(--gold2)}
+.ev-tipo.alegria.on{background:var(--gd)}
+.ev-tipo.dolor{border-color:var(--rdb);color:#E09070}
+.ev-tipo.dolor.on{background:var(--rdd)}
+.ev-inp{flex:1;min-width:110px;background:var(--bg2);border:1px solid rgba(255,255,255,.07);border-radius:var(--r);color:var(--text);font-family:"Barlow",sans-serif;font-size:12px;font-weight:300;padding:7px 10px;outline:none;transition:border-color .2s}
+.ev-inp:focus{border-color:var(--gold)}
+.ev-inp::placeholder{color:var(--faint)}
+.ev-sel{background:var(--bg2);border:1px solid rgba(255,255,255,.07);border-radius:var(--r);color:var(--dim);font-family:"Barlow",sans-serif;font-size:11px;padding:7px 7px;cursor:pointer;flex-shrink:0;max-width:130px}
+.ev-del{width:26px;height:26px;border-radius:var(--r);border:1px solid rgba(255,255,255,.07);background:transparent;color:var(--faint);cursor:pointer;font-size:13px;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .18s}
+.ev-del:hover{border-color:var(--rdb);color:#E09070}
+.ev-range{width:100%;height:3px;cursor:pointer;margin-bottom:4px}
+/* Perdón */
+.perdon-padre{background:var(--bg3);border-radius:var(--rm);padding:15px 17px;margin-bottom:10px;border:1.5px solid var(--gb)}
+.perdon-item{background:var(--bg3);border-radius:var(--rm);padding:15px 17px;margin-bottom:10px;border:1px solid var(--rdb)}
+.pi-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;flex-wrap:wrap;gap:7px}
+.pi-evento{font-size:13px;color:var(--text);font-weight:400;line-height:1.4}
+.pi-meta{font-size:11px;color:var(--dim);margin-top:2px}
+.pi-tipo-btns{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}
+.pi-tipo-btn{padding:5px 13px;border-radius:var(--r);font-size:11px;font-family:"Barlow Condensed",sans-serif;letter-spacing:.07em;text-transform:uppercase;cursor:pointer;border:1px solid rgba(255,255,255,.1);background:transparent;color:var(--dim);transition:all .2s}
+.pi-tipo-btn.on-otro{background:var(--rdd);border-color:var(--rdb);color:#E09070}
+.pi-tipo-btn.on-yo{background:var(--pud);border-color:var(--pub);color:var(--pur)}
+.pi-tipo-btn.on-ambos{background:var(--gd);border-color:var(--gb);color:var(--gold2)}
+/* Reto */
+.rr{background:var(--bg4);border:1px solid var(--gb);border-radius:var(--rm);padding:13px 15px;margin:8px 0}
+.rr-l{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:5px;font-weight:500}
+.rr.b{border-color:var(--acb)}.rr.b .rr-l{color:var(--acc)}
+.rr.p{border-color:var(--pub)}.rr.p .rr-l{color:var(--pur)}
+.rr.g{border-color:var(--grb)}.rr.g .rr-l{color:var(--grn)}
+.rr.r{border-color:var(--rdb)}.rr.r .rr-l{color:#E09070}
+.rr p{font-size:13px;color:var(--dim);line-height:1.75;margin-bottom:7px}
+.rta{background:var(--bg2);border:1px solid rgba(255,255,255,.07);border-radius:var(--r);color:var(--text);font-family:"Barlow",sans-serif;font-size:13px;font-weight:300;padding:9px 12px;width:100%;min-height:65px;outline:none;resize:vertical;line-height:1.65;transition:border-color .2s}
+.rta:focus{border-color:var(--gold)}
+.rta::placeholder{color:var(--faint)}
+.rchk{display:flex;align-items:center;gap:8px;margin-top:6px;cursor:pointer}
+.rchk input{width:14px;height:14px;accent-color:var(--gold);cursor:pointer}
+.rchk label{font-size:12px;color:var(--dim);cursor:pointer}
+.rdone{display:inline-flex;align-items:center;gap:5px;font-size:11px;color:var(--grn);padding:3px 9px;background:var(--grd);border:1px solid var(--grb);border-radius:12px;margin-top:4px}
+.carta-ta{background:var(--bg3);border:1px solid rgba(255,255,255,.07);border-radius:var(--r);color:var(--text);font-family:"Barlow",sans-serif;font-size:13px;font-weight:300;padding:13px;width:100%;min-height:150px;outline:none;resize:vertical;line-height:1.75;transition:border-color .2s}
+.carta-ta:focus{border-color:var(--gold)}
+.carta-ta::placeholder{color:var(--faint)}
+/* Av bar */
+.av-bar{height:3px;background:rgba(255,255,255,.06);border-radius:2px;margin:7px 0 4px}
+.av-fill{height:100%;border-radius:2px;transition:width .5s}
+/* ABC */
+.abc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:6px;margin-bottom:12px}
+.abc-item{background:var(--bg3);border-radius:var(--rm);padding:10px 12px;border:1px solid rgba(255,255,255,.06);transition:border-color .2s}
+.abc-item.done{border-color:var(--grb);background:var(--grd)}
+.abc-item.act{border-color:var(--gold);background:var(--gd)}
+.abc-letra{font-family:"Cormorant Garamond",serif;font-size:26px;font-weight:300;line-height:1;margin-bottom:3px}
+.abc-item.done .abc-letra{color:var(--grn)}
+.abc-item.act .abc-letra{color:var(--gold2)}
+.abc-item:not(.done):not(.act) .abc-letra{color:var(--faint)}
+.abc-inp{background:transparent;border:none;color:var(--text);font-family:"Barlow",sans-serif;font-size:11px;font-weight:300;width:100%;outline:none;padding:0;line-height:1.5}
+.abc-inp::placeholder{color:var(--faint)}
+/* Calendario */
+.cal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:7px}
+.cal-mes-label{font-family:"Cormorant Garamond",serif;font-size:20px;color:var(--gold2);font-weight:300}
+.cal-nav{display:flex;gap:5px}
+.cal-nav-btn{width:26px;height:26px;border-radius:var(--r);border:1px solid var(--gb);background:transparent;color:var(--gold);cursor:pointer;font-size:12px;display:flex;align-items:center;justify-content:center;transition:all .18s}
+.cal-nav-btn:hover{background:var(--gd)}
+.cal-dias-lbl{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;margin-bottom:3px}
+.cdl{text-align:center;font-size:9px;letter-spacing:.07em;text-transform:uppercase;color:var(--faint);padding:3px 0}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;margin-bottom:12px}
+.cal-cell{min-height:30px;border-radius:var(--r);display:flex;align-items:center;justify-content:center;font-size:11px;border:1px solid rgba(255,255,255,.05);transition:all .18s;cursor:pointer;position:relative}
+.cal-cell.vacio{cursor:default;border-color:transparent}
+.cal-cell.hoy{border-color:var(--gold);color:var(--gold2)}
+.cal-cell.ok{background:var(--grd);border-color:var(--grb);color:var(--grn)}
+.cal-cell.nook{background:var(--rdd);border-color:var(--rdb);color:#E09070}
+.cal-cell.noaplica{opacity:.25;cursor:default}
+.cal-cell:not(.vacio):not(.noaplica):hover{background:var(--bg4)}
+.habito-tab{padding:5px 12px;border-radius:var(--r);font-size:11px;font-family:"Barlow Condensed",sans-serif;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;border:1px solid rgba(255,255,255,.1);background:transparent;color:var(--dim);transition:all .18s;white-space:nowrap}
+.habito-tab.on{border-color:var(--gold);background:var(--gd);color:var(--gold2)}
+.freq-btn{padding:4px 10px;border-radius:var(--r);font-size:10px;font-family:"Barlow Condensed",sans-serif;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;border:1px solid rgba(255,255,255,.08);background:transparent;color:var(--faint);transition:all .18s}
+.freq-btn.on{border-color:var(--acc);background:var(--acd);color:var(--acc)}
+/* Daily msg */
+.dmsg{background:linear-gradient(135deg,rgba(201,168,76,.07),rgba(74,158,191,.05));border:1px solid var(--gb);border-radius:var(--rl);padding:14px 18px;margin-bottom:13px;text-align:center}
+.dm-l{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:4px}
+.dm-t{font-family:"Cormorant Garamond",serif;font-size:15px;font-style:italic;color:var(--gold3);line-height:1.8}
+.cierre-final{background:linear-gradient(135deg,rgba(155,127,212,.1),rgba(201,168,76,.07));border:1px solid var(--pub);border-radius:var(--rl);padding:26px 22px;margin-top:18px;text-align:center}
+.cf-t{font-family:"Cormorant Garamond",serif;font-size:24px;color:var(--gold2);margin-bottom:10px;font-style:italic;line-height:1.3}
+.cf-p{font-size:13px;color:var(--dim);line-height:1.85;max-width:480px;margin:0 auto 12px}
+.nav{display:flex;justify-content:space-between;align-items:center;margin-top:22px;padding-top:14px;border-top:1px solid rgba(255,255,255,.05)}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--gb);border-radius:2px}
+@media(max-width:560px){.app{padding:0 14px 60px}.body-wrap{flex-direction:column}.abc-grid{grid-template-columns:repeat(3,1fr)}}
+</style>
+</head>
+<body>
+<div class="app" id="app"></div>
+<script>
+// ============================================================
+// WIDGET DE PRINCIPIOS Y COMPROMISOS - Anormal / Cafe con Proposito
+// v2.0 - Con recordatorio no negociable y orden original de principios
+// ============================================================
+
+var MODULO_PRINCIPIOS = {"bienvenida":[1,4,14],"rueda":[11,12],"elementos":[11,12],"camino":[5,9],"subnums":[5],"mapa":[9],"flechas":[9],"nombre":[5,9],"personas":[9,13],"dolan":[12,13],"perfil":[9],"septenios":[3,16],"ecg":[2,10],"nino":[2,3,7],"ikigai":[6,8,17],"ciclo":[15,16],"plan":[13,15,16],"dashboard":[18,9]};
+
+var PRINCIPIOS_DB = [{"num": 1, "titulo": "\u2200gradecer", "sesion": "bienvenida", "color": "#C9A84C", "no_negociable": "Mientras avanzas en este proceso, la gratitud no es opcional. Es el lente desde el que lees cada resultado, cada ejercicio, cada descubrimiento sobre ti mismo."}, {"num": 2, "titulo": "\u2200vanza en el perd\u00f3n", "sesion": "sesion3", "color": "#D4537E", "no_negociable": "Sin perd\u00f3n no hay transformaci\u00f3n real. Puedes completar todos los ejercicios \u2014 pero si cargas resentimiento, el proceso no puede hacer su trabajo completo."}, {"num": 3, "titulo": "\u2200provecha el dolor", "sesion": "sesion3", "color": "#D4537E", "no_negociable": "El dolor que emerja en este proceso no es se\u00f1al de que algo sale mal. Es la se\u00f1al de que algo est\u00e1 cambiando. No te detengas."}, {"num": 4, "titulo": "\u2200p\u00fantale al compromiso", "sesion": "bienvenida", "color": "#C9A84C", "no_negociable": "Ya te comprometiste al entrar. Ese compromiso no vence. Cada vez que sientas que quieres pausar, recuerda: te comprometiste antes de saber el c\u00f3mo. Conf\u00eda."}, {"num": 5, "titulo": "\u2200prende a normalizar lo extraordinario", "sesion": "sesion2", "color": "#9B7FD4", "no_negociable": "Lo que descubras sobre ti en esta sesi\u00f3n debe convertirse en tu nueva normalidad, no en un dato interesante que olvidas en una semana."}, {"num": 6, "titulo": "\u2200taca el miedo", "sesion": "sesion4", "color": "#E8C96A", "no_negociable": "Declarar tu prop\u00f3sito de vida activa todos tus miedos. Eso es normal y es buena se\u00f1al. La \u00fanica respuesta \u2200normal es seguir avanzando."}, {"num": 7, "titulo": "\u2200prende cero excusas", "sesion": "sesion3", "color": "#D4537E", "no_negociable": "Una excusa no te saca del proceso. Te saca de tu m\u00e1ximo potencial. Recuerda tu compromiso."}, {"num": 8, "titulo": "\u2200prende a pagar el precio", "sesion": "sesion4", "color": "#E8C96A", "no_negociable": "Vivir tu prop\u00f3sito tiene un precio real. Identificarlo aqu\u00ed y aceptarlo es el acto de honestidad que hace que el plan de vida funcione."}, {"num": 9, "titulo": "\u2200sume responsabilidad total", "sesion": "sesion2", "color": "#9B7FD4", "no_negociable": "Lo que tu numerolog\u00eda y tus valores revelan no es un destino fijo. Es un mapa. T\u00fa decides c\u00f3mo usarlo. Eso es responsabilidad total."}, {"num": 10, "titulo": "\u2200poyo emocional como combustible", "sesion": "sesion3", "color": "#D4537E", "no_negociable": "El dolor emocional que emerge en esta sesi\u00f3n no es un obst\u00e1culo. Es combustible. La intensidad que sientes es proporcional a la transformaci\u00f3n que viene."}, {"num": 11, "titulo": "\u2200palancamiento: la verdad contigo mismo", "sesion": "sesion1", "color": "#C9A84C", "no_negociable": "El diagn\u00f3stico solo funciona si eres brutalmente honesto. El n\u00famero que le das a cada \u00e1rea de tu vida debe reflejar la realidad, no c\u00f3mo quisieras que fuera."}, {"num": 12, "titulo": "\u2200doptas lo que toleras", "sesion": "sesion1", "color": "#C9A84C", "no_negociable": "Las \u00e1reas con calificaci\u00f3n baja son exactamente lo que has estado tolerando. Verlo sin juzgarte es el primer paso. Seguir toler\u00e1ndolo despu\u00e9s de verlo es la excusa."}, {"num": 13, "titulo": "\u2200pr\u00f3piate la insatisfacci\u00f3n", "sesion": "sesion2", "color": "#9B7FD4", "no_negociable": "La brecha entre tus valores declarados y los que realmente vives no es una falla \u2014 es informaci\u00f3n. Usa esa insatisfacci\u00f3n como motor, no como excusa."}, {"num": 14, "titulo": "\u2200dopta m\u00e9todos probados", "sesion": "bienvenida", "color": "#C9A84C", "no_negociable": "Esta plataforma integra metodolog\u00edas con d\u00e9cadas de validaci\u00f3n. Tu trabajo es aplicarlas con honestidad, no cuestionarlas antes de vivirlas."}, {"num": 15, "titulo": "\u2200lcanza el resultado, luego mejora", "sesion": "sesion5", "color": "#4ABF7A", "no_negociable": "Tu plan de vida no necesita ser perfecto para empezar. Necesita ser tuyo y necesita empezar. La acci\u00f3n imperfecta ejecutada vale m\u00e1s que el plan perfecto que nunca sale."}, {"num": 16, "titulo": "\u2200celera el proceso", "sesion": "sesion5", "color": "#4ABF7A", "no_negociable": "Cada d\u00eda que pasa sin ejecutar el plan es un d\u00eda que no vuelve. La urgencia no es ansiedad \u2014 es el respeto que le tienes a tu propio tiempo."}, {"num": 17, "titulo": "\u2200tenci\u00f3n y enfoque constante", "sesion": "sesion4", "color": "#E8C96A", "no_negociable": "Haz este m\u00f3dulo sin interrupciones. Lo que emerja es proporcional a tu concentraci\u00f3n."}, {"num": 18, "titulo": "\u2200lcanzas la anormalidad", "sesion": "sesion5", "color": "#4ABF7A", "no_negociable": "Completar este proceso te convierte en alguien diferente. Esa diferencia ser\u00e1 visible \u2014 y no todos la aplaudir\u00e1n. Esa resistencia confirma que el proceso funcion\u00f3."}];
+
+// Principios acumulados que el participante ya ha visto
+var PRINCIPIOS_VISTOS = (function(){
+  var v = {};
+  PRINCIPIOS_DB.forEach(function(pr){ v[pr.num] = false; });
+  return v;
+})();
+
+function buildWidgetPrincipios(moduloId, contenedor, onComplete) {
+  var principiosIds = MODULO_PRINCIPIOS[moduloId] || [];
+  if (!principiosIds.length) { if (onComplete) onComplete(); return; }
+
+  // Principios acumulados anteriores (ya vistos en modulos previos)
+  var anteriores = [];
+  PRINCIPIOS_DB.forEach(function(pr){
+    if(PRINCIPIOS_VISTOS[pr.num] && principiosIds.indexOf(pr.num) < 0){
+      anteriores.push(pr);
+    }
+  });
+
+  var compromisos_mod = {};
+  var paso = 0;
+  // Fases: -1=recordatorio, 0..N-1=principios, N=compromisos
+  var FASE_RECORD = -1;
+  var totalPasos = principiosIds.length + 1;
+  var hayAnteriores = anteriores.length > 0;
+
+  // Crear overlay
+  var overlay = document.createElement("div");
+  overlay.style.cssText = "position:fixed;inset:0;background:rgba(4,8,16,.97);z-index:2000;display:flex;align-items:center;justify-content:center;padding:16px;animation:wfadeIn .3s ease";
+
+  var box = document.createElement("div");
+  box.style.cssText = "background:#0A0F1E;border:1px solid rgba(201,168,76,.25);border-radius:20px;width:100%;max-width:560px;max-height:92vh;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 24px 64px rgba(0,0,0,.6)";
+
+  // Header
+  var hdr = document.createElement("div");
+  hdr.style.cssText = "padding:18px 22px 14px;border-bottom:1px solid rgba(255,255,255,.06);flex-shrink:0";
+  var htop = document.createElement("div");
+  htop.style.cssText = "display:flex;align-items:center;justify-content:space-between;margin-bottom:10px";
+  var hlogo = document.createElement("div");
+  hlogo.style.cssText = "font-family:Cormorant Garamond,serif;font-size:20px;color:#E8C96A;font-weight:300;letter-spacing:.02em";
+  hlogo.textContent = "\u2200normal";
+  var hstep = document.createElement("div");
+  hstep.id = "wp-step";
+  hstep.style.cssText = "font-size:10px;color:#3A4558;letter-spacing:.12em;text-transform:uppercase;font-family:Barlow Condensed,sans-serif";
+  htop.appendChild(hlogo); htop.appendChild(hstep);
+  var hbar = document.createElement("div");
+  hbar.style.cssText = "height:2px;background:#1A2640;border-radius:1px;overflow:hidden";
+  var hfill = document.createElement("div");
+  hfill.id = "wp-fill";
+  hfill.style.cssText = "height:100%;background:linear-gradient(90deg,#C9A84C,#E8C96A);border-radius:1px;transition:width .4s ease;width:0%";
+  hbar.appendChild(hfill); hdr.appendChild(htop); hdr.appendChild(hbar);
+  box.appendChild(hdr);
+
+  // Body
+  var body = document.createElement("div");
+  body.style.cssText = "flex:1;overflow-y:auto;padding:0 22px";
+
+  // Footer
+  var ftr = document.createElement("div");
+  ftr.style.cssText = "padding:14px 22px;border-top:1px solid rgba(255,255,255,.06);flex-shrink:0;display:flex;justify-content:space-between;align-items:center;gap:10px";
+
+  function upProg(){
+    var pct = paso < 0 ? 0 : Math.round(((paso+1)/totalPasos)*100);
+    var f=document.getElementById("wp-fill"); if(f)f.style.width=pct+"%";
+    var s=document.getElementById("wp-step");
+    if(s)s.textContent = paso < 0 ? "Recordatorio" : paso < principiosIds.length ? "Principio "+(paso+1)+" de "+principiosIds.length : "Mis compromisos";
+  }
+
+  function showPaso(){
+    body.innerHTML=""; ftr.innerHTML=""; upProg();
+
+    // FASE RECORDATORIO
+    if(paso===FASE_RECORD && hayAnteriores){
+      var sec=document.createElement("div"); sec.style.cssText="padding:20px 0";
+      var icon=document.createElement("div");icon.style.cssText="text-align:center;margin-bottom:16px";
+      var iconInner=document.createElement("div");iconInner.style.cssText="display:inline-flex;align-items:center;justify-content:center;width:52px;height:52px;border-radius:50%;background:rgba(212,83,126,.12);border:1.5px solid rgba(212,83,126,.35)";
+      iconInner.innerHTML="<span style='font-size:22px;color:#D4537E'>!</span>";
+      icon.appendChild(iconInner); sec.appendChild(icon);
+
+      var rt=document.createElement("div");rt.style.cssText="font-family:Cormorant Garamond,serif;font-size:22px;color:#E8C96A;text-align:center;margin-bottom:8px;font-weight:300;line-height:1.3";
+      rt.textContent="Antes de continuar"; sec.appendChild(rt);
+
+      var rs=document.createElement("div");rs.style.cssText="font-size:13px;color:#8A95A8;text-align:center;margin-bottom:18px;line-height:1.75;max-width:400px;margin-left:auto;margin-right:auto";
+      rs.innerHTML="Los principios que has aceptado <strong style='color:#F5E0A0'>no son opcionales ni negociables</strong>. Son el estándar que elegiste cuando decidiste entrar al camino ∀normal.";
+      sec.appendChild(rs);
+
+      var aviso=document.createElement("div");aviso.style.cssText="background:rgba(212,83,126,.07);border:1px solid rgba(212,83,126,.2);border-radius:12px;padding:14px 16px;margin-bottom:14px";
+      var avisoT=document.createElement("div");avisoT.style.cssText="font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#D4537E;font-weight:500;margin-bottom:8px;font-family:Barlow Condensed,sans-serif";
+      avisoT.textContent="Recuerda — Principios que ya aceptaste";aviso.appendChild(avisoT);
+      anteriores.slice(-3).forEach(function(pr){
+        var prow=document.createElement("div");prow.style.cssText="display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.04)";
+        var pn=document.createElement("div");pn.style.cssText="font-family:Cormorant Garamond,serif;font-size:18px;font-weight:300;color:"+pr.color+";min-width:30px";pn.textContent="∀"+pr.num;
+        var pt=document.createElement("div");pt.style.cssText="font-size:12px;color:#8A95A8";pt.textContent=pr.titulo;
+        prow.appendChild(pn);prow.appendChild(pt);aviso.appendChild(prow);
+      });
+      if(anteriores.length>3){var mas=document.createElement("div");mas.style.cssText="font-size:11px;color:#3A4558;margin-top:6px;text-align:center";mas.textContent="+ "+(anteriores.length-3)+" principios anteriores";aviso.appendChild(mas);}
+      sec.appendChild(aviso);
+
+      var pregunta=document.createElement("div");pregunta.style.cssText="background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.2);border-radius:10px;padding:12px 16px;text-align:center";
+      pregunta.innerHTML="<span style='font-family:Cormorant Garamond,serif;font-size:16px;color:#E8C96A;font-style:italic'>Una excusa no te saca de la plataforma — te saca de tu máximo potencial.<br>¿Sigues dentro del camino ∀normal?</span>";
+      sec.appendChild(pregunta);
+      body.appendChild(sec);
+
+      ftr.appendChild(document.createElement("span"));
+      var btnSi=document.createElement("button");btnSi.style.cssText="background:linear-gradient(135deg,#C9A84C,#E8C96A);color:#060A14;border:none;border-radius:4px;font-family:Barlow Condensed,sans-serif;font-size:12px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;padding:11px 26px;cursor:pointer";
+      btnSi.textContent="Sí, sigo dentro";
+      btnSi.onclick=function(){paso=0;showPaso();};
+      ftr.appendChild(btnSi);
+      return;
+    }
+
+    // FASE PRINCIPIOS
+    if(paso >= 0 && paso < principiosIds.length){
+      var pId=principiosIds[paso];
+      var pr=PRINCIPIOS_DB.find(function(p2){return p2.num===pId;});
+      if(!pr){paso++;showPaso();return;}
+      PRINCIPIOS_VISTOS[pr.num]=true;
+
+      var sec2=document.createElement("div");sec2.style.cssText="padding:20px 0";
+      var numDiv=document.createElement("div");numDiv.style.cssText="font-family:Cormorant Garamond,serif;font-size:60px;font-weight:300;line-height:1;color:"+pr.color+";opacity:.2;margin-bottom:2px";numDiv.textContent="∀"+pr.num;
+      sec2.appendChild(numDiv);
+      var tit=document.createElement("div");tit.style.cssText="font-family:Cormorant Garamond,serif;font-size:26px;font-weight:300;color:"+pr.color+";margin-bottom:14px;line-height:1.2";tit.textContent=pr.titulo;sec2.appendChild(tit);
+
+      if(pr.no_negociable){
+        var nnBlk=document.createElement("div");nnBlk.style.cssText="background:rgba(212,83,126,.07);border:1px solid rgba(212,83,126,.2);border-radius:10px;padding:11px 14px;margin-bottom:12px;display:flex;align-items:flex-start;gap:10px";
+        var nnIcon=document.createElement("div");nnIcon.style.cssText="font-size:14px;color:#D4537E;flex-shrink:0;margin-top:1px";nnIcon.textContent="!";
+        var nnTxt=document.createElement("div");
+        var nnLabel=document.createElement("div");nnLabel.style.cssText="font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#D4537E;font-weight:500;margin-bottom:4px;font-family:Barlow Condensed,sans-serif";nnLabel.textContent="No negociable";
+        var nnCont=document.createElement("div");nnCont.style.cssText="font-size:12px;color:#EAE6DC;line-height:1.65";nnCont.textContent=pr.no_negociable;
+        nnTxt.appendChild(nnLabel);nnTxt.appendChild(nnCont);nnBlk.appendChild(nnIcon);nnBlk.appendChild(nnTxt);sec2.appendChild(nnBlk);
+      }
+
+      if(pr.aplicacion){
+        var aplBlk=document.createElement("div");aplBlk.style.cssText="background:#1A2640;border-radius:10px;padding:12px 14px;border-left:3px solid "+pr.color+";margin-bottom:12px";
+        var aplL=document.createElement("div");aplL.style.cssText="font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:"+pr.color+";margin-bottom:4px;font-weight:500;font-family:Barlow Condensed,sans-serif";aplL.textContent="En este módulo";
+        var aplT=document.createElement("div");aplT.style.cssText="font-size:13px;color:#EAE6DC;line-height:1.65;font-style:italic";aplT.textContent=pr.aplicacion;
+        aplBlk.appendChild(aplL);aplBlk.appendChild(aplT);sec2.appendChild(aplBlk);
+      }
+
+      body.appendChild(sec2);
+
+      var btnP=paso>0?document.createElement("button"):document.createElement("span");
+      if(paso>0){btnP.style.cssText="background:transparent;color:#3A4558;border:1px solid #1E2A3A;border-radius:4px;font-family:Barlow,sans-serif;font-size:13px;padding:9px 16px;cursor:pointer";btnP.textContent="Anterior";btnP.onclick=function(){paso--;showPaso();};}
+      ftr.appendChild(btnP);
+      var btnN2=document.createElement("button");btnN2.style.cssText="background:linear-gradient(135deg,#C9A84C,#E8C96A);color:#060A14;border:none;border-radius:4px;font-family:Barlow Condensed,sans-serif;font-size:12px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;padding:11px 26px;cursor:pointer";
+      btnN2.textContent=paso<principiosIds.length-1?"Siguiente principio":"Mis compromisos";
+      btnN2.onclick=function(){paso++;showPaso();};ftr.appendChild(btnN2);
+      return;
+    }
+
+    // FASE COMPROMISOS
+    var sec3=document.createElement("div");sec3.style.cssText="padding:20px 0";
+    var ct=document.createElement("div");ct.style.cssText="font-family:Cormorant Garamond,serif;font-size:22px;color:#E8C96A;margin-bottom:6px;font-weight:300";ct.textContent="Mis compromisos para este módulo";sec3.appendChild(ct);
+    var cs=document.createElement("div");cs.style.cssText="font-size:13px;color:#8A95A8;margin-bottom:18px;line-height:1.65";cs.textContent="Los principios te dieron el marco. Ahora escribe qué harás diferente a partir de hoy en este módulo.";sec3.appendChild(cs);
+    principiosIds.forEach(function(pId2){
+      var pr2=PRINCIPIOS_DB.find(function(p2){return p2.num===pId2;});if(!pr2)return;
+      var blk=document.createElement("div");blk.style.cssText="margin-bottom:14px;background:#131D30;border-radius:10px;padding:13px 15px;border-left:3px solid "+pr2.color;
+      var bt=document.createElement("div");bt.style.cssText="font-size:11px;font-weight:500;color:"+pr2.color+";margin-bottom:6px;letter-spacing:.08em;text-transform:uppercase;font-family:Barlow Condensed,sans-serif";bt.textContent="∀"+pr2.num+" · "+pr2.titulo;blk.appendChild(bt);
+      var ta=document.createElement("textarea");ta.style.cssText="background:#0A0F1E;border:1px solid rgba(255,255,255,.07);border-radius:6px;color:#EAE6DC;font-family:Barlow,sans-serif;font-size:13px;padding:9px 12px;width:100%;min-height:70px;outline:none;resize:vertical;line-height:1.6;transition:border-color .2s";
+      ta.placeholder="Describe qué cambiarás o harás diferente a partir de hoy...";ta.value=compromisos_mod["p"+pId2]||"";
+      ta.onfocus=function(){this.style.borderColor=pr2.color;};ta.onblur=function(){this.style.borderColor="rgba(255,255,255,.07)";};
+      ta.oninput=(function(pid){return function(){compromisos_mod["p"+pid]=this.value;};})(pId2);
+      blk.appendChild(ta);sec3.appendChild(blk);
+    });
+    body.appendChild(sec3);
+
+    var btnB2=document.createElement("button");btnB2.style.cssText="background:transparent;color:#3A4558;border:1px solid #1E2A3A;border-radius:4px;font-family:Barlow,sans-serif;font-size:13px;padding:9px 16px;cursor:pointer";btnB2.textContent="Revisar";btnB2.onclick=function(){paso--;showPaso();};ftr.appendChild(btnB2);
+    var btnFin=document.createElement("button");btnFin.style.cssText="background:linear-gradient(135deg,#C9A84C,#E8C96A);color:#060A14;border:none;border-radius:4px;font-family:Barlow Condensed,sans-serif;font-size:12px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;padding:11px 26px;cursor:pointer";
+    btnFin.textContent="Comenzar el módulo";
+    btnFin.onclick=function(){
+      if(window.guardarCompromisosModulo)window.guardarCompromisosModulo(moduloId,compromisos_mod);
+      document.body.removeChild(overlay);
+      if(onComplete)onComplete();
+    };
+    ftr.appendChild(btnFin);
+  }
+
+  box.appendChild(body);box.appendChild(ftr);overlay.appendChild(box);
+
+  var style=document.createElement("style");
+  style.textContent="@keyframes wfadeIn{from{opacity:0}to{opacity:1}} .wp-scroll::-webkit-scrollbar{width:4px} .wp-scroll::-webkit-scrollbar-thumb{background:rgba(201,168,76,.28);border-radius:2px}";
+  document.head.appendChild(style);
+  document.body.appendChild(overlay);
+
+  // Arrancar en recordatorio si hay anteriores, si no en principios
+  paso = hayAnteriores ? FASE_RECORD : 0;
+  showPaso();
+}
+
+window.guardarCompromisosModulo = function(moduloId, compromisos){
+  if(!window.COMPROMISOS_PROCESO)window.COMPROMISOS_PROCESO={};
+  window.COMPROMISOS_PROCESO[moduloId]=compromisos;
+};
+
+</script>
+<script>
+// ============================================================
+// ANORMAL - Módulo de datos compartidos entre módulos
+// Usa sessionStorage para pasar datos entre páginas HTML
+// ============================================================
+
+var ANORMAL = {
+  
+  // Leer todos los datos del proceso
+  getData: function() {
+    try {
+      var raw = sessionStorage.getItem('anormal_proceso');
+      return raw ? JSON.parse(raw) : {};
+    } catch(e) { return {}; }
+  },
+  
+  // Guardar datos del proceso
+  setData: function(data) {
+    try {
+      sessionStorage.setItem('anormal_proceso', JSON.stringify(data));
+    } catch(e) {}
+  },
+  
+  // Actualizar una sección específica
+  update: function(section, value) {
+    var data = this.getData();
+    data[section] = value;
+    this.setData(data);
+  },
+  
+  // Agregar un compromiso/hábito a la agenda central
+  addAgenda: function(item) {
+    // item = {modulo, titulo, descripcion, fecha, periodicidad, tipo}
+    var data = this.getData();
+    if (!data.agenda) data.agenda = [];
+    item.id = 'ag_' + Date.now() + '_' + Math.random().toString(36).slice(2,6);
+    item.cumplido = false;
+    item.fechaCreacion = new Date().toLocaleDateString('es-CO');
+    data.agenda.push(item);
+    this.setData(data);
+    return item.id;
+  },
+  
+  // Guardar lo marcado en septenios para que fluya al ECG y al Niño Interior
+  saveSeptenios: function(checklistEstado, cicloActual, nombre, genero) {
+    var doloresPorCiclo = [];
+    
+    Object.keys(checklistEstado).forEach(function(chkKey) {
+      var est = checklistEstado[chkKey];
+      if (!est || !est.dolor || !est.dolor.length) return;
+      
+      // Extraer número de ciclo del key ('chk-3' -> 3, 'actual-5' -> 5)
+      var cicloNum = 0;
+      if (chkKey.startsWith('chk-')) cicloNum = parseInt(chkKey.replace('chk-',''));
+      else if (chkKey.startsWith('actual-')) cicloNum = parseInt(chkKey.replace('actual-',''));
+      if (!cicloNum) return;
+      
+      // Obtener los ítems de dolor marcados
+      var cicloDatos = window.CICLOS_DATA ? window.CICLOS_DATA[String(cicloNum)] : null;
+      if (!cicloDatos) return;
+      
+      var itemsMarcados = est.dolor.map(function(idx) {
+        return cicloDatos.dolor[idx] || '';
+      }).filter(Boolean);
+      
+      var itemsAlegria = (est.alegria || []).map(function(idx) {
+        return cicloDatos.alegria[idx] || '';
+      }).filter(Boolean);
+      
+      if (itemsMarcados.length || itemsAlegria.length) {
+        doloresPorCiclo.push({
+          ciclo: cicloNum,
+          tipo: cicloDatos.tipo,
+          titulo: cicloDatos.titulo,
+          edades: cicloDatos.titulo.match(/\d+ a \d+/)?.[0] || '',
+          dolores: itemsMarcados,
+          alegrias: itemsAlegria,
+          // Preguntas respondidas
+          respuestas: [0,1,2].map(function(pi) {
+            return checklistEstado[chkKey + '-preg-' + pi] || '';
+          }).filter(Boolean)
+        });
+      }
+    });
+    
+    // Ordenar por ciclo
+    doloresPorCiclo.sort(function(a,b){return a.ciclo - b.ciclo;});
+    
+    this.update('septenios', {
+      cicloActual: cicloActual,
+      nombre: nombre,
+      genero: genero,
+      doloresPorCiclo: doloresPorCiclo,
+      fecha: new Date().toLocaleDateString('es-CO')
+    });
+  },
+  
+  // Obtener datos de septenios para el ECG
+  getSepteniosParaECG: function() {
+    var data = this.getData();
+    return data.septenios || null;
+  },
+  
+  // Obtener ciclos 1-2-3 para el Niño Interior
+  getCiclosInfancia: function() {
+    var sep = this.getSepteniosParaECG();
+    if (!sep) return [];
+    return sep.doloresPorCiclo.filter(function(c) {
+      return c.ciclo <= 3;
+    });
+  },
+  
+  // Guardar compromisos de un módulo en la agenda central
+  saveCompromisos: function(moduloId, compromisos) {
+    if (!compromisos || !Object.keys(compromisos).length) return;
+    var data = this.getData();
+    if (!data.agenda) data.agenda = [];
+    
+    Object.keys(compromisos).forEach(function(key) {
+      var texto = (compromisos[key] || '').trim();
+      if (!texto) return;
+      // Evitar duplicados del mismo módulo+key
+      var exists = data.agenda.some(function(item) {
+        return item.moduloId === moduloId && item.key === key;
+      });
+      if (!exists) {
+        data.agenda.push({
+          id: 'ag_' + moduloId + '_' + key,
+          moduloId: moduloId,
+          key: key,
+          tipo: 'compromiso-principio',
+          descripcion: texto,
+          fechaCreacion: new Date().toLocaleDateString('es-CO'),
+          cumplido: false,
+          periodicidad: 'diario'
+        });
+      }
+    });
+    this.setData(data);
+  }
+};
+
+// Sobrescribir guardarCompromisosModulo para que también vaya a la agenda
+window.guardarCompromisosModulo = function(moduloId, compromisos) {
+  if (!window.COMPROMISOS_PROCESO) window.COMPROMISOS_PROCESO = {};
+  window.COMPROMISOS_PROCESO[moduloId] = compromisos;
+  ANORMAL.saveCompromisos(moduloId, compromisos);
+};
+
+</script>
+<script>
+
+const FRASES=["Quien camina con fe no necesita ver todo el camino — solo el siguiente paso.","El amor que das sin esperar nada es el que más lejos llega y más tiempo dura.","En el silencio de tu interior vive la respuesta que llevas tiempo buscando afuera.","No temas los comienzos difíciles — toda gran luz pasa primero por la oscuridad.","Tu vida es una oración vivida. Cada acción es una palabra que el universo escucha.","La misericordia que das a otros también la estás dando a la parte de ti que más la necesita.","El que sirve en pequeño recibe en grande. El tamaño del acto no importa — importa el amor.","Cuando sueltas lo que ya no te pertenece, abres las manos para recibir lo que viene.","La paz no es ausencia de tormenta — es la certeza de que nada puede apagar lo que hay en ti.","Busca primero entender, y la respuesta llegará por sí sola en el momento exacto.","Quien se conoce a sí mismo ha dado el primer paso hacia su propósito.","El sufrimiento que no se niega y se ofrece con amor se convierte en sabiduría.","Hay semillas que necesitan mucho tiempo bajo tierra. Tu proceso no es lento — es profundo.","No necesitas tener todo resuelto para avanzar. El camino se hace al caminar.","Lo que pides con el corazón limpio ya fue escuchado antes de que terminaras de pedirlo."];
+const frase=()=>FRASES[new Date().getDate()%FRASES.length];
+
+// ── EMOCIONES — definiciones ampliadas ──────────────────────
+const EM=[
+  {id:'alegria',n:'Alegría / Euforia',
+   sub:'La emoción del corazón abierto',
+   def:'La alegría es el estado natural del ser cuando está en paz consigo mismo y con la vida. No es euforia constante — es una base de bienestar que permite recibir la vida con apertura. Cuando la alegría genuina desaparece o se vuelve forzada, el corazón acusa el costo primero.',
+   cuerpo:'Se siente como ligereza en el pecho, calor en el centro del cuerpo, facilidad para respirar profundo. Su ausencia se manifiesta como constricción torácica, sensación de vacío o la necesidad compulsiva de buscar estímulos externos.',
+   nosana:'Cuando la alegría no fluye naturalmente —ya sea porque fue bloqueada en la infancia o porque se usa como máscara— el corazón trabaja bajo presión constante. La persona puede parecer "bien" externamente mientras el sistema cardiovascular acumula tensión silenciosa.',
+   cotidiano:'Se manifiesta como dificultad para disfrutar lo ordinario, búsqueda compulsiva de placer o entretenimiento, incapacidad de estar presente sin distracción, o alegría que siempre necesita justificarse.',
+   org:'Corazón',org2:'Intestino delgado',col:'#E8C96A',bg:'rgba(232,201,106,.1)',br:'rgba(232,201,106,.3)',
+   chakra:4,chakraNom:'Corazón (Anahata)',chakraCol:'#4CAF50',sx:50,sy:30,
+   sint:'Ansiedad, insomnio, agitación mental, dificultad para concentrarse, necesidad de hablar en exceso.',
+   enf:'Arritmias, palpitaciones, hipertensión, insomnio crónico, trastornos del estado de ánimo.',
+   afect:['¿Dificultad para sentir alegría genuina sin causa aparente?','¿Insomnio o ansiedad frecuentes?','¿Palpitaciones o sensación de presión en el pecho?']},
+  {id:'miedo',n:'Miedo / Terror',
+   sub:'La emoción que paraliza la voluntad',
+   def:'El miedo es una señal de alarma del sistema nervioso ante una amenaza percibida. En su forma sana, protege. Cuando se vuelve crónico — especialmente el miedo aprendido en los primeros ciclos — deja de ser una señal y se convierte en el aire que se respira. La persona ya no recuerda haber vivido sin esa tensión de fondo.',
+   cuerpo:'Se siente como frío en las extremidades, contracción en el abdomen bajo, tensión en la zona lumbar, urgencia urinaria en momentos de estrés. En el cuerpo energético, el miedo crónico drena la región del riñón — la raíz de la vitalidad según la medicina china.',
+   nosana:'El miedo no procesado consume la energía vital de los riñones sin pausa. La persona siente fatiga que no responde al descanso, pérdida de motivación profunda, incapacidad de tomar decisiones, y un envejecimiento físico que se adelanta al cronológico.',
+   cotidiano:'Se manifiesta como postergación crónica, dificultad para comprometerse, hipervigilancia en relaciones, necesidad de control excesivo, o evasión sistemática de situaciones que podrían implicar vulnerabilidad.',
+   org:'Riñón',org2:'Vejiga',col:'#4A9EBF',bg:'rgba(74,158,191,.1)',br:'rgba(74,158,191,.3)',
+   chakra:1,chakraNom:'Raíz (Muladhara)',chakraCol:'#F44336',sx:50,sy:75,
+   sint:'Fatiga profunda sin causa, dolor lumbar crónico, pérdida de cabello, temblores, incontinencia bajo estrés.',
+   enf:'Problemas renales, infecciones urinarias recurrentes, dolor lumbar crónico, disfunción sexual, envejecimiento prematuro.',
+   afect:['¿Fatiga profunda que no mejora con el descanso?','¿Dolor lumbar crónico sin causa estructural clara?','¿Decisiones difíciles de tomar por miedo al error?']},
+  {id:'ira',n:'Ira / Frustración',
+   sub:'La energía que pide movimiento',
+   def:'La ira es energía vital que necesita dirección. En su forma sana, es la respuesta ante la injusticia y el impulso para establecer límites. Cuando se reprime —porque el entorno no dio permiso para sentirla— no desaparece: se instala en el hígado como tensión acumulada. La depresión es frecuentemente ira que nunca encontró su camino de salida.',
+   cuerpo:'Se siente como calor ascendente desde el abdomen, tensión en el cuello y mandíbula, visión que se estrecha, pulsación en las sienes. En el sistema digestivo-hepático, la ira crónica bloquea el libre flujo de la energía y se manifiesta como rigidez física generalizada.',
+   nosana:'El hígado necesita el libre movimiento de la energía para cumplir sus funciones. Cuando la ira lo ocupa de forma permanente, el hígado trabaja en exceso: afecta la calidad del sueño, la claridad mental, el ciclo hormonal femenino, y eventualmente la salud del tejido hepático mismo.',
+   cotidiano:'Se manifiesta como irritabilidad desproporcionada ante situaciones menores, resentimiento acumulado, sarcasmo o pasivo-agresividad, tensión muscular crónica especialmente en cuello y hombros, o estallidos de rabia seguidos de culpa.',
+   org:'Hígado',org2:'Vesícula biliar',col:'#BF6A4A',bg:'rgba(191,106,74,.1)',br:'rgba(191,106,74,.3)',
+   chakra:3,chakraNom:'Plexo Solar (Manipura)',chakraCol:'#FFEB3B',sx:62,sy:55,
+   sint:'Tensión muscular, cefaleas tensionales, irritabilidad, rigidez en cuello, hombros y mandíbula.',
+   enf:'Hepatitis, problemas de vesícula, migrañas, hipertensión, síndrome premenstrual severo, depresión.',
+   afect:['¿Irritabilidad frecuente ante situaciones menores?','¿Migrañas o cefaleas tensionales recurrentes?','¿Rigidez crónica en cuello, hombros o mandíbula?']},
+  {id:'tristeza',n:'Tristeza / Duelo',
+   sub:'La emoción que necesita ser llorada',
+   def:'La tristeza es la respuesta natural ante la pérdida. Su función es procesar el duelo y liberar lo que ya no está. Cuando se permite expresar, completa su ciclo y libera. Cuando se suprime —porque llorar "no está bien", porque hay que ser fuerte— queda almacenada en el pulmón, encogiendo gradualmente la capacidad respiratoria y la vitalidad del sistema inmune.',
+   cuerpo:'Se siente como peso en el pecho, respiración acortada, garganta apretada, y en el intestino como dificultad para soltar — física y emocionalmente. La piel, que pertenece al sistema del pulmón en la medicina china, también refleja la tristeza no expresada.',
+   nosana:'El pulmón que carga tristeza no expulsada respira cada vez más superficial. Con el tiempo esa superficialidad se convierte en patrón: la persona aprende a no sentir profundo para no sentir la tristeza. El sistema inmune, íntimamente conectado con el pulmón, se debilita en paralelo.',
+   cotidiano:'Se manifiesta como melancolía sin causa identificable, dificultad para soltar relaciones o situaciones que ya terminaron, piel que da señales frecuentes, constipación crónica, voz que pierde volumen y proyección, o llanto que emerge en momentos inesperados.',
+   org:'Pulmón',org2:'Intestino grueso',col:'#7AAFD4',bg:'rgba(122,175,212,.1)',br:'rgba(122,175,212,.3)',
+   chakra:4,chakraNom:'Corazón (Anahata)',chakraCol:'#4CAF50',sx:38,sy:30,
+   sint:'Respiración superficial, voz débil, piel opaca o con erupciones, constipación, tendencia al llanto sin causa aparente.',
+   enf:'Asma, bronquitis, EPOC, psoriasis, eccema, constipación crónica, depresión, sistema inmune debilitado.',
+   afect:['¿Respiración superficial o sensación de pecho apretado frecuente?','¿Piel con señales recurrentes (erupciones, eccema, resequedad)?','¿Dificultad para soltar — personas, situaciones, objetos?']},
+  {id:'preocupacion',n:'Preocupación / Obsesión',
+   sub:'La mente que no sabe detenerse',
+   def:'La preocupación es el intento del sistema nervioso de resolver anticipadamente lo que aún no ha ocurrido. En dosis pequeñas, organiza. En exceso, agota. La mente que rumia sin producir acción consume una energía que el cuerpo necesita para funciones esenciales — y el sistema digestivo es el primero en notar ese déficit.',
+   cuerpo:'Se siente como tensión en el centro del abdomen, sensación de "nudo en el estómago", pesadez después de comer, y una fatiga mental que persiste incluso cuando el cuerpo ha descansado. El bazo y el páncreas — responsables de la transformación en la medicina china — se sobrecargan.',
+   nosana:'Cuando la preocupación es el modo por defecto del sistema, el estómago literalmente no puede "digerir" de forma óptima ni los alimentos ni las experiencias emocionales. La conexión entre el sistema digestivo y el sistema nervioso (el eje intestino-cerebro) convierte la preocupación crónica en síntomas gastrointestinales concretos.',
+   cotidiano:'Se manifiesta como dificultad para tomar decisiones por analizar en exceso, problemas digestivos después de situaciones de estrés, incapacidad de disfrutar el presente por anticipar el futuro, o un pensamiento circular que regresa siempre a los mismos problemas.',
+   org:'Bazo / Páncreas',org2:'Estómago',col:'#4ABF7A',bg:'rgba(74,191,122,.1)',br:'rgba(74,191,122,.3)',
+   chakra:3,chakraNom:'Plexo Solar (Manipura)',chakraCol:'#FFEB3B',sx:50,sy:52,
+   sint:'Digestión lenta, fatiga postprandial, exceso de pensamiento, dificultad para concentrarse, pesadez en extremidades.',
+   enf:'Gastritis, úlceras, diabetes tipo 2, síndrome de intestino irritable, fatiga crónica, ansiedad generalizada.',
+   afect:['¿Problemas digestivos que empeoran con el estrés?','¿La mente da vueltas a los mismos pensamientos sin resolución?','¿Pesadez o fatiga intensa después de comer?']},
+  {id:'sorpresa',n:'Sorpresa / Susto',
+   sub:'El shock que el cuerpo no integró',
+   def:'El susto activa el sistema de emergencia del cuerpo en fracciones de segundo. Cuando la amenaza pasa, ese sistema debería desactivarse. Pero cuando el shock fue demasiado intenso o demasiado frecuente —especialmente en los primeros ciclos— el sistema nervioso queda en modo de alerta permanente, sin poder distinguir entre el peligro pasado y el presente.',
+   cuerpo:'Se siente como un estado de hipervigilancia constante: el cuerpo siempre listo para responder aunque no haya amenaza real. Tensión muscular de fondo, dificultad para relajarse completamente, sueño ligero que se interrumpe, y una sensación de que algo malo puede ocurrir en cualquier momento.',
+   nosana:'El corazón y los riñones comparten el impacto del susto no integrado. Las glándulas suprarrenales —que producen cortisol y adrenalina en respuesta al estrés— trabajan en exceso de forma continua, lo que lleva eventualmente a una fatiga adrenal que drena la vitalidad de forma progresiva.',
+   cotidiano:'Se manifiesta como reacciones desproporcionadas ante ruidos o situaciones inesperadas, dificultad para confiar, memoria que falla bajo presión, incapacidad de relajarse en entornos que deberían ser seguros, o revivir mentalmente situaciones traumáticas.',
+   org:'Corazón / Riñón',org2:'Suprarrenales',col:'#9B7FD4',bg:'rgba(155,127,212,.1)',br:'rgba(155,127,212,.3)',
+   chakra:2,chakraNom:'Sacro (Svadhisthana)',chakraCol:'#FF9800',sx:50,sy:65,
+   sint:'Hipervigilancia constante, insomnio o sueño ligero, memoria afectada bajo estrés, palpitaciones ante situaciones inesperadas.',
+   enf:'TEPT, fatiga adrenal, trastornos del sueño, taquicardia, ansiedad de anticipación.',
+   afect:['¿Estado de alerta constante sin amenaza real?','¿Sueño ligero que se interrumpe con facilidad?','¿Reacciones intensas ante situaciones inesperadas o ruidos?']},
+  {id:'culpa',n:'Culpa',
+   sub:'La ira vuelta hacia adentro',
+   def:'La culpa en su forma sana es la señal que indica que se actuó en contra de los propios valores, y motiva a reparar. Pero la culpa crónica — especialmente la que se instala en la infancia cuando el niño concluye que él es el problema — no repara nada. Es ira sin dirección que se vuelve sobre quien la siente, corroendo el sentido de valor propio.',
+   cuerpo:'Se siente como un peso en el pecho y en el plexo solar, una contracción que dificulta la respiración completa, y una tensión de fondo en los músculos del abdomen. En el sistema inmune, la culpa crónica tiene una expresión particularmente clara: los trastornos autoinmunes — donde el cuerpo se ataca a sí mismo — correlacionan directamente con patrones de autocrítica sostenida.',
+   nosana:'Cuando la culpa se convierte en identidad ("yo soy el problema"), el hígado carga la ira y el corazón carga la herida al Shen — el espíritu. El resultado es una persona que sistemáticamente se pone en último lugar, que no puede recibir sin inmediatamente devolver, y que encontrará formas de autosabotearse justo cuando algo bueno comienza a ocurrir.',
+   cotidiano:'Se manifiesta como incapacidad para recibir halagos, necesidad de pedir perdón constantemente, tendencia a asumir responsabilidad por el malestar ajeno, perfeccionismo que nunca alcanza, o autosabotaje en el trabajo, las relaciones y la salud.',
+   org:'Hígado + Corazón',org2:'Sistema nervioso',col:'#D4A0A0',bg:'rgba(212,160,160,.1)',br:'rgba(212,160,160,.3)',
+   chakra:3,chakraNom:'Plexo Solar (Manipura)',chakraCol:'#FFEB3B',sx:45,sy:43,
+   sint:'Autocrítica excesiva, autosabotaje, perfeccionismo disfuncional, dificultad para recibir amor o reconocimiento.',
+   enf:'Depresión, trastornos autoinmunes, problemas hepáticos y cardiovasculares crónicos.',
+   afect:['¿La autocrítica es una voz constante e implacable?','¿Dificultad genuina para recibir elogios o amor?','¿Autosabotaje cuando las cosas empiezan a ir bien?']},
+  {id:'verguenza',n:'Vergüenza',
+   sub:'La herida más profunda de la identidad',
+   def:'La vergüenza es diferente a la culpa: la culpa dice "hice algo malo", la vergüenza dice "yo soy algo malo". Es la herida más profunda que existe porque ataca el núcleo de la identidad. Se instala casi siempre en los primeros ciclos, frecuentemente a través de humillaciones, abusos, o la percepción de no ser suficiente para ser amado.',
+   cuerpo:'Se siente como el deseo de desaparecer, de hacerse pequeño, de no ser visto. Físicamente se manifiesta como encogimiento postural, dificultad para mantener contacto visual, rubor, y una tensión específica en el pecho que conecta directamente con el chakra del corazón. El Shen — el espíritu del corazón — es el que más directamente hiere la vergüenza.',
+   nosana:'La vergüenza crónica debilita el sentido fundamental de merecer existir. Sus consecuencias en la salud son profundas y frecuentemente silenciosas: cardiovascular, sistema inmune debilitado, y una tendencia a la evitación que priva al sistema nervioso de las experiencias reparadoras que necesita.',
+   cotidiano:'Se manifiesta como evitación sistemática de situaciones donde se puede ser juzgado, dificultad para hablar en público, incapacidad de expresar necesidades propias, relaciones donde se acepta menos de lo que se merece, o una vida construida alrededor de no ser "descubierto".',
+   org:'Corazón',org2:'Riñón',col:'#C4A0D4',bg:'rgba(196,160,212,.1)',br:'rgba(196,160,212,.3)',
+   chakra:4,chakraNom:'Corazón (Anahata)',chakraCol:'#4CAF50',sx:55,sy:38,
+   sint:'Evitación social, hipersensibilidad a la crítica, dificultad para mostrarse auténticamente, postura encogida.',
+   enf:'Ansiedad social, depresión severa, problemas cardiovasculares crónicos, debilitamiento del sistema inmune.',
+   afect:['¿Evitas situaciones donde puedas ser juzgado o evaluado?','¿La crítica te afecta con una intensidad que otros no comprenden?','¿Dificultad para mostrarte como realmente eres?']},
+  {id:'resentimiento',n:'Resentimiento',
+   sub:'El veneno de dosis bajas',
+   def:'El resentimiento es la ira que no encontró su salida natural y se convirtió en residuo permanente. A diferencia de la ira aguda, que al menos se expresa y libera algo de presión, el resentimiento es silencioso y constante — un veneno de dosis bajas que se toma diariamente esperando que le haga daño al otro. El otro, frecuentemente, ni lo sabe.',
+   cuerpo:'Se siente como una tensión de fondo en el hígado (hipocondrio derecho), rigidez muscular que persiste incluso después de actividad física, una amargura que tiñe la percepción de las relaciones, y una fatiga que viene de cargar un peso que en realidad ya no tiene razón de estar ahí.',
+   nosana:'El resentimiento contamina el hígado de forma silenciosa y progresiva. Su naturaleza crónica lo hace especialmente dañino porque no tiene los picos de la ira aguda que al menos permiten identificar que algo necesita atenderse. El resultado es un deterioro gradual que puede incluir enfermedades hepáticas, cardiovasculares, y en casos extremos, procesos oncológicos.',
+   cotidiano:'Se manifiesta como incapacidad de mencionar a ciertas personas sin sentir tensión, desconfianza generalizada, cinismo como actitud de base, relaciones donde el pasado siempre vuelve a la superficie, o la sensación de que las deudas emocionales nunca terminan de saldarse.',
+   org:'Hígado',org2:'Vesícula biliar',col:'#D4B080',bg:'rgba(212,176,128,.1)',br:'rgba(212,176,128,.3)',
+   chakra:3,chakraNom:'Plexo Solar (Manipura)',chakraCol:'#FFEB3B',sx:40,sy:57,
+   sint:'Amargura crónica, desconfianza generalizada, rigidez muscular de fondo, cinismo.',
+   enf:'Enfermedades hepáticas crónicas, cálculos biliares, migrañas crónicas, enfermedades cardiovasculares.',
+   afect:['¿Hay personas cuyo nombre activa tensión inmediata?','¿La amargura o el cinismo son tu actitud de base en las relaciones?','¿Tensión muscular que persiste aunque hagas ejercicio?']},
+  {id:'nostalgia',n:'Nostalgia',
+   sub:'La emoción compuesta — tristeza y alegría entrelazadas',
+   def:'La nostalgia es única entre las emociones porque no es simple — es la coexistencia de la tristeza por lo que ya no está y la alegría por haber tenido eso que se perdió. En su forma sana, honra el pasado y permite soltarlo enriquecido. Cuando se convierte en morada permanente, impide vivir el presente y convierte el pasado en una prisión dorada.',
+   cuerpo:'Se siente en el pecho (el corazón que añora) y en los pulmones (la tristeza de la pérdida). La nostalgia sana se siente como un calor suave al recordar. La nostalgia que enferma se siente como una contracción que impide respirar plenamente en el presente, como si el aire de hoy no fuera suficiente comparado con el de entonces.',
+   nosana:'Cuando la nostalgia se convierte en el filtro a través del cual se ve todo el presente, el corazón y el pulmón comparten la carga. El corazón añora lo que fue. El pulmón no puede soltar. El resultado es una persona físicamente presente pero emocionalmente ausente — habitando un tiempo que ya no existe.',
+   cotidiano:'Se manifiesta como idealización del pasado (que siempre fue mejor que el presente), dificultad para comprometerse con nuevas relaciones o proyectos, comparación constante que deja al presente siempre perdiendo, o un duelo que nunca termina de completarse.',
+   org:'Pulmón + Corazón',org2:'Ambos',col:'#A0C4D4',bg:'rgba(160,196,212,.1)',br:'rgba(160,196,212,.3)',
+   chakra:5,chakraNom:'Garganta (Vishuddha)',chakraCol:'#2196F3',sx:50,sy:22,
+   sint:'Idealización del pasado, melancolía crónica, dificultad para comprometerse con el presente.',
+   enf:'Depresión melancólica, problemas respiratorios, debilitamiento cardiovascular progresivo.',
+   afect:['¿El pasado siempre parece mejor que el presente?','¿Dificultad para comprometerse con nuevas relaciones o proyectos?','¿El presente parece vacío comparado con lo que fue?']}
+];
+
+const CHAKRAS=[
+  {n:1,nom:'Raíz (Muladhara)',col:'#F44336',py:88,desc:'Seguridad, supervivencia, arraigo. Órganos: riñones, vejiga, columna inferior, piernas.'},
+  {n:2,nom:'Sacro (Svadhisthana)',col:'#FF9800',py:72,desc:'Creatividad, sexualidad, emociones, placer. Órganos: reproductivos, intestinos inferiores.'},
+  {n:3,nom:'Plexo Solar (Manipura)',col:'#FFEB3B',py:55,desc:'Voluntad, poder personal, autoestima. Órganos: estómago, hígado, páncreas, vesícula.'},
+  {n:4,nom:'Corazón (Anahata)',col:'#4CAF50',py:38,desc:'Amor, compasión, conexión. Órganos: corazón, pulmones, timo.'},
+  {n:5,nom:'Garganta (Vishuddha)',col:'#2196F3',py:22,desc:'Expresión, comunicación, verdad. Órganos: tiroides, garganta, cuerdas vocales.'},
+  {n:6,nom:'Tercer Ojo (Ajna)',col:'#673AB7',py:12,desc:'Intuición, percepción, visión interior. Órganos: hipófisis, ojos, cerebro.'},
+  {n:7,nom:'Corona (Sahasrara)',col:'#E040FB',py:4,desc:'Conciencia, conexión espiritual. Órganos: corteza cerebral, sistema nervioso central.'}
+];
+
+const TIPO_MAP={1:'cuerpo',2:'sentir',3:'ser',4:'cuerpo',5:'sentir',6:'ser',7:'cuerpo',8:'sentir',9:'ser',10:'cuerpo',11:'sentir',12:'ser'};
+const TIPO_COL={cuerpo:'var(--grn)',sentir:'var(--pur)',ser:'var(--acc)'};
+const TIPO_LABEL={cuerpo:'Ciclo del Cuerpo',sentir:'Ciclo del Sentir',ser:'Ciclo del Ser'};
+
+const HABITOS_LISTA=[
+  'Gratitud diaria (ABC)','Contacto con la naturaleza','Movimiento corporal consciente',
+  'Estilo de vida saludable','Contacto social genuino','Hábitos pequeños sostenibles',
+  'Actividades en familia','Viajar y expandir perspectivas','Meditación o silencio',
+  'Servicio a otros','Escritura terapéutica','Expresión creativa',
+  'Trabajo corporal o acupuntura','Aprendizaje continuo','Acompañamiento profesional'
+];
+
+const ALFABETO='ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+
+function calcCiclo(dd,mm,aa){
+  const hoy=new Date();const nac=new Date(aa,mm-1,dd);
+  let ed=hoy.getFullYear()-nac.getFullYear();
+  if(hoy.getMonth()<mm-1||(hoy.getMonth()===mm-1&&hoy.getDate()<dd))ed--;
+  return{edad:ed,ciclo:Math.min(Math.floor(ed/7)+1,12)};
+}
+function getEm(id){return EM.find(e=>e.id===id);}
+function getEmCol(id){const e=getEm(id);return e?e.col:null;}
+
+// Actualizar parcialmente sin recargar el panel completo
+function patchInPlace(key,val,elId,prop){
+  // Guarda el valor en S y actualiza solo el elemento DOM si existe
+  S.reg[key]=val;
+}
+
+function rrH(key,lbl,txt,cl=''){
+  const v=S.reg[key]||'';const done=S.comp[key]||false;
+  return`<div class="rr ${cl}"><div class="rr-l">${lbl}</div><p>${txt}</p>
+  <textarea class="rta" placeholder="Escribe aquí..." oninput="S.reg['${key}']=this.value">${v}</textarea>
+  <div class="rchk"><input type="checkbox" id="c-${key}" ${done?'checked':''} onchange="S.comp['${key}']=this.checked;uD('${key}')">
+  <label for="c-${key}">Completado</label></div>${done?'<div class="rdone">Completado</div>':''}</div>`;
+}
+window.uD=function(k){const c=document.getElementById('c-'+k);if(!c)return;const p=c.closest('.rr');if(!p)return;const e=p.querySelector('.rdone');if(c.checked&&!e){const d=document.createElement('div');d.className='rdone';d.textContent='Completado';p.appendChild(d);}else if(!c.checked&&e)e.remove();};
+
+// ── SCROLL GUARD — evita que la página suba ──────────────────
+function withScroll(fn){
+  const sy=window.scrollY;
+  fn();
+  requestAnimationFrame(()=>window.scrollTo({top:sy,behavior:'instant'}));
+}
+
+// ── ESTADO ───────────────────────────────────────────────────
+const S={
+  nombre:'',fecha:null,edad:null,cicloActual:null,
+  emSelec:new Set(),afectCheck:{},
+  eventos:{},
+  perdonItems:{},
+  carta:'',compromisoTexto:'',
+  comp:{},reg:{},calHabitoActivo:0
+};
+
+const PASOS=[{l:'Emociones'},{l:'ECG'},{l:'Diagnóstico'},{l:'Compromiso'},{l:'Perdón'},{l:'Carta'},{l:'Hábitos'},{l:'Calendario'}];
+let paso=0;
+
+function rProg(){
+  const b=document.getElementById('pb');if(!b)return;b.innerHTML='';
+  PASOS.forEach((p,i)=>{
+    if(i>0){const l=document.createElement('div');l.className='pln'+(i<=paso?' done':'');b.appendChild(l);}
+    const s=document.createElement('div');s.className='ps'+(i===paso?' act':i<paso?' done':'');
+    s.innerHTML=`<div class="pn">${i<paso?'✓':(i+1)}</div><span class="ptxt">${p.l}</span>`;
+    if(i<paso)s.onclick=()=>irA(i);b.appendChild(s);
+  });
+}
+function irA(i,noScroll){
+  paso=i;rProg();
+  document.querySelectorAll('.panel').forEach((p,j)=>p.classList.toggle('act',j===i));
+  if(!noScroll)window.scrollTo({top:0,behavior:'smooth'});
+  if(i===2)setTimeout(()=>drawECG('ecgFinal'),200);
+}
+window.siguiente=function(){
+  const n=paso+1;
+  if(n===1)bECG();
+  else if(n===2)bDiagnostico();
+  else if(n===3)bCompromiso();
+  irA(n);
+};
+window.anterior=function(){if(paso>0)irA(paso-1);};
+
+// ── INIT ─────────────────────────────────────────────────────
+function init(){
+  document.getElementById('app').innerHTML=`
+    <div style="padding:28px 0 0">
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:10px;letter-spacing:.2em;color:var(--gold);text-transform:uppercase;margin-bottom:4px">Café con Propósito · ¿Dónde estoy?</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:300;color:var(--gold2);margin-bottom:20px;font-style:italic">Electrocardiograma Emocional & Camino al Perdón</div>
+    </div>
+    <div class="card gold" style="margin-bottom:18px">
+      <div class="cl">Tu información de inicio</div>
+      <div class="irow" style="margin-bottom:10px">
+        <div style="flex:2;min-width:120px"><label class="il">Nombre</label><input class="inp" id="inNom" placeholder="Tu nombre completo"></div>
+        <div style="flex:1;min-width:62px"><label class="il">Día</label><input class="inp" id="inD" type="number" min="1" max="31" placeholder="17"></div>
+        <div style="flex:1;min-width:62px"><label class="il">Mes</label><input class="inp" id="inM" type="number" min="1" max="12" placeholder="4"></div>
+        <div style="flex:1;min-width:82px"><label class="il">Año</label><input class="inp" id="inA" type="number" min="1900" max="2099" placeholder="1969"></div>
+      </div>
+      <button class="bp" onclick="procInit()">Comenzar</button>
+    </div>
+    <div class="prog" id="pb"></div>
+    ${PASOS.map((_,i)=>`<div class="panel" id="p${i}"></div>`).join('')}`;
+  rProg();
+}
+
+window.procInit=function(){
+  const nom=document.getElementById('inNom').value.trim();
+  const dd=parseInt(document.getElementById('inD').value)||0;
+  const mm=parseInt(document.getElementById('inM').value)||0;
+  const aa=parseInt(document.getElementById('inA').value)||0;
+  if(!nom||!dd||!mm||!aa){alert('Por favor completa tu nombre y fecha de nacimiento.');return;}
+  S.nombre=nom.toUpperCase();
+  const r=calcCiclo(dd,mm,aa);
+  S.fecha={dd,mm,aa};S.edad=r.edad;S.cicloActual=r.ciclo;
+  for(let i=1;i<=S.cicloActual;i++){if(!S.eventos[i])S.eventos[i]=[];}
+  // Cargar eventos de septenios
+  if(window.ANORMAL){var sd=ANORMAL.getSepteniosParaECG();if(sd&&sd.doloresPorCiclo){sd.doloresPorCiclo.forEach(function(ciclo){var n=ciclo.ciclo;if(!S.eventos[n])S.eventos[n]=[];(ciclo.dolores||[]).forEach(function(d){if(!S.eventos[n].some(function(ev){return ev.texto===d;}))S.eventos[n].push({tipo:'dolor',texto:d,intensidad:4,emocion:'',fuenteSeptenios:true});});(ciclo.alegrias||[]).forEach(function(d){if(!S.eventos[n].some(function(ev){return ev.texto===d;}))S.eventos[n].push({tipo:'alegria',texto:d,intensidad:3,emocion:'',fuenteSeptenios:true});});});}}
+  S.abcBase=nom[0].toUpperCase();
+  bEmociones(); irA(0);
+};
+
+// ─────────────────────────────────────────────────────────────
+// P0: EMOCIONES + SILUETA
+// ─────────────────────────────────────────────────────────────
+function bEmociones(){
+  const silueta=`<svg viewBox="0 0 100 200" xmlns="http://www.w3.org/2000/svg" style="display:block;width:118px">
+    <defs><filter id="gw"><feGaussianBlur stdDeviation="2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+    <ellipse cx="50" cy="18" rx="11" ry="13" fill="none" stroke="rgba(255,255,255,.15)" stroke-width="1.2"/>
+    <path d="M39 30 Q30 38 28 55 L32 55 L30 75 L38 75 L38 120 L46 120 L46 75 L54 75 L54 120 L62 120 L62 75 L70 75 L68 55 L72 55 Q70 38 61 30 Z" fill="none" stroke="rgba(255,255,255,.15)" stroke-width="1.2"/>
+    <path d="M38 75 L32 95 L28 115 L34 116 L38 98" fill="none" stroke="rgba(255,255,255,.1)" stroke-width="1"/>
+    <path d="M62 75 L68 95 L72 115 L66 116 L62 98" fill="none" stroke="rgba(255,255,255,.1)" stroke-width="1"/>
+    <path d="M46 120 L44 145 L42 175 L48 175 L50 160 L52 175 L58 175 L56 145 L54 120" fill="none" stroke="rgba(255,255,255,.1)" stroke-width="1"/>
+    ${CHAKRAS.map(ch=>`<circle cx="50" cy="${ch.py*2}" r="4.5" fill="${ch.col}" opacity=".75" filter="url(#gw)" style="cursor:pointer" onclick="showChakra(${ch.n})"/>
+    <text x="50" y="${ch.py*2+1}" text-anchor="middle" dominant-baseline="middle" font-size="4.5" fill="white" font-weight="bold" style="pointer-events:none">${ch.n}</text>`).join('')}
+  </svg>`;
+
+  const emH=EM.map(em=>{
+    const sel=S.emSelec.has(em.id);
+    const afH=em.afect.map((a,i)=>{
+      const k=`af-${em.id}-${i}`;const on=S.afectCheck[k]||false;
+      return`<div class="afect-chk" onclick="event.stopPropagation();togAfectInPlace('${k}','${em.id}')">
+        <div class="afect-box" id="ab-${k}" style="border-color:${on?em.col:'var(--faint)'};background:${on?em.bg:'transparent'}">${on?`<span style="font-size:9px;color:${em.col};font-weight:700">✓</span>`:''}</div>
+        <span style="font-size:12px;color:${on?'var(--text)':'var(--dim)'};line-height:1.5">${a}</span>
+      </div>`;
+    }).join('');
+    return`<div class="em-card${sel?' sel':''}" id="emc-${em.id}"
+      style="border-color:${sel?em.br:'rgba(255,255,255,.06)'};background:${sel?em.bg:'var(--bg3)'}"
+      onclick="togEmInPlace('${em.id}')">
+      <div class="em-n" style="color:${sel?em.col:'var(--text)'}">${em.n}</div>
+      <div class="em-sub" style="color:${sel?em.col:'var(--faint)'}">— ${em.sub}</div>
+      <div class="em-org" style="color:${em.col}">${em.org}</div>
+      ${sel?`<div class="em-det">
+        <div class="em-blk" style="border-color:${em.col}22">
+          <div class="em-blk-l" style="color:${em.col}">¿Qué es?</div>
+          <div class="ct">${em.def}</div>
+        </div>
+        <div class="em-blk" style="border-color:${em.col}22">
+          <div class="em-blk-l" style="color:${em.col}">Cómo se siente en el cuerpo</div>
+          <div class="ct">${em.cuerpo}</div>
+        </div>
+        <div class="em-blk" style="border-color:${em.col}22">
+          <div class="em-blk-l" style="color:${em.col}">Cuando no se sana</div>
+          <div class="ct">${em.nosana}</div>
+        </div>
+        <div class="em-blk" style="border-color:${em.col}22">
+          <div class="em-blk-l" style="color:${em.col}">Cómo se manifiesta en la vida cotidiana</div>
+          <div class="ct">${em.cotidiano}</div>
+        </div>
+        <div style="margin-top:8px">
+          <div class="chakra-row"><div class="chakra-dot" style="background:${em.chakraCol}"></div><span style="font-size:11px;color:var(--dim)">${em.chakraNom}</span></div>
+        </div>
+        <div style="font-size:12px;color:#E09070;margin:7px 0 6px"><strong>Síntomas:</strong> ${em.sint}</div>
+        <div style="font-size:12px;color:#E09070;margin-bottom:9px"><strong>Enfermedades asociadas:</strong> ${em.enf}</div>
+        <div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:${em.col};margin-bottom:5px;font-weight:500">¿Lo reconoces en tu cuerpo?</div>
+        ${afH}
+      </div>`:''}
+    </div>`;
+  }).join('');
+
+  document.getElementById('p0').innerHTML=`
+    <div class="pbadge"><div><div class="pbadge-q">Emociones</div><div class="pbadge-s">Paso 1 · Las emociones en tu cuerpo</div></div></div>
+    <div class="ph"><div class="ph-t">¿Qué emociones ha cargado tu cuerpo?</div>
+    <div class="ph-d">Selecciona las emociones que más se han repetido en tu historia. Cada una tiene una descripción ampliada y su conexión con el cuerpo, los órganos y los chakras.</div></div>
+    <div class="dmsg"><div class="dm-l">Reflexión del día</div><div class="dm-t">"${frase()}"</div></div>
+    <div id="chakraCard" class="card pur" style="display:none"><div class="cl p" id="chakraTitle"></div><div class="ct" id="chakraDesc"></div></div>
+    <div class="body-wrap">
+      <div class="silueta-col">
+        <div style="font-size:10px;color:var(--faint);margin-bottom:7px;line-height:1.4">Toca un número para ver el chakra</div>
+        <div style="position:relative;width:118px">${silueta}
+          ${EM.map(em=>`<div style="position:absolute;width:13px;height:13px;border-radius:50%;left:${em.sx}%;top:${em.sy}%;transform:translate(-50%,-50%);background:${em.col};opacity:${S.emSelec.has(em.id)?1:.35};cursor:pointer;border:${S.emSelec.has(em.id)?'2px solid rgba(255,255,255,.8)':'none'};transition:all .2s;pointer-events:auto" onclick="togEmInPlace('${em.id}')" title="${em.n}"></div>`).join('')}
+        </div>
+        <div style="margin-top:10px">${EM.map(em=>`<div style="display:flex;align-items:center;gap:5px;margin-bottom:3px;cursor:pointer" onclick="togEmInPlace('${em.id}')">
+          <div style="width:7px;height:7px;border-radius:50%;background:${em.col};opacity:${S.emSelec.has(em.id)?1:.3};flex-shrink:0"></div>
+          <span style="font-size:10px;color:${S.emSelec.has(em.id)?'var(--text)':'var(--faint)'};line-height:1.3">${em.n}</span>
+        </div>`).join('')}</div>
+      </div>
+      <div class="emo-col">${emH}</div>
+    </div>
+    <div class="nav"><span></span><button class="bp" onclick="siguiente()">Construir el electrocardiograma</button></div>`;
+}
+
+window.showChakra=function(n){
+  const ch=CHAKRAS[n-1];if(!ch)return;
+  const c=document.getElementById('chakraCard'),t=document.getElementById('chakraTitle'),d=document.getElementById('chakraDesc');
+  if(c&&t&&d){c.style.display='block';t.textContent=`Chakra ${n} — ${ch.nom}`;t.style.color=ch.col;d.textContent=ch.desc;}
+};
+
+// Toggle emoción SIN recargar el panel — actualiza solo los elementos afectados
+window.togEmInPlace=function(id){
+  withScroll(()=>{
+    if(S.emSelec.has(id))S.emSelec.delete(id);else S.emSelec.add(id);
+    bEmociones(); irA(0,true);
+  });
+};
+
+window.togAfectInPlace=function(k,emId){
+  withScroll(()=>{
+    S.afectCheck[k]=!S.afectCheck[k];
+    bEmociones(); irA(0,true);
+  });
+};
+
+// ─────────────────────────────────────────────────────────────
+// P1: ECG
+// ─────────────────────────────────────────────────────────────
+function bECG(){
+  const emOpts=`<option value="">emoción</option>${EM.map(e=>`<option value="${e.id}">${e.n}</option>`).join('')}`;
+  const ciclos=[];for(let i=1;i<=S.cicloActual;i++)ciclos.push(i);
+  const blH=ciclos.map(n=>{
+    const tipo=TIPO_MAP[n]||'cuerpo';const tc=TIPO_COL[tipo];
+    const evs=S.eventos[n]||[];
+    const evH=evs.map((ev,i)=>`
+      <div class="ev-row">
+        <div class="ev-tipo ${ev.tipo||'dolor'} on" onclick="togEvTipoInPlace(${n},${i})">${ev.tipo==='alegria'?'↑':'↓'}</div>
+        <input class="ev-inp" value="${ev.texto||''}" placeholder="${ev.tipo==='alegria'?'Alegría...':'Dolor...'}" oninput="S.eventos[${n}][${i}].texto=this.value;drawECG('ecgCanvas')">
+        <select class="ev-sel" onchange="S.eventos[${n}][${i}].emocion=this.value;drawECG('ecgCanvas')">${emOpts.replace(`value="${ev.emocion||''}"`,`value="${ev.emocion||''}" selected`)}</select>
+        <button class="ev-del" onclick="delEvInPlace(${n},${i})">×</button>
+      </div>
+      <input type="range" class="ev-range" min="1" max="5" value="${ev.intensidad||3}"
+        style="accent-color:${ev.tipo==='alegria'?'var(--gold)':'#E09070'}"
+        oninput="S.eventos[${n}][${i}].intensidad=parseInt(this.value);drawECG('ecgCanvas')">
+    `).join('');
+    return`<div class="ciclo-blk">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:7px;flex-wrap:wrap;gap:5px">
+        <div>
+          <div style="font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:${tc};font-weight:500">${TIPO_LABEL[tipo]}</div>
+          <div style="font-size:13px;color:var(--text)">Ciclo ${n} · ${(n-1)*7}–${n*7} años</div>
+        </div>
+        <button class="bs" style="font-size:10px;padding:5px 11px" onclick="addEvInPlace(${n})">+ Agregar</button>
+      </div>
+      <div id="evs-${n}">${evH}</div>
+    </div>`;
+  }).join('');
+
+  document.getElementById('p1').innerHTML=`
+    <div class="pbadge"><div><div class="pbadge-q">ECG</div><div class="pbadge-s">Paso 2 · Los momentos de tu vida</div></div></div>
+    <div class="ph"><div class="ph-t">Nombra los momentos que marcaron cada ciclo</div>
+    <div class="ph-d">Alegrías suben la línea. Dolores la bajan. Asocia la emoción principal — ese dato conectará directamente con el trabajo del perdón.</div></div>
+    <div class="ecg-box">
+      <div class="cl" style="margin-bottom:9px">Tu electrocardiograma emocional</div>
+      <canvas id="ecgCanvas" height="190" style="display:block;width:100%"></canvas>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:7px">
+        <span style="font-size:11px;color:var(--gold2)">↑ Alegría</span>
+        <span style="font-size:11px;color:#E09070">↓ Dolor</span>
+        <span style="font-size:11px;color:var(--dim)">El color de la línea indica la emoción</span>
+      </div>
+    </div>
+    ${blH}
+    <div class="nav"><button class="bn" onclick="anterior()">Anterior</button>
+    <button class="bp" onclick="siguiente()">Ver el diagnóstico</button></div>`;
+  setTimeout(()=>drawECG('ecgCanvas'),100);
+}
+
+window.addEvInPlace=function(n){
+  withScroll(()=>{
+    if(!S.eventos[n])S.eventos[n]=[];
+    S.eventos[n].push({tipo:'dolor',texto:'',intensidad:3,emocion:''});
+    bECG(); irA(1,true);
+    setTimeout(()=>drawECG('ecgCanvas'),100);
+  });
+};
+window.delEvInPlace=function(n,i){
+  withScroll(()=>{
+    if(S.eventos[n])S.eventos[n].splice(i,1);
+    bECG(); irA(1,true);
+    setTimeout(()=>drawECG('ecgCanvas'),100);
+  });
+};
+window.togEvTipoInPlace=function(n,i){
+  withScroll(()=>{
+    const ev=S.eventos[n]&&S.eventos[n][i];if(!ev)return;
+    ev.tipo=ev.tipo==='alegria'?'dolor':'alegria';
+    bECG(); irA(1,true);
+    setTimeout(()=>drawECG('ecgCanvas'),100);
+  });
+};
+
+function drawECG(canvasId){
+  const canvas=document.getElementById(canvasId);if(!canvas)return;
+  const ctx=canvas.getContext('2d');
+  const W=canvas.offsetWidth||680;const H=parseInt(canvas.getAttribute('height'))||190;
+  canvas.width=W;canvas.height=H;
+  ctx.clearRect(0,0,W,H);
+  const mid=H/2;
+  ctx.strokeStyle='rgba(255,255,255,.07)';ctx.lineWidth=1;ctx.setLineDash([4,6]);
+  ctx.beginPath();ctx.moveTo(0,mid);ctx.lineTo(W,mid);ctx.stroke();ctx.setLineDash([]);
+  const ciclos=[];for(let i=1;i<=S.cicloActual;i++)ciclos.push(i);
+  if(!ciclos.length)return;
+  const cW=W/ciclos.length;
+  ctx.font='9px sans-serif';ctx.textAlign='center';
+  ciclos.forEach((n,idx)=>{
+    const tc=TIPO_MAP[n];
+    const col=tc==='cuerpo'?'rgba(74,191,122,.4)':tc==='sentir'?'rgba(155,127,212,.4)':'rgba(74,158,191,.4)';
+    ctx.fillStyle=col;ctx.fillText(`C${n}`,cW*idx+cW/2,H-4);
+    if(n===S.cicloActual){ctx.fillStyle='rgba(201,168,76,.5)';ctx.fillText('◉',cW*idx+cW/2,H-13);}
+    ctx.strokeStyle='rgba(255,255,255,.04)';ctx.lineWidth=1;ctx.setLineDash([]);
+    ctx.beginPath();ctx.moveTo(cW*idx,11);ctx.lineTo(cW*idx,H-19);ctx.stroke();
+  });
+  const pts=[];
+  ciclos.forEach((n,idx)=>{
+    const evs=S.eventos[n]||[];
+    if(!evs.length)pts.push({x:cW*idx+cW/2,y:mid});
+    else evs.forEach((ev,ei)=>{
+      const x=cW*idx+(ei+1)/(evs.length+1)*cW;
+      const amp=(ev.intensidad||3)/5;
+      const y=ev.tipo==='alegria'?mid-amp*(mid-22):mid+amp*(mid-22);
+      pts.push({x,y,tipo:ev.tipo,eCol:ev.emocion?getEmCol(ev.emocion):null});
+    });
+  });
+  if(pts.length<2)return;
+  ctx.lineWidth=2;
+  for(let i=0;i<pts.length-1;i++){
+    const p1=pts[i],p2=pts[i+1];
+    ctx.strokeStyle=p2.eCol||p1.eCol||(p2.tipo==='alegria'?'rgba(201,168,76,.85)':'rgba(191,106,74,.85)');
+    const cpx=(p1.x+p2.x)/2;
+    ctx.beginPath();ctx.moveTo(p1.x,p1.y);ctx.bezierCurveTo(cpx,p1.y,cpx,p2.y,p2.x,p2.y);ctx.stroke();
+  }
+  pts.forEach(p=>{ctx.beginPath();ctx.arc(p.x,p.y,3,0,Math.PI*2);ctx.fillStyle=p.eCol||(p.tipo==='alegria'?'#E8C96A':'#BF6A4A');ctx.fill();});
+}
+
+// ─────────────────────────────────────────────────────────────
+// P2: DIAGNÓSTICO
+// ─────────────────────────────────────────────────────────────
+function bDiagnostico(){
+  const emSel=EM.filter(e=>S.emSelec.has(e.id));
+  let totA=0,totD=0;const emCnt={};
+  Object.values(S.eventos).forEach(evs=>evs.forEach(ev=>{
+    if(ev.tipo==='alegria')totA++;else totD++;
+    if(ev.emocion)emCnt[ev.emocion]=(emCnt[ev.emocion]||0)+1;
+  }));
+  const tot=totA+totD;
+  const chakrasAf=new Set(emSel.map(e=>e.chakra));
+  const organos={};
+  emSel.forEach(em=>em.org.split('+').map(o=>o.trim()).forEach(o=>{if(!organos[o])organos[o]=[];organos[o].push(em);}));
+
+  document.getElementById('p2').innerHTML=`
+    <div class="pbadge"><div><div class="pbadge-q">Diagnóstico</div><div class="pbadge-s">Paso 3 · Tu mapa emocional</div></div></div>
+    <div class="ph"><div class="ph-t">Lo que tu historia emocional revela</div>
+    <div class="ph-d">Mapa de conciencia — no reemplaza ningún proceso médico.</div></div>
+    <div class="dmsg"><div class="dm-l">Reflexión del día</div><div class="dm-t">"${frase()}"</div></div>
+    <div class="card" style="padding:16px 18px">
+      <div class="cl" style="margin-bottom:9px">Tu electrocardiograma</div>
+      <canvas id="ecgFinal" height="170" style="display:block;width:100%"></canvas>
+      <div style="display:flex;gap:18px;flex-wrap:wrap;margin-top:9px">
+        <span style="font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--gold2);font-weight:300">${totA}<span style="font-size:12px;font-family:'Barlow',sans-serif;color:var(--dim);margin-left:5px">alegría (${tot?Math.round(totA/tot*100):0}%)</span></span>
+        <span style="font-family:'Cormorant Garamond',serif;font-size:22px;color:#E09070;font-weight:300">${totD}<span style="font-size:12px;font-family:'Barlow',sans-serif;color:var(--dim);margin-left:5px">dolor (${tot?Math.round(totD/tot*100):0}%)</span></span>
+      </div>
+    </div>
+    ${Object.keys(emCnt).length?`<div class="card acc"><div class="cl b">Emociones más frecuentes</div>
+      ${Object.entries(emCnt).sort((a,b)=>b[1]-a[1]).slice(0,3).map(([id,cnt])=>{const em=getEm(id);if(!em)return'';
+        return`<div style="display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.04)">
+          <div><div style="font-size:13px;color:var(--text)">${em.n}</div><div style="font-size:11px;color:var(--dim)">${em.org}</div></div>
+          <span style="font-family:'Cormorant Garamond',serif;font-size:22px;color:${em.col};font-weight:300">${cnt}</span>
+        </div>`;}).join('')}
+    </div>`:''}
+    ${chakrasAf.size?`<div class="card pur"><div class="cl p">Chakras con mayor carga</div>
+      ${[...chakrasAf].map(n=>{const ch=CHAKRAS[n-1];if(!ch)return'';const emsC=emSel.filter(e=>e.chakra===n);
+        return`<div style="display:flex;gap:10px;align-items:flex-start;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.04)">
+          <div style="width:24px;height:24px;border-radius:50%;background:${ch.col};display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0">${n}</div>
+          <div><div style="font-size:13px;color:var(--text);margin-bottom:2px">${ch.nom}</div>
+          <div style="font-size:12px;color:var(--dim);margin-bottom:2px">${ch.desc}</div>
+          <div style="font-size:11px;color:var(--gold)">Emociones: ${emsC.map(e=>e.n).join(', ')}</div></div>
+        </div>`;}).join('')}
+    </div>`:''}
+    ${Object.keys(organos).length?`<div class="card red"><div class="cl r">Órganos y su carga emocional</div>
+      ${Object.entries(organos).map(([org,ems])=>`<div style="background:var(--bg3);border-radius:var(--rm);padding:11px 13px;margin-bottom:7px;border-left:3px solid ${ems[0].col}">
+        <div style="font-size:13px;font-weight:400;color:var(--text);margin-bottom:2px">${org}</div>
+        <div style="font-size:12px;color:var(--dim);margin-bottom:3px">Emociones: <strong style="color:var(--gold3)">${ems.map(e=>e.n).join(', ')}</strong></div>
+        <div style="font-size:12px;color:#E09070">${ems.map(e=>e.enf).join(' · ')}</div>
+      </div>`).join('')}
+    </div>`:''}
+    <div class="nav"><button class="bn" onclick="anterior()">Anterior</button>
+    <button class="bp" onclick="siguiente()">Mi compromiso de sanación</button></div>`;
+  setTimeout(()=>drawECG('ecgFinal'),200);
+}
+
+// ─────────────────────────────────────────────────────────────
+// P3: COMPROMISO
+// ─────────────────────────────────────────────────────────────
+function bCompromiso(){
+  document.getElementById('p3').innerHTML=`
+    <div class="pbadge"><div><div class="pbadge-q">Compromiso</div><div class="pbadge-s">Paso 4 · Mi compromiso de sanación</div></div></div>
+    <div class="ph"><div class="ph-t">Antes de trabajar el perdón, un compromiso contigo mismo</div>
+    <div class="ph-d">La sanación no ocurre por inspiración — ocurre por decisión. Este compromiso es el ancla de todo lo que viene después.</div></div>
+    <div class="dmsg"><div class="dm-l">Reflexión del día</div><div class="dm-t">"${frase()}"</div></div>
+    <div class="card pur">
+      <div class="cl p">Perdonar es sanar el cuerpo físico</div>
+      <div class="ct">Cada emoción que liberas a través del perdón descomprime el órgano que la portaba. La ira que sueltas libera el hígado. La tristeza que lloras libera el pulmón. El miedo que procesas libera los riñones. El perdón no es solo un acto espiritual — es la medicina más directa que existe para el cuerpo.</div>
+    </div>
+    <div class="card gold">
+      <div class="cl">Mi declaración de compromiso</div>
+      <div class="ct" style="margin-bottom:12px">Escribe en tus propias palabras lo que decides a partir de hoy.</div>
+      <textarea class="rta" style="min-height:95px" placeholder="Me comprometo a... Esta semana comenzaré a... Cuando el peso regrese, voy a..." oninput="S.compromisoTexto=this.value">${S.compromisoTexto||''}</textarea>
+    </div>
+    ${rrH('comp-herida','La herida prioritaria','De todo lo que identificaste en el electrocardiograma, ¿cuál es el dolor más urgente de trabajar? Nómbralo.','r')}
+    ${rrH('comp-cuerpo','Mi cuerpo y el perdón','¿Hay algún síntoma físico recurrente que puedas conectar ahora con una emoción no procesada?','b')}
+    <div class="nav"><button class="bn" onclick="anterior()">Anterior</button>
+    <button class="bp" onclick="if(window.ANORMAL&&window.checklist_estado){ANORMAL.saveSeptenios(checklist_estado,S.cicloActual,S.nombre||'',S.genero||'');}window.location.href='mi-trabajo-del-perdon.html'">Ir a Mi Trabajo del Perdón →</button></div>`;
+}
+
+// ─────────────────────────────────────────────────────────────
+var moveEv=function(n,idx,dir){
+  if(!S.eventos[n])return;
+  var arr=S.eventos[n];var ni=idx+dir;
+  if(ni<0||ni>=arr.length)return;
+  var tmp=arr[idx];arr[idx]=arr[ni];arr[ni]=tmp;
+  reRenderCiclo(n);
+};
+var reRenderCiclo=function(n){
+  var evs=document.getElementById('evs-'+n);if(!evs)return;
+  evs.innerHTML='';
+  var emOpts='<option value="">emoci\u00f3n</option>'+EM.map(function(e){return'<option value="'+e.id+'">'+e.n+'</option>';}).join('');
+  (S.eventos[n]||[]).forEach(function(ev,i){
+    var esD=ev.tipo==='dolor';
+    var wrap=document.createElement('div');
+    var bc=document.createElement('div');bc.style.cssText='display:flex;flex-direction:column;gap:2px;margin-right:4px;flex-shrink:0';
+    var bu=document.createElement('button');bu.innerHTML='&#x25b2;';bu.title='Subir';
+    bu.style.cssText='background:rgba(255,255,255,.07);border:none;border-radius:3px;color:var(--faint);cursor:pointer;padding:2px 6px;font-size:10px;transition:all .2s';
+    bu.onmouseenter=function(){this.style.color='var(--text)';};bu.onmouseleave=function(){this.style.color='var(--faint)';};
+    bu.onclick=(function(ci,ii){return function(e){e.stopPropagation();moveEv(ci,ii,-1);};})(n,i);
+    var bd=document.createElement('button');bd.innerHTML='&#x25bc;';bd.title='Bajar';
+    bd.style.cssText=bu.style.cssText;
+    bd.onmouseenter=function(){this.style.color='var(--text)';};bd.onmouseleave=function(){this.style.color='var(--faint)';};
+    bd.onclick=(function(ci,ii){return function(e){e.stopPropagation();moveEv(ci,ii,1);};})(n,i);
+    bc.appendChild(bu);bc.appendChild(bd);
+    var tp=document.createElement('div');tp.className='ev-tipo '+(esD?'dolor on':'alegria');
+    tp.innerHTML=esD?'&#x2193;':'&#x2191;';
+    tp.onclick=(function(ci,ii){return function(){togEvTipo(ci,ii);};})(n,i);
+    var iw=document.createElement('div');iw.style.cssText='flex:1;display:flex;flex-direction:column;gap:4px';
+    var ir=document.createElement('div');ir.style.cssText='display:flex;align-items:center;gap:6px';
+    var inp=document.createElement('input');inp.className='ev-inp';
+    inp.value=ev.texto||'';inp.placeholder=esD?'Dolor o situaci\u00f3n...':'Alegr\u00eda o logro...';
+    inp.oninput=(function(ci,ii){return function(){S.eventos[ci][ii].texto=this.value;drawECG('ecgCanvas');};})(n,i);
+    ir.appendChild(inp);
+    if(ev.fuenteSeptenios){var bg=document.createElement('span');bg.textContent='septenios';
+      bg.style.cssText='font-size:9px;color:var(--gold);font-family:Barlow Condensed,sans-serif;letter-spacing:.1em;text-transform:uppercase;background:rgba(201,168,76,.1);padding:1px 6px;border-radius:3px;white-space:nowrap';ir.appendChild(bg);}
+    iw.appendChild(ir);
+    var sel=document.createElement('select');sel.className='ev-sel';sel.innerHTML=emOpts;
+    if(ev.emocion)sel.value=ev.emocion;
+    sel.onchange=(function(ci,ii){return function(){S.eventos[ci][ii].emocion=this.value;drawECG('ecgCanvas');};})(n,i);
+    iw.appendChild(sel);
+    var del=document.createElement('button');del.className='ev-del';del.textContent='\u00d7';
+    del.onclick=(function(ci,ii){return function(e){e.stopPropagation();delEv(ci,ii);};})(n,i);
+    var rng=document.createElement('input');rng.type='range';rng.className='ev-range';
+    rng.min=1;rng.max=5;rng.value=ev.intensidad||3;rng.style.accentColor=esD?'#E09070':'#70C090';
+    rng.oninput=(function(ci,ii){return function(){S.eventos[ci][ii].intensidad=parseInt(this.value);drawECG('ecgCanvas');};})(n,i);
+    var row=document.createElement('div');row.className='ev-row';row.style.cssText='display:flex;align-items:center;gap:6px';
+    row.appendChild(bc);row.appendChild(tp);row.appendChild(iw);row.appendChild(del);
+    wrap.appendChild(row);wrap.appendChild(rng);evs.appendChild(wrap);
+  });
+  drawECG('ecgCanvas');
+};
+
+buildWidgetPrincipios("ecg", document.body, function() {
+  init();
+});
+
+</script>
+</body>
+</html>

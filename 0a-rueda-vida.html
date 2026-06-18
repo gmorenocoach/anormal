@@ -1,0 +1,1305 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Café con Propósito — Mi Rueda de la Vida</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Barlow:wght@300;400;500&family=Barlow+Condensed:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0A0F1E;--bg2:#0E1525;--bg3:#131D30;--bg4:#1A2640;
+--gold:#C9A84C;--gold2:#E8C96A;--gold3:#F5E0A0;
+--gd:rgba(201,168,76,.13);--gb:rgba(201,168,76,.28);
+--text:#EAE6DC;--dim:#8A95A8;--faint:#3A4558;
+--acc:#4A9EBF;--acd:rgba(74,158,191,.13);--acb:rgba(74,158,191,.28);
+--grn:#4ABF7A;--grd:rgba(74,191,122,.12);--grb:rgba(74,191,122,.28);
+--pur:#9B7FD4;--pud:rgba(155,127,212,.12);--pub:rgba(155,127,212,.28);
+--r:4px;--rm:8px;--rl:14px}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font-weight:300;font-size:15px;line-height:1.65;min-height:100vh}
+body::before{content:"";position:fixed;inset:0;background:radial-gradient(ellipse at 20% 50%,rgba(201,168,76,.04),transparent 60%),radial-gradient(ellipse at 80% 20%,rgba(74,158,191,.04),transparent 50%);pointer-events:none;z-index:0}
+.app{position:relative;z-index:1;max-width:760px;margin:0 auto;padding:0 22px 80px}
+.prog{display:flex;align-items:center;margin-bottom:28px;overflow-x:auto;padding-bottom:3px}
+.ps{display:flex;align-items:center;gap:5px;white-space:nowrap;padding:3px 0;cursor:default;flex-shrink:0}
+.ps.done{cursor:pointer}
+.pn{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:500;border:1px solid var(--faint);color:var(--faint);transition:all .3s;flex-shrink:0}
+.ps.done .pn{border-color:var(--gold);color:var(--gold);background:var(--gd)}
+.ps.act .pn{border-color:var(--gold2);color:var(--bg);background:var(--gold2)}
+.ptxt{font-size:9px;letter-spacing:.07em;text-transform:uppercase;color:var(--faint)}
+.ps.done .ptxt,.ps.act .ptxt{color:var(--gold)}
+.pln{flex:1;min-width:6px;height:1px;background:var(--faint);margin:0 4px;opacity:.2}
+.pln.done{background:var(--gold);opacity:.4}
+.panel{display:none}.panel.act{display:block;animation:fu .35s ease}
+@keyframes fu{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.pbadge{display:inline-flex;align-items:center;gap:8px;background:var(--gd);border:1px solid var(--gb);border-radius:var(--rl);padding:6px 14px;margin-bottom:16px}
+.pbadge-q{font-family:"Cormorant Garamond",serif;font-size:18px;color:var(--gold2);font-weight:300;font-style:italic}
+.ph{margin-bottom:20px}
+.ph-s{font-family:"Barlow Condensed",sans-serif;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:4px}
+.ph-t{font-family:"Cormorant Garamond",serif;font-size:clamp(18px,4vw,28px);font-weight:300;color:var(--gold2);line-height:1.15;margin-bottom:4px}
+.ph-d{font-size:13px;color:var(--dim);line-height:1.8;max-width:520px}
+.card{background:var(--bg2);border:1px solid rgba(255,255,255,.055);border-radius:var(--rl);padding:18px 22px;margin-bottom:11px}
+.card.gold{border-color:var(--gb);background:linear-gradient(135deg,var(--bg2),var(--bg3))}
+.card.pur{border-color:var(--pub);background:linear-gradient(135deg,var(--bg2),var(--pud))}
+.card.acc{border-color:var(--acb);background:linear-gradient(135deg,var(--bg2),var(--acd))}
+.card.grn{border-color:var(--grb);background:linear-gradient(135deg,var(--bg2),var(--grd))}
+.cl{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:9px}
+.cl.b{color:var(--acc)}.cl.p{color:var(--pur)}.cl.g{color:var(--grn)}
+.ct{font-size:13px;color:var(--dim);line-height:1.8}
+.il{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-bottom:5px;display:block}
+.inp{background:var(--bg3);border:1px solid rgba(255,255,255,.07);border-radius:var(--r);color:var(--text);font-family:"Barlow",sans-serif;font-size:14px;font-weight:300;padding:9px 13px;width:100%;outline:none;transition:border-color .2s}
+.inp:focus{border-color:var(--gold)}
+.inp::placeholder{color:var(--faint)}
+.bp{background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--bg);border:none;border-radius:var(--r);font-family:"Barlow Condensed",sans-serif;font-size:12px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;padding:11px 26px;cursor:pointer;transition:opacity .2s,transform .15s}
+.bp:hover{opacity:.9;transform:translateY(-1px)}
+.bs{background:transparent;color:var(--gold);border:1px solid var(--gb);border-radius:var(--r);font-family:"Barlow Condensed",sans-serif;font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;padding:7px 16px;cursor:pointer}
+.bn{background:transparent;color:var(--dim);border:1px solid rgba(255,255,255,.07);border-radius:var(--r);font-family:"Barlow",sans-serif;font-size:13px;padding:8px 16px;cursor:pointer}
+.bn:hover{border-color:var(--gold);color:var(--gold)}
+.rta{background:var(--bg2);border:1px solid rgba(255,255,255,.07);border-radius:var(--r);color:var(--text);font-family:"Barlow",sans-serif;font-size:13px;padding:9px 11px;width:100%;min-height:60px;outline:none;resize:vertical;line-height:1.65;transition:border-color .2s}
+.rta:focus{border-color:var(--gold)}
+.rta::placeholder{color:var(--faint)}
+.area-card{background:var(--bg3);border-radius:var(--rm);padding:14px 16px;margin-bottom:9px;border:1px solid rgba(255,255,255,.06);transition:border-color .2s}
+.area-card.activa{border-color:rgba(255,255,255,.18)}
+.area-header{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.area-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.area-nombre{font-size:13px;font-weight:500;flex:1}
+.area-val{font-family:"Cormorant Garamond",serif;font-size:22px;font-weight:300;min-width:30px;text-align:right;line-height:1}
+.area-pregunta{font-size:12px;line-height:1.6;margin-bottom:9px;font-style:italic;padding:8px 11px;background:var(--gd);border-radius:var(--r);border-left:2px solid var(--gold);color:var(--gold3)}
+.slider-wrap{position:relative;height:6px;background:var(--bg4);border-radius:3px;cursor:pointer;margin-bottom:5px}
+.slider-fill{height:100%;border-radius:3px;transition:width .1s}
+.slider-thumb{width:18px;height:18px;border-radius:50%;border:2px solid;position:absolute;top:50%;transform:translate(-50%,-50%);cursor:grab;background:var(--bg2)}
+.slider-labels{display:flex;justify-content:space-between;font-size:10px;color:var(--faint)}
+.area-acciones{margin-top:10px;border-top:1px solid rgba(255,255,255,.06);padding-top:10px;display:none}
+.area-card.activa .area-acciones{display:block}
+.accion-item{display:flex;align-items:flex-start;gap:8px;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.04)}
+.accion-item:last-child{border-bottom:none}
+.accion-chk{width:16px;height:16px;border-radius:3px;border:1.5px solid var(--faint);flex-shrink:0;margin-top:2px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s}
+.accion-chk.done{background:var(--grn);border-color:var(--grn)}
+.accion-txt{font-size:12px;color:var(--dim);flex:1;line-height:1.5}
+.accion-txt.done{text-decoration:line-through;opacity:.5}
+.accion-src{font-size:10px;padding:1px 7px;border-radius:20px;background:var(--bg4);color:var(--faint);border:1px solid rgba(255,255,255,.06);white-space:nowrap;flex-shrink:0}
+.add-row{display:flex;gap:7px;margin-top:7px}
+.add-inp{flex:1;background:var(--bg2);border:1px solid rgba(255,255,255,.07);border-radius:var(--r);color:var(--text);font-family:"Barlow",sans-serif;font-size:12px;padding:7px 10px;outline:none}
+.add-inp::placeholder{color:var(--faint)}
+.add-btn{padding:7px 12px;border-radius:var(--r);border:1px solid var(--gb);font-family:"Barlow Condensed",sans-serif;font-size:10px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;background:transparent;color:var(--gold);white-space:nowrap}
+.pauta-item{display:flex;align-items:flex-start;gap:8px;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.04);cursor:pointer}
+.pauta-item:last-child{border-bottom:none}
+.pauta-icon{width:16px;height:16px;border-radius:3px;border:1px solid rgba(255,255,255,.15);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:11px;margin-top:2px}
+.rueda-wrap{text-align:center;margin:14px 0}
+.comp-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.04)}
+.comp-row:last-child{border-bottom:none}
+.comp-bars{flex:2;display:flex;flex-direction:column;gap:3px}
+.comp-bar{height:6px;border-radius:3px;min-width:2px;transition:width .4s}
+.comp-val{font-size:11px;min-width:24px;text-align:right;color:var(--dim)}
+.comp-delta{font-size:12px;font-weight:500;min-width:32px;text-align:right}
+.meta-card{background:var(--bg3);border-radius:var(--rm);padding:14px 16px;margin-bottom:9px;border:1px solid rgba(255,255,255,.06)}
+.meta-header{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.tab-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
+.tab{padding:6px 14px;border-radius:var(--r);font-size:11px;font-family:"Barlow Condensed",sans-serif;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;border:1px solid rgba(255,255,255,.1);background:transparent;color:var(--dim);transition:all .2s}
+.tab.on{border-color:var(--gold);background:var(--gd);color:var(--gold2)}
+.dmsg{background:linear-gradient(135deg,rgba(201,168,76,.07),rgba(74,158,191,.05));border:1px solid var(--gb);border-radius:var(--rl);padding:12px 16px;margin-bottom:11px;text-align:center}
+.dm-l{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:4px}
+.dm-t{font-family:"Cormorant Garamond",serif;font-size:14px;font-style:italic;color:var(--gold3);line-height:1.8}
+.nav{display:flex;justify-content:space-between;align-items:center;margin-top:18px;padding-top:12px;border-top:1px solid rgba(255,255,255,.05)}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--gb);border-radius:2px}
+@media(max-width:560px){.app{padding:0 14px 60px}}
+
+
+
+/* VIDEO BANNER */
+.vid-banner{background:linear-gradient(135deg,rgba(201,168,76,.07),rgba(74,158,191,.04));border:1px solid rgba(201,168,76,.2);border-radius:14px;overflow:hidden;margin:0 22px 20px;display:none}
+.vid-banner.show{display:block}
+.vid-banner-hdr{padding:10px 16px;border-bottom:1px solid rgba(255,255,255,.05);display:flex;align-items:center;justify-content:space-between}
+.vid-banner-lbl{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#C9A84C;font-weight:500;font-family:Barlow Condensed,sans-serif}
+.vid-banner-mod{font-size:11px;color:#8A95A8}
+.vid-banner-player{position:relative;width:100%;aspect-ratio:16/9;background:#060A14}
+.vid-banner-player iframe{position:absolute;inset:0;width:100%;height:100%;border:none}
+.vid-banner-ph{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center;padding:20px}
+.vid-ph-icon{width:44px;height:44px;border-radius:50%;background:rgba(201,168,76,.13);border:1.5px solid rgba(201,168,76,.28);display:flex;align-items:center;justify-content:center;font-size:16px;color:#E8C96A}
+.vid-ph-t{font-family:Cormorant Garamond,serif;font-size:15px;color:#E8C96A;font-weight:300}
+.vid-ph-d{font-size:11px;color:#3A4558;line-height:1.55;max-width:240px}
+@media(max-width:560px){.vid-banner{margin:0 14px 16px}}
+
+
+/* BOTON BRUJULA */
+.brujula-btn-fixed{position:fixed;bottom:22px;right:22px;z-index:500;display:flex;flex-direction:column;align-items:flex-end;gap:6px}
+.brujula-btn{display:flex;align-items:center;gap:8px;background:linear-gradient(135deg,rgba(201,168,76,.15),rgba(201,168,76,.08));border:1px solid rgba(201,168,76,.35);border-radius:30px;padding:10px 16px;cursor:pointer;transition:all .25s;text-decoration:none;backdrop-filter:blur(8px)}
+.brujula-btn:hover{background:linear-gradient(135deg,rgba(201,168,76,.25),rgba(201,168,76,.15));border-color:rgba(201,168,76,.6);transform:translateY(-2px)}
+.brujula-btn-icon{font-family:"Cormorant Garamond",serif;font-size:18px;color:var(--gold2);font-weight:300;line-height:1}
+.brujula-btn-txt{font-size:11px;font-family:"Barlow Condensed",sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--gold2);font-weight:500}
+.brujula-toast{background:var(--bg3);border:1px solid var(--gb);border-radius:var(--rm,10px);padding:9px 14px;font-size:12px;color:var(--gold3);font-family:"Barlow",sans-serif;max-width:220px;text-align:right;line-height:1.5;display:none;animation:btoast .3s ease}
+.brujula-toast.show{display:block}
+@keyframes btoast{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
+</style>
+</head>
+<body>
+
+<!-- VIDEO BANNER: Rueda de la Vida -->
+<div class="vid-banner" id="vid-banner-rueda">
+  <div class="vid-banner-hdr">
+    <div class="vid-banner-lbl">Introducción al módulo</div>
+    <div class="vid-banner-mod">Rueda de la Vida</div>
+  </div>
+  <div class="vid-banner-player" id="vid-player-rueda">
+    <div class="vid-banner-ph">
+      <div class="vid-ph-icon">&#9654;</div>
+      <div class="vid-ph-t">Video de introducción</div>
+      <div class="vid-ph-d">Alonso te explica lo que encontrarás en este módulo y cómo aprovecharlo al máximo.</div>
+    </div>
+  </div>
+</div>
+<div class="app" id="app"></div>
+<script>
+// ============================================================
+// ANORMAL - Módulo de datos compartidos entre módulos
+// Usa sessionStorage para pasar datos entre páginas HTML
+// ============================================================
+
+var ANORMAL = {
+  
+  // Leer todos los datos del proceso
+  getData: function() {
+    try {
+      var raw = sessionStorage.getItem('anormal_proceso');
+      return raw ? JSON.parse(raw) : {};
+    } catch(e) { return {}; }
+  },
+  
+  // Guardar datos del proceso
+  setData: function(data) {
+    try {
+      sessionStorage.setItem('anormal_proceso', JSON.stringify(data));
+    } catch(e) {}
+  },
+  
+  // Actualizar una sección específica
+  update: function(section, value) {
+    var data = this.getData();
+    data[section] = value;
+    this.setData(data);
+  },
+  
+  // Agregar un compromiso/hábito a la agenda central
+  addAgenda: function(item) {
+    // item = {modulo, titulo, descripcion, fecha, periodicidad, tipo}
+    var data = this.getData();
+    if (!data.agenda) data.agenda = [];
+    item.id = 'ag_' + Date.now() + '_' + Math.random().toString(36).slice(2,6);
+    item.cumplido = false;
+    item.fechaCreacion = new Date().toLocaleDateString('es-CO');
+    data.agenda.push(item);
+    this.setData(data);
+    return item.id;
+  },
+  
+  // Guardar lo marcado en septenios para que fluya al ECG y al Niño Interior
+  saveSeptenios: function(checklistEstado, cicloActual, nombre, genero) {
+    var doloresPorCiclo = [];
+    
+    Object.keys(checklistEstado).forEach(function(chkKey) {
+      var est = checklistEstado[chkKey];
+      if (!est || !est.dolor || !est.dolor.length) return;
+      
+      // Extraer número de ciclo del key ('chk-3' -> 3, 'actual-5' -> 5)
+      var cicloNum = 0;
+      if (chkKey.startsWith('chk-')) cicloNum = parseInt(chkKey.replace('chk-',''));
+      else if (chkKey.startsWith('actual-')) cicloNum = parseInt(chkKey.replace('actual-',''));
+      if (!cicloNum) return;
+      
+      // Obtener los ítems de dolor marcados
+      var cicloDatos = window.CICLOS_DATA ? window.CICLOS_DATA[String(cicloNum)] : null;
+      if (!cicloDatos) return;
+      
+      var itemsMarcados = est.dolor.map(function(idx) {
+        return cicloDatos.dolor[idx] || '';
+      }).filter(Boolean);
+      
+      var itemsAlegria = (est.alegria || []).map(function(idx) {
+        return cicloDatos.alegria[idx] || '';
+      }).filter(Boolean);
+      
+      if (itemsMarcados.length || itemsAlegria.length) {
+        doloresPorCiclo.push({
+          ciclo: cicloNum,
+          tipo: cicloDatos.tipo,
+          titulo: cicloDatos.titulo,
+          edades: cicloDatos.titulo.match(/\d+ a \d+/)?.[0] || '',
+          dolores: itemsMarcados,
+          alegrias: itemsAlegria,
+          // Preguntas respondidas
+          respuestas: [0,1,2].map(function(pi) {
+            return checklistEstado[chkKey + '-preg-' + pi] || '';
+          }).filter(Boolean)
+        });
+      }
+    });
+    
+    // Ordenar por ciclo
+    doloresPorCiclo.sort(function(a,b){return a.ciclo - b.ciclo;});
+    
+    this.update('septenios', {
+      cicloActual: cicloActual,
+      nombre: nombre,
+      genero: genero,
+      doloresPorCiclo: doloresPorCiclo,
+      fecha: new Date().toLocaleDateString('es-CO')
+    });
+  },
+  
+  // Obtener datos de septenios para el ECG
+  getSepteniosParaECG: function() {
+    var data = this.getData();
+    return data.septenios || null;
+  },
+  
+  // Obtener ciclos 1-2-3 para el Niño Interior
+  getCiclosInfancia: function() {
+    var sep = this.getSepteniosParaECG();
+    if (!sep) return [];
+    return sep.doloresPorCiclo.filter(function(c) {
+      return c.ciclo <= 3;
+    });
+  },
+  
+  // Guardar compromisos de un módulo en la agenda central
+  saveCompromisos: function(moduloId, compromisos) {
+    if (!compromisos || !Object.keys(compromisos).length) return;
+    var data = this.getData();
+    if (!data.agenda) data.agenda = [];
+    
+    Object.keys(compromisos).forEach(function(key) {
+      var texto = (compromisos[key] || '').trim();
+      if (!texto) return;
+      // Evitar duplicados del mismo módulo+key
+      var exists = data.agenda.some(function(item) {
+        return item.moduloId === moduloId && item.key === key;
+      });
+      if (!exists) {
+        data.agenda.push({
+          id: 'ag_' + moduloId + '_' + key,
+          moduloId: moduloId,
+          key: key,
+          tipo: 'compromiso-principio',
+          descripcion: texto,
+          fechaCreacion: new Date().toLocaleDateString('es-CO'),
+          cumplido: false,
+          periodicidad: 'diario'
+        });
+      }
+    });
+    this.setData(data);
+  },
+
+  // ============================================================
+  // FASE 1 — ¿Quién soy? — guardado genérico por módulo
+  // ============================================================
+
+  // Guardar el resultado de un módulo de Fase 1 (o cualquier fase)
+  // moduloId: 'rueda' | 'elementos' | 'camino' | 'subnumeros' | 'mapa' |
+  //           'flechas' | 'nombre' | 'personas' | 'dolan' | 'ikigai' |
+  //           'siguiente_ciclo' | 'plan_vida'
+  saveFaseModulo: function(moduloId, resultado) {
+    var data = this.getData();
+    if (!data.fase1) data.fase1 = {};
+    if (!data.fase3) data.fase3 = {};
+    var fase3Ids = ['ikigai', 'siguiente_ciclo', 'plan_vida'];
+    var bucket = fase3Ids.indexOf(moduloId) >= 0 ? data.fase3 : data.fase1;
+    bucket[moduloId] = resultado;
+    bucket[moduloId + '_fecha'] = new Date().toLocaleDateString('es-CO');
+    this.setData(data);
+    this.marcarModuloCompletado(moduloId);
+  },
+
+  // Leer el resultado guardado de un módulo específico
+  getFaseModulo: function(moduloId) {
+    var data = this.getData();
+    if (data.fase1 && data.fase1[moduloId] !== undefined) return data.fase1[moduloId];
+    if (data.fase3 && data.fase3[moduloId] !== undefined) return data.fase3[moduloId];
+    return null;
+  },
+
+  // Obtener todo lo guardado de Fase 1 de una vez (para Perfil Integrado)
+  getFase1Completa: function() {
+    var data = this.getData();
+    return data.fase1 || {};
+  },
+
+  // Obtener todo lo guardado de Fase 3
+  getFase3Completa: function() {
+    var data = this.getData();
+    return data.fase3 || {};
+  },
+
+  // ============================================================
+  // PROGRESO — qué módulos completó la persona (para el Dashboard)
+  // ============================================================
+
+  TODOS_LOS_MODULOS: [
+    {id:'rueda', fase:1, nombre:'Rueda de Vida'},
+    {id:'elementos', fase:1, nombre:'Elementos'},
+    {id:'camino', fase:1, nombre:'Camino de Vida'},
+    {id:'subnumeros', fase:1, nombre:'Subnúmeros'},
+    {id:'mapa', fase:1, nombre:'Mapa Energético'},
+    {id:'flechas', fase:1, nombre:'Flechas'},
+    {id:'nombre', fase:1, nombre:'Nombre'},
+    {id:'personas', fase:1, nombre:'Personas'},
+    {id:'dolan', fase:1, nombre:'Valores Dolan'},
+    {id:'perfil', fase:1, nombre:'Perfil Integrado'},
+    {id:'septenios', fase:2, nombre:'Mis Ciclos de Vida'},
+    {id:'ecg', fase:2, nombre:'Mi Trabajo Emocional'},
+    {id:'perdon', fase:2, nombre:'Mi Trabajo del Perdón'},
+    {id:'ikigai', fase:3, nombre:'Ikigai'},
+    {id:'siguiente_ciclo', fase:3, nombre:'Siguiente Ciclo'},
+    {id:'plan_vida', fase:3, nombre:'Plan de Vida'}
+  ],
+
+  marcarModuloCompletado: function(moduloId) {
+    var data = this.getData();
+    if (!data.progreso) data.progreso = {};
+    data.progreso[moduloId] = {
+      completado: true,
+      fecha: new Date().toLocaleDateString('es-CO')
+    };
+    this.setData(data);
+  },
+
+  // Devuelve la lista de módulos con su estado de completado, para pintar el Dashboard
+  getProgreso: function() {
+    var data = this.getData();
+    var progreso = data.progreso || {};
+    return this.TODOS_LOS_MODULOS.map(function(m) {
+      return {
+        id: m.id,
+        fase: m.fase,
+        nombre: m.nombre,
+        completado: !!(progreso[m.id] && progreso[m.id].completado),
+        fecha: progreso[m.id] ? progreso[m.id].fecha : null
+      };
+    });
+  },
+
+  // Porcentaje de avance total y por fase
+  getPorcentajeAvance: function() {
+    var prog = this.getProgreso();
+    var total = prog.length;
+    var hechos = prog.filter(function(m){ return m.completado; }).length;
+    var porFase = {1:{total:0,hechos:0}, 2:{total:0,hechos:0}, 3:{total:0,hechos:0}};
+    prog.forEach(function(m) {
+      porFase[m.fase].total++;
+      if (m.completado) porFase[m.fase].hechos++;
+    });
+    return {
+      total: total, hechos: hechos,
+      porcentaje: total ? Math.round((hechos/total)*100) : 0,
+      porFase: porFase
+    };
+  }
+};
+
+// Sobrescribir guardarCompromisosModulo para que también vaya a la agenda
+window.guardarCompromisosModulo = function(moduloId, compromisos) {
+  if (!window.COMPROMISOS_PROCESO) window.COMPROMISOS_PROCESO = {};
+  window.COMPROMISOS_PROCESO[moduloId] = compromisos;
+  ANORMAL.saveCompromisos(moduloId, compromisos);
+};
+
+</script>
+<script>
+// ============================================================
+// WIDGET DE PRINCIPIOS Y COMPROMISOS - Anormal / Cafe con Proposito
+// v2.0 - Con recordatorio no negociable y orden original de principios
+// ============================================================
+
+var MODULO_PRINCIPIOS = {"bienvenida":[1,4,14],"rueda":[11,12],"elementos":[11,12],"camino":[5,9],"subnums":[5],"mapa":[9],"flechas":[9],"nombre":[5,9],"personas":[9,13],"dolan":[12,13],"perfil":[9],"septenios":[3,16],"ecg":[2,10],"nino":[2,3,7],"ikigai":[6,8,17],"ciclo":[15,16],"plan":[13,15,16],"dashboard":[18,9]};
+
+var PRINCIPIOS_DB = [{"num": 1, "titulo": "\u2200gradecer", "sesion": "bienvenida", "color": "#C9A84C", "no_negociable": "Mientras avanzas en este proceso, la gratitud no es opcional. Es el lente desde el que lees cada resultado, cada ejercicio, cada descubrimiento sobre ti mismo."}, {"num": 2, "titulo": "\u2200vanza en el perd\u00f3n", "sesion": "sesion3", "color": "#D4537E", "no_negociable": "Sin perd\u00f3n no hay transformaci\u00f3n real. Puedes completar todos los ejercicios \u2014 pero si cargas resentimiento, el proceso no puede hacer su trabajo completo."}, {"num": 3, "titulo": "\u2200provecha el dolor", "sesion": "sesion3", "color": "#D4537E", "no_negociable": "El dolor que emerja en este proceso no es se\u00f1al de que algo sale mal. Es la se\u00f1al de que algo est\u00e1 cambiando. No te detengas."}, {"num": 4, "titulo": "\u2200p\u00fantale al compromiso", "sesion": "bienvenida", "color": "#C9A84C", "no_negociable": "Ya te comprometiste al entrar. Ese compromiso no vence. Cada vez que sientas que quieres pausar, recuerda: te comprometiste antes de saber el c\u00f3mo. Conf\u00eda."}, {"num": 5, "titulo": "\u2200prende a normalizar lo extraordinario", "sesion": "sesion2", "color": "#9B7FD4", "no_negociable": "Lo que descubras sobre ti en esta sesi\u00f3n debe convertirse en tu nueva normalidad, no en un dato interesante que olvidas en una semana."}, {"num": 6, "titulo": "\u2200taca el miedo", "sesion": "sesion4", "color": "#E8C96A", "no_negociable": "Declarar tu prop\u00f3sito de vida activa todos tus miedos. Eso es normal y es buena se\u00f1al. La \u00fanica respuesta \u2200normal es seguir avanzando."}, {"num": 7, "titulo": "\u2200prende cero excusas", "sesion": "sesion3", "color": "#D4537E", "no_negociable": "Una excusa no te saca del proceso. Te saca de tu m\u00e1ximo potencial. Recuerda tu compromiso."}, {"num": 8, "titulo": "\u2200prende a pagar el precio", "sesion": "sesion4", "color": "#E8C96A", "no_negociable": "Vivir tu prop\u00f3sito tiene un precio real. Identificarlo aqu\u00ed y aceptarlo es el acto de honestidad que hace que el plan de vida funcione."}, {"num": 9, "titulo": "\u2200sume responsabilidad total", "sesion": "sesion2", "color": "#9B7FD4", "no_negociable": "Lo que tu numerolog\u00eda y tus valores revelan no es un destino fijo. Es un mapa. T\u00fa decides c\u00f3mo usarlo. Eso es responsabilidad total."}, {"num": 10, "titulo": "\u2200poyo emocional como combustible", "sesion": "sesion3", "color": "#D4537E", "no_negociable": "El dolor emocional que emerge en esta sesi\u00f3n no es un obst\u00e1culo. Es combustible. La intensidad que sientes es proporcional a la transformaci\u00f3n que viene."}, {"num": 11, "titulo": "\u2200palancamiento: la verdad contigo mismo", "sesion": "sesion1", "color": "#C9A84C", "no_negociable": "El diagn\u00f3stico solo funciona si eres brutalmente honesto. El n\u00famero que le das a cada \u00e1rea de tu vida debe reflejar la realidad, no c\u00f3mo quisieras que fuera."}, {"num": 12, "titulo": "\u2200doptas lo que toleras", "sesion": "sesion1", "color": "#C9A84C", "no_negociable": "Las \u00e1reas con calificaci\u00f3n baja son exactamente lo que has estado tolerando. Verlo sin juzgarte es el primer paso. Seguir toler\u00e1ndolo despu\u00e9s de verlo es la excusa."}, {"num": 13, "titulo": "\u2200pr\u00f3piate la insatisfacci\u00f3n", "sesion": "sesion2", "color": "#9B7FD4", "no_negociable": "La brecha entre tus valores declarados y los que realmente vives no es una falla \u2014 es informaci\u00f3n. Usa esa insatisfacci\u00f3n como motor, no como excusa."}, {"num": 14, "titulo": "\u2200dopta m\u00e9todos probados", "sesion": "bienvenida", "color": "#C9A84C", "no_negociable": "Esta plataforma integra metodolog\u00edas con d\u00e9cadas de validaci\u00f3n. Tu trabajo es aplicarlas con honestidad, no cuestionarlas antes de vivirlas."}, {"num": 15, "titulo": "\u2200lcanza el resultado, luego mejora", "sesion": "sesion5", "color": "#4ABF7A", "no_negociable": "Tu plan de vida no necesita ser perfecto para empezar. Necesita ser tuyo y necesita empezar. La acci\u00f3n imperfecta ejecutada vale m\u00e1s que el plan perfecto que nunca sale."}, {"num": 16, "titulo": "\u2200celera el proceso", "sesion": "sesion5", "color": "#4ABF7A", "no_negociable": "Cada d\u00eda que pasa sin ejecutar el plan es un d\u00eda que no vuelve. La urgencia no es ansiedad \u2014 es el respeto que le tienes a tu propio tiempo."}, {"num": 17, "titulo": "\u2200tenci\u00f3n y enfoque constante", "sesion": "sesion4", "color": "#E8C96A", "no_negociable": "Haz este m\u00f3dulo sin interrupciones. Lo que emerja es proporcional a tu concentraci\u00f3n."}, {"num": 18, "titulo": "\u2200lcanzas la anormalidad", "sesion": "sesion5", "color": "#4ABF7A", "no_negociable": "Completar este proceso te convierte en alguien diferente. Esa diferencia ser\u00e1 visible \u2014 y no todos la aplaudir\u00e1n. Esa resistencia confirma que el proceso funcion\u00f3."}];
+
+// Principios acumulados que el participante ya ha visto
+var PRINCIPIOS_VISTOS = (function(){
+  var v = {};
+  PRINCIPIOS_DB.forEach(function(pr){ v[pr.num] = false; });
+  return v;
+})();
+
+function buildWidgetPrincipios(moduloId, contenedor, onComplete) {
+  var principiosIds = MODULO_PRINCIPIOS[moduloId] || [];
+  if (!principiosIds.length) { if (onComplete) onComplete(); return; }
+
+  // Principios acumulados anteriores (ya vistos en modulos previos)
+  var anteriores = [];
+  PRINCIPIOS_DB.forEach(function(pr){
+    if(PRINCIPIOS_VISTOS[pr.num] && principiosIds.indexOf(pr.num) < 0){
+      anteriores.push(pr);
+    }
+  });
+
+  var compromisos_mod = {};
+  var paso = 0;
+  // Fases: -1=recordatorio, 0..N-1=principios, N=compromisos
+  var FASE_RECORD = -1;
+  var totalPasos = principiosIds.length + 1;
+  var hayAnteriores = anteriores.length > 0;
+
+  // Crear overlay
+  var overlay = document.createElement("div");
+  overlay.style.cssText = "position:fixed;inset:0;background:rgba(4,8,16,.97);z-index:2000;display:flex;align-items:center;justify-content:center;padding:16px;animation:wfadeIn .3s ease";
+
+  var box = document.createElement("div");
+  box.style.cssText = "background:#0A0F1E;border:1px solid rgba(201,168,76,.25);border-radius:20px;width:100%;max-width:560px;max-height:92vh;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 24px 64px rgba(0,0,0,.6)";
+
+  // Header
+  var hdr = document.createElement("div");
+  hdr.style.cssText = "padding:18px 22px 14px;border-bottom:1px solid rgba(255,255,255,.06);flex-shrink:0";
+  var htop = document.createElement("div");
+  htop.style.cssText = "display:flex;align-items:center;justify-content:space-between;margin-bottom:10px";
+  var hlogo = document.createElement("div");
+  hlogo.style.cssText = "font-family:Cormorant Garamond,serif;font-size:20px;color:#E8C96A;font-weight:300;letter-spacing:.02em";
+  hlogo.textContent = "\u2200normal";
+  var hstep = document.createElement("div");
+  hstep.id = "wp-step";
+  hstep.style.cssText = "font-size:10px;color:#3A4558;letter-spacing:.12em;text-transform:uppercase;font-family:Barlow Condensed,sans-serif";
+  htop.appendChild(hlogo); htop.appendChild(hstep);
+  var hbar = document.createElement("div");
+  hbar.style.cssText = "height:2px;background:#1A2640;border-radius:1px;overflow:hidden";
+  var hfill = document.createElement("div");
+  hfill.id = "wp-fill";
+  hfill.style.cssText = "height:100%;background:linear-gradient(90deg,#C9A84C,#E8C96A);border-radius:1px;transition:width .4s ease;width:0%";
+  hbar.appendChild(hfill); hdr.appendChild(htop); hdr.appendChild(hbar);
+  box.appendChild(hdr);
+
+  // Body
+  var body = document.createElement("div");
+  body.style.cssText = "flex:1;overflow-y:auto;padding:0 22px";
+
+  // Footer
+  var ftr = document.createElement("div");
+  ftr.style.cssText = "padding:14px 22px;border-top:1px solid rgba(255,255,255,.06);flex-shrink:0;display:flex;justify-content:space-between;align-items:center;gap:10px";
+
+  function upProg(){
+    var pct = paso < 0 ? 0 : Math.round(((paso+1)/totalPasos)*100);
+    var f=document.getElementById("wp-fill"); if(f)f.style.width=pct+"%";
+    var s=document.getElementById("wp-step");
+    if(s)s.textContent = paso < 0 ? "Recordatorio" : paso < principiosIds.length ? "Principio "+(paso+1)+" de "+principiosIds.length : "Mis compromisos";
+  }
+
+  function showPaso(){
+    body.innerHTML=""; ftr.innerHTML=""; upProg();
+
+    // FASE RECORDATORIO
+    if(paso===FASE_RECORD && hayAnteriores){
+      var sec=document.createElement("div"); sec.style.cssText="padding:20px 0";
+      var icon=document.createElement("div");icon.style.cssText="text-align:center;margin-bottom:16px";
+      var iconInner=document.createElement("div");iconInner.style.cssText="display:inline-flex;align-items:center;justify-content:center;width:52px;height:52px;border-radius:50%;background:rgba(212,83,126,.12);border:1.5px solid rgba(212,83,126,.35)";
+      iconInner.innerHTML="<span style='font-size:22px;color:#D4537E'>!</span>";
+      icon.appendChild(iconInner); sec.appendChild(icon);
+
+      var rt=document.createElement("div");rt.style.cssText="font-family:Cormorant Garamond,serif;font-size:22px;color:#E8C96A;text-align:center;margin-bottom:8px;font-weight:300;line-height:1.3";
+      rt.textContent="Antes de continuar"; sec.appendChild(rt);
+
+      var rs=document.createElement("div");rs.style.cssText="font-size:13px;color:#8A95A8;text-align:center;margin-bottom:18px;line-height:1.75;max-width:400px;margin-left:auto;margin-right:auto";
+      rs.innerHTML="Los principios que has aceptado <strong style='color:#F5E0A0'>no son opcionales ni negociables</strong>. Son el estándar que elegiste cuando decidiste entrar al camino ∀normal.";
+      sec.appendChild(rs);
+
+      var aviso=document.createElement("div");aviso.style.cssText="background:rgba(212,83,126,.07);border:1px solid rgba(212,83,126,.2);border-radius:12px;padding:14px 16px;margin-bottom:14px";
+      var avisoT=document.createElement("div");avisoT.style.cssText="font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#D4537E;font-weight:500;margin-bottom:8px;font-family:Barlow Condensed,sans-serif";
+      avisoT.textContent="Recuerda — Principios que ya aceptaste";aviso.appendChild(avisoT);
+      anteriores.slice(-3).forEach(function(pr){
+        var prow=document.createElement("div");prow.style.cssText="display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.04)";
+        var pn=document.createElement("div");pn.style.cssText="font-family:Cormorant Garamond,serif;font-size:18px;font-weight:300;color:"+pr.color+";min-width:30px";pn.textContent="∀"+pr.num;
+        var pt=document.createElement("div");pt.style.cssText="font-size:12px;color:#8A95A8";pt.textContent=pr.titulo;
+        prow.appendChild(pn);prow.appendChild(pt);aviso.appendChild(prow);
+      });
+      if(anteriores.length>3){var mas=document.createElement("div");mas.style.cssText="font-size:11px;color:#3A4558;margin-top:6px;text-align:center";mas.textContent="+ "+(anteriores.length-3)+" principios anteriores";aviso.appendChild(mas);}
+      sec.appendChild(aviso);
+
+      var pregunta=document.createElement("div");pregunta.style.cssText="background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.2);border-radius:10px;padding:12px 16px;text-align:center";
+      pregunta.innerHTML="<span style='font-family:Cormorant Garamond,serif;font-size:16px;color:#E8C96A;font-style:italic'>Una excusa no te saca de la plataforma — te saca de tu máximo potencial.<br>¿Sigues dentro del camino ∀normal?</span>";
+      sec.appendChild(pregunta);
+      body.appendChild(sec);
+
+      ftr.appendChild(document.createElement("span"));
+      var btnSi=document.createElement("button");btnSi.style.cssText="background:linear-gradient(135deg,#C9A84C,#E8C96A);color:#060A14;border:none;border-radius:4px;font-family:Barlow Condensed,sans-serif;font-size:12px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;padding:11px 26px;cursor:pointer";
+      btnSi.textContent="Sí, sigo dentro";
+      btnSi.onclick=function(){paso=0;showPaso();};
+      ftr.appendChild(btnSi);
+      return;
+    }
+
+    // FASE PRINCIPIOS
+    if(paso >= 0 && paso < principiosIds.length){
+      var pId=principiosIds[paso];
+      var pr=PRINCIPIOS_DB.find(function(p2){return p2.num===pId;});
+      if(!pr){paso++;showPaso();return;}
+      PRINCIPIOS_VISTOS[pr.num]=true;
+
+      var sec2=document.createElement("div");sec2.style.cssText="padding:20px 0";
+      var numDiv=document.createElement("div");numDiv.style.cssText="font-family:Cormorant Garamond,serif;font-size:60px;font-weight:300;line-height:1;color:"+pr.color+";opacity:.2;margin-bottom:2px";numDiv.textContent="∀"+pr.num;
+      sec2.appendChild(numDiv);
+      var tit=document.createElement("div");tit.style.cssText="font-family:Cormorant Garamond,serif;font-size:26px;font-weight:300;color:"+pr.color+";margin-bottom:14px;line-height:1.2";tit.textContent=pr.titulo;sec2.appendChild(tit);
+
+      if(pr.no_negociable){
+        var nnBlk=document.createElement("div");nnBlk.style.cssText="background:rgba(212,83,126,.07);border:1px solid rgba(212,83,126,.2);border-radius:10px;padding:11px 14px;margin-bottom:12px;display:flex;align-items:flex-start;gap:10px";
+        var nnIcon=document.createElement("div");nnIcon.style.cssText="font-size:14px;color:#D4537E;flex-shrink:0;margin-top:1px";nnIcon.textContent="!";
+        var nnTxt=document.createElement("div");
+        var nnLabel=document.createElement("div");nnLabel.style.cssText="font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#D4537E;font-weight:500;margin-bottom:4px;font-family:Barlow Condensed,sans-serif";nnLabel.textContent="No negociable";
+        var nnCont=document.createElement("div");nnCont.style.cssText="font-size:12px;color:#EAE6DC;line-height:1.65";nnCont.textContent=pr.no_negociable;
+        nnTxt.appendChild(nnLabel);nnTxt.appendChild(nnCont);nnBlk.appendChild(nnIcon);nnBlk.appendChild(nnTxt);sec2.appendChild(nnBlk);
+      }
+
+      if(pr.aplicacion){
+        var aplBlk=document.createElement("div");aplBlk.style.cssText="background:#1A2640;border-radius:10px;padding:12px 14px;border-left:3px solid "+pr.color+";margin-bottom:12px";
+        var aplL=document.createElement("div");aplL.style.cssText="font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:"+pr.color+";margin-bottom:4px;font-weight:500;font-family:Barlow Condensed,sans-serif";aplL.textContent="En este módulo";
+        var aplT=document.createElement("div");aplT.style.cssText="font-size:13px;color:#EAE6DC;line-height:1.65;font-style:italic";aplT.textContent=pr.aplicacion;
+        aplBlk.appendChild(aplL);aplBlk.appendChild(aplT);sec2.appendChild(aplBlk);
+      }
+
+      body.appendChild(sec2);
+
+      var btnP=paso>0?document.createElement("button"):document.createElement("span");
+      if(paso>0){btnP.style.cssText="background:transparent;color:#3A4558;border:1px solid #1E2A3A;border-radius:4px;font-family:Barlow,sans-serif;font-size:13px;padding:9px 16px;cursor:pointer";btnP.textContent="Anterior";btnP.onclick=function(){paso--;showPaso();};}
+      ftr.appendChild(btnP);
+      var btnN2=document.createElement("button");btnN2.style.cssText="background:linear-gradient(135deg,#C9A84C,#E8C96A);color:#060A14;border:none;border-radius:4px;font-family:Barlow Condensed,sans-serif;font-size:12px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;padding:11px 26px;cursor:pointer";
+      btnN2.textContent=paso<principiosIds.length-1?"Siguiente principio":"Mis compromisos";
+      btnN2.onclick=function(){paso++;showPaso();};ftr.appendChild(btnN2);
+      return;
+    }
+
+    // FASE COMPROMISOS
+    var sec3=document.createElement("div");sec3.style.cssText="padding:20px 0";
+    var ct=document.createElement("div");ct.style.cssText="font-family:Cormorant Garamond,serif;font-size:22px;color:#E8C96A;margin-bottom:6px;font-weight:300";ct.textContent="Mis compromisos para este módulo";sec3.appendChild(ct);
+    var cs=document.createElement("div");cs.style.cssText="font-size:13px;color:#8A95A8;margin-bottom:18px;line-height:1.65";cs.textContent="Los principios te dieron el marco. Ahora escribe qué harás diferente a partir de hoy en este módulo.";sec3.appendChild(cs);
+    principiosIds.forEach(function(pId2){
+      var pr2=PRINCIPIOS_DB.find(function(p2){return p2.num===pId2;});if(!pr2)return;
+      var blk=document.createElement("div");blk.style.cssText="margin-bottom:14px;background:#131D30;border-radius:10px;padding:13px 15px;border-left:3px solid "+pr2.color;
+      var bt=document.createElement("div");bt.style.cssText="font-size:11px;font-weight:500;color:"+pr2.color+";margin-bottom:6px;letter-spacing:.08em;text-transform:uppercase;font-family:Barlow Condensed,sans-serif";bt.textContent="∀"+pr2.num+" · "+pr2.titulo;blk.appendChild(bt);
+      var ta=document.createElement("textarea");ta.style.cssText="background:#0A0F1E;border:1px solid rgba(255,255,255,.07);border-radius:6px;color:#EAE6DC;font-family:Barlow,sans-serif;font-size:13px;padding:9px 12px;width:100%;min-height:70px;outline:none;resize:vertical;line-height:1.6;transition:border-color .2s";
+      ta.placeholder="Describe qué cambiarás o harás diferente a partir de hoy...";ta.value=compromisos_mod["p"+pId2]||"";
+      ta.onfocus=function(){this.style.borderColor=pr2.color;};ta.onblur=function(){this.style.borderColor="rgba(255,255,255,.07)";};
+      ta.oninput=(function(pid){return function(){compromisos_mod["p"+pid]=this.value;};})(pId2);
+      blk.appendChild(ta);sec3.appendChild(blk);
+    });
+    body.appendChild(sec3);
+
+    var btnB2=document.createElement("button");btnB2.style.cssText="background:transparent;color:#3A4558;border:1px solid #1E2A3A;border-radius:4px;font-family:Barlow,sans-serif;font-size:13px;padding:9px 16px;cursor:pointer";btnB2.textContent="Revisar";btnB2.onclick=function(){paso--;showPaso();};ftr.appendChild(btnB2);
+    var btnFin=document.createElement("button");btnFin.style.cssText="background:linear-gradient(135deg,#C9A84C,#E8C96A);color:#060A14;border:none;border-radius:4px;font-family:Barlow Condensed,sans-serif;font-size:12px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;padding:11px 26px;cursor:pointer";
+    btnFin.textContent="Comenzar el módulo";
+    btnFin.onclick=function(){
+      if(window.guardarCompromisosModulo)window.guardarCompromisosModulo(moduloId,compromisos_mod);
+      document.body.removeChild(overlay);
+      if(onComplete)onComplete();
+    };
+    ftr.appendChild(btnFin);
+  }
+
+  box.appendChild(body);box.appendChild(ftr);overlay.appendChild(box);
+
+  var style=document.createElement("style");
+  style.textContent="@keyframes wfadeIn{from{opacity:0}to{opacity:1}} .wp-scroll::-webkit-scrollbar{width:4px} .wp-scroll::-webkit-scrollbar-thumb{background:rgba(201,168,76,.28);border-radius:2px}";
+  document.head.appendChild(style);
+  document.body.appendChild(overlay);
+
+  // Arrancar en recordatorio si hay anteriores, si no en principios
+  paso = hayAnteriores ? FASE_RECORD : 0;
+  showPaso();
+}
+
+window.guardarCompromisosModulo = function(moduloId, compromisos){
+  if(!window.COMPROMISOS_PROCESO)window.COMPROMISOS_PROCESO={};
+  window.COMPROMISOS_PROCESO[moduloId]=compromisos;
+};
+
+
+
+
+var FRASES=["Una vida equilibrada no es perfecta \u2014 es consciente.","No puedes mejorar lo que no mides.","El primer paso del crecimiento es ver con honestidad d\u00f3nde est\u00e1s.","La rueda que m\u00e1s rueda es la m\u00e1s equilibrada, no la m\u00e1s inflada en un \u00e1rea.","Una acci\u00f3n concreta vale m\u00e1s que mil intenciones bien declaradas.","Ver el 3 que pusiste en un \u00e1rea sin juzgarte \u2014 eso es madurez.","Crecer no significa abandonar qui\u00e9n eres \u2014 significa expandir qui\u00e9n puedes ser.","Lo que medimos crece. Lo que ignoramos se estanca.","La brecha entre donde est\u00e1s y donde quieres estar no es un problema \u2014 es tu hoja de ruta.","30 d\u00edas de acci\u00f3n consciente cambian m\u00e1s que 10 a\u00f1os de intenci\u00f3n.","Las metas trimestrales son el lenguaje del cambio sostenible.","No es lo que sabes sino lo que aplicas lo que transforma tu vida.","El seguimiento honesto es la diferencia entre el coaching y el entretenimiento.","Una meta sin fecha es solo un sue\u00f1o. Una meta con fecha es un compromiso.","Lo que revisas regularmente, mejora regularmente."];
+function frase(){return FRASES[new Date().getDate()%FRASES.length]||"";}
+
+var AREAS=[{"id": "salud_fisica", "nombre": "Salud f\u00edsica y vitalidad", "color": "#4ABF7A"}, {"id": "salud_emocional", "nombre": "Salud emocional y mental", "color": "#9B7FD4"}, {"id": "familia", "nombre": "Familia y ra\u00edces", "color": "#C9A84C"}, {"id": "pareja", "nombre": "Pareja y amor", "color": "#D4537E"}, {"id": "relaciones", "nombre": "Relaciones y vida social", "color": "#4A9EBF"}, {"id": "trabajo", "nombre": "Trabajo y vocaci\u00f3n", "color": "#BF8A4A"}, {"id": "finanzas", "nombre": "Finanzas y abundancia", "color": "#6ABF4A"}, {"id": "espiritualidad", "nombre": "Crecimiento personal y espiritual", "color": "#BF4A9E"}, {"id": "proposito", "nombre": "Prop\u00f3sito y legado", "color": "#E8C96A"}, {"id": "ocio", "nombre": "Ocio, disfrute y descanso", "color": "#4ABFBF"}, {"id": "entorno", "nombre": "Entorno y hogar", "color": "#9BBF4A"}, {"id": "contribucion", "nombre": "Contribuci\u00f3n y servicio", "color": "#BF4A4A"}];
+var AREAS_EXTRA={"salud_fisica": {"pregunta": "\u00bfSientes que tu cuerpo, tu energ\u00eda y tus h\u00e1bitos de movimiento, alimentaci\u00f3n y sue\u00f1o est\u00e1n donde t\u00fa quieres? \u00bfTu cuerpo te acompa\u00f1a o te limita?", "pautas": ["Elige un h\u00e1bito de movimiento 3 veces por semana.", "Revisa tu alimentaci\u00f3n: un cambio peque\u00f1o esta semana.", "Define una hora fija para dormir.", "Programa un chequeo m\u00e9dico preventivo.", "Identifica una actividad f\u00edsica que disfrutes."]}, "salud_emocional": {"pregunta": "\u00bfPuedes nombrar lo que sientes? \u00bfGestionas tus emociones o ellas te gestionan a ti? \u00bfTienes paz interior m\u00e1s d\u00edas de los que no la tienes?", "pautas": ["Empieza un diario de emociones.", "Identifica tus detonantes emocionales.", "Busca acompa\u00f1amiento profesional si es necesario.", "Practica la gratitud diaria.", "Aprende a decir no con amor propio."]}, "familia": {"pregunta": "\u00bfC\u00f3mo est\u00e1 tu relaci\u00f3n con tu familia de origen? \u00bfHay heridas sin resolver o conversaciones pendientes?", "pautas": ["Identifica una conversaci\u00f3n pendiente y da el primer paso.", "Trabaja en el perd\u00f3n por tu propia libertad.", "Crea un ritual de conexi\u00f3n familiar.", "Reconoce patrones heredados que quieres cambiar.", "El m\u00f3dulo de ECG emocional te acompa\u00f1ar\u00e1 en heridas profundas."]}, "pareja": {"pregunta": "\u00bfTu relaci\u00f3n de pareja te nutre? \u00bfHay conexi\u00f3n real y comunicaci\u00f3n honesta? Si no tienes pareja, \u00bfest\u00e1s abierto al amor?", "pautas": ["Dedica tiempo de calidad sin pantallas.", "Expresa lo que necesitas sin esperar que adivinen.", "Trabaja tus heridas de apego.", "Revisa las creencias que te impiden abrirte al amor.", "El m\u00f3dulo de Perd\u00f3n libera cargas en v\u00ednculos \u00edntimos."]}, "relaciones": {"pregunta": "\u00bfTienes personas con quienes puedes ser t\u00fa completamente? \u00bfTus amistades te dan energ\u00eda o te la quitan?", "pautas": ["Lista qui\u00e9n te suma y qui\u00e9n te resta.", "Invierte tiempo en relaciones que te inspiren.", "Cultiva nuevos v\u00ednculos alineados con tus valores.", "Suelta relaciones que ya cumplieron su ciclo.", "La calidad de tus relaciones predice tu bienestar."]}, "trabajo": {"pregunta": "\u00bfLo que haces te da sentido? \u00bfHay alineaci\u00f3n entre tus talentos y lo que haces cada d\u00eda?", "pautas": ["Identifica momentos que te hacen perder la noci\u00f3n del tiempo.", "Trae m\u00e1s de tus talentos a lo que ya haces.", "El Ikigai es el m\u00f3dulo que m\u00e1s mueve esta \u00e1rea.", "Habla de lo que necesitas con quien corresponde.", "Considera qu\u00e9 habilidad nueva abrir\u00eda nuevas puertas."]}, "finanzas": {"pregunta": "\u00bfTu relaci\u00f3n con el dinero es sana? \u00bfEl dinero te da libertad o angustia constante?", "pautas": ["Construye un presupuesto real sin juzgarte.", "Cuestiona una creencia limitante sobre el dinero.", "Ahorra aunque sea poco. El h\u00e1bito importa m\u00e1s.", "Ed\u00facate en finanzas personales.", "Define para qu\u00e9 quieres el dinero, no cu\u00e1nto."]}, "espiritualidad": {"pregunta": "\u00bfTienes una pr\u00e1ctica que te conecte con algo m\u00e1s grande? \u00bfHay espacio para el silencio y la reflexi\u00f3n?", "pautas": ["Crea un ritual de conexi\u00f3n interior de 5 minutos.", "Lee algo que expanda tu conciencia cada semana.", "Practica el silencio intencional sin tel\u00e9fono.", "Profundiza en las creencias que dan sentido a tu vida.", "La meditaci\u00f3n es una herramienta de salud mental."]}, "proposito": {"pregunta": "\u00bfSabes para qu\u00e9 est\u00e1s en el mundo? \u00bfTus decisiones cotidianas apuntan a algo m\u00e1s grande?", "pautas": ["El m\u00f3dulo del Ikigai est\u00e1 dise\u00f1ado para esto.", "Escribe lo que no quieres que digan cuando ya no est\u00e9s.", "Identifica una acci\u00f3n esta semana alineada con lo que importa.", "Actuar desde la b\u00fasqueda ya es vivir con prop\u00f3sito.", "Habla con personas que admiras por c\u00f3mo viven."]}, "ocio": {"pregunta": "\u00bfTienes espacio genuino para el disfrute y el descanso? \u00bfO el descanso siempre llega tarde y culposo?", "pautas": ["Agenda el disfrute como agendas las reuniones.", "Recupera algo que amabas hacer y dejaste.", "Aprende a descansar sin culpa.", "Distingue el entretenimiento del descanso real.", "Explora algo nuevo: un hobby, un lugar, una experiencia."]}, "entorno": {"pregunta": "\u00bfTu hogar, tu ciudad y tu lugar de trabajo te nutren o te drenan? \u00bfEst\u00e1s rodeado de ambientes que inspiren?", "pautas": ["Organiza un espacio que hoy te genere malestar.", "Rodea tu entorno de elementos que inspiren.", "Eval\u00faa si tu ciudad apoya tu calidad de vida.", "Haz una limpieza de lo que ya no te representa.", "Tu entorno afecta tu estado mental m\u00e1s de lo que crees."]}, "contribucion": {"pregunta": "\u00bfHay algo que hagas por otros sin esperar nada? \u00bfTu presencia deja algo bueno en las personas que te rodean?", "pautas": ["Sirve desde donde est\u00e1s con lo que tienes ahora.", "El servicio no necesita ser grandioso para ser real.", "Vincula tu contribuci\u00f3n a tu prop\u00f3sito de vida.", "Busca una causa a la que aportar regularmente.", "Lo que das conscientemente siempre regresa."]}};
+
+var S={
+  nombre:"",
+  fechaInicio:null,
+  diagnostico:{},
+  acciones:{},
+  accionesEstado:{},
+  accionesSrc:{},
+  checkin30:{},
+  checkin30Acc:{},
+  diagnosticoFinal:{},
+  metas:{},
+  reg:{},
+  nivelActivo:"corto"
+};
+var STEPS=["Inicio","Diagn\u00f3stico","Mi rueda","Mis acciones","Check-in 30d","Mis metas 90d","Mi crecimiento"];
+var paso=0;
+
+function ge(id){return document.getElementById(id);}
+function mk(tag,cls,txt){var d=document.createElement(tag);if(cls)d.className=cls;if(txt!==undefined)d.textContent=txt;return d;}
+function rProg(){
+  var b=ge("pb");if(!b)return;b.innerHTML="";
+  for(var i=0;i<STEPS.length;i++){
+    if(i>0){var ln=mk("div","pln"+(i<=paso?" done":""));b.appendChild(ln);}
+    var s=mk("div","ps"+(i===paso?" act":i<paso?" done":""));
+    var pn=mk("div","pn",i<paso?"\u2713":String(i+1));
+    var pt=mk("span","ptxt",STEPS[i]);
+    s.appendChild(pn);s.appendChild(pt);
+    if(i<paso)(function(x){s.onclick=function(){irA(x);};})(i);
+    b.appendChild(s);
+  }
+}
+function irA(i){paso=i;rProg();document.querySelectorAll(".panel").forEach(function(p,j){p.classList.toggle("act",j===i);});window.scrollTo({top:0,behavior:"smooth"});}
+function dmsg(cont){var d=mk("div","dmsg");d.appendChild(mk("div","dm-l","Reflexi\u00f3n del d\u00eda"));d.appendChild(mk("div","dm-t",frase()));cont.appendChild(d);}
+
+function buildRuedaSVG(scores,size){
+  size=size||320;
+  var cx=size/2,cy=size/2,r=size*0.38,n=12;
+  var svg='<svg viewBox="0 0 '+size+' '+size+'" xmlns="http://www.w3.org/2000/svg" style="max-width:100%;height:auto">';
+  for(var ring=1;ring<=10;ring++){svg+='<circle cx="'+cx+'" cy="'+cy+'" r="'+(r*ring/10)+'" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>';}
+  for(var i=0;i<n;i++){var a=(i/n)*Math.PI*2-Math.PI/2;svg+='<line x1="'+cx+'" y1="'+cy+'" x2="'+(cx+Math.cos(a)*r)+'" y2="'+(cy+Math.sin(a)*r)+'" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>';}
+  var pts=[];
+  for(var j=0;j<n;j++){var a2=(j/n)*Math.PI*2-Math.PI/2;var val=scores[AREAS[j].id]||1;var rad=r*val/10;pts.push((cx+Math.cos(a2)*rad)+","+(cy+Math.sin(a2)*rad));}
+  svg+='<polygon points="'+pts.join(" ")+'" fill="rgba(201,168,76,0.15)" stroke="rgba(201,168,76,0.7)" stroke-width="1.5"/>';
+  for(var k=0;k<n;k++){
+    var a3=(k/n)*Math.PI*2-Math.PI/2;var val2=scores[AREAS[k].id]||1;var rad2=r*val2/10;
+    var px=cx+Math.cos(a3)*rad2;var py=cy+Math.sin(a3)*rad2;
+    svg+='<circle cx="'+px+'" cy="'+py+'" r="4" fill="'+AREAS[k].color+'"/>';
+    var lx=cx+Math.cos(a3)*(r+22);var ly=cy+Math.sin(a3)*(r+22);
+    var anch=(lx<cx-15)?"end":(lx>cx+15)?"start":"middle";
+    var nom=AREAS[k].nombre.split(" ")[0];
+    svg+='<text x="'+lx+'" y="'+(ly+3)+'" text-anchor="'+anch+'" font-size="9" fill="'+AREAS[k].color+'" font-family="Barlow,sans-serif">'+nom+'</text>';
+    svg+='<text x="'+lx+'" y="'+(ly+14)+'" text-anchor="'+anch+'" font-size="9" fill="rgba(255,255,255,0.45)" font-family="Barlow,sans-serif">'+val2+'</text>';
+  }
+  svg+='</svg>';return svg;
+}
+
+function buildSlider(area, storeObj, containerId){
+  var val=storeObj[area.id]||5;
+  var swrap=mk("div","slider-wrap");
+  var sfill=mk("div","slider-fill");sfill.style.background=area.color;sfill.style.width=((val-1)/9*100)+"%";
+  var sthumb=mk("div","slider-thumb");sthumb.style.left=((val-1)/9*100)+"%";sthumb.style.borderColor=area.color;sthumb.style.background=area.color;
+  swrap.appendChild(sfill);swrap.appendChild(sthumb);
+  var valEl=mk("div","area-val",String(val));valEl.style.color=area.color;
+
+  (function(a,sw,sf,st,ve,store){
+    function setVal(v){
+      v=Math.max(1,Math.min(10,Math.round(v)));
+      store[a.id]=v;
+      var pct=(v-1)/9*100;
+      sf.style.width=pct+"%";st.style.left=pct+"%";
+      ve.textContent=String(v);
+    }
+    function fromEvent(e){
+      var rect=sw.getBoundingClientRect();
+      var cx=(e.touches?e.touches[0].clientX:e.clientX)-rect.left;
+      setVal(1+Math.round(Math.max(0,Math.min(1,cx/rect.width))*9));
+    }
+    sw.addEventListener("mousedown",function(e){
+      fromEvent(e);
+      var mm=function(ev){fromEvent(ev);};
+      var mu=function(){document.removeEventListener("mousemove",mm);document.removeEventListener("mouseup",mu);};
+      document.addEventListener("mousemove",mm);document.addEventListener("mouseup",mu);
+    });
+    sw.addEventListener("touchstart",function(e){fromEvent(e);},{passive:true});
+    sw.addEventListener("touchmove",function(e){fromEvent(e);},{passive:true});
+    setVal(store[a.id]||5);
+  })(area,swrap,sfill,sthumb,valEl,storeObj);
+
+  return {wrap:swrap,valEl:valEl};
+}
+
+function init(){
+  var app=ge("app");app.innerHTML="";
+  var hdr=mk("div");hdr.style.padding="26px 0 0";
+  var sub=mk("div");sub.style.cssText="font-family:Barlow Condensed,sans-serif;font-size:10px;letter-spacing:.2em;color:var(--gold);text-transform:uppercase;margin-bottom:4px";sub.textContent="Caf\u00e9 con Prop\u00f3sito \u00b7 Diagn\u00f3stico inicial";
+  var tit=mk("div");tit.style.cssText="font-family:Cormorant Garamond,serif;font-size:23px;font-weight:300;color:var(--gold2);margin-bottom:18px;font-style:italic";tit.textContent="Mi Rueda de la Vida";
+  hdr.appendChild(sub);hdr.appendChild(tit);app.appendChild(hdr);
+  var pb=mk("div","prog");pb.id="pb";app.appendChild(pb);
+  for(var i=0;i<STEPS.length;i++){var pn=mk("div","panel");pn.id="p"+i;app.appendChild(pn);}
+  rProg();bInicio();irA(0);
+}
+
+// ── P0: INICIO ───────────────────────────────────────────────
+function bInicio(){
+  var p=ge("p0");p.innerHTML="";
+
+  // Video introductorio
+  var badge=mk("div","pbadge");badge.appendChild(mk("div","pbadge-q","Mi Rueda de la Vida"));p.appendChild(badge);
+  var ph=mk("div","ph");
+  ph.appendChild(mk("div","ph-s","Diagn\u00f3stico inicial \u00b7 12 \u00e1reas de vida"));
+  ph.appendChild(mk("div","ph-t","El mapa de tu vida hoy"));
+  ph.appendChild(mk("div","ph-d","Antes de saber hacia d\u00f3nde vas, necesitas ver con claridad d\u00f3nde est\u00e1s. Este diagn\u00f3stico es el punto de partida honesto de todo el proceso."));
+  p.appendChild(ph);dmsg(p);
+
+  var cexp=mk("div","card pur");cexp.appendChild(mk("div","cl p","C\u00f3mo funciona este m\u00f3dulo"));
+  var ct=mk("div","ct");
+  ct.textContent="Calificar\u00e1s 12 \u00e1reas de tu vida del 1 al 10. No hay respuestas correctas \u2014 solo honestidad. Este diagn\u00f3stico es el punto de partida. Luego tendr\u00e1s un check-in a los 30 d\u00edas para medir tu progreso real, y un plan de metas trimestrales para proyectar el siguiente ciclo.";
+  cexp.appendChild(ct);
+  var pasos=mk("div");pasos.style.cssText="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:12px";
+  [{n:"Hoy",d:"Diagn\u00f3stico inicial + acciones inmediatas",c:"var(--gold2)"},{n:"30 d\u00edas",d:"Check-in de progreso + acciones cumplidas",c:"var(--acc)"},{n:"90 d\u00edas",d:"Metas trimestrales + proyecci\u00f3n de crecimiento",c:"var(--grn)"}].forEach(function(item){
+    var blk=mk("div");blk.style.cssText="background:var(--bg4);border-radius:var(--r);padding:10px 12px;text-align:center";
+    var t=mk("div");t.style.cssText="font-family:Cormorant Garamond,serif;font-size:18px;font-weight:300;color:"+item.c+";margin-bottom:4px";t.textContent=item.n;
+    blk.appendChild(t);blk.appendChild(mk("div","ct",item.d));pasos.appendChild(blk);
+  });
+  cexp.appendChild(pasos);p.appendChild(cexp);
+
+  var cinput=mk("div","card gold");cinput.style.padding="16px 18px";
+  cinput.appendChild(mk("label","il","Tu nombre"));
+  var nomInp=document.createElement("input");nomInp.className="inp";nomInp.id="inNom";nomInp.placeholder="Tu nombre";nomInp.value=S.nombre;nomInp.style.marginBottom="13px";cinput.appendChild(nomInp);
+  var btn=mk("button","bp","Comenzar el diagn\u00f3stico");
+  btn.onclick=function(){
+    S.nombre=(ge("inNom").value||"").trim()||"Participante";
+    S.fechaInicio=new Date().toISOString();
+    bDiagnostico();irA(1);
+  };
+  cinput.appendChild(btn);p.appendChild(cinput);
+  p.appendChild(mk("div","nav"));
+}
+
+// ── P1: DIAGNOSTICO ──────────────────────────────────────────
+function bDiagnostico(){
+  var p=ge("p1");p.innerHTML="";
+  var badge=mk("div","pbadge");badge.appendChild(mk("div","pbadge-q","Diagn\u00f3stico inicial"));p.appendChild(badge);
+  var ph=mk("div","ph");
+  ph.appendChild(mk("div","ph-s","Paso 1 \u00b7 "+S.nombre));
+  ph.appendChild(mk("div","ph-t","Califica cada \u00e1rea de tu vida hoy"));
+  ph.appendChild(mk("div","ph-d","Lee la pregunta de cada \u00e1rea antes de calificar. El primer n\u00famero que te llega es el m\u00e1s verdadero."));
+  p.appendChild(ph);
+
+  AREAS.forEach(function(area){
+    var extra=AREAS_EXTRA[area.id]||{};
+    var card=mk("div","area-card");
+    var hdr=mk("div","area-header");
+    var dot=mk("div","area-dot");dot.style.background=area.color;
+    var nom=mk("div","area-nombre",area.nombre);nom.style.color=area.color;
+    hdr.appendChild(dot);hdr.appendChild(nom);
+    var sl=buildSlider(area,S.diagnostico,null);
+    hdr.appendChild(sl.valEl);card.appendChild(hdr);
+    if(extra.pregunta){
+      var preg=mk("div","area-pregunta",extra.pregunta);card.appendChild(preg);
+    }
+    var slbls=mk("div","slider-labels");slbls.appendChild(mk("span","","1 \u2014 Muy bajo"));slbls.appendChild(mk("span","","5 \u2014 Regular"));slbls.appendChild(mk("span","","10 \u2014 Pleno"));
+    card.appendChild(sl.wrap);card.appendChild(slbls);
+    p.appendChild(card);
+  });
+
+  var nav=mk("div","nav");nav.style.marginTop="14px";
+  var pb2=mk("button","bn","Anterior");pb2.onclick=function(){irA(0);};
+  var pn=mk("button","bp","Ver mi rueda de vida");pn.onclick=function(){
+    if(window.ANORMAL){
+      ANORMAL.saveFaseModulo('rueda', {
+        nombre: S.nombre,
+        diagnostico: S.diagnostico,
+        areas: (window.AREAS||[]).map(function(a){
+          return {id:a.id, nombre:a.nombre, puntaje:S.diagnostico[a.id]||null};
+        })
+      });
+    }
+    bRueda();irA(2);};
+  nav.appendChild(pb2);nav.appendChild(pn);p.appendChild(nav);
+}
+
+// ── P2: RUEDA ────────────────────────────────────────────────
+function bRueda(){
+  var p=ge("p2");p.innerHTML="";
+  var badge=mk("div","pbadge");badge.appendChild(mk("div","pbadge-q","Mi rueda de vida"));p.appendChild(badge);
+  var ph=mk("div","ph");
+  ph.appendChild(mk("div","ph-t","Tu rueda hoy, "+S.nombre));
+  ph.appendChild(mk("div","ph-d","La rueda perfecta rueda suavemente. \u00bfD\u00f3nde hay desequilibrio que est\u00e1 frenando tu avance?"));
+  p.appendChild(ph);dmsg(p);
+
+  var total=0;AREAS.forEach(function(a){total+=S.diagnostico[a.id]||1;});
+  var prom=Math.round(total/12*10)/10;
+
+  var cstat=mk("div","card gold");cstat.style.padding="14px 16px";
+  var statrow=mk("div");statrow.style.cssText="display:flex;gap:9px;flex-wrap:wrap;margin-bottom:12px";
+  [{l:"Promedio general",v:prom+"/10"},{l:"Total de puntos",v:total+"/120"},{l:"Potencial de crecimiento",v:(120-total)+" puntos"}].forEach(function(item){
+    var s=mk("div");s.style.cssText="flex:1;min-width:90px;background:var(--bg4);border-radius:var(--r);padding:10px 12px;text-align:center";
+    var sn=mk("div");sn.style.cssText="font-family:Cormorant Garamond,serif;font-size:20px;color:var(--gold2);font-weight:300;line-height:1";sn.textContent=String(item.v);
+    var sl2=mk("div");sl2.style.cssText="font-size:10px;color:var(--dim);margin-top:3px;letter-spacing:.06em;text-transform:uppercase";sl2.textContent=item.l;
+    s.appendChild(sn);s.appendChild(sl2);statrow.appendChild(s);
+  });
+  cstat.appendChild(statrow);
+  var rw=mk("div","rueda-wrap");rw.innerHTML=buildRuedaSVG(S.diagnostico,340);cstat.appendChild(rw);p.appendChild(cstat);
+
+  var sorted=[].concat(AREAS).sort(function(a,b){return (S.diagnostico[a.id]||1)-(S.diagnostico[b.id]||1);});
+  var criticas=sorted.slice(0,3);var fuertes=sorted.slice(9).reverse();
+
+  var cdiag=mk("div","card");
+  var cl1=mk("div","cl","Las 3 \u00e1reas que m\u00e1s necesitan tu atenci\u00f3n");cl1.style.color="#BF4A4A";cdiag.appendChild(cl1);
+  criticas.forEach(function(a){
+    var row=mk("div");row.style.cssText="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.04)";
+    var dot=mk("div");dot.style.cssText="width:8px;height:8px;border-radius:50%;background:"+a.color+";flex-shrink:0";
+    var info=mk("div");info.style.flex="1";info.appendChild(mk("div",null,a.nombre));
+    var val=mk("div");val.style.cssText="font-family:Cormorant Garamond,serif;font-size:20px;color:#BF4A4A;font-weight:300";val.textContent=String(S.diagnostico[a.id]||1)+"/10";
+    row.appendChild(dot);row.appendChild(info);row.appendChild(val);cdiag.appendChild(row);
+  });
+  var cl2=mk("div","cl","Tus 3 \u00e1reas m\u00e1s fuertes");cl2.style.cssText="color:var(--grn);margin-top:12px";cdiag.appendChild(cl2);
+  fuertes.forEach(function(a){
+    var row=mk("div");row.style.cssText="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.04)";
+    var dot=mk("div");dot.style.cssText="width:8px;height:8px;border-radius:50%;background:"+a.color+";flex-shrink:0";
+    var info=mk("div");info.style.flex="1";info.appendChild(mk("div",null,a.nombre));
+    var val=mk("div");val.style.cssText="font-family:Cormorant Garamond,serif;font-size:20px;color:var(--grn);font-weight:300";val.textContent=String(S.diagnostico[a.id]||1)+"/10";
+    row.appendChild(dot);row.appendChild(info);row.appendChild(val);cdiag.appendChild(row);
+  });
+  p.appendChild(cdiag);
+
+  // Mensaje motivacional personalizado
+  var msgT,msgD,msgCol;
+  if(prom>=8){msgCol="var(--grn)";msgT="Est\u00e1s en un momento poderoso";msgD="Tu promedio refleja una vida con bases s\u00f3lidas. El proceso que viene no es para arreglar algo \u2014 es para llevar lo bueno a lo extraordinario.";}
+  else if(prom>=5){msgCol="var(--gold2)";msgT="Est\u00e1s en el punto exacto para transformarte";msgD="Las personas que m\u00e1s crecen parten desde la honestidad, no desde la perfecci\u00f3n. Tienes fortalezas reales y espacios de crecimiento concretos.";}
+  else{msgCol="var(--acc)";msgT="Tu valent\u00eda de ver la verdad es el primer paso";msgD="Las transformaciones m\u00e1s profundas vienen de los diagn\u00f3sticos m\u00e1s honestos. El dolor que sientes al ver algunas \u00e1reas bajas es la energ\u00eda que mueve el proceso.";}
+  var cmsg=mk("div","card");cmsg.style.borderLeft="3px solid "+msgCol;
+  var cmt=mk("div");cmt.style.cssText="font-family:Cormorant Garamond,serif;font-size:17px;font-weight:300;margin-bottom:8px";cmt.style.color=msgCol;cmt.textContent=msgT;
+  cmsg.appendChild(cmt);cmsg.appendChild(mk("div","ct",msgD));p.appendChild(cmsg);
+
+  // Hoja de ruta
+  var cruta=mk("div","card gold");cruta.appendChild(mk("div","cl","Lo que el proceso de Caf\u00e9 con Prop\u00f3sito te va a dar"));
+  cruta.appendChild(mk("div","ct","Cada m\u00f3dulo del proceso est\u00e1 dise\u00f1ado para impactar directamente en las \u00e1reas que acabas de calificar."));
+  [{fase:"Fase 1 \u00b7 \u00bfQui\u00e9n soy?",imp:"Claridad sobre qui\u00e9n eres, c\u00f3mo te relacionas y qu\u00e9 valores deben guiar tus decisiones.",col:"var(--pur)"},
+   {fase:"Fase 2 \u00b7 \u00bfD\u00f3nde estoy?",imp:"Entiende el momento de vida que transitas y las heridas que necesitan sanaci\u00f3n.",col:"var(--acc)"},
+   {fase:"Fase 3 \u00b7 \u00bfPara qu\u00e9 estoy aqu\u00ed?",imp:"Cuando sabes para qu\u00e9 est\u00e1s, el trabajo deja de ser carga y se convierte en expresi\u00f3n.",col:"var(--gold2)"},
+   {fase:"Fase 4 \u00b7 \u00bfHacia d\u00f3nde voy?",imp:"Convierte la visi\u00f3n en acci\u00f3n concreta con metas por ciclo.",col:"var(--grn)"}
+  ].forEach(function(mod){
+    var blk=mk("div");blk.style.cssText="background:var(--bg4);border-radius:var(--rm);padding:11px 13px;margin-bottom:7px;border-left:3px solid "+mod.col;
+    var ft=mk("div");ft.style.cssText="font-size:10px;letter-spacing:.14em;text-transform:uppercase;font-weight:500;margin-bottom:3px";ft.style.color=mod.col;ft.textContent=mod.fase;
+    blk.appendChild(ft);blk.appendChild(mk("div","ct",mod.imp));cruta.appendChild(blk);
+  });
+  p.appendChild(cruta);
+
+  // Primera accion
+  var caccion=mk("div","card acc");caccion.appendChild(mk("div","cl b","Tu primera acci\u00f3n \u2014 ahora mismo"));
+  caccion.appendChild(mk("div","ct","Elige una sola \u00e1rea y responde estas tres preguntas:"));
+  [{k:"acc-area",l:"\u00bfQu\u00e9 \u00e1rea eliges trabajar primero y por qu\u00e9?",ph:"Nombre del \u00e1rea y qu\u00e9 sientes al verla en ese puntaje..."},
+   {k:"acc-hoy",l:"\u00bfQu\u00e9 puedes hacer HOY en esa \u00e1rea?",ph:"Una sola acci\u00f3n. Espec\u00edfica. Hoy mismo."},
+   {k:"acc-razon",l:"\u00bfPor qu\u00e9 esta \u00e1rea importa para tu vida plena?",ph:"Con\u00e9ctala con tu bienestar..."}
+  ].forEach(function(item){
+    var wr=mk("div");wr.style.marginBottom="10px";
+    var lb=mk("label");lb.style.cssText="font-size:10px;letter-spacing:.12em;text-transform:uppercase;display:block;font-weight:500;margin-bottom:5px";lb.style.color="var(--acc)";lb.textContent=item.l;wr.appendChild(lb);
+    var ta=document.createElement("textarea");ta.className="rta";ta.style.minHeight="52px";ta.placeholder=item.ph;ta.value=S.reg[item.k]||"";
+    ta.oninput=(function(k){return function(){S.reg[k]=this.value;};})(item.k);
+    wr.appendChild(ta);caccion.appendChild(wr);
+  });
+  p.appendChild(caccion);
+
+  var nav=mk("div","nav");
+  var pb2=mk("button","bn","Anterior");pb2.onclick=function(){irA(1);};
+  var pn=mk("button","bp","Agregar mis acciones");pn.onclick=function(){bAcciones();irA(3);};
+  nav.appendChild(pb2);nav.appendChild(pn);p.appendChild(nav);
+}
+
+// ── P3: ACCIONES ─────────────────────────────────────────────
+function renderAcciones(areaId,container){
+  var existing=container.querySelectorAll(".accion-item");
+  existing.forEach(function(e){e.remove();});
+  var accs=S.acciones[areaId]||[];var estados=S.accionesEstado[areaId]||[];var srcs=S.accionesSrc[areaId]||[];
+  var addRow=container.querySelector(".add-row");
+  accs.forEach(function(txt,i){
+    var done=estados[i]||false;
+    var row=mk("div","accion-item");
+    var chk=mk("div","accion-chk"+(done?" done":""));
+    if(done){var tick=mk("div");tick.style.cssText="width:8px;height:8px;border-radius:50%;background:var(--bg)";chk.appendChild(tick);}
+    var txtEl=mk("div","accion-txt"+(done?" done":""),txt);
+    var srcEl=mk("div","accion-src",srcs[i]||"propio");
+    chk.onclick=(function(idx,chkEl,txtEl2){return function(){
+      S.accionesEstado[areaId][idx]=!S.accionesEstado[areaId][idx];
+      var d2=S.accionesEstado[areaId][idx];
+      chkEl.className="accion-chk"+(d2?" done":"");chkEl.innerHTML="";
+      if(d2){var t2=mk("div");t2.style.cssText="width:8px;height:8px;border-radius:50%;background:var(--bg)";chkEl.appendChild(t2);}
+      txtEl2.className="accion-txt"+(d2?" done":"");
+    };})(i,chk,txtEl);
+    var del=mk("div");del.style.cssText="cursor:pointer;color:var(--faint);font-size:13px;padding:0 4px;flex-shrink:0";del.textContent="\u00d7";
+    del.onclick=(function(idx){return function(){S.acciones[areaId].splice(idx,1);S.accionesEstado[areaId].splice(idx,1);S.accionesSrc[areaId].splice(idx,1);renderAcciones(areaId,container);};})(i);
+    row.appendChild(chk);row.appendChild(txtEl);row.appendChild(srcEl);row.appendChild(del);
+    container.insertBefore(row,addRow);
+  });
+}
+
+function bAcciones(){
+  var p=ge("p3");p.innerHTML="";
+  var badge=mk("div","pbadge");badge.appendChild(mk("div","pbadge-q","Mis acciones de crecimiento"));p.appendChild(badge);
+  var ph=mk("div","ph");
+  ph.appendChild(mk("div","ph-t","Asocia acciones a cada \u00e1rea"));
+  ph.appendChild(mk("div","ph-d","A lo largo del proceso ir\u00e1s identificando acciones en cada m\u00f3dulo. Agu\u00eda van, asociadas al \u00e1rea que impactan. Haz clic en un \u00e1rea para expandirla."));
+  p.appendChild(ph);dmsg(p);
+
+  var cinst=mk("div","card acc");cinst.appendChild(mk("div","cl b","C\u00f3mo usar este panel"));
+  cinst.appendChild(mk("div","ct","Cada \u00e1rea tiene pautas sugeridas como punto de partida. Las acciones que identifiques en los otros m\u00f3dulos tambi\u00e9n puedes agregarlas aqu\u00ed, indicando de qu\u00e9 m\u00f3dulo vienen. Al check-in de 30 d\u00edas, marcar\u00e1s las que cumpliste."));
+  p.appendChild(cinst);
+
+  AREAS.forEach(function(area){
+    if(!S.acciones[area.id])S.acciones[area.id]=[];
+    if(!S.accionesEstado[area.id])S.accionesEstado[area.id]=[];
+    if(!S.accionesSrc[area.id])S.accionesSrc[area.id]=[];
+    var extra=AREAS_EXTRA[area.id]||{};
+    var card=mk("div","area-card");
+    var hdr=mk("div","area-header");hdr.style.cursor="pointer";
+    var dot=mk("div","area-dot");dot.style.background=area.color;
+    var nom=mk("div","area-nombre",area.nombre);nom.style.color=area.color;
+    var cnt=mk("div");cnt.style.cssText="font-size:11px;color:var(--dim);min-width:60px;text-align:right";cnt.id="cnt-"+area.id;
+    cnt.textContent=(S.acciones[area.id]||[]).length+" acc.";
+    var val=mk("div");val.style.cssText="font-family:Cormorant Garamond,serif;font-size:18px;font-weight:300;min-width:35px;text-align:right";val.style.color=area.color;val.textContent=String(S.diagnostico[area.id]||1)+"/10";
+    hdr.appendChild(dot);hdr.appendChild(nom);hdr.appendChild(cnt);hdr.appendChild(val);card.appendChild(hdr);
+
+    var accDiv=mk("div","area-acciones");accDiv.id="acc-"+area.id;
+
+    // Pautas sugeridas
+    if(extra.pautas&&extra.pautas.length){
+      var cpautas=mk("div");cpautas.style.cssText="margin-bottom:10px;padding:10px 12px;background:var(--bg4);border-radius:var(--r);border:1px solid rgba(255,255,255,.06)";
+      var pt=mk("div");pt.style.cssText="font-size:10px;letter-spacing:.12em;text-transform:uppercase;font-weight:500;margin-bottom:7px";pt.style.color=area.color;pt.textContent="Pautas sugeridas \u2014 clic para agregar";cpautas.appendChild(pt);
+      extra.pautas.forEach(function(pauta){
+        var prow=mk("div","pauta-item");
+        var picon=mk("div","pauta-icon","+");picon.style.cssText="width:16px;height:16px;border-radius:3px;border:1px solid rgba(255,255,255,.15);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:11px;color:"+area.color+";margin-top:2px";
+        var ptxt=mk("div","ct",pauta);
+        prow.appendChild(picon);prow.appendChild(ptxt);
+        prow.onclick=(function(txt,pr,cnt2,div){return function(){
+          if((S.acciones[area.id]||[]).indexOf(txt)<0){
+            S.acciones[area.id].push(txt);S.accionesEstado[area.id].push(false);S.accionesSrc[area.id].push("sugerida");
+            cnt2.textContent=S.acciones[area.id].length+" acc.";
+            renderAcciones(area.id,div);
+            pr.style.opacity="0.35";pr.onclick=null;
+          }
+        };})(pauta,prow,cnt,accDiv);
+        cpautas.appendChild(prow);
+      });
+      accDiv.appendChild(cpautas);
+    }
+
+    // Input con selector de fuente
+    var addRow=mk("div","add-row");
+    var addInp=document.createElement("input");addInp.className="add-inp";addInp.placeholder="Describe una acci\u00f3n o pega la de otro m\u00f3dulo...";
+    var srcSel=document.createElement("select");srcSel.style.cssText="background:var(--bg3);border:1px solid rgba(255,255,255,.07);border-radius:var(--r);color:var(--dim);font-family:Barlow,sans-serif;font-size:11px;padding:6px 8px;outline:none;cursor:pointer";
+    ["propio","Numerolog\u00eda","Valores Dolan","Septenios","ECG","Ikigai","Plan de vida"].forEach(function(src){
+      var opt=document.createElement("option");opt.value=src;opt.textContent=src;srcSel.appendChild(opt);
+    });
+    var addBtn=mk("button","add-btn","+ Agregar");
+    addBtn.style.cssText="padding:7px 12px;border-radius:var(--r);border:1px solid var(--gb);font-family:Barlow Condensed,sans-serif;font-size:10px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;background:transparent;color:var(--gold);white-space:nowrap";
+    (function(a,inp,sel,cnt2,div){
+      function doAdd(){
+        var t=(inp.value||"").trim();if(!t)return;
+        S.acciones[a.id].push(t);S.accionesEstado[a.id].push(false);S.accionesSrc[a.id].push(sel.value||"propio");
+        inp.value="";cnt2.textContent=S.acciones[a.id].length+" acc.";
+        renderAcciones(a.id,div);
+      }
+      addBtn.onclick=doAdd;inp.onkeydown=function(e){if(e.key==="Enter")doAdd();};
+    })(area,addInp,srcSel,cnt,accDiv);
+    addRow.appendChild(addInp);addRow.appendChild(srcSel);addRow.appendChild(addBtn);accDiv.appendChild(addRow);
+    renderAcciones(area.id,accDiv);
+    card.appendChild(accDiv);
+    hdr.onclick=function(){
+      var isOpen=card.classList.contains("activa");
+      document.querySelectorAll(".area-card").forEach(function(c){c.classList.remove("activa");});
+      if(!isOpen)card.classList.add("activa");
+    };
+    p.appendChild(card);
+  });
+
+  var nav=mk("div","nav");
+  var pb2=mk("button","bn","Anterior");pb2.onclick=function(){irA(2);};
+  var pn=mk("button","bp","Ir al check-in de 30 d\u00edas");pn.onclick=function(){bCheckin();irA(4);};
+  nav.appendChild(pb2);nav.appendChild(pn);p.appendChild(nav);
+}
+
+// ── P4: CHECK-IN 30 DIAS ─────────────────────────────────────
+function bCheckin(){
+  var p=ge("p4");p.innerHTML="";
+  var badge=mk("div","pbadge");badge.appendChild(mk("div","pbadge-q","Check-in de 30 d\u00edas"));p.appendChild(badge);
+  var ph=mk("div","ph");
+  ph.appendChild(mk("div","ph-s","Revisi\u00f3n mensual \u00b7 "+S.nombre));
+  ph.appendChild(mk("div","ph-t","\u00bfC\u00f3mo has avanzado?"));
+  ph.appendChild(mk("div","ph-d","Este check-in es para realizarlo 30 d\u00edas despu\u00e9s de tu diagn\u00f3stico inicial. Revisa las acciones que cumpliste y vuelve a calificar cada \u00e1rea."));
+  p.appendChild(ph);dmsg(p);
+
+  // Resumen de acciones cumplidas
+  var totalAcc=0,doneAcc=0;
+  AREAS.forEach(function(a){
+    var accs=S.acciones[a.id]||[];var estados=S.accionesEstado[a.id]||[];
+    totalAcc+=accs.length;
+    estados.forEach(function(e){if(e)doneAcc++;});
+  });
+  var cres=mk("div","card");
+  var cl=mk("div","cl","Resumen de acciones comprometidas");cres.appendChild(cl);
+  var statrow=mk("div");statrow.style.cssText="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px";
+  [{l:"Total comprometidas",v:String(totalAcc)},{l:"Cumplidas",v:String(doneAcc),c:"var(--grn)"},{l:"Pendientes",v:String(totalAcc-doneAcc),c:"#BF4A4A"}].forEach(function(item){
+    var s=mk("div");s.style.cssText="background:var(--bg4);border-radius:var(--r);padding:10px;text-align:center";
+    var sn=mk("div");sn.style.cssText="font-family:Cormorant Garamond,serif;font-size:22px;font-weight:300;line-height:1;margin-bottom:3px";sn.style.color=item.c||"var(--gold2)";sn.textContent=item.v;
+    var sl2=mk("div");sl2.style.cssText="font-size:10px;color:var(--dim);letter-spacing:.06em;text-transform:uppercase";sl2.textContent=item.l;
+    s.appendChild(sn);s.appendChild(sl2);statrow.appendChild(s);
+  });
+  cres.appendChild(statrow);
+  // Listar acciones por area con estado
+  AREAS.forEach(function(a){
+    var accs=S.acciones[a.id]||[];if(!accs.length)return;
+    var estados=S.accionesEstado[a.id]||[];
+    var blk=mk("div");blk.style.cssText="margin-bottom:9px;padding:9px 12px;background:var(--bg4);border-radius:var(--r);border-left:2px solid "+a.color;
+    var t=mk("div");t.style.cssText="font-size:11px;font-weight:500;color:"+a.color+";margin-bottom:5px";t.textContent=a.nombre;blk.appendChild(t);
+    accs.forEach(function(txt,i){
+      var done=estados[i]||false;
+      var row=mk("div");row.style.cssText="display:flex;align-items:flex-start;gap:7px;padding:4px 0";
+      var chk=mk("div","accion-chk"+(done?" done":""));chk.style.cssText+="flex-shrink:0;margin-top:2px";
+      if(done){var tick=mk("div");tick.style.cssText="width:8px;height:8px;border-radius:50%;background:var(--bg)";chk.appendChild(tick);}
+      var txtEl=mk("div","accion-txt"+(done?" done":""),txt);
+      chk.onclick=(function(idx,chkEl,txtEl2){return function(){
+        S.accionesEstado[a.id][idx]=!S.accionesEstado[a.id][idx];
+        var d=S.accionesEstado[a.id][idx];
+        chkEl.className="accion-chk"+(d?" done":"");chkEl.innerHTML="";
+        if(d){var t2=mk("div");t2.style.cssText="width:8px;height:8px;border-radius:50%;background:var(--bg)";chkEl.appendChild(t2);}
+        txtEl2.className="accion-txt"+(d?" done":"");
+      };})(i,chk,txtEl);
+      row.appendChild(chk);row.appendChild(txtEl);blk.appendChild(row);
+    });
+    cres.appendChild(blk);
+  });
+  p.appendChild(cres);
+
+  // Recalificacion
+  var crecal=mk("div","card gold");crecal.appendChild(mk("div","cl","Vuelve a calificar cada \u00e1rea"));
+  crecal.appendChild(mk("div","ct","Con la misma honestidad con que empezaste. Compara con tu diagn\u00f3stico inicial \u2014 el n\u00famero de partida aparece debajo de cada slider."));
+  AREAS.forEach(function(area){
+    var row=mk("div");row.style.cssText="margin-bottom:10px;padding:10px 12px;background:var(--bg3);border-radius:var(--rm);border:1px solid rgba(255,255,255,.06)";
+    var hdr2=mk("div","area-header");hdr2.style.marginBottom="7px";
+    var dot=mk("div","area-dot");dot.style.background=area.color;
+    var nom=mk("div","area-nombre",area.nombre);nom.style.color=area.color;
+    var sl=buildSlider(area,S.checkin30,null);
+    hdr2.appendChild(dot);hdr2.appendChild(nom);hdr2.appendChild(sl.valEl);row.appendChild(hdr2);row.appendChild(sl.wrap);
+    var ant=mk("div");ant.style.cssText="font-size:10px;color:var(--faint);margin-top:3px";ant.textContent="Diagn\u00f3stico inicial: "+String(S.diagnostico[area.id]||1)+"/10";row.appendChild(ant);
+    crecal.appendChild(row);
+  });
+  p.appendChild(crecal);
+
+  var nav=mk("div","nav");
+  var pb2=mk("button","bn","Anterior");pb2.onclick=function(){irA(3);};
+  var pn=mk("button","bp","Ver mi plan de metas 90 d\u00edas");pn.onclick=function(){bMetas();irA(5);};
+  nav.appendChild(pb2);nav.appendChild(pn);p.appendChild(nav);
+}
+
+// ── P5: METAS 90 DIAS ────────────────────────────────────────
+function bMetas(){
+  var p=ge("p5");p.innerHTML="";
+  var badge=mk("div","pbadge");badge.appendChild(mk("div","pbadge-q","Mis metas de 90 d\u00edas"));p.appendChild(badge);
+  var ph=mk("div","ph");
+  ph.appendChild(mk("div","ph-t","Plan trimestral de crecimiento"));
+  ph.appendChild(mk("div","ph-d","Las metas trimestrales son el lenguaje del cambio sostenible. 90 d\u00edas es suficiente para ver cambio real y suficientemente corto para mantener la urgencia."));
+  p.appendChild(ph);dmsg(p);
+
+  var cexp=mk("div","card pur");cexp.appendChild(mk("div","cl p","C\u00f3mo construir una meta trimestral"));
+  cexp.appendChild(mk("div","ct","Una buena meta trimestral tiene tres elementos: un resultado concreto y medible, una acci\u00f3n semanal que lo sostiene, y una fecha de revisi\u00f3n. Elige las 3 \u00e1reas que m\u00e1s necesitan trabajo y define una meta para cada una."));
+  p.appendChild(cexp);
+
+  // Selector de areas prioritarias
+  var sorted2=[].concat(AREAS).sort(function(a,b){return (S.checkin30[a.id]||S.diagnostico[a.id]||1)-(S.checkin30[b.id]||S.diagnostico[b.id]||1);});
+  var top3=sorted2.slice(0,3);
+
+  var ctabs=mk("div","card gold");ctabs.appendChild(mk("div","cl","Las 3 \u00e1reas prioritarias para tus metas"));
+  var tabsDiv=mk("div","tab-row");
+  var activeArea=top3[0].id;
+  top3.forEach(function(a){
+    var tab=mk("button","tab"+(a.id===activeArea?" on":""),a.nombre.split(" ")[0]+" \u2014 "+String(S.checkin30[a.id]||S.diagnostico[a.id]||1)+"/10");
+    tab.onclick=function(){
+      activeArea=a.id;
+      tabsDiv.querySelectorAll(".tab").forEach(function(t){t.className="tab";});
+      tab.className="tab on";
+      document.querySelectorAll(".meta-content").forEach(function(mc){mc.style.display="none";});
+      var mc=ge("meta-"+a.id);if(mc)mc.style.display="block";
+    };
+    tabsDiv.appendChild(tab);
+  });
+  ctabs.appendChild(tabsDiv);
+
+  top3.forEach(function(a){
+    var mc=mk("div","meta-content");mc.id="meta-"+a.id;mc.style.display=a.id===activeArea?"block":"none";
+    if(!S.metas[a.id])S.metas[a.id]={meta:"",accion:"",fecha:"",indicador:""};
+    var m=S.metas[a.id];
+
+    var dot2=mk("div");dot2.style.cssText="width:8px;height:8px;border-radius:50%;background:"+a.color+";display:inline-block;margin-right:7px";mc.appendChild(dot2);
+    var nomLabel=mk("span");nomLabel.style.cssText="font-size:13px;font-weight:500;color:"+a.color;nomLabel.textContent=a.nombre;mc.appendChild(nomLabel);mc.appendChild(mk("div",null,"\u00a0"));
+
+    [{k:"meta",l:"\u00bfQu\u00e9 quieres lograr en esta \u00e1rea en 90 d\u00edas?",ph:"Describe el resultado concreto que quieres ver. Espec\u00edfico y medible.",rows:3},
+     {k:"indicador",l:"\u00bfC\u00f3mo sabrás que lo lograste? \u2014 Indicador de \u00e9xito",ph:"Ej: Correr 5km sin parar. Ahorrar $X al mes. Tener una conversaci\u00f3n con mi padre.",rows:2},
+     {k:"accion",l:"\u00bfQu\u00e9 har\u00e1s CADA SEMANA para lograrlo?",ph:"La acci\u00f3n semanal que sostiene la meta. Concreta y repetible.",rows:2},
+     {k:"fecha",l:"Fecha l\u00edmite de revisi\u00f3n (90 d\u00edas desde hoy)",ph:"Escribe la fecha exacta de revisi\u00f3n...",rows:1}
+    ].forEach(function(item){
+      var wr=mk("div");wr.style.marginBottom="9px";
+      var lb=mk("label");lb.style.cssText="font-size:10px;letter-spacing:.12em;text-transform:uppercase;display:block;font-weight:500;margin-bottom:5px";lb.style.color=a.color;lb.textContent=item.l;wr.appendChild(lb);
+      var ta=document.createElement("textarea");ta.className="rta";ta.style.minHeight=(item.rows*24+20)+"px";ta.placeholder=item.ph;ta.value=m[item.k]||"";
+      ta.oninput=(function(aId,k){return function(){if(!S.metas[aId])S.metas[aId]={};S.metas[aId][k]=this.value;};})(a.id,item.k);
+      wr.appendChild(ta);mc.appendChild(wr);
+    });
+    ctabs.appendChild(mc);
+  });
+
+  // Agregar mas areas
+  var cmas=mk("div");cmas.style.cssText="margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.06)";
+  cmas.appendChild(mk("div","cl","Agregar meta en otra \u00e1rea"));
+  var selArea=document.createElement("select");selArea.style.cssText="background:var(--bg3);border:1px solid rgba(255,255,255,.07);border-radius:var(--r);color:var(--text);font-family:Barlow,sans-serif;font-size:13px;padding:8px 12px;width:100%;outline:none;margin-bottom:8px";
+  AREAS.forEach(function(a){
+    var already=top3.some(function(t){return t.id===a.id;});
+    if(!already){var opt=document.createElement("option");opt.value=a.id;opt.textContent=a.nombre+" ("+String(S.checkin30[a.id]||S.diagnostico[a.id]||1)+"/10)";selArea.appendChild(opt);}
+  });
+  cmas.appendChild(selArea);
+  var btnMas=mk("button","bs","Agregar esta \u00e1rea");
+  btnMas.onclick=function(){
+    var aId=selArea.value;
+    var found=AREAS.find(function(a){return a.id===aId;});
+    if(!found||top3.some(function(t){return t.id===aId;}))return;
+    top3.push(found);
+    var tab2=mk("button","tab",found.nombre.split(" ")[0]+" \u2014 "+String(S.diagnostico[found.id]||1)+"/10");
+    tab2.onclick=function(){
+      activeArea=found.id;tabsDiv.querySelectorAll(".tab").forEach(function(t){t.className="tab";});
+      tab2.className="tab on";document.querySelectorAll(".meta-content").forEach(function(mc){mc.style.display="none";});
+      var mc2=ge("meta-"+found.id);if(mc2)mc2.style.display="block";
+    };
+    tabsDiv.appendChild(tab2);
+    // Crear el meta-content para esta area
+    if(!ge("meta-"+found.id)){
+      var mc3=mk("div","meta-content");mc3.id="meta-"+found.id;mc3.style.display="none";
+      if(!S.metas[found.id])S.metas[found.id]={meta:"",accion:"",fecha:"",indicador:""};
+      var m2=S.metas[found.id];
+      var dot3=mk("div");dot3.style.cssText="width:8px;height:8px;border-radius:50%;background:"+found.color+";display:inline-block;margin-right:7px";mc3.appendChild(dot3);
+      var nomL=mk("span");nomL.style.cssText="font-size:13px;font-weight:500;color:"+found.color;nomL.textContent=found.nombre;mc3.appendChild(nomL);mc3.appendChild(mk("div",null,"\u00a0"));
+      [{k:"meta",l:"\u00bfQu\u00e9 quieres lograr en 90 d\u00edas?",ph:"Resultado concreto y medible.",rows:3},{k:"indicador",l:"Indicador de \u00e9xito",ph:"\u00bfC\u00f3mo sabr\u00e1s que lo lograste?",rows:2},{k:"accion",l:"Acci\u00f3n semanal",ph:"La acci\u00f3n que sostiene la meta cada semana.",rows:2},{k:"fecha",l:"Fecha l\u00edmite",ph:"Fecha exacta de revisi\u00f3n...",rows:1}].forEach(function(item){
+        var wr2=mk("div");wr2.style.marginBottom="9px";
+        var lb2=mk("label");lb2.style.cssText="font-size:10px;letter-spacing:.12em;text-transform:uppercase;display:block;font-weight:500;margin-bottom:5px";lb2.style.color=found.color;lb2.textContent=item.l;wr2.appendChild(lb2);
+        var ta2=document.createElement("textarea");ta2.className="rta";ta2.style.minHeight=(item.rows*24+20)+"px";ta2.placeholder=item.ph;ta2.value=m2[item.k]||"";
+        ta2.oninput=(function(aId2,k2){return function(){if(!S.metas[aId2])S.metas[aId2]={};S.metas[aId2][k2]=this.value;};})(found.id,item.k);
+        wr2.appendChild(ta2);mc3.appendChild(wr2);
+      });
+      ctabs.appendChild(mc3);
+    }
+  };
+  cmas.appendChild(btnMas);ctabs.appendChild(cmas);
+  p.appendChild(ctabs);
+
+  var nav=mk("div","nav");
+  var pb2=mk("button","bn","Anterior");pb2.onclick=function(){irA(4);};
+  var pn=mk("button","bp","Ver mi crecimiento");pn.onclick=function(){bCrecimiento();irA(6);};
+  nav.appendChild(pb2);nav.appendChild(pn);p.appendChild(nav);
+}
+
+// ── P6: CRECIMIENTO ──────────────────────────────────────────
+function bCrecimiento(){
+  var p=ge("p6");p.innerHTML="";
+  var badge=mk("div","pbadge");badge.appendChild(mk("div","pbadge-q","Mi crecimiento"));p.appendChild(badge);
+  var ph=mk("div","ph");
+  ph.appendChild(mk("div","ph-t","Tu evoluci\u00f3n en el tiempo, "+S.nombre));
+  ph.appendChild(mk("div","ph-d","La comparaci\u00f3n honesta entre d\u00f3nde empezaste y d\u00f3nde est\u00e1s."));
+  p.appendChild(ph);dmsg(p);
+
+  var hasCheckin=Object.keys(S.checkin30).length>0;
+  var scores2=hasCheckin?S.checkin30:S.diagnostico;
+  var total1=0,total2=0;
+  AREAS.forEach(function(a){total1+=S.diagnostico[a.id]||1;total2+=scores2[a.id]||1;});
+  var prom1=Math.round(total1/12*10)/10,prom2=Math.round(total2/12*10)/10;
+  var delta=Math.round((prom2-prom1)*10)/10;
+
+  var cstat=mk("div","card gold");cstat.style.padding="14px 16px";
+  var statrow=mk("div");statrow.style.cssText="display:grid;grid-template-columns:1fr 1fr 1fr;gap:9px;margin-bottom:14px";
+  [{l:"Diagn\u00f3stico inicial",v:prom1+"/10",c:"var(--dim)"},{l:hasCheckin?"Check-in 30 d\u00edas":"Actual",v:prom2+"/10",c:"var(--gold2)"},{l:"Tu crecimiento",v:(delta>=0?"+":"")+delta+" pts",c:delta>=0?"var(--grn)":"#BF4A4A"}].forEach(function(item){
+    var s=mk("div");s.style.cssText="background:var(--bg4);border-radius:var(--r);padding:10px;text-align:center";
+    var sn=mk("div");sn.style.cssText="font-family:Cormorant Garamond,serif;font-size:20px;font-weight:300;line-height:1;margin-bottom:3px";sn.style.color=item.c;sn.textContent=item.v;
+    var sl2=mk("div");sl2.style.cssText="font-size:10px;color:var(--dim);letter-spacing:.06em;text-transform:uppercase";sl2.textContent=item.l;
+    s.appendChild(sn);s.appendChild(sl2);statrow.appendChild(s);
+  });
+  cstat.appendChild(statrow);
+
+  // Ruedas comparativas
+  var doble=mk("div");doble.style.cssText="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px";
+  [{tit:"Diagn\u00f3stico inicial",sc:S.diagnostico},{tit:hasCheckin?"Check-in 30 d\u00edas":"Estado actual",sc:scores2}].forEach(function(item){
+    var wrap=mk("div");
+    var t=mk("div");t.style.cssText="font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);margin-bottom:5px;text-align:center";t.textContent=item.tit;
+    var rw=mk("div","rueda-wrap");rw.innerHTML=buildRuedaSVG(item.sc,200);
+    wrap.appendChild(t);wrap.appendChild(rw);doble.appendChild(wrap);
+  });
+  cstat.appendChild(doble);p.appendChild(cstat);
+
+  // Comparacion area por area
+  var ccomp=mk("div","card");ccomp.appendChild(mk("div","cl","Comparaci\u00f3n \u00e1rea por \u00e1rea"));
+  AREAS.forEach(function(a){
+    var v1=S.diagnostico[a.id]||1,v2=scores2[a.id]||1,dv=v2-v1;
+    var row=mk("div","comp-row");
+    var dot=mk("div");dot.style.cssText="width:8px;height:8px;border-radius:50%;background:"+a.color+";flex-shrink:0";
+    var nom=mk("div");nom.style.cssText="font-size:12px;flex:1;min-width:0";nom.textContent=a.nombre.split(" ")[0];
+    var bars=mk("div","comp-bars");
+    [{v:v1,c:"rgba(255,255,255,0.2)"},{v:v2,c:a.color}].forEach(function(b){
+      var brow=mk("div");brow.style.cssText="display:flex;align-items:center;gap:5px";
+      var bar=mk("div","comp-bar");bar.style.cssText="height:5px;border-radius:3px;background:"+b.c+";width:"+Math.round(b.v/10*100)+"%";
+      var val=mk("div","comp-val",b.v+"/10");brow.appendChild(bar);brow.appendChild(val);bars.appendChild(brow);
+    });
+    var delt=mk("div","comp-delta",(dv>=0?"+":"")+dv);delt.style.color=dv>0?"var(--grn)":dv<0?"#BF4A4A":"var(--dim)";
+    row.appendChild(dot);row.appendChild(nom);row.appendChild(bars);row.appendChild(delt);ccomp.appendChild(row);
+  });
+  p.appendChild(ccomp);
+
+  // Metas resumen
+  var metasContenido=Object.keys(S.metas).filter(function(k){return S.metas[k]&&S.metas[k].meta;});
+  if(metasContenido.length){
+    var cmetas=mk("div","card acc");cmetas.appendChild(mk("div","cl b","Tus metas de 90 d\u00edas"));
+    metasContenido.forEach(function(aId){
+      var a=AREAS.find(function(ar){return ar.id===aId;});if(!a)return;
+      var m=S.metas[aId];
+      var blk=mk("div");blk.style.cssText="background:var(--bg4);border-radius:var(--rm);padding:11px 13px;margin-bottom:8px;border-left:3px solid "+a.color;
+      var t=mk("div");t.style.cssText="font-size:11px;font-weight:500;margin-bottom:4px";t.style.color=a.color;t.textContent=a.nombre;blk.appendChild(t);
+      if(m.meta){var md=mk("div","ct");md.textContent=m.meta;blk.appendChild(md);}
+      if(m.indicador){var mi=mk("div");mi.style.cssText="font-size:11px;color:var(--dim);margin-top:4px";mi.textContent="\u00c9xito: "+m.indicador;blk.appendChild(mi);}
+      if(m.accion){var ma=mk("div");ma.style.cssText="font-size:11px;color:var(--acc);margin-top:3px";ma.textContent="Semanal: "+m.accion;blk.appendChild(ma);}
+      if(m.fecha){var mf=mk("div");mf.style.cssText="font-size:11px;color:var(--gold);margin-top:3px";mf.textContent="Fecha: "+m.fecha;blk.appendChild(mf);}
+      cmetas.appendChild(blk);
+    });
+    p.appendChild(cmetas);
+  }
+
+  var cierre=mk("div");cierre.style.cssText="background:linear-gradient(135deg,rgba(155,127,212,.1),rgba(201,168,76,.07));border:1px solid var(--pub);border-radius:var(--rl);padding:22px 18px;margin-top:14px;text-align:center";
+  var ctCierre=mk("div");ctCierre.style.cssText="font-family:Cormorant Garamond,serif;font-size:20px;color:var(--gold2);margin-bottom:9px;font-style:italic;line-height:1.4";
+  ctCierre.textContent="Lo que mediste no es un resultado final \u2014 es el comienzo de la siguiente vuelta de la rueda.";
+  cierre.appendChild(ctCierre);
+  cierre.appendChild(mk("div","ct","Cada 90 d\u00edas, vuelve. Revisa. Ajusta. La vida plena no es un destino \u2014 es una forma de caminar con consciencia."));
+  p.appendChild(cierre);
+
+  var nav=mk("div","nav");var pb2=mk("button","bn","Anterior");pb2.onclick=function(){irA(5);};var ps=mk("button","bs","Revisar desde el inicio");ps.style.opacity=".5";ps.onclick=function(){irA(0);};nav.appendChild(pb2);nav.appendChild(ps);p.appendChild(nav);
+}
+
+// Arrancar con el widget de principios
+buildWidgetPrincipios("rueda", document.body, function() {
+  init();
+});
+
+
+// INIT VIDEO BANNER
+(function(){
+  var vdb = document.getElementById("vid-banner-rueda");
+  var vdp = document.getElementById("vid-player-rueda");
+  var url = window.VIDEOS_MODULO && window.VIDEOS_MODULO["rueda"] || "";
+  if(url && vdb && vdp){
+    var m2 = url.match(/(?:v=|youtu\.be\/|embed\/)([\w-]{11})/);
+    if(m2){
+      var ifr = document.createElement("iframe");
+      ifr.src = "https://www.youtube.com/embed/" + m2[1] + "?rel=0";
+      ifr.allow = "accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture";
+      ifr.allowFullscreen = true;
+      vdp.innerHTML = "";
+      vdp.appendChild(ifr);
+    }
+    vdb.classList.add("show");
+  } else if(vdb){
+    vdb.classList.add("show");
+  }
+})();
+</script>
+
+<!-- BOTON BRUJULA -->
+<div class="brujula-btn-fixed" id="brujulaFloat">
+  <div class="brujula-toast" id="brujulaToast">Registra lo que descubriste en tu Brújula de Propósito</div>
+  <a class="brujula-btn" href="brujula-proposito.html" title="Mi Brújula de Propósito">
+    <div class="brujula-btn-icon">∀</div>
+    <div class="brujula-btn-txt">Mi Brújula</div>
+  </a>
+</div>
+<script>
+// Mostrar toast motivacional a los 90 segundos de estar en el módulo
+setTimeout(function(){
+  var t=document.getElementById("brujulaToast");
+  if(t){t.classList.add("show");setTimeout(function(){t.classList.remove("show");},5000);}
+},90000);
+</script>
+
+</body>
+</html>

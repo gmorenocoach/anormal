@@ -1,0 +1,1456 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Café con Propósito — Mi Razón de Ser</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Barlow:wght@300;400;500&family=Barlow+Condensed:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+
+:root{--bg:#0A0F1E;--bg2:#0E1525;--bg3:#131D30;--bg4:#1A2640;
+--gold:#C9A84C;--gold2:#E8C96A;--gold3:#F5E0A0;
+--gd:rgba(201,168,76,.13);--gb:rgba(201,168,76,.28);
+--text:#EAE6DC;--dim:#8A95A8;--faint:#3A4558;
+--acc:#4A9EBF;--acd:rgba(74,158,191,.13);--acb:rgba(74,158,191,.28);
+--grn:#4ABF7A;--grd:rgba(74,191,122,.12);--grb:rgba(74,191,122,.28);
+--pur:#9B7FD4;--pud:rgba(155,127,212,.12);--pub:rgba(155,127,212,.28);
+--azul:#4A9EBF;--azulb:rgba(74,158,191,.18);
+--am:#C9A84C;--amb:rgba(201,168,76,.18);
+--vd:#4ABF7A;--vdb:rgba(74,191,122,.18);
+--ro:#D4537E;--rob:rgba(212,83,126,.18);
+--r:4px;--rm:8px;--rl:14px}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font-weight:300;font-size:15px;line-height:1.65;min-height:100vh}
+body::before{content:"";position:fixed;inset:0;background:radial-gradient(ellipse at 20% 50%,rgba(201,168,76,.04),transparent 60%),radial-gradient(ellipse at 80% 20%,rgba(74,158,191,.04),transparent 50%);pointer-events:none;z-index:0}
+.app{position:relative;z-index:1;max-width:780px;margin:0 auto;padding:0 22px 80px}
+.prog{display:flex;align-items:center;margin-bottom:28px;overflow-x:auto;padding-bottom:3px}
+.ps{display:flex;align-items:center;gap:5px;white-space:nowrap;padding:3px 0;cursor:default;flex-shrink:0}
+.ps.done{cursor:pointer}
+.pn{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:500;border:1px solid var(--faint);color:var(--faint);transition:all .3s;flex-shrink:0}
+.ps.done .pn{border-color:var(--gold);color:var(--gold);background:var(--gd)}
+.ps.act .pn{border-color:var(--gold2);color:var(--bg);background:var(--gold2)}
+.ptxt{font-size:9px;letter-spacing:.07em;text-transform:uppercase;color:var(--faint);transition:color .3s}
+.ps.done .ptxt,.ps.act .ptxt{color:var(--gold)}
+.pln{flex:1;min-width:6px;height:1px;background:var(--faint);margin:0 4px;opacity:.2;transition:all .3s}
+.pln.done{background:var(--gold);opacity:.4}
+.panel{display:none}.panel.act{display:block;animation:fu .35s ease}
+@keyframes fu{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.pbadge{display:inline-flex;align-items:center;gap:8px;background:var(--gd);border:1px solid var(--gb);border-radius:var(--rl);padding:6px 14px;margin-bottom:16px}
+.pbadge-q{font-family:"Cormorant Garamond",serif;font-size:18px;color:var(--gold2);font-weight:300;font-style:italic}
+.ph{margin-bottom:20px}
+.ph-s{font-family:"Barlow Condensed",sans-serif;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:4px}
+.ph-t{font-family:"Cormorant Garamond",serif;font-size:clamp(18px,4vw,28px);font-weight:300;color:var(--gold2);line-height:1.15;margin-bottom:4px}
+.ph-d{font-size:13px;color:var(--dim);line-height:1.8;max-width:540px}
+.card{background:var(--bg2);border:1px solid rgba(255,255,255,.055);border-radius:var(--rl);padding:18px 22px;margin-bottom:11px}
+.card.gold{border-color:var(--gb);background:linear-gradient(135deg,var(--bg2),var(--bg3))}
+.card.pur{border-color:var(--pub);background:linear-gradient(135deg,var(--bg2),var(--pud))}
+.card.acc{border-color:var(--acb);background:linear-gradient(135deg,var(--bg2),var(--acd))}
+.card.grn{border-color:var(--grb);background:linear-gradient(135deg,var(--bg2),var(--grd))}
+.cl{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:9px}
+.cl.b{color:var(--acc)}.cl.p{color:var(--pur)}.cl.g{color:var(--grn)}.cl.r{color:#E09070}
+.ct{font-size:13px;color:var(--dim);line-height:1.8}
+.il{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-bottom:5px;display:block}
+.inp{background:var(--bg3);border:1px solid rgba(255,255,255,.07);border-radius:var(--r);color:var(--text);font-family:"Barlow",sans-serif;font-size:14px;font-weight:300;padding:9px 13px;width:100%;outline:none;transition:border-color .2s}
+.inp:focus{border-color:var(--gold)}
+.inp::placeholder{color:var(--faint)}
+.irow{display:flex;gap:9px;flex-wrap:wrap}
+.bp{background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--bg);border:none;border-radius:var(--r);font-family:"Barlow Condensed",sans-serif;font-size:12px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;padding:11px 26px;cursor:pointer;transition:opacity .2s,transform .15s}
+.bp:hover{opacity:.9;transform:translateY(-1px)}
+.bs{background:transparent;color:var(--gold);border:1px solid var(--gb);border-radius:var(--r);font-family:"Barlow Condensed",sans-serif;font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;padding:7px 16px;cursor:pointer;transition:all .2s}
+.bs:hover{background:var(--gd)}
+.bn{background:transparent;color:var(--dim);border:1px solid rgba(255,255,255,.07);border-radius:var(--r);font-family:"Barlow",sans-serif;font-size:13px;padding:8px 16px;cursor:pointer;transition:all .2s}
+.bn:hover{border-color:var(--gold);color:var(--gold)}
+/* Sublistas 3 columnas */
+.sub3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:10px}
+.sub-col{background:var(--bg3);border-radius:var(--rm);padding:11px 12px;border:1px solid rgba(255,255,255,.06)}
+.sub-col-t{font-size:10px;letter-spacing:.12em;text-transform:uppercase;font-weight:500;margin-bottom:8px;text-align:center;padding-bottom:6px;border-bottom:1px solid rgba(255,255,255,.06)}
+.sub-col-area{min-height:80px;display:flex;flex-wrap:wrap;gap:5px;align-content:flex-start;padding:4px 0}
+.pap{display:inline-flex;align-items:center;gap:4px;padding:4px 9px 4px 10px;border-radius:var(--r);font-size:12px;border:1px solid transparent;animation:pi .2s ease}
+@keyframes pi{from{opacity:0;transform:scale(.85)}to{opacity:1;transform:scale(1)}}
+.pap.azul{background:var(--azulb);border-color:rgba(74,158,191,.4);color:var(--azul)}
+.pap.am{background:var(--amb);border-color:rgba(201,168,76,.4);color:var(--am)}
+.pap.vd{background:var(--vdb);border-color:rgba(74,191,122,.4);color:var(--vd)}
+.pap.ro{background:var(--rob);border-color:rgba(212,83,126,.4);color:var(--ro)}
+.pap.multi{background:var(--gd);border-color:var(--gold);color:var(--gold2)}
+.pap.dup{background:linear-gradient(135deg,var(--azulb),var(--amb));border-color:var(--gold);color:var(--gold2);font-weight:500}
+.pap.sim{background:var(--bg4);border-color:rgba(255,255,255,.2);color:var(--dim)}
+.pap.sel{background:var(--gd);border-color:var(--gold2);color:var(--gold2);font-weight:500}
+.pdel{background:transparent;border:none;color:inherit;opacity:.5;cursor:pointer;font-size:12px;padding:0;line-height:1}
+.pdel:hover{opacity:1}
+/* Input con selector de sublista */
+.addinput-wrap{background:var(--bg3);border-radius:var(--rm);padding:12px 14px;border:1px solid rgba(255,255,255,.06)}
+.sub-sel-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
+.sub-sel-btn{padding:5px 12px;border-radius:var(--r);font-size:11px;font-family:"Barlow Condensed",sans-serif;letter-spacing:.07em;text-transform:uppercase;cursor:pointer;border:1px solid rgba(255,255,255,.1);background:transparent;color:var(--dim);transition:all .2s}
+.sub-sel-btn.on{border-color:var(--gold);background:var(--gd);color:var(--gold2)}
+.arow{display:flex;gap:7px;align-items:center}
+.ainp{flex:1;background:var(--bg2);border:1px solid rgba(255,255,255,.07);border-radius:var(--r);color:var(--text);font-family:"Barlow",sans-serif;font-size:13px;padding:8px 11px;outline:none;transition:border-color .2s}
+.ainp:focus{border-color:var(--gold)}
+.ainp::placeholder{color:var(--faint)}
+.abtn{padding:8px 13px;border-radius:var(--r);border:1px solid;font-family:"Barlow Condensed",sans-serif;font-size:11px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;background:transparent;transition:all .18s}
+/* Tabla cruce verde */
+.cruce-tabla{width:100%;border-collapse:collapse;margin-bottom:10px}
+.cruce-tabla th{font-size:10px;letter-spacing:.12em;text-transform:uppercase;font-weight:500;padding:8px 10px;text-align:left;border-bottom:1px solid rgba(255,255,255,.1)}
+.cruce-tabla td{padding:7px 10px;border-bottom:1px solid rgba(255,255,255,.04);font-size:12px;vertical-align:middle}
+.cruce-tabla tr:last-child td{border-bottom:none}
+.cruce-tabla tr{cursor:pointer;transition:background .18s}
+.cruce-tabla tr:hover{background:rgba(255,255,255,.03)}
+.cruce-tabla tr.agregado td{opacity:.35}
+.tag-dup{font-size:10px;padding:2px 7px;border-radius:20px;background:var(--gd);border:1px solid var(--gold);color:var(--gold2);font-weight:500;white-space:nowrap}
+.tag-sim{font-size:10px;padding:2px 7px;border-radius:20px;background:var(--bg4);border:1px solid rgba(255,255,255,.15);color:var(--dim);white-space:nowrap}
+/* Cruce selector */
+.cruce-selector{background:var(--bg3);border-radius:var(--rm);padding:14px 16px;margin-bottom:10px;border:1.5px solid rgba(255,255,255,.07)}
+.cruce-s-t{font-size:13px;font-weight:500;color:var(--text);margin-bottom:3px}
+.cruce-s-d{font-size:12px;color:var(--dim);margin-bottom:10px;line-height:1.55}
+.cruce-chips{display:flex;flex-wrap:wrap;gap:5px;min-height:32px;padding:6px;background:var(--bg4);border-radius:var(--r);margin-bottom:6px}
+.chip-sel{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:var(--r);font-size:12px;cursor:pointer;border:1px solid rgba(255,255,255,.1);background:var(--bg3);color:var(--dim);transition:all .18s}
+.chip-sel:hover{border-color:var(--gold);color:var(--gold2)}
+.chip-sel.on{background:var(--gd);border-color:var(--gold2);color:var(--gold2);font-weight:500}
+.hint{font-size:12px;color:var(--faint);font-style:italic}
+/* Frase */
+.fdisp{background:var(--bg4);border:1px solid var(--gb);border-radius:var(--rm);padding:15px 17px;font-family:"Cormorant Garamond",serif;font-size:17px;color:var(--faint);line-height:1.9;font-style:italic;min-height:65px;margin-bottom:9px}
+.fta{background:var(--bg3);border:1px solid rgba(255,255,255,.07);border-radius:var(--r);color:var(--text);font-family:"Barlow",sans-serif;font-size:14px;font-weight:300;padding:12px 14px;width:100%;min-height:80px;outline:none;resize:vertical;line-height:1.75;transition:border-color .2s}
+.fta:focus{border-color:var(--gold)}
+.cta{background:var(--bg3);border:1px solid rgba(255,255,255,.07);border-radius:var(--r);color:var(--text);font-family:"Barlow",sans-serif;font-size:13px;font-weight:300;padding:13px;width:100%;min-height:190px;outline:none;resize:vertical;line-height:1.85}
+/* Reflexiones */
+.rr{background:var(--bg4);border:1px solid var(--gb);border-radius:var(--rm);padding:13px 15px;margin:8px 0}
+.rr-l{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:5px;font-weight:500}
+.rr.b{border-color:var(--acb)}.rr.b .rr-l{color:var(--acc)}
+.rr.p{border-color:var(--pub)}.rr.p .rr-l{color:var(--pur)}
+.rrp{font-size:13px;color:var(--dim);line-height:1.75;margin-bottom:7px}
+.rta{background:var(--bg2);border:1px solid rgba(255,255,255,.07);border-radius:var(--r);color:var(--text);font-family:"Barlow",sans-serif;font-size:13px;padding:9px 11px;width:100%;min-height:60px;outline:none;resize:vertical;line-height:1.65;transition:border-color .2s}
+.rta:focus{border-color:var(--gold)}
+.rta::placeholder{color:var(--faint)}
+.rchk{display:flex;align-items:center;gap:8px;margin-top:6px;cursor:pointer}
+.rchk input{width:14px;height:14px;accent-color:var(--gold);cursor:pointer}
+.rchk label{font-size:12px;color:var(--dim);cursor:pointer}
+.rdone{display:inline-flex;font-size:11px;color:var(--grn);padding:3px 9px;background:var(--grd);border:1px solid var(--grb);border-radius:12px;margin-top:4px}
+.dmsg{background:linear-gradient(135deg,rgba(201,168,76,.07),rgba(74,158,191,.05));border:1px solid var(--gb);border-radius:var(--rl);padding:12px 16px;margin-bottom:11px;text-align:center}
+.dm-l{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:4px}
+.dm-t{font-family:"Cormorant Garamond",serif;font-size:14px;font-style:italic;color:var(--gold3);line-height:1.8}
+.cierre{background:linear-gradient(135deg,rgba(155,127,212,.1),rgba(201,168,76,.07));border:1px solid var(--pub);border-radius:var(--rl);padding:22px 18px;margin-top:14px;text-align:center}
+.ct2{font-family:"Cormorant Garamond",serif;font-size:21px;color:var(--gold2);margin-bottom:9px;font-style:italic;line-height:1.3}
+.cp{font-size:13px;color:var(--dim);line-height:1.85;max-width:480px;margin:0 auto 10px}
+.nav{display:flex;justify-content:space-between;align-items:center;margin-top:18px;padding-top:12px;border-top:1px solid rgba(255,255,255,.05)}
+/* Ikigai visual */
+.iki-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:13px 0}
+.iki-cell{border-radius:var(--rm);padding:12px 14px;border:1px solid}
+.iki-cell.azul{background:var(--azulb);border-color:rgba(74,158,191,.4)}
+.iki-cell.am{background:var(--amb);border-color:rgba(201,168,76,.4)}
+.iki-cell.vd{background:var(--vdb);border-color:rgba(74,191,122,.4)}
+.iki-cell.ro{background:var(--rob);border-color:rgba(212,83,126,.4)}
+.iki-cell-t{font-size:12px;font-weight:500;margin-bottom:3px}
+.iki-cell-d{font-size:11px;color:var(--dim);line-height:1.5}
+/* Proposito conceptos */
+.concepto-card{background:var(--bg3);border-radius:var(--rm);padding:14px 16px;margin-bottom:9px;border-left:3px solid}
+.concepto-t{font-family:"Cormorant Garamond",serif;font-size:18px;font-weight:300;margin-bottom:4px}
+.concepto-d{font-size:13px;color:var(--dim);line-height:1.75}
+.ejemplo-card{background:var(--bg4);border-radius:var(--r);padding:10px 13px;margin-top:8px;border:1px solid rgba(255,255,255,.06)}
+.ej-label{font-size:10px;letter-spacing:.1em;text-transform:uppercase;font-weight:500;margin-bottom:4px}
+.ej-txt{font-size:12px;color:var(--dim);line-height:1.6;font-style:italic}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--gb);border-radius:2px}
+@media(max-width:600px){.app{padding:0 14px 60px}.sub3{grid-template-columns:1fr}.iki-grid{grid-template-columns:1fr}}
+
+
+
+
+/* VIDEO BANNER */
+.vid-banner{background:linear-gradient(135deg,rgba(201,168,76,.07),rgba(74,158,191,.04));border:1px solid rgba(201,168,76,.2);border-radius:14px;overflow:hidden;margin:0 22px 20px;display:none}
+.vid-banner.show{display:block}
+.vid-banner-hdr{padding:10px 16px;border-bottom:1px solid rgba(255,255,255,.05);display:flex;align-items:center;justify-content:space-between}
+.vid-banner-lbl{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#C9A84C;font-weight:500;font-family:Barlow Condensed,sans-serif}
+.vid-banner-mod{font-size:11px;color:#8A95A8}
+.vid-banner-player{position:relative;width:100%;aspect-ratio:16/9;background:#060A14}
+.vid-banner-player iframe{position:absolute;inset:0;width:100%;height:100%;border:none}
+.vid-banner-ph{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center;padding:20px}
+.vid-ph-icon{width:44px;height:44px;border-radius:50%;background:rgba(201,168,76,.13);border:1.5px solid rgba(201,168,76,.28);display:flex;align-items:center;justify-content:center;font-size:16px;color:#E8C96A}
+.vid-ph-t{font-family:Cormorant Garamond,serif;font-size:15px;color:#E8C96A;font-weight:300}
+.vid-ph-d{font-size:11px;color:#3A4558;line-height:1.55;max-width:240px}
+@media(max-width:560px){.vid-banner{margin:0 14px 16px}}
+
+
+/* BOTON BRUJULA */
+.brujula-btn-fixed{position:fixed;bottom:22px;right:22px;z-index:500;display:flex;flex-direction:column;align-items:flex-end;gap:6px}
+.brujula-btn{display:flex;align-items:center;gap:8px;background:linear-gradient(135deg,rgba(201,168,76,.15),rgba(201,168,76,.08));border:1px solid rgba(201,168,76,.35);border-radius:30px;padding:10px 16px;cursor:pointer;transition:all .25s;text-decoration:none;backdrop-filter:blur(8px)}
+.brujula-btn:hover{background:linear-gradient(135deg,rgba(201,168,76,.25),rgba(201,168,76,.15));border-color:rgba(201,168,76,.6);transform:translateY(-2px)}
+.brujula-btn-icon{font-family:"Cormorant Garamond",serif;font-size:18px;color:var(--gold2);font-weight:300;line-height:1}
+.brujula-btn-txt{font-size:11px;font-family:"Barlow Condensed",sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--gold2);font-weight:500}
+.brujula-toast{background:var(--bg3);border:1px solid var(--gb);border-radius:var(--rm,10px);padding:9px 14px;font-size:12px;color:var(--gold3);font-family:"Barlow",sans-serif;max-width:220px;text-align:right;line-height:1.5;display:none;animation:btoast .3s ease}
+.brujula-toast.show{display:block}
+@keyframes btoast{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
+</style>
+</head>
+<body>
+
+<!-- VIDEO BANNER: Ikigai -->
+<div class="vid-banner" id="vid-banner-ikigai">
+  <div class="vid-banner-hdr">
+    <div class="vid-banner-lbl">Introducción al módulo</div>
+    <div class="vid-banner-mod">Ikigai</div>
+  </div>
+  <div class="vid-banner-player" id="vid-player-ikigai">
+    <div class="vid-banner-ph">
+      <div class="vid-ph-icon">&#9654;</div>
+      <div class="vid-ph-t">Video de introducción</div>
+      <div class="vid-ph-d">Alonso te explica lo que encontrarás en este módulo y cómo aprovecharlo al máximo.</div>
+    </div>
+  </div>
+</div>
+<div class="app" id="app"></div>
+<script>
+// ============================================================
+// WIDGET DE PRINCIPIOS Y COMPROMISOS - Anormal / Cafe con Proposito
+// v2.0 - Con recordatorio no negociable y orden original de principios
+// ============================================================
+
+var MODULO_PRINCIPIOS = {"bienvenida":[1,4,14],"rueda":[11,12],"elementos":[11,12],"camino":[5,9],"subnums":[5],"mapa":[9],"flechas":[9],"nombre":[5,9],"personas":[9,13],"dolan":[12,13],"perfil":[9],"septenios":[3,16],"ecg":[2,10],"nino":[2,3,7],"ikigai":[6,8,17],"ciclo":[15,16],"plan":[13,15,16],"dashboard":[18,9]};
+
+var PRINCIPIOS_DB = [{"num": 1, "titulo": "\u2200gradecer", "sesion": "bienvenida", "color": "#C9A84C", "no_negociable": "Mientras avanzas en este proceso, la gratitud no es opcional. Es el lente desde el que lees cada resultado, cada ejercicio, cada descubrimiento sobre ti mismo."}, {"num": 2, "titulo": "\u2200vanza en el perd\u00f3n", "sesion": "sesion3", "color": "#D4537E", "no_negociable": "Sin perd\u00f3n no hay transformaci\u00f3n real. Puedes completar todos los ejercicios \u2014 pero si cargas resentimiento, el proceso no puede hacer su trabajo completo."}, {"num": 3, "titulo": "\u2200provecha el dolor", "sesion": "sesion3", "color": "#D4537E", "no_negociable": "El dolor que emerja en este proceso no es se\u00f1al de que algo sale mal. Es la se\u00f1al de que algo est\u00e1 cambiando. No te detengas."}, {"num": 4, "titulo": "\u2200p\u00fantale al compromiso", "sesion": "bienvenida", "color": "#C9A84C", "no_negociable": "Ya te comprometiste al entrar. Ese compromiso no vence. Cada vez que sientas que quieres pausar, recuerda: te comprometiste antes de saber el c\u00f3mo. Conf\u00eda."}, {"num": 5, "titulo": "\u2200prende a normalizar lo extraordinario", "sesion": "sesion2", "color": "#9B7FD4", "no_negociable": "Lo que descubras sobre ti en esta sesi\u00f3n debe convertirse en tu nueva normalidad, no en un dato interesante que olvidas en una semana."}, {"num": 6, "titulo": "\u2200taca el miedo", "sesion": "sesion4", "color": "#E8C96A", "no_negociable": "Declarar tu prop\u00f3sito de vida activa todos tus miedos. Eso es normal y es buena se\u00f1al. La \u00fanica respuesta \u2200normal es seguir avanzando."}, {"num": 7, "titulo": "\u2200prende cero excusas", "sesion": "sesion3", "color": "#D4537E", "no_negociable": "Una excusa no te saca del proceso. Te saca de tu m\u00e1ximo potencial. Recuerda tu compromiso."}, {"num": 8, "titulo": "\u2200prende a pagar el precio", "sesion": "sesion4", "color": "#E8C96A", "no_negociable": "Vivir tu prop\u00f3sito tiene un precio real. Identificarlo aqu\u00ed y aceptarlo es el acto de honestidad que hace que el plan de vida funcione."}, {"num": 9, "titulo": "\u2200sume responsabilidad total", "sesion": "sesion2", "color": "#9B7FD4", "no_negociable": "Lo que tu numerolog\u00eda y tus valores revelan no es un destino fijo. Es un mapa. T\u00fa decides c\u00f3mo usarlo. Eso es responsabilidad total."}, {"num": 10, "titulo": "\u2200poyo emocional como combustible", "sesion": "sesion3", "color": "#D4537E", "no_negociable": "El dolor emocional que emerge en esta sesi\u00f3n no es un obst\u00e1culo. Es combustible. La intensidad que sientes es proporcional a la transformaci\u00f3n que viene."}, {"num": 11, "titulo": "\u2200palancamiento: la verdad contigo mismo", "sesion": "sesion1", "color": "#C9A84C", "no_negociable": "El diagn\u00f3stico solo funciona si eres brutalmente honesto. El n\u00famero que le das a cada \u00e1rea de tu vida debe reflejar la realidad, no c\u00f3mo quisieras que fuera."}, {"num": 12, "titulo": "\u2200doptas lo que toleras", "sesion": "sesion1", "color": "#C9A84C", "no_negociable": "Las \u00e1reas con calificaci\u00f3n baja son exactamente lo que has estado tolerando. Verlo sin juzgarte es el primer paso. Seguir toler\u00e1ndolo despu\u00e9s de verlo es la excusa."}, {"num": 13, "titulo": "\u2200pr\u00f3piate la insatisfacci\u00f3n", "sesion": "sesion2", "color": "#9B7FD4", "no_negociable": "La brecha entre tus valores declarados y los que realmente vives no es una falla \u2014 es informaci\u00f3n. Usa esa insatisfacci\u00f3n como motor, no como excusa."}, {"num": 14, "titulo": "\u2200dopta m\u00e9todos probados", "sesion": "bienvenida", "color": "#C9A84C", "no_negociable": "Esta plataforma integra metodolog\u00edas con d\u00e9cadas de validaci\u00f3n. Tu trabajo es aplicarlas con honestidad, no cuestionarlas antes de vivirlas."}, {"num": 15, "titulo": "\u2200lcanza el resultado, luego mejora", "sesion": "sesion5", "color": "#4ABF7A", "no_negociable": "Tu plan de vida no necesita ser perfecto para empezar. Necesita ser tuyo y necesita empezar. La acci\u00f3n imperfecta ejecutada vale m\u00e1s que el plan perfecto que nunca sale."}, {"num": 16, "titulo": "\u2200celera el proceso", "sesion": "sesion5", "color": "#4ABF7A", "no_negociable": "Cada d\u00eda que pasa sin ejecutar el plan es un d\u00eda que no vuelve. La urgencia no es ansiedad \u2014 es el respeto que le tienes a tu propio tiempo."}, {"num": 17, "titulo": "\u2200tenci\u00f3n y enfoque constante", "sesion": "sesion4", "color": "#E8C96A", "no_negociable": "Haz este m\u00f3dulo sin interrupciones. Lo que emerja es proporcional a tu concentraci\u00f3n."}, {"num": 18, "titulo": "\u2200lcanzas la anormalidad", "sesion": "sesion5", "color": "#4ABF7A", "no_negociable": "Completar este proceso te convierte en alguien diferente. Esa diferencia ser\u00e1 visible \u2014 y no todos la aplaudir\u00e1n. Esa resistencia confirma que el proceso funcion\u00f3."}];
+
+// Principios acumulados que el participante ya ha visto
+var PRINCIPIOS_VISTOS = (function(){
+  var v = {};
+  PRINCIPIOS_DB.forEach(function(pr){ v[pr.num] = false; });
+  return v;
+})();
+
+function buildWidgetPrincipios(moduloId, contenedor, onComplete) {
+  var principiosIds = MODULO_PRINCIPIOS[moduloId] || [];
+  if (!principiosIds.length) { if (onComplete) onComplete(); return; }
+
+  // Principios acumulados anteriores (ya vistos en modulos previos)
+  var anteriores = [];
+  PRINCIPIOS_DB.forEach(function(pr){
+    if(PRINCIPIOS_VISTOS[pr.num] && principiosIds.indexOf(pr.num) < 0){
+      anteriores.push(pr);
+    }
+  });
+
+  var compromisos_mod = {};
+  var paso = 0;
+  // Fases: -1=recordatorio, 0..N-1=principios, N=compromisos
+  var FASE_RECORD = -1;
+  var totalPasos = principiosIds.length + 1;
+  var hayAnteriores = anteriores.length > 0;
+
+  // Crear overlay
+  var overlay = document.createElement("div");
+  overlay.style.cssText = "position:fixed;inset:0;background:rgba(4,8,16,.97);z-index:2000;display:flex;align-items:center;justify-content:center;padding:16px;animation:wfadeIn .3s ease";
+
+  var box = document.createElement("div");
+  box.style.cssText = "background:#0A0F1E;border:1px solid rgba(201,168,76,.25);border-radius:20px;width:100%;max-width:560px;max-height:92vh;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 24px 64px rgba(0,0,0,.6)";
+
+  // Header
+  var hdr = document.createElement("div");
+  hdr.style.cssText = "padding:18px 22px 14px;border-bottom:1px solid rgba(255,255,255,.06);flex-shrink:0";
+  var htop = document.createElement("div");
+  htop.style.cssText = "display:flex;align-items:center;justify-content:space-between;margin-bottom:10px";
+  var hlogo = document.createElement("div");
+  hlogo.style.cssText = "font-family:Cormorant Garamond,serif;font-size:20px;color:#E8C96A;font-weight:300;letter-spacing:.02em";
+  hlogo.textContent = "\u2200normal";
+  var hstep = document.createElement("div");
+  hstep.id = "wp-step";
+  hstep.style.cssText = "font-size:10px;color:#3A4558;letter-spacing:.12em;text-transform:uppercase;font-family:Barlow Condensed,sans-serif";
+  htop.appendChild(hlogo); htop.appendChild(hstep);
+  var hbar = document.createElement("div");
+  hbar.style.cssText = "height:2px;background:#1A2640;border-radius:1px;overflow:hidden";
+  var hfill = document.createElement("div");
+  hfill.id = "wp-fill";
+  hfill.style.cssText = "height:100%;background:linear-gradient(90deg,#C9A84C,#E8C96A);border-radius:1px;transition:width .4s ease;width:0%";
+  hbar.appendChild(hfill); hdr.appendChild(htop); hdr.appendChild(hbar);
+  box.appendChild(hdr);
+
+  // Body
+  var body = document.createElement("div");
+  body.style.cssText = "flex:1;overflow-y:auto;padding:0 22px";
+
+  // Footer
+  var ftr = document.createElement("div");
+  ftr.style.cssText = "padding:14px 22px;border-top:1px solid rgba(255,255,255,.06);flex-shrink:0;display:flex;justify-content:space-between;align-items:center;gap:10px";
+
+  function upProg(){
+    var pct = paso < 0 ? 0 : Math.round(((paso+1)/totalPasos)*100);
+    var f=document.getElementById("wp-fill"); if(f)f.style.width=pct+"%";
+    var s=document.getElementById("wp-step");
+    if(s)s.textContent = paso < 0 ? "Recordatorio" : paso < principiosIds.length ? "Principio "+(paso+1)+" de "+principiosIds.length : "Mis compromisos";
+  }
+
+  function showPaso(){
+    body.innerHTML=""; ftr.innerHTML=""; upProg();
+
+    // FASE RECORDATORIO
+    if(paso===FASE_RECORD && hayAnteriores){
+      var sec=document.createElement("div"); sec.style.cssText="padding:20px 0";
+      var icon=document.createElement("div");icon.style.cssText="text-align:center;margin-bottom:16px";
+      var iconInner=document.createElement("div");iconInner.style.cssText="display:inline-flex;align-items:center;justify-content:center;width:52px;height:52px;border-radius:50%;background:rgba(212,83,126,.12);border:1.5px solid rgba(212,83,126,.35)";
+      iconInner.innerHTML="<span style='font-size:22px;color:#D4537E'>!</span>";
+      icon.appendChild(iconInner); sec.appendChild(icon);
+
+      var rt=document.createElement("div");rt.style.cssText="font-family:Cormorant Garamond,serif;font-size:22px;color:#E8C96A;text-align:center;margin-bottom:8px;font-weight:300;line-height:1.3";
+      rt.textContent="Antes de continuar"; sec.appendChild(rt);
+
+      var rs=document.createElement("div");rs.style.cssText="font-size:13px;color:#8A95A8;text-align:center;margin-bottom:18px;line-height:1.75;max-width:400px;margin-left:auto;margin-right:auto";
+      rs.innerHTML="Los principios que has aceptado <strong style='color:#F5E0A0'>no son opcionales ni negociables</strong>. Son el estándar que elegiste cuando decidiste entrar al camino ∀normal.";
+      sec.appendChild(rs);
+
+      var aviso=document.createElement("div");aviso.style.cssText="background:rgba(212,83,126,.07);border:1px solid rgba(212,83,126,.2);border-radius:12px;padding:14px 16px;margin-bottom:14px";
+      var avisoT=document.createElement("div");avisoT.style.cssText="font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#D4537E;font-weight:500;margin-bottom:8px;font-family:Barlow Condensed,sans-serif";
+      avisoT.textContent="Recuerda — Principios que ya aceptaste";aviso.appendChild(avisoT);
+      anteriores.slice(-3).forEach(function(pr){
+        var prow=document.createElement("div");prow.style.cssText="display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.04)";
+        var pn=document.createElement("div");pn.style.cssText="font-family:Cormorant Garamond,serif;font-size:18px;font-weight:300;color:"+pr.color+";min-width:30px";pn.textContent="∀"+pr.num;
+        var pt=document.createElement("div");pt.style.cssText="font-size:12px;color:#8A95A8";pt.textContent=pr.titulo;
+        prow.appendChild(pn);prow.appendChild(pt);aviso.appendChild(prow);
+      });
+      if(anteriores.length>3){var mas=document.createElement("div");mas.style.cssText="font-size:11px;color:#3A4558;margin-top:6px;text-align:center";mas.textContent="+ "+(anteriores.length-3)+" principios anteriores";aviso.appendChild(mas);}
+      sec.appendChild(aviso);
+
+      var pregunta=document.createElement("div");pregunta.style.cssText="background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.2);border-radius:10px;padding:12px 16px;text-align:center";
+      pregunta.innerHTML="<span style='font-family:Cormorant Garamond,serif;font-size:16px;color:#E8C96A;font-style:italic'>Una excusa no te saca de la plataforma — te saca de tu máximo potencial.<br>¿Sigues dentro del camino ∀normal?</span>";
+      sec.appendChild(pregunta);
+      body.appendChild(sec);
+
+      ftr.appendChild(document.createElement("span"));
+      var btnSi=document.createElement("button");btnSi.style.cssText="background:linear-gradient(135deg,#C9A84C,#E8C96A);color:#060A14;border:none;border-radius:4px;font-family:Barlow Condensed,sans-serif;font-size:12px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;padding:11px 26px;cursor:pointer";
+      btnSi.textContent="Sí, sigo dentro";
+      btnSi.onclick=function(){paso=0;showPaso();};
+      ftr.appendChild(btnSi);
+      return;
+    }
+
+    // FASE PRINCIPIOS
+    if(paso >= 0 && paso < principiosIds.length){
+      var pId=principiosIds[paso];
+      var pr=PRINCIPIOS_DB.find(function(p2){return p2.num===pId;});
+      if(!pr){paso++;showPaso();return;}
+      PRINCIPIOS_VISTOS[pr.num]=true;
+
+      var sec2=document.createElement("div");sec2.style.cssText="padding:20px 0";
+      var numDiv=document.createElement("div");numDiv.style.cssText="font-family:Cormorant Garamond,serif;font-size:60px;font-weight:300;line-height:1;color:"+pr.color+";opacity:.2;margin-bottom:2px";numDiv.textContent="∀"+pr.num;
+      sec2.appendChild(numDiv);
+      var tit=document.createElement("div");tit.style.cssText="font-family:Cormorant Garamond,serif;font-size:26px;font-weight:300;color:"+pr.color+";margin-bottom:14px;line-height:1.2";tit.textContent=pr.titulo;sec2.appendChild(tit);
+
+      if(pr.no_negociable){
+        var nnBlk=document.createElement("div");nnBlk.style.cssText="background:rgba(212,83,126,.07);border:1px solid rgba(212,83,126,.2);border-radius:10px;padding:11px 14px;margin-bottom:12px;display:flex;align-items:flex-start;gap:10px";
+        var nnIcon=document.createElement("div");nnIcon.style.cssText="font-size:14px;color:#D4537E;flex-shrink:0;margin-top:1px";nnIcon.textContent="!";
+        var nnTxt=document.createElement("div");
+        var nnLabel=document.createElement("div");nnLabel.style.cssText="font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#D4537E;font-weight:500;margin-bottom:4px;font-family:Barlow Condensed,sans-serif";nnLabel.textContent="No negociable";
+        var nnCont=document.createElement("div");nnCont.style.cssText="font-size:12px;color:#EAE6DC;line-height:1.65";nnCont.textContent=pr.no_negociable;
+        nnTxt.appendChild(nnLabel);nnTxt.appendChild(nnCont);nnBlk.appendChild(nnIcon);nnBlk.appendChild(nnTxt);sec2.appendChild(nnBlk);
+      }
+
+      if(pr.aplicacion){
+        var aplBlk=document.createElement("div");aplBlk.style.cssText="background:#1A2640;border-radius:10px;padding:12px 14px;border-left:3px solid "+pr.color+";margin-bottom:12px";
+        var aplL=document.createElement("div");aplL.style.cssText="font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:"+pr.color+";margin-bottom:4px;font-weight:500;font-family:Barlow Condensed,sans-serif";aplL.textContent="En este módulo";
+        var aplT=document.createElement("div");aplT.style.cssText="font-size:13px;color:#EAE6DC;line-height:1.65;font-style:italic";aplT.textContent=pr.aplicacion;
+        aplBlk.appendChild(aplL);aplBlk.appendChild(aplT);sec2.appendChild(aplBlk);
+      }
+
+      body.appendChild(sec2);
+
+      var btnP=paso>0?document.createElement("button"):document.createElement("span");
+      if(paso>0){btnP.style.cssText="background:transparent;color:#3A4558;border:1px solid #1E2A3A;border-radius:4px;font-family:Barlow,sans-serif;font-size:13px;padding:9px 16px;cursor:pointer";btnP.textContent="Anterior";btnP.onclick=function(){paso--;showPaso();};}
+      ftr.appendChild(btnP);
+      var btnN2=document.createElement("button");btnN2.style.cssText="background:linear-gradient(135deg,#C9A84C,#E8C96A);color:#060A14;border:none;border-radius:4px;font-family:Barlow Condensed,sans-serif;font-size:12px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;padding:11px 26px;cursor:pointer";
+      btnN2.textContent=paso<principiosIds.length-1?"Siguiente principio":"Mis compromisos";
+      btnN2.onclick=function(){paso++;showPaso();};ftr.appendChild(btnN2);
+      return;
+    }
+
+    // FASE COMPROMISOS
+    var sec3=document.createElement("div");sec3.style.cssText="padding:20px 0";
+    var ct=document.createElement("div");ct.style.cssText="font-family:Cormorant Garamond,serif;font-size:22px;color:#E8C96A;margin-bottom:6px;font-weight:300";ct.textContent="Mis compromisos para este módulo";sec3.appendChild(ct);
+    var cs=document.createElement("div");cs.style.cssText="font-size:13px;color:#8A95A8;margin-bottom:18px;line-height:1.65";cs.textContent="Los principios te dieron el marco. Ahora escribe qué harás diferente a partir de hoy en este módulo.";sec3.appendChild(cs);
+    principiosIds.forEach(function(pId2){
+      var pr2=PRINCIPIOS_DB.find(function(p2){return p2.num===pId2;});if(!pr2)return;
+      var blk=document.createElement("div");blk.style.cssText="margin-bottom:14px;background:#131D30;border-radius:10px;padding:13px 15px;border-left:3px solid "+pr2.color;
+      var bt=document.createElement("div");bt.style.cssText="font-size:11px;font-weight:500;color:"+pr2.color+";margin-bottom:6px;letter-spacing:.08em;text-transform:uppercase;font-family:Barlow Condensed,sans-serif";bt.textContent="∀"+pr2.num+" · "+pr2.titulo;blk.appendChild(bt);
+      var ta=document.createElement("textarea");ta.style.cssText="background:#0A0F1E;border:1px solid rgba(255,255,255,.07);border-radius:6px;color:#EAE6DC;font-family:Barlow,sans-serif;font-size:13px;padding:9px 12px;width:100%;min-height:70px;outline:none;resize:vertical;line-height:1.6;transition:border-color .2s";
+      ta.placeholder="Describe qué cambiarás o harás diferente a partir de hoy...";ta.value=compromisos_mod["p"+pId2]||"";
+      ta.onfocus=function(){this.style.borderColor=pr2.color;};ta.onblur=function(){this.style.borderColor="rgba(255,255,255,.07)";};
+      ta.oninput=(function(pid){return function(){compromisos_mod["p"+pid]=this.value;};})(pId2);
+      blk.appendChild(ta);sec3.appendChild(blk);
+    });
+    body.appendChild(sec3);
+
+    var btnB2=document.createElement("button");btnB2.style.cssText="background:transparent;color:#3A4558;border:1px solid #1E2A3A;border-radius:4px;font-family:Barlow,sans-serif;font-size:13px;padding:9px 16px;cursor:pointer";btnB2.textContent="Revisar";btnB2.onclick=function(){paso--;showPaso();};ftr.appendChild(btnB2);
+    var btnFin=document.createElement("button");btnFin.style.cssText="background:linear-gradient(135deg,#C9A84C,#E8C96A);color:#060A14;border:none;border-radius:4px;font-family:Barlow Condensed,sans-serif;font-size:12px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;padding:11px 26px;cursor:pointer";
+    btnFin.textContent="Comenzar el módulo";
+    btnFin.onclick=function(){
+      if(window.guardarCompromisosModulo)window.guardarCompromisosModulo(moduloId,compromisos_mod);
+      document.body.removeChild(overlay);
+      if(onComplete)onComplete();
+    };
+    ftr.appendChild(btnFin);
+  }
+
+  box.appendChild(body);box.appendChild(ftr);overlay.appendChild(box);
+
+  var style=document.createElement("style");
+  style.textContent="@keyframes wfadeIn{from{opacity:0}to{opacity:1}} .wp-scroll::-webkit-scrollbar{width:4px} .wp-scroll::-webkit-scrollbar-thumb{background:rgba(201,168,76,.28);border-radius:2px}";
+  document.head.appendChild(style);
+  document.body.appendChild(overlay);
+
+  // Arrancar en recordatorio si hay anteriores, si no en principios
+  paso = hayAnteriores ? FASE_RECORD : 0;
+  showPaso();
+}
+
+window.guardarCompromisosModulo = function(moduloId, compromisos){
+  if(!window.COMPROMISOS_PROCESO)window.COMPROMISOS_PROCESO={};
+  window.COMPROMISOS_PROCESO[moduloId]=compromisos;
+};
+
+</script>
+<script>
+// ============================================================
+// ANORMAL - Módulo de datos compartidos entre módulos
+// Usa sessionStorage para pasar datos entre páginas HTML
+// ============================================================
+
+var ANORMAL = {
+  
+  // Leer todos los datos del proceso
+  getData: function() {
+    try {
+      var raw = sessionStorage.getItem('anormal_proceso');
+      return raw ? JSON.parse(raw) : {};
+    } catch(e) { return {}; }
+  },
+  
+  // Guardar datos del proceso
+  setData: function(data) {
+    try {
+      sessionStorage.setItem('anormal_proceso', JSON.stringify(data));
+    } catch(e) {}
+  },
+  
+  // Actualizar una sección específica
+  update: function(section, value) {
+    var data = this.getData();
+    data[section] = value;
+    this.setData(data);
+  },
+  
+  // Agregar un compromiso/hábito a la agenda central
+  addAgenda: function(item) {
+    // item = {modulo, titulo, descripcion, fecha, periodicidad, tipo}
+    var data = this.getData();
+    if (!data.agenda) data.agenda = [];
+    item.id = 'ag_' + Date.now() + '_' + Math.random().toString(36).slice(2,6);
+    item.cumplido = false;
+    item.fechaCreacion = new Date().toLocaleDateString('es-CO');
+    data.agenda.push(item);
+    this.setData(data);
+    return item.id;
+  },
+  
+  // Guardar lo marcado en septenios para que fluya al ECG y al Niño Interior
+  saveSeptenios: function(checklistEstado, cicloActual, nombre, genero) {
+    var doloresPorCiclo = [];
+    
+    Object.keys(checklistEstado).forEach(function(chkKey) {
+      var est = checklistEstado[chkKey];
+      if (!est || !est.dolor || !est.dolor.length) return;
+      
+      // Extraer número de ciclo del key ('chk-3' -> 3, 'actual-5' -> 5)
+      var cicloNum = 0;
+      if (chkKey.startsWith('chk-')) cicloNum = parseInt(chkKey.replace('chk-',''));
+      else if (chkKey.startsWith('actual-')) cicloNum = parseInt(chkKey.replace('actual-',''));
+      if (!cicloNum) return;
+      
+      // Obtener los ítems de dolor marcados
+      var cicloDatos = window.CICLOS_DATA ? window.CICLOS_DATA[String(cicloNum)] : null;
+      if (!cicloDatos) return;
+      
+      var itemsMarcados = est.dolor.map(function(idx) {
+        return cicloDatos.dolor[idx] || '';
+      }).filter(Boolean);
+      
+      var itemsAlegria = (est.alegria || []).map(function(idx) {
+        return cicloDatos.alegria[idx] || '';
+      }).filter(Boolean);
+      
+      if (itemsMarcados.length || itemsAlegria.length) {
+        doloresPorCiclo.push({
+          ciclo: cicloNum,
+          tipo: cicloDatos.tipo,
+          titulo: cicloDatos.titulo,
+          edades: cicloDatos.titulo.match(/\d+ a \d+/)?.[0] || '',
+          dolores: itemsMarcados,
+          alegrias: itemsAlegria,
+          // Preguntas respondidas
+          respuestas: [0,1,2].map(function(pi) {
+            return checklistEstado[chkKey + '-preg-' + pi] || '';
+          }).filter(Boolean)
+        });
+      }
+    });
+    
+    // Ordenar por ciclo
+    doloresPorCiclo.sort(function(a,b){return a.ciclo - b.ciclo;});
+    
+    this.update('septenios', {
+      cicloActual: cicloActual,
+      nombre: nombre,
+      genero: genero,
+      doloresPorCiclo: doloresPorCiclo,
+      fecha: new Date().toLocaleDateString('es-CO')
+    });
+  },
+  
+  // Obtener datos de septenios para el ECG
+  getSepteniosParaECG: function() {
+    var data = this.getData();
+    return data.septenios || null;
+  },
+  
+  // Obtener ciclos 1-2-3 para el Niño Interior
+  getCiclosInfancia: function() {
+    var sep = this.getSepteniosParaECG();
+    if (!sep) return [];
+    return sep.doloresPorCiclo.filter(function(c) {
+      return c.ciclo <= 3;
+    });
+  },
+  
+  // Guardar compromisos de un módulo en la agenda central
+  saveCompromisos: function(moduloId, compromisos) {
+    if (!compromisos || !Object.keys(compromisos).length) return;
+    var data = this.getData();
+    if (!data.agenda) data.agenda = [];
+    
+    Object.keys(compromisos).forEach(function(key) {
+      var texto = (compromisos[key] || '').trim();
+      if (!texto) return;
+      // Evitar duplicados del mismo módulo+key
+      var exists = data.agenda.some(function(item) {
+        return item.moduloId === moduloId && item.key === key;
+      });
+      if (!exists) {
+        data.agenda.push({
+          id: 'ag_' + moduloId + '_' + key,
+          moduloId: moduloId,
+          key: key,
+          tipo: 'compromiso-principio',
+          descripcion: texto,
+          fechaCreacion: new Date().toLocaleDateString('es-CO'),
+          cumplido: false,
+          periodicidad: 'diario'
+        });
+      }
+    });
+    this.setData(data);
+  },
+
+  // ============================================================
+  // FASE 1 — ¿Quién soy? — guardado genérico por módulo
+  // ============================================================
+
+  // Guardar el resultado de un módulo de Fase 1 (o cualquier fase)
+  // moduloId: 'rueda' | 'elementos' | 'camino' | 'subnumeros' | 'mapa' |
+  //           'flechas' | 'nombre' | 'personas' | 'dolan' | 'ikigai' |
+  //           'siguiente_ciclo' | 'plan_vida'
+  saveFaseModulo: function(moduloId, resultado) {
+    var data = this.getData();
+    if (!data.fase1) data.fase1 = {};
+    if (!data.fase3) data.fase3 = {};
+    var fase3Ids = ['ikigai', 'siguiente_ciclo', 'plan_vida'];
+    var bucket = fase3Ids.indexOf(moduloId) >= 0 ? data.fase3 : data.fase1;
+    bucket[moduloId] = resultado;
+    bucket[moduloId + '_fecha'] = new Date().toLocaleDateString('es-CO');
+    this.setData(data);
+    this.marcarModuloCompletado(moduloId);
+  },
+
+  // Leer el resultado guardado de un módulo específico
+  getFaseModulo: function(moduloId) {
+    var data = this.getData();
+    if (data.fase1 && data.fase1[moduloId] !== undefined) return data.fase1[moduloId];
+    if (data.fase3 && data.fase3[moduloId] !== undefined) return data.fase3[moduloId];
+    return null;
+  },
+
+  // Obtener todo lo guardado de Fase 1 de una vez (para Perfil Integrado)
+  getFase1Completa: function() {
+    var data = this.getData();
+    return data.fase1 || {};
+  },
+
+  // Obtener todo lo guardado de Fase 3
+  getFase3Completa: function() {
+    var data = this.getData();
+    return data.fase3 || {};
+  },
+
+  // ============================================================
+  // PROGRESO — qué módulos completó la persona (para el Dashboard)
+  // ============================================================
+
+  TODOS_LOS_MODULOS: [
+    {id:'rueda', fase:1, nombre:'Rueda de Vida'},
+    {id:'elementos', fase:1, nombre:'Elementos'},
+    {id:'camino', fase:1, nombre:'Camino de Vida'},
+    {id:'subnumeros', fase:1, nombre:'Subnúmeros'},
+    {id:'mapa', fase:1, nombre:'Mapa Energético'},
+    {id:'flechas', fase:1, nombre:'Flechas'},
+    {id:'nombre', fase:1, nombre:'Nombre'},
+    {id:'personas', fase:1, nombre:'Personas'},
+    {id:'dolan', fase:1, nombre:'Valores Dolan'},
+    {id:'perfil', fase:1, nombre:'Perfil Integrado'},
+    {id:'septenios', fase:2, nombre:'Mis Ciclos de Vida'},
+    {id:'ecg', fase:2, nombre:'Mi Trabajo Emocional'},
+    {id:'perdon', fase:2, nombre:'Mi Trabajo del Perdón'},
+    {id:'ikigai', fase:3, nombre:'Ikigai'},
+    {id:'siguiente_ciclo', fase:3, nombre:'Siguiente Ciclo'},
+    {id:'plan_vida', fase:3, nombre:'Plan de Vida'}
+  ],
+
+  marcarModuloCompletado: function(moduloId) {
+    var data = this.getData();
+    if (!data.progreso) data.progreso = {};
+    data.progreso[moduloId] = {
+      completado: true,
+      fecha: new Date().toLocaleDateString('es-CO')
+    };
+    this.setData(data);
+  },
+
+  // Devuelve la lista de módulos con su estado de completado, para pintar el Dashboard
+  getProgreso: function() {
+    var data = this.getData();
+    var progreso = data.progreso || {};
+    return this.TODOS_LOS_MODULOS.map(function(m) {
+      return {
+        id: m.id,
+        fase: m.fase,
+        nombre: m.nombre,
+        completado: !!(progreso[m.id] && progreso[m.id].completado),
+        fecha: progreso[m.id] ? progreso[m.id].fecha : null
+      };
+    });
+  },
+
+  // Porcentaje de avance total y por fase
+  getPorcentajeAvance: function() {
+    var prog = this.getProgreso();
+    var total = prog.length;
+    var hechos = prog.filter(function(m){ return m.completado; }).length;
+    var porFase = {1:{total:0,hechos:0}, 2:{total:0,hechos:0}, 3:{total:0,hechos:0}};
+    prog.forEach(function(m) {
+      porFase[m.fase].total++;
+      if (m.completado) porFase[m.fase].hechos++;
+    });
+    return {
+      total: total, hechos: hechos,
+      porcentaje: total ? Math.round((hechos/total)*100) : 0,
+      porFase: porFase
+    };
+  }
+};
+
+// Sobrescribir guardarCompromisosModulo para que también vaya a la agenda
+window.guardarCompromisosModulo = function(moduloId, compromisos) {
+  if (!window.COMPROMISOS_PROCESO) window.COMPROMISOS_PROCESO = {};
+  window.COMPROMISOS_PROCESO[moduloId] = compromisos;
+  ANORMAL.saveCompromisos(moduloId, compromisos);
+};
+
+</script>
+<script>
+// ============================================================
+// WIDGET DE PRINCIPIOS Y COMPROMISOS - Anormal / Cafe con Proposito
+// v2.0 - Con recordatorio no negociable y orden original de principios
+// ============================================================
+
+;
+
+
+
+
+var FRASES=["Quien camina con fe no necesita ver todo el camino \u2014 solo el siguiente paso.","El amor que das sin esperar nada es el que m\u00e1s lejos llega.","En el silencio interior vive la respuesta que buscas afuera.","No temas los comienzos dif\u00edciles \u2014 toda gran luz pasa primero por la oscuridad.","Tu vida es una oraci\u00f3n vivida. Cada acci\u00f3n es una palabra.","Cuando sueltas lo que ya no te pertenece, abres las manos.","Quien se conoce a s\u00ed mismo ha dado el primer paso hacia su prop\u00f3sito.","El sufrimiento que se ofrece con amor se convierte en sabidur\u00eda.","Hay semillas que necesitan tiempo. Tu proceso es profundo.","No necesitas tener todo resuelto. El camino se hace al caminar.","El prop\u00f3sito no se inventa \u2014 se descubre.","Cuando le damos tiempo a lo importante, lo importante nos devuelve claridad.","El grano no sabe lo que contiene hasta que pasa por el fuego.","Tu historia, tus heridas y tus dones son el material de lo que viniste a ser.","La coherencia entre lo que eres y lo que haces es la mayor forma de integridad."];
+var NV_D={"1":"Liderar y crear con autenticidad.","2":"Crear armon\u00eda y conectar con sensibilidad.","3":"Comunicar e inspirar a trav\u00e9s de la alegr\u00eda.","4":"Construir fundamentos duraderos con perseverancia.","5":"Vivir el cambio y ser puente de transformaci\u00f3n.","6":"Sanar, cuidar y crear armon\u00eda.","7":"Buscar la verdad y compartir sabidur\u00eda.","8":"Crear abundancia con responsabilidad.","9":"Servir y elevar la conciencia colectiva.","11":"Inspirar e iluminar.","22":"Materializar visiones transformadoras.","33":"Sanar con amor incondicional."};
+var ALMA_D={"1":"liderar desde dentro","2":"buscar armon\u00eda genuina","3":"expresar con alegr\u00eda","4":"construir con perseverancia","5":"explorar con libertad","6":"cuidar y sanar","7":"comprender lo espiritual","8":"materializar con integridad","9":"servir a otros"};
+function redS(n){if(n<10)return n;var s=0;String(n).split("").forEach(function(c){s+=parseInt(c)||0;});return redS(s);}
+function frase(){return FRASES[new Date().getDate()%FRASES.length]||"";}
+function nvM(n){return NV_D[String(n)]||NV_D[String(redS(n))]||"";}
+function almaM(n){return ALMA_D[String(n)]||ALMA_D[String(redS(n))]||"";}
+
+var S={
+  nombre:"",nv:0,alma:0,talentos:"",declaracion:"",
+  dolanEti:[],dolanEco:[],
+  azul:{personal:[],familiar:[],profesional:[]},
+  amarillo:{personal:[],familiar:[],profesional:[]},
+  verde:[],rosado:[],
+  selsAzul:{pasion:[],mision:[]},
+  selsAm:{pasion:[],profesion:[]},
+  selsVd:{profesion:[],vocacion:[]},
+  selsRo:{vocacion:[],mision:[]},
+  frase:"",carta:"",reg:{},comp:{}
+};
+
+var SUBS=["personal","familiar","profesional"];
+var subSelAzul="personal";
+var subSelAm="personal";
+
+var STEPS=["\u00bfQui\u00e9n soy?","Validar","Lo que amo","En qu\u00e9 soy bueno","Por qu\u00e9 me pagan","Mi ofrenda","Los cruces","Prop\u00f3sito","Mi carta"];
+var paso=0;
+
+function rProg(){
+  var b=ge("pb");if(!b)return;b.innerHTML="";
+  for(var i=0;i<STEPS.length;i++){
+    if(i>0){var ln=mk("div","pln"+(i<=paso?" done":""));b.appendChild(ln);}
+    var s=mk("div","ps"+(i===paso?" act":i<paso?" done":""));
+    s.setAttribute("data-i",i);
+    var pn=mk("div","pn",i<paso?"\u2713":String(i+1));
+    var pt=mk("span","ptxt",STEPS[i]);
+    s.appendChild(pn);s.appendChild(pt);
+    if(i<paso)(function(x){s.onclick=function(){irA(x);};})(i);
+    b.appendChild(s);
+  }
+}
+function irA(i){paso=i;rProg();document.querySelectorAll(".panel").forEach(function(p,j){p.classList.toggle("act",j===i);});window.scrollTo({top:0,behavior:"smooth"});}
+function ge(id){return document.getElementById(id);}
+function mk(tag,cls,txt){var d=document.createElement(tag);if(cls)d.className=cls;if(txt!==undefined)d.textContent=txt;return d;}
+
+function addRR(cont,key,lbl,txt,cl){
+  var div=mk("div","rr"+(cl?" "+cl:""));
+  div.appendChild(mk("div","rr-l",lbl));
+  var p=mk("p","rrp",txt);div.appendChild(p);
+  var ta=document.createElement("textarea");ta.className="rta";ta.placeholder="Escribe aqu\u00ed...";ta.value=S.reg[key]||"";
+  ta.oninput=function(){S.reg[key]=this.value;};div.appendChild(ta);
+  var rc=mk("div","rchk");
+  var cb=document.createElement("input");cb.type="checkbox";cb.id="ck-"+key;cb.checked=!!S.comp[key];
+  cb.onchange=function(){S.comp[key]=this.checked;var rd=div.querySelector(".rdone");if(this.checked&&!rd)div.appendChild(mk("div","rdone","Completado"));else if(!this.checked&&rd)rd.remove();};
+  var lb=mk("label","","Completado");lb.setAttribute("for","ck-"+key);
+  rc.appendChild(cb);rc.appendChild(lb);div.appendChild(rc);
+  if(S.comp[key])div.appendChild(mk("div","rdone","Completado"));
+  cont.appendChild(div);
+}
+
+function dmsg(cont){var d=mk("div","dmsg");d.appendChild(mk("div","dm-l","Reflexi\u00f3n del d\u00eda"));d.appendChild(mk("div","dm-t",frase()));cont.appendChild(d);}
+
+var CRGB={azul:"74,158,191",am:"201,168,76",vd:"74,191,122",ro:"212,83,126"};
+var CSRC={azul:"azul",amarillo:"am"};
+
+function getAllAzul(){var r=[];SUBS.forEach(function(s){(S.azul[s]||[]).forEach(function(t){if(r.indexOf(t)<0)r.push(t);});});return r;}
+function getAllAm(){var r=[];SUBS.forEach(function(s){(S.amarillo[s]||[]).forEach(function(t){if(r.indexOf(t)<0)r.push(t);});});return r;}
+
+function addPapSub(color,sub,texto){
+  var t=(texto||"").trim();if(!t)return;
+  var arr=S[color][sub];if(!arr)return;
+  if(arr.indexOf(t)<0)arr.push(t);
+}
+function addPapSimple(color,texto){
+  var t=(texto||"").trim();if(!t)return;
+  if((S[color]||[]).indexOf(t)<0)S[color].push(t);
+}
+
+function totalSub(color){
+  var c=0;SUBS.forEach(function(s){c+=(S[color][s]||[]).length;});return c;
+}
+
+// Render 3 columnas de sublistas
+function renderSub3(color,containerId){
+  var wrap=ge(containerId);if(!wrap)return;wrap.innerHTML="";
+  var grid=mk("div","sub3");
+  var cls=CSRC[color]||color;
+  SUBS.forEach(function(sub){
+    var col=mk("div","sub-col");
+    var colT=mk("div","sub-col-t",{personal:"Personal",familiar:"Familiar y Social",profesional:"Profesional"}[sub]);
+    colT.style.color="var(--"+cls+")";
+    col.appendChild(colT);
+    var area=mk("div","sub-col-area");
+    var arr=S[color][sub]||[];
+    if(!arr.length){area.appendChild(mk("span","hint","Agrega\u2026"));}
+    else arr.forEach(function(t,i){
+      var d=mk("div","pap "+cls);d.appendChild(document.createTextNode(t+" "));
+      var btn=mk("button","pdel","x");
+      btn.onclick=(function(c,s2,idx){return function(e){e.stopPropagation();S[c][s2].splice(idx,1);renderSub3(c,containerId);if(paso===5)renderCruces();};})(color,sub,i);
+      d.appendChild(btn);area.appendChild(d);
+    });
+    col.appendChild(area);grid.appendChild(col);
+  });
+  wrap.appendChild(grid);
+  var cnt=ge("cnt-"+color);if(cnt)cnt.textContent=totalSub(color)+" palabras";
+}
+
+function renderSimple(color,containerId){
+  var area=ge(containerId);if(!area)return;area.innerHTML="";
+  var cls=CSRC[color]||color;
+  var arr=S[color]||[];
+  if(!arr.length){area.appendChild(mk("span","hint","Todav\u00eda no hay palabras."));return;}
+  arr.forEach(function(t,i){
+    var d=mk("div","pap "+cls);d.appendChild(document.createTextNode(t+" "));
+    var btn=mk("button","pdel","x");
+    btn.onclick=(function(c,idx){return function(e){e.stopPropagation();S[c].splice(idx,1);renderSimple(c,containerId);if(paso===5)renderCruces();};})(color,i);
+    d.appendChild(btn);area.appendChild(d);
+  });
+}
+
+// Widget de entrada con selector de sublista
+function mkSubInput(color,containerId,panel){
+  var cls=CSRC[color]||color;
+  var wrap=mk("div","addinput-wrap");
+  var ssRow=mk("div","sub-sel-row");
+  var selActual=color==="azul"?subSelAzul:subSelAm;
+  SUBS.forEach(function(sub){
+    var btn=mk("button","sub-sel-btn"+(sub===selActual?" on":""),{personal:"Personal",familiar:"Familiar y Social",profesional:"Profesional"}[sub]);
+    btn.onclick=function(){
+      if(color==="azul")subSelAzul=sub;else subSelAm=sub;
+      wrap.querySelectorAll(".sub-sel-btn").forEach(function(b){b.className="sub-sel-btn";});
+      btn.className="sub-sel-btn on";
+    };
+    ssRow.appendChild(btn);
+  });
+  wrap.appendChild(ssRow);
+  var arow=mk("div","arow");
+  var ainp=document.createElement("input");ainp.className="ainp";ainp.id="ainp-"+color;
+  ainp.placeholder="Escribe una palabra o varias separadas por coma...";
+  ainp.onkeydown=function(e){if(e.key==="Enter")doAdd();};
+  var abtn=mk("button","abtn","Agregar");
+  abtn.style.borderColor="rgba("+CRGB[cls]+",.4)";abtn.style.color="var(--"+cls+")";
+  function doAdd(){
+    var inp=ge("ainp-"+color);if(!inp||!inp.value.trim())return;
+    var sel=color==="azul"?subSelAzul:subSelAm;
+    inp.value.split(",").forEach(function(x){addPapSub(color,sel,x.trim());});
+    inp.value="";
+    renderSub3(color,containerId);
+  }
+  abtn.onclick=doAdd;
+  arow.appendChild(ainp);arow.appendChild(abtn);wrap.appendChild(arow);
+  return wrap;
+}
+
+// ── INIT ────────────────────────────────────────────────────
+function init(){
+  var app=ge("app");app.innerHTML="";
+  var hdr=mk("div");hdr.style.padding="26px 0 0";
+  var sub=mk("div");sub.style.cssText="font-family:Barlow Condensed,sans-serif;font-size:10px;letter-spacing:.2em;color:var(--gold);text-transform:uppercase;margin-bottom:4px";
+  sub.textContent="Caf\u00e9 con Prop\u00f3sito \u00b7 \u00bfPara qu\u00e9 estoy aqu\u00ed?";
+  var tit=mk("div");tit.style.cssText="font-family:Cormorant Garamond,serif;font-size:23px;font-weight:300;color:var(--gold2);margin-bottom:18px;font-style:italic";
+  tit.textContent="Mi raz\u00f3n de ser";
+  hdr.appendChild(sub);hdr.appendChild(tit);app.appendChild(hdr);
+  var pb=mk("div","prog");pb.id="pb";app.appendChild(pb);
+  for(var i=0;i<STEPS.length;i++){var pn=mk("div","panel");pn.id="p"+i;app.appendChild(pn);}
+  rProg();bInicio();irA(0);
+}
+
+// ── P0: INICIO ───────────────────────────────────────────────
+function bInicio(){
+  var p=ge("p0");p.innerHTML="";
+
+  // INTEGRACIÓN FASE 1 → IKIGAI — pre-cargar datos ya calculados
+  if (window.ANORMAL && !S._fase1Cargada) {
+    var prev = ANORMAL.getFase1Completa();
+    var camino = prev.camino || {};
+    var nombreD = prev.nombre || {};
+    var flechas = prev.flechas || {};
+    var dolan = prev.dolan || {};
+    if (!S.nv && camino.numeroCamino != null) S.nv = camino.numeroCamino;
+    if (!S.alma && nombreD.resultado && nombreD.resultado.alma != null) S.alma = nombreD.resultado.alma;
+    if (!S.talentos && flechas.presentes && flechas.presentes.length) {
+      S.talentos = flechas.presentes.join(", ");
+    }
+    if (!S.dolanEti.length && dolan.vEti && dolan.vEti.length) S.dolanEti = dolan.vEti.slice();
+    if (!S.dolanEco.length && dolan.vEco && dolan.vEco.length) S.dolanEco = dolan.vEco.slice();
+    if (!S.declaracion && prev.perfil && prev.perfil.declaracion) S.declaracion = prev.perfil.declaracion;
+    S._fase1Cargada = true;
+  }
+
+  // Video introductorio
+  var badge=mk("div","pbadge");badge.appendChild(mk("div","pbadge-q","\u00bfPara qu\u00e9 estoy aqu\u00ed?"));p.appendChild(badge);
+  var ph=mk("div","ph");
+  ph.appendChild(mk("div","ph-s","Fase 3 \u00b7 Mi raz\u00f3n de ser"));
+  ph.appendChild(mk("div","ph-t","Est\u00e1s muy cerca de encontrar tu prop\u00f3sito"));
+  ph.appendChild(mk("div","ph-d","Todo lo que trabajaste en las fases anteriores fue la preparaci\u00f3n. Ahora converge en un solo punto: tu raz\u00f3n de ser."));
+  p.appendChild(ph);dmsg(p);
+
+  // IKIGAI explicacion
+  var ciki=mk("div","card pur");ciki.appendChild(mk("div","cl p","\u00bfQu\u00e9 es el Ikigai?"));
+  var ct1=mk("div","ct");ct1.style.marginBottom="13px";
+  ct1.textContent="Ikigai (\u201craz\u00f3n de levantarse en la ma\u00f1ana\u201d) es una metodolog\u00eda japonesa probada para encontrar el prop\u00f3sito de vida. No es una lista que se completa \u2014 es una intersecci\u00f3n que se descubre cuando cuatro dimensiones de tu vida convergen.";
+  ciki.appendChild(ct1);
+  var ikiGrid=mk("div","iki-grid");
+  [["azul","Lo que amas hacer","La energ\u00eda que no se agota. Lo haces aunque nadie te mire ni te pague."],["am","En lo que eres bueno","Tus talentos genuinos \u2014 los que tienes por naturaleza y los que desarrollaste."],["vd","Por lo que te pueden pagar","Donde tu talento y tu pasi\u00f3n crean valor real y significativo para otros."],["ro","Lo que el mundo necesita","Tu ofrenda \u2014 lo que t\u00fa espec\u00edficamente, con tu historia y tus dones, puedes dar."]].forEach(function(c){
+    var cell=mk("div","iki-cell "+c[0]);
+    var t=mk("div","iki-cell-t",c[1]);t.style.color="var(--"+c[0]+")";cell.appendChild(t);
+    cell.appendChild(mk("div","iki-cell-d",c[2]));ikiGrid.appendChild(cell);
+  });
+  ciki.appendChild(ikiGrid);
+  var ct2=mk("div","ct");ct2.innerHTML="En el centro de las cuatro \u2014 donde todas se tocan \u2014 est\u00e1 tu <strong style='color:var(--gold3)'>prop\u00f3sito de vida</strong>.";
+  ciki.appendChild(ct2);p.appendChild(ciki);
+
+  // Colores
+  var ccol=mk("div","card gold");ccol.appendChild(mk("div","cl","Los cuatro colores \u2014 por qu\u00e9 importan"));
+  [["azul","Azul \u2014 profundidad y horizonte. Lo que va m\u00e1s all\u00e1 de lo visible."],["am","Amarillo \u2014 la luz que revela lo que estaba en sombra."],["vd","Verde \u2014 el crecimiento. Lo que se sostiene en el tiempo."],["ro","Rosado \u2014 el coraz\u00f3n. La entrega que no calcula el retorno."]].forEach(function(item){
+    var row=mk("div");row.style.cssText="display:flex;gap:9px;align-items:flex-start;margin-bottom:7px";
+    var dot=mk("div");dot.style.cssText="width:9px;height:9px;border-radius:50%;flex-shrink:0;margin-top:5px;background:var(--"+item[0]+")";
+    var txt=mk("div","ct",item[1]);
+    row.appendChild(dot);row.appendChild(txt);ccol.appendChild(row);
+  });
+  p.appendChild(ccol);
+
+  // Cruces conceptos
+  var ccruces=mk("div","card acc");ccruces.appendChild(mk("div","cl b","Los cuatro cruces donde aparece el prop\u00f3sito"));
+  var crucesDefs=[["#1E88E5","Pasi\u00f3n","Azul + Amarillo \u2014 Haces las cosas con amor genuino."],["#43A047","Profesi\u00f3n","Amarillo + Verde \u2014 Tu talento al servicio del mundo."],["#8E24AA","Vocaci\u00f3n","Verde + Rosado \u2014 Un llamado de coraz\u00f3n."],["#E53935","Misi\u00f3n","Rosado + Azul \u2014 Lo m\u00e1s profundo. Lo que traje al mundo."]];
+  crucesDefs.forEach(function(cr){
+    var row=mk("div");row.style.cssText="display:flex;gap:9px;align-items:flex-start;margin-bottom:7px;padding:9px 11px;background:var(--bg4);border-radius:var(--r);border-left:3px solid "+cr[0];
+    var t=mk("div");t.style.cssText="font-size:12px;font-weight:500;color:"+cr[0]+";white-space:nowrap;min-width:70px";t.textContent=cr[1];
+    var d=mk("div","ct",cr[2]);
+    row.appendChild(t);row.appendChild(d);ccruces.appendChild(row);
+  });
+  p.appendChild(ccruces);
+
+  // Ya tienes avanzado
+  var cav=mk("div","card grn");cav.appendChild(mk("div","cl g","Ya recorriste la mayor parte del camino"));
+  var ct3=mk("div","ct");ct3.innerHTML="Tu <strong style='color:var(--gold3)'>numerolog\u00eda</strong> ya identific\u00f3 tus talentos y dones.<br>Tus <strong style='color:var(--gold3)'>valores Dolan</strong> ya definieron tu ofrenda al mundo y c\u00f3mo generas valor.<br>Tus <strong style='color:var(--gold3)'>ciclos de vida</strong> revelaron tu historia y lo que te form\u00f3.<br><br>Ahora solo necesitas nombrarlo. <strong style='color:var(--gold3)'>El Ikigai es el momento en que todo lo que eres encuentra su palabra.</strong>";
+  cav.appendChild(ct3);p.appendChild(cav);
+
+  // Inputs
+  var cinput=mk("div","card gold");cinput.appendChild(mk("div","cl","Tus resultados de m\u00f3dulos anteriores"));
+  var ct4=mk("div","ct");ct4.style.marginBottom="13px";ct4.textContent="Ya cargamos lo que completaste antes. Revisa que est\u00e9 correcto y ajusta lo que necesites.";cinput.appendChild(ct4);
+  var irow=mk("div","irow");irow.style.marginBottom="10px";
+  function mkF(id,lbl,ph,val,flex){var wr=mk("div");wr.style.cssText="flex:"+flex+";min-width:80px";var l=mk("label","il",lbl);var inp=document.createElement("input");inp.className="inp";inp.id=id;inp.placeholder=ph;inp.value=val||"";wr.appendChild(l);wr.appendChild(inp);return wr;}
+  irow.appendChild(mkF("inNom","Tu nombre","Tu nombre",S.nombre,"2"));
+  irow.appendChild(mkF("inNV","N\u00famero de vida","Ej: 1",S.nv||"","1"));
+  irow.appendChild(mkF("inAlma","N\u00famero del alma","Ej: 3",S.alma||"","1"));
+  cinput.appendChild(irow);
+  function mkRow(id,lbl,ph,val){var wr=mk("div");wr.style.marginBottom="10px";wr.appendChild(mk("label","il",lbl));var inp=document.createElement("input");inp.className="inp";inp.id=id;inp.placeholder=ph;inp.value=val||"";wr.appendChild(inp);return wr;}
+  cinput.appendChild(mkRow("inTal","Talentos de tus flechas","Ej: liderazgo, determinaci\u00f3n, b\u00fasqueda espiritual...",S.talentos));
+  cinput.appendChild(mkRow("inEti","Valores Dolan eje \u00e9tico-social","Ej: integridad, servicio, familia...",S.dolanEti.join(", ")));
+  cinput.appendChild(mkRow("inEco","Valores Dolan eje econ\u00f3mico","Ej: productividad, liderazgo, excelencia...",S.dolanEco.join(", ")));
+  var declWr=mk("div");declWr.style.marginBottom="13px";declWr.appendChild(mk("label","il","Declaraci\u00f3n del m\u00f3dulo 4"));
+  var decl=document.createElement("textarea");decl.className="rta";decl.id="inDecl";decl.style.minHeight="50px";decl.placeholder="Pega aqu\u00ed tu declaraci\u00f3n de prop\u00f3sito...";decl.value=S.declaracion;decl.oninput=function(){S.declaracion=this.value;};declWr.appendChild(decl);cinput.appendChild(declWr);
+  var btnStart=mk("button","bp","Cargar mis datos y comenzar");btnStart.onclick=procInicio;cinput.appendChild(btnStart);p.appendChild(cinput);
+  p.appendChild(mk("div","nav"));
+}
+
+function procInicio(){
+  S.nombre=(ge("inNom").value||"").trim();
+  S.nv=parseInt(ge("inNV").value)||0;
+  S.alma=parseInt(ge("inAlma").value)||0;
+  S.talentos=(ge("inTal").value||"").trim();
+  S.declaracion=(ge("inDecl").value||"").trim();
+  S.dolanEti=(ge("inEti").value||"").split(",").map(function(v){return v.trim();}).filter(Boolean);
+  S.dolanEco=(ge("inEco").value||"").split(",").map(function(v){return v.trim();}).filter(Boolean);
+  bValidacion();irA(1);
+}
+
+// ── P1: VALIDACION ───────────────────────────────────────────
+function bValidacion(){
+  var p=ge("p1");p.innerHTML="";
+  var badge=mk("div","pbadge");badge.appendChild(mk("div","pbadge-q","Valida tus datos"));p.appendChild(badge);
+  var ph=mk("div","ph");
+  ph.appendChild(mk("div","ph-s","Paso 1 \u00b7 Tu punto de partida"));
+  ph.appendChild(mk("div","ph-t","Confirma lo que ya tienes construido"));
+  ph.appendChild(mk("div","ph-d","El sistema carg\u00f3 tus datos. Confirma los que resuenen contigo \u2014 pasar\u00e1n directamente a las listas del Ikigai."));
+  p.appendChild(ph);dmsg(p);
+
+  if(S.nv){
+    var cnv=mk("div","card");
+    cnv.appendChild(mk("div","cl","Tu numerolog\u00eda \u2014 pistas de tus talentos y dones"));
+    var ct=mk("div","ct");ct.style.marginBottom="10px";
+    ct.textContent="Tu numerolog\u00eda ya tiene pistas de para qu\u00e9 est\u00e1s aqu\u00ed. Esta es la oportunidad de ratificarlos y hacerte m\u00e1s consciente.";cnv.appendChild(ct);
+    var nvRow=mk("div");nvRow.style.cssText="background:var(--bg4);border-radius:var(--rm);padding:11px 13px;margin-bottom:7px;border-left:3px solid var(--gold)";
+    var nvt=mk("div");nvt.style.cssText="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:3px;font-weight:500";nvt.textContent="N\u00famero de vida "+S.nv;nvRow.appendChild(nvt);
+    nvRow.appendChild(mk("div","ct",nvM(S.nv)));cnv.appendChild(nvRow);
+    if(S.alma){
+      var alRow=mk("div");alRow.style.cssText="background:var(--bg4);border-radius:var(--rm);padding:11px 13px;border-left:3px solid var(--pur)";
+      var alt=mk("div");alt.style.cssText="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--pur);margin-bottom:3px;font-weight:500";alt.textContent="N\u00famero del alma "+S.alma;alRow.appendChild(alt);
+      alRow.appendChild(mk("div","ct",almaM(S.alma)));cnv.appendChild(alRow);
+    }
+    p.appendChild(cnv);
+  }
+
+  if(S.talentos){
+    var ctal=mk("div","card");
+    ctal.appendChild(mk("div","cl","Tus talentos \u2014 van a tu lista amarilla (profesional)"));
+    var talPaps=mk("div");talPaps.style.cssText="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:10px";
+    S.talentos.split(",").map(function(t){return t.trim();}).filter(Boolean).forEach(function(t){talPaps.appendChild(mk("span","pap am",t));});
+    ctal.appendChild(talPaps);
+    var talNote=mk("div","ct");talNote.textContent="Estos talentos ya est\u00e1n precargados en la categor\u00eda Profesional de tu lista amarilla.";ctal.appendChild(talNote);
+    p.appendChild(ctal);
+  }
+
+  if(S.dolanEti.length||S.dolanEco.length){
+    var cdolan=mk("div","card");cdolan.appendChild(mk("div","cl","Tus valores Dolan"));
+    if(S.dolanEti.length){
+      var etiT=mk("div");etiT.style.cssText="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ro);margin-bottom:5px;font-weight:500";etiT.textContent="Eje \u00e9tico-social \u2192 Lista rosada";cdolan.appendChild(etiT);
+      var etiPaps=mk("div");etiPaps.style.cssText="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:9px";
+      S.dolanEti.forEach(function(v){etiPaps.appendChild(mk("span","pap ro",v));});cdolan.appendChild(etiPaps);
+    }
+    if(S.dolanEco.length){
+      var ecoT=mk("div");ecoT.style.cssText="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--vd);margin-bottom:5px;font-weight:500";ecoT.textContent="Eje econ\u00f3mico \u2192 Lista verde";cdolan.appendChild(ecoT);
+      var ecoPaps=mk("div");ecoPaps.style.cssText="display:flex;flex-wrap:wrap;gap:5px";
+      S.dolanEco.forEach(function(v){ecoPaps.appendChild(mk("span","pap vd",v));});cdolan.appendChild(ecoPaps);
+    }
+    p.appendChild(cdolan);
+  }
+
+  var btnV=mk("button","bp","Confirmo mis datos \u2014 comenzar las listas");
+  btnV.onclick=function(){
+    if(S.talentos&&!getAllAm().length)S.talentos.split(",").map(function(t){return t.trim();}).filter(Boolean).forEach(function(t){addPapSub("amarillo","profesional",t);});
+    if(S.dolanEti.length&&!S.rosado.length)S.dolanEti.forEach(function(v){addPapSimple("rosado",v);});
+    if(S.dolanEco.length&&!S.verde.length)S.dolanEco.forEach(function(v){addPapSimple("verde",v);});
+    if(S.nv){var m=nvM(S.nv);if(m)m.split(" ").filter(function(w){return w.length>4;}).slice(0,3).forEach(function(w){addPapSub("azul","personal",w.replace(/[.,]/g,"").toLowerCase());});}
+    bListaAzul();irA(2);
+  };
+  var bw=mk("div");bw.style.marginTop="14px";bw.appendChild(btnV);p.appendChild(bw);
+  var nav=mk("div","nav");var pb=mk("button","bn","Anterior");pb.onclick=function(){irA(0);};nav.appendChild(pb);nav.appendChild(mk("span"));p.appendChild(nav);
+}
+
+// ── P2: LISTA AZUL ───────────────────────────────────────────
+function bListaAzul(){
+  var p=ge("p2");p.innerHTML="";
+  var badge=mk("div","pbadge");badge.appendChild(mk("div","pbadge-q","Lista azul \u2014 Lo que amo hacer"));p.appendChild(badge);
+  var ph=mk("div","ph");
+  var pht=mk("div","ph-t","Lo que amo hacer");pht.style.color="var(--azul)";ph.appendChild(pht);
+  ph.appendChild(mk("div","ph-d","Lo que te llena cuando lo haces, aunque nadie te mire y aunque nadie te pague."));p.appendChild(ph);
+  dmsg(p);
+
+  var cinst=mk("div","card");cinst.style.borderColor="rgba(74,158,191,.3)";
+  var cl=mk("div","cl","Instrucciones");cl.style.color="var(--azul)";cinst.appendChild(cl);
+  var ct=mk("div","ct");
+  ct.innerHTML="<strong style='color:var(--gold3)'>Esta es la lista m\u00e1s importante \u2014 y la m\u00e1s grande.</strong> Busca que sea muy extensa: mientras m\u00e1s palabras tengas, m\u00e1s profundo llegar\u00e1s. <strong>No te censures. Todo vale.</strong> Una afici\u00f3n aparentemente peque\u00f1a puede ser exactamente la pista que apunta a tu raz\u00f3n de ser.<br><br>Ubica cada cosa en el estadio de tu vida donde la experimentas:";
+  cinst.appendChild(ct);
+  var estadios=mk("div");estadios.style.cssText="display:flex;flex-direction:column;gap:6px;margin-top:10px";
+  [["Personal","Cuando est\u00e1s solo: qu\u00e9 haces que te da paz, qu\u00e9 te hace perder la noci\u00f3n del tiempo, qu\u00e9 actividades te recargan."],["Familiar y Social","Con familia y amigos: qu\u00e9 disfrutas hacer con otros, qu\u00e9 rol naturalmente asumes."],["Profesional","En tu trabajo: qu\u00e9 momentos te hacen sentir completamente vivo, qu\u00e9 tareas fluyen sin esfuerzo."]].forEach(function(e){
+    var row=mk("div");row.style.cssText="background:var(--bg4);border-radius:var(--r);padding:8px 12px;border-left:2px solid var(--azul)";
+    var rt=mk("div");rt.style.cssText="font-size:12px;font-weight:500;color:var(--azul);margin-bottom:2px";rt.textContent=e[0];
+    row.appendChild(rt);row.appendChild(mk("div","ct",e[1]));estadios.appendChild(row);
+  });
+  cinst.appendChild(estadios);p.appendChild(cinst);
+
+  var cpap=mk("div","card");cpap.style.padding="14px 15px";
+  var clPap=mk("div","cl","azul");clPap.id="cnt-azul";clPap.style.color="var(--azul)";clPap.textContent=totalSub("azul")+" palabras \u2014 Lista azul";cpap.appendChild(clPap);
+  var sub3wrap=mk("div");sub3wrap.id="sub3-azul";cpap.appendChild(sub3wrap);
+  cpap.appendChild(mkSubInput("azul","sub3-azul","p2"));
+  p.appendChild(cpap);
+
+  addRR(p,"ref-azul","Mi reflexi\u00f3n","Qu\u00e9 te sorprendi\u00f3 encontrar? Qu\u00e9 quisiste escribir y te censuraste?");
+  var nav=mk("div","nav");var pb=mk("button","bn","Anterior");pb.onclick=function(){irA(1);};
+  var pn=mk("button","bp","Continuar \u2014 En qu\u00e9 soy bueno");pn.onclick=function(){bListaAm();irA(3);};
+  nav.appendChild(pb);nav.appendChild(pn);p.appendChild(nav);
+  setTimeout(function(){renderSub3("azul","sub3-azul");},30);
+}
+
+// ── P3: LISTA AMARILLA ───────────────────────────────────────
+function bListaAm(){
+  var p=ge("p3");p.innerHTML="";
+  var badge=mk("div","pbadge");badge.appendChild(mk("div","pbadge-q","Lista amarilla \u2014 En qu\u00e9 soy bueno"));p.appendChild(badge);
+  var ph=mk("div","ph");
+  var pht=mk("div","ph-t","En qu\u00e9 soy bueno");pht.style.color="var(--am)";ph.appendChild(pht);
+  ph.appendChild(mk("div","ph-d","Lo que haces con naturalidad y que otros valoran, aunque t\u00fa lo des por sentado."));p.appendChild(ph);
+  dmsg(p);
+
+  var cinst=mk("div","card");cinst.style.borderColor="rgba(201,168,76,.3)";
+  var cl=mk("div","cl","Instrucciones");cl.style.color="var(--am)";cinst.appendChild(cl);
+  var ct=mk("div","ct");
+  ct.innerHTML="<strong style='color:var(--gold3)'>Esta lista tambi\u00e9n debe ser muy grande.</strong> No te censures. La honestidad es clave: hay una diferencia importante entre <em>amar hacer algo</em> y <em>ser genuinamente bueno en ello</em>. Puedes amar cocinar y no ser tan bueno cocinando \u2014 y est\u00e1 bien. Esta lista pide honestidad real, no humildad falsa ni arrogancia.<br><br><strong style='color:var(--gold3)'>Pide ayuda a tus amigos y familiares.</strong> Muchas veces los dem\u00e1s ven con m\u00e1s claridad los talentos que t\u00fa das por sentado. Preg\u00fantales: \u00bfpara qu\u00e9 me buscas? \u00bfen qu\u00e9 crees que soy realmente bueno?";
+  cinst.appendChild(ct);p.appendChild(cinst);
+
+  var cnumero=mk("div","card acc");cnumero.appendChild(mk("div","cl b","Pistas de tu numerolog\u00eda"));
+  var ctNum=mk("div","ct");ctNum.style.marginBottom="8px";
+  ctNum.innerHTML="Tu numerolog\u00eda identific\u00f3 tus talentos y dones. <strong style='color:var(--gold3)'>Esta es la oportunidad de ratificarlos.</strong> Los talentos cargados en la lista profesional vienen de tus flechas.";
+  cnumero.appendChild(ctNum);
+  if(S.nv){var nvH=mk("div");nvH.style.cssText="padding:8px 12px;background:var(--bg4);border-radius:var(--r);border-left:2px solid var(--gold)";nvH.appendChild(mk("div","ct","NV "+S.nv+": "+nvM(S.nv)));cnumero.appendChild(nvH);}
+  p.appendChild(cnumero);
+
+  var cpap=mk("div","card");cpap.style.padding="14px 15px";
+  var clPap=mk("div","cl");clPap.id="cnt-amarillo";clPap.style.color="var(--am)";clPap.textContent=totalSub("amarillo")+" palabras \u2014 Lista amarilla";cpap.appendChild(clPap);
+  var sub3wrap=mk("div");sub3wrap.id="sub3-am";cpap.appendChild(sub3wrap);
+  cpap.appendChild(mkSubInput("amarillo","sub3-am","p3"));
+  p.appendChild(cpap);
+
+  addRR(p,"ref-am","Mi reflexi\u00f3n","Qu\u00e9 escribiste que normalmente no te permitir\u00edas decir en voz alta?");
+  var nav=mk("div","nav");var pb=mk("button","bn","Anterior");pb.onclick=function(){irA(2);};
+  var pn=mk("button","bp","Continuar \u2014 Por qu\u00e9 me pagan");pn.onclick=function(){bListaVerde();irA(4);};
+  nav.appendChild(pb);nav.appendChild(pn);p.appendChild(nav);
+  setTimeout(function(){renderSub3("amarillo","sub3-am");},30);
+}
+
+// ── P4: LISTA VERDE ──────────────────────────────────────────
+function calcCruceAzAm(){
+  var az=getAllAzul();var am=getAllAm();
+  var iguales=[];var similares=[];
+  az.forEach(function(w){
+    var wl=w.toLowerCase();var found=false;
+    am.forEach(function(a){if(a.toLowerCase()===wl){if(iguales.indexOf(w)<0)iguales.push(w);found=true;}});
+    if(!found){
+      am.forEach(function(a){
+        var al=a.toLowerCase();
+        if(!found&&(wl.indexOf(al)>=0||al.indexOf(wl)>=0||(wl.length>4&&al.length>4&&(wl.slice(0,5)===al.slice(0,5))))){
+          var par=w+"|"+a;if(similares.map(function(s){return s.az+"|"+s.am;}).indexOf(par)<0)similares.push({az:w,am:a});
+          found=true;
+        }
+      });
+    }
+  });
+  return{iguales:iguales,similares:similares};
+}
+
+function bListaVerde(){
+  var p=ge("p4");p.innerHTML="";
+  var badge=mk("div","pbadge");badge.appendChild(mk("div","pbadge-q","Lista verde \u2014 Por qu\u00e9 me pueden pagar"));p.appendChild(badge);
+  var ph=mk("div","ph");
+  var pht=mk("div","ph-t","Por qu\u00e9 me pueden pagar");pht.style.color="var(--vd)";ph.appendChild(pht);
+  ph.appendChild(mk("div","ph-d","La intersecci\u00f3n honesta entre lo que amas, lo que sabes hacer y lo que el mundo valorar\u00eda con dinero significativo."));p.appendChild(ph);
+  dmsg(p);
+
+  var cinst=mk("div","card");cinst.style.borderColor="rgba(74,191,122,.3)";
+  var cl=mk("div","cl","Instrucciones");cl.style.color="var(--vd)";cinst.appendChild(cl);
+  var ct=mk("div","ct");
+  ct.innerHTML="Esta lista nace del cruce honesto entre lo que amas y en lo que eres bueno. <strong style='color:var(--gold3)'>La honestidad aqu\u00ed es cr\u00edtica:</strong> no es lo mismo que alguien te pague un par de pesos por algo, a que te paguen millones. Esta lista busca actividades donde tu talento y tu pasi\u00f3n crean valor econ\u00f3mico real y significativo.<br><br>Abajo ves las palabras que coinciden en tus dos listas anteriores. Haz clic en las que quieras agregar a esta lista.";
+  cinst.appendChild(ct);p.appendChild(cinst);
+
+  var cruce=calcCruceAzAm();
+  if(cruce.iguales.length||cruce.similares.length){
+    var csug=mk("div","card");csug.style.padding="13px 15px";
+    csug.appendChild(mk("div","cl","Cruce de tus listas azul y amarilla"));
+    var ct2=mk("div","ct");ct2.style.marginBottom="10px";
+    ct2.innerHTML="Las palabras marcadas como <span class='tag-dup'>Igual</span> aparecen en ambas listas. Las marcadas como <span class='tag-sim'>Similar</span> tienen relaci\u00f3n. Haz clic en cualquier fila para agregar esa palabra a tu lista verde.";
+    csug.appendChild(ct2);
+
+    var tabla=document.createElement("table");tabla.className="cruce-tabla";
+    var thead=document.createElement("thead");
+    var trH=document.createElement("tr");
+    var thA=mk("th","","Lista azul \u2014 Lo que amo");thA.style.color="var(--azul)";trH.appendChild(thA);
+    var thB=mk("th","","Lista amarilla \u2014 En qu\u00e9 soy bueno");thB.style.color="var(--am)";trH.appendChild(thB);
+    var thT=mk("th","","");trH.appendChild(thT);
+    thead.appendChild(trH);tabla.appendChild(thead);
+    var tbody=document.createElement("tbody");
+
+    cruce.iguales.forEach(function(w){
+      var tr=document.createElement("tr");
+      var td1=document.createElement("td");td1.appendChild(mk("span","pap azul",w));
+      var td2=document.createElement("td");td2.appendChild(mk("span","pap am",w));
+      var td3=document.createElement("td");td3.appendChild(mk("span","tag-dup","Igual"));
+      tr.appendChild(td1);tr.appendChild(td2);tr.appendChild(td3);
+      tr.onclick=(function(word,row){return function(){
+        if(row.className.indexOf("agregado")>=0)return;
+        addPapSimple("verde",word);renderSimple("verde","pap-verde");
+        row.className+=" agregado";
+      };})(w,tr);
+      tbody.appendChild(tr);
+    });
+
+    cruce.similares.forEach(function(par){
+      var tr=document.createElement("tr");
+      var td1=document.createElement("td");td1.appendChild(mk("span","pap azul",par.az));
+      var td2=document.createElement("td");td2.appendChild(mk("span","pap am",par.am));
+      var td3=document.createElement("td");td3.appendChild(mk("span","tag-sim","Similar"));
+      tr.appendChild(td1);tr.appendChild(td2);tr.appendChild(td3);
+      tr.onclick=(function(az,am2,row){return function(){
+        if(row.className.indexOf("agregado")>=0)return;
+        var word=window.prompt("Elige una palabra para agregar a la lista verde:",az);
+        if(word&&word.trim()){addPapSimple("verde",word.trim());renderSimple("verde","pap-verde");}
+        row.className+=" agregado";
+      };})(par.az,par.am,tr);
+      tbody.appendChild(tr);
+    });
+
+    tabla.appendChild(tbody);csug.appendChild(tabla);p.appendChild(csug);
+  }
+
+  var cpap=mk("div","card");cpap.style.padding="14px 15px";
+  var clV=mk("div","cl","Mi lista verde \u2014 "+( S.verde||[]).length+" palabras");clV.style.color="var(--vd)";cpap.appendChild(clV);
+  var areaV=mk("div","pap-area",undefined);areaV.id="pap-verde";areaV.style.marginBottom="8px";cpap.appendChild(areaV);
+  var arowV=mk("div","arow");
+  var ainpV=document.createElement("input");ainpV.className="ainp";ainpV.id="ainp-verde";ainpV.placeholder="Agrega m\u00e1s palabras separadas por coma...";
+  ainpV.onkeydown=function(e){if(e.key==="Enter"){(S.verde=S.verde||[]);(ge("ainp-verde").value||"").split(",").forEach(function(x){addPapSimple("verde",x.trim());});ge("ainp-verde").value="";renderSimple("verde","pap-verde");}};
+  var abtnV=mk("button","abtn","Agregar");abtnV.style.borderColor="rgba(74,191,122,.4)";abtnV.style.color="var(--vd)";
+  abtnV.onclick=function(){(S.verde=S.verde||[]);(ge("ainp-verde").value||"").split(",").forEach(function(x){addPapSimple("verde",x.trim());});ge("ainp-verde").value="";renderSimple("verde","pap-verde");};
+  arowV.appendChild(ainpV);arowV.appendChild(abtnV);cpap.appendChild(arowV);p.appendChild(cpap);
+
+  addRR(p,"ref-verde","Mi reflexi\u00f3n","Qu\u00e9 te sorprendi\u00f3 ver en el cruce?");
+  var nav=mk("div","nav");var pb=mk("button","bn","Anterior");pb.onclick=function(){irA(3);};
+  var pn=mk("button","bp","Continuar \u2014 Mi ofrenda al mundo");pn.onclick=function(){bListaRosado();irA(5);};
+  nav.appendChild(pb);nav.appendChild(pn);p.appendChild(nav);
+  setTimeout(function(){renderSimple("verde","pap-verde");},30);
+}
+
+// ── P5: LISTA ROSADA ─────────────────────────────────────────
+function bListaRosado(){
+  var p=ge("p5");p.innerHTML="";
+  var badge=mk("div","pbadge");badge.appendChild(mk("div","pbadge-q","Lista rosada \u2014 Mi ofrenda"));p.appendChild(badge);
+  var ph=mk("div","ph");
+  var pht=mk("div","ph-t","Lo que el mundo necesita de m\u00ed");pht.style.color="var(--ro)";ph.appendChild(pht);
+  ph.appendChild(mk("div","ph-d","No son actividades \u2014 son valores y compromisos. Lo que est\u00e1s dispuesto a dar sin calcular el retorno."));p.appendChild(ph);
+  dmsg(p);
+
+  var cinst=mk("div","card");cinst.style.borderColor="rgba(212,83,126,.3)";
+  var cl=mk("div","cl","Instrucciones");cl.style.color="var(--ro)";cinst.appendChild(cl);
+  var ct=mk("div","ct");
+  ct.innerHTML="Esta es la lista del coraz\u00f3n. La pregunta es: <em>\u00bfqu\u00e9 tiene el mundo que no tiene suficiente, y que t\u00fa \u2014 con tu historia, tus heridas y tus dones \u2014 podr\u00edas darle?</em><br><br><strong style='color:var(--gold3)'>Un punto clave:</strong> si crees que el mundo necesita m\u00e1s <em>respeto</em>, entonces t\u00fa respetas a todo el mundo \u2014 no como discurso, sino como pr\u00e1ctica de vida. La lista rosada es lo que vives, no solo lo que predicas.";
+  cinst.appendChild(ct);p.appendChild(cinst);
+
+  var cpap=mk("div","card");cpap.style.padding="14px 15px";
+  var clR=mk("div","cl","Mi lista rosada \u2014 "+(S.rosado||[]).length+" palabras");clR.style.color="var(--ro)";cpap.appendChild(clR);
+  var areaR=mk("div","pap-area");areaR.id="pap-rosado";areaR.style.marginBottom="8px";cpap.appendChild(areaR);
+  var arowR=mk("div","arow");
+  var ainpR=document.createElement("input");ainpR.className="ainp";ainpR.id="ainp-rosado";ainpR.placeholder="Ej: respeto, amor, servicio, dignidad...";
+  ainpR.onkeydown=function(e){if(e.key==="Enter"){(ge("ainp-rosado").value||"").split(",").forEach(function(x){addPapSimple("rosado",x.trim());});ge("ainp-rosado").value="";renderSimple("rosado","pap-rosado");}};
+  var abtnR=mk("button","abtn","Agregar");abtnR.style.borderColor="rgba(212,83,126,.4)";abtnR.style.color="var(--ro)";
+  abtnR.onclick=function(){(ge("ainp-rosado").value||"").split(",").forEach(function(x){addPapSimple("rosado",x.trim());});ge("ainp-rosado").value="";renderSimple("rosado","pap-rosado");};
+  arowR.appendChild(ainpR);arowR.appendChild(abtnR);cpap.appendChild(arowR);p.appendChild(cpap);
+
+  addRR(p,"ref-rosado","Mi reflexi\u00f3n","Qu\u00e9 descubriste sobre lo que el mundo necesita de ti?");
+  var nav=mk("div","nav");var pb=mk("button","bn","Anterior");pb.onclick=function(){irA(4);};
+  var pn=mk("button","bp","Continuar \u2014 Los cruces");pn.onclick=function(){bCruces();irA(6);};
+  nav.appendChild(pb);nav.appendChild(pn);p.appendChild(nav);
+  setTimeout(function(){renderSimple("rosado","pap-rosado");},30);
+}
+
+// ── P6: CRUCES CON SELECCION ─────────────────────────────────
+function renderCruces(){
+  var con=ge("crcon");if(!con)return;con.innerHTML="";
+  var allAz=getAllAzul();var allAm=getAllAm();
+  var freq={};
+  function addF(w,lista){var k=w.toLowerCase();if(!freq[k])freq[k]={w:w,ls:[]};if(freq[k].ls.indexOf(lista)<0)freq[k].ls.push(lista);}
+  allAz.forEach(function(w){addF(w,"azul");});allAm.forEach(function(w){addF(w,"am");});
+  (S.verde||[]).forEach(function(w){addF(w,"vd");});(S.rosado||[]).forEach(function(w){addF(w,"ro");});
+  var auto={pasion:[],profesion:[],vocacion:[],mision:[]};
+  Object.keys(freq).forEach(function(k){
+    var ls=freq[k].ls,w=freq[k].w;
+    if(ls.indexOf("azul")>=0&&ls.indexOf("am")>=0)auto.pasion.push(w);
+    if(ls.indexOf("am")>=0&&ls.indexOf("vd")>=0)auto.profesion.push(w);
+    if(ls.indexOf("vd")>=0&&ls.indexOf("ro")>=0)auto.vocacion.push(w);
+    if(ls.indexOf("ro")>=0&&ls.indexOf("azul")>=0)auto.mision.push(w);
+  });
+  var defs=[
+    {k:"pasion",t:"Pasi\u00f3n",d:"Haces las cosas con amor. El combustible que no se agota.",col:"#1E88E5",listas:"azul + amarillo",words:auto.pasion},
+    {k:"profesion",t:"Profesi\u00f3n",d:"Tu talento al servicio del mundo a cambio de valor real.",col:"#43A047",listas:"amarillo + verde",words:auto.profesion},
+    {k:"vocacion",t:"Vocaci\u00f3n",d:"Un llamado de coraz\u00f3n. Lo har\u00edas aunque no te pagaran.",col:"#8E24AA",listas:"verde + rosado",words:auto.vocacion},
+    {k:"mision",t:"Misi\u00f3n",d:"Lo m\u00e1s profundo. Lo que vine a dar al mundo.",col:"#E53935",listas:"rosado + azul",words:auto.mision}
+  ];
+  defs.forEach(function(def){
+    var card=mk("div","cruce-selector");
+    var hdr=mk("div");hdr.style.cssText="display:flex;align-items:center;gap:9px;margin-bottom:4px";
+    var dot=mk("div");dot.style.cssText="width:11px;height:11px;border-radius:50%;background:"+def.col+";flex-shrink:0";
+    var tt=mk("span","cruce-s-t",def.t);tt.style.color=def.col;
+    var sp=mk("span");sp.style.cssText="font-size:10px;color:var(--faint);margin-left:auto";sp.textContent=def.listas;
+    hdr.appendChild(dot);hdr.appendChild(tt);hdr.appendChild(sp);card.appendChild(hdr);
+    card.appendChild(mk("div","cruce-s-d",def.d));
+    var chips=mk("div","cruce-chips");
+    var sels=S.selsAzul;
+    if(def.k==="pasion")sels=S.selsAzul.pasion||[];
+    else if(def.k==="profesion")sels=S.selsAm&&S.selsAm.profesion||[];
+    else if(def.k==="vocacion")sels=S.selsVd&&S.selsVd.vocacion||[];
+    else sels=S.selsRo&&S.selsRo.mision||[];
+    if(!def.words.length)chips.appendChild(mk("span","hint","A\u00fan no hay conectores autom\u00e1ticos. Agrega palabras a las listas anteriores."));
+    else def.words.forEach(function(w){
+      var isSel=(sels||[]).indexOf(w)>=0;
+      var ch=mk("span","chip-sel"+(isSel?" on":""),w);
+      ch.onclick=(function(word,k,chip){return function(){
+        var arr=k==="pasion"?(S.selsAzul.pasion=S.selsAzul.pasion||[]):k==="profesion"?(S.selsAm.profesion=S.selsAm.profesion||[]):k==="vocacion"?(S.selsVd.vocacion=S.selsVd.vocacion||[]):(S.selsRo.mision=S.selsRo.mision||[]);
+        var idx=arr.indexOf(word);
+        if(idx>=0){arr.splice(idx,1);chip.classList.remove("on");}
+        else{arr.push(word);chip.classList.add("on");}
+      };})(w,def.k,ch);
+      chips.appendChild(ch);
+    });
+    card.appendChild(chips);
+    var selN=mk("div");selN.style.cssText="font-size:11px;color:var(--dim);margin-top:5px";selN.textContent="Haz clic en las palabras que mejor definen tu "+def.t.toLowerCase()+" \u2014 las seleccionadas ser\u00e1n el material de tu frase.";
+    card.appendChild(selN);con.appendChild(card);
+  });
+}
+
+function bCruces(){
+  var p=ge("p6");p.innerHTML="";
+  var badge=mk("div","pbadge");badge.appendChild(mk("div","pbadge-q","Los cruces \u2014 el juego del domin\u00f3"));p.appendChild(badge);
+  var ph=mk("div","ph");ph.appendChild(mk("div","ph-t","Donde las listas se tocan"));
+  ph.appendChild(mk("div","ph-d","Selecciona las palabras que mejor definen tu Pasi\u00f3n, Profesi\u00f3n, Vocaci\u00f3n y Misi\u00f3n. Esas palabras ser\u00e1n el material exacto para construir tu frase de poder."));p.appendChild(ph);
+  dmsg(p);
+
+  var call=mk("div","card");call.style.padding="13px 15px";call.appendChild(mk("div","cl","Todas tus palabras"));
+  [["azul","Azul \u2014 Lo que amo",getAllAzul()],["am","Amarilla \u2014 En qu\u00e9 soy bueno",getAllAm()],["vd","Verde \u2014 Por qu\u00e9 me pagan",S.verde||[]],["ro","Rosada \u2014 Mi ofrenda",S.rosado||[]]].forEach(function(l){
+    var wr=mk("div");wr.style.marginBottom="8px";
+    var lbl=mk("div");lbl.style.cssText="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--"+l[0]+");margin-bottom:4px;font-weight:500";lbl.textContent=l[1];
+    var pwr=mk("div");pwr.style.cssText="display:flex;flex-wrap:wrap;gap:4px";
+    l[2].forEach(function(t){pwr.appendChild(mk("span","pap "+l[0],t));});
+    if(!l[2].length)pwr.appendChild(mk("span","hint","Sin palabras a\u00fan"));
+    wr.appendChild(lbl);wr.appendChild(pwr);call.appendChild(wr);
+  });
+  p.appendChild(call);
+
+  var crcon=mk("div");crcon.id="crcon";p.appendChild(crcon);renderCruces();
+
+  var nav=mk("div","nav");var pb=mk("button","bn","Anterior");pb.onclick=function(){irA(5);};
+  var pn=mk("button","bp","Construir mi prop\u00f3sito");pn.onclick=function(){bProposito();irA(7);};
+  nav.appendChild(pb);nav.appendChild(pn);p.appendChild(nav);
+}
+
+// ── P7: PROPOSITO + FRASE ────────────────────────────────────
+function getMaterial(){
+  var all=[];
+  [S.selsAzul.pasion||[],S.selsAm.profesion||[],S.selsVd.vocacion||[],S.selsRo.mision||[]].forEach(function(arr){arr.forEach(function(w){if(all.indexOf(w)<0)all.push(w);});});
+  return all;
+}
+
+function bProposito(){
+  var p=ge("p7");p.innerHTML="";
+  var badge=mk("div","pbadge");badge.appendChild(mk("div","pbadge-q","Mi prop\u00f3sito de vida"));p.appendChild(badge);
+  var ph=mk("div","ph");
+  ph.appendChild(mk("div","ph-t","Construye tu raz\u00f3n de ser"));
+  ph.appendChild(mk("div","ph-d","Antes de escribir tu frase, entiende la diferencia entre prop\u00f3sito, intenci\u00f3n y coherencia. Esta distinci\u00f3n lo cambia todo."));p.appendChild(ph);
+  dmsg(p);
+
+  // Conceptos
+  var cconc=mk("div","card pur");cconc.appendChild(mk("div","cl p","Prop\u00f3sito, intenci\u00f3n y coherencia \u2014 no es lo mismo"));
+
+  var conceptos=[
+    {col:"var(--gold2)","t":"Prop\u00f3sito","d":"El prop\u00f3sito es lo que eres, no lo que quieres que otros sean ni lo que quieres que ocurra. Es en primera persona, es activo y es permanente. No cambia con las circunstancias \u2014 es la brujula desde la que tomas todas tus decisiones.\n\nEl prop\u00f3sito no tiene cabida para nadie m\u00e1s. Si dices 'mi prop\u00f3sito es que mis hijos sean profesionales', eso no es un prop\u00f3sito \u2014 es una intenci\u00f3n. El prop\u00f3sito de donde puede nacer esa intenci\u00f3n ser\u00eda algo como: 'Soy un padre que acompa\u00f1a el crecimiento de quienes ama'.",
+      ejemplos:[{l:"NO es un prop\u00f3sito",t:"Mi prop\u00f3sito es que mis hijos sean profesionales."},{l:"S\u00cd es un prop\u00f3sito",t:"Acompa\u00f1o el crecimiento de quienes amo para que encuentren su propio camino."}]},
+    {col:"var(--acc)","t":"Intenci\u00f3n","d":"La intenci\u00f3n es lo que quieres que ocurra como consecuencia de vivir tu prop\u00f3sito. Es el resultado que buscas generar en el mundo o en los dem\u00e1s. Las intenciones son hijas del prop\u00f3sito \u2014 nacen de \u00e9l y le apuntan, pero no son el prop\u00f3sito mismo.",
+      ejemplos:[{l:"Intenci\u00f3n",t:"Que las personas que acompa\u00f1o descubran su propio prop\u00f3sito de vida."},{l:"Prop\u00f3sito del que nace",t:"Soy un creador de experiencias que transforman la conciencia."}]},
+    {col:"var(--grn)","t":"Coherencia","d":"La coherencia es vivir el prop\u00f3sito, no solo declararlo. Es la alineaci\u00f3n entre lo que eres, lo que dices y lo que haces. Un prop\u00f3sito sin coherencia es solo una frase bonita.\n\nCuando hay coherencia, las dem\u00e1s personas lo notan antes de que t\u00fa lo declares. No es lo que dices que eres \u2014 es lo que demuestras que eres en cada decisi\u00f3n, relaci\u00f3n y acci\u00f3n.",
+      ejemplos:[{l:"Sin coherencia",t:"Declaro que mi prop\u00f3sito es servir a otros pero nunca ayudo sin esperar algo a cambio."},{l:"Con coherencia",t:"Cada decisi\u00f3n que tomo, aunque sea incomoda, apunta a mi prop\u00f3sito."}]}
+  ];
+
+  conceptos.forEach(function(c){
+    var card=mk("div","concepto-card");card.style.borderLeftColor=c.col;
+    var t=mk("div","concepto-t",c.t);t.style.color=c.col;card.appendChild(t);
+    var d=mk("div","concepto-d",c.d);card.appendChild(d);
+    c.ejemplos.forEach(function(ej){
+      var ejCard=mk("div","ejemplo-card");
+      var ejLbl=mk("div","ej-label",ej.l);ejLbl.style.color=c.col;ejCard.appendChild(ejLbl);
+      ejCard.appendChild(mk("div","ej-txt",ej.t));card.appendChild(ejCard);
+    });
+    cconc.appendChild(card);
+  });
+  p.appendChild(cconc);
+
+  // Material de los cruces
+  var material=getMaterial();
+  var cmat=mk("div","card");cmat.style.padding="14px 16px";cmat.appendChild(mk("div","cl","Material de tus cruces \u2014 haz clic para insertar en la frase"));
+  var chips=mk("div");chips.style.cssText="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:8px";
+  if(material.length){
+    material.forEach(function(w){
+      var ch=mk("span","pap multi",w);
+      ch.onclick=(function(word){return function(){insWord(word);};})(w);
+      chips.appendChild(ch);
+    });
+  } else {
+    chips.appendChild(mk("span","hint","Selecciona palabras en los cruces para que aparezcan aqu\u00ed."));
+  }
+  cmat.appendChild(chips);
+  var ctMat=mk("div","ct");ctMat.innerHTML="Estas palabras son el resultado de cruzar lo que amas, lo que sabes hacer, lo que el mundo paga y lo que el mundo necesita. Son la esencia de tu prop\u00f3sito.";
+  cmat.appendChild(ctMat);p.appendChild(cmat);
+
+  // Ejemplos
+  var cejm=mk("div","card gold");cejm.appendChild(mk("div","cl","Ejemplos que inspiran"));
+  [["Alonso (el autor)","Soy un creador l\u00fadico que transforma vidas a trav\u00e9s de experiencias honestas, para que cada ser humano encuentre su prop\u00f3sito."],["Gloria","Soy una mujer que sana heridas a trav\u00e9s de la escucha, para que otras personas descubran que merecen ocupar su propio espacio."],["Lucho (restaurantero)","Cocino con dignidad para que cada persona en mi mesa sienta que merece lo mejor."]].forEach(function(item){
+    var d=mk("div");d.style.cssText="background:var(--bg4);border-radius:var(--rm);padding:10px 13px;border-left:2px solid var(--gold);margin-bottom:7px";
+    var ln=mk("div");ln.style.cssText="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:3px;font-weight:500";ln.textContent=item[0];
+    var ft=mk("div");ft.style.cssText="font-family:Cormorant Garamond,serif;font-size:14px;font-style:italic;color:var(--gold3);line-height:1.75";ft.textContent=item[1];
+    d.appendChild(ln);d.appendChild(ft);cejm.appendChild(d);
+  });p.appendChild(cejm);
+
+  // Constructor
+  if(!S.frase&&S.declaracion)S.frase=S.declaracion;
+  var cfrase=mk("div","card");cfrase.style.padding="15px 17px";cfrase.appendChild(mk("div","cl","Mi raz\u00f3n de ser \u2014 mi prop\u00f3sito de vida"));
+  var ctF=mk("div","ct");ctF.style.marginBottom="10px";
+  ctF.innerHTML="Escribe en primera persona. Activo y permanente. <strong style='color:var(--gold3)'>L\u00e9elo en voz alta</strong> \u2014 la frase que se siente en el cuerpo, que produce un escalofrío o una respiraci\u00f3n diferente, es la verdadera.";
+  cfrase.appendChild(ctF);
+  var disp=mk("div","fdisp");disp.id="fdisp";cfrase.appendChild(disp);
+  var ta=document.createElement("textarea");ta.className="fta";ta.id="fta";ta.placeholder="Soy... / Mi prop\u00f3sito es... / Existo para...";ta.value=S.frase||"";
+  ta.oninput=function(){S.frase=this.value;updDisp(this.value);};cfrase.appendChild(ta);p.appendChild(cfrase);
+  updDisp(S.frase||"");
+
+  addRR(p,"fref","C\u00f3mo se siente?","Cuando la lees en voz alta, \u00bfsientes algo en el cuerpo? \u00bfUn escalofrío, una certeza? \u00bfO todav\u00eda no es del todo tuya?");
+  var nav=mk("div","nav");var pb=mk("button","bn","Anterior");pb.onclick=function(){irA(6);};
+  var pn=mk("button","bp","Escribir mi carta de vida");pn.onclick=function(){bCarta();irA(8);};
+  nav.appendChild(pb);nav.appendChild(pn);p.appendChild(nav);
+}
+
+function updDisp(v){var d=ge("fdisp");if(!d)return;if(v&&v.trim()){d.style.color="var(--gold3)";d.textContent=v;}else{d.style.color="var(--faint)";d.textContent="Tu prop\u00f3sito aparecer\u00e1 aqu\u00ed mientras escribes...";}}
+function insWord(w){var ta=ge("fta");if(!ta)return;var pos=ta.selectionStart;var a=ta.value.substring(0,pos),b=ta.value.substring(pos);ta.value=a+(a.length&&a.slice(-1)!==" "?" ":"")+w+(b.length&&b[0]!==" "?" ":"")+b;S.frase=ta.value;updDisp(ta.value);var np=pos+(a.length&&a.slice(-1)!==" "?1:0)+w.length;ta.focus();ta.setSelectionRange(np,np);}
+
+// ── P8: CARTA ────────────────────────────────────────────────
+function bCarta(){
+  var cr=getMaterial();var nvm=nvM(S.nv);
+  if(!S.carta){
+    var nom=S.nombre||"yo";
+    var lines=["Querido "+nom+",","","Esta carta es el resumen del recorrido m\u00e1s honesto que he hecho sobre qui\u00e9n soy.",""];
+    if(S.nv&&nvm)lines.push("Descubr\u00ed que mi n\u00famero de vida ("+S.nv+") me dice que vine a "+nvm.toLowerCase(),"");
+    if(cr.length)lines.push("Las palabras que emergen cuando cruzo lo que amo, lo que s\u00e9 hacer, lo que el mundo paga y lo que el mundo necesita son: "+cr.slice(0,5).join(", ")+".","");
+    if(S.frase)lines.push("Mi prop\u00f3sito de vida es: "+S.frase,"");
+    lines.push("Este no es el final \u2014 es el comienzo de vivir desde aqu\u00ed.","","Con gratitud,",nom);
+    S.carta=lines.join("\n");
+  }
+  var p=ge("p8");p.innerHTML="";
+  var badge=mk("div","pbadge");badge.appendChild(mk("div","pbadge-q","Mi carta de vida"));p.appendChild(badge);
+  var ph=mk("div","ph");ph.appendChild(mk("div","ph-t","La carta que te escribes a ti mismo"));
+  ph.appendChild(mk("div","ph-d","Integra todo el recorrido. Para guardar y releer cuando el camino se oscurezca."));p.appendChild(ph);
+  dmsg(p);
+  var cpur=mk("div","card pur");cpur.appendChild(mk("div","cl p","Por qu\u00e9 esta carta importa"));
+  cpur.appendChild(mk("div","ct","Esta carta no es un resumen acad\u00e9mico \u2014 es el registro de un momento en que te atreviste a mirarte con honestidad. La voz m\u00e1s sabia que tienes es la tuya propia."));p.appendChild(cpur);
+  var ccarta=mk("div","card");ccarta.style.padding="14px";ccarta.appendChild(mk("div","cl","Mi carta de vida"));
+  var cta=document.createElement("textarea");cta.className="cta";cta.value=S.carta;cta.oninput=function(){S.carta=this.value;};ccarta.appendChild(cta);p.appendChild(ccarta);
+  addRR(p,"cpro","Qu\u00e9 despert\u00f3 en ti?","Escribe lo que este recorrido completo despert\u00f3 en ti.");
+  addRR(p,"cac","Mi compromiso de acci\u00f3n","Qu\u00e9 primer paso concreto puedes dar esta semana para vivir m\u00e1s desde tu prop\u00f3sito?","b");
+  var cierre=mk("div","cierre");
+  cierre.appendChild(mk("div","ct2","Cuando el grano encuentra su taza, todo cobra sentido."));
+  cierre.appendChild(mk("div","cp","Has completado el recorrido m\u00e1s profundo que existe: el de conocerte a ti mismo. Tienes tu mapa, tus ciclos, tus valores y tu prop\u00f3sito. Lo que sigue es vivirlo."));
+  var fq=mk("div");fq.style.cssText="display:inline-block;background:var(--gd);border:1px solid var(--gb);border-radius:var(--rm);padding:9px 18px;font-size:13px;color:var(--gold3);font-style:italic";fq.textContent=S.frase||"Tu prop\u00f3sito vive en el paso anterior.";cierre.appendChild(fq);p.appendChild(cierre);
+
+  // Guardar el resultado consolidado de Ikigai
+  if (window.ANORMAL) {
+    ANORMAL.saveFaseModulo("ikigai", {
+      frase: S.frase || "",
+      carta: S.carta || "",
+      material: cr,
+      numeroVida: S.nv,
+      numeroAlma: S.alma
+    });
+  }
+
+  var nav=mk("div","nav");var pb=mk("button","bn","Anterior");pb.onclick=function(){irA(7);};var ps=mk("button","bs","Revisar desde el inicio");ps.style.opacity=".5";ps.onclick=function(){irA(0);};nav.appendChild(pb);nav.appendChild(ps);p.appendChild(nav);
+}
+
+
+// INIT VIDEO BANNER
+(function(){
+  var vdb = document.getElementById("vid-banner-ikigai");
+  var vdp = document.getElementById("vid-player-ikigai");
+  var url = window.VIDEOS_MODULO && window.VIDEOS_MODULO["ikigai"] || "";
+  if(url && vdb && vdp){
+    var m2 = url.match(/(?:v=|youtu\.be\/|embed\/)([\w-]{11})/);
+    if(m2){
+      var ifr = document.createElement("iframe");
+      ifr.src = "https://www.youtube.com/embed/" + m2[1] + "?rel=0";
+      ifr.allow = "accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture";
+      ifr.allowFullscreen = true;
+      vdp.innerHTML = "";
+      vdp.appendChild(ifr);
+    }
+    vdb.classList.add("show");
+  } else if(vdb){
+    vdb.classList.add("show");
+  }
+})();
+
+buildWidgetPrincipios("ikigai", document.body, function() {
+  init();
+});
+</script>
+
+<!-- BOTON BRUJULA -->
+<div class="brujula-btn-fixed" id="brujulaFloat">
+  <div class="brujula-toast" id="brujulaToast">Registra lo que descubriste en tu Brújula de Propósito</div>
+  <a class="brujula-btn" href="brujula-proposito.html" title="Mi Brújula de Propósito">
+    <div class="brujula-btn-icon">∀</div>
+    <div class="brujula-btn-txt">Mi Brújula</div>
+  </a>
+</div>
+<script>
+// Mostrar toast motivacional a los 90 segundos de estar en el módulo
+setTimeout(function(){
+  var t=document.getElementById("brujulaToast");
+  if(t){t.classList.add("show");setTimeout(function(){t.classList.remove("show");},5000);}
+},90000);
+</script>
+
+</body>
+</html>

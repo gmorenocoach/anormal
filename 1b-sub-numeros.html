@@ -1,0 +1,1171 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Café con Propósito — Mis Sub-números</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Barlow:wght@300;400;500&family=Barlow+Condensed:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0A0F1E;--bg2:#0E1525;--bg3:#131D30;--bg4:#1A2640;
+--gold:#C9A84C;--gold2:#E8C96A;--gold3:#F5E0A0;
+--gd:rgba(201,168,76,.13);--gb:rgba(201,168,76,.28);
+--text:#EAE6DC;--dim:#8A95A8;--faint:#3A4558;
+--acc:#4A9EBF;--acd:rgba(74,158,191,.13);--acb:rgba(74,158,191,.28);
+--grn:#4ABF7A;--grd:rgba(74,191,122,.12);--grb:rgba(74,191,122,.28);
+--pur:#9B7FD4;--pud:rgba(155,127,212,.12);--pub:rgba(155,127,212,.28);
+--r:4px;--rm:8px;--rl:14px}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font-weight:300;font-size:15px;line-height:1.65;min-height:100vh}
+body::before{content:"";position:fixed;inset:0;background:radial-gradient(ellipse at 20% 50%,rgba(201,168,76,.04),transparent 60%),radial-gradient(ellipse at 80% 20%,rgba(74,158,191,.04),transparent 50%);pointer-events:none;z-index:0}
+.app{position:relative;z-index:1;max-width:740px;margin:0 auto;padding:0 22px 80px}
+
+/* Setup */
+.setup{padding:50px 0 30px}
+.ey{font-family:"Barlow Condensed",sans-serif;font-size:11px;letter-spacing:.22em;color:var(--gold);text-transform:uppercase;margin-bottom:12px}
+.wt{font-family:"Cormorant Garamond",serif;font-size:clamp(34px,5vw,56px);font-weight:300;color:var(--gold2);line-height:1.05;margin-bottom:8px}
+.wt em{font-style:italic;color:var(--gold3)}
+.wsub{font-size:14px;color:var(--dim);max-width:500px;line-height:1.85;margin-bottom:24px}
+.wdiv{width:50px;height:1px;background:var(--gb);margin:20px 0}
+
+/* Progreso */
+.prog{display:flex;align-items:center;margin-bottom:32px;gap:0;overflow-x:auto;padding-bottom:3px}
+.ps{display:flex;align-items:center;gap:6px;white-space:nowrap;padding:3px 0}
+.ps.done{cursor:pointer}
+.pn{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:500;border:1px solid var(--faint);color:var(--faint);transition:all .3s;flex-shrink:0}
+.ps.done .pn{border-color:var(--gold);color:var(--gold);background:var(--gd)}
+.ps.act .pn{border-color:var(--gold2);color:var(--bg);background:var(--gold2)}
+.ptxt{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);transition:color .3s}
+.ps.done .ptxt,.ps.act .ptxt{color:var(--gold)}
+.pln{flex:1;min-width:10px;height:1px;background:var(--faint);margin:0 6px;opacity:.2;transition:all .3s}
+.pln.done{background:var(--gold);opacity:.4}
+
+/* Paneles */
+.panel{display:none}.panel.act{display:block;animation:fu .4s ease}
+@keyframes fu{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+/* Badge */
+.pbadge{display:inline-flex;align-items:center;gap:8px;background:var(--gd);border:1px solid var(--gb);border-radius:var(--rl);padding:7px 15px;margin-bottom:18px}
+.pbadge-q{font-family:"Cormorant Garamond",serif;font-size:20px;color:var(--gold2);font-weight:300;font-style:italic}
+.pbadge-s{font-size:11px;color:var(--dim);margin-top:1px}
+
+/* Encabezado */
+.ph{margin-bottom:24px}
+.ph-s{font-family:"Barlow Condensed",sans-serif;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:5px}
+.ph-t{font-family:"Cormorant Garamond",serif;font-size:clamp(20px,4vw,30px);font-weight:300;color:var(--gold2);line-height:1.15;margin-bottom:5px}
+.ph-d{font-size:13px;color:var(--dim);line-height:1.8;max-width:520px}
+
+/* Cards */
+.card{background:var(--bg2);border:1px solid rgba(255,255,255,.055);border-radius:var(--rl);padding:20px 24px;margin-bottom:13px}
+.card.gold{border-color:var(--gb);background:linear-gradient(135deg,var(--bg2),var(--bg3))}
+.card.acc{border-color:var(--acb)}
+.card.pur{border-color:var(--pub);background:linear-gradient(135deg,var(--bg2),rgba(155,127,212,.04))}
+.cl{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:10px}
+.cl.b{color:var(--acc)}.cl.p{color:var(--pur)}
+.ct{font-size:13px;color:var(--dim);line-height:1.8}
+.dv{height:1px;background:var(--gb);margin:16px 0;opacity:.3}
+
+/* Inputs */
+.il{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-bottom:6px;display:block}
+.inp{background:var(--bg3);border:1px solid rgba(255,255,255,.07);border-radius:var(--r);color:var(--text);font-family:"Barlow",sans-serif;font-size:15px;font-weight:300;padding:10px 14px;width:100%;outline:none;transition:border-color .2s}
+.inp:focus{border-color:var(--gold)}
+.inp::placeholder{color:var(--faint)}
+.irow{display:flex;gap:10px;flex-wrap:wrap}
+
+/* Botones */
+.bp{background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--bg);border:none;border-radius:var(--r);font-family:"Barlow Condensed",sans-serif;font-size:12px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;padding:12px 28px;cursor:pointer;transition:opacity .2s,transform .15s}
+.bp:hover{opacity:.9;transform:translateY(-1px)}
+.bs{background:transparent;color:var(--gold);border:1px solid var(--gb);border-radius:var(--r);font-family:"Barlow Condensed",sans-serif;font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;padding:9px 20px;cursor:pointer;transition:all .2s}
+.bs:hover{background:var(--gd)}
+.bn{background:transparent;color:var(--dim);border:1px solid rgba(255,255,255,.07);border-radius:var(--r);font-family:"Barlow",sans-serif;font-size:13px;padding:9px 18px;cursor:pointer;transition:all .2s}
+.bn:hover{border-color:var(--gold);color:var(--gold)}
+
+/* Sub-número card */
+.subn{background:var(--bg3);border:1px solid rgba(255,255,255,.06);border-radius:var(--rm);padding:20px 22px;margin-bottom:12px}
+.subn.gold{border-color:var(--gb)}
+.subn.acc{border-color:var(--acb)}
+.subn.pur{border-color:var(--pub)}
+.subn-label{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);margin-bottom:5px;font-weight:500}
+.subn-chain{font-family:"Barlow Condensed",sans-serif;font-size:14px;color:var(--gold);letter-spacing:.03em;margin-bottom:6px;line-height:1.5}
+.subn-val{font-family:"Cormorant Garamond",serif;font-size:48px;font-weight:300;line-height:1;margin-bottom:3px}
+.subn-name{font-family:"Cormorant Garamond",serif;font-size:18px;font-style:italic;margin-bottom:10px}
+.subn-desc{font-size:13px;color:var(--dim);line-height:1.8}
+.subn-meaning{font-size:13px;color:var(--dim);line-height:1.8;margin-top:10px}
+.subn-conexion{background:var(--bg4);border-radius:var(--rm);padding:12px 14px;margin-top:12px;font-size:13px;color:var(--dim);line-height:1.65;border-left:2px solid var(--gold)}
+.subn-conexion.b{border-left-color:var(--acc)}
+.subn-conexion.p{border-left-color:var(--pur)}
+.subn-conexion-l{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:4px;font-weight:500}
+.subn-conexion.b .subn-conexion-l{color:var(--acc)}
+.subn-conexion.p .subn-conexion-l{color:var(--pur)}
+
+/* Reto */
+.rr{background:var(--bg4);border:1px solid var(--gb);border-radius:var(--rm);padding:14px 16px;margin:9px 0}
+.rr-l{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:6px;font-weight:500}
+.rr.b{border-color:var(--acb)}.rr.b .rr-l{color:var(--acc)}
+.rr p{font-size:13px;color:var(--dim);line-height:1.75;margin-bottom:8px}
+.rta{background:var(--bg2);border:1px solid rgba(255,255,255,.07);border-radius:var(--r);color:var(--text);font-family:"Barlow",sans-serif;font-size:13px;font-weight:300;padding:10px 12px;width:100%;min-height:70px;outline:none;resize:vertical;transition:border-color .2s;line-height:1.65}
+.rta:focus{border-color:var(--gold)}
+.rta::placeholder{color:var(--faint)}
+.rchk{display:flex;align-items:center;gap:8px;margin-top:7px;cursor:pointer}
+.rchk input{width:15px;height:15px;accent-color:var(--gold);cursor:pointer}
+.rchk label{font-size:12px;color:var(--dim);cursor:pointer}
+.rdone{display:inline-flex;align-items:center;gap:5px;font-size:11px;color:var(--grn);padding:3px 9px;background:var(--grd);border:1px solid var(--grb);border-radius:12px;margin-top:5px}
+
+/* Frase diaria */
+.dmsg{background:linear-gradient(135deg,rgba(201,168,76,.07),rgba(74,158,191,.05));border:1px solid var(--gb);border-radius:var(--rl);padding:16px 20px;margin-bottom:14px;text-align:center}
+.dm-l{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:6px}
+.dm-t{font-family:"Cormorant Garamond",serif;font-size:16px;font-style:italic;color:var(--gold3);line-height:1.8}
+
+/* Resumen visual */
+.resumen-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin:14px 0}
+.rg-cell{background:var(--bg3);border:1px solid rgba(255,255,255,.06);border-radius:var(--rm);padding:13px 14px;text-align:center}
+.rg-label{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);margin-bottom:5px}
+.rg-num{font-family:"Cormorant Garamond",serif;font-size:36px;font-weight:300;line-height:1;margin-bottom:2px}
+.rg-name{font-size:11px;color:var(--dim);font-style:italic}
+
+/* Cierre */
+.cierre{background:linear-gradient(135deg,var(--bg3),var(--bg2));border:1px solid var(--gb);border-radius:var(--rl);padding:20px 24px;margin-top:18px;text-align:center}
+.cierre-t{font-family:"Cormorant Garamond",serif;font-size:18px;color:var(--gold2);margin-bottom:8px;font-style:italic}
+.cierre p{font-size:13px;color:var(--dim);line-height:1.75;max-width:460px;margin:0 auto}
+
+/* Nav */
+.nav{display:flex;justify-content:space-between;align-items:center;margin-top:26px;padding-top:15px;border-top:1px solid rgba(255,255,255,.05)}
+
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--gb);border-radius:2px}
+@media(max-width:560px){.app{padding:0 14px 60px}.resumen-grid{grid-template-columns:1fr 1fr}}
+
+
+
+/* VIDEO BANNER */
+.vid-banner{background:linear-gradient(135deg,rgba(201,168,76,.07),rgba(74,158,191,.04));border:1px solid rgba(201,168,76,.2);border-radius:14px;overflow:hidden;margin:0 22px 20px;display:none}
+.vid-banner.show{display:block}
+.vid-banner-hdr{padding:10px 16px;border-bottom:1px solid rgba(255,255,255,.05);display:flex;align-items:center;justify-content:space-between}
+.vid-banner-lbl{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#C9A84C;font-weight:500;font-family:Barlow Condensed,sans-serif}
+.vid-banner-mod{font-size:11px;color:#8A95A8}
+.vid-banner-player{position:relative;width:100%;aspect-ratio:16/9;background:#060A14}
+.vid-banner-player iframe{position:absolute;inset:0;width:100%;height:100%;border:none}
+.vid-banner-ph{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center;padding:20px}
+.vid-ph-icon{width:44px;height:44px;border-radius:50%;background:rgba(201,168,76,.13);border:1.5px solid rgba(201,168,76,.28);display:flex;align-items:center;justify-content:center;font-size:16px;color:#E8C96A}
+.vid-ph-t{font-family:Cormorant Garamond,serif;font-size:15px;color:#E8C96A;font-weight:300}
+.vid-ph-d{font-size:11px;color:#3A4558;line-height:1.55;max-width:240px}
+@media(max-width:560px){.vid-banner{margin:0 14px 16px}}
+
+
+/* BOTON BRUJULA */
+.brujula-btn-fixed{position:fixed;bottom:22px;right:22px;z-index:500;display:flex;flex-direction:column;align-items:flex-end;gap:6px}
+.brujula-btn{display:flex;align-items:center;gap:8px;background:linear-gradient(135deg,rgba(201,168,76,.15),rgba(201,168,76,.08));border:1px solid rgba(201,168,76,.35);border-radius:30px;padding:10px 16px;cursor:pointer;transition:all .25s;text-decoration:none;backdrop-filter:blur(8px)}
+.brujula-btn:hover{background:linear-gradient(135deg,rgba(201,168,76,.25),rgba(201,168,76,.15));border-color:rgba(201,168,76,.6);transform:translateY(-2px)}
+.brujula-btn-icon{font-family:"Cormorant Garamond",serif;font-size:18px;color:var(--gold2);font-weight:300;line-height:1}
+.brujula-btn-txt{font-size:11px;font-family:"Barlow Condensed",sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--gold2);font-weight:500}
+.brujula-toast{background:var(--bg3);border:1px solid var(--gb);border-radius:var(--rm,10px);padding:9px 14px;font-size:12px;color:var(--gold3);font-family:"Barlow",sans-serif;max-width:220px;text-align:right;line-height:1.5;display:none;animation:btoast .3s ease}
+.brujula-toast.show{display:block}
+@keyframes btoast{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
+</style>
+</head>
+<body>
+
+<!-- VIDEO BANNER: Sub-números -->
+<div class="vid-banner" id="vid-banner-subnums">
+  <div class="vid-banner-hdr">
+    <div class="vid-banner-lbl">Introducción al módulo</div>
+    <div class="vid-banner-mod">Sub-números</div>
+  </div>
+  <div class="vid-banner-player" id="vid-player-subnums">
+    <div class="vid-banner-ph">
+      <div class="vid-ph-icon">&#9654;</div>
+      <div class="vid-ph-t">Video de introducción</div>
+      <div class="vid-ph-d">Alonso te explica lo que encontrarás en este módulo y cómo aprovecharlo al máximo.</div>
+    </div>
+  </div>
+</div>
+<div class="app" id="app"></div>
+<script>
+// ============================================================
+// ANORMAL - Módulo de datos compartidos entre módulos
+// Usa sessionStorage para pasar datos entre páginas HTML
+// ============================================================
+
+var ANORMAL = {
+  
+  // Leer todos los datos del proceso
+  getData: function() {
+    try {
+      var raw = sessionStorage.getItem('anormal_proceso');
+      return raw ? JSON.parse(raw) : {};
+    } catch(e) { return {}; }
+  },
+  
+  // Guardar datos del proceso
+  setData: function(data) {
+    try {
+      sessionStorage.setItem('anormal_proceso', JSON.stringify(data));
+    } catch(e) {}
+  },
+  
+  // Actualizar una sección específica
+  update: function(section, value) {
+    var data = this.getData();
+    data[section] = value;
+    this.setData(data);
+  },
+  
+  // Agregar un compromiso/hábito a la agenda central
+  addAgenda: function(item) {
+    // item = {modulo, titulo, descripcion, fecha, periodicidad, tipo}
+    var data = this.getData();
+    if (!data.agenda) data.agenda = [];
+    item.id = 'ag_' + Date.now() + '_' + Math.random().toString(36).slice(2,6);
+    item.cumplido = false;
+    item.fechaCreacion = new Date().toLocaleDateString('es-CO');
+    data.agenda.push(item);
+    this.setData(data);
+    return item.id;
+  },
+  
+  // Guardar lo marcado en septenios para que fluya al ECG y al Niño Interior
+  saveSeptenios: function(checklistEstado, cicloActual, nombre, genero) {
+    var doloresPorCiclo = [];
+    
+    Object.keys(checklistEstado).forEach(function(chkKey) {
+      var est = checklistEstado[chkKey];
+      if (!est || !est.dolor || !est.dolor.length) return;
+      
+      // Extraer número de ciclo del key ('chk-3' -> 3, 'actual-5' -> 5)
+      var cicloNum = 0;
+      if (chkKey.startsWith('chk-')) cicloNum = parseInt(chkKey.replace('chk-',''));
+      else if (chkKey.startsWith('actual-')) cicloNum = parseInt(chkKey.replace('actual-',''));
+      if (!cicloNum) return;
+      
+      // Obtener los ítems de dolor marcados
+      var cicloDatos = window.CICLOS_DATA ? window.CICLOS_DATA[String(cicloNum)] : null;
+      if (!cicloDatos) return;
+      
+      var itemsMarcados = est.dolor.map(function(idx) {
+        return cicloDatos.dolor[idx] || '';
+      }).filter(Boolean);
+      
+      var itemsAlegria = (est.alegria || []).map(function(idx) {
+        return cicloDatos.alegria[idx] || '';
+      }).filter(Boolean);
+      
+      if (itemsMarcados.length || itemsAlegria.length) {
+        doloresPorCiclo.push({
+          ciclo: cicloNum,
+          tipo: cicloDatos.tipo,
+          titulo: cicloDatos.titulo,
+          edades: cicloDatos.titulo.match(/\d+ a \d+/)?.[0] || '',
+          dolores: itemsMarcados,
+          alegrias: itemsAlegria,
+          // Preguntas respondidas
+          respuestas: [0,1,2].map(function(pi) {
+            return checklistEstado[chkKey + '-preg-' + pi] || '';
+          }).filter(Boolean)
+        });
+      }
+    });
+    
+    // Ordenar por ciclo
+    doloresPorCiclo.sort(function(a,b){return a.ciclo - b.ciclo;});
+    
+    this.update('septenios', {
+      cicloActual: cicloActual,
+      nombre: nombre,
+      genero: genero,
+      doloresPorCiclo: doloresPorCiclo,
+      fecha: new Date().toLocaleDateString('es-CO')
+    });
+  },
+  
+  // Obtener datos de septenios para el ECG
+  getSepteniosParaECG: function() {
+    var data = this.getData();
+    return data.septenios || null;
+  },
+  
+  // Obtener ciclos 1-2-3 para el Niño Interior
+  getCiclosInfancia: function() {
+    var sep = this.getSepteniosParaECG();
+    if (!sep) return [];
+    return sep.doloresPorCiclo.filter(function(c) {
+      return c.ciclo <= 3;
+    });
+  },
+  
+  // Guardar compromisos de un módulo en la agenda central
+  saveCompromisos: function(moduloId, compromisos) {
+    if (!compromisos || !Object.keys(compromisos).length) return;
+    var data = this.getData();
+    if (!data.agenda) data.agenda = [];
+    
+    Object.keys(compromisos).forEach(function(key) {
+      var texto = (compromisos[key] || '').trim();
+      if (!texto) return;
+      // Evitar duplicados del mismo módulo+key
+      var exists = data.agenda.some(function(item) {
+        return item.moduloId === moduloId && item.key === key;
+      });
+      if (!exists) {
+        data.agenda.push({
+          id: 'ag_' + moduloId + '_' + key,
+          moduloId: moduloId,
+          key: key,
+          tipo: 'compromiso-principio',
+          descripcion: texto,
+          fechaCreacion: new Date().toLocaleDateString('es-CO'),
+          cumplido: false,
+          periodicidad: 'diario'
+        });
+      }
+    });
+    this.setData(data);
+  },
+
+  // ============================================================
+  // FASE 1 — ¿Quién soy? — guardado genérico por módulo
+  // ============================================================
+
+  // Guardar el resultado de un módulo de Fase 1 (o cualquier fase)
+  // moduloId: 'rueda' | 'elementos' | 'camino' | 'subnumeros' | 'mapa' |
+  //           'flechas' | 'nombre' | 'personas' | 'dolan' | 'ikigai' |
+  //           'siguiente_ciclo' | 'plan_vida'
+  saveFaseModulo: function(moduloId, resultado) {
+    var data = this.getData();
+    if (!data.fase1) data.fase1 = {};
+    if (!data.fase3) data.fase3 = {};
+    var fase3Ids = ['ikigai', 'siguiente_ciclo', 'plan_vida'];
+    var bucket = fase3Ids.indexOf(moduloId) >= 0 ? data.fase3 : data.fase1;
+    bucket[moduloId] = resultado;
+    bucket[moduloId + '_fecha'] = new Date().toLocaleDateString('es-CO');
+    this.setData(data);
+    this.marcarModuloCompletado(moduloId);
+  },
+
+  // Leer el resultado guardado de un módulo específico
+  getFaseModulo: function(moduloId) {
+    var data = this.getData();
+    if (data.fase1 && data.fase1[moduloId] !== undefined) return data.fase1[moduloId];
+    if (data.fase3 && data.fase3[moduloId] !== undefined) return data.fase3[moduloId];
+    return null;
+  },
+
+  // Obtener todo lo guardado de Fase 1 de una vez (para Perfil Integrado)
+  getFase1Completa: function() {
+    var data = this.getData();
+    return data.fase1 || {};
+  },
+
+  // Obtener todo lo guardado de Fase 3
+  getFase3Completa: function() {
+    var data = this.getData();
+    return data.fase3 || {};
+  },
+
+  // ============================================================
+  // PROGRESO — qué módulos completó la persona (para el Dashboard)
+  // ============================================================
+
+  TODOS_LOS_MODULOS: [
+    {id:'rueda', fase:1, nombre:'Rueda de Vida'},
+    {id:'elementos', fase:1, nombre:'Elementos'},
+    {id:'camino', fase:1, nombre:'Camino de Vida'},
+    {id:'subnumeros', fase:1, nombre:'Subnúmeros'},
+    {id:'mapa', fase:1, nombre:'Mapa Energético'},
+    {id:'flechas', fase:1, nombre:'Flechas'},
+    {id:'nombre', fase:1, nombre:'Nombre'},
+    {id:'personas', fase:1, nombre:'Personas'},
+    {id:'dolan', fase:1, nombre:'Valores Dolan'},
+    {id:'perfil', fase:1, nombre:'Perfil Integrado'},
+    {id:'septenios', fase:2, nombre:'Mis Ciclos de Vida'},
+    {id:'ecg', fase:2, nombre:'Mi Trabajo Emocional'},
+    {id:'perdon', fase:2, nombre:'Mi Trabajo del Perdón'},
+    {id:'ikigai', fase:3, nombre:'Ikigai'},
+    {id:'siguiente_ciclo', fase:3, nombre:'Siguiente Ciclo'},
+    {id:'plan_vida', fase:3, nombre:'Plan de Vida'}
+  ],
+
+  marcarModuloCompletado: function(moduloId) {
+    var data = this.getData();
+    if (!data.progreso) data.progreso = {};
+    data.progreso[moduloId] = {
+      completado: true,
+      fecha: new Date().toLocaleDateString('es-CO')
+    };
+    this.setData(data);
+  },
+
+  // Devuelve la lista de módulos con su estado de completado, para pintar el Dashboard
+  getProgreso: function() {
+    var data = this.getData();
+    var progreso = data.progreso || {};
+    return this.TODOS_LOS_MODULOS.map(function(m) {
+      return {
+        id: m.id,
+        fase: m.fase,
+        nombre: m.nombre,
+        completado: !!(progreso[m.id] && progreso[m.id].completado),
+        fecha: progreso[m.id] ? progreso[m.id].fecha : null
+      };
+    });
+  },
+
+  // Porcentaje de avance total y por fase
+  getPorcentajeAvance: function() {
+    var prog = this.getProgreso();
+    var total = prog.length;
+    var hechos = prog.filter(function(m){ return m.completado; }).length;
+    var porFase = {1:{total:0,hechos:0}, 2:{total:0,hechos:0}, 3:{total:0,hechos:0}};
+    prog.forEach(function(m) {
+      porFase[m.fase].total++;
+      if (m.completado) porFase[m.fase].hechos++;
+    });
+    return {
+      total: total, hechos: hechos,
+      porcentaje: total ? Math.round((hechos/total)*100) : 0,
+      porFase: porFase
+    };
+  }
+};
+
+// Sobrescribir guardarCompromisosModulo para que también vaya a la agenda
+window.guardarCompromisosModulo = function(moduloId, compromisos) {
+  if (!window.COMPROMISOS_PROCESO) window.COMPROMISOS_PROCESO = {};
+  window.COMPROMISOS_PROCESO[moduloId] = compromisos;
+  ANORMAL.saveCompromisos(moduloId, compromisos);
+};
+
+</script>
+<script>
+// ============================================================
+// WIDGET DE PRINCIPIOS Y COMPROMISOS - Anormal / Cafe con Proposito
+// v2.0 - Con recordatorio no negociable y orden original de principios
+// ============================================================
+
+var MODULO_PRINCIPIOS = {"bienvenida":[1,4,14],"rueda":[11,12],"elementos":[11,12],"camino":[5,9],"subnums":[5],"mapa":[9],"flechas":[9],"nombre":[5,9],"personas":[9,13],"dolan":[12,13],"perfil":[9],"septenios":[3,16],"ecg":[2,10],"nino":[2,3,7],"ikigai":[6,8,17],"ciclo":[15,16],"plan":[13,15,16],"dashboard":[18,9]};
+
+var PRINCIPIOS_DB = [{"num": 1, "titulo": "\u2200gradecer", "sesion": "bienvenida", "color": "#C9A84C", "no_negociable": "Mientras avanzas en este proceso, la gratitud no es opcional. Es el lente desde el que lees cada resultado, cada ejercicio, cada descubrimiento sobre ti mismo."}, {"num": 2, "titulo": "\u2200vanza en el perd\u00f3n", "sesion": "sesion3", "color": "#D4537E", "no_negociable": "Sin perd\u00f3n no hay transformaci\u00f3n real. Puedes completar todos los ejercicios \u2014 pero si cargas resentimiento, el proceso no puede hacer su trabajo completo."}, {"num": 3, "titulo": "\u2200provecha el dolor", "sesion": "sesion3", "color": "#D4537E", "no_negociable": "El dolor que emerja en este proceso no es se\u00f1al de que algo sale mal. Es la se\u00f1al de que algo est\u00e1 cambiando. No te detengas."}, {"num": 4, "titulo": "\u2200p\u00fantale al compromiso", "sesion": "bienvenida", "color": "#C9A84C", "no_negociable": "Ya te comprometiste al entrar. Ese compromiso no vence. Cada vez que sientas que quieres pausar, recuerda: te comprometiste antes de saber el c\u00f3mo. Conf\u00eda."}, {"num": 5, "titulo": "\u2200prende a normalizar lo extraordinario", "sesion": "sesion2", "color": "#9B7FD4", "no_negociable": "Lo que descubras sobre ti en esta sesi\u00f3n debe convertirse en tu nueva normalidad, no en un dato interesante que olvidas en una semana."}, {"num": 6, "titulo": "\u2200taca el miedo", "sesion": "sesion4", "color": "#E8C96A", "no_negociable": "Declarar tu prop\u00f3sito de vida activa todos tus miedos. Eso es normal y es buena se\u00f1al. La \u00fanica respuesta \u2200normal es seguir avanzando."}, {"num": 7, "titulo": "\u2200prende cero excusas", "sesion": "sesion3", "color": "#D4537E", "no_negociable": "Una excusa no te saca del proceso. Te saca de tu m\u00e1ximo potencial. Recuerda tu compromiso."}, {"num": 8, "titulo": "\u2200prende a pagar el precio", "sesion": "sesion4", "color": "#E8C96A", "no_negociable": "Vivir tu prop\u00f3sito tiene un precio real. Identificarlo aqu\u00ed y aceptarlo es el acto de honestidad que hace que el plan de vida funcione."}, {"num": 9, "titulo": "\u2200sume responsabilidad total", "sesion": "sesion2", "color": "#9B7FD4", "no_negociable": "Lo que tu numerolog\u00eda y tus valores revelan no es un destino fijo. Es un mapa. T\u00fa decides c\u00f3mo usarlo. Eso es responsabilidad total."}, {"num": 10, "titulo": "\u2200poyo emocional como combustible", "sesion": "sesion3", "color": "#D4537E", "no_negociable": "El dolor emocional que emerge en esta sesi\u00f3n no es un obst\u00e1culo. Es combustible. La intensidad que sientes es proporcional a la transformaci\u00f3n que viene."}, {"num": 11, "titulo": "\u2200palancamiento: la verdad contigo mismo", "sesion": "sesion1", "color": "#C9A84C", "no_negociable": "El diagn\u00f3stico solo funciona si eres brutalmente honesto. El n\u00famero que le das a cada \u00e1rea de tu vida debe reflejar la realidad, no c\u00f3mo quisieras que fuera."}, {"num": 12, "titulo": "\u2200doptas lo que toleras", "sesion": "sesion1", "color": "#C9A84C", "no_negociable": "Las \u00e1reas con calificaci\u00f3n baja son exactamente lo que has estado tolerando. Verlo sin juzgarte es el primer paso. Seguir toler\u00e1ndolo despu\u00e9s de verlo es la excusa."}, {"num": 13, "titulo": "\u2200pr\u00f3piate la insatisfacci\u00f3n", "sesion": "sesion2", "color": "#9B7FD4", "no_negociable": "La brecha entre tus valores declarados y los que realmente vives no es una falla \u2014 es informaci\u00f3n. Usa esa insatisfacci\u00f3n como motor, no como excusa."}, {"num": 14, "titulo": "\u2200dopta m\u00e9todos probados", "sesion": "bienvenida", "color": "#C9A84C", "no_negociable": "Esta plataforma integra metodolog\u00edas con d\u00e9cadas de validaci\u00f3n. Tu trabajo es aplicarlas con honestidad, no cuestionarlas antes de vivirlas."}, {"num": 15, "titulo": "\u2200lcanza el resultado, luego mejora", "sesion": "sesion5", "color": "#4ABF7A", "no_negociable": "Tu plan de vida no necesita ser perfecto para empezar. Necesita ser tuyo y necesita empezar. La acci\u00f3n imperfecta ejecutada vale m\u00e1s que el plan perfecto que nunca sale."}, {"num": 16, "titulo": "\u2200celera el proceso", "sesion": "sesion5", "color": "#4ABF7A", "no_negociable": "Cada d\u00eda que pasa sin ejecutar el plan es un d\u00eda que no vuelve. La urgencia no es ansiedad \u2014 es el respeto que le tienes a tu propio tiempo."}, {"num": 17, "titulo": "\u2200tenci\u00f3n y enfoque constante", "sesion": "sesion4", "color": "#E8C96A", "no_negociable": "Haz este m\u00f3dulo sin interrupciones. Lo que emerja es proporcional a tu concentraci\u00f3n."}, {"num": 18, "titulo": "\u2200lcanzas la anormalidad", "sesion": "sesion5", "color": "#4ABF7A", "no_negociable": "Completar este proceso te convierte en alguien diferente. Esa diferencia ser\u00e1 visible \u2014 y no todos la aplaudir\u00e1n. Esa resistencia confirma que el proceso funcion\u00f3."}];
+
+// Principios acumulados que el participante ya ha visto
+var PRINCIPIOS_VISTOS = (function(){
+  var v = {};
+  PRINCIPIOS_DB.forEach(function(pr){ v[pr.num] = false; });
+  return v;
+})();
+
+function buildWidgetPrincipios(moduloId, contenedor, onComplete) {
+  var principiosIds = MODULO_PRINCIPIOS[moduloId] || [];
+  if (!principiosIds.length) { if (onComplete) onComplete(); return; }
+
+  // Principios acumulados anteriores (ya vistos en modulos previos)
+  var anteriores = [];
+  PRINCIPIOS_DB.forEach(function(pr){
+    if(PRINCIPIOS_VISTOS[pr.num] && principiosIds.indexOf(pr.num) < 0){
+      anteriores.push(pr);
+    }
+  });
+
+  var compromisos_mod = {};
+  var paso = 0;
+  // Fases: -1=recordatorio, 0..N-1=principios, N=compromisos
+  var FASE_RECORD = -1;
+  var totalPasos = principiosIds.length + 1;
+  var hayAnteriores = anteriores.length > 0;
+
+  // Crear overlay
+  var overlay = document.createElement("div");
+  overlay.style.cssText = "position:fixed;inset:0;background:rgba(4,8,16,.97);z-index:2000;display:flex;align-items:center;justify-content:center;padding:16px;animation:wfadeIn .3s ease";
+
+  var box = document.createElement("div");
+  box.style.cssText = "background:#0A0F1E;border:1px solid rgba(201,168,76,.25);border-radius:20px;width:100%;max-width:560px;max-height:92vh;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 24px 64px rgba(0,0,0,.6)";
+
+  // Header
+  var hdr = document.createElement("div");
+  hdr.style.cssText = "padding:18px 22px 14px;border-bottom:1px solid rgba(255,255,255,.06);flex-shrink:0";
+  var htop = document.createElement("div");
+  htop.style.cssText = "display:flex;align-items:center;justify-content:space-between;margin-bottom:10px";
+  var hlogo = document.createElement("div");
+  hlogo.style.cssText = "font-family:Cormorant Garamond,serif;font-size:20px;color:#E8C96A;font-weight:300;letter-spacing:.02em";
+  hlogo.textContent = "\u2200normal";
+  var hstep = document.createElement("div");
+  hstep.id = "wp-step";
+  hstep.style.cssText = "font-size:10px;color:#3A4558;letter-spacing:.12em;text-transform:uppercase;font-family:Barlow Condensed,sans-serif";
+  htop.appendChild(hlogo); htop.appendChild(hstep);
+  var hbar = document.createElement("div");
+  hbar.style.cssText = "height:2px;background:#1A2640;border-radius:1px;overflow:hidden";
+  var hfill = document.createElement("div");
+  hfill.id = "wp-fill";
+  hfill.style.cssText = "height:100%;background:linear-gradient(90deg,#C9A84C,#E8C96A);border-radius:1px;transition:width .4s ease;width:0%";
+  hbar.appendChild(hfill); hdr.appendChild(htop); hdr.appendChild(hbar);
+  box.appendChild(hdr);
+
+  // Body
+  var body = document.createElement("div");
+  body.style.cssText = "flex:1;overflow-y:auto;padding:0 22px";
+
+  // Footer
+  var ftr = document.createElement("div");
+  ftr.style.cssText = "padding:14px 22px;border-top:1px solid rgba(255,255,255,.06);flex-shrink:0;display:flex;justify-content:space-between;align-items:center;gap:10px";
+
+  function upProg(){
+    var pct = paso < 0 ? 0 : Math.round(((paso+1)/totalPasos)*100);
+    var f=document.getElementById("wp-fill"); if(f)f.style.width=pct+"%";
+    var s=document.getElementById("wp-step");
+    if(s)s.textContent = paso < 0 ? "Recordatorio" : paso < principiosIds.length ? "Principio "+(paso+1)+" de "+principiosIds.length : "Mis compromisos";
+  }
+
+  function showPaso(){
+    body.innerHTML=""; ftr.innerHTML=""; upProg();
+
+    // FASE RECORDATORIO
+    if(paso===FASE_RECORD && hayAnteriores){
+      var sec=document.createElement("div"); sec.style.cssText="padding:20px 0";
+      var icon=document.createElement("div");icon.style.cssText="text-align:center;margin-bottom:16px";
+      var iconInner=document.createElement("div");iconInner.style.cssText="display:inline-flex;align-items:center;justify-content:center;width:52px;height:52px;border-radius:50%;background:rgba(212,83,126,.12);border:1.5px solid rgba(212,83,126,.35)";
+      iconInner.innerHTML="<span style='font-size:22px;color:#D4537E'>!</span>";
+      icon.appendChild(iconInner); sec.appendChild(icon);
+
+      var rt=document.createElement("div");rt.style.cssText="font-family:Cormorant Garamond,serif;font-size:22px;color:#E8C96A;text-align:center;margin-bottom:8px;font-weight:300;line-height:1.3";
+      rt.textContent="Antes de continuar"; sec.appendChild(rt);
+
+      var rs=document.createElement("div");rs.style.cssText="font-size:13px;color:#8A95A8;text-align:center;margin-bottom:18px;line-height:1.75;max-width:400px;margin-left:auto;margin-right:auto";
+      rs.innerHTML="Los principios que has aceptado <strong style='color:#F5E0A0'>no son opcionales ni negociables</strong>. Son el estándar que elegiste cuando decidiste entrar al camino ∀normal.";
+      sec.appendChild(rs);
+
+      var aviso=document.createElement("div");aviso.style.cssText="background:rgba(212,83,126,.07);border:1px solid rgba(212,83,126,.2);border-radius:12px;padding:14px 16px;margin-bottom:14px";
+      var avisoT=document.createElement("div");avisoT.style.cssText="font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#D4537E;font-weight:500;margin-bottom:8px;font-family:Barlow Condensed,sans-serif";
+      avisoT.textContent="Recuerda — Principios que ya aceptaste";aviso.appendChild(avisoT);
+      anteriores.slice(-3).forEach(function(pr){
+        var prow=document.createElement("div");prow.style.cssText="display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.04)";
+        var pn=document.createElement("div");pn.style.cssText="font-family:Cormorant Garamond,serif;font-size:18px;font-weight:300;color:"+pr.color+";min-width:30px";pn.textContent="∀"+pr.num;
+        var pt=document.createElement("div");pt.style.cssText="font-size:12px;color:#8A95A8";pt.textContent=pr.titulo;
+        prow.appendChild(pn);prow.appendChild(pt);aviso.appendChild(prow);
+      });
+      if(anteriores.length>3){var mas=document.createElement("div");mas.style.cssText="font-size:11px;color:#3A4558;margin-top:6px;text-align:center";mas.textContent="+ "+(anteriores.length-3)+" principios anteriores";aviso.appendChild(mas);}
+      sec.appendChild(aviso);
+
+      var pregunta=document.createElement("div");pregunta.style.cssText="background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.2);border-radius:10px;padding:12px 16px;text-align:center";
+      pregunta.innerHTML="<span style='font-family:Cormorant Garamond,serif;font-size:16px;color:#E8C96A;font-style:italic'>Una excusa no te saca de la plataforma — te saca de tu máximo potencial.<br>¿Sigues dentro del camino ∀normal?</span>";
+      sec.appendChild(pregunta);
+      body.appendChild(sec);
+
+      ftr.appendChild(document.createElement("span"));
+      var btnSi=document.createElement("button");btnSi.style.cssText="background:linear-gradient(135deg,#C9A84C,#E8C96A);color:#060A14;border:none;border-radius:4px;font-family:Barlow Condensed,sans-serif;font-size:12px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;padding:11px 26px;cursor:pointer";
+      btnSi.textContent="Sí, sigo dentro";
+      btnSi.onclick=function(){paso=0;showPaso();};
+      ftr.appendChild(btnSi);
+      return;
+    }
+
+    // FASE PRINCIPIOS
+    if(paso >= 0 && paso < principiosIds.length){
+      var pId=principiosIds[paso];
+      var pr=PRINCIPIOS_DB.find(function(p2){return p2.num===pId;});
+      if(!pr){paso++;showPaso();return;}
+      PRINCIPIOS_VISTOS[pr.num]=true;
+
+      var sec2=document.createElement("div");sec2.style.cssText="padding:20px 0";
+      var numDiv=document.createElement("div");numDiv.style.cssText="font-family:Cormorant Garamond,serif;font-size:60px;font-weight:300;line-height:1;color:"+pr.color+";opacity:.2;margin-bottom:2px";numDiv.textContent="∀"+pr.num;
+      sec2.appendChild(numDiv);
+      var tit=document.createElement("div");tit.style.cssText="font-family:Cormorant Garamond,serif;font-size:26px;font-weight:300;color:"+pr.color+";margin-bottom:14px;line-height:1.2";tit.textContent=pr.titulo;sec2.appendChild(tit);
+
+      if(pr.no_negociable){
+        var nnBlk=document.createElement("div");nnBlk.style.cssText="background:rgba(212,83,126,.07);border:1px solid rgba(212,83,126,.2);border-radius:10px;padding:11px 14px;margin-bottom:12px;display:flex;align-items:flex-start;gap:10px";
+        var nnIcon=document.createElement("div");nnIcon.style.cssText="font-size:14px;color:#D4537E;flex-shrink:0;margin-top:1px";nnIcon.textContent="!";
+        var nnTxt=document.createElement("div");
+        var nnLabel=document.createElement("div");nnLabel.style.cssText="font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#D4537E;font-weight:500;margin-bottom:4px;font-family:Barlow Condensed,sans-serif";nnLabel.textContent="No negociable";
+        var nnCont=document.createElement("div");nnCont.style.cssText="font-size:12px;color:#EAE6DC;line-height:1.65";nnCont.textContent=pr.no_negociable;
+        nnTxt.appendChild(nnLabel);nnTxt.appendChild(nnCont);nnBlk.appendChild(nnIcon);nnBlk.appendChild(nnTxt);sec2.appendChild(nnBlk);
+      }
+
+      if(pr.aplicacion){
+        var aplBlk=document.createElement("div");aplBlk.style.cssText="background:#1A2640;border-radius:10px;padding:12px 14px;border-left:3px solid "+pr.color+";margin-bottom:12px";
+        var aplL=document.createElement("div");aplL.style.cssText="font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:"+pr.color+";margin-bottom:4px;font-weight:500;font-family:Barlow Condensed,sans-serif";aplL.textContent="En este módulo";
+        var aplT=document.createElement("div");aplT.style.cssText="font-size:13px;color:#EAE6DC;line-height:1.65;font-style:italic";aplT.textContent=pr.aplicacion;
+        aplBlk.appendChild(aplL);aplBlk.appendChild(aplT);sec2.appendChild(aplBlk);
+      }
+
+      body.appendChild(sec2);
+
+      var btnP=paso>0?document.createElement("button"):document.createElement("span");
+      if(paso>0){btnP.style.cssText="background:transparent;color:#3A4558;border:1px solid #1E2A3A;border-radius:4px;font-family:Barlow,sans-serif;font-size:13px;padding:9px 16px;cursor:pointer";btnP.textContent="Anterior";btnP.onclick=function(){paso--;showPaso();};}
+      ftr.appendChild(btnP);
+      var btnN2=document.createElement("button");btnN2.style.cssText="background:linear-gradient(135deg,#C9A84C,#E8C96A);color:#060A14;border:none;border-radius:4px;font-family:Barlow Condensed,sans-serif;font-size:12px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;padding:11px 26px;cursor:pointer";
+      btnN2.textContent=paso<principiosIds.length-1?"Siguiente principio":"Mis compromisos";
+      btnN2.onclick=function(){paso++;showPaso();};ftr.appendChild(btnN2);
+      return;
+    }
+
+    // FASE COMPROMISOS
+    var sec3=document.createElement("div");sec3.style.cssText="padding:20px 0";
+    var ct=document.createElement("div");ct.style.cssText="font-family:Cormorant Garamond,serif;font-size:22px;color:#E8C96A;margin-bottom:6px;font-weight:300";ct.textContent="Mis compromisos para este módulo";sec3.appendChild(ct);
+    var cs=document.createElement("div");cs.style.cssText="font-size:13px;color:#8A95A8;margin-bottom:18px;line-height:1.65";cs.textContent="Los principios te dieron el marco. Ahora escribe qué harás diferente a partir de hoy en este módulo.";sec3.appendChild(cs);
+    principiosIds.forEach(function(pId2){
+      var pr2=PRINCIPIOS_DB.find(function(p2){return p2.num===pId2;});if(!pr2)return;
+      var blk=document.createElement("div");blk.style.cssText="margin-bottom:14px;background:#131D30;border-radius:10px;padding:13px 15px;border-left:3px solid "+pr2.color;
+      var bt=document.createElement("div");bt.style.cssText="font-size:11px;font-weight:500;color:"+pr2.color+";margin-bottom:6px;letter-spacing:.08em;text-transform:uppercase;font-family:Barlow Condensed,sans-serif";bt.textContent="∀"+pr2.num+" · "+pr2.titulo;blk.appendChild(bt);
+      var ta=document.createElement("textarea");ta.style.cssText="background:#0A0F1E;border:1px solid rgba(255,255,255,.07);border-radius:6px;color:#EAE6DC;font-family:Barlow,sans-serif;font-size:13px;padding:9px 12px;width:100%;min-height:70px;outline:none;resize:vertical;line-height:1.6;transition:border-color .2s";
+      ta.placeholder="Describe qué cambiarás o harás diferente a partir de hoy...";ta.value=compromisos_mod["p"+pId2]||"";
+      ta.onfocus=function(){this.style.borderColor=pr2.color;};ta.onblur=function(){this.style.borderColor="rgba(255,255,255,.07)";};
+      ta.oninput=(function(pid){return function(){compromisos_mod["p"+pid]=this.value;};})(pId2);
+      blk.appendChild(ta);sec3.appendChild(blk);
+    });
+    body.appendChild(sec3);
+
+    var btnB2=document.createElement("button");btnB2.style.cssText="background:transparent;color:#3A4558;border:1px solid #1E2A3A;border-radius:4px;font-family:Barlow,sans-serif;font-size:13px;padding:9px 16px;cursor:pointer";btnB2.textContent="Revisar";btnB2.onclick=function(){paso--;showPaso();};ftr.appendChild(btnB2);
+    var btnFin=document.createElement("button");btnFin.style.cssText="background:linear-gradient(135deg,#C9A84C,#E8C96A);color:#060A14;border:none;border-radius:4px;font-family:Barlow Condensed,sans-serif;font-size:12px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;padding:11px 26px;cursor:pointer";
+    btnFin.textContent="Comenzar el módulo";
+    btnFin.onclick=function(){
+      if(window.guardarCompromisosModulo)window.guardarCompromisosModulo(moduloId,compromisos_mod);
+      document.body.removeChild(overlay);
+      if(onComplete)onComplete();
+    };
+    ftr.appendChild(btnFin);
+  }
+
+  box.appendChild(body);box.appendChild(ftr);overlay.appendChild(box);
+
+  var style=document.createElement("style");
+  style.textContent="@keyframes wfadeIn{from{opacity:0}to{opacity:1}} .wp-scroll::-webkit-scrollbar{width:4px} .wp-scroll::-webkit-scrollbar-thumb{background:rgba(201,168,76,.28);border-radius:2px}";
+  document.head.appendChild(style);
+  document.body.appendChild(overlay);
+
+  // Arrancar en recordatorio si hay anteriores, si no en principios
+  paso = hayAnteriores ? FASE_RECORD : 0;
+  showPaso();
+}
+
+window.guardarCompromisosModulo = function(moduloId, compromisos){
+  if(!window.COMPROMISOS_PROCESO)window.COMPROMISOS_PROCESO={};
+  window.COMPROMISOS_PROCESO[moduloId]=compromisos;
+};
+
+
+
+
+const FRASES=["Quien camina con fe no necesita ver todo el camino — solo el siguiente paso.","El amor que das sin esperar nada es el que más lejos llega y más tiempo dura.","En el silencio de tu interior vive la respuesta que llevas tiempo buscando afuera.","No temas los comienzos difíciles — toda gran luz pasa primero por la oscuridad.","Tu vida es una oración vivida. Cada acción es una palabra que el universo escucha.","La misericordia que das a otros también la estás dando a la parte de ti que más la necesita.","El que sirve en pequeño recibe en grande. El tamaño del acto no importa — importa el amor.","Cuando sueltas lo que ya no te pertenece, abres las manos para recibir lo que viene.","La paz no es ausencia de tormenta — es la certeza de que nada puede apagar lo que hay en ti.","Busca primero entender, y la respuesta llegará por sí sola en el momento exacto.","Quien se conoce a sí mismo ha dado el primer paso hacia su propósito.","El sufrimiento que no se niega y se ofrece con amor se convierte en sabiduría.","Hay semillas que necesitan mucho tiempo bajo tierra. Tu proceso no es lento — es profundo.","No necesitas tener todo resuelto para avanzar. El camino se hace al caminar.","Lo que pides con el corazón limpio ya fue escuchado antes de que terminaras de pedirlo."];
+const frase = () => FRASES[new Date().getDate() % FRASES.length];
+
+// ── DATOS: ACTITUD (suma del mes) ────────────────────────────
+const ACTITUD = {
+  1:{n:"El Iniciador",col:"gold",
+    d:"La energía del mes 1 te hace llegar a las situaciones con iniciativa y liderazgo natural. Las personas te perciben como alguien que arranca, propone y da el primer paso cuando otros dudan.",
+    sig:"Llegas a cada momento de tu vida con la frecuencia del 1 — el número del inicio y la acción. Esto significa que tu primera reacción ante cualquier situación tiende a ser tomar las riendas, proponer algo nuevo o moverse hacia adelante.",
+    conex:"Esta actitud complementa o contrasta con tu número de vida de formas interesantes. Si tu NV también es 1, se amplifica el liderazgo. Si es muy diferente, puede haber una tensión creativa entre cómo eres profundamente y cómo llegas a los momentos.",
+    reto:"Esta semana observa cómo llegas a tres situaciones diferentes. ¿Cuándo tu actitud iniciadora ayuda? ¿Cuándo puede ser oportuno ceder el inicio a otro?"},
+  2:{n:"La Cooperadora",col:"acc",
+    d:"El mes 2 te hace llegar a las situaciones con sensibilidad y disposición genuina a escuchar. Las personas perciben tu empatía y tu capacidad natural para crear puentes donde hay tensión.",
+    sig:"Tu actitud es la del encuentro — llegas buscando conectar, no competir. Eso crea un campo de confianza que facilita las conversaciones difíciles y las colaboraciones complejas.",
+    conex:"Esta actitud de apertura y escucha matiza tu número de vida. Independientemente de cuál sea tu misión central, llegas a ella con la disposición del que quiere entender antes de actuar.",
+    reto:"Esta semana nota en cuántas situaciones tu actitud cooperadora fue la clave que abrió una puerta. Escribe un ejemplo concreto."},
+  3:{n:"La Creativa",col:"pur",
+    d:"El mes 3 te hace llegar con alegría, humor y creatividad natural. Tienes el don de hacer que cualquier situación parezca manejable y que la gente se sienta más liviana en tu presencia.",
+    sig:"Tu actitud es la del creador — ves posibilidades donde otros ven obstáculos. Llegas a los momentos con una energía que abre el espacio para pensar diferente.",
+    conex:"Esta actitud creativa y optimista puede ser uno de tus mayores activos relacionales. Las personas confían en alguien que hace que los problemas parezcan manejables.",
+    reto:"Esta semana usa conscientemente tu actitud creativa ante un problema que parezca difícil. ¿Qué posibilidad ves que otros no ven?"},
+  4:{n:"La Constructora",col:"gold",
+    d:"El mes 4 te hace llegar a las situaciones con seriedad, método y enfoque claro en los resultados. Las personas confían en que cuando dices algo, lo cumples.",
+    sig:"Tu actitud es la del que construye — llegas queriendo entender cómo funciona algo y cómo mejorarlo. No te conformas con la superficie.",
+    conex:"Esta actitud metódica puede generar confianza rápidamente en entornos profesionales. Las personas valoran a alguien que llega preparado y con intención de producir.",
+    reto:"Esta semana identifica una situación donde tu actitud constructora marcó la diferencia. ¿Qué hiciste diferente a alguien que llegó sin ese enfoque?"},
+  5:{n:"La Aventurera",col:"acc",
+    d:"El mes 5 te hace llegar con curiosidad y apertura genuina. Las personas perciben tu energía libre y tu capacidad de adaptación — no sabes bien qué va a pasar y eso no te preocupa.",
+    sig:"Tu actitud es la del explorador — llegas a cada situación dispuesto a descubrir algo nuevo. Esa apertura es contagiosa y suele romper la rigidez de los ambientes cerrados.",
+    conex:"Esta actitud aventurera puede ser un catalizador poderoso en grupos que se han quedado estancados. Tu llegada suele mover algo.",
+    reto:"Esta semana llega a una situación conocida con ojos nuevos, como si fuera la primera vez. ¿Qué descubres que antes no veías?"},
+  6:{n:"La Cuidadora",col:"gold",
+    d:"El mes 6 te hace llegar con calidez y preocupación genuina por los demás. Las personas sienten que estás presente para ellas, no de paso.",
+    sig:"Tu actitud es la del cuidado — llegas preguntándote cómo están los demás, qué necesitan, cómo puedes contribuir al bienestar del espacio. Eso crea seguridad.",
+    conex:"Esta actitud cuidadora puede ser uno de tus mayores dones en el liderazgo. Las personas trabajan mejor cuando sienten que a quien las lidera le importan genuinamente.",
+    reto:"Esta semana antes de entrar a una reunión o conversación importante, pregúntate: ¿cómo está esta persona? ¿qué necesita hoy? Observa cómo cambia la interacción."},
+  7:{n:"La Analítica",col:"pur",
+    d:"El mes 7 te hace llegar con profundidad y reflexión. Las personas perciben tu inteligencia y tu necesidad de entender bien antes de actuar.",
+    sig:"Tu actitud es la del que busca el sentido — llegas preguntándote por qué, qué hay detrás, qué no se está diciendo. Esa profundidad puede ser muy valiosa o puede ralentizar los procesos, según el contexto.",
+    conex:"Esta actitud analítica complementa muy bien un número de vida de acción (1, 8) porque le pone reflexión antes de la velocidad. Y puede necesitar más esfuerzo consciente en entornos que requieren respuesta inmediata.",
+    reto:"Esta semana observa cuándo tu actitud analítica fue un regalo para el grupo y cuándo pudo haber sido un freno. ¿Qué aprendes sobre el contexto en que más aportas?"},
+  8:{n:"La Ejecutiva",col:"gold",
+    d:"El mes 8 te hace llegar con autoridad y visión de resultados. Las personas perciben tu liderazgo y tu enfoque en las metas grandes desde el primer momento.",
+    sig:"Tu actitud es la del que materializa — llegas pensando en cómo convertir la conversación en resultados concretos. Eso puede ser muy energizante en contextos que necesitan dirección.",
+    conex:"Esta actitud ejecutiva combinada con tu número de vida crea un perfil muy orientado al impacto. El desafío es recordar que no todas las situaciones requieren resultado inmediato — algunas requieren presencia.",
+    reto:"Esta semana practica llegar a una situación sin agenda de resultado. Solo estar presente. ¿Qué emerge cuando no buscas producir algo?"},
+  9:{n:"La Humanista",col:"pur",
+    d:"El mes 9 te hace llegar con compasión y perspectiva amplia. Las personas perciben tu sabiduría y tu preocupación genuina por el bien colectivo.",
+    sig:"Tu actitud es la del que ve el cuadro grande — llegas pensando en el impacto de las decisiones sobre todos los involucrados. Esa perspectiva humanista es rara y muy necesaria.",
+    conex:"Esta actitud humanista puede convertirte en el ancla ética de los grupos que integras. Las personas te buscan cuando necesitan perspectiva más allá de lo inmediato.",
+    reto:"Esta semana identifica una decisión o conversación donde tu perspectiva amplia marcó la diferencia. Escribe qué viste que otros no estaban viendo."},
+  10:{n:"El Iniciador-Cero",col:"gold",
+    d:"El mes 10 (1+0=1) te trae la energía del liderazgo. Llegas a las situaciones con claridad de dirección y capacidad de proponer.",
+    sig:"La energía del mes 10 reduce al 1 — el iniciador. El 0 amplifica la energía del 1, dándole una dimensión de totalidad y apertura al camino completo.",
+    conex:"Tu actitud de liderazgo tiene una dimensión de apertura — no solo lideras, sino que creas espacio para que otros también emerjan.",
+    reto:"Esta semana lidera algo pequeño con la intención de que otros crezcan en el proceso. No solo producir un resultado — desarrollar a alguien."},
+  11:{n:"La Inspiradora",col:"pur",
+    d:"El mes 11 (número maestro) te hace llegar con sensibilidad espiritual elevada. Las personas perciben algo especial en tu presencia aunque no sepan explicar exactamente qué es.",
+    sig:"Tu actitud está impregnada de la energía del 11 — intuición elevada, capacidad de inspirar y de crear campos de posibilidad. Los grupos se transforman cuando llegues con plena conciencia de esta energía.",
+    conex:"Esta actitud inspiradora puede ser un recurso extraordinario cuando se combina con tu número de vida. El desafío es no sobre-exigirte en cada situación — no todas requieren tu máxima energía.",
+    reto:"Esta semana llega a una situación difícil con la intención de elevar la energía del espacio. Sin forzar, con presencia. Observa qué ocurre."},
+  12:{n:"La Creadora-Intuitiva",col:"acc",
+    d:"El mes 12 (1+2=3) te trae la energía de la expresión y la creatividad. Llegas a las situaciones con ideas frescas y una perspectiva luminosa.",
+    sig:"La energía del 12 reduce al 3 — el creador. Llegas con la síntesis del 1 (iniciativa) y el 2 (conexión), que juntos producen la expresión creativa del 3.",
+    conex:"Tu actitud creativa tiene además una dimensión relacional — no solo creas, sino que conectas a través de lo que creas. Eso es poderoso en la comunicación y la enseñanza.",
+    reto:"Esta semana expresa algo creativamente que normalmente comunicarías de forma más directa. ¿Cómo cambia la recepción cuando usas la creatividad como canal?"}
+};
+
+// ── DATOS: GENERACIÓN (suma del año) ─────────────────────────
+const GENERACION = {
+  1:{n:"Generación del liderazgo independiente",
+    d:"Tu generación tiene como misión colectiva el desarrollo de la autonomía, la innovación y la iniciativa personal. Nacieron para romper moldes establecidos y crear nuevos caminos que otros puedan seguir.",
+    sig:"Las personas de tu generación comparten contigo una energía de pioneros — todos, de formas diferentes, están aprendiendo a liderar desde su propia autenticidad, a confiar en su criterio y a atreverse a hacer lo que aún no se ha hecho.",
+    reto:"¿En qué área de tu vida estás siendo pionero? ¿Dónde estás rompiendo moldes — aunque sea pequeños?"},
+  2:{n:"Generación de la cooperación",
+    d:"Tu generación tiene como misión colectiva construir puentes, desarrollar la diplomacia y la inteligencia emocional como herramientas de transformación social.",
+    sig:"Las personas de tu generación comparten la búsqueda de formas más armoniosas de convivir. No es casual: nacieron en un tiempo que necesitaba aprender a cooperar más que a competir.",
+    reto:"¿Dónde en tu vida estás contribuyendo a construir puentes? ¿Cómo tu capacidad de cooperación está sirviendo algo más grande que tú?"},
+  3:{n:"Generación creativa",
+    d:"Tu generación tiene como misión colectiva la expresión, la comunicación y el arte como transformadores sociales.",
+    sig:"Las personas de tu generación sienten que tienen algo que decir — que la expresión creativa no es decoración sino herramienta de cambio. Nacieron en un tiempo que necesitaba más belleza y más voces.",
+    reto:"¿Qué está esperando ser expresado por ti? ¿Qué crearías si supieras que alguien lo necesita?"},
+  4:{n:"Generación constructora",
+    d:"Tu generación tiene como misión colectiva la construcción de sistemas sólidos y estructuras que perduren más allá de sus vidas.",
+    sig:"Las personas de tu generación comparten la vocación de construir algo que dure. Nacieron en un tiempo de transición que necesitaba nuevas estructuras — en la familia, en el trabajo, en la sociedad.",
+    reto:"¿Qué estás construyendo que va a durar más que tú? ¿Cuál es tu legado en construcción?"},
+  5:{n:"Generación del cambio",
+    d:"Tu generación tiene como misión colectiva transformar estructuras anticuadas y abrir nuevos caminos de libertad.",
+    sig:"Las personas de tu generación nacieron en un tiempo de grandes transformaciones. Comparten la misión de cuestionar lo establecido y explorar formas más libres de vivir.",
+    reto:"¿Qué estructura anticuada en tu vida o en tu entorno estás transformando? ¿Dónde eres agente de cambio?"},
+  6:{n:"Generación del servicio",
+    d:"Tu generación tiene como misión colectiva el cuidado, la sanación y la creación de comunidades más amorosas.",
+    sig:"Las personas de tu generación comparten una vocación profunda de servicio. Nacieron en un tiempo que necesitaba más cuidado — en las familias, en las organizaciones, en la sociedad.",
+    reto:"¿A quién estás sirviendo desde tu lugar en el mundo? ¿Cómo tu vida contribuye al bienestar de tu comunidad?"},
+  7:{n:"Generación del conocimiento",
+    d:"Tu generación tiene como misión colectiva la búsqueda de la verdad, la integración de ciencia y espiritualidad, y el pensamiento profundo como herramienta de evolución.",
+    sig:"Las personas de tu generación comparten una sed de conocimiento y una desconfianza sana de las verdades fáciles. Nacieron en un tiempo que necesitaba pensadores más profundos.",
+    reto:"¿Qué conocimiento estás desarrollando o compartiendo que contribuye a la evolución de tu entorno? ¿Cómo usas lo que sabes para transformar?"},
+  8:{n:"Generación del poder consciente",
+    d:"Tu generación tiene como misión colectiva redefinir el poder, la abundancia y el liderazgo con integridad y responsabilidad.",
+    sig:"Las personas de tu generación nacieron en un tiempo donde el poder estaba siendo cuestionado y renegociado. Su misión es mostrar que el éxito y la ética no son opuestos.",
+    reto:"¿Cómo ejerces el poder en tu vida de una forma que integre la integridad? ¿Dónde tienes influencia y cómo la usas?"},
+  9:{n:"Generación humanista",
+    d:"Tu generación tiene como misión colectiva el servicio universal y la elevación de la conciencia colectiva.",
+    sig:"Las personas de tu generación comparten una visión del mundo que trasciende lo personal. Nacieron con la misión de sanar — en sus familias, sus comunidades, su época.",
+    reto:"¿Cuál es tu contribución al bien colectivo en este momento de tu vida? ¿Cómo tu historia personal se convierte en recurso para otros?"}
+};
+
+// ── DATOS: DÍA DE NACIMIENTO ─────────────────────────────────
+const DIA = {
+  1:{n:"El Pionero",d:"El día 1 trae al nacimiento la energía del inicio y el liderazgo. Eres alguien que lleva en su esencia la capacidad de empezar — proyectos, conversaciones, caminos. Ese don de iniciativa es uno de tus activos más valiosos.",sig:"Nacer un día 1 significa que tu energía de vida tiene una chispa de inicio que se suma a todo lo demás. Las personas con esta energía suelen ser los que proponen, los que dan el primer paso, los que no esperan permiso."},
+  2:{n:"El Mediador",d:"El día 2 trae sensibilidad e intuición elevada. Hay en ti una capacidad natural para leer entre líneas, para sentir lo que no se dice y para crear armonía donde hay tensión.",sig:"Nacer un día 2 te da un don especial para las relaciones. Esa antena emocional es un recurso poderoso — cuando aprendes a confiar en ella."},
+  3:{n:"El Creador",d:"El día 3 trae creatividad y capacidad de expresión. Hay en ti una energía natural de comunicación y creación que, cuando se usa conscientemente, ilumina los espacios que habitas.",sig:"Nacer un día 3 te da el don de transformar lo ordinario en extraordinario. Tu forma de ver y de expresar tiene una chispa que pocos poseen."},
+  4:{n:"El Constructor",d:"El día 4 trae solidez, método y capacidad de trabajo. Hay en ti una disciplina natural y una confiabilidad que las personas perciben incluso antes de conocerte bien.",sig:"Nacer un día 4 te da un don de construcción — no solo de objetos o proyectos, sino de confianza. Las personas saben que lo que está en tus manos está bien cuidado."},
+  5:{n:"El Explorador",d:"El día 5 trae versatilidad y adaptabilidad. Hay en ti una energía libre y curiosa que te permite moverte en terrenos que a otros les resultan difíciles.",sig:"Nacer un día 5 te da el don del movimiento y la adaptación. En un mundo que cambia constantemente, esa capacidad es cada vez más valiosa."},
+  6:{n:"El Sanador",d:"El día 6 trae amor, cuidado y vocación de servicio. Hay en ti una calidez natural y una preocupación genuina por el bienestar de los demás que las personas sienten de inmediato.",sig:"Nacer un día 6 te da el don de crear ambientes seguros y amorosos. Ese don tiene un impacto que muchas veces no ves porque se expresa en lo cotidiano."},
+  7:{n:"El Sabio",d:"El día 7 trae profundidad, intuición y conexión espiritual. Hay en ti una mente que no se conforma con la superficie y una capacidad de percepción que va más allá de lo visible.",sig:"Nacer un día 7 te da el don de la profundidad — en el pensamiento, en las relaciones y en la conexión con lo sagrado."},
+  8:{n:"El Ejecutivo",d:"El día 8 trae poder ejecutivo y capacidad de manifestación. Hay en ti una energía natural para el liderazgo, los recursos y la materialización de proyectos.",sig:"Nacer un día 8 te da el don de convertir las visiones en realidades. Ese talento de manifestación es uno de los más raros y valiosos."},
+  9:{n:"El Humanista",d:"El día 9 trae compasión universal y sabiduría profunda. Hay en ti una capacidad de comprensión humana que va más allá de lo que has aprendido — viene de un lugar más profundo.",sig:"Nacer un día 9 te da el don de la compasión y la perspectiva amplia. Las personas con este don suelen ser los que recuerdan que hay algo más importante que el resultado inmediato."},
+  10:{n:"El Iniciador Total",d:"El día 10 (1+0=1) trae liderazgo con una dimensión de totalidad. El cero amplifica la energía del 1, dándole una apertura y una completud al impulso de iniciativa.",sig:"Nacer un día 10 te da el don del inicio consciente — no solo comenzar, sino comenzar con visión del todo."},
+  11:{n:"El Iluminado",d:"El día 11 (número maestro) trae una sensibilidad espiritual extraordinaria. No se reduce porque su potencia es demasiado elevada para condensarse en un solo dígito.",sig:"Nacer un día 11 es traer una antena espiritual muy fina. Las percepciones que tienes, las intuiciones que emergen — tienen una calidad diferente a las de otros."},
+  12:{n:"El Creador Relacional",d:"El día 12 (1+2=3) trae la síntesis de la iniciativa y la conexión en la expresión creativa.",sig:"Nacer un día 12 te da el don de la expresión que conecta. No solo creas — creas vínculos a través de lo que expresas."},
+  13:{n:"El Constructor Transformador",d:"El día 13 (1+3=4) trae la energía del constructor con un componente de transformación profunda.",sig:"Nacer un día 13 te da el don de construir desde la transformación — lo que construyes suele nacer de algo que primero tuvo que cambiar."},
+  14:{n:"El Explorador Consciente",d:"El día 14 (1+4=5) trae la versatilidad del 5 con una energía de liderazgo y disciplina que la ancla.",sig:"Nacer un día 14 te da el don de la libertad responsable — exploras pero sin perderte."},
+  15:{n:"El Sanador Activo",d:"El día 15 (1+5=6) trae el amor y el cuidado del 6 con una energía de iniciativa que lo pone en acción.",sig:"Nacer un día 15 te da el don de cuidar activamente — no esperas a que los demás pidan ayuda, la ofreces."},
+  16:{n:"El Sabio Profundo",d:"El día 16 (1+6=7) trae la profundidad del 7 con una tensión entre el ego y la apertura espiritual que genera una sabiduría muy particular.",sig:"Nacer un día 16 implica un camino de humildad — los mayores aprendizajes suelen venir cuando el ego suelta."},
+  17:{n:"El Ejecutivo Espiritual",d:"El día 17 (1+7=8) trae el poder del 8 con la sabiduría y la conexión espiritual del 7. Es una de las combinaciones más poderosas.",sig:"Nacer un día 17 te da el don de materializar con sabiduría. Tu éxito tiene más profundidad que el de otros porque está anclado en comprensión."},
+  18:{n:"El Humanista Ejecutivo",d:"El día 18 (1+8=9) trae la compasión universal del 9 con la energía de poder y materialización del 8.",sig:"Nacer un día 18 te da el don de servir desde el poder. Tienes la capacidad de crear impacto real, no solo de tener buenas intenciones."},
+  19:{n:"El Pionero Independiente",d:"El día 19 (1+9=10=1) trae el liderazgo del 1 amplificado por el humanismo del 9 y completado por el cero del 10.",sig:"Nacer un día 19 te da el don del liderazgo maduro — has aprendido (o estás aprendiendo) a liderar al servicio de algo más grande."},
+  20:{n:"El Mediador Profundo",d:"El día 20 (2+0=2) trae la sensibilidad y la cooperación del 2 amplificada por el cero.",sig:"Nacer un día 20 te da el don de la conexión profunda. Tu empatía tiene una dimensión de totalidad que poca gente alcanza."},
+  21:{n:"El Creador Iniciador",d:"El día 21 (2+1=3) trae la creatividad del 3 con la síntesis de la cooperación del 2 y el liderazgo del 1.",sig:"Nacer un día 21 te da el don de crear conexión — lo que expresas une a las personas."},
+  22:{n:"El Maestro Constructor",d:"El día 22 (número maestro) trae el mayor poder de manifestación. No se reduce porque su potencia es extraordinaria.",sig:"Nacer un día 22 implica una misión de gran escala. Lo que construyes está destinado a servir a muchos."},
+  23:{n:"El Comunicador Libre",d:"El día 23 (2+3=5) trae la libertad y versatilidad del 5 con la sensibilidad del 2 y la creatividad del 3.",sig:"Nacer un día 23 te da el don de comunicar con libertad — de formas que llegan a personas muy diversas."},
+  24:{n:"El Constructor Amoroso",d:"El día 24 (2+4=6) trae el amor y el cuidado del 6 con la solidez del 4 y la sensibilidad del 2.",sig:"Nacer un día 24 te da el don de construir desde el amor — lo que creas tiene calidez humana."},
+  25:{n:"El Sabio Cooperador",d:"El día 25 (2+5=7) trae la profundidad del 7 con la curiosidad del 5 y la sensibilidad del 2.",sig:"Nacer un día 25 te da el don de la sabiduría relacional — entiendes a las personas en profundidad."},
+  26:{n:"El Ejecutivo Cuidador",d:"El día 26 (2+6=8) trae el poder del 8 con el cuidado del 6 y la sensibilidad del 2.",sig:"Nacer un día 26 te da el don de liderar con corazón. Tienes autoridad y calidez al mismo tiempo."},
+  27:{n:"El Humanista Profundo",d:"El día 27 (2+7=9) trae la compasión del 9 con la sabiduría del 7 y la sensibilidad del 2.",sig:"Nacer un día 27 te da el don de la comprensión profunda del ser humano. Ves lo que otros no ven en las personas."},
+  28:{n:"El Pionero Cooperativo",d:"El día 28 (2+8=10=1) trae el liderazgo del 1 con la sensibilidad del 2 y el poder del 8.",sig:"Nacer un día 28 te da el don de liderar desde la relación. Eres un líder que lleva a otros consigo."},
+  29:{n:"El Maestro Sensible",d:"El día 29 (2+9=11) te acerca a la energía del número maestro 11 — la sensibilidad espiritual elevada.",sig:"Nacer un día 29 te da una sensibilidad especial que, cuando se integra con madurez, se convierte en un don inspiracional."},
+  30:{n:"El Creador Pleno",d:"El día 30 (3+0=3) trae la creatividad del 3 amplificada por el cero — totalidad en la expresión.",sig:"Nacer un día 30 te da el don de la expresión completa. Tu creatividad tiene una amplitud que puede tocar a personas muy diversas."},
+  31:{n:"El Constructor Creativo",d:"El día 31 (3+1=4) trae la solidez del 4 con la iniciativa del 1 y la creatividad del 3.",sig:"Nacer un día 31 te da el don de construir con originalidad — lo que haces tiene tanto solidez como innovación."}
+};
+
+// ── DATOS: NV NOMBRES (solo para mostrar en resumen) ─────────
+const NV_N = {1:"El Pionero",2:"El Mediador",3:"El Creador",4:"El Constructor",5:"El Explorador",6:"El Sanador",7:"El Sabio",8:"El Ejecutivo",9:"El Humanista",11:"El Iluminado",22:"El Maestro Constructor",33:"El Maestro Sanador"};
+
+// ── UTILIDADES ───────────────────────────────────────────────
+function red(n,m=true){if(m&&[11,22,33].includes(n))return n;if(n<10)return n;return red(String(n).split('').reduce((a,c)=>a+parseInt(c),0),m);}
+function redS(n){if(n<10)return n;return redS(String(n).split('').reduce((a,c)=>a+parseInt(c),0));}
+
+function calcSubNums(dd,mm,aaaa){
+  // Actitud = suma reducida del mes
+  const actS = mm;
+  const act = red(actS, true);
+  const actChain = mm > 9
+    ? `${String(mm).split('').join(' + ')} = ${String(mm).split('').reduce((a,c)=>a+parseInt(c),0)} → ${act}`
+    : `${mm}`;
+
+  // Generación = suma reducida del año
+  const genDigits = String(aaaa).split('').map(Number);
+  const genS = genDigits.reduce((a,c)=>a+c,0);
+  const gen = red(genS, true);
+  let genChain = `${genDigits.join(' + ')} = ${genS}`;
+  if(genS >= 10){ const s2=redS(genS); if(s2!==genS) genChain+=` → ${String(genS).split('').join(' + ')} = ${s2}`; }
+
+  // Día de nacimiento = el día reducido
+  const dia = red(dd, true);
+  const diaChain = dd > 9
+    ? `${String(dd).split('').join(' + ')} = ${String(dd).split('').reduce((a,c)=>a+parseInt(c),0)}${red(String(dd).split('').reduce((a,c)=>a+parseInt(c),0),true)!==String(dd).split('').reduce((a,c)=>a+parseInt(c),0)?' → '+dia:''}`
+    : `${dd}`;
+
+  return { act, actChain, gen, genChain, dia, diaChain };
+}
+
+// ── ESTADO ───────────────────────────────────────────────────
+const S = { fecha:null, nv:null, sub:null, reg:{}, comp:{} };
+const PASOS = [{l:"Fecha"},{l:"Actitud"},{l:"Generación"},{l:"Día"},{l:"Resumen"}];
+let paso = 0;
+
+// ── NAVEGACIÓN ───────────────────────────────────────────────
+function rProg(){
+  const b=document.getElementById('pb');if(!b)return;b.innerHTML='';
+  PASOS.forEach((p,i)=>{
+    if(i>0){const l=document.createElement('div');l.className='pln'+(i<=paso?' done':'');b.appendChild(l);}
+    const s=document.createElement('div');s.className='ps'+(i===paso?' act':i<paso?' done':'');
+    s.innerHTML=`<div class="pn">${i<paso?'✓':(i+1)}</div><span class="ptxt">${p.l}</span>`;
+    if(i<paso)s.onclick=()=>irA(i);b.appendChild(s);
+  });
+}
+function irA(i){paso=i;rProg();document.querySelectorAll('.panel').forEach((p,j)=>p.classList.toggle('act',j===i));window.scrollTo({top:0,behavior:'smooth'});}
+window.avanzar=function(){if(paso<PASOS.length-1){const n=paso+1;if(n===4)bResumen();irA(n);}};
+window.retro=function(){if(paso>0)irA(paso-1);};
+
+function rrH(key,lbl,txt,cl=''){
+  const v=S.reg[key]||'';const done=S.comp[key]||false;
+  return`<div class="rr ${cl}"><div class="rr-l">${lbl}</div><p>${txt}</p>
+  <textarea class="rta" placeholder="Escribe tu reflexión o acción concreta..." oninput="S.reg['${key}']=this.value">${v}</textarea>
+  <div class="rchk"><input type="checkbox" id="c-${key}" ${done?'checked':''} onchange="S.comp['${key}']=this.checked;uD('${key}')">
+  <label for="c-${key}">He reflexionado y tengo una acción concreta</label></div>
+  ${done?'<div class="rdone">Completado</div>':''}</div>`;
+}
+window.uD=function(k){const c=document.getElementById('c-'+k);if(!c)return;const p=c.closest('.rr');if(!p)return;const e=p.querySelector('.rdone');if(c.checked&&!e){const d=document.createElement('div');d.className='rdone';d.textContent='Completado';p.appendChild(d);}else if(!c.checked&&e)e.remove();};
+
+// ── INIT ─────────────────────────────────────────────────────
+function init(){
+  document.getElementById('app').innerHTML=`
+    <div id="setup"></div>
+    <div id="ma" style="display:none">
+      <div style="padding:28px 0 0">
+        <div style="font-family:'Barlow Condensed',sans-serif;font-size:10px;letter-spacing:.2em;color:var(--gold);text-transform:uppercase;margin-bottom:4px">Café con Propósito · ¿Quién soy?</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:300;color:var(--gold2);margin-bottom:22px;font-style:italic">Los sub-números de tu fecha</div>
+      </div>
+      <div class="prog" id="pb"></div>
+      ${PASOS.map((_,i)=>`<div class="panel${i===0?' act':''}" id="p${i}"></div>`).join('')}
+    </div>`;
+  bSetup(); rProg(); bFecha();
+}
+
+// ── SETUP ────────────────────────────────────────────────────
+function bSetup(){
+  document.getElementById('setup').innerHTML=`<div class="setup">
+    <div class="ey">Café con Propósito — Fase 1b</div>
+    <div class="wt">Hay más en<br><em>tu fecha...</em></div>
+    <div class="wsub">Tu número de vida es la energía central. Pero tu fecha contiene tres sub-números más, cada uno con un mensaje específico: cómo llegas a los momentos (Actitud), la misión de tu generación (Generación) y el don particular de tu día de nacimiento.</div>
+    <div class="wdiv"></div>
+    <div class="dmsg"><div class="dm-l">Reflexión del día</div><div class="dm-t">"${frase()}"</div></div>
+    <div style="background:var(--bg2);border:1px solid var(--gb);border-radius:var(--rl);padding:20px 24px;max-width:560px">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:17px;color:var(--gold2);margin-bottom:10px;font-style:italic">¿Viene del archivo 1a?</div>
+      <p style="font-size:13px;color:var(--dim);line-height:1.8;margin-bottom:12px">Si ya calculaste tu número de vida en el archivo anterior, ingresa tu fecha aquí y calcularemos los tres sub-números. Si no, puedes hacerlo directamente.</p>
+    </div>
+    <div style="margin-top:20px">
+      <button class="bp" onclick="mostrarForm()">Ingresar mi fecha</button>
+    </div>
+  </div>`;
+}
+window.mostrarForm=function(){
+  document.getElementById('setup').style.display='none';
+  document.getElementById('ma').style.display='block';
+  window.scrollTo({top:0,behavior:'smooth'});
+};
+
+// ── PANEL 0: FECHA ───────────────────────────────────────────
+function bFecha(){
+  document.getElementById('p0').innerHTML=`
+    <div class="pbadge"><div><div class="pbadge-q">¿Quién soy?</div><div class="pbadge-s">Los sub-números de tu fecha</div></div></div>
+    <div class="ph"><div class="ph-s">Paso 1 de 5</div><div class="ph-t">Tu fecha de nacimiento</div>
+    <div class="ph-d">Ingresa tu fecha completa. A partir de ella calcularemos tu Actitud (mes), tu Generación (año) y el don de tu Día de nacimiento.</div></div>
+    <div class="card gold">
+      <div class="cl">Tu fecha</div>
+      <div class="irow">
+        <div style="flex:1;min-width:75px"><label class="il">Día</label><input class="inp" id="fD" type="number" min="1" max="31" placeholder="17"></div>
+        <div style="flex:1;min-width:75px"><label class="il">Mes</label><input class="inp" id="fM" type="number" min="1" max="12" placeholder="4"></div>
+        <div style="flex:1;min-width:105px"><label class="il">Año</label><input class="inp" id="fA" type="number" min="1900" max="2099" placeholder="1969"></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="cl">También ingresa tu número de vida (del archivo 1a)</div>
+      <div class="ct" style="margin-bottom:10px">Esto nos permitirá mostrar cómo cada sub-número se conecta con tu misión central.</div>
+      <input class="inp" id="fNV" type="number" min="1" max="33" placeholder="Ej: 1 (tu número de vida calculado antes)">
+    </div>
+    <div class="nav"><span></span><button class="bp" onclick="procFecha()">Calcular mis sub-números</button></div>`;
+}
+
+window.procFecha=function(){
+  const dd=parseInt(document.getElementById('fD').value)||0;
+  const mm=parseInt(document.getElementById('fM').value)||0;
+  const aa=parseInt(document.getElementById('fA').value)||0;
+  const nvInput=parseInt(document.getElementById('fNV').value)||0;
+  if(!dd||!mm||!aa||dd>31||mm>12){alert('Por favor ingresa una fecha completa y válida.');return;}
+  S.fecha={dd,mm,aa};
+  S.nv=nvInput||null;
+  S.sub=calcSubNums(dd,mm,aa);
+  if(window.ANORMAL){
+    ANORMAL.saveFaseModulo('subnumeros', { fecha: S.fecha, subnumeros: S.sub });
+  }
+  bActitud(); avanzar();
+};
+
+// ── PANEL 1: ACTITUD ─────────────────────────────────────────
+function bActitud(){
+  const {act,actChain}=S.sub;
+  const d=ACTITUD[act]||ACTITUD[act<=12?act:redS(act)]||{n:"",d:"",sig:"",reto:""};
+  const colMap={gold:"var(--gold2)",acc:"var(--acc)",pur:"var(--pur)"};
+  const col=colMap[d.col]||"var(--gold2)";
+
+  document.getElementById('p1').innerHTML=`
+    <div class="pbadge"><div><div class="pbadge-q">¿Quién soy?</div><div class="pbadge-s">Tu actitud — mes ${S.fecha.mm}</div></div></div>
+    <div class="ph"><div class="ph-s">Paso 2 de 5 — Tu Actitud</div>
+    <div class="ph-t">¿Cómo llegas a los momentos?</div>
+    <div class="ph-d">La Actitud se calcula a partir de tu mes de nacimiento. Revela la energía con la que llegas instintivamente a cada situación — cómo te perciben antes de que hagas o digas algo.</div></div>
+
+    <div class="dmsg"><div class="dm-l">Reflexión del día</div><div class="dm-t">"${frase()}"</div></div>
+
+    <div class="subn gold">
+      <div class="subn-label">Actitud · Mes de nacimiento: ${S.fecha.mm}</div>
+      <div class="subn-chain">Cálculo: ${actChain}</div>
+      <div class="subn-val" style="color:${col}">${act}</div>
+      <div class="subn-name" style="color:${col}">${d.n}</div>
+      <div class="subn-desc">${d.d}</div>
+    </div>
+
+    <div class="card">
+      <div class="cl">¿Qué significa esto en tu vida?</div>
+      <div class="ct">${d.sig}</div>
+      <div class="subn-conexion" style="margin-top:14px">
+        <div class="subn-conexion-l">Conexión con tu número de vida</div>
+        <div class="ct">${d.conex}</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="cl">La diferencia entre Actitud y Número de Vida</div>
+      <div class="ct">Tu <strong style="color:var(--gold3)">Número de Vida</strong> es quién eres en profundidad — tu misión central, tus talentos más genuinos, lo que viniste a desarrollar. Tu <strong style="color:var(--gold3)">Actitud</strong> es cómo llegas — la primera impresión que das, la energía que proyectas antes de que te conozcan.<br><br>Pueden ser muy diferentes. Por ejemplo, alguien con Número de Vida 7 (el Sabio, muy interior y reflexivo) pero Actitud 1 (el Iniciador) puede ser percibido inicialmente como líder de acción — aunque su mundo interior sea mucho más contemplativo de lo que parece.</div>
+    </div>
+
+    ${rrH('act-'+act,'Mi reflexión sobre mi Actitud',d.reto)}
+
+    <div class="nav"><button class="bn" onclick="retro()">Anterior</button>
+    <button class="bp" onclick="avanzar()">Ver mi Generación</button></div>`;
+}
+
+// ── PANEL 2: GENERACIÓN ──────────────────────────────────────
+function bGeneracion(){
+  // Se llama cuando se navega al paso 2
+}
+
+// ── PANEL 3: DÍA ────────────────────────────────────────────
+function bDia(){
+  // Se llama cuando se navega al paso 3
+}
+
+// Los paneles 2 y 3 se construyen al avanzar
+const _avanzar = window.avanzar;
+window.avanzar = function(){
+  const n = paso + 1;
+  if(n === 2) buildGen();
+  if(n === 3) buildDia();
+  if(n === 4) bResumen();
+  if(n < PASOS.length){ irA(n); }
+};
+
+function buildGen(){
+  const {gen,genChain}=S.sub;
+  const d=GENERACION[gen]||GENERACION[redS(gen)]||{n:"",d:"",sig:"",reto:""};
+
+  document.getElementById('p2').innerHTML=`
+    <div class="pbadge"><div><div class="pbadge-q">¿Quién soy?</div><div class="pbadge-s">Tu generación — año ${S.fecha.aa}</div></div></div>
+    <div class="ph"><div class="ph-s">Paso 3 de 5 — Tu Generación</div>
+    <div class="ph-t">¿Cuál es la misión de tu época?</div>
+    <div class="ph-d">La Generación se calcula a partir de la suma de los dígitos de tu año de nacimiento. Revela la misión colectiva que compartís todos los que nacieron en ese período.</div></div>
+
+    <div class="dmsg"><div class="dm-l">Reflexión del día</div><div class="dm-t">"${frase()}"</div></div>
+
+    <div class="subn acc">
+      <div class="subn-label">Generación · Año de nacimiento: ${S.fecha.aa}</div>
+      <div class="subn-chain">Cálculo: ${genChain}</div>
+      <div class="subn-val" style="color:var(--acc)">${gen}</div>
+      <div class="subn-name" style="color:var(--acc)">${d.n}</div>
+      <div class="subn-desc">${d.d}</div>
+    </div>
+
+    <div class="card">
+      <div class="cl">¿Qué significa esto para ti?</div>
+      <div class="ct">${d.sig}</div>
+      <div class="subn-conexion b" style="margin-top:14px">
+        <div class="subn-conexion-l">Una perspectiva que vale</div>
+        <div class="ct">El número de Generación no habla de ti como individuo — habla de la misión colectiva de todos los que nacieron en tu época. Sin embargo, es significativo: hay algo en el espíritu de tu tiempo que resuena con quién eres y con lo que viniste a hacer.</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="cl">La diferencia entre Generación y Número de Vida</div>
+      <div class="ct">Tu <strong style="color:var(--gold3)">Número de Vida</strong> es tu misión personal e individual. Tu <strong style="color:var(--gold3)">Generación</strong> es la misión colectiva del tiempo en que naciste.<br><br>Cuando tu Número de Vida y tu Generación se alinean — cuando tu misión personal coincide con la misión de tu época — suele haber una sensación de estar en el lugar correcto y en el momento correcto.</div>
+    </div>
+
+    ${rrH('gen-'+gen,'Mi reflexión sobre mi Generación',d.reto,'b')}
+
+    <div class="nav"><button class="bn" onclick="retro()">Anterior</button>
+    <button class="bp" onclick="avanzar()">Ver mi día de nacimiento</button></div>`;
+}
+
+function buildDia(){
+  const {dia,diaChain}=S.sub;
+  const dd=S.fecha.dd;
+  const d=DIA[dd]||DIA[dia]||{n:"",d:"",sig:""};
+
+  document.getElementById('p3').innerHTML=`
+    <div class="pbadge"><div><div class="pbadge-q">¿Quién soy?</div><div class="pbadge-s">Tu día de nacimiento — día ${dd}</div></div></div>
+    <div class="ph"><div class="ph-s">Paso 4 de 5 — Tu Día de Nacimiento</div>
+    <div class="ph-t">El don específico de tu día</div>
+    <div class="ph-d">El día en que naciste aporta una energía particular a tu ser. No es tu misión central, pero sí un don específico — una nota de color en tu partitura de vida.</div></div>
+
+    <div class="dmsg"><div class="dm-l">Reflexión del día</div><div class="dm-t">"${frase()}"</div></div>
+
+    <div class="subn pur">
+      <div class="subn-label">Día de nacimiento: ${dd} ${dd!==dia?`· reducido: ${dia}`:''}</div>
+      ${dd !== dia ? `<div class="subn-chain">Reducción: ${diaChain}</div>` : ''}
+      <div class="subn-val" style="color:var(--pur)">${dd}</div>
+      <div class="subn-name" style="color:var(--pur)">${d.n}</div>
+      <div class="subn-desc">${d.d}</div>
+    </div>
+
+    <div class="card">
+      <div class="cl">¿Qué significa nacer este día?</div>
+      <div class="ct">${d.sig}</div>
+      <div class="subn-conexion p" style="margin-top:14px">
+        <div class="subn-conexion-l">El don particular de este día</div>
+        <div class="ct">Los numerólogos trabajan el día de nacimiento de dos formas: el número tal cual (el día ${dd}) y su reducción (el ${dia}). Ambos aportan información. El día sin reducir muestra la energía compuesta; la reducción muestra la frecuencia fundamental.</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="cl">La diferencia entre el Día y el Número de Vida</div>
+      <div class="ct">Tu <strong style="color:var(--gold3)">Número de Vida</strong> es tu misión central — la energía que te define en profundidad. Tu <strong style="color:var(--gold3)">Día de Nacimiento</strong> es un talento adicional, un don específico que se suma a esa misión.<br><br>Piénsalo como si el Número de Vida fuera el instrumento principal de una orquesta y el Día de Nacimiento fuera un instrumento solista que aporta una voz particular y reconocible al conjunto.</div>
+    </div>
+
+    ${rrH('dia-'+dd,'Mi reflexión sobre mi día de nacimiento','¿En qué momentos de tu vida has visto expresarse el don de tu día? ¿Cómo se manifiesta?','b')}
+
+    <div class="nav"><button class="bn" onclick="retro()">Anterior</button>
+    <button class="bp" onclick="avanzar()">Ver mi resumen</button></div>`;
+}
+
+// ── PANEL 4: RESUMEN ─────────────────────────────────────────
+function bResumen(){
+  const {act,gen,dia}=S.sub;
+  const nv=S.nv;
+  const actD=ACTITUD[act]||{n:""};
+  const genD=GENERACION[gen]||{n:""};
+  const diaD=DIA[S.fecha.dd]||DIA[dia]||{n:""};
+  const nvN=nv?(NV_N[nv]||NV_N[redS(nv)]||""):"";
+
+  document.getElementById('p4').innerHTML=`
+    <div class="pbadge"><div><div class="pbadge-q">¿Quién soy?</div><div class="pbadge-s">Tu resumen de sub-números</div></div></div>
+    <div class="ph"><div class="ph-s">Paso 5 de 5 — Resumen</div>
+    <div class="ph-t">Tu mapa numerológico se amplía</div>
+    <div class="ph-d">Estos cuatro números juntos cuentan una historia más completa de quién eres.</div></div>
+
+    <div class="dmsg"><div class="dm-l">Reflexión del día</div><div class="dm-t">"${frase()}"</div></div>
+
+    <div class="resumen-grid">
+      ${nv?`<div class="rg-cell" style="border-color:var(--gb)">
+        <div class="rg-label">Número de vida</div>
+        <div class="rg-num" style="color:var(--gold2)">${nv}</div>
+        <div class="rg-name">${nvN}</div>
+      </div>`:''}
+      <div class="rg-cell" style="border-color:var(--gb)">
+        <div class="rg-label">Actitud</div>
+        <div class="rg-num" style="color:var(--gold2)">${act}</div>
+        <div class="rg-name">${actD.n}</div>
+      </div>
+      <div class="rg-cell" style="border-color:var(--acb)">
+        <div class="rg-label">Generación</div>
+        <div class="rg-num" style="color:var(--acc)">${gen}</div>
+        <div class="rg-name">${genD.n}</div>
+      </div>
+      <div class="rg-cell" style="border-color:var(--pub)">
+        <div class="rg-label">Día de nacimiento</div>
+        <div class="rg-num" style="color:var(--pur)">${S.fecha.dd}</div>
+        <div class="rg-name">${diaD.n}</div>
+      </div>
+    </div>
+
+    <div class="card gold">
+      <div class="cl">La historia que cuentan juntos</div>
+      <div class="ct">
+        ${nv?`Tu <strong style="color:var(--gold3)">misión central</strong> como ${nvN} (número ${nv}) se expresa en el mundo con la <strong style="color:var(--gold3)">actitud</strong> del ${actD.n} (número ${act}) — así es como llegas a cada situación.`:''}
+        Tu <strong style="color:var(--gold3)">generación</strong> (número ${gen}) te conecta con la misión colectiva de los que nacieron en tu época: ${genD.n}.
+        Y el <strong style="color:var(--gold3)">don específico</strong> de tu día ${S.fecha.dd} —${diaD.n}— es una nota particular en tu partitura que se suma a todo lo demás.
+      </div>
+    </div>
+
+    ${rrH('resumen-final','Mi reflexión integradora','Mirando estos cuatro números juntos: ¿qué patrón ves? ¿Qué te dice esta imagen completa sobre quién eres?')}
+
+    <div class="cierre">
+      <div class="cierre-t">Ahora viene el mapa completo de tu fecha...</div>
+      <p>Has visto tu número de vida y tus sub-números. Pero tu fecha también contiene un mapa energético completo — los números que tienes y los que no tienes — y cada uno de ellos tiene algo importante que decirte.</p>
+      <p style="margin-top:10px">Cuando estés listo, abre el archivo <strong style="color:var(--gold3)">1c-mapa-energetico.html</strong> para continuar.</p>
+    </div>
+
+    <div class="nav">
+      <button class="bn" onclick="retro()">Anterior</button>
+      <button class="bs" onclick="irA(0)" style="opacity:.5">Revisar desde el inicio</button>
+    </div>`;
+}
+
+buildWidgetPrincipios("subnums", document.body, function() {
+  init();
+});
+
+// INIT VIDEO BANNER
+(function(){
+  var vdb = document.getElementById("vid-banner-subnums");
+  var vdp = document.getElementById("vid-player-subnums");
+  var url = window.VIDEOS_MODULO && window.VIDEOS_MODULO["subnums"] || "";
+  if(url && vdb && vdp){
+    var m2 = url.match(/(?:v=|youtu\.be\/|embed\/)([\w-]{11})/);
+    if(m2){
+      var ifr = document.createElement("iframe");
+      ifr.src = "https://www.youtube.com/embed/" + m2[1] + "?rel=0";
+      ifr.allow = "accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture";
+      ifr.allowFullscreen = true;
+      vdp.innerHTML = "";
+      vdp.appendChild(ifr);
+    }
+    vdb.classList.add("show");
+  } else if(vdb){
+    vdb.classList.add("show");
+  }
+})();
+</script>
+
+<!-- BOTON BRUJULA -->
+<div class="brujula-btn-fixed" id="brujulaFloat">
+  <div class="brujula-toast" id="brujulaToast">Registra lo que descubriste en tu Brújula de Propósito</div>
+  <a class="brujula-btn" href="brujula-proposito.html" title="Mi Brújula de Propósito">
+    <div class="brujula-btn-icon">∀</div>
+    <div class="brujula-btn-txt">Mi Brújula</div>
+  </a>
+</div>
+<script>
+// Mostrar toast motivacional a los 90 segundos de estar en el módulo
+setTimeout(function(){
+  var t=document.getElementById("brujulaToast");
+  if(t){t.classList.add("show");setTimeout(function(){t.classList.remove("show");},5000);}
+},90000);
+</script>
+
+</body>
+</html>

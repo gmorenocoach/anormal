@@ -1,0 +1,1257 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Café con Propósito — Valores</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Barlow:wght@300;400;500&family=Barlow+Condensed:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0A0F1E;--bg2:#0E1525;--bg3:#131D30;--bg4:#1A2640;
+--gold:#C9A84C;--gold2:#E8C96A;--gold3:#F5E0A0;
+--gd:rgba(201,168,76,.13);--gb:rgba(201,168,76,.28);
+--text:#EAE6DC;--dim:#8A95A8;--faint:#3A4558;
+--acc:#4A9EBF;--acd:rgba(74,158,191,.13);--acb:rgba(74,158,191,.28);
+--grn:#4ABF7A;--grd:rgba(74,191,122,.12);--grb:rgba(74,191,122,.28);
+--pur:#9B7FD4;--pud:rgba(155,127,212,.12);--pub:rgba(155,127,212,.28);
+--r:4px;--rm:8px;--rl:14px}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font-weight:300;font-size:15px;line-height:1.65;min-height:100vh}
+body::before{content:"";position:fixed;inset:0;background:radial-gradient(ellipse at 20% 50%,rgba(201,168,76,.04),transparent 60%),radial-gradient(ellipse at 80% 20%,rgba(74,158,191,.04),transparent 50%);pointer-events:none;z-index:0}
+.app{position:relative;z-index:1;max-width:740px;margin:0 auto;padding:0 22px 80px}
+.prog{display:flex;align-items:center;margin-bottom:32px;overflow-x:auto;padding-bottom:3px}
+.ps{display:flex;align-items:center;gap:6px;white-space:nowrap;padding:3px 0;cursor:default}
+.ps.done{cursor:pointer}
+.pn{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:500;border:1px solid var(--faint);color:var(--faint);transition:all .3s;flex-shrink:0}
+.ps.done .pn{border-color:var(--gold);color:var(--gold);background:var(--gd)}
+.ps.act .pn{border-color:var(--gold2);color:var(--bg);background:var(--gold2)}
+.ptxt{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);transition:color .3s}
+.ps.done .ptxt,.ps.act .ptxt{color:var(--gold)}
+.pln{flex:1;min-width:10px;height:1px;background:var(--faint);margin:0 6px;opacity:.2;transition:all .3s}
+.pln.done{background:var(--gold);opacity:.4}
+.panel{display:none}.panel.act{display:block;animation:fu .4s ease}
+@keyframes fu{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.pbadge{display:inline-flex;align-items:center;gap:8px;background:var(--gd);border:1px solid var(--gb);border-radius:var(--rl);padding:7px 15px;margin-bottom:18px}
+.pbadge-q{font-family:"Cormorant Garamond",serif;font-size:20px;color:var(--gold2);font-weight:300;font-style:italic}
+.pbadge-s{font-size:11px;color:var(--dim);margin-top:1px}
+.ph{margin-bottom:24px}
+.ph-s{font-family:"Barlow Condensed",sans-serif;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:5px}
+.ph-t{font-family:"Cormorant Garamond",serif;font-size:clamp(20px,4vw,30px);font-weight:300;color:var(--gold2);line-height:1.15;margin-bottom:5px}
+.ph-d{font-size:13px;color:var(--dim);line-height:1.8;max-width:520px}
+.card{background:var(--bg2);border:1px solid rgba(255,255,255,.055);border-radius:var(--rl);padding:20px 24px;margin-bottom:13px}
+.card.gold{border-color:var(--gb);background:linear-gradient(135deg,var(--bg2),var(--bg3))}
+.card.acc{border-color:var(--acb)}
+.card.grn{border-color:var(--grb)}
+.card.pur{border-color:var(--pub);background:linear-gradient(135deg,var(--bg2),rgba(155,127,212,.04))}
+.card.red{border-color:rgba(191,106,74,.35)}
+.cl{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:10px}
+.cl.b{color:var(--acc)}.cl.g{color:var(--grn)}.cl.p{color:var(--pur)}
+.ct{font-size:13px;color:var(--dim);line-height:1.8}
+.dv{height:1px;background:var(--gb);margin:16px 0;opacity:.3}
+.bp{background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--bg);border:none;border-radius:var(--r);font-family:"Barlow Condensed",sans-serif;font-size:12px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;padding:12px 28px;cursor:pointer;transition:opacity .2s,transform .15s}
+.bp:hover{opacity:.9;transform:translateY(-1px)}
+.bp:disabled{opacity:.35;cursor:not-allowed;transform:none}
+.bs{background:transparent;color:var(--gold);border:1px solid var(--gb);border-radius:var(--r);font-family:"Barlow Condensed",sans-serif;font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;padding:9px 20px;cursor:pointer;transition:all .2s}
+.bs:hover{background:var(--gd)}
+.bn{background:transparent;color:var(--dim);border:1px solid rgba(255,255,255,.07);border-radius:var(--r);font-family:"Barlow",sans-serif;font-size:13px;padding:9px 18px;cursor:pointer;transition:all .2s}
+.bn:hover{border-color:var(--gold);color:var(--gold)}
+/* Timer */
+.timer-hero{text-align:center;padding:22px 0 14px}
+.timer-num{font-family:"Cormorant Garamond",serif;font-size:80px;font-weight:300;line-height:1;transition:color .5s}
+.timer-label{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--dim);margin-top:6px}
+.timer-bar{height:5px;background:rgba(255,255,255,.06);border-radius:3px;margin:14px 0 0;overflow:hidden}
+.timer-fill{height:100%;border-radius:3px;background:var(--gold);transition:width 1s linear}
+/* Contador sticky */
+.sel-counter{display:flex;align-items:center;justify-content:space-between;background:var(--bg3);border-radius:var(--rm);padding:10px 16px;margin-bottom:14px;position:sticky;top:8px;z-index:20;border:1px solid rgba(255,255,255,.07);backdrop-filter:blur(8px)}
+.sc-left{display:flex;align-items:baseline;gap:8px}
+.sc-num{font-family:"Cormorant Garamond",serif;font-size:30px;font-weight:300;color:var(--gold2);line-height:1;transition:color .3s}
+.sc-num.complete{color:var(--grn)}
+.sc-label{font-size:12px;color:var(--dim)}
+.sc-right{font-size:11px;color:var(--faint)}
+/* Valor cards — SIN ETIQUETA DE EJE en la dinámica */
+.valores-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:8px;margin-bottom:14px}
+.vc{background:var(--bg3);border:1.5px solid rgba(255,255,255,.06);border-radius:var(--rm);padding:12px 13px;cursor:pointer;transition:all .18s;user-select:none;position:relative}
+.vc:hover{border-color:var(--gb);transform:translateY(-1px)}
+.vc.sel{background:var(--gd);border-color:var(--gold2);border-width:2px}
+.vc.sel .vc-n{color:var(--gold2)}
+.vc.bloqueado{opacity:.45;cursor:not-allowed;pointer-events:none}
+.vc.bloqueado.sel{opacity:1;pointer-events:auto}
+.vc-n{font-size:13px;font-weight:400;color:var(--text);margin-bottom:4px;line-height:1.3;transition:color .18s}
+.vc-d{font-size:11px;color:var(--faint);line-height:1.5}
+.vc-check{position:absolute;top:8px;right:8px;width:16px;height:16px;border-radius:4px;background:var(--gold);display:none;align-items:center;justify-content:center;font-size:10px;color:var(--bg);font-weight:700}
+.vc.sel .vc-check{display:flex}
+/* Exploración — SÍ muestra eje */
+.vc.exp-mode .vc-eje{display:block}
+.vc-eje{display:none;font-size:9px;letter-spacing:.1em;text-transform:uppercase;margin-top:5px;font-weight:500}
+.vc.eco .vc-eje{color:var(--gold)}
+.vc.eti .vc-eje{color:var(--grn)}
+.vc.emo .vc-eje{color:var(--pur)}
+/* Tabs filtro (solo en exploración) */
+.eje-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
+.etab{padding:6px 14px;border-radius:var(--r);font-size:11px;font-family:"Barlow Condensed",sans-serif;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;border:1px solid;transition:all .18s}
+.etab.all{border-color:rgba(255,255,255,.1);color:var(--dim)}
+.etab.all.on{background:rgba(255,255,255,.07);color:var(--text)}
+.etab.eco{border-color:var(--gb);color:var(--gold)}
+.etab.eco.on{background:var(--gd)}
+.etab.eti{border-color:var(--grb);color:var(--grn)}
+.etab.eti.on{background:var(--grd)}
+.etab.emo{border-color:var(--pub);color:var(--pur)}
+.etab.emo.on{background:var(--pud)}
+/* Barras diagnóstico */
+.tri-bars{display:flex;gap:10px;height:120px;align-items:flex-end;margin:14px 0}
+.tri-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:5px}
+.tri-bar{width:100%;border-radius:3px 3px 0 0;min-height:4px;transition:height .6s ease}
+.tri-bar.eco{background:linear-gradient(180deg,var(--gold2),var(--gold))}
+.tri-bar.eti{background:linear-gradient(180deg,#6AD47A,var(--grn))}
+.tri-bar.emo{background:linear-gradient(180deg,#B89FE4,var(--pur))}
+.tri-label{font-size:10px;color:var(--dim);text-align:center;line-height:1.4}
+/* Plan de acción */
+.plan-item{background:var(--bg3);border-radius:var(--rm);padding:14px 16px;margin-bottom:10px;border-left:3px solid var(--gold)}
+.plan-item.b{border-left-color:var(--acc)}
+.plan-item.g{border-left-color:var(--grn)}
+.plan-item.r{border-left-color:#E09070}
+.plan-item.p{border-left-color:var(--pur)}
+.pi-l{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:5px;font-weight:500}
+.plan-item.b .pi-l{color:var(--acc)}
+.plan-item.g .pi-l{color:var(--grn)}
+.plan-item.r .pi-l{color:#E09070}
+.plan-item.p .pi-l{color:var(--pur)}
+/* Reto */
+.rr{background:var(--bg4);border:1px solid var(--gb);border-radius:var(--rm);padding:14px 16px;margin:9px 0}
+.rr-l{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:6px;font-weight:500}
+.rr.b{border-color:var(--acb)}.rr.b .rr-l{color:var(--acc)}
+.rr.p{border-color:var(--pub)}.rr.p .rr-l{color:var(--pur)}
+.rr p{font-size:13px;color:var(--dim);line-height:1.75;margin-bottom:8px}
+.rta{background:var(--bg2);border:1px solid rgba(255,255,255,.07);border-radius:var(--r);color:var(--text);font-family:"Barlow",sans-serif;font-size:13px;font-weight:300;padding:10px 12px;width:100%;min-height:72px;outline:none;resize:vertical;line-height:1.65;transition:border-color .2s}
+.rta:focus{border-color:var(--gold)}
+.rta::placeholder{color:var(--faint)}
+.rchk{display:flex;align-items:center;gap:8px;margin-top:7px;cursor:pointer}
+.rchk input{width:15px;height:15px;accent-color:var(--gold);cursor:pointer}
+.rchk label{font-size:12px;color:var(--dim);cursor:pointer}
+.rdone{display:inline-flex;align-items:center;gap:5px;font-size:11px;color:var(--grn);padding:3px 9px;background:var(--grd);border:1px solid var(--grb);border-radius:12px;margin-top:5px}
+.tag{display:inline-block;font-size:11px;padding:3px 10px;border-radius:20px;margin:2px 2px 2px 0}
+.tg{background:var(--gd);color:var(--gold2);border:1px solid var(--gb)}
+.tgr{background:var(--grd);color:var(--grn);border:1px solid var(--grb)}
+.tp{background:var(--pud);color:var(--pur);border:1px solid var(--pub)}
+.dmsg{background:linear-gradient(135deg,rgba(201,168,76,.07),rgba(74,158,191,.05));border:1px solid var(--gb);border-radius:var(--rl);padding:15px 20px;margin-bottom:14px;text-align:center}
+.dm-l{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:5px}
+.dm-t{font-family:"Cormorant Garamond",serif;font-size:15px;font-style:italic;color:var(--gold3);line-height:1.8}
+.cierre{background:linear-gradient(135deg,var(--bg3),var(--bg2));border:1px solid var(--gb);border-radius:var(--rl);padding:20px 24px;margin-top:18px;text-align:center}
+.cierre-t{font-family:"Cormorant Garamond",serif;font-size:18px;color:var(--gold2);margin-bottom:8px;font-style:italic}
+.cierre p{font-size:13px;color:var(--dim);line-height:1.75;max-width:460px;margin:0 auto}
+.nav{display:flex;justify-content:space-between;align-items:center;margin-top:24px;padding-top:15px;border-top:1px solid rgba(255,255,255,.05)}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--gb);border-radius:2px}
+@media(max-width:560px){.app{padding:0 14px 60px}.valores-grid{grid-template-columns:repeat(2,1fr)}}
+
+
+
+/* VIDEO BANNER */
+.vid-banner{background:linear-gradient(135deg,rgba(201,168,76,.07),rgba(74,158,191,.04));border:1px solid rgba(201,168,76,.2);border-radius:14px;overflow:hidden;margin:0 22px 20px;display:none}
+.vid-banner.show{display:block}
+.vid-banner-hdr{padding:10px 16px;border-bottom:1px solid rgba(255,255,255,.05);display:flex;align-items:center;justify-content:space-between}
+.vid-banner-lbl{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#C9A84C;font-weight:500;font-family:Barlow Condensed,sans-serif}
+.vid-banner-mod{font-size:11px;color:#8A95A8}
+.vid-banner-player{position:relative;width:100%;aspect-ratio:16/9;background:#060A14}
+.vid-banner-player iframe{position:absolute;inset:0;width:100%;height:100%;border:none}
+.vid-banner-ph{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center;padding:20px}
+.vid-ph-icon{width:44px;height:44px;border-radius:50%;background:rgba(201,168,76,.13);border:1.5px solid rgba(201,168,76,.28);display:flex;align-items:center;justify-content:center;font-size:16px;color:#E8C96A}
+.vid-ph-t{font-family:Cormorant Garamond,serif;font-size:15px;color:#E8C96A;font-weight:300}
+.vid-ph-d{font-size:11px;color:#3A4558;line-height:1.55;max-width:240px}
+@media(max-width:560px){.vid-banner{margin:0 14px 16px}}
+
+
+/* BOTON BRUJULA */
+.brujula-btn-fixed{position:fixed;bottom:22px;right:22px;z-index:500;display:flex;flex-direction:column;align-items:flex-end;gap:6px}
+.brujula-btn{display:flex;align-items:center;gap:8px;background:linear-gradient(135deg,rgba(201,168,76,.15),rgba(201,168,76,.08));border:1px solid rgba(201,168,76,.35);border-radius:30px;padding:10px 16px;cursor:pointer;transition:all .25s;text-decoration:none;backdrop-filter:blur(8px)}
+.brujula-btn:hover{background:linear-gradient(135deg,rgba(201,168,76,.25),rgba(201,168,76,.15));border-color:rgba(201,168,76,.6);transform:translateY(-2px)}
+.brujula-btn-icon{font-family:"Cormorant Garamond",serif;font-size:18px;color:var(--gold2);font-weight:300;line-height:1}
+.brujula-btn-txt{font-size:11px;font-family:"Barlow Condensed",sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--gold2);font-weight:500}
+.brujula-toast{background:var(--bg3);border:1px solid var(--gb);border-radius:var(--rm,10px);padding:9px 14px;font-size:12px;color:var(--gold3);font-family:"Barlow",sans-serif;max-width:220px;text-align:right;line-height:1.5;display:none;animation:btoast .3s ease}
+.brujula-toast.show{display:block}
+@keyframes btoast{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
+
+/* DEFINICIONES DE VALORES */
+.valor-item{position:relative;cursor:pointer;transition:all .2s}
+.valor-def{display:none;position:absolute;left:50%;transform:translateX(-50%);
+  bottom:calc(100% + 8px);z-index:100;background:#131D30;border:1px solid rgba(201,168,76,.35);
+  border-radius:10px;padding:10px 13px;width:220px;font-size:11px;color:#EAE6DC;
+  line-height:1.6;box-shadow:0 8px 24px rgba(0,0,0,.5);pointer-events:none;
+  font-style:normal;text-align:left;font-family:Barlow,sans-serif}
+.valor-def::after{content:"";position:absolute;top:100%;left:50%;transform:translateX(-50%);
+  border:6px solid transparent;border-top-color:#131D30}
+.valor-item:hover .valor-def{display:block}
+.valor-item.seleccionado .valor-def{display:none}
+.valor-nombre-lbl{font-size:10px;letter-spacing:.1em;text-transform:uppercase;
+  color:rgba(201,168,76,.6);margin-bottom:3px;font-weight:500}
+
+
+/* CREDITOS */
+.creditos-blk{background:var(--bg3);border-radius:var(--rm);padding:12px 16px;margin-top:20px;border:1px solid rgba(255,255,255,.05);text-align:center}
+.creditos-txt{font-size:11px;color:var(--faint);line-height:1.7;font-style:italic}
+.creditos-txt a{color:var(--gold);text-decoration:none}
+
+</style>
+</head>
+<body>
+
+<!-- VIDEO BANNER: Valores Dolan -->
+<div class="vid-banner" id="vid-banner-dolan">
+  <div class="vid-banner-hdr">
+    <div class="vid-banner-lbl">Introducción al módulo</div>
+    <div class="vid-banner-mod">Valores Dolan</div>
+  </div>
+  <div class="vid-banner-player" id="vid-player-dolan">
+    <div class="vid-banner-ph">
+      <div class="vid-ph-icon">&#9654;</div>
+      <div class="vid-ph-t">Video de introducción</div>
+      <div class="vid-ph-d">Alonso te explica lo que encontrarás en este módulo y cómo aprovecharlo al máximo.</div>
+    </div>
+  </div>
+</div>
+<div class="app" id="app"></div>
+<script>
+// ============================================================
+// ANORMAL - Módulo de datos compartidos entre módulos
+// Usa sessionStorage para pasar datos entre páginas HTML
+// ============================================================
+
+var ANORMAL = {
+  
+  // Leer todos los datos del proceso
+  getData: function() {
+    try {
+      var raw = sessionStorage.getItem('anormal_proceso');
+      return raw ? JSON.parse(raw) : {};
+    } catch(e) { return {}; }
+  },
+  
+  // Guardar datos del proceso
+  setData: function(data) {
+    try {
+      sessionStorage.setItem('anormal_proceso', JSON.stringify(data));
+    } catch(e) {}
+  },
+  
+  // Actualizar una sección específica
+  update: function(section, value) {
+    var data = this.getData();
+    data[section] = value;
+    this.setData(data);
+  },
+  
+  // Agregar un compromiso/hábito a la agenda central
+  addAgenda: function(item) {
+    // item = {modulo, titulo, descripcion, fecha, periodicidad, tipo}
+    var data = this.getData();
+    if (!data.agenda) data.agenda = [];
+    item.id = 'ag_' + Date.now() + '_' + Math.random().toString(36).slice(2,6);
+    item.cumplido = false;
+    item.fechaCreacion = new Date().toLocaleDateString('es-CO');
+    data.agenda.push(item);
+    this.setData(data);
+    return item.id;
+  },
+  
+  // Guardar lo marcado en septenios para que fluya al ECG y al Niño Interior
+  saveSeptenios: function(checklistEstado, cicloActual, nombre, genero) {
+    var doloresPorCiclo = [];
+    
+    Object.keys(checklistEstado).forEach(function(chkKey) {
+      var est = checklistEstado[chkKey];
+      if (!est || !est.dolor || !est.dolor.length) return;
+      
+      // Extraer número de ciclo del key ('chk-3' -> 3, 'actual-5' -> 5)
+      var cicloNum = 0;
+      if (chkKey.startsWith('chk-')) cicloNum = parseInt(chkKey.replace('chk-',''));
+      else if (chkKey.startsWith('actual-')) cicloNum = parseInt(chkKey.replace('actual-',''));
+      if (!cicloNum) return;
+      
+      // Obtener los ítems de dolor marcados
+      var cicloDatos = window.CICLOS_DATA ? window.CICLOS_DATA[String(cicloNum)] : null;
+      if (!cicloDatos) return;
+      
+      var itemsMarcados = est.dolor.map(function(idx) {
+        return cicloDatos.dolor[idx] || '';
+      }).filter(Boolean);
+      
+      var itemsAlegria = (est.alegria || []).map(function(idx) {
+        return cicloDatos.alegria[idx] || '';
+      }).filter(Boolean);
+      
+      if (itemsMarcados.length || itemsAlegria.length) {
+        doloresPorCiclo.push({
+          ciclo: cicloNum,
+          tipo: cicloDatos.tipo,
+          titulo: cicloDatos.titulo,
+          edades: cicloDatos.titulo.match(/\d+ a \d+/)?.[0] || '',
+          dolores: itemsMarcados,
+          alegrias: itemsAlegria,
+          // Preguntas respondidas
+          respuestas: [0,1,2].map(function(pi) {
+            return checklistEstado[chkKey + '-preg-' + pi] || '';
+          }).filter(Boolean)
+        });
+      }
+    });
+    
+    // Ordenar por ciclo
+    doloresPorCiclo.sort(function(a,b){return a.ciclo - b.ciclo;});
+    
+    this.update('septenios', {
+      cicloActual: cicloActual,
+      nombre: nombre,
+      genero: genero,
+      doloresPorCiclo: doloresPorCiclo,
+      fecha: new Date().toLocaleDateString('es-CO')
+    });
+  },
+  
+  // Obtener datos de septenios para el ECG
+  getSepteniosParaECG: function() {
+    var data = this.getData();
+    return data.septenios || null;
+  },
+  
+  // Obtener ciclos 1-2-3 para el Niño Interior
+  getCiclosInfancia: function() {
+    var sep = this.getSepteniosParaECG();
+    if (!sep) return [];
+    return sep.doloresPorCiclo.filter(function(c) {
+      return c.ciclo <= 3;
+    });
+  },
+  
+  // Guardar compromisos de un módulo en la agenda central
+  saveCompromisos: function(moduloId, compromisos) {
+    if (!compromisos || !Object.keys(compromisos).length) return;
+    var data = this.getData();
+    if (!data.agenda) data.agenda = [];
+    
+    Object.keys(compromisos).forEach(function(key) {
+      var texto = (compromisos[key] || '').trim();
+      if (!texto) return;
+      // Evitar duplicados del mismo módulo+key
+      var exists = data.agenda.some(function(item) {
+        return item.moduloId === moduloId && item.key === key;
+      });
+      if (!exists) {
+        data.agenda.push({
+          id: 'ag_' + moduloId + '_' + key,
+          moduloId: moduloId,
+          key: key,
+          tipo: 'compromiso-principio',
+          descripcion: texto,
+          fechaCreacion: new Date().toLocaleDateString('es-CO'),
+          cumplido: false,
+          periodicidad: 'diario'
+        });
+      }
+    });
+    this.setData(data);
+  },
+
+  // ============================================================
+  // FASE 1 — ¿Quién soy? — guardado genérico por módulo
+  // ============================================================
+
+  // Guardar el resultado de un módulo de Fase 1 (o cualquier fase)
+  // moduloId: 'rueda' | 'elementos' | 'camino' | 'subnumeros' | 'mapa' |
+  //           'flechas' | 'nombre' | 'personas' | 'dolan' | 'ikigai' |
+  //           'siguiente_ciclo' | 'plan_vida'
+  saveFaseModulo: function(moduloId, resultado) {
+    var data = this.getData();
+    if (!data.fase1) data.fase1 = {};
+    if (!data.fase3) data.fase3 = {};
+    var fase3Ids = ['ikigai', 'siguiente_ciclo', 'plan_vida'];
+    var bucket = fase3Ids.indexOf(moduloId) >= 0 ? data.fase3 : data.fase1;
+    bucket[moduloId] = resultado;
+    bucket[moduloId + '_fecha'] = new Date().toLocaleDateString('es-CO');
+    this.setData(data);
+    this.marcarModuloCompletado(moduloId);
+  },
+
+  // Leer el resultado guardado de un módulo específico
+  getFaseModulo: function(moduloId) {
+    var data = this.getData();
+    if (data.fase1 && data.fase1[moduloId] !== undefined) return data.fase1[moduloId];
+    if (data.fase3 && data.fase3[moduloId] !== undefined) return data.fase3[moduloId];
+    return null;
+  },
+
+  // Obtener todo lo guardado de Fase 1 de una vez (para Perfil Integrado)
+  getFase1Completa: function() {
+    var data = this.getData();
+    return data.fase1 || {};
+  },
+
+  // Obtener todo lo guardado de Fase 3
+  getFase3Completa: function() {
+    var data = this.getData();
+    return data.fase3 || {};
+  },
+
+  // ============================================================
+  // PROGRESO — qué módulos completó la persona (para el Dashboard)
+  // ============================================================
+
+  TODOS_LOS_MODULOS: [
+    {id:'rueda', fase:1, nombre:'Rueda de Vida'},
+    {id:'elementos', fase:1, nombre:'Elementos'},
+    {id:'camino', fase:1, nombre:'Camino de Vida'},
+    {id:'subnumeros', fase:1, nombre:'Subnúmeros'},
+    {id:'mapa', fase:1, nombre:'Mapa Energético'},
+    {id:'flechas', fase:1, nombre:'Flechas'},
+    {id:'nombre', fase:1, nombre:'Nombre'},
+    {id:'personas', fase:1, nombre:'Personas'},
+    {id:'dolan', fase:1, nombre:'Valores Dolan'},
+    {id:'perfil', fase:1, nombre:'Perfil Integrado'},
+    {id:'septenios', fase:2, nombre:'Mis Ciclos de Vida'},
+    {id:'ecg', fase:2, nombre:'Mi Trabajo Emocional'},
+    {id:'perdon', fase:2, nombre:'Mi Trabajo del Perdón'},
+    {id:'ikigai', fase:3, nombre:'Ikigai'},
+    {id:'siguiente_ciclo', fase:3, nombre:'Siguiente Ciclo'},
+    {id:'plan_vida', fase:3, nombre:'Plan de Vida'}
+  ],
+
+  marcarModuloCompletado: function(moduloId) {
+    var data = this.getData();
+    if (!data.progreso) data.progreso = {};
+    data.progreso[moduloId] = {
+      completado: true,
+      fecha: new Date().toLocaleDateString('es-CO')
+    };
+    this.setData(data);
+  },
+
+  // Devuelve la lista de módulos con su estado de completado, para pintar el Dashboard
+  getProgreso: function() {
+    var data = this.getData();
+    var progreso = data.progreso || {};
+    return this.TODOS_LOS_MODULOS.map(function(m) {
+      return {
+        id: m.id,
+        fase: m.fase,
+        nombre: m.nombre,
+        completado: !!(progreso[m.id] && progreso[m.id].completado),
+        fecha: progreso[m.id] ? progreso[m.id].fecha : null
+      };
+    });
+  },
+
+  // Porcentaje de avance total y por fase
+  getPorcentajeAvance: function() {
+    var prog = this.getProgreso();
+    var total = prog.length;
+    var hechos = prog.filter(function(m){ return m.completado; }).length;
+    var porFase = {1:{total:0,hechos:0}, 2:{total:0,hechos:0}, 3:{total:0,hechos:0}};
+    prog.forEach(function(m) {
+      porFase[m.fase].total++;
+      if (m.completado) porFase[m.fase].hechos++;
+    });
+    return {
+      total: total, hechos: hechos,
+      porcentaje: total ? Math.round((hechos/total)*100) : 0,
+      porFase: porFase
+    };
+  }
+};
+
+// Sobrescribir guardarCompromisosModulo para que también vaya a la agenda
+window.guardarCompromisosModulo = function(moduloId, compromisos) {
+  if (!window.COMPROMISOS_PROCESO) window.COMPROMISOS_PROCESO = {};
+  window.COMPROMISOS_PROCESO[moduloId] = compromisos;
+  ANORMAL.saveCompromisos(moduloId, compromisos);
+};
+
+</script>
+<script>
+// ============================================================
+// WIDGET DE PRINCIPIOS Y COMPROMISOS - Anormal / Cafe con Proposito
+// v2.0 - Con recordatorio no negociable y orden original de principios
+// ============================================================
+
+var MODULO_PRINCIPIOS = {"bienvenida":[1,4,14],"rueda":[11,12],"elementos":[11,12],"camino":[5,9],"subnums":[5],"mapa":[9],"flechas":[9],"nombre":[5,9],"personas":[9,13],"dolan":[12,13],"perfil":[9],"septenios":[3,16],"ecg":[2,10],"nino":[2,3,7],"ikigai":[6,8,17],"ciclo":[15,16],"plan":[13,15,16],"dashboard":[18,9]};
+
+var PRINCIPIOS_DB = [{"num": 1, "titulo": "\u2200gradecer", "sesion": "bienvenida", "color": "#C9A84C", "no_negociable": "Mientras avanzas en este proceso, la gratitud no es opcional. Es el lente desde el que lees cada resultado, cada ejercicio, cada descubrimiento sobre ti mismo."}, {"num": 2, "titulo": "\u2200vanza en el perd\u00f3n", "sesion": "sesion3", "color": "#D4537E", "no_negociable": "Sin perd\u00f3n no hay transformaci\u00f3n real. Puedes completar todos los ejercicios \u2014 pero si cargas resentimiento, el proceso no puede hacer su trabajo completo."}, {"num": 3, "titulo": "\u2200provecha el dolor", "sesion": "sesion3", "color": "#D4537E", "no_negociable": "El dolor que emerja en este proceso no es se\u00f1al de que algo sale mal. Es la se\u00f1al de que algo est\u00e1 cambiando. No te detengas."}, {"num": 4, "titulo": "\u2200p\u00fantale al compromiso", "sesion": "bienvenida", "color": "#C9A84C", "no_negociable": "Ya te comprometiste al entrar. Ese compromiso no vence. Cada vez que sientas que quieres pausar, recuerda: te comprometiste antes de saber el c\u00f3mo. Conf\u00eda."}, {"num": 5, "titulo": "\u2200prende a normalizar lo extraordinario", "sesion": "sesion2", "color": "#9B7FD4", "no_negociable": "Lo que descubras sobre ti en esta sesi\u00f3n debe convertirse en tu nueva normalidad, no en un dato interesante que olvidas en una semana."}, {"num": 6, "titulo": "\u2200taca el miedo", "sesion": "sesion4", "color": "#E8C96A", "no_negociable": "Declarar tu prop\u00f3sito de vida activa todos tus miedos. Eso es normal y es buena se\u00f1al. La \u00fanica respuesta \u2200normal es seguir avanzando."}, {"num": 7, "titulo": "\u2200prende cero excusas", "sesion": "sesion3", "color": "#D4537E", "no_negociable": "Una excusa no te saca del proceso. Te saca de tu m\u00e1ximo potencial. Recuerda tu compromiso."}, {"num": 8, "titulo": "\u2200prende a pagar el precio", "sesion": "sesion4", "color": "#E8C96A", "no_negociable": "Vivir tu prop\u00f3sito tiene un precio real. Identificarlo aqu\u00ed y aceptarlo es el acto de honestidad que hace que el plan de vida funcione."}, {"num": 9, "titulo": "\u2200sume responsabilidad total", "sesion": "sesion2", "color": "#9B7FD4", "no_negociable": "Lo que tu numerolog\u00eda y tus valores revelan no es un destino fijo. Es un mapa. T\u00fa decides c\u00f3mo usarlo. Eso es responsabilidad total."}, {"num": 10, "titulo": "\u2200poyo emocional como combustible", "sesion": "sesion3", "color": "#D4537E", "no_negociable": "El dolor emocional que emerge en esta sesi\u00f3n no es un obst\u00e1culo. Es combustible. La intensidad que sientes es proporcional a la transformaci\u00f3n que viene."}, {"num": 11, "titulo": "\u2200palancamiento: la verdad contigo mismo", "sesion": "sesion1", "color": "#C9A84C", "no_negociable": "El diagn\u00f3stico solo funciona si eres brutalmente honesto. El n\u00famero que le das a cada \u00e1rea de tu vida debe reflejar la realidad, no c\u00f3mo quisieras que fuera."}, {"num": 12, "titulo": "\u2200doptas lo que toleras", "sesion": "sesion1", "color": "#C9A84C", "no_negociable": "Las \u00e1reas con calificaci\u00f3n baja son exactamente lo que has estado tolerando. Verlo sin juzgarte es el primer paso. Seguir toler\u00e1ndolo despu\u00e9s de verlo es la excusa."}, {"num": 13, "titulo": "\u2200pr\u00f3piate la insatisfacci\u00f3n", "sesion": "sesion2", "color": "#9B7FD4", "no_negociable": "La brecha entre tus valores declarados y los que realmente vives no es una falla \u2014 es informaci\u00f3n. Usa esa insatisfacci\u00f3n como motor, no como excusa."}, {"num": 14, "titulo": "\u2200dopta m\u00e9todos probados", "sesion": "bienvenida", "color": "#C9A84C", "no_negociable": "Esta plataforma integra metodolog\u00edas con d\u00e9cadas de validaci\u00f3n. Tu trabajo es aplicarlas con honestidad, no cuestionarlas antes de vivirlas."}, {"num": 15, "titulo": "\u2200lcanza el resultado, luego mejora", "sesion": "sesion5", "color": "#4ABF7A", "no_negociable": "Tu plan de vida no necesita ser perfecto para empezar. Necesita ser tuyo y necesita empezar. La acci\u00f3n imperfecta ejecutada vale m\u00e1s que el plan perfecto que nunca sale."}, {"num": 16, "titulo": "\u2200celera el proceso", "sesion": "sesion5", "color": "#4ABF7A", "no_negociable": "Cada d\u00eda que pasa sin ejecutar el plan es un d\u00eda que no vuelve. La urgencia no es ansiedad \u2014 es el respeto que le tienes a tu propio tiempo."}, {"num": 17, "titulo": "\u2200tenci\u00f3n y enfoque constante", "sesion": "sesion4", "color": "#E8C96A", "no_negociable": "Haz este m\u00f3dulo sin interrupciones. Lo que emerja es proporcional a tu concentraci\u00f3n."}, {"num": 18, "titulo": "\u2200lcanzas la anormalidad", "sesion": "sesion5", "color": "#4ABF7A", "no_negociable": "Completar este proceso te convierte en alguien diferente. Esa diferencia ser\u00e1 visible \u2014 y no todos la aplaudir\u00e1n. Esa resistencia confirma que el proceso funcion\u00f3."}];
+
+// Principios acumulados que el participante ya ha visto
+var PRINCIPIOS_VISTOS = (function(){
+  var v = {};
+  PRINCIPIOS_DB.forEach(function(pr){ v[pr.num] = false; });
+  return v;
+})();
+
+function buildWidgetPrincipios(moduloId, contenedor, onComplete) {
+  var principiosIds = MODULO_PRINCIPIOS[moduloId] || [];
+  if (!principiosIds.length) { if (onComplete) onComplete(); return; }
+
+  // Principios acumulados anteriores (ya vistos en modulos previos)
+  var anteriores = [];
+  PRINCIPIOS_DB.forEach(function(pr){
+    if(PRINCIPIOS_VISTOS[pr.num] && principiosIds.indexOf(pr.num) < 0){
+      anteriores.push(pr);
+    }
+  });
+
+  var compromisos_mod = {};
+  var paso = 0;
+  // Fases: -1=recordatorio, 0..N-1=principios, N=compromisos
+  var FASE_RECORD = -1;
+  var totalPasos = principiosIds.length + 1;
+  var hayAnteriores = anteriores.length > 0;
+
+  // Crear overlay
+  var overlay = document.createElement("div");
+  overlay.style.cssText = "position:fixed;inset:0;background:rgba(4,8,16,.97);z-index:2000;display:flex;align-items:center;justify-content:center;padding:16px;animation:wfadeIn .3s ease";
+
+  var box = document.createElement("div");
+  box.style.cssText = "background:#0A0F1E;border:1px solid rgba(201,168,76,.25);border-radius:20px;width:100%;max-width:560px;max-height:92vh;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 24px 64px rgba(0,0,0,.6)";
+
+  // Header
+  var hdr = document.createElement("div");
+  hdr.style.cssText = "padding:18px 22px 14px;border-bottom:1px solid rgba(255,255,255,.06);flex-shrink:0";
+  var htop = document.createElement("div");
+  htop.style.cssText = "display:flex;align-items:center;justify-content:space-between;margin-bottom:10px";
+  var hlogo = document.createElement("div");
+  hlogo.style.cssText = "font-family:Cormorant Garamond,serif;font-size:20px;color:#E8C96A;font-weight:300;letter-spacing:.02em";
+  hlogo.textContent = "\u2200normal";
+  var hstep = document.createElement("div");
+  hstep.id = "wp-step";
+  hstep.style.cssText = "font-size:10px;color:#3A4558;letter-spacing:.12em;text-transform:uppercase;font-family:Barlow Condensed,sans-serif";
+  htop.appendChild(hlogo); htop.appendChild(hstep);
+  var hbar = document.createElement("div");
+  hbar.style.cssText = "height:2px;background:#1A2640;border-radius:1px;overflow:hidden";
+  var hfill = document.createElement("div");
+  hfill.id = "wp-fill";
+  hfill.style.cssText = "height:100%;background:linear-gradient(90deg,#C9A84C,#E8C96A);border-radius:1px;transition:width .4s ease;width:0%";
+  hbar.appendChild(hfill); hdr.appendChild(htop); hdr.appendChild(hbar);
+  box.appendChild(hdr);
+
+  // Body
+  var body = document.createElement("div");
+  body.style.cssText = "flex:1;overflow-y:auto;padding:0 22px";
+
+  // Footer
+  var ftr = document.createElement("div");
+  ftr.style.cssText = "padding:14px 22px;border-top:1px solid rgba(255,255,255,.06);flex-shrink:0;display:flex;justify-content:space-between;align-items:center;gap:10px";
+
+  function upProg(){
+    var pct = paso < 0 ? 0 : Math.round(((paso+1)/totalPasos)*100);
+    var f=document.getElementById("wp-fill"); if(f)f.style.width=pct+"%";
+    var s=document.getElementById("wp-step");
+    if(s)s.textContent = paso < 0 ? "Recordatorio" : paso < principiosIds.length ? "Principio "+(paso+1)+" de "+principiosIds.length : "Mis compromisos";
+  }
+
+  function showPaso(){
+    body.innerHTML=""; ftr.innerHTML=""; upProg();
+
+    // FASE RECORDATORIO
+    if(paso===FASE_RECORD && hayAnteriores){
+      var sec=document.createElement("div"); sec.style.cssText="padding:20px 0";
+      var icon=document.createElement("div");icon.style.cssText="text-align:center;margin-bottom:16px";
+      var iconInner=document.createElement("div");iconInner.style.cssText="display:inline-flex;align-items:center;justify-content:center;width:52px;height:52px;border-radius:50%;background:rgba(212,83,126,.12);border:1.5px solid rgba(212,83,126,.35)";
+      iconInner.innerHTML="<span style='font-size:22px;color:#D4537E'>!</span>";
+      icon.appendChild(iconInner); sec.appendChild(icon);
+
+      var rt=document.createElement("div");rt.style.cssText="font-family:Cormorant Garamond,serif;font-size:22px;color:#E8C96A;text-align:center;margin-bottom:8px;font-weight:300;line-height:1.3";
+      rt.textContent="Antes de continuar"; sec.appendChild(rt);
+
+      var rs=document.createElement("div");rs.style.cssText="font-size:13px;color:#8A95A8;text-align:center;margin-bottom:18px;line-height:1.75;max-width:400px;margin-left:auto;margin-right:auto";
+      rs.innerHTML="Los principios que has aceptado <strong style='color:#F5E0A0'>no son opcionales ni negociables</strong>. Son el estándar que elegiste cuando decidiste entrar al camino ∀normal.";
+      sec.appendChild(rs);
+
+      var aviso=document.createElement("div");aviso.style.cssText="background:rgba(212,83,126,.07);border:1px solid rgba(212,83,126,.2);border-radius:12px;padding:14px 16px;margin-bottom:14px";
+      var avisoT=document.createElement("div");avisoT.style.cssText="font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#D4537E;font-weight:500;margin-bottom:8px;font-family:Barlow Condensed,sans-serif";
+      avisoT.textContent="Recuerda — Principios que ya aceptaste";aviso.appendChild(avisoT);
+      anteriores.slice(-3).forEach(function(pr){
+        var prow=document.createElement("div");prow.style.cssText="display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.04)";
+        var pn=document.createElement("div");pn.style.cssText="font-family:Cormorant Garamond,serif;font-size:18px;font-weight:300;color:"+pr.color+";min-width:30px";pn.textContent="∀"+pr.num;
+        var pt=document.createElement("div");pt.style.cssText="font-size:12px;color:#8A95A8";pt.textContent=pr.titulo;
+        prow.appendChild(pn);prow.appendChild(pt);aviso.appendChild(prow);
+      });
+      if(anteriores.length>3){var mas=document.createElement("div");mas.style.cssText="font-size:11px;color:#3A4558;margin-top:6px;text-align:center";mas.textContent="+ "+(anteriores.length-3)+" principios anteriores";aviso.appendChild(mas);}
+      sec.appendChild(aviso);
+
+      var pregunta=document.createElement("div");pregunta.style.cssText="background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.2);border-radius:10px;padding:12px 16px;text-align:center";
+      pregunta.innerHTML="<span style='font-family:Cormorant Garamond,serif;font-size:16px;color:#E8C96A;font-style:italic'>Una excusa no te saca de la plataforma — te saca de tu máximo potencial.<br>¿Sigues dentro del camino ∀normal?</span>";
+      sec.appendChild(pregunta);
+      body.appendChild(sec);
+
+      ftr.appendChild(document.createElement("span"));
+      var btnSi=document.createElement("button");btnSi.style.cssText="background:linear-gradient(135deg,#C9A84C,#E8C96A);color:#060A14;border:none;border-radius:4px;font-family:Barlow Condensed,sans-serif;font-size:12px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;padding:11px 26px;cursor:pointer";
+      btnSi.textContent="Sí, sigo dentro";
+      btnSi.onclick=function(){paso=0;showPaso();};
+      ftr.appendChild(btnSi);
+      return;
+    }
+
+    // FASE PRINCIPIOS
+    if(paso >= 0 && paso < principiosIds.length){
+      var pId=principiosIds[paso];
+      var pr=PRINCIPIOS_DB.find(function(p2){return p2.num===pId;});
+      if(!pr){paso++;showPaso();return;}
+      PRINCIPIOS_VISTOS[pr.num]=true;
+
+      var sec2=document.createElement("div");sec2.style.cssText="padding:20px 0";
+      var numDiv=document.createElement("div");numDiv.style.cssText="font-family:Cormorant Garamond,serif;font-size:60px;font-weight:300;line-height:1;color:"+pr.color+";opacity:.2;margin-bottom:2px";numDiv.textContent="∀"+pr.num;
+      sec2.appendChild(numDiv);
+      var tit=document.createElement("div");tit.style.cssText="font-family:Cormorant Garamond,serif;font-size:26px;font-weight:300;color:"+pr.color+";margin-bottom:14px;line-height:1.2";tit.textContent=pr.titulo;sec2.appendChild(tit);
+
+      if(pr.no_negociable){
+        var nnBlk=document.createElement("div");nnBlk.style.cssText="background:rgba(212,83,126,.07);border:1px solid rgba(212,83,126,.2);border-radius:10px;padding:11px 14px;margin-bottom:12px;display:flex;align-items:flex-start;gap:10px";
+        var nnIcon=document.createElement("div");nnIcon.style.cssText="font-size:14px;color:#D4537E;flex-shrink:0;margin-top:1px";nnIcon.textContent="!";
+        var nnTxt=document.createElement("div");
+        var nnLabel=document.createElement("div");nnLabel.style.cssText="font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#D4537E;font-weight:500;margin-bottom:4px;font-family:Barlow Condensed,sans-serif";nnLabel.textContent="No negociable";
+        var nnCont=document.createElement("div");nnCont.style.cssText="font-size:12px;color:#EAE6DC;line-height:1.65";nnCont.textContent=pr.no_negociable;
+        nnTxt.appendChild(nnLabel);nnTxt.appendChild(nnCont);nnBlk.appendChild(nnIcon);nnBlk.appendChild(nnTxt);sec2.appendChild(nnBlk);
+      }
+
+      if(pr.aplicacion){
+        var aplBlk=document.createElement("div");aplBlk.style.cssText="background:#1A2640;border-radius:10px;padding:12px 14px;border-left:3px solid "+pr.color+";margin-bottom:12px";
+        var aplL=document.createElement("div");aplL.style.cssText="font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:"+pr.color+";margin-bottom:4px;font-weight:500;font-family:Barlow Condensed,sans-serif";aplL.textContent="En este módulo";
+        var aplT=document.createElement("div");aplT.style.cssText="font-size:13px;color:#EAE6DC;line-height:1.65;font-style:italic";aplT.textContent=pr.aplicacion;
+        aplBlk.appendChild(aplL);aplBlk.appendChild(aplT);sec2.appendChild(aplBlk);
+      }
+
+      body.appendChild(sec2);
+
+      var btnP=paso>0?document.createElement("button"):document.createElement("span");
+      if(paso>0){btnP.style.cssText="background:transparent;color:#3A4558;border:1px solid #1E2A3A;border-radius:4px;font-family:Barlow,sans-serif;font-size:13px;padding:9px 16px;cursor:pointer";btnP.textContent="Anterior";btnP.onclick=function(){paso--;showPaso();};}
+      ftr.appendChild(btnP);
+      var btnN2=document.createElement("button");btnN2.style.cssText="background:linear-gradient(135deg,#C9A84C,#E8C96A);color:#060A14;border:none;border-radius:4px;font-family:Barlow Condensed,sans-serif;font-size:12px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;padding:11px 26px;cursor:pointer";
+      btnN2.textContent=paso<principiosIds.length-1?"Siguiente principio":"Mis compromisos";
+      btnN2.onclick=function(){paso++;showPaso();};ftr.appendChild(btnN2);
+      return;
+    }
+
+    // FASE COMPROMISOS
+    var sec3=document.createElement("div");sec3.style.cssText="padding:20px 0";
+    var ct=document.createElement("div");ct.style.cssText="font-family:Cormorant Garamond,serif;font-size:22px;color:#E8C96A;margin-bottom:6px;font-weight:300";ct.textContent="Mis compromisos para este módulo";sec3.appendChild(ct);
+    var cs=document.createElement("div");cs.style.cssText="font-size:13px;color:#8A95A8;margin-bottom:18px;line-height:1.65";cs.textContent="Los principios te dieron el marco. Ahora escribe qué harás diferente a partir de hoy en este módulo.";sec3.appendChild(cs);
+    principiosIds.forEach(function(pId2){
+      var pr2=PRINCIPIOS_DB.find(function(p2){return p2.num===pId2;});if(!pr2)return;
+      var blk=document.createElement("div");blk.style.cssText="margin-bottom:14px;background:#131D30;border-radius:10px;padding:13px 15px;border-left:3px solid "+pr2.color;
+      var bt=document.createElement("div");bt.style.cssText="font-size:11px;font-weight:500;color:"+pr2.color+";margin-bottom:6px;letter-spacing:.08em;text-transform:uppercase;font-family:Barlow Condensed,sans-serif";bt.textContent="∀"+pr2.num+" · "+pr2.titulo;blk.appendChild(bt);
+      var ta=document.createElement("textarea");ta.style.cssText="background:#0A0F1E;border:1px solid rgba(255,255,255,.07);border-radius:6px;color:#EAE6DC;font-family:Barlow,sans-serif;font-size:13px;padding:9px 12px;width:100%;min-height:70px;outline:none;resize:vertical;line-height:1.6;transition:border-color .2s";
+      ta.placeholder="Describe qué cambiarás o harás diferente a partir de hoy...";ta.value=compromisos_mod["p"+pId2]||"";
+      ta.onfocus=function(){this.style.borderColor=pr2.color;};ta.onblur=function(){this.style.borderColor="rgba(255,255,255,.07)";};
+      ta.oninput=(function(pid){return function(){compromisos_mod["p"+pid]=this.value;};})(pId2);
+      blk.appendChild(ta);sec3.appendChild(blk);
+    });
+    body.appendChild(sec3);
+
+    var btnB2=document.createElement("button");btnB2.style.cssText="background:transparent;color:#3A4558;border:1px solid #1E2A3A;border-radius:4px;font-family:Barlow,sans-serif;font-size:13px;padding:9px 16px;cursor:pointer";btnB2.textContent="Revisar";btnB2.onclick=function(){paso--;showPaso();};ftr.appendChild(btnB2);
+    var btnFin=document.createElement("button");btnFin.style.cssText="background:linear-gradient(135deg,#C9A84C,#E8C96A);color:#060A14;border:none;border-radius:4px;font-family:Barlow Condensed,sans-serif;font-size:12px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;padding:11px 26px;cursor:pointer";
+    btnFin.textContent="Comenzar el módulo";
+    btnFin.onclick=function(){
+      if(window.guardarCompromisosModulo)window.guardarCompromisosModulo(moduloId,compromisos_mod);
+      document.body.removeChild(overlay);
+      if(onComplete)onComplete();
+    };
+    ftr.appendChild(btnFin);
+  }
+
+  box.appendChild(body);box.appendChild(ftr);overlay.appendChild(box);
+
+  var style=document.createElement("style");
+  style.textContent="@keyframes wfadeIn{from{opacity:0}to{opacity:1}} .wp-scroll::-webkit-scrollbar{width:4px} .wp-scroll::-webkit-scrollbar-thumb{background:rgba(201,168,76,.28);border-radius:2px}";
+  document.head.appendChild(style);
+  document.body.appendChild(overlay);
+
+  // Arrancar en recordatorio si hay anteriores, si no en principios
+  paso = hayAnteriores ? FASE_RECORD : 0;
+  showPaso();
+}
+
+window.guardarCompromisosModulo = function(moduloId, compromisos){
+  if(!window.COMPROMISOS_PROCESO)window.COMPROMISOS_PROCESO={};
+  window.COMPROMISOS_PROCESO[moduloId]=compromisos;
+};
+
+
+
+const FRASES=["Quien camina con fe no necesita ver todo el camino — solo el siguiente paso.","El amor que das sin esperar nada es el que más lejos llega y más tiempo dura.","En el silencio de tu interior vive la respuesta que llevas tiempo buscando afuera.","No temas los comienzos difíciles — toda gran luz pasa primero por la oscuridad.","Tu vida es una oración vivida. Cada acción es una palabra que el universo escucha.","La misericordia que das a otros también la estás dando a la parte de ti que más la necesita.","El que sirve en pequeño recibe en grande. El tamaño del acto no importa — importa el amor.","Cuando sueltas lo que ya no te pertenece, abres las manos para recibir lo que viene.","La paz no es ausencia de tormenta — es la certeza de que nada puede apagar lo que hay en ti.","Busca primero entender, y la respuesta llegará por sí sola en el momento exacto.","Quien se conoce a sí mismo ha dado el primer paso hacia su propósito.","El sufrimiento que no se niega y se ofrece con amor se convierte en sabiduría.","Hay semillas que necesitan mucho tiempo bajo tierra. Tu proceso no es lento — es profundo.","No necesitas tener todo resuelto para avanzar. El camino se hace al caminar.","Lo que pides con el corazón limpio ya fue escuchado antes de que terminaras de pedirlo."];
+const frase=()=>FRASES[new Date().getDate()%FRASES.length];
+
+// ── LOS 51 VALORES — sin indicar eje visible al usuario ──────
+const V=[
+  {n:"Productividad",d:"Aprovechar el tiempo y los recursos para generar resultados concretos.",e:"eco"},
+  {n:"Disciplina",d:"Comprometerse con hábitos y rutinas que sostienen el logro.",e:"eco"},
+  {n:"Eficiencia",d:"Hacer más con menos sin perder calidad.",e:"eco"},
+  {n:"Planificación",d:"Organizar el futuro con visión y método.",e:"eco"},
+  {n:"Logro",d:"Alcanzar metas que representan un desafío real.",e:"eco"},
+  {n:"Ambición",d:"Querer crecer, mejorar y llegar más lejos.",e:"eco"},
+  {n:"Competitividad",d:"Motivarse con el reto de superarse y destacar.",e:"eco"},
+  {n:"Orden",d:"Vivir y trabajar en entornos estructurados y organizados.",e:"eco"},
+  {n:"Perseverancia",d:"Continuar aunque los resultados tarden en llegar.",e:"eco"},
+  {n:"Pragmatismo",d:"Priorizar lo que funciona sobre lo que suena bien.",e:"eco"},
+  {n:"Rentabilidad",d:"Que los esfuerzos produzcan beneficios tangibles.",e:"eco"},
+  {n:"Excelencia",d:"Hacer las cosas al más alto nivel posible.",e:"eco"},
+  {n:"Innovación",d:"Crear soluciones nuevas para problemas conocidos.",e:"eco"},
+  {n:"Autonomía",d:"Tomar decisiones propias sin depender de la aprobación ajena.",e:"eco"},
+  {n:"Reconocimiento",d:"Ser valorado por los aportes y resultados que se generan.",e:"eco"},
+  {n:"Estabilidad económica",d:"Tener recursos suficientes para vivir sin angustia financiera.",e:"eco"},
+  {n:"Liderazgo",d:"Influir positivamente en otros para alcanzar objetivos comunes.",e:"eco"},
+  {n:"Integridad",d:"Actuar en coherencia con los propios principios, siempre.",e:"eti"},
+  {n:"Honestidad",d:"Decir la verdad aunque sea incómoda.",e:"eti"},
+  {n:"Responsabilidad",d:"Hacerse cargo de las propias acciones y sus consecuencias.",e:"eti"},
+  {n:"Respeto",d:"Tratar a cada persona con dignidad, independientemente de las diferencias.",e:"eti"},
+  {n:"Justicia",d:"Que cada quien reciba lo que le corresponde.",e:"eti"},
+  {n:"Lealtad",d:"Mantener los compromisos con las personas que se ama y confía.",e:"eti"},
+  {n:"Familia",d:"Priorizar los vínculos familiares como base de la vida.",e:"eti"},
+  {n:"Compromiso",d:"Cumplir lo que se promete, aunque cueste.",e:"eti"},
+  {n:"Servicio",d:"Contribuir al bienestar de otros como parte de la propia vida.",e:"eti"},
+  {n:"Comunidad",d:"Sentirse parte de algo más grande y contribuir a su desarrollo.",e:"eti"},
+  {n:"Cooperación",d:"Trabajar con otros hacia metas comunes con generosidad.",e:"eti"},
+  {n:"Solidaridad",d:"Estar con los demás en los momentos difíciles.",e:"eti"},
+  {n:"Tolerancia",d:"Aceptar y valorar las diferencias en los demás.",e:"eti"},
+  {n:"Transparencia",d:"No tener agenda oculta — ser lo que se muestra.",e:"eti"},
+  {n:"Tradición",d:"Respetar y mantener los valores y prácticas que han funcionado.",e:"eti"},
+  {n:"Equidad",d:"Que las reglas apliquen igual para todos.",e:"eti"},
+  {n:"Confianza",d:"Base de toda relación genuina: creer en la palabra y la intención del otro.",e:"eti"},
+  {n:"Bienestar",d:"Vivir en un estado general de salud física, mental y emocional.",e:"emo"},
+  {n:"Alegría",d:"Cultivar la capacidad de disfrutar y celebrar la vida.",e:"emo"},
+  {n:"Creatividad",d:"Expresarse y crear como forma de vida, no solo de trabajo.",e:"emo"},
+  {n:"Autoconocimiento",d:"Entenderse a uno mismo con honestidad y profundidad.",e:"emo"},
+  {n:"Autenticidad",d:"Ser y mostrar quién se es realmente, sin máscaras.",e:"emo"},
+  {n:"Libertad",d:"Vivir y elegir según los propios valores, sin presiones externas.",e:"emo"},
+  {n:"Paz interior",d:"Un estado de calma que no depende de las circunstancias externas.",e:"emo"},
+  {n:"Amor",d:"Dar y recibir amor como práctica central de la vida.",e:"emo"},
+  {n:"Espiritualidad",d:"Conectarse con algo más grande que uno mismo.",e:"emo"},
+  {n:"Propósito",d:"Vivir orientado hacia algo que tiene sentido más allá del éxito personal.",e:"emo"},
+  {n:"Crecimiento personal",d:"Seguir aprendiendo, evolucionando y superando los propios límites.",e:"emo"},
+  {n:"Gratitud",d:"Reconocer y celebrar lo que ya se tiene.",e:"emo"},
+  {n:"Equilibrio",d:"Integrar las distintas dimensiones de la vida sin sacrificar ninguna.",e:"emo"},
+  {n:"Sensibilidad",d:"Permitirse sentir y ser afectado por la experiencia.",e:"emo"},
+  {n:"Contemplación",d:"Hacer espacio para el silencio, la reflexión y la conexión interior.",e:"emo"},
+  {n:"Trascendencia",d:"Dejar una huella que va más allá del tiempo de vida personal.",e:"emo"},
+  {n:"Compasión",d:"Sentir con los demás y actuar desde esa conexión.",e:"emo"}
+];
+// Índice de Confianza
+const IDX_CONFIANZA=V.findIndex(v=>v.n==="Confianza");
+
+const META=21, T1=180, T2=120; // 3 min + 2 min extra
+
+const NIVELES={
+  eco:{bajo:"Poco peso en tu sistema de valores actual. El pragmatismo y los resultados no son tu principal motivación. Puede haber dificultad para concretar proyectos o gestionar recursos con claridad.",equilibrio:"Equilibrio saludable. Produces sin que el resultado sea tu única motivación.",alto:"El hacer y el producir son centrales. Gran fortaleza para materializar. El desafío: asegurar que el propósito acompañe a la producción.",exceso:"En exceso puede llevar a ignorar las dimensiones éticas y emocionales. El éxito sin alma genera vacío."},
+  eti:{bajo:"Poco peso actual. La responsabilidad con otros y las relaciones pueden ser áreas de aprendizaje. Las reglas sociales pueden estar en segundo plano.",equilibrio:"Conciencia ética equilibrada. Valoras las relaciones y la integridad sin que sean tu única brújula.",alto:"Las relaciones, la integridad y el servicio son centrales. Liderazgo confiable y vínculos genuinos. El desafío: no sacrificarse más allá de lo sostenible.",exceso:"En exceso puede generar parálisis por considerar demasiado a los demás, o culpa al priorizar las propias necesidades."},
+  emo:{bajo:"Poco peso actual. El mundo interior puede estar poco explorado. Tendencia a vivir más en el hacer que en el ser.",equilibrio:"Contacto equilibrado con la dimensión emocional e interior. Saludable y sostenible.",alto:"Tu mundo interior, la autenticidad y el crecimiento personal son muy importantes. Gran profundidad. El desafío: aterrizar esa riqueza en acciones concretas.",exceso:"En exceso puede generar introspección que paraliza la acción y dificulta el compromiso sostenido."}
+};
+
+function getNivel(n){
+  if(n<=3)return'bajo';
+  if(n<=7)return'equilibrio';
+  if(n<=10)return'alto';
+  return'exceso';
+}
+function getNivelLabel(n){
+  const l=getNivel(n);
+  return{bajo:'Bajo peso',equilibrio:'En equilibrio',alto:'Alto peso',exceso:'Exceso'}[l];
+}
+function getNivelCol(n){
+  return{bajo:'#E09070',equilibrio:'var(--grn)',alto:'var(--gold2)',exceso:'var(--acc)'}[getNivel(n)];
+}
+
+function rrH(key,lbl,txt,cl=''){
+  const v=S.reg[key]||'';const done=S.comp[key]||false;
+  return`<div class="rr ${cl}"><div class="rr-l">${lbl}</div><p>${txt}</p>
+  <textarea class="rta" placeholder="Escribe tu reflexión aquí..." oninput="S.reg['${key}']=this.value">${v}</textarea>
+  <div class="rchk"><input type="checkbox" id="c-${key}" ${done?'checked':''} onchange="S.comp['${key}']=this.checked;uD('${key}')">
+  <label for="c-${key}">He reflexionado y tengo una acción concreta</label></div>
+  ${done?'<div class="rdone">Completado</div>':''}</div>`;
+}
+window.uD=function(k){const c=document.getElementById('c-'+k);if(!c)return;const p=c.closest('.rr');if(!p)return;const e=p.querySelector('.rdone');if(c.checked&&!e){const d=document.createElement('div');d.className='rdone';d.textContent='Completado';p.appendChild(d);}else if(!c.checked&&e)e.remove();};
+
+// ── ESTADO ───────────────────────────────────────────────────
+const S={
+  sel:new Set(),
+  fase:'pre', // pre | t1 | extra | fin
+  seg:T1, iv:null,
+  res:null,
+  reg:{},comp:{}
+};
+const PASOS=[{l:"El modelo"},{l:"Explorar"},{l:"La dinámica"},{l:"Diagnóstico"}];
+let paso=0;
+
+function rProg(){
+  const b=document.getElementById('pb');if(!b)return;b.innerHTML='';
+  PASOS.forEach((p,i)=>{
+    if(i>0){const l=document.createElement('div');l.className='pln'+(i<=paso?' done':'');b.appendChild(l);}
+    const s=document.createElement('div');s.className='ps'+(i===paso?' act':i<paso?' done':'');
+    s.innerHTML=`<div class="pn">${i<paso?'✓':(i+1)}</div><span class="ptxt">${p.l}</span>`;
+    if(i<paso)s.onclick=()=>irA(i);b.appendChild(s);
+  });
+}
+function irA(i){paso=i;rProg();document.querySelectorAll('.panel').forEach((p,j)=>p.classList.toggle('act',j===i));window.scrollTo({top:0,behavior:'smooth'});}
+window.retro=function(){stopTimer();if(paso>0)irA(paso-1);};
+
+// ── INIT ─────────────────────────────────────────────────────
+function init(){
+  document.getElementById('app').innerHTML=`
+    <div style="padding:28px 0 0">
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:10px;letter-spacing:.2em;color:var(--gold);text-transform:uppercase;margin-bottom:4px">Café con Propósito · ¿Desde dónde actúo?</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:300;color:var(--gold2);margin-bottom:22px;font-style:italic">Mis valores</div>
+    </div>
+    <div class="prog" id="pb"></div>
+    ${PASOS.map((_,i)=>`<div class="panel${i===0?' act':''}" id="p${i}"></div>`).join('')}`;
+  rProg(); bModelo();
+}
+
+// ── PANEL 0: EL MODELO ───────────────────────────────────────
+function bModelo(){
+  document.getElementById('p0').innerHTML=`
+    <div class="pbadge"><div><div class="pbadge-q">¿Desde dónde actúo?</div><div class="pbadge-s">Fase 3a · Modelo Triaxial de Dolan</div></div></div>
+    <div class="ph"><div class="ph-s">Paso 1 de 4 — El modelo</div>
+    <div class="ph-t">¿Qué es lo que realmente valoras?</div>
+    <div class="ph-d">El Dr. Simon Dolan investigó durante décadas cómo los valores guían las decisiones humanas. Su conclusión: todos operamos desde tres ejes, y el equilibrio entre ellos determina si vivimos con propósito real o en conflicto permanente.</div></div>
+
+    <div class="dmsg"><div class="dm-l">Reflexión del día</div><div class="dm-t">"${frase()}"</div></div>
+
+    <div class="card pur">
+      <div class="cl p">El Modelo Triaxial — Las 3 dimensiones del valor</div>
+      <div style="display:flex;flex-direction:column;gap:10px;margin-top:4px">
+        <div style="background:var(--bg4);border-left:2px solid var(--gold);padding:13px 15px;border-radius:0 var(--r) var(--r) 0">
+          <div style="font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:4px;font-weight:500">Eje Económico-Pragmático — El hacer</div>
+          <div class="ct">Valores relacionados con los resultados, la productividad, el logro y los recursos. Lo que te impulsa a producir, organizar y concretar en el mundo.</div>
+        </div>
+        <div style="background:var(--bg4);border-left:2px solid var(--grn);padding:13px 15px;border-radius:0 var(--r) var(--r) 0">
+          <div style="font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--grn);margin-bottom:4px;font-weight:500">Eje Ético-Social — El relacionarme</div>
+          <div class="ct">Valores que regulan las relaciones, la convivencia y la responsabilidad con otros. Integridad, familia, compromiso, justicia, respeto.</div>
+        </div>
+        <div style="background:var(--bg4);border-left:2px solid var(--pur);padding:13px 15px;border-radius:0 var(--r) var(--r) 0">
+          <div style="font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--pur);margin-bottom:4px;font-weight:500">Eje Emocional-Evolutivo — El ser</div>
+          <div class="ct">Valores del mundo interior: alegría, autoconocimiento, bienestar, espiritualidad, propósito. Lo que te conecta con quien eres en profundidad.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card gold">
+      <div class="cl">¿Qué implica el desequilibrio?</div>
+      <div class="ct">Dolan descubrió que cuando uno de los ejes domina excesivamente, se crean tensiones. Un eje económico muy alto sin contrapeso ético genera líderes exitosos pero sin alma. Un eje emocional muy alto sin lo pragmático genera personas con propósito pero sin capacidad de materializar. El equilibrio no es igual cantidad en cada eje — es que los tres estén presentes de forma consciente.</div>
+    </div>
+
+    <div class="card">
+      <div class="cl">Cómo funciona la dinámica</div>
+      <div class="ct">Explorarás <strong style="color:var(--gold3)">51 valores</strong> del modelo, cada uno con una definición corta. Luego tendrás un <strong style="color:var(--gold3)">reto cronometrado</strong>: elegir exactamente <strong style="color:var(--gold3)">21 valores en 3 minutos</strong>. El tiempo es intencional — activa la intuición y limita el análisis excesivo. Al final descubrirás cómo quedaron distribuidos tus valores en los tres ejes.</div>
+    </div>
+
+    <div class="nav"><span></span>
+    <button class="bp" onclick="irA(1);bExplorar()">Explorar los valores</button></div>`;
+}
+
+// ── PANEL 1: EXPLORACIÓN (con etiquetas de eje visibles) ──────
+function bExplorar(){
+  // Mezclar orden para que los ejes no sean predecibles visualmente
+  const idxExp=[...Array(V.length).keys()].sort(()=>Math.random()-.5);
+  const gridH=idxExp.map(i=>`
+    <div class="vc" id="ve-${i}">
+      <div class="vc-n">${V[i].n}</div>
+      <div class="vc-d">${V[i].d}</div>
+    </div>`).join('');
+
+  document.getElementById('p1').innerHTML=`
+    <div class="pbadge"><div><div class="pbadge-q">¿Desde dónde actúo?</div><div class="pbadge-s">Los 51 valores del modelo</div></div></div>
+    <div class="ph"><div class="ph-s">Paso 2 de 4 — Exploración</div>
+    <div class="ph-t">Conoce los 51 valores</div>
+    <div class="ph-d">Lee cada valor y su definición con calma. Familiarízate con ellos antes de la dinámica. El análisis de a qué dimensión pertenece cada uno lo descubrirás después de elegirlos.</div></div>
+
+    <div class="card" style="padding:14px 18px;margin-bottom:14px">
+      <div class="ct" style="font-size:12px">Los 51 valores están mezclados intencionalmente — sin clasificación visible. Esto es parte del método: cuando elijas en la dinámica, lo harás desde tu intuición genuina, no desde una categoría.</div>
+    </div>
+
+    <div class="valores-grid" id="gridExp">${gridH}</div>
+
+    <div class="nav"><button class="bn" onclick="retro()">Anterior</button>
+    <button class="bp" onclick="irA(2);bDinamica()">Comenzar el reto</button></div>`;
+}
+
+window.filtrar=function(eje){
+  document.querySelectorAll('.etab').forEach(t=>t.classList.toggle('on',t.classList.contains(eje)||(eje==='all'&&t.classList.contains('all'))));
+  document.querySelectorAll('#gridExp .vc').forEach(c=>{c.style.display=(eje==='all'||c.classList.contains(eje))?'':'none';});
+};
+
+// ── PANEL 2: LA DINÁMICA (sin etiquetas de eje) ───────────────
+function bDinamica(){
+  S.sel=new Set();S.fase='pre';S.seg=T1;
+  stopTimer();
+
+  // Mezclar el orden para que no sea predecible
+  const indices=[...Array(V.length).keys()].sort(()=>Math.random()-.5);
+  const gridH=indices.map(i=>`
+    <div class="vc" id="vd-${i}" onclick="toggleD(${i})">
+      <div class="vc-check">✓</div>
+      <div class="vc-n">${V[i].n}</div>
+      <div class="vc-d">${V[i].d}</div>
+    </div>`).join('');
+
+  document.getElementById('p2').innerHTML=`
+    <div class="pbadge"><div><div class="pbadge-q">¿Desde dónde actúo?</div><div class="pbadge-s">El reto de los 21</div></div></div>
+    <div class="ph"><div class="ph-s">Paso 3 de 4 — La dinámica</div>
+    <div class="ph-t">El reto: elige 21 en 3 minutos</div>
+    <div class="ph-d">Este es un reto cronometrado. Tienes exactamente <strong style="color:var(--gold3)">3 minutos</strong> para elegir <strong style="color:var(--gold3)">21 valores</strong> de los 51. Confía en tu primera reacción — la intuición sabe más que el análisis en este ejercicio.</div></div>
+
+    <div class="card" style="padding:18px 22px">
+      <div class="timer-hero">
+        <div class="timer-num" id="tNum" style="color:var(--gold2)">3:00</div>
+        <div class="timer-label">tiempo para elegir tus 21 valores</div>
+        <div class="timer-bar"><div class="timer-fill" id="tFill" style="width:100%"></div></div>
+      </div>
+      <div style="text-align:center;margin-top:12px">
+        <button class="bp" id="btnStart" onclick="startTimer()">¡Comenzar el reto!</button>
+        <div style="font-size:12px;color:var(--faint);margin-top:8px">El tablero se bloqueará cuando el tiempo termine</div>
+      </div>
+      <div id="timerMsg" style="display:none;text-align:center;padding:10px 0"></div>
+    </div>
+
+    <div class="sel-counter" id="selCounter">
+      <div class="sc-left">
+        <div class="sc-num" id="scNum">0</div>
+        <div class="sc-label">de 21 valores seleccionados</div>
+      </div>
+      <div class="sc-right" id="scRight">Esperando inicio del reto</div>
+    </div>
+
+    <div class="valores-grid" id="gridDin" style="pointer-events:none;opacity:.5">${gridH}</div>
+
+    <div class="nav"><button class="bn" onclick="retro()">Anterior</button>
+    <button class="bp" id="btnVer" style="display:none" onclick="verDiag()">Ver mi diagnóstico</button></div>`;
+}
+
+window.startTimer=function(){
+  if(S.fase!=='pre')return;
+  S.fase='t1';S.seg=T1;
+  document.getElementById('btnStart').style.display='none';
+  document.getElementById('gridDin').style.pointerEvents='auto';
+  document.getElementById('gridDin').style.opacity='1';
+  document.getElementById('scRight').textContent='¡Elige tus 21!';
+  runTimer();
+};
+
+function runTimer(){
+  S.iv=setInterval(()=>{
+    S.seg--;
+    const total=S.fase==='t1'?T1:T2;
+    const m=Math.floor(S.seg/60);
+    const ss=String(S.seg%60).padStart(2,'0');
+    const tNum=document.getElementById('tNum');
+    const tFill=document.getElementById('tFill');
+    if(tNum){
+      tNum.textContent=`${m}:${ss}`;
+      if(S.seg<=30)tNum.style.color='#E09070';
+      else if(S.seg<=60)tNum.style.color='var(--gold)';
+      else tNum.style.color='var(--gold2)';
+    }
+    if(tFill)tFill.style.width=(S.seg/total*100)+'%';
+    if(S.seg<=0){
+      clearInterval(S.iv);
+      if(S.fase==='t1')tiempoT1();
+      else tiempoFin();
+    }
+  },1000);
+}
+
+function tiempoT1(){
+  S.fase='extra';
+  const cnt=S.sel.size;
+  const tNum=document.getElementById('tNum');
+  const tFill=document.getElementById('tFill');
+  const msg=document.getElementById('timerMsg');
+  const grid=document.getElementById('gridDin');
+
+  if(tNum){tNum.textContent='0:00';tNum.style.color='#E09070';}
+  if(tFill)tFill.style.width='0%';
+
+  if(cnt>=META){
+    // Ya tiene 21 o más — terminar
+    tiempoFin();
+    return;
+  }
+  // Le faltan — bloquear los no seleccionados y dar 2 minutos extra
+  const faltan=META-cnt;
+  if(grid){
+    grid.querySelectorAll('.vc:not(.sel)').forEach(el=>{el.classList.add('bloqueado');});
+  }
+  if(msg){
+    msg.style.display='block';
+    msg.innerHTML=`<div style="background:var(--acd);border:1px solid var(--acb);border-radius:var(--rm);padding:12px 16px;margin-top:8px">
+      <div style="font-size:12px;font-weight:500;color:var(--acc);margin-bottom:4px">Tiempo principal terminado</div>
+      <div style="font-size:13px;color:var(--dim)">Te faltan <strong style="color:var(--gold3)">${faltan} valor${faltan>1?'es':''}</strong>. Tienes <strong style="color:var(--gold3)">2 minutos adicionales</strong> para completar tu selección. Solo los valores no seleccionados están bloqueados — puedes cambiar los que ya elegiste.</div>
+    </div>`;
+  }
+  // Desbloquear los seleccionados para que puedan cambiarlos
+  if(grid){
+    grid.querySelectorAll('.vc.sel').forEach(el=>{el.classList.remove('bloqueado');});
+    grid.style.pointerEvents='auto';
+  }
+  // Habilitar solo los no seleccionados para completar hasta 21
+  S.seg=T2;
+  const tNumEl=document.getElementById('tNum');
+  if(tNumEl){tNumEl.textContent='2:00';tNumEl.style.color='var(--acc)';}
+  const tFillEl=document.getElementById('tFill');
+  if(tFillEl)tFillEl.style.width='100%';
+  document.getElementById('scRight').textContent='Tiempo extra — ¡completa tu selección!';
+  // Reactivar las tarjetas no seleccionadas con un indicador visual diferente
+  if(grid){
+    grid.querySelectorAll('.vc.bloqueado').forEach(el=>{
+      el.classList.remove('bloqueado');
+      el.style.opacity='.55';
+    });
+    // Habilitar todo para poder seleccionar los faltantes
+    grid.style.pointerEvents='auto';
+  }
+  runTimer();
+}
+
+function tiempoFin(){
+  S.fase='fin';
+  stopTimer();
+  const grid=document.getElementById('gridDin');
+  const tNum=document.getElementById('tNum');
+  const scRight=document.getElementById('scRight');
+  const btnVer=document.getElementById('btnVer');
+  const msg=document.getElementById('timerMsg');
+
+  if(grid)grid.style.pointerEvents='none';
+  if(tNum){tNum.textContent='0:00';tNum.style.color='var(--faint)';}
+  if(scRight)scRight.textContent='Selección completada';
+  if(btnVer)btnVer.style.display='block';
+  if(msg){
+    msg.style.display='block';
+    const cnt=S.sel.size;
+    msg.innerHTML=`<div style="background:var(--grd);border:1px solid var(--grb);border-radius:var(--rm);padding:12px 16px;margin-top:8px;text-align:center">
+      <div style="font-size:13px;color:var(--grn)">Tiempo terminado — seleccionaste <strong>${cnt}</strong> valores.</div>
+    </div>`;
+  }
+}
+
+window.toggleD=function(i){
+  if(S.fase==='pre'||S.fase==='fin')return;
+  const el=document.getElementById('vd-'+i);if(!el)return;
+  if(S.sel.has(i)){
+    S.sel.delete(i);el.classList.remove('sel');el.style.opacity='';
+  } else {
+    if(S.sel.size>=META){
+      el.style.animation='shake .3s';setTimeout(()=>el.style.animation='',300);
+      return;
+    }
+    S.sel.add(i);el.classList.add('sel');el.style.opacity='1';
+  }
+  const cnt=S.sel.size;
+  const num=document.getElementById('scNum');
+  if(num){num.textContent=cnt;num.className='sc-num'+(cnt>=META?' complete':'');}
+  // Si en tiempo extra ya llegó a 21, terminar automáticamente
+  if(S.fase==='extra'&&cnt>=META){
+    setTimeout(()=>tiempoFin(),400);
+  }
+};
+
+function stopTimer(){if(S.iv){clearInterval(S.iv);S.iv=null;}}
+
+window.verDiag=function(){
+  stopTimer();
+  // Calcular resultado
+  const sel=[...S.sel].map(i=>V[i]);
+  const eco=sel.filter(v=>v.e==='eco').length;
+  const eti=sel.filter(v=>v.e==='eti').length;
+  const emo=sel.filter(v=>v.e==='emo').length;
+  const total=sel.length;
+  const tieneConf=sel.some(v=>v.n==='Confianza');
+  const dom=eco>=eti&&eco>=emo?'eco':eti>=emo?'eti':'emo';
+  S.res={sel,eco,eti,emo,total,tieneConf,dom,
+    vEco:sel.filter(v=>v.e==='eco').map(v=>v.n),
+    vEti:sel.filter(v=>v.e==='eti').map(v=>v.n),
+    vEmo:sel.filter(v=>v.e==='emo').map(v=>v.n)};
+  if(window.ANORMAL){
+    ANORMAL.saveFaseModulo('dolan', S.res);
+  }
+  irA(3);bDiagnostico();
+};
+
+// ── PANEL 3: DIAGNÓSTICO ─────────────────────────────────────
+function bDiagnostico(){
+  const r=S.res;if(!r)return;
+  const mx=Math.max(r.eco,r.eti,r.emo,1);
+  const domTxt={
+    eco:"Tu centro de gravedad actual está en el <strong style='color:var(--gold2)'>eje económico-pragmático</strong>. Eres alguien que valora profundamente los resultados y la concreción. Cuando este eje se integra con los otros dos, se convierte en un motor extraordinario de manifestación.",
+    eti:"Tu centro de gravedad actual está en el <strong style='color:var(--grn)'>eje ético-social</strong>. Las relaciones, la integridad y el servicio son el centro de tu vida. Cuando este eje está bien integrado, genera líderes profundamente confiables.",
+    emo:"Tu centro de gravedad actual está en el <strong style='color:var(--pur)'>eje emocional-evolutivo</strong>. Tu mundo interior, la autenticidad y el crecimiento personal son centrales. Cuando este eje se integra, genera personas de propósito profundo y auténtico."
+  };
+  const domCol={eco:'var(--gold)',eti:'var(--grn)',emo:'var(--pur)'};
+  const domLabel={eco:'Económico-Pragmático',eti:'Ético-Social',emo:'Emocional-Evolutivo'};
+
+  // Plan de acción por eje
+  const planEco=(n)=>{
+    const lv=getNivel(n);
+    if(lv==='bajo')return`<strong style="color:var(--gold3)">Acción:</strong> Identifica en las próximas 2 semanas un proyecto concreto y establece una meta medible. La productividad y el logro necesitan más protagonismo en tu vida cotidiana.`;
+    if(lv==='equilibrio')return`<strong style="color:var(--gold3)">Mantener:</strong> Tu eje económico está en equilibrio. Continúa conectando tus resultados con un propósito más grande.`;
+    if(lv==='alto')return`<strong style="color:var(--gold3)">Profundizar:</strong> Tu eje económico es fuerte. El reto es asegurarte de que cada meta que persigues esté conectada con tu propósito y tus valores éticos.`;
+    return`<strong style="color:var(--gold3)">Reequilibrar:</strong> El peso excesivo en lo productivo puede generar vacío. Esta semana, elige una acción que no tenga retorno económico medible — solo valor humano.`;
+  };
+  const planEti=(n)=>{
+    const lv=getNivel(n);
+    if(lv==='bajo')return`<strong style="color:var(--gold3)">Acción:</strong> Esta semana, elige una relación importante y profundiza en ella con intención: escucha, cumple algo que prometiste, o expresa algo que normalmente te guardas.`;
+    if(lv==='equilibrio')return`<strong style="color:var(--gold3)">Mantener:</strong> Tu eje ético-social está equilibrado. Continúa cultivando tus relaciones con la misma conciencia.`;
+    if(lv==='alto')return`<strong style="color:var(--gold3)">Cuidar:</strong> Las relaciones y la integridad son tu fuerte. El reto es asegurarte de que el cuidado de otros no vaya en detrimento de tu propio desarrollo.`;
+    return`<strong style="color:var(--gold3)">Reequilibrar:</strong> El peso excesivo en lo social puede generar parálisis. Esta semana, toma una decisión importante desde tu propio criterio, sin consultar a nadie.`;
+  };
+  const planEmo=(n)=>{
+    const lv=getNivel(n);
+    if(lv==='bajo')return`<strong style="color:var(--gold3)">Acción:</strong> Reserva 15 minutos diarios esta semana para estar contigo mismo sin agenda. No para producir — para ser. Observa qué emerge.`;
+    if(lv==='equilibrio')return`<strong style="color:var(--gold3)">Mantener:</strong> Tu eje emocional está equilibrado. Continúa cultivando tu mundo interior como fuente de propósito.`;
+    if(lv==='alto')return`<strong style="color:var(--gold3)">Aterrizar:</strong> Tu mundo interior es rico. El reto es convertir esa riqueza en acciones concretas. Esta semana, transforma una comprensión que tengas en un paso tangible.`;
+    return`<strong style="color:var(--gold3)">Reequilibrar:</strong> El peso excesivo en lo emocional puede paralizar la acción. Esta semana, ejecuta algo que llevas tiempo pensando sin analizarlo más.`;
+  };
+
+  document.getElementById('p3').innerHTML=`
+    <div class="pbadge"><div><div class="pbadge-q">¿Desde dónde actúo?</div><div class="pbadge-s">Tu diagnóstico de valores</div></div></div>
+    <div class="ph"><div class="ph-s">Paso 4 de 4 — Diagnóstico</div>
+    <div class="ph-t">Así quedaron tus valores</div>
+    <div class="ph-d">Ahora sí revelaremos a qué eje pertenece cada uno de los valores que elegiste y qué dice eso sobre ti.</div></div>
+
+    <div class="dmsg"><div class="dm-l">Reflexión del día</div><div class="dm-t">"${frase()}"</div></div>
+
+    <!-- REVELACIÓN -->
+    <div class="card" style="text-align:center;padding:22px">
+      <div class="cl" style="text-align:center;margin-bottom:16px">La revelación — así se distribuyeron tus ${r.total} valores</div>
+      <div class="tri-bars" style="justify-content:center;max-width:400px;margin:14px auto">
+        <div class="tri-col"><div class="tri-bar eco" style="height:${Math.max(4,r.eco/mx*100)}%"></div><div class="tri-label">Económico<br><strong style="color:var(--gold2)">${r.eco} valores</strong><br>${Math.round(r.eco/r.total*100)}%</div></div>
+        <div class="tri-col"><div class="tri-bar eti" style="height:${Math.max(4,r.eti/mx*100)}%"></div><div class="tri-label">Ético-Social<br><strong style="color:var(--grn)">${r.eti} valores</strong><br>${Math.round(r.eti/r.total*100)}%</div></div>
+        <div class="tri-col"><div class="tri-bar emo" style="height:${Math.max(4,r.emo/mx*100)}%"></div><div class="tri-label">Emocional<br><strong style="color:var(--pur)">${r.emo} valores</strong><br>${Math.round(r.emo/r.total*100)}%</div></div>
+      </div>
+    </div>
+
+    <!-- VALORES POR EJE -->
+    <div class="card">
+      <div class="cl">Tus valores por dimensión</div>
+      <div style="margin-bottom:12px">
+        <div style="font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:6px;font-weight:500">Económico-Pragmático — ${r.eco} valor${r.eco!==1?'es':''} <span style="color:${getNivelCol(r.eco)};font-size:11px">(${getNivelLabel(r.eco)})</span></div>
+        ${r.vEco.length?r.vEco.map(v=>`<span class="tag tg">${v}</span>`).join(''):'<span style="font-size:12px;color:var(--faint)">Ninguno seleccionado en este eje</span>'}
+      </div>
+      <div class="dv"></div>
+      <div style="margin-bottom:12px">
+        <div style="font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--grn);margin-bottom:6px;font-weight:500">Ético-Social — ${r.eti} valor${r.eti!==1?'es':''} <span style="color:${getNivelCol(r.eti)};font-size:11px">(${getNivelLabel(r.eti)})</span></div>
+        ${r.vEti.length?r.vEti.map(v=>`<span class="tag tgr">${v}</span>`).join(''):'<span style="font-size:12px;color:var(--faint)">Ninguno seleccionado en este eje</span>'}
+      </div>
+      <div class="dv"></div>
+      <div>
+        <div style="font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--pur);margin-bottom:6px;font-weight:500">Emocional-Evolutivo — ${r.emo} valor${r.emo!==1?'es':''} <span style="color:${getNivelCol(r.emo)};font-size:11px">(${getNivelLabel(r.emo)})</span></div>
+        ${r.vEmo.length?r.vEmo.map(v=>`<span class="tag tp">${v}</span>`).join(''):'<span style="font-size:12px;color:var(--faint)">Ninguno seleccionado en este eje</span>'}
+      </div>
+    </div>
+
+    <!-- ANÁLISIS PRINCIPAL -->
+    <div class="card gold">
+      <div class="cl">Tu perfil dominante</div>
+      <div class="ct" style="margin-bottom:12px">${domTxt[r.dom]}</div>
+      <div class="ct">${(()=>{const diff=Math.max(r.eco,r.eti,r.emo)-Math.min(r.eco,r.eti,r.emo);if(diff<=3)return'Tu configuración muestra un <strong style="color:var(--gold3)">equilibrio notable</strong> entre los tres ejes. Esto es relativamente raro y es un recurso poderoso.';if(diff<=6)return'Tienes un eje dominante claro con los otros dos presentes. Esta configuración da dirección con integralidad.';return'Hay una dominancia marcada de un eje sobre los otros. Eso da claridad en una dimensión pero puede crear puntos ciegos en las otras.';})()}</div>
+    </div>
+
+    <!-- ANÁLISIS POR EJE -->
+    <div class="card pur">
+      <div class="cl p">Lo que revela cada eje</div>
+      <div style="display:flex;flex-direction:column;gap:10px;margin-top:4px">
+        <div style="background:var(--bg4);border-left:2px solid var(--gold);padding:12px 14px;border-radius:0 var(--r) var(--r) 0">
+          <div style="font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:4px;font-weight:500">Económico — ${r.eco} valores · ${getNivelLabel(r.eco)}</div>
+          <div class="ct">${NIVELES.eco[getNivel(r.eco)]}</div>
+        </div>
+        <div style="background:var(--bg4);border-left:2px solid var(--grn);padding:12px 14px;border-radius:0 var(--r) var(--r) 0">
+          <div style="font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--grn);margin-bottom:4px;font-weight:500">Ético-Social — ${r.eti} valores · ${getNivelLabel(r.eti)}</div>
+          <div class="ct">${NIVELES.eti[getNivel(r.eti)]}</div>
+        </div>
+        <div style="background:var(--bg4);border-left:2px solid var(--pur);padding:12px 14px;border-radius:0 var(--r) var(--r) 0">
+          <div style="font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--pur);margin-bottom:4px;font-weight:500">Emocional — ${r.emo} valores · ${getNivelLabel(r.emo)}</div>
+          <div class="ct">${NIVELES.emo[getNivel(r.emo)]}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CONFIANZA -->
+    <div class="card ${r.tieneConf?'grn':'red'}">
+      <div class="cl ${r.tieneConf?'g':'r'}">${r.tieneConf?'La Confianza está en tu selección':'La Confianza no está en tu selección'}</div>
+      <div class="ct" style="margin-bottom:${r.tieneConf?'0':'12px'}">${r.tieneConf?`Elegiste la Confianza entre tus 21 valores. Esto es significativo: la confianza como valor consciente es la base de todas las relaciones genuinas. Las personas que la incluyen tienden a crear vínculos más sólidos y a liderar con mayor integridad. Es el lubricante de los tres ejes.`:`La Confianza no apareció entre tus 21 valores elegidos. Esto merece una reflexión honesta. No significa que no seas una persona confiable — puede significar que la das tan por sentada que no la "ves" como un valor que necesita cultivo activo. O puede indicar que hay áreas en tu vida donde la confianza — con otros o contigo mismo — está en déficit.`}</div>
+      ${!r.tieneConf?`<div style="background:var(--bg4);border-left:2px solid #E09070;padding:11px 14px;border-radius:0 var(--r) var(--r) 0;margin-top:10px">
+        <div style="font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#E09070;margin-bottom:4px;font-weight:500">La Confianza en tu plan de acción</div>
+        <div class="ct">El modelo de Dolan considera la Confianza como el valor que sostiene a todos los demás. Sin confianza, la productividad se convierte en tensión, las relaciones en transacciones y el crecimiento interior en narcisismo. Te proponemos incluir el desarrollo de la confianza como parte de tu plan de vida. Pregúntate: ¿dónde en mi vida necesito construir más confianza — en mí mismo, en otros, o en el proceso?</div>
+      </div>`:''}
+    </div>
+
+    <!-- PLAN DE ACCIÓN -->
+    <div class="card acc">
+      <div class="cl b">Tu plan de acción — Los tres ejes</div>
+      <div class="ct" style="margin-bottom:12px">Basado en tu configuración actual, aquí están las acciones concretas que te proponemos para avanzar hacia el equilibrio:</div>
+      <div class="plan-item"><div class="pi-l">Eje Económico — Acción</div><div class="ct">${planEco(r.eco)}</div></div>
+      <div class="plan-item g"><div class="pi-l">Eje Ético-Social — Acción</div><div class="ct">${planEti(r.eti)}</div></div>
+      <div class="plan-item p"><div class="pi-l">Eje Emocional — Acción</div><div class="ct">${planEmo(r.emo)}</div></div>
+      ${!r.tieneConf?`<div class="plan-item r"><div class="pi-l">La Confianza — Acción prioritaria</div><div class="ct"><strong style="color:var(--gold3)">Acción:</strong> Esta semana identifica una relación donde la confianza podría estar más presente — contigo mismo o con alguien importante. Escribe qué necesitaría pasar para que esa confianza creciera. La Confianza no es un valor que se declara — se construye con actos pequeños y consistentes.</div></div>`:''}
+    </div>
+
+    ${rrH('dolan-ref','Mi reflexión sobre mis valores','¿Te sorprendió cómo quedó distribuida tu selección? ¿Hay algo que confirma lo que ya sabías de ti? ¿Y algo que no esperabas?')}
+    ${rrH('dolan-plan','Mi compromiso de acción','De las acciones propuestas, ¿cuál te comprometes a hacer esta semana? Sé específico: ¿qué harás, cuándo y cómo lo medirás?','b')}
+
+    <div class="cierre">
+      <div class="cierre-t">Tienes el mapa más completo de quien eres</div>
+      <p>Has respondido <strong style="color:var(--gold3)">¿Quién soy?</strong> y <strong style="color:var(--gold3)">¿Desde dónde actúo?</strong> con una profundidad que pocas personas alcanzan. Ahora es hora de ver todo junto.</p>
+      <p style="margin-top:10px">Abre el archivo <strong style="color:var(--gold3)">4-perfil.html</strong> para ver tu perfil integrado y crear tu declaración de propósito.</p>
+    </div>
+
+    <div class="nav"><button class="bn" onclick="retro()">Anterior</button>
+    <button class="bs" onclick="irA(2);bDinamica()" style="opacity:.7">Repetir la dinámica</button></div>`;
+}
+
+buildWidgetPrincipios("dolan", document.body, function() {
+  init();
+});
+
+// INIT VIDEO BANNER
+(function(){
+  var vdb = document.getElementById("vid-banner-dolan");
+  var vdp = document.getElementById("vid-player-dolan");
+  var url = window.VIDEOS_MODULO && window.VIDEOS_MODULO["dolan"] || "";
+  if(url && vdb && vdp){
+    var m2 = url.match(/(?:v=|youtu\.be\/|embed\/)([\w-]{11})/);
+    if(m2){
+      var ifr = document.createElement("iframe");
+      ifr.src = "https://www.youtube.com/embed/" + m2[1] + "?rel=0";
+      ifr.allow = "accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture";
+      ifr.allowFullscreen = true;
+      vdp.innerHTML = "";
+      vdp.appendChild(ifr);
+    }
+    vdb.classList.add("show");
+  } else if(vdb){
+    vdb.classList.add("show");
+  }
+})();
+</script>
+
+<!-- BOTON BRUJULA -->
+<div class="brujula-btn-fixed" id="brujulaFloat">
+  <div class="brujula-toast" id="brujulaToast">Registra lo que descubriste en tu Brújula de Propósito</div>
+  <a class="brujula-btn" href="brujula-proposito.html" title="Mi Brújula de Propósito">
+    <div class="brujula-btn-icon">∀</div>
+    <div class="brujula-btn-txt">Mi Brújula</div>
+  </a>
+</div>
+<script>
+// Mostrar toast motivacional a los 90 segundos de estar en el módulo
+setTimeout(function(){
+  var t=document.getElementById("brujulaToast");
+  if(t){t.classList.add("show");setTimeout(function(){t.classList.remove("show");},5000);}
+},90000);
+</script>
+
+
+<!-- CREDITOS DOLAN -->
+<div class="creditos-blk" style="max-width:740px;margin:20px auto">
+  <div class="creditos-txt">
+    La metodología de valores utilizada en este módulo está basada en el trabajo de
+    <strong style="color:var(--dim)">Salvador García y Shimon Dolan</strong>
+    — <em>La Gestión por Valores</em> (2003) —
+    adaptada al proceso ∀normal / Café con Propósito
+    por Germán Alonso Moreno Contreras.
+  </div>
+</div>
+
+</body>
+</html>

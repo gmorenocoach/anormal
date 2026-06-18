@@ -1,0 +1,1648 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mis Ciclos de Vida · ∀normal</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Barlow:wght@300;400;500&family=Barlow+Condensed:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0A0F1E;--bg2:#0E1525;--bg3:#131D30;--bg4:#1A2640;
+--gold:#C9A84C;--gold2:#E8C96A;--gold3:#F5E0A0;
+--gd:rgba(201,168,76,.13);--gb:rgba(201,168,76,.28);
+--text:#EAE6DC;--dim:#8A95A8;--faint:#3A4558;
+--acc:#4A9EBF;--acd:rgba(74,158,191,.13);--acb:rgba(74,158,191,.28);
+--grn:#4ABF7A;--grd:rgba(74,191,122,.12);--grb:rgba(74,191,122,.28);
+--red:#BF6A4A;--rdd:rgba(191,106,74,.12);--rdb:rgba(191,106,74,.28);
+--pur:#9B7FD4;--pud:rgba(155,127,212,.12);--pub:rgba(155,127,212,.28);
+--r:4px;--rm:8px;--rl:14px}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font-weight:300;font-size:15px;line-height:1.65;min-height:100vh}
+body::before{content:"";position:fixed;inset:0;background:radial-gradient(ellipse at 20% 50%,rgba(201,168,76,.04),transparent 60%),radial-gradient(ellipse at 80% 20%,rgba(74,158,191,.04),transparent 50%);pointer-events:none;z-index:0}
+.app{position:relative;z-index:1;max-width:740px;margin:0 auto;padding:0 22px 80px}
+.prog{display:flex;align-items:center;margin-bottom:32px;overflow-x:auto;padding-bottom:3px}
+.ps{display:flex;align-items:center;gap:6px;white-space:nowrap;padding:3px 0;cursor:default}
+.ps.done{cursor:pointer}
+.pn{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:500;border:1px solid var(--faint);color:var(--faint);transition:all .3s;flex-shrink:0}
+.ps.done .pn{border-color:var(--gold);color:var(--gold);background:var(--gd)}
+.ps.act .pn{border-color:var(--gold2);color:var(--bg);background:var(--gold2)}
+.ptxt{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);transition:color .3s}
+.ps.done .ptxt,.ps.act .ptxt{color:var(--gold)}
+.pln{flex:1;min-width:10px;height:1px;background:var(--faint);margin:0 6px;opacity:.2}
+.pln.done{background:var(--gold);opacity:.4}
+.panel{display:none}.panel.act{display:block;animation:fu .4s ease}
+@keyframes fu{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.pbadge{display:inline-flex;align-items:center;gap:8px;background:var(--gd);border:1px solid var(--gb);border-radius:var(--rl);padding:7px 15px;margin-bottom:18px}
+.pbadge-q{font-family:"Cormorant Garamond",serif;font-size:20px;color:var(--gold2);font-weight:300;font-style:italic}
+.pbadge-s{font-size:11px;color:var(--dim);margin-top:1px}
+.ph{margin-bottom:24px}
+.ph-s{font-family:"Barlow Condensed",sans-serif;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:5px}
+.ph-t{font-family:"Cormorant Garamond",serif;font-size:clamp(20px,4vw,30px);font-weight:300;color:var(--gold2);line-height:1.15;margin-bottom:5px}
+.ph-d{font-size:13px;color:var(--dim);line-height:1.8;max-width:520px}
+.card{background:var(--bg2);border:1px solid rgba(255,255,255,.055);border-radius:var(--rl);padding:20px 24px;margin-bottom:13px}
+.card.gold{border-color:var(--gb);background:linear-gradient(135deg,var(--bg2),var(--bg3))}
+.card.acc{border-color:var(--acb)}
+.card.pur{border-color:var(--pub);background:linear-gradient(135deg,var(--bg2),rgba(155,127,212,.04))}
+.card.red{border-color:var(--rdb);background:linear-gradient(135deg,var(--bg2),rgba(191,106,74,.04))}
+.card.grn{border-color:var(--grb)}
+.cl{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:10px}
+.cl.b{color:var(--acc)}.cl.p{color:var(--pur)}.cl.r{color:#E09070}.cl.g{color:var(--grn)}
+.ct{font-size:13px;color:var(--dim);line-height:1.8}
+.dv{height:1px;background:var(--gb);margin:16px 0;opacity:.3}
+.il{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-bottom:6px;display:block}
+.inp{background:var(--bg3);border:1px solid rgba(255,255,255,.07);border-radius:var(--r);color:var(--text);font-family:"Barlow",sans-serif;font-size:15px;font-weight:300;padding:10px 14px;width:100%;outline:none;transition:border-color .2s}
+.inp:focus{border-color:var(--gold)}
+.inp::placeholder{color:var(--faint)}
+.irow{display:flex;gap:10px;flex-wrap:wrap}
+.bp{background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--bg);border:none;border-radius:var(--r);font-family:"Barlow Condensed",sans-serif;font-size:12px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;padding:12px 28px;cursor:pointer;transition:opacity .2s,transform .15s}
+.bp:hover{opacity:.9;transform:translateY(-1px)}
+.bs{background:transparent;color:var(--gold);border:1px solid var(--gb);border-radius:var(--r);font-family:"Barlow Condensed",sans-serif;font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;padding:9px 20px;cursor:pointer;transition:all .2s}
+.bs:hover{background:var(--gd)}
+.bn{background:transparent;color:var(--dim);border:1px solid rgba(255,255,255,.07);border-radius:var(--r);font-family:"Barlow",sans-serif;font-size:13px;padding:9px 18px;cursor:pointer;transition:all .2s}
+.bn:hover{border-color:var(--gold);color:var(--gold)}
+.tag{display:inline-block;font-size:11px;padding:3px 10px;border-radius:20px;margin:2px 2px 2px 0}
+.tg{background:var(--gd);color:var(--gold2);border:1px solid var(--gb)}
+.tb{background:var(--acd);color:var(--acc);border:1px solid var(--acb)}
+.tgr{background:var(--grd);color:var(--grn);border:1px solid var(--grb)}
+.tr{background:var(--rdd);color:#E09070;border:1px solid var(--rdb)}
+.tp{background:var(--pud);color:var(--pur);border:1px solid var(--pub)}
+/* Grilla septenios */
+.sept-grid{margin:16px 0}
+.sept-fila{display:flex;gap:5px;margin-bottom:5px}
+.sept-fila-label{font-size:9px;letter-spacing:.07em;text-transform:uppercase;color:var(--faint);width:62px;flex-shrink:0;text-align:right;padding-right:8px;padding-top:18px;line-height:1.3}
+.sept-cell{flex:1;min-height:60px;border-radius:var(--rm);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:all .22s;border:1.5px solid;padding:6px 3px;text-align:center}
+.sept-cell:hover{transform:translateY(-3px)}
+.sept-cell.actual{border-width:2.5px}
+.sept-cell.pasado{opacity:.8}
+.sept-cell.futuro{opacity:.4}
+.sc-n{font-family:"Cormorant Garamond",serif;font-size:22px;font-weight:300;line-height:1}
+.sc-e{font-size:9px;opacity:.7;font-family:"Barlow Condensed",sans-serif;margin-top:2px}
+.tipo-cuerpo{background:rgba(74,191,122,.1);border-color:rgba(74,191,122,.3);color:var(--grn)}
+.tipo-sentir{background:rgba(155,127,212,.1);border-color:rgba(155,127,212,.3);color:var(--pur)}
+.tipo-ser{background:rgba(74,158,191,.1);border-color:rgba(74,158,191,.3);color:var(--acc)}
+/* Panel expandido */
+.ciclo-det{background:var(--bg3);border-radius:var(--rl);padding:24px;margin:8px 0 13px;display:none;animation:fu .3s ease;border:1px solid var(--gb)}
+.ciclo-det.open{display:block}
+/* Género & pareja */
+.opt-btns{display:flex;gap:8px;flex-wrap:wrap}
+.opt-btn{flex:1;min-width:80px;padding:10px;border-radius:var(--r);font-family:"Barlow",sans-serif;font-size:13px;cursor:pointer;border:1px solid rgba(255,255,255,.1);background:var(--bg3);color:var(--dim);transition:all .2s;text-align:center}
+.opt-btn.on-grn{background:var(--grd);border-color:var(--grb);color:var(--grn)}
+.opt-btn.on-pur{background:var(--pud);border-color:var(--pub);color:var(--pur)}
+.opt-btn.on-acc{background:var(--acd);border-color:var(--acb);color:var(--acc)}
+.opt-btn.on-gold{background:var(--gd);border-color:var(--gb);color:var(--gold2)}
+/* Patrón */
+.pat-row{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin:10px 0}
+.pat-cell{border-radius:var(--r);padding:7px 12px;border:1px solid;display:flex;flex-direction:column;align-items:center;min-width:52px;font-family:"Cormorant Garamond",serif;font-size:18px;font-weight:300}
+.pat-or{border-color:var(--rdb);color:#E09070;background:var(--rdd)}
+.pat-ac{border-color:var(--gold2);color:var(--gold2);background:var(--gd);border-width:2px}
+.pat-ar{color:var(--faint);font-size:16px}
+.pat-l{font-size:9px;color:var(--faint);margin-top:2px;font-family:"Barlow",sans-serif}
+/* Dolor checklist */
+.dc{display:flex;align-items:flex-start;gap:10px;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.04);cursor:pointer}
+.dc:last-child{border-bottom:none}
+.dcb{width:18px;height:18px;border-radius:4px;border:1.5px solid var(--faint);flex-shrink:0;margin-top:2px;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.dc.on .dcb{background:var(--red);border-color:var(--red)}
+.dc.on .dcb::after{content:"\2713";font-size:11px;color:var(--bg);font-weight:600}
+.dc-t{font-size:13px;color:var(--text);font-weight:400;margin-bottom:1px}
+.dc-d{font-size:12px;color:var(--dim);line-height:1.5}
+/* Alerta de cuidado */
+.alerta-cuidado{background:rgba(155,127,212,.08);border:1px solid var(--pub);border-radius:var(--rm);padding:14px 16px;margin:10px 0;display:none}
+.alerta-cuidado.show{display:block}
+/* Pregunta */
+.preg{background:var(--bg4);border-radius:var(--rm);padding:14px 16px;margin-bottom:10px}
+.preg-n{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:4px;font-weight:500}
+.preg-t{font-size:13px;color:var(--text);font-weight:400;margin-bottom:6px;line-height:1.65}
+.preg-h{font-size:12px;color:var(--dim);line-height:1.55;margin-bottom:8px}
+.rta{background:var(--bg2);border:1px solid rgba(255,255,255,.07);border-radius:var(--r);color:var(--text);font-family:"Barlow",sans-serif;font-size:13px;font-weight:300;padding:10px 12px;width:100%;min-height:68px;outline:none;resize:vertical;line-height:1.65;transition:border-color .2s}
+.rta:focus{border-color:var(--gold)}
+.rta::placeholder{color:var(--faint)}
+/* Reto */
+.rr{background:var(--bg4);border:1px solid var(--gb);border-radius:var(--rm);padding:14px 16px;margin:9px 0}
+.rr-l{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:6px;font-weight:500}
+.rr.b{border-color:var(--acb)}.rr.b .rr-l{color:var(--acc)}
+.rr.p{border-color:var(--pub)}.rr.p .rr-l{color:var(--pur)}
+.rr p{font-size:13px;color:var(--dim);line-height:1.75;margin-bottom:8px}
+.rchk{display:flex;align-items:center;gap:8px;margin-top:7px;cursor:pointer}
+.rchk input{width:15px;height:15px;accent-color:var(--gold);cursor:pointer}
+.rchk label{font-size:12px;color:var(--dim);cursor:pointer}
+.rdone{display:inline-flex;align-items:center;gap:5px;font-size:11px;color:var(--grn);padding:3px 9px;background:var(--grd);border:1px solid var(--grb);border-radius:12px;margin-top:5px}
+.dmsg{background:linear-gradient(135deg,rgba(201,168,76,.07),rgba(74,158,191,.05));border:1px solid var(--gb);border-radius:var(--rl);padding:15px 20px;margin-bottom:14px;text-align:center}
+.dm-l{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:5px}
+.dm-t{font-family:"Cormorant Garamond",serif;font-size:15px;font-style:italic;color:var(--gold3);line-height:1.8}
+.cierre{background:linear-gradient(135deg,var(--bg3),var(--bg2));border:1px solid var(--gb);border-radius:var(--rl);padding:20px 24px;margin-top:18px;text-align:center}
+.cierre-t{font-family:"Cormorant Garamond",serif;font-size:18px;color:var(--gold2);margin-bottom:8px;font-style:italic}
+.cierre p{font-size:13px;color:var(--dim);line-height:1.75;max-width:460px;margin:0 auto}
+.nav{display:flex;justify-content:space-between;align-items:center;margin-top:24px;padding-top:15px;border-top:1px solid rgba(255,255,255,.05)}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--gb);border-radius:2px}
+@media(max-width:560px){.app{padding:0 14px 60px}.sept-fila-label{width:44px}}
+
+
+
+/* VIDEO BANNER */
+.vid-banner{background:linear-gradient(135deg,rgba(201,168,76,.07),rgba(74,158,191,.04));border:1px solid rgba(201,168,76,.2);border-radius:14px;overflow:hidden;margin:0 22px 20px;display:none}
+.vid-banner.show{display:block}
+.vid-banner-hdr{padding:10px 16px;border-bottom:1px solid rgba(255,255,255,.05);display:flex;align-items:center;justify-content:space-between}
+.vid-banner-lbl{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#C9A84C;font-weight:500;font-family:Barlow Condensed,sans-serif}
+.vid-banner-mod{font-size:11px;color:#8A95A8}
+.vid-banner-player{position:relative;width:100%;aspect-ratio:16/9;background:#060A14}
+.vid-banner-player iframe{position:absolute;inset:0;width:100%;height:100%;border:none}
+.vid-banner-ph{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center;padding:20px}
+.vid-ph-icon{width:44px;height:44px;border-radius:50%;background:rgba(201,168,76,.13);border:1.5px solid rgba(201,168,76,.28);display:flex;align-items:center;justify-content:center;font-size:16px;color:#E8C96A}
+.vid-ph-t{font-family:Cormorant Garamond,serif;font-size:15px;color:#E8C96A;font-weight:300}
+.vid-ph-d{font-size:11px;color:#3A4558;line-height:1.55;max-width:240px}
+@media(max-width:560px){.vid-banner{margin:0 14px 16px}}
+
+
+/* BOTON BRUJULA */
+.brujula-btn-fixed{position:fixed;bottom:22px;right:22px;z-index:500;display:flex;flex-direction:column;align-items:flex-end;gap:6px}
+.brujula-btn{display:flex;align-items:center;gap:8px;background:linear-gradient(135deg,rgba(201,168,76,.15),rgba(201,168,76,.08));border:1px solid rgba(201,168,76,.35);border-radius:30px;padding:10px 16px;cursor:pointer;transition:all .25s;text-decoration:none;backdrop-filter:blur(8px)}
+.brujula-btn:hover{background:linear-gradient(135deg,rgba(201,168,76,.25),rgba(201,168,76,.15));border-color:rgba(201,168,76,.6);transform:translateY(-2px)}
+.brujula-btn-icon{font-family:"Cormorant Garamond",serif;font-size:18px;color:var(--gold2);font-weight:300;line-height:1}
+.brujula-btn-txt{font-size:11px;font-family:"Barlow Condensed",sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--gold2);font-weight:500}
+.brujula-toast{background:var(--bg3);border:1px solid var(--gb);border-radius:var(--rm,10px);padding:9px 14px;font-size:12px;color:var(--gold3);font-family:"Barlow",sans-serif;max-width:220px;text-align:right;line-height:1.5;display:none;animation:btoast .3s ease}
+.brujula-toast.show{display:block}
+@keyframes btoast{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
+
+/* CHECKLIST CICLOS */
+.ciclo-checklist{background:var(--bg3);border-radius:var(--rl);padding:16px 18px;margin:12px 0;border:1px solid rgba(255,255,255,.07)}
+.ciclo-checklist-titulo{font-size:10px;letter-spacing:.16em;text-transform:uppercase;font-weight:500;margin-bottom:10px;font-family:"Barlow Condensed",sans-serif}
+.ciclo-check-grupo{margin-bottom:12px}
+.ciclo-check-lbl{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);margin-bottom:6px;font-weight:500}
+.ciclo-check-item{display:flex;align-items:flex-start;gap:8px;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.04);cursor:pointer}
+.ciclo-check-item:last-child{border-bottom:none}
+.ciclo-chk{width:16px;height:16px;border-radius:3px;border:1.5px solid var(--faint);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s;margin-top:2px}
+.ciclo-chk.on{background:var(--grn);border-color:var(--grn)}
+.ciclo-check-txt{font-size:12px;color:var(--dim);flex:1;line-height:1.5;transition:color .2s}
+.ciclo-check-item:hover .ciclo-check-txt{color:var(--text)}
+.ciclo-check-item.marcado .ciclo-check-txt{color:var(--text)}
+.ecg-conexion-blk{background:linear-gradient(135deg,rgba(212,83,126,.08),rgba(155,127,212,.06));border:1px solid rgba(212,83,126,.25);border-radius:var(--rm);padding:12px 15px;margin-top:10px}
+.ecg-conexion-lbl{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#D4537E;font-weight:500;margin-bottom:5px;font-family:"Barlow Condensed",sans-serif}
+.ecg-conexion-txt{font-size:12px;color:var(--text);line-height:1.65}
+.ecg-btn{display:inline-flex;align-items:center;gap:6px;margin-top:9px;padding:7px 14px;border-radius:20px;background:rgba(212,83,126,.1);border:1px solid rgba(212,83,126,.3);cursor:pointer;text-decoration:none;transition:all .2s}
+.ecg-btn:hover{background:rgba(212,83,126,.2)}
+.ecg-btn-txt{font-size:11px;color:#D4537E;font-family:"Barlow Condensed",sans-serif;font-weight:500;letter-spacing:.1em;text-transform:uppercase}
+.checklist-resumen{background:var(--bg4);border-radius:var(--rm);padding:10px 13px;margin-top:10px;font-size:12px;color:var(--dim)}
+.checklist-resumen strong{color:var(--gold3)}
+
+</style>
+</head>
+<body>
+
+<!-- VIDEO BANNER: Ciclos de Vida -->
+<div class="vid-banner" id="vid-banner-septenios">
+  <div class="vid-banner-hdr">
+    <div class="vid-banner-lbl">Introducción al módulo</div>
+    <div class="vid-banner-mod">Ciclos de Vida</div>
+  </div>
+  <div class="vid-banner-player" id="vid-player-septenios">
+    <div class="vid-banner-ph">
+      <div class="vid-ph-icon">&#9654;</div>
+      <div class="vid-ph-t">Video de introducción</div>
+      <div class="vid-ph-d">Alonso te explica lo que encontrarás en este módulo y cómo aprovecharlo al máximo.</div>
+    </div>
+  </div>
+</div>
+<div class="app" id="app"></div>
+<script>
+
+// ============================================================
+// WIDGET DE PRINCIPIOS Y COMPROMISOS - Anormal / Cafe con Proposito
+// v2.0 - Con recordatorio no negociable y orden original de principios
+// ============================================================
+
+var MODULO_PRINCIPIOS = {"bienvenida":[1,4,14],"rueda":[11,12],"elementos":[11,12],"camino":[5,9],"subnums":[5],"mapa":[9],"flechas":[9],"nombre":[5,9],"personas":[9,13],"dolan":[12,13],"perfil":[9],"septenios":[3,16],"ecg":[2,10],"nino":[2,3,7],"ikigai":[6,8,17],"ciclo":[15,16],"plan":[13,15,16],"dashboard":[18,9]};
+
+var PRINCIPIOS_DB = [{"num": 1, "titulo": "\u2200gradecer", "sesion": "bienvenida", "color": "#C9A84C", "no_negociable": "Mientras avanzas en este proceso, la gratitud no es opcional. Es el lente desde el que lees cada resultado, cada ejercicio, cada descubrimiento sobre ti mismo."}, {"num": 2, "titulo": "\u2200vanza en el perd\u00f3n", "sesion": "sesion3", "color": "#D4537E", "no_negociable": "Sin perd\u00f3n no hay transformaci\u00f3n real. Puedes completar todos los ejercicios \u2014 pero si cargas resentimiento, el proceso no puede hacer su trabajo completo."}, {"num": 3, "titulo": "\u2200provecha el dolor", "sesion": "sesion3", "color": "#D4537E", "no_negociable": "El dolor que emerja en este proceso no es se\u00f1al de que algo sale mal. Es la se\u00f1al de que algo est\u00e1 cambiando. No te detengas."}, {"num": 4, "titulo": "\u2200p\u00fantale al compromiso", "sesion": "bienvenida", "color": "#C9A84C", "no_negociable": "Ya te comprometiste al entrar. Ese compromiso no vence. Cada vez que sientas que quieres pausar, recuerda: te comprometiste antes de saber el c\u00f3mo. Conf\u00eda."}, {"num": 5, "titulo": "\u2200prende a normalizar lo extraordinario", "sesion": "sesion2", "color": "#9B7FD4", "no_negociable": "Lo que descubras sobre ti en esta sesi\u00f3n debe convertirse en tu nueva normalidad, no en un dato interesante que olvidas en una semana."}, {"num": 6, "titulo": "\u2200taca el miedo", "sesion": "sesion4", "color": "#E8C96A", "no_negociable": "Declarar tu prop\u00f3sito de vida activa todos tus miedos. Eso es normal y es buena se\u00f1al. La \u00fanica respuesta \u2200normal es seguir avanzando."}, {"num": 7, "titulo": "\u2200prende cero excusas", "sesion": "sesion3", "color": "#D4537E", "no_negociable": "Una excusa no te saca del proceso. Te saca de tu m\u00e1ximo potencial. Recuerda tu compromiso."}, {"num": 8, "titulo": "\u2200prende a pagar el precio", "sesion": "sesion4", "color": "#E8C96A", "no_negociable": "Vivir tu prop\u00f3sito tiene un precio real. Identificarlo aqu\u00ed y aceptarlo es el acto de honestidad que hace que el plan de vida funcione."}, {"num": 9, "titulo": "\u2200sume responsabilidad total", "sesion": "sesion2", "color": "#9B7FD4", "no_negociable": "Lo que tu numerolog\u00eda y tus valores revelan no es un destino fijo. Es un mapa. T\u00fa decides c\u00f3mo usarlo. Eso es responsabilidad total."}, {"num": 10, "titulo": "\u2200poyo emocional como combustible", "sesion": "sesion3", "color": "#D4537E", "no_negociable": "El dolor emocional que emerge en esta sesi\u00f3n no es un obst\u00e1culo. Es combustible. La intensidad que sientes es proporcional a la transformaci\u00f3n que viene."}, {"num": 11, "titulo": "\u2200palancamiento: la verdad contigo mismo", "sesion": "sesion1", "color": "#C9A84C", "no_negociable": "El diagn\u00f3stico solo funciona si eres brutalmente honesto. El n\u00famero que le das a cada \u00e1rea de tu vida debe reflejar la realidad, no c\u00f3mo quisieras que fuera."}, {"num": 12, "titulo": "\u2200doptas lo que toleras", "sesion": "sesion1", "color": "#C9A84C", "no_negociable": "Las \u00e1reas con calificaci\u00f3n baja son exactamente lo que has estado tolerando. Verlo sin juzgarte es el primer paso. Seguir toler\u00e1ndolo despu\u00e9s de verlo es la excusa."}, {"num": 13, "titulo": "\u2200pr\u00f3piate la insatisfacci\u00f3n", "sesion": "sesion2", "color": "#9B7FD4", "no_negociable": "La brecha entre tus valores declarados y los que realmente vives no es una falla \u2014 es informaci\u00f3n. Usa esa insatisfacci\u00f3n como motor, no como excusa."}, {"num": 14, "titulo": "\u2200dopta m\u00e9todos probados", "sesion": "bienvenida", "color": "#C9A84C", "no_negociable": "Esta plataforma integra metodolog\u00edas con d\u00e9cadas de validaci\u00f3n. Tu trabajo es aplicarlas con honestidad, no cuestionarlas antes de vivirlas."}, {"num": 15, "titulo": "\u2200lcanza el resultado, luego mejora", "sesion": "sesion5", "color": "#4ABF7A", "no_negociable": "Tu plan de vida no necesita ser perfecto para empezar. Necesita ser tuyo y necesita empezar. La acci\u00f3n imperfecta ejecutada vale m\u00e1s que el plan perfecto que nunca sale."}, {"num": 16, "titulo": "\u2200celera el proceso", "sesion": "sesion5", "color": "#4ABF7A", "no_negociable": "Cada d\u00eda que pasa sin ejecutar el plan es un d\u00eda que no vuelve. La urgencia no es ansiedad \u2014 es el respeto que le tienes a tu propio tiempo."}, {"num": 17, "titulo": "\u2200tenci\u00f3n y enfoque constante", "sesion": "sesion4", "color": "#E8C96A", "no_negociable": "Haz este m\u00f3dulo sin interrupciones. Lo que emerja es proporcional a tu concentraci\u00f3n."}, {"num": 18, "titulo": "\u2200lcanzas la anormalidad", "sesion": "sesion5", "color": "#4ABF7A", "no_negociable": "Completar este proceso te convierte en alguien diferente. Esa diferencia ser\u00e1 visible \u2014 y no todos la aplaudir\u00e1n. Esa resistencia confirma que el proceso funcion\u00f3."}];
+
+// Principios acumulados que el participante ya ha visto
+var PRINCIPIOS_VISTOS = (function(){
+  var v = {};
+  PRINCIPIOS_DB.forEach(function(pr){ v[pr.num] = false; });
+  return v;
+})();
+
+function buildWidgetPrincipios(moduloId, contenedor, onComplete) {
+  var principiosIds = MODULO_PRINCIPIOS[moduloId] || [];
+  if (!principiosIds.length) { if (onComplete) onComplete(); return; }
+
+  // Principios acumulados anteriores (ya vistos en modulos previos)
+  var anteriores = [];
+  PRINCIPIOS_DB.forEach(function(pr){
+    if(PRINCIPIOS_VISTOS[pr.num] && principiosIds.indexOf(pr.num) < 0){
+      anteriores.push(pr);
+    }
+  });
+
+  var compromisos_mod = {};
+  var paso = 0;
+  // Fases: -1=recordatorio, 0..N-1=principios, N=compromisos
+  var FASE_RECORD = -1;
+  var totalPasos = principiosIds.length + 1;
+  var hayAnteriores = anteriores.length > 0;
+
+  // Crear overlay
+  var overlay = document.createElement("div");
+  overlay.style.cssText = "position:fixed;inset:0;background:rgba(4,8,16,.97);z-index:2000;display:flex;align-items:center;justify-content:center;padding:16px;animation:wfadeIn .3s ease";
+
+  var box = document.createElement("div");
+  box.style.cssText = "background:#0A0F1E;border:1px solid rgba(201,168,76,.25);border-radius:20px;width:100%;max-width:560px;max-height:92vh;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 24px 64px rgba(0,0,0,.6)";
+
+  // Header
+  var hdr = document.createElement("div");
+  hdr.style.cssText = "padding:18px 22px 14px;border-bottom:1px solid rgba(255,255,255,.06);flex-shrink:0";
+  var htop = document.createElement("div");
+  htop.style.cssText = "display:flex;align-items:center;justify-content:space-between;margin-bottom:10px";
+  var hlogo = document.createElement("div");
+  hlogo.style.cssText = "font-family:Cormorant Garamond,serif;font-size:20px;color:#E8C96A;font-weight:300;letter-spacing:.02em";
+  hlogo.textContent = "\u2200normal";
+  var hstep = document.createElement("div");
+  hstep.id = "wp-step";
+  hstep.style.cssText = "font-size:10px;color:#3A4558;letter-spacing:.12em;text-transform:uppercase;font-family:Barlow Condensed,sans-serif";
+  htop.appendChild(hlogo); htop.appendChild(hstep);
+  var hbar = document.createElement("div");
+  hbar.style.cssText = "height:2px;background:#1A2640;border-radius:1px;overflow:hidden";
+  var hfill = document.createElement("div");
+  hfill.id = "wp-fill";
+  hfill.style.cssText = "height:100%;background:linear-gradient(90deg,#C9A84C,#E8C96A);border-radius:1px;transition:width .4s ease;width:0%";
+  hbar.appendChild(hfill); hdr.appendChild(htop); hdr.appendChild(hbar);
+  box.appendChild(hdr);
+
+  // Body
+  var body = document.createElement("div");
+  body.style.cssText = "flex:1;overflow-y:auto;padding:0 22px";
+
+  // Footer
+  var ftr = document.createElement("div");
+  ftr.style.cssText = "padding:14px 22px;border-top:1px solid rgba(255,255,255,.06);flex-shrink:0;display:flex;justify-content:space-between;align-items:center;gap:10px";
+
+  function upProg(){
+    var pct = paso < 0 ? 0 : Math.round(((paso+1)/totalPasos)*100);
+    var f=document.getElementById("wp-fill"); if(f)f.style.width=pct+"%";
+    var s=document.getElementById("wp-step");
+    if(s)s.textContent = paso < 0 ? "Recordatorio" : paso < principiosIds.length ? "Principio "+(paso+1)+" de "+principiosIds.length : "Mis compromisos";
+  }
+
+  function showPaso(){
+    body.innerHTML=""; ftr.innerHTML=""; upProg();
+
+    // FASE RECORDATORIO
+    if(paso===FASE_RECORD && hayAnteriores){
+      var sec=document.createElement("div"); sec.style.cssText="padding:20px 0";
+      var icon=document.createElement("div");icon.style.cssText="text-align:center;margin-bottom:16px";
+      var iconInner=document.createElement("div");iconInner.style.cssText="display:inline-flex;align-items:center;justify-content:center;width:52px;height:52px;border-radius:50%;background:rgba(212,83,126,.12);border:1.5px solid rgba(212,83,126,.35)";
+      iconInner.innerHTML="<span style='font-size:22px;color:#D4537E'>!</span>";
+      icon.appendChild(iconInner); sec.appendChild(icon);
+
+      var rt=document.createElement("div");rt.style.cssText="font-family:Cormorant Garamond,serif;font-size:22px;color:#E8C96A;text-align:center;margin-bottom:8px;font-weight:300;line-height:1.3";
+      rt.textContent="Antes de continuar"; sec.appendChild(rt);
+
+      var rs=document.createElement("div");rs.style.cssText="font-size:13px;color:#8A95A8;text-align:center;margin-bottom:18px;line-height:1.75;max-width:400px;margin-left:auto;margin-right:auto";
+      rs.innerHTML="Los principios que has aceptado <strong style='color:#F5E0A0'>no son opcionales ni negociables</strong>. Son el estándar que elegiste cuando decidiste entrar al camino ∀normal.";
+      sec.appendChild(rs);
+
+      var aviso=document.createElement("div");aviso.style.cssText="background:rgba(212,83,126,.07);border:1px solid rgba(212,83,126,.2);border-radius:12px;padding:14px 16px;margin-bottom:14px";
+      var avisoT=document.createElement("div");avisoT.style.cssText="font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#D4537E;font-weight:500;margin-bottom:8px;font-family:Barlow Condensed,sans-serif";
+      avisoT.textContent="Recuerda — Principios que ya aceptaste";aviso.appendChild(avisoT);
+      anteriores.slice(-3).forEach(function(pr){
+        var prow=document.createElement("div");prow.style.cssText="display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.04)";
+        var pn=document.createElement("div");pn.style.cssText="font-family:Cormorant Garamond,serif;font-size:18px;font-weight:300;color:"+pr.color+";min-width:30px";pn.textContent="∀"+pr.num;
+        var pt=document.createElement("div");pt.style.cssText="font-size:12px;color:#8A95A8";pt.textContent=pr.titulo;
+        prow.appendChild(pn);prow.appendChild(pt);aviso.appendChild(prow);
+      });
+      if(anteriores.length>3){var mas=document.createElement("div");mas.style.cssText="font-size:11px;color:#3A4558;margin-top:6px;text-align:center";mas.textContent="+ "+(anteriores.length-3)+" principios anteriores";aviso.appendChild(mas);}
+      sec.appendChild(aviso);
+
+      var pregunta=document.createElement("div");pregunta.style.cssText="background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.2);border-radius:10px;padding:12px 16px;text-align:center";
+      pregunta.innerHTML="<span style='font-family:Cormorant Garamond,serif;font-size:16px;color:#E8C96A;font-style:italic'>Una excusa no te saca de la plataforma — te saca de tu máximo potencial.<br>¿Sigues dentro del camino ∀normal?</span>";
+      sec.appendChild(pregunta);
+      body.appendChild(sec);
+
+      ftr.appendChild(document.createElement("span"));
+      var btnSi=document.createElement("button");btnSi.style.cssText="background:linear-gradient(135deg,#C9A84C,#E8C96A);color:#060A14;border:none;border-radius:4px;font-family:Barlow Condensed,sans-serif;font-size:12px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;padding:11px 26px;cursor:pointer";
+      btnSi.textContent="Sí, sigo dentro";
+      btnSi.onclick=function(){paso=0;showPaso();};
+      ftr.appendChild(btnSi);
+      return;
+    }
+
+    // FASE PRINCIPIOS
+    if(paso >= 0 && paso < principiosIds.length){
+      var pId=principiosIds[paso];
+      var pr=PRINCIPIOS_DB.find(function(p2){return p2.num===pId;});
+      if(!pr){paso++;showPaso();return;}
+      PRINCIPIOS_VISTOS[pr.num]=true;
+
+      var sec2=document.createElement("div");sec2.style.cssText="padding:20px 0";
+      var numDiv=document.createElement("div");numDiv.style.cssText="font-family:Cormorant Garamond,serif;font-size:60px;font-weight:300;line-height:1;color:"+pr.color+";opacity:.2;margin-bottom:2px";numDiv.textContent="∀"+pr.num;
+      sec2.appendChild(numDiv);
+      var tit=document.createElement("div");tit.style.cssText="font-family:Cormorant Garamond,serif;font-size:26px;font-weight:300;color:"+pr.color+";margin-bottom:14px;line-height:1.2";tit.textContent=pr.titulo;sec2.appendChild(tit);
+
+      if(pr.no_negociable){
+        var nnBlk=document.createElement("div");nnBlk.style.cssText="background:rgba(212,83,126,.07);border:1px solid rgba(212,83,126,.2);border-radius:10px;padding:11px 14px;margin-bottom:12px;display:flex;align-items:flex-start;gap:10px";
+        var nnIcon=document.createElement("div");nnIcon.style.cssText="font-size:14px;color:#D4537E;flex-shrink:0;margin-top:1px";nnIcon.textContent="!";
+        var nnTxt=document.createElement("div");
+        var nnLabel=document.createElement("div");nnLabel.style.cssText="font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#D4537E;font-weight:500;margin-bottom:4px;font-family:Barlow Condensed,sans-serif";nnLabel.textContent="No negociable";
+        var nnCont=document.createElement("div");nnCont.style.cssText="font-size:12px;color:#EAE6DC;line-height:1.65";nnCont.textContent=pr.no_negociable;
+        nnTxt.appendChild(nnLabel);nnTxt.appendChild(nnCont);nnBlk.appendChild(nnIcon);nnBlk.appendChild(nnTxt);sec2.appendChild(nnBlk);
+      }
+
+      if(pr.aplicacion){
+        var aplBlk=document.createElement("div");aplBlk.style.cssText="background:#1A2640;border-radius:10px;padding:12px 14px;border-left:3px solid "+pr.color+";margin-bottom:12px";
+        var aplL=document.createElement("div");aplL.style.cssText="font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:"+pr.color+";margin-bottom:4px;font-weight:500;font-family:Barlow Condensed,sans-serif";aplL.textContent="En este módulo";
+        var aplT=document.createElement("div");aplT.style.cssText="font-size:13px;color:#EAE6DC;line-height:1.65;font-style:italic";aplT.textContent=pr.aplicacion;
+        aplBlk.appendChild(aplL);aplBlk.appendChild(aplT);sec2.appendChild(aplBlk);
+      }
+
+      body.appendChild(sec2);
+
+      var btnP=paso>0?document.createElement("button"):document.createElement("span");
+      if(paso>0){btnP.style.cssText="background:transparent;color:#3A4558;border:1px solid #1E2A3A;border-radius:4px;font-family:Barlow,sans-serif;font-size:13px;padding:9px 16px;cursor:pointer";btnP.textContent="Anterior";btnP.onclick=function(){paso--;showPaso();};}
+      ftr.appendChild(btnP);
+      var btnN2=document.createElement("button");btnN2.style.cssText="background:linear-gradient(135deg,#C9A84C,#E8C96A);color:#060A14;border:none;border-radius:4px;font-family:Barlow Condensed,sans-serif;font-size:12px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;padding:11px 26px;cursor:pointer";
+      btnN2.textContent=paso<principiosIds.length-1?"Siguiente principio":"Mis compromisos";
+      btnN2.onclick=function(){paso++;showPaso();};ftr.appendChild(btnN2);
+      return;
+    }
+
+    // FASE COMPROMISOS
+    var sec3=document.createElement("div");sec3.style.cssText="padding:20px 0";
+    var ct=document.createElement("div");ct.style.cssText="font-family:Cormorant Garamond,serif;font-size:22px;color:#E8C96A;margin-bottom:6px;font-weight:300";ct.textContent="Mis compromisos para este módulo";sec3.appendChild(ct);
+    var cs=document.createElement("div");cs.style.cssText="font-size:13px;color:#8A95A8;margin-bottom:18px;line-height:1.65";cs.textContent="Los principios te dieron el marco. Ahora escribe qué harás diferente a partir de hoy en este módulo.";sec3.appendChild(cs);
+    principiosIds.forEach(function(pId2){
+      var pr2=PRINCIPIOS_DB.find(function(p2){return p2.num===pId2;});if(!pr2)return;
+      var blk=document.createElement("div");blk.style.cssText="margin-bottom:14px;background:#131D30;border-radius:10px;padding:13px 15px;border-left:3px solid "+pr2.color;
+      var bt=document.createElement("div");bt.style.cssText="font-size:11px;font-weight:500;color:"+pr2.color+";margin-bottom:6px;letter-spacing:.08em;text-transform:uppercase;font-family:Barlow Condensed,sans-serif";bt.textContent="∀"+pr2.num+" · "+pr2.titulo;blk.appendChild(bt);
+      var ta=document.createElement("textarea");ta.style.cssText="background:#0A0F1E;border:1px solid rgba(255,255,255,.07);border-radius:6px;color:#EAE6DC;font-family:Barlow,sans-serif;font-size:13px;padding:9px 12px;width:100%;min-height:70px;outline:none;resize:vertical;line-height:1.6;transition:border-color .2s";
+      ta.placeholder="Describe qué cambiarás o harás diferente a partir de hoy...";ta.value=compromisos_mod["p"+pId2]||"";
+      ta.onfocus=function(){this.style.borderColor=pr2.color;};ta.onblur=function(){this.style.borderColor="rgba(255,255,255,.07)";};
+      ta.oninput=(function(pid){return function(){compromisos_mod["p"+pid]=this.value;};})(pId2);
+      blk.appendChild(ta);sec3.appendChild(blk);
+    });
+    body.appendChild(sec3);
+
+    var btnB2=document.createElement("button");btnB2.style.cssText="background:transparent;color:#3A4558;border:1px solid #1E2A3A;border-radius:4px;font-family:Barlow,sans-serif;font-size:13px;padding:9px 16px;cursor:pointer";btnB2.textContent="Revisar";btnB2.onclick=function(){paso--;showPaso();};ftr.appendChild(btnB2);
+    var btnFin=document.createElement("button");btnFin.style.cssText="background:linear-gradient(135deg,#C9A84C,#E8C96A);color:#060A14;border:none;border-radius:4px;font-family:Barlow Condensed,sans-serif;font-size:12px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;padding:11px 26px;cursor:pointer";
+    btnFin.textContent="Comenzar el módulo";
+    btnFin.onclick=function(){
+      if(window.guardarCompromisosModulo)window.guardarCompromisosModulo(moduloId,compromisos_mod);
+      document.body.removeChild(overlay);
+      if(onComplete)onComplete();
+    };
+    ftr.appendChild(btnFin);
+  }
+
+  box.appendChild(body);box.appendChild(ftr);overlay.appendChild(box);
+
+  var style=document.createElement("style");
+  style.textContent="@keyframes wfadeIn{from{opacity:0}to{opacity:1}} .wp-scroll::-webkit-scrollbar{width:4px} .wp-scroll::-webkit-scrollbar-thumb{background:rgba(201,168,76,.28);border-radius:2px}";
+  document.head.appendChild(style);
+  document.body.appendChild(overlay);
+
+  // Arrancar en recordatorio si hay anteriores, si no en principios
+  paso = hayAnteriores ? FASE_RECORD : 0;
+  showPaso();
+}
+
+window.guardarCompromisosModulo = function(moduloId, compromisos){
+  if(!window.COMPROMISOS_PROCESO)window.COMPROMISOS_PROCESO={};
+  window.COMPROMISOS_PROCESO[moduloId]=compromisos;
+};
+</script>
+<script>
+// ============================================================
+// ANORMAL - Módulo de datos compartidos entre módulos
+// Usa sessionStorage para pasar datos entre páginas HTML
+// ============================================================
+
+var ANORMAL = {
+  
+  // Leer todos los datos del proceso
+  getData: function() {
+    try {
+      var raw = sessionStorage.getItem('anormal_proceso');
+      return raw ? JSON.parse(raw) : {};
+    } catch(e) { return {}; }
+  },
+  
+  // Guardar datos del proceso
+  setData: function(data) {
+    try {
+      sessionStorage.setItem('anormal_proceso', JSON.stringify(data));
+    } catch(e) {}
+  },
+  
+  // Actualizar una sección específica
+  update: function(section, value) {
+    var data = this.getData();
+    data[section] = value;
+    this.setData(data);
+  },
+  
+  // Agregar un compromiso/hábito a la agenda central
+  addAgenda: function(item) {
+    // item = {modulo, titulo, descripcion, fecha, periodicidad, tipo}
+    var data = this.getData();
+    if (!data.agenda) data.agenda = [];
+    item.id = 'ag_' + Date.now() + '_' + Math.random().toString(36).slice(2,6);
+    item.cumplido = false;
+    item.fechaCreacion = new Date().toLocaleDateString('es-CO');
+    data.agenda.push(item);
+    this.setData(data);
+    return item.id;
+  },
+  
+  // Guardar lo marcado en septenios para que fluya al ECG y al Niño Interior
+  saveSeptenios: function(checklistEstado, cicloActual, nombre, genero) {
+    var doloresPorCiclo = [];
+    
+    Object.keys(checklistEstado).forEach(function(chkKey) {
+      var est = checklistEstado[chkKey];
+      if (!est || !est.dolor || !est.dolor.length) return;
+      
+      // Extraer número de ciclo del key ('chk-3' -> 3, 'actual-5' -> 5)
+      var cicloNum = 0;
+      if (chkKey.startsWith('chk-')) cicloNum = parseInt(chkKey.replace('chk-',''));
+      else if (chkKey.startsWith('actual-')) cicloNum = parseInt(chkKey.replace('actual-',''));
+      if (!cicloNum) return;
+      
+      // Obtener los ítems de dolor marcados
+      var cicloDatos = window.CICLOS_DATA ? window.CICLOS_DATA[String(cicloNum)] : null;
+      if (!cicloDatos) return;
+      
+      var itemsMarcados = est.dolor.map(function(idx) {
+        return cicloDatos.dolor[idx] || '';
+      }).filter(Boolean);
+      
+      var itemsAlegria = (est.alegria || []).map(function(idx) {
+        return cicloDatos.alegria[idx] || '';
+      }).filter(Boolean);
+      
+      if (itemsMarcados.length || itemsAlegria.length) {
+        doloresPorCiclo.push({
+          ciclo: cicloNum,
+          tipo: cicloDatos.tipo,
+          titulo: cicloDatos.titulo,
+          edades: cicloDatos.titulo.match(/\d+ a \d+/)?.[0] || '',
+          dolores: itemsMarcados,
+          alegrias: itemsAlegria,
+          // Preguntas respondidas
+          respuestas: [0,1,2].map(function(pi) {
+            return checklistEstado[chkKey + '-preg-' + pi] || '';
+          }).filter(Boolean)
+        });
+      }
+    });
+    
+    // Ordenar por ciclo
+    doloresPorCiclo.sort(function(a,b){return a.ciclo - b.ciclo;});
+    
+    this.update('septenios', {
+      cicloActual: cicloActual,
+      nombre: nombre,
+      genero: genero,
+      doloresPorCiclo: doloresPorCiclo,
+      fecha: new Date().toLocaleDateString('es-CO')
+    });
+  },
+  
+  // Obtener datos de septenios para el ECG
+  getSepteniosParaECG: function() {
+    var data = this.getData();
+    return data.septenios || null;
+  },
+  
+  // Obtener ciclos 1-2-3 para el Niño Interior
+  getCiclosInfancia: function() {
+    var sep = this.getSepteniosParaECG();
+    if (!sep) return [];
+    return sep.doloresPorCiclo.filter(function(c) {
+      return c.ciclo <= 3;
+    });
+  },
+  
+  // Guardar compromisos de un módulo en la agenda central
+  saveCompromisos: function(moduloId, compromisos) {
+    if (!compromisos || !Object.keys(compromisos).length) return;
+    var data = this.getData();
+    if (!data.agenda) data.agenda = [];
+    
+    Object.keys(compromisos).forEach(function(key) {
+      var texto = (compromisos[key] || '').trim();
+      if (!texto) return;
+      // Evitar duplicados del mismo módulo+key
+      var exists = data.agenda.some(function(item) {
+        return item.moduloId === moduloId && item.key === key;
+      });
+      if (!exists) {
+        data.agenda.push({
+          id: 'ag_' + moduloId + '_' + key,
+          moduloId: moduloId,
+          key: key,
+          tipo: 'compromiso-principio',
+          descripcion: texto,
+          fechaCreacion: new Date().toLocaleDateString('es-CO'),
+          cumplido: false,
+          periodicidad: 'diario'
+        });
+      }
+    });
+    this.setData(data);
+  }
+};
+
+// Sobrescribir guardarCompromisosModulo para que también vaya a la agenda
+window.guardarCompromisosModulo = function(moduloId, compromisos) {
+  if (!window.COMPROMISOS_PROCESO) window.COMPROMISOS_PROCESO = {};
+  window.COMPROMISOS_PROCESO[moduloId] = compromisos;
+  ANORMAL.saveCompromisos(moduloId, compromisos);
+};
+
+</script>
+<script>var CICLOS_DATA = {"1":{"tipo":"cuerpo","titulo":"Ciclo del Cuerpo \u00b7 0 a 7 a\u00f1os","dolor":["P\u00e9rdida o muerte de un ser querido importante","Mis padres se separaron o divorciaron en esta etapa","Abandon\u00f3 el hogar mi pap\u00e1","Abandon\u00f3 el hogar mi mam\u00e1","Fui criado por personas distintas a mis padres (abuelos, t\u00edos, otros)","Maltrato f\u00edsico por parte de adultos a cargo","Maltrato emocional o psicol\u00f3gico constante","Abuso sexual en esta etapa","Violencia o conflicto frecuente en el hogar","Enfermedades graves o accidentes significativos","Negligencia \u2014 mis necesidades b\u00e1sicas no fueron atendidas","Soledad o abandono emocional aunque hubiera adultos presentes","Pobreza o precariedad econ\u00f3mica severa en el hogar","Cambios de hogar, ciudad o pa\u00eds frecuentes"],"alegria":["Familia unida, presente y amorosa","Juego, libertad y disfrute pleno de la infancia","Protecci\u00f3n y seguridad constante","Amigos cercanos y v\u00ednculos seguros","Salud, vitalidad y bienestar sostenido"],"preguntas":["\u00bfQui\u00e9n estuvo presente en tus primeros a\u00f1os y qui\u00e9n estuvo ausente? \u00bfQu\u00e9 sientes cuando piensas en eso hoy?","\u00bfAprendiste que el mundo es un lugar seguro o aprendiste a estar alerta? \u00bfD\u00f3nde ves ese aprendizaje en tu vida adulta?","\u00bfRecibiste amor f\u00edsico \u2014 abrazos, contacto, ternura \u2014 o creciste sin \u00e9l? \u00bfC\u00f3mo crees que eso te afecta hoy?"],"patron":"Las heridas de este ciclo suelen generar en el adulto: miedo al abandono, dificultad para confiar, necesidad excesiva de aprobaci\u00f3n, dificultad para establecer l\u00edmites, o elecci\u00f3n de parejas que repiten lo vivido con los padres.","tarea":"Construir la base de seguridad y arraigo. Todo lo que el ni\u00f1o no recibi\u00f3 aqu\u00ed lo busca inconscientemente el adulto en sus relaciones."},"2":{"tipo":"sentir","titulo":"Ciclo del Sentir \u00b7 7 a 14 a\u00f1os","dolor":["P\u00e9rdida o muerte de un ser querido importante","Separaci\u00f3n o divorcio de mis padres en esta etapa","Abandon\u00f3 el hogar mi pap\u00e1 o mi mam\u00e1","Abuso sexual o acoso en esta etapa","Maltrato emocional o psicol\u00f3gico sostenido","Maltrato f\u00edsico","Bullying o acoso escolar sostenido","Problemas con mi desarrollo f\u00edsico o primer periodo","Baja autoestima o imagen muy negativa de m\u00ed mismo","Soledad profunda o sensaci\u00f3n de no encajar","Conflictos fuertes y frecuentes con los padres","Inicio de conductas da\u00f1inas (adicciones, autolesiones)","Episodios de ansiedad o depresi\u00f3n no atendidos"],"alegria":["V\u00ednculos de amistad profundos y seguros","Logros acad\u00e9micos o art\u00edsticos importantes","Grupos de pertenencia que me hicieron sentir aceptado","Descubrimiento de talentos y pasiones propias","Apoyo emocional genuino de adultos importantes","Experiencias de amor familiar genuino"],"preguntas":["\u00bfC\u00f3mo fue tu relaci\u00f3n con tu cuerpo en este ciclo? \u00bfLo viviste con orgullo o con verg\u00fcenza?","\u00bfQu\u00e9 aprend\u00edas sobre las emociones en casa? \u00bfEra seguro sentir, llorar, expresarse \u2014 o era mejor callarse?","\u00bfHubo un adulto que te acompa\u00f1ara emocionalmente en esta etapa? \u00bfQu\u00e9 pas\u00f3 cuando no lo hubo?"],"patron":"Las heridas de este ciclo suelen generar en el adulto: dificultad para gestionar emociones, problemas en relaciones de pareja, hipersensibilidad o bloqueo emocional, dificultades con la sexualidad, o atracci\u00f3n recurrente por relaciones que repiten el da\u00f1o vivido.","tarea":"Desarrollar la inteligencia emocional y construir v\u00ednculos sanos. Lo que se aprende sobre las emociones en este ciclo se convierte en el sistema operativo emocional del adulto."},"3":{"tipo":"ser","titulo":"Ciclo del Ser \u00b7 14 a 21 a\u00f1os","dolor":["P\u00e9rdida o muerte de un ser querido importante","Crisis profunda de identidad \u2014 no sab\u00eda qui\u00e9n era","Separaci\u00f3n o conflicto grave con los padres","Abuso f\u00edsico, emocional o sexual en esta etapa","Primer desamor o ruptura afectiva muy dolorosa","Problemas con la sexualidad o la orientaci\u00f3n sexual","Presi\u00f3n familiar o social para ser quien no era","Fracasos acad\u00e9micos o vocacionales importantes","Inicio de adicciones o conductas autodestructivas","Sensaci\u00f3n de vac\u00edo o falta de sentido de vida","Episodios de depresi\u00f3n, ansiedad o aislamiento","Abandono del hogar forzado o prematuro"],"alegria":["Claridad sobre mi vocaci\u00f3n o mis talentos","Primeras decisiones propias tomadas con confianza","Relaciones de amistad profundas y transformadoras","Primer amor genuino y constructivo","Logros acad\u00e9micos o creativos significativos","Descubrimiento de valores propios aut\u00e9nticos"],"preguntas":["\u00bfQui\u00e9n decidiste ser en este ciclo \u2014 o qui\u00e9n te dijeron que deb\u00edas ser? \u00bfQu\u00e9 tuviste que sacrificar para encajar?","\u00bfQu\u00e9 heridas de este ciclo ves reflejadas hoy en tus relaciones de pareja o en tu manera de relacionarte?","\u00bfHubo algo que descubriste sobre ti mismo en esta etapa que todav\u00eda no has podido aceptar o integrar?"],"patron":"Las heridas de este ciclo suelen generar en el adulto: crisis de identidad recurrentes, miedo a comprometerse, autosabotaje en el \u00e9xito, dificultades con la sexualidad o la intimidad, o una vida construida sobre lo que esperaban otros, no sobre lo propio.","tarea":"Construir una identidad propia aut\u00e9ntica. Las preguntas \u00bfQui\u00e9n soy? y \u00bfPara qu\u00e9 estoy aqu\u00ed? nacen aqu\u00ed y necesitan respuesta."},"4":{"tipo":"cuerpo","titulo":"Ciclo del Cuerpo \u00b7 21 a 28 a\u00f1os","dolor":["P\u00e9rdida o muerte de un ser querido importante","Inicio de vida independiente sin las herramientas necesarias","Primera relaci\u00f3n de pareja seria que termin\u00f3 en da\u00f1o","Embarazo no planeado o p\u00e9rdida de un hijo","Fracasos laborales o econ\u00f3micos en los primeros intentos","Problemas de salud por h\u00e1bitos descuidados (sue\u00f1o, alimentaci\u00f3n, estr\u00e9s)","Dificultad para establecer l\u00edmites con la familia de origen","Sensaci\u00f3n de no estar a la altura de las expectativas propias o ajenas","Decepciones con amigos o v\u00ednculos que cre\u00eda seguros","Inicio de adicciones o conductas de escape al estr\u00e9s"],"alegria":["Conquista de la independencia con confianza","Inicio de carrera o vocaci\u00f3n con entusiasmo genuino","Relaci\u00f3n de pareja constructiva y amorosa","Construcci\u00f3n de identidad adulta propia","Logros econ\u00f3micos o profesionales primeros","Salud y energ\u00eda como recursos naturales bien utilizados"],"preguntas":["\u00bfC\u00f3mo trataste tu cuerpo en este ciclo? \u00bfLo cuidaste o lo ignoraste mientras te enfocabas en lo externo?","\u00bfQu\u00e9 patrones de tu familia de origen empezaste a repetir en este ciclo sin darte cuenta?","\u00bfLas decisiones que tomaste en este ciclo \u2014 pareja, carrera, estilo de vida \u2014 eran realmente tuyas o eran lo que se esperaba de ti?"],"patron":"Las heridas de este ciclo suelen generar: dificultad para sostener compromisos, problemas con la autoridad o la independencia, cuerpo que acumula el estr\u00e9s de los primeros a\u00f1os de adultez, o patrones relacionales heredados del hogar de origen que se repiten en la primera pareja.","tarea":"Construir las bases de la vida adulta desde la conciencia propia, no desde lo que heredaste o lo que esperan de ti."},"5":{"tipo":"sentir","titulo":"Ciclo del Sentir \u00b7 28 a 35 a\u00f1os","dolor":["P\u00e9rdida o muerte de un ser querido importante","Crisis de matrimonio o relaci\u00f3n de pareja","Separaci\u00f3n o divorcio","Conflictos serios con los hijos o dificultades como padre/madre","Traici\u00f3n o ruptura de amistad importante","Sensaci\u00f3n de que la vida no es lo que imaginaba","Presi\u00f3n social intensa (comparaciones, expectativas de \u00e9xito)","Dificultades econ\u00f3micas severas","Estr\u00e9s cr\u00f3nico que empieza a manifestarse en el cuerpo","Emociones que se acumulan sin canalizarse","Soledad emocional dentro de la relaci\u00f3n de pareja"],"alegria":["Madurez emocional genuina conquistada","Relaci\u00f3n de pareja profunda y consciente","Experiencia de ser padre o madre desde el amor","V\u00ednculos de amistad s\u00f3lidos y nutritivos","Inteligencia emocional desarrollada con esfuerzo","Equilibrio entre lo que siento y lo que hago"],"preguntas":["\u00bfTu relaci\u00f3n de pareja en este ciclo reflej\u00f3 lo que aprendiste sobre el amor en el ciclo 2? \u00bfRepetiste algo doloroso?","\u00bfQu\u00e9 emociones empezaste a acumular en este ciclo porque no ten\u00edas c\u00f3mo o a qui\u00e9n expres\u00e1rselas?","\u00bfC\u00f3mo afect\u00f3 tu vida emocional a tu cuerpo en este ciclo? \u00bfQu\u00e9 enfermedades o dolores aparecieron?"],"patron":"Las heridas de este ciclo suelen generar: relaciones de pareja que se repiten con el mismo patr\u00f3n da\u00f1ino, dificultad para poner l\u00edmites emocionales, acumulaci\u00f3n de resentimientos no expresados, o enfermedades f\u00edsicas ligadas a emociones no canalizadas.","tarea":"Procesar lo emocional acumulado y construir relaciones desde la conciencia, no desde el patr\u00f3n heredado."},"6":{"tipo":"ser","titulo":"Ciclo del Ser \u00b7 35 a 42 a\u00f1os","dolor":["P\u00e9rdida o muerte de un ser querido importante","Crisis profunda de prop\u00f3sito \u2014 \u00bfpara qu\u00e9 estoy aqu\u00ed?","Sensaci\u00f3n de haber construido una vida que no es la propia","Logros externos que no llenan internamente","Ruptura matrimonial o de pareja de largo plazo","Conflictos profundos con los hijos adolescentes","Crisis de fe, valores o creencias que sosten\u00edan la vida","Enfermedades graves propias o de personas muy cercanas","P\u00e9rdida de trabajo o fracaso profesional importante","Depresi\u00f3n o vac\u00edo existencial sostenido","Sensaci\u00f3n de haber perdido a\u00f1os haciendo lo que no quer\u00eda"],"alegria":["Encuentro real con el prop\u00f3sito de vida","Transformaci\u00f3n profunda de identidad elegida conscientemente","Madurez y sabidur\u00eda ganada con experiencia","Relaciones aut\u00e9nticas construidas desde quien realmente soy","Logros que tienen sentido m\u00e1s all\u00e1 del \u00e9xito externo","Reconciliaci\u00f3n con la historia propia"],"preguntas":["\u00bfEst\u00e1s viviendo la vida que elegiste o la vida que esperaban de ti? \u00bfQu\u00e9 debi\u00f3 cambiar y no cambi\u00f3?","\u00bfQu\u00e9 no fue resuelto en tu ciclo 3 (14-21 a\u00f1os) que hoy aparece como la gran pregunta de tu vida?","\u00bfEl vac\u00edo o la inquietud que sientes en este ciclo te habla de qu\u00e9 \u2014 de lo que dejaste ir o de lo que todav\u00eda puedes elegir?"],"patron":"Las heridas de este ciclo suelen generar: crisis existenciales recurrentes, enfermedades que son respuesta del cuerpo a una vida no alineada, rupturas importantes de relaciones o estructuras, o un despertar tard\u00edo pero poderoso hacia lo aut\u00e9ntico.","tarea":"Responder la pregunta m\u00e1s profunda: \u00bfQui\u00e9n soy yo \u2014 no qui\u00e9n me dijeron que era \u2014 y para qu\u00e9 estoy aqu\u00ed?"},"7":{"tipo":"cuerpo","titulo":"Ciclo del Cuerpo \u00b7 42 a 49 a\u00f1os","dolor":["P\u00e9rdida o muerte de un ser querido importante","Enfermedades graves propias que aparecen en este ciclo","El cuerpo cobra a\u00f1os de estr\u00e9s, descuido o abuso","Inicio de condiciones cr\u00f3nicas de salud","P\u00e9rdida de energ\u00eda vital que antes daba por sentada","Accidentes o lesiones significativas","Dificultad para adaptar h\u00e1bitos que toda la vida fueron malos","Dependencias o adicciones que el cuerpo ya no soporta","Cambios f\u00edsicos que generan crisis de imagen o identidad","Descuido de la salud por priorizar todo lo dem\u00e1s"],"alegria":["Cuerpo fuerte y saludable fruto de a\u00f1os de cuidado consciente","Energ\u00eda vital sostenida que sorprende positivamente","Reconciliaci\u00f3n profunda con el propio cuerpo","H\u00e1bitos saludables consolidados que se volvieron identidad","Vitalidad como plataforma para los mejores a\u00f1os"],"preguntas":["\u00bfQu\u00e9 le hiciste a tu cuerpo en los \u00faltimos 21 a\u00f1os que hoy te est\u00e1 pasando la cuenta?","\u00bfQu\u00e9 cambio en tu relaci\u00f3n con el cuerpo llevas a\u00f1os postergando y que este ciclo ya no te permite posponer m\u00e1s?","\u00bfQu\u00e9 emociones de los ciclos anteriores crees que viven hoy en tu cuerpo como dolor, enfermedad o fatiga?"],"patron":"El cuerpo en este ciclo es el gran maestro: cobra lo que no fue atendido en ciclos anteriores. Las enfermedades de este ciclo casi siempre tienen ra\u00edces emocionales no procesadas en los ciclos 1, 4 o el 3 y 6.","tarea":"Reconciliarse con el cuerpo y hacer de la salud una prioridad real, no una intenci\u00f3n."},"8":{"tipo":"sentir","titulo":"Ciclo del Sentir \u00b7 49 a 56 a\u00f1os","dolor":["P\u00e9rdida o muerte de un ser querido importante","Nido vac\u00edo \u2014 los hijos se van y surge el vac\u00edo","Menopausia o andropausia con impacto emocional fuerte","Crisis de pareja despu\u00e9s de muchos a\u00f1os juntos","Separaci\u00f3n o divorcio en esta etapa","Soledad emocional profunda aunque haya personas cerca","Revisi\u00f3n dolorosa de relaciones que nunca fueron sanas","Resentimientos acumulados que ya no pueden contenerse","P\u00e9rdida de amistades o v\u00ednculos importantes","Emociones de toda una vida que buscan salida"],"alegria":["Madurez emocional plena ganada con experiencia","Relaciones depuradas y profundas \u2014 las que realmente importan","Liberaci\u00f3n de roles y expectativas \u2014 empezar a vivir para uno mismo","Plenitud afectiva con los hijos ya adultos","Nuevo comienzo en la pareja desde una base m\u00e1s aut\u00e9ntica","Capacidad de amar desde la libertad, no desde la necesidad"],"preguntas":["\u00bfQu\u00e9 emociones llevas cargando desde el ciclo 2 o el 5 que este ciclo te est\u00e1 pidiendo que sueltes?","\u00bfQui\u00e9nes son las personas que realmente importan en tu vida? \u00bfC\u00f3mo est\u00e1n esas relaciones hoy?","\u00bfQu\u00e9 necesitabas sentir que nunca te permitiste sentir? \u00bfEste ciclo te lo est\u00e1 pidiendo de alguna manera?"],"patron":"Este ciclo trae a la superficie todo lo que fue reprimido emocionalmente en los ciclos anteriores. El cuerpo, las relaciones y las crisis de este per\u00edodo son mensajeros de emociones que llevan d\u00e9cadas esperando ser atendidas.","tarea":"Soltar, perdonar y depurar \u2014 personas, roles, resentimientos y expectativas que ya no corresponden a quien eres."},"9":{"tipo":"ser","titulo":"Ciclo del Ser \u00b7 56 a 63 a\u00f1os","dolor":["P\u00e9rdida o muerte de un ser querido importante","Crisis existencial ante lo que queda de vida","Sensaci\u00f3n de que el tiempo se acab\u00f3 sin haber vivido lo que quer\u00eda","Enfermedades graves que cuestionan el sentido de vida","Jubilaci\u00f3n como p\u00e9rdida de identidad y prop\u00f3sito","Conflictos no resueltos que resurgen con fuerza","Amargura o resentimiento acumulado de toda una vida","Depresi\u00f3n o vac\u00edo existencial sostenido","Sensaci\u00f3n de haber fallado a s\u00ed mismo o a otros","Soledad existencial \u2014 la sensaci\u00f3n de que nadie realmente me conoce"],"alegria":["Integraci\u00f3n de toda la vida vivida con gratitud y paz","Claridad sobre el legado que quiero dejar","Sabidur\u00eda real ganada con experiencia genuina","Relaciones profundas y significativas consolidadas","Libertad de ser quien realmente soy sin m\u00e1scaras","Segunda juventud \u2014 la m\u00e1s aut\u00e9ntica de todas"],"preguntas":["\u00bfQu\u00e9 no fue sanado en tu ciclo 3 (14-21) o en tu ciclo 6 (35-42) que hoy se manifiesta como dolor, vac\u00edo o enfermedad?","\u00bfQu\u00e9 legado quieres dejar? \u00bfLo que has construido hasta aqu\u00ed refleja qui\u00e9n realmente eres?","\u00bfHay algo que necesitas perdonar \u2014 a alguien o a ti mismo \u2014 para poder vivir con paz lo que viene?"],"patron":"Lo que no fue resuelto en los ciclos 3 y 6 llega a este ciclo con toda su fuerza. La paz o la amargura de este per\u00edodo es el resultado directo de lo que fue \u2014 o no fue \u2014 sanado en los ciclos anteriores del mismo tipo.","tarea":"Integrar la vida vivida, sanar lo que queda pendiente y construir el legado desde la plenitud, no desde el miedo."},"10":{"tipo":"cuerpo","titulo":"Ciclo del Cuerpo \u00b7 63 a 70 a\u00f1os","dolor":["P\u00e9rdida o muerte de un ser querido importante","Enfermedades cr\u00f3nicas o limitaciones f\u00edsicas importantes","El cuerpo como protagonista inevitable de la vida cotidiana","Dependencia f\u00edsica de otros o inicio de ese proceso","P\u00e9rdida de capacidades que se daban por sentadas","Dolor f\u00edsico cr\u00f3nico que afecta la calidad de vida","Miedo a la enfermedad, a la discapacidad o a la muerte"],"alegria":["Cuerpo que a\u00fan responde gracias a a\u00f1os de cuidado","Vitalidad preservada como regalo de decisiones pasadas","Aceptaci\u00f3n del cuerpo con gratitud y sin lucha","Salud como plataforma para disfrutar esta etapa","Libertad f\u00edsica para hacer lo que siempre quise"],"preguntas":["\u00bfQu\u00e9 relaci\u00f3n tienes con tu cuerpo hoy? \u00bfEs de aceptaci\u00f3n, de lucha o de gratitud?","\u00bfQu\u00e9 emociones de los ciclos 1, 4 o 7 crees que viven todav\u00eda en tu cuerpo como dolor o limitaci\u00f3n?","\u00bfQu\u00e9 necesitas hacer diferente en este ciclo para que el cuerpo te acompa\u00f1e con dignidad?"],"patron":"El cuerpo en este ciclo es el resumen de toda una vida. Lo que se cuid\u00f3 se nota. Lo que se descuid\u00f3 tambi\u00e9n. Las enfermedades de esta etapa son con frecuencia el cierre de procesos emocionales no resueltos en ciclos anteriores.","tarea":"Hacer las paces con el cuerpo y darle el cuidado que merece en esta etapa, con gratitud por lo que ha sostenido."},"11":{"tipo":"sentir","titulo":"Ciclo del Sentir \u00b7 70 a 77 a\u00f1os","dolor":["P\u00e9rdida o muerte de un ser querido importante","Soledad de la vejez \u2014 personas que se van o se alejan","Duelos acumulados que se vuelven un peso enorme","Sensaci\u00f3n de no ser importante o de ser una carga","Relaciones que nunca se repararon y ya no hay tiempo","Emociones que nunca fueron expresadas y buscan salida","P\u00e9rdida del c\u00f3nyuge o de la pareja de vida"],"alegria":["Amor profundo y maduro con las personas que permanecen","V\u00ednculos con hijos, nietos o seres queridos que dan sentido","Paz emocional ganada despu\u00e9s de una vida de trabajo interno","Capacidad de dar y recibir amor sin condiciones","Gratitud genuina por lo vivido"],"preguntas":["\u00bfQui\u00e9nes son las personas que todav\u00eda est\u00e1n en tu vida? \u00bfLes has dicho lo que significan para ti?","\u00bfHay emociones o sentimientos del ciclo 2 o del 5 o del 8 que nunca procesaste y que hoy buscan espacio?","\u00bfHay una relaci\u00f3n que necesita ser reparada antes de que sea demasiado tarde?"],"patron":"Este ciclo trae la cosecha emocional de toda una vida. La soledad o la plenitud de esta etapa es el resultado de c\u00f3mo fueron atendidas las emociones a lo largo de todos los ciclos anteriores del Sentir.","tarea":"Expresar lo no dicho, sanar lo no sanado y recibir el amor que queda con gratitud y presencia plena."},"12":{"tipo":"ser","titulo":"Ciclo del Ser \u00b7 77 a 84 a\u00f1os","dolor":["P\u00e9rdida o muerte de un ser querido importante","Crisis existencial ante la proximidad de la muerte","Sensaci\u00f3n de que hay cosas que nunca se resolvieron","Amargura por lo que no fue o no pudo ser","Miedo a morir con deudas emocionales o relacionales pendientes","Sensaci\u00f3n de haber sido incomprendido a lo largo de la vida"],"alegria":["Paz profunda con la vida vivida","Sentido de completud \u2014 viv\u00ed lo que vine a vivir","Sabidur\u00eda como el mayor regalo que se puede dar","Trascendencia a trav\u00e9s del legado dejado","Gratitud total como estado de vida","El privilegio de haber llegado hasta aqu\u00ed"],"preguntas":["\u00bfPuedes mirar tu vida completa \u2014 con sus dolores y sus alegr\u00edas \u2014 y decir que valgi\u00f3 la pena?","\u00bfQu\u00e9 sabidur\u00eda quieres dejar? \u00bfQu\u00e9 quieres que recuerden de ti?","\u00bfHay algo que necesitas resolver, decir o perdonar para cerrar este ciclo con paz?"],"patron":"La paz o la amargura de este ciclo es la suma de todo lo que fue \u2014 y lo que no fue \u2014 sanado a lo largo de los ciclos 3, 6 y 9. La trascendencia no llega sola: es el fruto del trabajo interno de toda una vida.","tarea":"Cerrar el ciclo de vida con gratitud, trascendencia y la paz de quien vivi\u00f3 con autenticidad."}};
+
+var CHECKLIST_DATA = {}; // compatibilidad -- usar CICLOS_DATA
+
+var checklist_estado = {};
+
+
+
+
+
+
+
+// ── FUNCIONES AUXILIARES RESTAURADAS ─────────────────────────
+
+function hexToRgb(hex) {
+  var r = parseInt(hex.slice(1,3),16);
+  var g = parseInt(hex.slice(3,5),16);
+  var b = parseInt(hex.slice(5,7),16);
+  return r + ',' + g + ',' + b;
+}
+
+
+function procInicio() {
+  var dia = parseInt(ge('inDia').value)||0;
+  var mes = parseInt(ge('inMes').value)||0;
+  var anio = parseInt(ge('inAnio').value)||0;
+  var gen = S.genero;
+  if (!dia||!mes||!anio) { alert('Por favor ingresa tu fecha de nacimiento completa.'); return; }
+  if (!gen) { alert('Por favor selecciona tu g\u00e9nero.'); return; }
+  S.dia=dia; S.mes=mes; S.anio=anio;
+  var edad = calcCiclo(dia, mes, anio);
+  S.cicloActual = edad;
+  irA(1);
+}
+
+function avanzar() {
+  if (S.paso < 3) { S.paso++; irA(S.paso); window.scrollTo({top:0,behavior:'smooth'}); }
+}
+
+function retro() {
+  if (S.paso > 0) { S.paso--; irA(S.paso); window.scrollTo({top:0,behavior:'smooth'}); }
+}
+
+function abrirCiclo(n) {
+  var el = document.getElementById('ciclo-det-' + n);
+  if (el) el.style.display = el.style.display === 'none' ? 'block' : 'none';
+}
+
+function togDC(key, sensible) {
+  var el = document.getElementById('dce-' + key);
+  if (!el) return;
+  var open = el.style.display !== 'none';
+  el.style.display = open ? 'none' : 'block';
+  if (!open && sensible) {
+    var alert_el = document.getElementById('alert-' + key);
+    if (alert_el) alert_el.style.display = 'block';
+  }
+}
+
+function selOpt(key, val, btnOn, btnOff, onCls, offCls) {
+  S[key] = val;
+  var bon = document.getElementById(btnOn);
+  var boff = document.getElementById(btnOff);
+  if (bon) { bon.className = bon.className.replace(offCls, '').replace(onCls,'') + ' ' + onCls; }
+  if (boff) { boff.className = boff.className.replace(onCls, '').replace(offCls,'') + ' ' + offCls; }
+}
+
+function uD(key) {
+  // Actualizar display despues de cambio de checkbox
+  var el = document.getElementById('disp-' + key);
+  if (el) el.textContent = S.comp[key] ? '\u2713' : '';
+}
+
+function ge(id) { return document.getElementById(id); }
+
+// ── FIN FUNCIONES AUXILIARES ──────────────────────────────────
+
+const FRASES=["Quien camina con fe no necesita ver todo el camino — solo el siguiente paso.","El amor que das sin esperar nada es el que más lejos llega y más tiempo dura.","En el silencio de tu interior vive la respuesta que llevas tiempo buscando afuera.","No temas los comienzos difíciles — toda gran luz pasa primero por la oscuridad.","Tu vida es una oración vivida. Cada acción es una palabra que el universo escucha.","La misericordia que das a otros también la estás dando a la parte de ti que más la necesita.","El que sirve en pequeño recibe en grande. El tamaño del acto no importa — importa el amor.","Cuando sueltas lo que ya no te pertenece, abres las manos para recibir lo que viene.","La paz no es ausencia de tormenta — es la certeza de que nada puede apagar lo que hay en ti.","Busca primero entender, y la respuesta llegará por sí sola en el momento exacto.","Quien se conoce a sí mismo ha dado el primer paso hacia su propósito.","El sufrimiento que no se niega y se ofrece con amor se convierte en sabiduría.","Hay semillas que necesitan mucho tiempo bajo tierra. Tu proceso no es lento — es profundo.","No necesitas tener todo resuelto para avanzar. El camino se hace al caminar.","Lo que pides con el corazón limpio ya fue escuchado antes de que terminaras de pedirlo."];
+const frase=()=>FRASES[new Date().getDate()%FRASES.length];
+
+// ── TIPOS DE CICLO — nombres nuevos ─────────────────────────
+// cuerpo = 1,4,7,10 | sentir = 2,5,8,11 | ser = 3,6,9,12
+const TIPO_MAP={1:'cuerpo',2:'sentir',3:'ser',4:'cuerpo',5:'sentir',6:'ser',7:'cuerpo',8:'sentir',9:'ser',10:'cuerpo',11:'sentir',12:'ser'};
+const TIPO_LABEL={cuerpo:'Ciclo del Cuerpo',sentir:'Ciclo del Sentir',ser:'Ciclo del Ser'};
+const TIPO_COL={cuerpo:'var(--grn)',sentir:'var(--pur)',ser:'var(--acc)'};
+const TIPO_CSS={cuerpo:'tipo-cuerpo',sentir:'tipo-sentir',ser:'tipo-ser'};
+const TIPO_DESC={
+  cuerpo:'El cuerpo es el protagonista. La salud física, los chequeos médicos y los patrones físicos que se repiten. Emocionalmente es un ciclo más tranquilo — la energía fluye hacia el hacer y lo concreto.',
+  sentir:'La sensibilidad emocional está a flor de piel — para hombres y mujeres. El cuerpo cambia físicamente de formas que no se pidieron. Las heridas emocionales más profundas se procesan en este ciclo.',
+  ser:'Las grandes preguntas de identidad. Los duelos, las pérdidas, las crisis. Para los hombres especialmente es el ciclo de mayor intensidad emocional. Para las mujeres, suele ser un período de mayor claridad y propósito.'
+};
+
+// ── DATOS COMPLETOS ──────────────────────────────────────────
+const C={
+  1:{n:1,tipo:'cuerpo',edades:[0,7],nombre:"El Origen",
+    desc:"Los primeros siete años son los más determinantes de toda la vida. El ser humano aprende, antes de tener palabras, si el mundo es seguro o no, si habrá amor o ausencia, si puede confiar o debe protegerse.",
+    hombre:"Para los hombres, el Ciclo del Cuerpo 1 es un período de formación donde el niño absorbe el entorno y forma sus primeras impresiones del mundo. La figura paterna es especialmente importante — cómo se relaciona con él, si está presente, si transmite seguridad.",
+    mujer:"Para las mujeres, el Ciclo del Cuerpo 1 activa la sensibilidad emocional desde muy temprano. La niña registra con gran precisión la calidad del afecto. La figura materna es central — cómo cuida, cómo toca, cómo protege.",
+    sinpareja:"Las heridas de este ciclo se expresan en todos los vínculos importantes — amigos, compañeros, figuras de autoridad — no solo en la pareja.",
+    conpareja:"Las heridas del Ciclo 1 frecuentemente determinan el patrón de elección de pareja. La persona inconscientemente busca recrear — o huir de — la dinámica del hogar de origen.",
+    salud:"Infecciones recurrentes, alergias, problemas respiratorios. Si hubo traumas físicos (hospitalización, accidentes), dejan huellas tanto físicas como emocionales que pueden reaparecer en ciclos 4 y 7.",
+    dolores:[
+      {n:"Abandono de uno o ambos padres",d:"Ausencia física o emocional — el padre o la madre no estaban presentes de manera constante o nunca lo estuvieron",sensible:false},
+      {n:"Negligencia en el cuidado",d:"Las necesidades básicas — alimentación, salud, afecto, abrigo — no fueron atendidas con consistencia",sensible:false},
+      {n:"Trauma físico temprano",d:"Enfermedad grave, hospitalización, accidente o procedimiento médico doloroso en los primeros años",sensible:false},
+      {n:"Hogar inestable o violento",d:"Ambiente del hogar marcado por conflictos frecuentes, violencia doméstica o impredecibilidad",sensible:true},
+      {n:"Separación temprana de los padres",d:"Divorcio o separación que rompió la estabilidad del hogar antes de los 7 años",sensible:false},
+      {n:"Ausencia de figuras de apego seguras",d:"No hubo un adulto constante y confiable a quien referirse en los momentos de necesidad",sensible:false}
+    ],
+    preguntas:[
+      {p:"¿Cómo fue la relación entre tus padres cuando eras pequeño?",h:"¿Vivían juntos? ¿Se llevaban bien? ¿Había conflictos frecuentes? La calidad del vínculo entre tus padres fue el primer modelo de relación que aprendiste — antes de tener palabras para nombrarlo."},
+      {p:"¿Quién te crió? ¿Quién te educó? ¿Quién te transmitió valores?",h:"No siempre son los padres biológicos. Puede haber sido una abuela, un tío, un cuidador. ¿Quién fue esa figura? ¿Cómo era con contigo?"},
+      {p:"¿Jugaban contigo tus padres? ¿Había contacto físico, abrazos, palabras de afecto?",h:"El afecto físico en los primeros años no es un lujo — es una necesidad biológica. Su presencia o ausencia deja una huella específica en cómo aprendemos a recibir amor."},
+      {p:"¿Hubo separación, abandono o ausencia prolongada en estos primeros años?",h:"Puede haber sido temporal o permanente. El niño no distingue la causa — solo registra la ausencia. ¿Cómo lo viviste?"},
+      {p:"¿Recuerdas enfermedades importantes o situaciones físicas difíciles en la primera infancia?",h:"El cuerpo en el Ciclo del Cuerpo habla con fuerza. Las enfermedades tempranas frecuentemente tienen una conexión con el ambiente emocional del hogar."}
+    ],
+    patron:null
+  },
+  2:{n:2,tipo:'sentir',edades:[7,14],nombre:"El Brote",
+    desc:"El segundo ciclo expande el mundo más allá de la familia. La escuela, los compañeros, los maestros. El primer gran encuentro con la vulnerabilidad social y con el propio cuerpo que cambia.",
+    hombre:"En el Ciclo del Sentir, los hombres tienen sus emociones a flor de piel. El cuerpo comienza a cambiar físicamente — la voz se rompe, el cuerpo crece de forma desigual. Esta vulnerabilidad suele ser incomprendida y muchos hombres aprenden a ocultarla en este ciclo, generando una coraza que cargarán durante años.",
+    mujer:"Para las mujeres, este es uno de los ciclos más significativos. El primer período menstrual, el desarrollo físico, los cambios hormonales. Si este proceso fue acompañado con amor, deja una huella de seguridad. Si fue vivido en soledad, vergüenza o miedo, la herida puede ser muy profunda.",
+    sinpareja:"Las heridas de este ciclo se expresan en todas las relaciones — con amigos, con figuras de autoridad, en la forma de vincularse con grupos.",
+    conpareja:"Las heridas del Ciclo del Sentir frecuentemente determinan los patrones de intimidad emocional en la pareja. Lo que se aprendió sobre la confianza y la vulnerabilidad en este ciclo define cómo la persona se abre o se cierra en los vínculos adultos.",
+    salud:"Problemas digestivos (el estrés emocional se somatiza en el estómago), problemas de piel (la ansiedad social se expresa externamente), y en mujeres, irregularidades menstruales desde el inicio.",
+    dolores:[
+      {n:"Abuso físico o psicológico",d:"Maltrato por parte de padres, cuidadores, maestros u otras figuras de autoridad",sensible:true},
+      {n:"Abuso sexual",d:"Cualquier forma de abuso sexual durante este período — uno de los dolores más silenciados y de mayor impacto",sensible:true},
+      {n:"Bullying o exclusión social",d:"Acoso, humillación o rechazo sistemático por compañeros — especialmente doloroso en esta edad de formación social",sensible:false},
+      {n:"Figura parental ausente o abusiva",d:"Un padre o madre que en lugar de proteger generaba miedo, vergüenza o dolor",sensible:true},
+      {n:"Primer período no acompañado",d:"Para las mujeres: vivir el inicio de la menstruación en soledad, vergüenza o sin preparación emocional",sensible:false},
+      {n:"Humillaciones y vergüenza",d:"Situaciones que generaron vergüenza profunda sobre el propio cuerpo o manera de ser",sensible:false},
+      {n:"Traición de la confianza",d:"Alguien de total confianza que falló, traicionó o aprovechó la vulnerabilidad de esta etapa",sensible:true}
+    ],
+    preguntas:[
+      {p:"¿Cómo fue tu experiencia en la escuela entre los 7 y los 14 años?",h:"No solo lo académico. ¿Cómo te sentías yendo? ¿Tenías amigos cercanos? ¿Había alguien que te hacía daño? ¿Algún maestro que marcó tu vida para bien o para mal?"},
+      {p:"¿Cómo fue tu primer cambio físico? ¿Te acompañaron en ese proceso?",h:"Para las mujeres: el primer período. Para los hombres: los cambios de la pubertad. ¿Fue acompañado con naturalidad o vivido con vergüenza, miedo o soledad?"},
+      {p:"¿Cómo era la relación con tus padres en estos años?",h:"¿Había comunicación genuina? ¿Podías hablar de lo que sentías? ¿O aprendiste en este ciclo a callar lo que te pasaba?"},
+      {p:"¿Hubo alguien que te lastimó de forma significativa en este período?",h:"Puedes tomar el tiempo que necesites. Solo nombra si hubo heridas importantes — no tienes que entrar en detalles que no quieras compartir."},
+      {p:"¿Qué emociones predominaban en ti entre los 7 y los 14 años?",h:"¿Te sentías seguro? ¿Ansioso? ¿Triste? ¿Enojado? ¿Invisible? ¿Avergonzado? Las emociones de esa etapa son la huella de lo que estaba ocurriendo."}
+    ],
+    patron:[1]
+  },
+  3:{n:3,tipo:'ser',edades:[14,21],nombre:"El Despertar",
+    desc:"El tercer ciclo es el despertar a la propia identidad. La adolescencia plena, el primer amor, la separación necesaria de la familia. El mundo emocional se vuelve intenso. Las heridas aquí pueden marcar toda la vida adulta.",
+    hombre:"En el Ciclo del Ser, los hombres experimentan sus emociones con máxima intensidad. La identidad se construye y se cuestiona al mismo tiempo. El primer amor, el primer desamor, la presión de 'ser hombre'. La cultura no les da permiso para llorar ni pedir ayuda. Lo que no se expresa aquí se convierte en coraza que se carga durante décadas.",
+    mujer:"Para las mujeres en el Ciclo del Ser, suele ser un período de relativa estabilidad emocional comparado con el ciclo anterior. Las hormonas se estabilizan. Las mujeres suelen estar más centradas e inspiradas. Si hay un hombre en su vida en este ciclo, es probable que él esté emocionalmente más intenso que ella.",
+    sinpareja:"Las heridas de este ciclo se expresan en la forma de construir la identidad, en la relación con la autoridad y en cómo la persona aprende a valorarse o desvalorizarse.",
+    conpareja:"En pareja, si uno está en Ciclo del Ser (emocionalmente intenso, en búsqueda de identidad) y el otro en Ciclo del Cuerpo (más tranquilo, orientado a lo concreto), la diferencia puede sentirse como incompatibilidad. Entender que son ciclos diferentes — no pérdida del vínculo — cambia la mirada.",
+    salud:"Ansiedad, insomnio, jaquecas tensionales relacionadas con el sistema nervioso. Problemas de piel que reflejan conflictos de identidad. En hombres, inicio de conductas de riesgo como forma de manejar emociones sin canal de expresión.",
+    dolores:[
+      {n:"Separación o divorcio de los padres",d:"Cuando la familia se rompe en la adolescencia, el impacto en la identidad puede ser devastador",sensible:false},
+      {n:"Primera pérdida significativa",d:"Muerte de un ser querido o pérdida de una relación importante que deja una huella sobre la impermanencia",sensible:false},
+      {n:"Herida de identidad",d:"No saber quién eres, sentir que no encajas, vergüenza profunda de tu propia naturaleza o forma de ser",sensible:false},
+      {n:"Primera decepción amorosa profunda",d:"Una herida de amor temprana que dejó una marca sobre lo que mereces o no mereces en las relaciones",sensible:false},
+      {n:"Fracaso o humillación significativa",d:"Un momento que instaló la creencia de que no eres suficiente o que eres un fracaso",sensible:false},
+      {n:"Abandono de sueños propios",d:"Algo que amabas y que fue forzado a abandonar por presión externa, circunstancias o necesidad económica",sensible:false}
+    ],
+    preguntas:[
+      {p:"¿Cómo fue tu adolescencia?",h:"¿Fue un tiempo de exploración o de sobrevivencia? ¿Había adultos de confianza? ¿Podías ser quien eras? ¿Cómo era la relación con tus padres en esos años?"},
+      {p:"¿Cómo fue tu primer amor? ¿Cómo terminó?",h:"El primer amor no es solo una anécdota — es el primer mapa de cómo se vincula una persona. Lo que aprendiste sobre el amor, la pérdida y tu propio valor en ese momento lo has cargado desde entonces."},
+      {p:"¿Hubo alguna pérdida o separación que te marcó en este ciclo?",h:"La separación de tus padres, la pérdida de alguien importante, una ruptura que dolió más de lo esperado. ¿La procesaste en su momento o la guardaste?"},
+      {p:"¿Qué herida de ese ciclo sientes que aún no ha sanado completamente?",h:"A veces la respuesta surge sola cuando se hace la pregunta con calma. No tienes que haberla identificado antes."},
+      {p:"¿Qué comportamientos o patrones de tus padres empezaste a repetir en este ciclo?",h:"La adolescencia es el momento donde los patrones familiares se hacen conscientes — o se copian sin darse cuenta. ¿Qué patrones empezaste a reproducir?"}
+    ],
+    patron:[1,2]
+  },
+  4:{n:4,tipo:'cuerpo',edades:[21,28],nombre:"La Construcción",
+    desc:"El cuarto ciclo es de construcción y establecimiento. Carrera, pareja, independencia económica. El cuerpo está en su plenitud física. Pero los patrones no sanados del ciclo 1 regresan ahora en el cuerpo y en los vínculos.",
+    hombre:"En el Ciclo del Cuerpo 4, los hombres están emocionalmente más tranquilos y orientados a la acción y los resultados. Pueden parecer distantes emocionalmente — en realidad su energía fluye hacia el construir y el producir.",
+    mujer:"Las mujeres en el Ciclo del Cuerpo 4 también experimentan mayor tranquilidad emocional. Es un período donde la energía está disponible para construir proyectos concretos.",
+    sinpareja:"Los patrones del ciclo 1 se expresan en los vínculos más cercanos — amigos, jefes, compañeros. La dificultad para confiar o la tendencia a recrear dinámicas conocidas aparece en todos los vínculos significativos.",
+    conpareja:"Las dinámicas del hogar de origen reaparecen en la relación de pareja. La persona inconscientemente puede elegir a alguien que reproduce patrones del padre o la madre — sin darse cuenta.",
+    salud:"Tensión muscular crónica, problemas digestivos, migrañas. Lo que no se procesó emocionalmente en el ciclo 1 busca salida por el cuerpo. Es un ciclo para hacerse chequeos médicos preventivos.",
+    dolores:[
+      {n:"Enfermedades o síntomas recurrentes",d:"El cuerpo repite los patrones de vulnerabilidad del ciclo 1",sensible:false},
+      {n:"Accidentes significativos",d:"Lesiones que interrumpieron el camino en un momento crucial",sensible:false},
+      {n:"Repetición de dinámicas familiares en relaciones",d:"Vínculos adultos que inconscientemente recrean las dinámicas del hogar de origen",sensible:false},
+      {n:"Dificultades económicas graves",d:"La inseguridad material que repite la inseguridad emocional del ciclo 1",sensible:false},
+      {n:"Conflictos no resueltos con los padres",d:"La relación con los padres que no se trabajó reaparece ahora — en ellos directamente o a través de figuras similares",sensible:false}
+    ],
+    preguntas:[
+      {p:"¿Qué construiste entre los 21 y los 28 años?",h:"Carrera, relaciones, independencia. ¿Qué dirección tomó tu vida? ¿Fue una dirección elegida desde ti mismo o fue la que se esperaba de ti?"},
+      {p:"¿Tu cuerpo te habló en este ciclo?",h:"Enfermedades, accidentes, síntomas que aparecieron o se intensificaron. El cuerpo siempre tiene un mensaje — ¿qué estaba diciendo?"},
+      {p:"¿Reconoces patrones de tu origen repitiéndose en tus relaciones de este ciclo?",h:"¿Elegiste vínculos similares a los de tu familia? ¿Recreaste dinámicas conocidas aunque dolorosas? ¿Qué tan diferente fue tu vida adulta del ambiente en que creciste?"}
+    ],
+    patron:[1]
+  },
+  5:{n:5,tipo:'sentir',edades:[28,35],nombre:"La Crisis",
+    desc:"El quinto ciclo trae la primera gran crisis de la identidad adulta. Lo construido se tambalea. Las heridas no sanadas del ciclo 2 regresan con más fuerza. La vida pregunta: ¿es esto lo que realmente quiero?",
+    hombre:"En el Ciclo del Sentir 5, los hombres tienen sus emociones a flor de piel. Pueden aparecer crisis de pareja, de identidad, de propósito. El cuerpo también habla — insomnio, tensión, ansiedad. Muchos hombres viven su primera crisis existencial importante sin reconocerla como tal.",
+    mujer:"Para las mujeres en su Ciclo del Sentir 5: alta intensidad emocional. Pueden aparecer crisis de pareja, depresión, ansiedad, o la sensación de que la vida construida no les pertenece realmente. Lo que no se procesó en el ciclo 2 llega ahora buscando ser reconocido.",
+    sinpareja:"La ausencia de pareja en este ciclo puede ser en sí misma parte de la crisis — la pregunta sobre los vínculos, el miedo a la intimidad o el patrón de alejarse cuando algo se profundiza.",
+    conpareja:"El ciclo 5 es uno de los períodos de mayor riesgo para las relaciones. La persona necesita revisión profunda y esa revisión puede implicar cuestionar el vínculo mismo. Entender que es un ciclo de revisión — no necesariamente de ruptura — puede salvar vínculos que en realidad son sólidos.",
+    salud:"Problemas hormonales, tiroides, cardiovasculares en hombres. La conexión emoción-cuerpo es directa: lo que no se siente se somatiza.",
+    dolores:[
+      {n:"Crisis de pareja o separación",d:"Las heridas del ciclo 2 reaparecen en la relación de pareja — los patrones aprendidos en la infancia se actualizan",sensible:false},
+      {n:"Depresión o ansiedad significativa",d:"La carga emocional no procesada del ciclo 2 se vuelve insostenible",sensible:false},
+      {n:"Crisis vocacional o profesional",d:"Lo construido no satisface — hay una búsqueda de algo más auténtico y propio",sensible:false},
+      {n:"Pérdida de embarazo o dificultades",d:"Dolores que conectan con las heridas de la propia infancia recibida",sensible:true},
+      {n:"Traición o decepción profunda",d:"Alguien de confianza que repite el patrón del ciclo 2 — la misma herida con diferente forma",sensible:false}
+    ],
+    preguntas:[
+      {p:"¿Qué crisis atravesaste entre los 28 y los 35 años?",h:"¿Hubo un punto de quiebre? ¿Algo que se rompió — una relación, una certeza, una dirección de vida? ¿Cómo lo viviste?"},
+      {p:"¿Reconoces algo del ciclo 2 repitiéndose aquí?",h:"Los patrones de la infancia media — ¿reaparecieron en tus relaciones o circunstancias adultas? ¿Con quién? ¿De qué forma?"},
+      {p:"¿Tu cuerpo habló en este ciclo?",h:"Enfermedades, síntomas físicos que aparecieron o se intensificaron. ¿Qué estaba expresando tu cuerpo en ese momento?"}
+    ],
+    patron:[2]
+  },
+  6:{n:6,tipo:'ser',edades:[35,42],nombre:"La Plenitud",
+    desc:"El sexto ciclo es de consolidación y también de segunda crisis del Ciclo del Ser. Las heridas no sanadas del ciclo 3 regresan. Los hombres enfrentan preguntas de identidad que quedaron sin respuesta en la adolescencia.",
+    hombre:"En el Ciclo del Ser 6, los hombres enfrentan su segunda crisis de identidad. La pregunta ¿quién soy realmente? que quedó sin responder en el ciclo 3 regresa ahora. Pueden aparecer distancia emocional, conductas de escape o la sensación de que algo falta aunque 'todo esté bien'. El duelo que no se lloró en la adolescencia llega aquí.",
+    mujer:"Para las mujeres en el Ciclo del Ser, suele ser un período de mayor tranquilidad, inspiración y claridad. Las mujeres en este ciclo frecuentemente están más centradas, creativas y con mayor sentido de propósito.",
+    sinpareja:"Las heridas del ciclo 3 se expresan en la relación con la propia identidad — en el trabajo, en los proyectos de vida, en la pregunta sobre el legado.",
+    conpareja:"En el ciclo 6 muchas parejas viven la 'crisis del mediocampista'. Él revisando su identidad. Ella más tranquila y enfocada. Esta asimetría, sin comprensión de los ciclos, puede iniciar el distanciamiento o el divorcio.",
+    salud:"Problemas cardiovasculares en hombres (el corazón carga lo que no se pudo expresar), problemas hepáticos relacionados con la ira acumulada, y conductas de escape que el cuerpo usa para manejar lo que la mente no puede procesar.",
+    dolores:[
+      {n:"Crisis de identidad adulta",d:"La pregunta ¿es esto todo? que conecta con el despertar del ciclo 3 — la misma búsqueda de identidad ahora en adulto",sensible:false},
+      {n:"Distancia con los hijos o la pareja",d:"Las heridas de la propia infancia que salen a la luz en la relación con los hijos",sensible:false},
+      {n:"Pérdida de los padres",d:"La muerte de los padres que obliga a confrontar heridas no resueltas — muchas veces la primera vez que se hacen conscientes",sensible:false},
+      {n:"Conductas de escape",d:"Alcohol, trabajo excesivo, infidelidad — lo que no se puede sentir directamente sale por la puerta de atrás",sensible:false},
+      {n:"Duelos postergados que explotan",d:"Todo lo que no se lloró en el ciclo 3 llega aquí buscando ser reconocido",sensible:false}
+    ],
+    preguntas:[
+      {p:"¿Qué movió profundamente tu vida entre los 35 y los 42 años?",h:"¿Hubo una revisión de tus elecciones? ¿Algo que creías resuelto que volvió a aparecer? ¿Una pérdida que abrió preguntas que no querías hacerte?"},
+      {p:"¿Reconoces algo del ciclo 3 repitiéndose aquí?",h:"Las heridas de tu adolescencia — ¿volvieron a mostrarse en tus relaciones, decisiones o dolores de este período?"},
+      {p:"¿Qué duelos no resueltos aparecieron en este ciclo?",h:"Pérdidas, separaciones, despedidas postergadas. Lo que quedó sin llorar en el ciclo 3 busca este ciclo para ser reconocido. ¿Pudiste llorarlo?"}
+    ],
+    patron:[3]
+  },
+  7:{n:7,tipo:'cuerpo',edades:[42,49],nombre:"La Transformación",
+    desc:"El séptimo ciclo es el de la gran transformación. El cuerpo acusa los años. Los patrones no sanados de los ciclos 1 y 4 regresan con fuerza. Es la segunda gran crisis del cuerpo y también la crisis del alma.",
+    hombre:"En el Ciclo del Cuerpo 7, los hombres están emocionalmente más tranquilos pero el ciclo específicamente trae una revisión existencial profunda — la conciencia de la propia mortalidad aparece por primera vez de forma real.",
+    mujer:"Para las mujeres en el Ciclo del Cuerpo 7, el ciclo puede coincidir con la menopausia, añadiendo una dimensión de transformación física muy significativa. Mayor tranquilidad emocional, pero el cuerpo en plena transformación.",
+    sinpareja:"Las preguntas de este ciclo — ¿para qué vivo? ¿qué quiero dejar? — se hacen sin el contexto de la pareja pero con la misma profundidad. La soledad de este ciclo puede ser muy productiva o muy dolorosa.",
+    conpareja:"El ciclo 7 puede ser un período de revisión profunda del vínculo. ¿Esta relación me permite ser quien soy? ¿Hemos crecido juntos? Las respuestas honestas pueden fortalecer o disolver el vínculo.",
+    salud:"Enfermedades cardiovasculares, oncológicas, autoinmunes. El cuerpo tiene una inteligencia directa sobre lo que se cargó emocionalmente durante décadas. Las enfermedades de este ciclo raramente son aleatorias.",
+    dolores:[
+      {n:"Enfermedad grave o diagnóstico serio",d:"El cuerpo habla con toda su fuerza lo que no fue atendido en los ciclos anteriores",sensible:true},
+      {n:"Crisis existencial profunda",d:"La pregunta ¿para qué vivo? que no puede ignorarse más",sensible:false},
+      {n:"Pérdida de la identidad construida",d:"Lo que creías que eras se derrumba — trabajo, estatus, imagen, relación",sensible:false},
+      {n:"Duelos acumulados que explotan",d:"Todas las pérdidas que no se lloraron llegan juntas buscando espacio",sensible:false},
+      {n:"Primera confrontación real con la mortalidad",d:"El final de la vida se siente real y cercano — no como concepto sino como experiencia",sensible:false}
+    ],
+    preguntas:[
+      {p:"¿Qué se transformó en ti entre los 42 y los 49 años?",h:"¿Qué tuviste que soltar aunque no quisieras? ¿Qué certezas cayeron? ¿Qué parte de ti murió para que otra pudiera nacer?"},
+      {p:"¿Tu cuerpo habló con fuerza en este ciclo?",h:"Enfermedades, síntomas, señales que no podían ignorarse. ¿Qué historia de vida estaba contando tu cuerpo?"},
+      {p:"¿Qué emergió del otro lado de la crisis?",h:"Toda transformación tiene un antes y un después. ¿Quién eras antes del ciclo 7? ¿Quién eres ahora? ¿Qué valoras diferente?"}
+    ],
+    patron:[1,4]
+  },
+  8:{n:8,tipo:'sentir',edades:[49,56],nombre:"La Integración",
+    desc:"El octavo ciclo trae la integración de las experiencias del Ciclo del Sentir. Lo que no se sanó en los ciclos 2 y 5 llega ahora con todo su peso. Pero también la posibilidad de una liberación profunda.",
+    hombre:"Para los hombres en el Ciclo del Sentir 8, las emociones vuelven con fuerza. El cuerpo también cambia — andropausia, pérdida de energía física. Muchos hombres viven esto en silencio sin referentes ni apoyo.",
+    mujer:"Para las mujeres en el Ciclo del Sentir 8, la menopausia puede traer una segunda gran transformación. Las que han trabajado su historia interna encuentran en este ciclo una profundidad y sabiduría extraordinarias. Las que no lo han hecho, enfrentan su mayor crisis.",
+    sinpareja:"Las heridas emocionales de los ciclos 2 y 5 buscan resolución en todas las relaciones significativas — con los hijos, con amigos cercanos, con uno mismo.",
+    conpareja:"El ciclo 8 pone a prueba la madurez del vínculo. ¿Pueden acompañarse en las transformaciones profundas? El trabajo interior individual es la condición para estar presentes el uno para el otro.",
+    salud:"Problemas hormonales severos, cardiovasculares, oncológicos. En mujeres, enfermedades relacionadas con los órganos reproductivos que frecuentemente hablan de heridas de la femineidad no resueltas.",
+    dolores:[
+      {n:"Menopausia o andropausia no acompañada",d:"Vivir los cambios físicos y emocionales sin apoyo ni comprensión",sensible:false},
+      {n:"Nido vacío — hijos que se van",d:"La pérdida del rol de cuidado que toca las heridas de apego del ciclo 2",sensible:false},
+      {n:"Revisión de toda la vida emocional",d:"El pasado pide ser revisado — lo que fue, lo que pudo haber sido, lo que se cargó por décadas",sensible:false},
+      {n:"Repetición de patrones relacionales",d:"Las mismas heridas de los ciclos 2 y 5 en nuevas formas y relaciones",sensible:false},
+      {n:"Crisis de sentido",d:"¿Para qué fue todo esto? — la pregunta que no puede responderse sin sanar el origen",sensible:false}
+    ],
+    preguntas:[
+      {p:"¿Qué transformación viviste entre los 49 y los 56 años?",h:"¿Qué cambió en ti? ¿Qué soltaste que habías cargado mucho tiempo? ¿Qué emergió cuando eso cayó?"},
+      {p:"¿Reconoces los ciclos 2 y 5 repitiéndose aquí?",h:"Los patrones emocionales que han marcado tu vida — ¿llegaron a su punto más intenso o encontraron su resolución?"},
+      {p:"¿Qué sabiduría ha emergido de los dolores de toda tu vida emocional?",h:"El dolor procesado se convierte en sabiduría. ¿Qué sabe hoy tu corazón que no podría haber sabido antes de vivir todo esto?"}
+    ],
+    patron:[2,5]
+  },
+  9:{n:9,tipo:'ser',edades:[56,63],nombre:"La Ofrenda",
+    desc:"El noveno ciclo es la integración o la última repetición del Ciclo del Ser. Si el camino fue trabajado, trae sabiduría y propósito. Si no, trae la crisis más profunda — el último llamado a sanar.",
+    hombre:"Para los hombres en el Ciclo del Ser 9, es el momento de la mayor integración o la mayor crisis. El legado, la reconciliación, las preguntas sin responder de toda una vida. Los que han trabajado su historia encuentran aquí una paz que no conocían.",
+    mujer:"Para las mujeres en el Ciclo del Ser 9, suelen estar en un período de serenidad, sabiduría activa e inspiración. Muchas descubren o profundizan en una misión de vida en este ciclo.",
+    sinpareja:"El ciclo 9 invita a una revisión del legado en todos los vínculos — hijos, amigos, comunidad. La ausencia de pareja no limita la profundidad de este ciclo.",
+    conpareja:"La pareja que ha crecido junta tiene la oportunidad de una intimidad y complicidad que no era posible antes. La que no ha trabajado sus heridas puede experimentar su última gran crisis de distanciamiento.",
+    salud:"Enfermedades cardíacas (lo que no se pudo amar ni soltar), problemas del hígado (la ira acumulada décadas), deterioro que conecta con heridas de identidad no resueltas.",
+    dolores:[
+      {n:"Crisis de legado",d:"¿Qué dejo? ¿Para qué fue todo? — la pregunta del sentido que no puede eludirse",sensible:false},
+      {n:"Enfermedades que revelan el costo del camino",d:"El cuerpo acumula lo que no se procesó emocionalmente durante décadas",sensible:false},
+      {n:"Rupturas de relaciones de larga data",d:"Vínculos que se rompen porque los patrones no resueltos ya no pueden sostenerse",sensible:false},
+      {n:"Soledad profunda",d:"La soledad de haber vivido mucho de cara afuera y poco hacia adentro",sensible:false},
+      {n:"Confrontación final con los padres",d:"Vivos o muertos, el último capítulo de esa historia que empezó en el ciclo 1",sensible:false}
+    ],
+    preguntas:[
+      {p:"¿Qué legado estás construyendo entre los 56 y los 63 años?",h:"No necesariamente grandioso. El legado más importante suele ser el más silencioso — cómo tratas a las personas, qué sanaste para que otros no carguen, qué ejemplo vivo das."},
+      {p:"¿Reconoces los ciclos 3 y 6 en lo que vives hoy?",h:"Las heridas de la adolescencia y la mediana edad — ¿han llegado a su resolución o a su mayor intensidad?"},
+      {p:"¿Hay alguna reconciliación que necesitas hacer — con alguien o contigo mismo?",h:"No como obligación — como regalo que te haces a ti mismo y a quienes vienen después. Las reconciliaciones de este ciclo tienen un alcance que trasciende lo personal."}
+    ],
+    patron:[3,6]
+  },
+  10:{n:10,tipo:'cuerpo',edades:[63,70],nombre:"El Destilado",
+    desc:"El décimo ciclo es la cuarta vuelta del Ciclo del Cuerpo. El cuerpo pide escucha profunda. Lo que se vivió, sufrió y aprendió empieza a destilarse en sabiduría pura.",
+    hombre:"Los hombres en el Ciclo del Cuerpo 10 que han trabajado su historia viven con una vitalidad y paz extraordinarias. Los que no lo han hecho enfrentan el deterioro físico como la suma de todo lo no procesado.",
+    mujer:"Las mujeres en el Ciclo del Cuerpo 10 suelen vivir una integración de toda la sabiduría de su vida emocional. Es un ciclo de gran profundidad para las que han transitado conscientemente sus ciclos.",
+    sinpareja:"El ciclo 10 invita a una revisión gratificante del camino recorrido en soledad o acompañado — y a una apertura a los vínculos que aún quedan por profundizar.",
+    conpareja:"El ciclo 10 es el de la gratitud en la pareja — si el camino fue trabajado. O el de la separación tardía si los patrones nunca fueron atendidos.",
+    salud:"Enfermedades crónicas o degenerativas que reflejan el costo acumulado. Pero también: personas con salud vital extraordinaria porque sanaron su camino emocional.",
+    dolores:[
+      {n:"Enfermedades crónicas o degenerativas",d:"El cuerpo acumula lo no resuelto de todos los ciclos anteriores",sensible:false},
+      {n:"Pérdida de pares y seres queridos",d:"La muerte se vuelve compañera habitual — la vida pide desarrollar una relación consciente con ella",sensible:false},
+      {n:"Pérdida de autonomía física",d:"La dependencia que conecta con el miedo a no ser cuidado del ciclo 1",sensible:false},
+      {n:"Revisión final de la propia vida",d:"La evaluación de lo vivido — con paz o con arrepentimiento",sensible:false}
+    ],
+    preguntas:[
+      {p:"¿Cómo está tu cuerpo en este ciclo?",h:"No solo los diagnósticos — ¿cómo te sientes en él? ¿Hay gratitud o hay conflicto? ¿Tu cuerpo es un aliado?"},
+      {p:"¿Qué sanaciones has logrado en los ciclos anteriores?",h:"Reconoce el camino recorrido. ¿Qué heridas que cargaste se han cerrado? ¿Qué ya no duele de la misma forma?"}
+    ],
+    patron:[1,4,7]
+  },
+  11:{n:11,tipo:'sentir',edades:[70,77],nombre:"La Esencia",
+    desc:"El Ciclo del Sentir 11 trae la integración final de la vida emocional. Las personas que han sanado su camino viven aquí con una profundidad y paz extraordinarias.",
+    hombre:"Los hombres en el Ciclo del Sentir 11 pueden ser el abuelo que finalmente siente y expresa lo que no pudo en toda su vida anterior.",
+    mujer:"Las mujeres en el Ciclo del Sentir 11 que han trabajado su historia brillan con una sabiduría que se convierte en faro para los que las rodean.",
+    sinpareja:"La sabiduría de este ciclo se expresa hacia todos los vínculos — hijos, nietos, comunidad.",
+    conpareja:"El ciclo 11 en pareja es de gran profundidad para quienes han construido juntos un camino de crecimiento.",
+    salud:"La salud en el ciclo 11 refleja fielmente el trabajo emocional de toda la vida.",
+    dolores:[
+      {n:"Soledad emocional tardía",d:"La sensación de no haber sido visto ni comprendido en toda la vida",sensible:false},
+      {n:"Duelos acumulados",d:"Todo lo que no se lloró a lo largo de los ciclos llega buscando espacio",sensible:false},
+      {n:"Reconciliación con el propio cuerpo",d:"La paz final con un cuerpo que cambió tanto a lo largo de la vida",sensible:false}
+    ],
+    preguntas:[
+      {p:"¿Qué has aprendido del amor en toda tu vida?",h:"No el amor romántico solamente — el amor en todas sus formas. ¿Qué sabes ahora que no sabías en el ciclo 2?"},
+      {p:"¿A quién puedes iluminar con lo que has vivido?",h:"La sabiduría de los ciclos no es para guardarse — es para ofrecerse."}
+    ],
+    patron:[2,5,8]
+  },
+  12:{n:12,tipo:'ser',edades:[77,84],nombre:"La Trascendencia",
+    desc:"El Ciclo del Ser 12 es la cuarta vuelta. El hombre que ha trabajado su camino se convierte en el anciano sabio que ofrece sin pedir nada a cambio.",
+    hombre:"Los hombres en su Ciclo del Ser 12: la última oportunidad de reconciliarse con lo que fue, con quienes amaron y con quienes hirieron.",
+    mujer:"Las mujeres en el Ciclo del Ser 12: tranquilidad emocional, serenidad, propósito claro. Muchas son profundamente creativas e inspiradas.",
+    sinpareja:"El ciclo 12 invita a la gratitud por todos los vínculos que existieron — los que duraron y los que no.",
+    conpareja:"El ciclo 12 en pareja es el de la gratitud pura por lo que fue posible construir juntos.",
+    salud:"La salud es la suma de toda una vida. El cuerpo cuidado y el alma trabajada llegan juntos al final del camino.",
+    dolores:[
+      {n:"Arrepentimiento no resuelto",d:"Las cosas no dichas, no hechas, no saldadas que buscan resolución",sensible:false},
+      {n:"Reconciliación con los hijos",d:"La última oportunidad de cerrar heridas con la generación que se trajo al mundo",sensible:false},
+      {n:"Paz con la propia historia",d:"La aceptación de que la vida fue exactamente lo que tenía que ser",sensible:false}
+    ],
+    preguntas:[
+      {p:"¿Qué ofrenda quieres dejar?",h:"No necesariamente material. ¿Qué quieres que permanezca de ti — en personas, en valores, en amor transformado?"},
+      {p:"¿Hay algo que necesitas decir o hacer antes de soltar?",h:"La reconciliación no siempre requiere al otro. A veces es una conversación interna la que cierra el ciclo."}
+    ],
+    patron:[3,6,9]
+  }
+};
+
+function getTipoCol(t){return TIPO_COL[t]||'var(--gold)';}
+function getEst(n,a){return n<a?'pasado':n===a?'actual':'futuro';}
+
+function calcCiclo(dd,mm,aa){
+  const hoy=new Date();const nac=new Date(aa,mm-1,dd);
+  let ed=hoy.getFullYear()-nac.getFullYear();
+  if(hoy.getMonth()<mm-1||(hoy.getMonth()===mm-1&&hoy.getDate()<dd))ed--;
+  return{edad:ed,ciclo:Math.min(Math.floor(ed/7)+1,12)};
+}
+
+function rrH(key,lbl,txt,cl=''){
+  const v=S.reg[key]||'';const done=S.comp[key]||false;
+  return`<div class="rr ${cl}"><div class="rr-l">${lbl}</div><p>${txt}</p>
+  <textarea class="rta" placeholder="Escribe tu reflexión aquí..." oninput="S.reg['${key}']=this.value">${v}</textarea>
+  <div class="rchk"><input type="checkbox" id="c-${key}" ${done?'checked':''} onchange="S.comp['${key}']=this.checked;uD('${key}')">
+  <label for="c-${key}">He reflexionado y tengo una acción concreta</label></div>
+  ${done?'<div class="rdone">Completado</div>':''}</div>`;
+}
+window.uD=function(k){const c=document.getElementById('c-'+k);if(!c)return;const p=c.closest('.rr');if(!p)return;const e=p.querySelector('.rdone');if(c.checked&&!e){const d=document.createElement('div');d.className='rdone';d.textContent='Completado';p.appendChild(d);}else if(!c.checked&&e)e.remove();};
+
+const S={fecha:null,edad:null,genero:null,pareja:null,cicloActual:null,dc:{},reg:{},comp:{}};
+const PASOS=[{l:"Inicio"},{l:"El cuadro"},{l:"Mi ciclo"},{l:"Mi historia"}];
+let paso=0;
+
+function rProg(){
+  const b=document.getElementById('pb');if(!b)return;b.innerHTML='';
+  PASOS.forEach((p,i)=>{
+    if(i>0){const l=document.createElement('div');l.className='pln'+(i<=paso?' done':'');b.appendChild(l);}
+    const s=document.createElement('div');s.className='ps'+(i===paso?' act':i<paso?' done':'');
+    s.innerHTML=`<div class="pn">${i<paso?'✓':(i+1)}</div><span class="ptxt">${p.l}</span>`;
+    if(i<paso)s.onclick=()=>irA(i);b.appendChild(s);
+  });
+}
+function irA(i){paso=i;rProg();document.querySelectorAll('.panel').forEach((p,j)=>p.classList.toggle('act',j===i));window.scrollTo({top:0,behavior:'smooth'});}
+window.avanzar=function(){if(paso<PASOS.length-1){const n=paso+1;if(n===1)bCuadro();if(n===2)bCicloActual();if(n===3)bHistoria();irA(n);}};
+window.retro=function(){if(paso>0)irA(paso-1);};
+
+function init(){
+  document.getElementById('app').innerHTML=`
+    <div style="padding:28px 0 0">
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:10px;letter-spacing:.2em;color:var(--gold);text-transform:uppercase;margin-bottom:4px">Café con Propósito · ¿Dónde estoy?</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:300;color:var(--gold2);margin-bottom:22px;font-style:italic">Los Septenios</div>
+    </div>
+    <div class="prog" id="pb"></div>
+    ${PASOS.map((_,i)=>`<div class="panel${i===0?' act':''}" id="p${i}"></div>`).join('')}`;
+  rProg(); bInicio();
+}
+
+function bInicio(){
+  document.getElementById('p0').innerHTML=`
+    <div class="pbadge"><div><div class="pbadge-q">¿Dónde estoy?</div><div class="pbadge-s">Fase 2a · Los Septenios</div></div></div>
+    <div class="ph"><div class="ph-s">Paso 1 de 4</div>
+    <div class="ph-t">Cada 7 años la vida cambia de ciclo</div>
+    <div class="ph-d">Saber en qué ciclo estás — y entender los que ya viviste — puede transformar la forma en que ves tu pasado, tu presente y lo que se repite en tu vida.</div></div>
+
+    <div class="dmsg"><div class="dm-l">Reflexión del día</div><div class="dm-t">"${frase()}"</div></div>
+
+    <div class="card gold">
+      <div class="cl">Los tres tipos de ciclo</div>
+      <div class="ct" style="margin-bottom:14px">El cuadro se construye de abajo hacia arriba pero se lee horizontalmente. Los ciclos se alternan en tres tipos — y cada tipo activa dimensiones diferentes en la vida:</div>
+      <div style="display:flex;flex-direction:column;gap:9px">
+        <div style="background:rgba(74,191,122,.1);border:1px solid rgba(74,191,122,.25);border-radius:var(--rm);padding:13px 15px">
+          <div style="font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--grn);margin-bottom:4px;font-weight:500">Ciclos 1 · 4 · 7 · 10 — Ciclo del Cuerpo</div>
+          <div class="ct">El cuerpo es el protagonista. Salud física, chequeos médicos, patrones físicos que se repiten. Emocionalmente es el ciclo más tranquilo — la energía fluye hacia el hacer y lo concreto.</div>
+        </div>
+        <div style="background:rgba(155,127,212,.1);border:1px solid rgba(155,127,212,.25);border-radius:var(--rm);padding:13px 15px">
+          <div style="font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--pur);margin-bottom:4px;font-weight:500">Ciclos 2 · 5 · 8 · 11 — Ciclo del Sentir</div>
+          <div class="ct">La sensibilidad emocional está a flor de piel — para hombres y para mujeres. El cuerpo cambia de formas que no se pidieron. Las heridas emocionales más profundas se procesan en este tipo de ciclo.</div>
+        </div>
+        <div style="background:rgba(74,158,191,.1);border:1px solid rgba(74,158,191,.25);border-radius:var(--rm);padding:13px 15px">
+          <div style="font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--acc);margin-bottom:4px;font-weight:500">Ciclos 3 · 6 · 9 · 12 — Ciclo del Ser</div>
+          <div class="ct">Las grandes preguntas de identidad. Los duelos, las pérdidas y las crisis existenciales. Para los hombres especialmente es el ciclo de mayor intensidad emocional. Para las mujeres, suele ser un período de mayor claridad y propósito.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card red">
+      <div class="cl r">La ley de repetición</div>
+      <div class="ct"><strong style="color:var(--gold3)">Lo que no se sana en un ciclo se repite en el siguiente del mismo tipo.</strong> Lo que no se procesó en el Ciclo del Sentir 2 regresa en el 5, y si no se sana en el 5, regresa en el 8. Este patrón explica por qué algunas heridas parecen perseguirnos — no es mala suerte, es el alma buscando la oportunidad de sanar lo que quedó abierto.<br><br>Los tres primeros ciclos (0–21 años) son los más determinantes. Las heridas de esa etapa construyen los cimientos de los patrones que se repiten en la vida adulta.</div>
+    </div>
+
+    <div class="card pur">
+      <div class="cl p">Los ciclos y la dinámica en los vínculos</div>
+      <div class="ct">Una de las fuentes más frecuentes de tensión en los vínculos cercanos es no saber en qué ciclo está cada uno. Si alguien está en un Ciclo del Sentir (emociones intensas, vulnerabilidad activa) y la persona a su lado está en un Ciclo del Cuerpo (tranquila, orientada a lo concreto), la diferencia puede sentirse como incompatibilidad — cuando en realidad es solo una diferencia de ciclo. Entender esto transforma la mirada.</div>
+    </div>
+
+    <div class="card gold">
+      <div class="cl">Ingresa tu información</div>
+      <div class="irow" style="margin-bottom:14px">
+        <div style="flex:1;min-width:75px"><label class="il">Día</label><input class="inp" id="fD" type="number" min="1" max="31" placeholder="17"></div>
+        <div style="flex:1;min-width:75px"><label class="il">Mes</label><input class="inp" id="fM" type="number" min="1" max="12" placeholder="4"></div>
+        <div style="flex:1;min-width:105px"><label class="il">Año</label><input class="inp" id="fA" type="number" min="1900" max="2099" placeholder="1969"></div>
+      </div>
+      <div style="margin-bottom:14px">
+        <label class="il">Género</label>
+        <div class="opt-btns">
+          <div class="opt-btn" id="btn-m" onclick="selOpt('genero','M','btn-m','btn-f','on-acc')">Hombre</div>
+          <div class="opt-btn" id="btn-f" onclick="selOpt('genero','F','btn-f','btn-m','on-pur')">Mujer</div>
+        </div>
+      </div>
+      <div style="margin-bottom:16px">
+        <label class="il">¿Tienes pareja actualmente?</label>
+        <div class="opt-btns">
+          <div class="opt-btn" id="btn-si" onclick="selOpt('pareja','si','btn-si','btn-no','on-gold')">Sí, tengo pareja</div>
+          <div class="opt-btn" id="btn-no" onclick="selOpt('pareja','no','btn-no','btn-si','on-gold')">No tengo pareja</div>
+        </div>
+      </div>
+      <button class="bp" onclick="procInicio()">Ver mi cuadro de septenios</button>
+    </div>
+    <div class="nav"><span></span></div>`;
+}
+
+window.selOpt=function(campo,val,idOn,idOff,cls){
+  S[campo]=val;
+  const on=document.getElementById(idOn),off=document.getElementById(idOff);
+  if(on){on.className='opt-btn '+cls;}
+  if(off){off.className='opt-btn';}
+};
+
+window.procInicio=function(){
+  const dd=parseInt(document.getElementById('fD').value)||0;
+  const mm=parseInt(document.getElementById('fM').value)||0;
+  const aa=parseInt(document.getElementById('fA').value)||0;
+  if(!dd||!mm||!aa){alert('Por favor ingresa tu fecha completa.');return;}
+  if(!S.genero){alert('Por favor selecciona tu género.');return;}
+  if(!S.pareja){alert('Por favor indica si tienes pareja actualmente.');return;}
+  const r=calcCiclo(dd,mm,aa);
+  S.fecha={dd,mm,aa};S.edad=r.edad;S.cicloActual=r.ciclo;
+  bCuadro(); avanzar();
+};
+
+function bCuadro(){
+  const act=S.cicloActual;
+  const filas=[
+    {label:'Ciclo del Ser',ciclos:[3,6,9,12]},
+    {label:'Ciclo del Sentir',ciclos:[2,5,8,11]},
+    {label:'Ciclo del Cuerpo',ciclos:[1,4,7,10]}
+  ];
+  const gridH=filas.map(f=>{
+    const celdas=f.ciclos.map(n=>{
+      const c=C[n];const est=getEst(n,act);
+      return`<div class="sept-cell ${TIPO_CSS[c.tipo]} ${est}${n===act?' actual':''}" onclick="abrirCiclo(${n})">
+        <div class="sc-n">${n}${n===act?'<span style="font-size:11px;opacity:.5"> ◉</span>':''}</div>
+        <div class="sc-e">${c.edades[0]}–${c.edades[1]}</div>
+      </div>`;
+    }).join('');
+    return`<div class="sept-fila"><div class="sept-fila-label">${f.label}</div>${celdas}</div>`;
+  }).join('');
+
+  const cicH=C[act];const tipoActual=cicH?.tipo;
+  const mismoTipoAnt=Object.values(C).filter(c=>c.tipo===tipoActual&&c.n<act).map(c=>c.n);
+
+  document.getElementById('p1').innerHTML=`
+    <div class="pbadge"><div><div class="pbadge-q">¿Dónde estoy?</div><div class="pbadge-s">Tu cuadro de septenios</div></div></div>
+    <div class="ph"><div class="ph-s">Paso 2 de 4 — El cuadro</div>
+    <div class="ph-t">Tu vida en ciclos</div>
+    <div class="ph-d">Construido de abajo hacia arriba, leído horizontalmente. Toca cualquier ciclo para ver su análisis.</div></div>
+
+    <div class="card" style="padding:18px 20px">
+      <div class="cl" style="margin-bottom:12px">Tu cuadro — ${S.edad} años · Ciclo ${act} · ${S.genero==='M'?'Hombre':'Mujer'}</div>
+      <div class="sept-grid">${gridH}</div>
+      <div style="display:flex;gap:14px;flex-wrap:wrap;margin-top:10px">
+        <span style="font-size:11px;color:var(--grn);display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:2px;background:rgba(74,191,122,.2);border:1px solid rgba(74,191,122,.4);display:inline-block"></span>Ciclo del Cuerpo</span>
+        <span style="font-size:11px;color:var(--pur);display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:2px;background:rgba(155,127,212,.2);border:1px solid rgba(155,127,212,.4);display:inline-block"></span>Ciclo del Sentir</span>
+        <span style="font-size:11px;color:var(--acc);display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:2px;background:rgba(74,158,191,.2);border:1px solid rgba(74,158,191,.4);display:inline-block"></span>Ciclo del Ser</span>
+        <span style="font-size:11px;color:var(--dim)">◉ ciclo actual</span>
+      </div>
+    </div>
+
+    <div class="card gold">
+      <div class="cl">Estás en el ciclo ${act} — ${cicH?.nombre||''}</div>
+      <div class="ct" style="margin-bottom:10px">Tienes <strong style="color:var(--gold3)">${S.edad} años</strong> y estás en un <strong style="color:${getTipoCol(tipoActual)}">${TIPO_LABEL[tipoActual]||''}</strong>. ${TIPO_DESC[tipoActual]||''}</div>
+      ${mismoTipoAnt.length>0?`<div style="background:var(--rdd);border:1px solid var(--rdb);border-radius:var(--rm);padding:11px 14px">
+        <div style="font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#E09070;margin-bottom:4px;font-weight:500">Ciclos anteriores del mismo tipo que pueden estar repitiéndose</div>
+        <div class="ct">Por estar en un <strong style="color:var(--gold3)">${TIPO_LABEL[tipoActual]||''}</strong>, los ciclos anteriores del mismo tipo que merecen revisión son: <strong style="color:var(--gold3)">${mismoTipoAnt.join(' y ')}</strong>. Lo que no se sanó en esos ciclos puede estar expresándose en lo que vives hoy.</div>
+      </div>`:''}
+    </div>
+
+    <div class="ciclo-det" id="cicloExp"></div>
+
+    <div class="nav"><button class="bn" onclick="retro()">Anterior</button>
+    <button class="bp" onclick="avanzar()">Analizar mi ciclo actual</button></div>`;
+}
+
+window.abrirCiclo=function(n){
+  const c=C[n];if(!c)return;
+  const det=document.getElementById('cicloExp');det.classList.add('open');
+  const tc=getTipoCol(c.tipo);
+  const genText=S.genero==='M'?c.hombre:c.mujer;
+  const vinculoText=S.pareja==='si'?c.conpareja:c.sinpareja;
+  const patronH=c.patron&&c.patron.length>0?`<div style="font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#E09070;margin-bottom:7px;font-weight:500">Patrón de repetición</div>
+  <div class="pat-row">${c.patron.map(p=>`<div class="pat-cell pat-or"><span>${p}</span><div class="pat-l">${TIPO_LABEL[TIPO_MAP[p]]||''}</div></div><div class="pat-ar">→</div>`).join('')}<div class="pat-cell pat-ac"><span>${n}</span><div class="pat-l">Ciclo ${n}</div></div></div>
+  <div class="ct" style="font-size:12px;margin-top:6px">Lo que no se sanó en el ciclo ${c.patron.join(' o ')} puede estar repitiéndose aquí.</div>`:'';
+
+  det.innerHTML=`<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;flex-wrap:wrap;gap:8px">
+    <div><div style="font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:${tc};margin-bottom:3px;font-weight:500">${TIPO_LABEL[c.tipo]||''}</div>
+    <div style="font-family:'Cormorant Garamond',serif;font-size:20px;color:${tc};font-style:italic">Ciclo ${n} — ${c.nombre}</div>
+    <div style="font-size:12px;color:var(--dim)">${c.edades[0]}–${c.edades[1]} años</div></div>
+    <div style="font-family:'Cormorant Garamond',serif;font-size:46px;color:${tc};font-weight:300;line-height:1">${n}</div>
+  </div>
+  <div class="ct" style="margin-bottom:12px">${c.desc}</div>
+  <div style="background:var(--bg4);border-left:2px solid ${tc};padding:11px 14px;border-radius:0 var(--r) var(--r) 0;margin-bottom:10px">
+    <div style="font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:${tc};margin-bottom:4px;font-weight:500">Para ${S.genero==='M'?'hombres':'mujeres'} en este ciclo</div>
+    <div class="ct">${genText}</div>
+  </div>
+  <div style="background:var(--bg4);border-left:2px solid var(--acc);padding:11px 14px;border-radius:0 var(--r) var(--r) 0;margin-bottom:12px">
+    <div style="font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--acc);margin-bottom:4px;font-weight:500">${S.pareja==='si'?'En la dinámica de pareja':'En los vínculos cercanos'}</div>
+    <div class="ct">${vinculoText}</div>
+  </div>
+  ${patronH}
+  <button class="bs" onclick="document.getElementById('cicloExp').classList.remove('open')" style="margin-top:12px;font-size:11px;padding:7px 16px">Cerrar</button>`;
+  det.scrollIntoView({behavior:'smooth',block:'nearest'});
+};
+
+function bCicloActual(){
+  const n=S.cicloActual;const c=C[n];if(!c)return;
+  const tc=getTipoCol(c.tipo);
+  const genText=S.genero==='M'?c.hombre:c.mujer;
+  const contText=S.genero==='M'?c.mujer:c.hombre;
+  const vinculoText=S.pareja==='si'?c.conpareja:c.sinpareja;
+
+  const dolorH=c.dolores.map((d,i)=>{
+    const k=`dc-${n}-${i}`;const on=S.dc[k]||false;
+    return`<div class="dc ${on?'on':''}" id="dce-${k}" onclick="togDC('${k}',${d.sensible})">
+      <div class="dcb"></div>
+      <div style="flex:1"><div class="dc-t">${d.n}</div><div class="dc-d">${d.d}</div></div>
+    </div>`;
+  }).join('');
+
+  const pregH=c.preguntas.map((p,i)=>`
+    <div class="preg">
+      <div class="preg-n">Pregunta ${i+1}</div>
+      <div class="preg-t">${p.p}</div>
+      <div class="preg-h">${p.h}</div>
+      <textarea class="rta" placeholder="Tómate el tiempo que necesites..." oninput="S.reg['preg-${n}-${i}']=this.value">${S.reg[`preg-${n}-${i}`]||''}</textarea>
+    </div>`).join('');
+
+  document.getElementById('p2').innerHTML=`
+    <div class="pbadge"><div><div class="pbadge-q">¿Dónde estoy?</div><div class="pbadge-s">Ciclo ${n} — ${c.nombre}</div></div></div>
+    <div class="ph"><div class="ph-s">Paso 3 de 4 — Tu ciclo actual</div>
+    <div class="ph-t">Ciclo ${n} · ${TIPO_LABEL[c.tipo]||''} · ${c.edades[0]}–${c.edades[1]} años</div>
+    <div class="ph-d">${TIPO_DESC[c.tipo]||''}</div></div>
+
+    <div class="dmsg"><div class="dm-l">Reflexión del día</div><div class="dm-t">"${frase()}"</div></div>
+
+    <div class="card" style="border-color:${tc}44">
+      <div class="cl" style="color:${tc}">Lo que este ciclo activa en ${S.genero==='M'?'ti':'ti'}</div>
+      <div class="ct" style="margin-bottom:12px">${genText}</div>
+      <div class="dv"></div>
+      <div class="cl" style="color:var(--faint)">Lo que puede estar viviendo la persona a tu lado en este momento</div>
+      <div class="ct">${contText}</div>
+    </div>
+
+    <div class="card" style="border-color:var(--acb)">
+      <div class="cl b">${S.pareja==='si'?'Este ciclo en tu dinámica de pareja':'Este ciclo en tus vínculos cercanos'}</div>
+      <div class="ct">${vinculoText}</div>
+    </div>
+
+    <div class="card grn">
+      <div class="cl g">Salud en este ciclo</div>
+      <div class="ct">${c.salud}</div>
+    </div>
+
+    ${c.patron&&c.patron.length>0?`<div class="card red">
+      <div class="cl r">Lo que este ciclo puede estar repitiendo</div>
+      <div class="ct" style="margin-bottom:10px">Estás en el ciclo ${n} (${TIPO_LABEL[c.tipo]||''}). Los ciclos anteriores del mismo tipo son: <strong style="color:var(--gold3)">${c.patron.join(' y ')}</strong>. Lo que vives hoy puede tener sus raíces en lo que no se procesó en esos ciclos.</div>
+      <div class="pat-row">${c.patron.map(p=>`<div class="pat-cell pat-or"><span>${p}</span><div class="pat-l">${c.edades[0]-((n-p)*7)}–${c.edades[0]-((n-p)*7)+7} años</div></div><div class="pat-ar">→</div>`).join('')}<div class="pat-cell pat-ac"><span>${n}</span><div class="pat-l">Hoy · ${c.edades[0]}–${c.edades[1]} años</div></div></div>
+    </div>`:''}
+
+    <div class="card">
+      <div class="cl">Dolores frecuentes en este ciclo</div>
+      <div class="ct" style="margin-bottom:10px">Marca los que reconoces en tu historia. Esto alimentará tu electrocardiograma emocional en el siguiente archivo.</div>
+      <div id="alertaCuidado" class="alerta-cuidado">
+        <div style="font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--pur);margin-bottom:6px;font-weight:500">Un momento antes de continuar</div>
+        <div class="ct">Lo que estás nombrando lleva mucho peso. Este espacio es tuyo y lo que escribas es completamente privado.<br><br>Si en algún momento sientes que el proceso necesita más acompañamiento del que una herramienta digital puede ofrecer — un psicólogo, un terapeuta, un consejero de confianza — eso no es debilidad. Es una señal de que la herida merece la atención que se merece.</div>
+      </div>
+      <div>${dolorH}</div>
+    </div>
+
+    <div class="card gold">
+      <div class="cl">Las preguntas de tu ciclo</div>
+      <div class="ct" style="margin-bottom:14px">No hay respuestas correctas — hay respuestas honestas. Tómate el tiempo que necesites con cada una.</div>
+      ${pregH}
+    </div>
+
+    <div class="nav"><button class="bn" onclick="retro()">Anterior</button>
+    <button class="bp" onclick="avanzar()">Revisar mis ciclos anteriores</button></div>
+    <div id="chk-actual-container"></div>
+  `;
+  
+  // Insertar checklist del ciclo actual usando DOM API
+  var chkActCont = document.getElementById('chk-actual-container');
+  if (chkActCont && CICLOS_DATA[String(n)]) {
+    var chkKey = 'actual-' + n;
+    if (!checklist_estado[chkKey]) checklist_estado[chkKey] = {dolor:[], alegria:[]};
+    buildChecklistPasado(c.tipo, tc, chkActCont, chkKey, n);
+  }
+}
+
+window.togDC=function(k,sensible){
+  S.dc[k]=!S.dc[k];
+  const el=document.getElementById('dce-'+k);if(el)el.classList.toggle('on',S.dc[k]);
+  // Si marcó algo sensible, mostrar alerta de cuidado
+  if(sensible&&S.dc[k]){
+    const al=document.getElementById('alertaCuidado');
+    if(al)al.classList.add('show');
+  }
+};
+
+function bHistoria(){
+  var act = S.cicloActual;
+  var pasados = Object.values(C).filter(function(ci){return ci.n < act;}).sort(function(a,b){return a.n-b.n;});
+
+  var p3 = document.getElementById('p3');
+  p3.innerHTML = '';
+
+  // Badge
+  var badge = document.createElement('div'); badge.className = 'pbadge';
+  var bq = document.createElement('div'); bq.className = 'pbadge-q'; bq.textContent = '\u00bfD\u00f3nde estoy?';
+  var bs = document.createElement('div'); bs.className = 'pbadge-s'; bs.textContent = 'Los ciclos que ya viviste';
+  badge.appendChild(bq); badge.appendChild(bs); p3.appendChild(badge);
+
+  // Header
+  var ph = document.createElement('div'); ph.className = 'ph';
+  var phs = document.createElement('div'); phs.className = 'ph-s'; phs.textContent = 'Paso 4 de 4 \u2014 Tu historia';
+  var pht = document.createElement('div'); pht.className = 'ph-t'; pht.textContent = 'Los ciclos que ya viviste';
+  var phd = document.createElement('div'); phd.className = 'ph-d'; phd.textContent = 'Cada ciclo pasado dej\u00f3 algo \u2014 un aprendizaje, una herida, un don. Revisarlos con honestidad es el comienzo de la sanaci\u00f3n. Las situaciones que marques aqu\u00ed ser\u00e1n el insumo directo para tu Trabajo Emocional.';
+  ph.appendChild(phs); ph.appendChild(pht); ph.appendChild(phd); p3.appendChild(ph);
+
+  // Frase del dia
+  var dm = document.createElement('div'); dm.className = 'dmsg';
+  var dml = document.createElement('div'); dml.className = 'dm-l'; dml.textContent = 'Reflexi\u00f3n del d\u00eda';
+  var dmt = document.createElement('div'); dmt.className = 'dm-t'; dmt.textContent = '\u201c' + frase() + '\u201d';
+  dm.appendChild(dml); dm.appendChild(dmt); p3.appendChild(dm);
+
+  // Alerta primeros ciclos
+  var card0 = document.createElement('div'); card0.className = 'card red';
+  var cl0 = document.createElement('div'); cl0.className = 'cl r'; cl0.textContent = 'La clave: los tres primeros ciclos';
+  var ct0 = document.createElement('div'); ct0.className = 'ct'; ct0.textContent = 'Los ciclos 1, 2 y 3 (de los 0 a los 21 a\u00f1os) son los m\u00e1s determinantes de toda la vida. Las heridas construidas ah\u00ed \u2014 los abandonos, los abusos, las separaciones \u2014 tienden a repetirse en los ciclos siguientes del mismo tipo si no se sanaron. Marca con honestidad lo que viviste.';
+  card0.appendChild(cl0); card0.appendChild(ct0); p3.appendChild(card0);
+
+  if (!pasados.length) {
+    var np = document.createElement('div'); np.className = 'ct'; np.style.textAlign = 'center'; np.style.padding = '20px';
+    np.textContent = 'Est\u00e1s en tu primer ciclo de vida. No hay ciclos anteriores que revisar.';
+    p3.appendChild(np);
+  }
+
+  // Navegacion ciclo a ciclo
+  var cicloActualIdx = 0;
+  
+  function renderCicloNav() {
+    // Remover navegador anterior si existe
+    var oldNav2 = p3.querySelector('.ciclos-nav-wrap');
+    if (oldNav2) p3.removeChild(oldNav2);
+    var oldCicloBlk = p3.querySelector('.ciclo-pasado-blk');
+    if (oldCicloBlk) p3.removeChild(oldCicloBlk);
+
+    if (!pasados.length) {
+      var np = document.createElement('div'); np.className = 'ct';
+      np.style.cssText = 'text-align:center;padding:20px';
+      np.textContent = 'Est\u00e1s en tu primer ciclo de vida.';
+      p3.insertBefore(np, p3.querySelector('.ecg-conexion-blk'));
+      return;
+    }
+
+    var ci = pasados[cicloActualIdx];
+    var tc = getTipoCol(ci.tipo);
+    var k = 'hist-' + ci.n;
+    var genText = S.genero === 'M' ? ci.hombre : ci.mujer;
+    var tipoId = ci.tipo;
+    var chkKey = 'chk-' + ci.n;
+    if (!checklist_estado[chkKey]) checklist_estado[chkKey] = {dolor:[], alegria:[]};
+
+    // Barra de progreso de ciclos
+    var navWrap = document.createElement('div');
+    navWrap.className = 'ciclos-nav-wrap';
+    navWrap.style.cssText = 'margin-bottom:14px';
+    
+    var navLbl = document.createElement('div');
+    navLbl.style.cssText = 'font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin-bottom:8px;display:flex;justify-content:space-between';
+    var navLblTxt = document.createElement('span');
+    navLblTxt.textContent = 'Revisando ciclo ' + (cicloActualIdx+1) + ' de ' + pasados.length;
+    var navPct = document.createElement('span');
+    navPct.textContent = Math.round((cicloActualIdx/pasados.length)*100) + '% completado';
+    navLbl.appendChild(navLblTxt); navLbl.appendChild(navPct);
+    
+    var navBar = document.createElement('div');
+    navBar.style.cssText = 'display:flex;gap:4px';
+    pasados.forEach(function(cp, idx) {
+      var dot = document.createElement('div');
+      var done = S.comp['hc-'+cp.n] || false;
+      var isCurrent = idx === cicloActualIdx;
+      var dotCol = getTipoCol(cp.tipo);
+      dot.style.cssText = 'flex:1;height:4px;border-radius:2px;cursor:pointer;transition:all .2s;background:' +
+        (done ? dotCol : isCurrent ? dotCol + '80' : 'var(--faint)');
+      dot.title = 'Ciclo ' + cp.n + ' · ' + cp.edades[0] + '-' + cp.edades[1] + ' años';
+      dot.onclick = (function(i2){return function(){cicloActualIdx=i2;renderCicloNav();};})(idx);
+      navBar.appendChild(dot);
+    });
+    navWrap.appendChild(navLbl); navWrap.appendChild(navBar);
+
+    // Conexion de repeticion si aplica
+    var tiposPorCiclo = {'cuerpo':[1,4,7,10],'sentir':[2,5,8,11],'ser':[3,6,9,12]};
+    var repeticionMsg = '';
+    var ciclosDelMismoTipo = (tiposPorCiclo[tipoId] || []).filter(function(n){return n < ci.n && n >= 1;});
+    if (ciclosDelMismoTipo.length > 0 && act > 3) {
+      repeticionMsg = 'Si algo doloroso ocurri\u00f3 en el ciclo ' + ciclosDelMismoTipo.join(' o ') +
+        ' y no fue sanado, es probable que se haya repetido o amplificado aqu\u00ed (Ciclo ' + ci.n + ').';
+    }
+    
+    var blk = document.createElement('div');
+    blk.className = 'ciclo-pasado-blk';
+    blk.style.cssText = 'background:var(--bg3);border-radius:var(--rm);padding:16px 18px;margin-bottom:12px;border:1px solid ' + tc + '33;border-left:3px solid ' + tc;
+
+    // Header del ciclo
+    var hdr = document.createElement('div');
+    hdr.style.cssText = 'display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;flex-wrap:wrap;gap:8px';
+    var hinfo = document.createElement('div');
+    var hlbl = document.createElement('div');
+    hlbl.style.cssText = 'font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:' + tc + ';margin-bottom:3px;font-weight:500';
+    hlbl.textContent = 'Ciclo ' + ci.n + ' \u00b7 ' + (TIPO_LABEL[ci.tipo]||'') + ' \u00b7 ' + ci.edades[0] + '\u2013' + ci.edades[1] + ' a\u00f1os';
+    var hnom = document.createElement('div');
+    hnom.style.cssText = 'font-family:Cormorant Garamond,serif;font-size:20px;color:var(--gold2);font-style:italic;margin-bottom:4px';
+    hnom.textContent = ci.nombre;
+    hinfo.appendChild(hlbl); hinfo.appendChild(hnom);
+    var hnum = document.createElement('div');
+    hnum.style.cssText = 'font-family:Cormorant Garamond,serif;font-size:42px;color:' + tc + ';font-weight:300;line-height:1';
+    hnum.textContent = String(ci.n);
+    hdr.appendChild(hinfo); hdr.appendChild(hnum); blk.appendChild(hdr);
+
+    // Alerta de repeticion
+    if (repeticionMsg) {
+      var repBlk = document.createElement('div');
+      repBlk.style.cssText = 'background:rgba(201,168,76,.08);border-left:3px solid var(--gold);border-radius:var(--r);padding:9px 12px;margin-bottom:10px';
+      var repLbl = document.createElement('div');
+      repLbl.style.cssText = 'font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:3px;font-weight:500;font-family:Barlow Condensed,sans-serif';
+      repLbl.textContent = '\u26a0 Patr\u00f3n de repetici\u00f3n';
+      var repTxt = document.createElement('div');
+      repTxt.style.cssText = 'font-size:12px;color:var(--dim);line-height:1.6;font-style:italic';
+      repTxt.textContent = repeticionMsg;
+      repBlk.appendChild(repLbl); repBlk.appendChild(repTxt); blk.appendChild(repBlk);
+    }
+
+    // Descripcion calibrada por genero
+    var desc = document.createElement('div'); desc.className = 'ct';
+    desc.style.cssText = 'margin-bottom:12px;font-size:12px';
+    desc.textContent = genText; blk.appendChild(desc);
+
+    // CHECKLIST
+    buildChecklistPasado(tipoId, tc, blk, chkKey, ci.n);
+
+    // Reflexion libre
+    var rtaLbl = document.createElement('div');
+    rtaLbl.style.cssText = 'font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);margin:10px 0 5px;font-weight:500';
+    rtaLbl.textContent = '\u00bfAlgo m\u00e1s que quieras agregar sobre este ciclo?';
+    blk.appendChild(rtaLbl);
+    var rta = document.createElement('textarea'); rta.className = 'rta';
+    rta.placeholder = 'Reflexiones adicionales, personas involucradas, emociones que recuerdas...';
+    rta.value = S.reg[k] || '';
+    rta.oninput = (function(kk){return function(){S.reg[kk]=this.value;};})(k);
+    blk.appendChild(rta);
+
+    // Checkbox completado
+    var rchk = document.createElement('div'); rchk.className = 'rchk'; rchk.style.marginTop = '8px';
+    var chkDone = document.createElement('input'); chkDone.type = 'checkbox';
+    chkDone.checked = S.comp['hc-'+ci.n] || false;
+    chkDone.onchange = (function(nn){return function(){S.comp['hc-'+nn]=this.checked; renderCicloNav();};})(ci.n);
+    var lblDone = document.createElement('label');
+    lblDone.style.cssText = 'font-size:12px;color:var(--dim);cursor:pointer';
+    lblDone.textContent = 'He revisado y reflexionado sobre este ciclo';
+    rchk.appendChild(chkDone); rchk.appendChild(lblDone); blk.appendChild(rchk);
+
+    // Botones anterior / siguiente ciclo
+    var cicloNav = document.createElement('div');
+    cicloNav.style.cssText = 'display:flex;justify-content:space-between;align-items:center;margin-top:14px;padding-top:12px;border-top:1px solid rgba(255,255,255,.05)';
+    var btnPrevC = document.createElement('button'); btnPrevC.className = 'bn';
+    btnPrevC.textContent = cicloActualIdx > 0 ? '\u2190 Ciclo ' + pasados[cicloActualIdx-1].n : '';
+    btnPrevC.style.visibility = cicloActualIdx > 0 ? 'visible' : 'hidden';
+    btnPrevC.onclick = function(){cicloActualIdx--;renderCicloNav();window.scrollTo({top:0,behavior:'smooth'});};
+    var btnNextC = document.createElement('button'); btnNextC.className = 'bp';
+    btnNextC.textContent = cicloActualIdx < pasados.length-1 
+      ? 'Ciclo ' + pasados[cicloActualIdx+1].n + ' \u2192' 
+      : '\u2713 Terminar revisi\u00f3n';
+    btnNextC.onclick = function(){
+      if(cicloActualIdx < pasados.length-1){cicloActualIdx++;renderCicloNav();window.scrollTo({top:0,behavior:'smooth'});}
+      else{window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'});}
+    };
+    cicloNav.appendChild(btnPrevC); cicloNav.appendChild(btnNextC);
+    blk.appendChild(cicloNav);
+
+    var ecgRef = p3.querySelector('.ecg-conexion-blk');
+    if (ecgRef) {
+      p3.insertBefore(navWrap, ecgRef);
+      p3.insertBefore(blk, ecgRef);
+    } else {
+      p3.appendChild(navWrap);
+      p3.appendChild(blk);
+    }
+  }
+
+  renderCicloNav();
+
+  // Conexion ECG
+  var ecgBlk = document.createElement('div'); ecgBlk.className = 'ecg-conexion-blk';
+  var ecgLbl = document.createElement('div'); ecgLbl.className = 'ecg-conexion-lbl';
+  ecgLbl.textContent = '\u2192 Llevar tu historia al Trabajo Emocional';
+  var ecgTxt = document.createElement('div'); ecgTxt.className = 'ecg-conexion-txt';
+  ecgTxt.textContent = 'Todo lo que marcaste en tus ciclos anteriores \u2014 los dolores, las alegr\u00edas, los patrones \u2014 es el insumo directo para el ECG emocional. El siguiente m\u00f3dulo te ayuda a procesar y soltar lo que identificaste aqu\u00ed.';
+  var ecgBtn = document.createElement('a'); ecgBtn.className = 'ecg-btn'; ecgBtn.href = '#';
+  ecgBtn.onclick = function(e) {
+    e.preventDefault();
+    // Guardar datos de septenios en la agenda compartida
+    if (window.ANORMAL && window.checklist_estado) {
+      ANORMAL.saveSeptenios(
+        checklist_estado,
+        S.cicloActual,
+        S.nombre || '',
+        S.genero || ''
+      );
+    }
+    window.location.href = 'mi-trabajo-emocional.html';
+  };
+  var ecgBtnTxt = document.createElement('span'); ecgBtnTxt.className = 'ecg-btn-txt';
+  ecgBtnTxt.textContent = 'Ir a Mi Trabajo Emocional \u2192';
+  ecgBtn.appendChild(ecgBtnTxt); ecgBlk.appendChild(ecgLbl); ecgBlk.appendChild(ecgTxt); ecgBlk.appendChild(ecgBtn);
+  p3.appendChild(ecgBlk);
+
+  // Botones nav
+  var nav = document.createElement('div'); nav.className = 'nav';
+  var pb = document.createElement('button'); pb.className = 'bn'; pb.textContent = 'Anterior';
+  pb.onclick = function(){irA(2);};
+  var ps = document.createElement('button'); ps.className = 'bs'; ps.style.opacity = '.5'; ps.textContent = 'Revisar desde el inicio';
+  ps.onclick = function(){irA(0);};
+  nav.appendChild(pb); nav.appendChild(ps); p3.appendChild(nav);
+}
+
+// Checklist para ciclos PASADOS — version DOM API
+function buildChecklistPasado(tipoId, color, container, chkKey, cicloNum) {
+  var cicloKey = String(cicloNum);
+  var data = CICLOS_DATA[cicloKey];
+  if (!data) {
+    // Fallback al tipo si no hay datos especificos
+    data = {titulo:'',dolor:[],alegria:[],tarea:'',patron:'',preguntas:[]};
+  }
+
+  var wrap = document.createElement('div');
+  wrap.className = 'ciclo-checklist';
+  wrap.style.borderColor = 'rgba(' + hexToRgb(color) + ',.3)';
+
+  // Titulo
+  var tit = document.createElement('div'); tit.className = 'ciclo-checklist-titulo';
+  tit.style.color = color;
+  tit.textContent = data.titulo || ('Situaciones del Ciclo ' + cicloNum);
+  wrap.appendChild(tit);
+
+  // Tarea del ciclo
+  if (data.tarea) {
+    var tareaBlk = document.createElement('div');
+    tareaBlk.style.cssText = 'background:var(--bg4);border-radius:var(--r);padding:9px 12px;margin-bottom:10px;border-left:3px solid ' + color;
+    var tareaLbl = document.createElement('div');
+    tareaLbl.style.cssText = 'font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:' + color + ';margin-bottom:3px;font-weight:500;font-family:Barlow Condensed,sans-serif';
+    tareaLbl.textContent = 'La tarea de este ciclo';
+    var tareaTxt = document.createElement('div');
+    tareaTxt.style.cssText = 'font-size:12px;color:var(--text);line-height:1.6;font-style:italic';
+    tareaTxt.textContent = data.tarea;
+    tareaBlk.appendChild(tareaLbl); tareaBlk.appendChild(tareaTxt);
+    wrap.appendChild(tareaBlk);
+  }
+
+  // Patron de conducta
+  if (data.patron) {
+    var patronBlk = document.createElement('div');
+    patronBlk.style.cssText = 'background:rgba(155,127,212,.08);border-radius:var(--r);padding:9px 12px;margin-bottom:10px;border-left:3px solid var(--pur)';
+    var patronLbl = document.createElement('div');
+    patronLbl.style.cssText = 'font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--pur);margin-bottom:3px;font-weight:500;font-family:Barlow Condensed,sans-serif';
+    patronLbl.textContent = 'Patr\u00f3n frecuente en adultos con heridas en este ciclo';
+    var patronTxt = document.createElement('div');
+    patronTxt.style.cssText = 'font-size:12px;color:var(--dim);line-height:1.6';
+    patronTxt.textContent = data.patron;
+    patronBlk.appendChild(patronLbl); patronBlk.appendChild(patronTxt);
+    wrap.appendChild(patronBlk);
+  }
+
+  var grupos = [
+    {key:'dolor', lbl:'Situaciones de dolor \u2014 \u00bfcu\u00e1les viviste en este ciclo?', col:'#BF4A4A', items: data.dolor || []},
+    {key:'alegria', lbl:'Situaciones de alegr\u00eda \u2014 \u00bfcu\u00e1les viviste en este ciclo?', col: color, items: data.alegria || []}
+  ];
+
+  var resumenEl = document.createElement('div');
+  resumenEl.className = 'checklist-resumen';
+
+  grupos.forEach(function(grupo) {
+    if (!grupo.items.length) return;
+    var gDiv = document.createElement('div'); gDiv.className = 'ciclo-check-grupo';
+    var gLbl = document.createElement('div'); gLbl.className = 'ciclo-check-lbl';
+    gLbl.style.color = grupo.col; gLbl.textContent = grupo.lbl;
+    gDiv.appendChild(gLbl);
+
+    grupo.items.forEach(function(item, idx) {
+      var row = document.createElement('div');
+      var isOn = (checklist_estado[chkKey] && checklist_estado[chkKey][grupo.key] || []).indexOf(idx) >= 0;
+      row.className = 'ciclo-check-item' + (isOn ? ' marcado' : '');
+
+      var chk = document.createElement('div');
+      chk.className = 'ciclo-chk' + (isOn ? ' on' : '');
+      if (isOn) { var tick = document.createElement('div'); tick.style.cssText = 'width:8px;height:8px;border-radius:50%;background:var(--bg)'; chk.appendChild(tick); }
+      var txt = document.createElement('div'); txt.className = 'ciclo-check-txt'; txt.textContent = item;
+
+      var handler = (function(gKey, iIdx, rowEl, chkEl) {
+        return function(e) {
+          e.stopPropagation();
+          if (!checklist_estado[chkKey]) checklist_estado[chkKey] = {dolor:[], alegria:[]};
+          if (!checklist_estado[chkKey][gKey]) checklist_estado[chkKey][gKey] = [];
+          var arr = checklist_estado[chkKey][gKey];
+          var pos = arr.indexOf(iIdx);
+          if (pos >= 0) {
+            arr.splice(pos, 1);
+            rowEl.classList.remove('marcado'); chkEl.classList.remove('on'); chkEl.innerHTML = '';
+          } else {
+            arr.push(iIdx);
+            rowEl.classList.add('marcado'); chkEl.classList.add('on');
+            var t2 = document.createElement('div'); t2.style.cssText = 'width:8px;height:8px;border-radius:50%;background:var(--bg)'; chkEl.appendChild(t2);
+          }
+          updateResumenEl(chkKey, resumenEl);
+        };
+      })(grupo.key, idx, row, chk);
+
+      chk.onclick = handler;
+      row.onclick = function(e) { if (e.target !== chk) handler(e); };
+      row.appendChild(chk); row.appendChild(txt); gDiv.appendChild(row);
+    });
+    wrap.appendChild(gDiv);
+  });
+
+  updateResumenEl(chkKey, resumenEl);
+  wrap.appendChild(resumenEl);
+
+  // Preguntas especificas del ciclo
+  if (data.preguntas && data.preguntas.length) {
+    var pregWrap = document.createElement('div');
+    pregWrap.style.cssText = 'margin-top:12px;background:var(--bg4);border-radius:var(--rm);padding:12px 14px;border:1px solid rgba(255,255,255,.06)';
+    var pregLbl = document.createElement('div');
+    pregLbl.style.cssText = 'font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:' + color + ';margin-bottom:8px;font-weight:500;font-family:Barlow Condensed,sans-serif';
+    pregLbl.textContent = 'Preguntas para este ciclo';
+    pregWrap.appendChild(pregLbl);
+    data.preguntas.forEach(function(preg, pi) {
+      var pregBlk = document.createElement('div');
+      pregBlk.style.cssText = 'margin-bottom:8px;padding-bottom:8px;border-bottom:1px solid rgba(255,255,255,.04)';
+      var pregTxt = document.createElement('div');
+      pregTxt.style.cssText = 'font-size:12px;color:var(--gold3);font-style:italic;margin-bottom:5px;line-height:1.6';
+      pregTxt.textContent = preg;
+      var pregKey = chkKey + '-preg-' + pi;
+      var pregRta = document.createElement('textarea'); pregRta.className = 'rta'; pregRta.style.minHeight = '55px';
+      pregRta.placeholder = 'Tu respuesta...';
+      pregRta.value = checklist_estado[pregKey] || '';
+      pregRta.oninput = (function(pk){return function(){checklist_estado[pk]=this.value;};})(pregKey);
+      pregBlk.appendChild(pregTxt); pregBlk.appendChild(pregRta);
+      pregWrap.appendChild(pregBlk);
+    });
+    wrap.appendChild(pregWrap);
+  }
+
+  // Nota ECG
+  var ecgInline = document.createElement('div');
+  ecgInline.style.cssText = 'background:rgba(212,83,126,.06);border-radius:var(--rm);padding:9px 12px;margin-top:8px;border-left:3px solid #D4537E';
+  var ecgInlineTxt = document.createElement('div');
+  ecgInlineTxt.style.cssText = 'font-size:11px;color:#D4537E;line-height:1.6;font-style:italic';
+  ecgInlineTxt.textContent = 'Lo que marques aqu\u00ed pasar\u00e1 como insumo directo a tu M\u00f3dulo de Trabajo Emocional.';
+  ecgInline.appendChild(ecgInlineTxt);
+  wrap.appendChild(ecgInline);
+
+  container.appendChild(wrap);
+}
+
+function updateResumenEl(chkKey, el) {
+  if (!el) return;
+  var est = checklist_estado[chkKey] || {dolor:[], alegria:[]};
+  var d = (est.dolor||[]).length; var a = (est.alegria||[]).length;
+  if (!d && !a) { el.textContent = 'Marca las situaciones que viviste en este ciclo.'; return; }
+  el.innerHTML = '';
+  var span = document.createElement('span');
+  span.innerHTML = 'Identificaste <strong>' + d + ' situaciones de dolor</strong> y <strong>' + a + ' de alegr\u00eda</strong>.' +
+    (d > 0 ? ' Estos ser\u00e1n insumo para tu Trabajo Emocional.' : '');
+  el.appendChild(span);
+}
+
+
+buildWidgetPrincipios("septenios", document.body, function() {
+  init();
+});
+
+// INIT VIDEO BANNER
+(function(){
+  var vdb = document.getElementById("vid-banner-septenios");
+  var vdp = document.getElementById("vid-player-septenios");
+  var url = window.VIDEOS_MODULO && window.VIDEOS_MODULO["septenios"] || "";
+  if(url && vdb && vdp){
+    var m2 = url.match(/(?:v=|youtu\.be\/|embed\/)([\w-]{11})/);
+    if(m2){
+      var ifr = document.createElement("iframe");
+      ifr.src = "https://www.youtube.com/embed/" + m2[1] + "?rel=0";
+      ifr.allow = "accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture";
+      ifr.allowFullscreen = true;
+      vdp.innerHTML = "";
+      vdp.appendChild(ifr);
+    }
+    vdb.classList.add("show");
+  } else if(vdb){
+    vdb.classList.add("show");
+  }
+})();
+
+</script>
+
+
+<!-- BOTON BRUJULA -->
+<div class="brujula-btn-fixed" id="brujulaFloat">
+  <div class="brujula-toast" id="brujulaToast">Registra lo que descubriste en tu Brújula de Propósito</div>
+  <a class="brujula-btn" href="brujula-proposito.html" title="Mi Brújula de Propósito">
+    <div class="brujula-btn-icon">∀</div>
+    <div class="brujula-btn-txt">Mi Brújula</div>
+  </a>
+</div>
+<script>
+// Mostrar toast motivacional a los 90 segundos de estar en el módulo
+setTimeout(function(){
+  var t=document.getElementById("brujulaToast");
+  if(t){t.classList.add("show");setTimeout(function(){t.classList.remove("show");},5000);}
+},90000);
+
+// ── CHECKLIST CICLOS ──────────────────────────────────────────
+
+
+// CHECKLIST_DATA mantiene la estructura por tipo para compatibilidad
+var CHECKLIST_DATA = {cuerpo:{titulo:"",dolor:[],alegria:[],tarea:"",patron:"",ecg_conexion:""},sentir:{titulo:"",dolor:[],alegria:[],tarea:"",patron:"",ecg_conexion:""},ser:{titulo:"",dolor:[],alegria:[],tarea:"",patron:"",ecg_conexion:""}}
+</script>
+</body>
+</html>

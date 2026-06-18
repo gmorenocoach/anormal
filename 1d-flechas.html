@@ -1,0 +1,1167 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Café con Propósito — Mis Flechas</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Barlow:wght@300;400;500&family=Barlow+Condensed:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0A0F1E;--bg2:#0E1525;--bg3:#131D30;--bg4:#1A2640;
+--gold:#C9A84C;--gold2:#E8C96A;--gold3:#F5E0A0;
+--gd:rgba(201,168,76,.13);--gb:rgba(201,168,76,.28);
+--text:#EAE6DC;--dim:#8A95A8;--faint:#3A4558;
+--acc:#4A9EBF;--acd:rgba(74,158,191,.13);--acb:rgba(74,158,191,.28);
+--grn:#4ABF7A;--grd:rgba(74,191,122,.12);--grb:rgba(74,191,122,.28);
+--red:#BF6A4A;--rdd:rgba(191,106,74,.12);--rdb:rgba(191,106,74,.28);
+--r:4px;--rm:8px;--rl:14px}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font-weight:300;font-size:15px;line-height:1.65;min-height:100vh}
+body::before{content:"";position:fixed;inset:0;background:radial-gradient(ellipse at 20% 50%,rgba(201,168,76,.04),transparent 60%),radial-gradient(ellipse at 80% 20%,rgba(74,158,191,.04),transparent 50%);pointer-events:none;z-index:0}
+.app{position:relative;z-index:1;max-width:740px;margin:0 auto;padding:0 22px 80px}
+.prog{display:flex;align-items:center;margin-bottom:32px;overflow-x:auto;padding-bottom:3px}
+.ps{display:flex;align-items:center;gap:6px;white-space:nowrap;padding:3px 0;cursor:default}
+.ps.done{cursor:pointer}
+.pn{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:500;border:1px solid var(--faint);color:var(--faint);transition:all .3s;flex-shrink:0}
+.ps.done .pn{border-color:var(--gold);color:var(--gold);background:var(--gd)}
+.ps.act .pn{border-color:var(--gold2);color:var(--bg);background:var(--gold2)}
+.ptxt{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);transition:color .3s}
+.ps.done .ptxt,.ps.act .ptxt{color:var(--gold)}
+.pln{flex:1;min-width:10px;height:1px;background:var(--faint);margin:0 6px;opacity:.2;transition:all .3s}
+.pln.done{background:var(--gold);opacity:.4}
+.panel{display:none}.panel.act{display:block;animation:fu .4s ease}
+@keyframes fu{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.pbadge{display:inline-flex;align-items:center;gap:8px;background:var(--gd);border:1px solid var(--gb);border-radius:var(--rl);padding:7px 15px;margin-bottom:18px}
+.pbadge-q{font-family:"Cormorant Garamond",serif;font-size:20px;color:var(--gold2);font-weight:300;font-style:italic}
+.pbadge-s{font-size:11px;color:var(--dim);margin-top:1px}
+.ph{margin-bottom:24px}
+.ph-s{font-family:"Barlow Condensed",sans-serif;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:5px}
+.ph-t{font-family:"Cormorant Garamond",serif;font-size:clamp(20px,4vw,30px);font-weight:300;color:var(--gold2);line-height:1.15;margin-bottom:5px}
+.ph-d{font-size:13px;color:var(--dim);line-height:1.8;max-width:520px}
+.card{background:var(--bg2);border:1px solid rgba(255,255,255,.055);border-radius:var(--rl);padding:20px 24px;margin-bottom:13px}
+.card.gold{border-color:var(--gb);background:linear-gradient(135deg,var(--bg2),var(--bg3))}
+.card.acc{border-color:var(--acb)}
+.card.red{border-color:var(--rdb)}
+.card.grn{border-color:var(--grb)}
+.cl{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:10px}
+.cl.b{color:var(--acc)}.cl.r{color:var(--red)}.cl.g{color:var(--grn)}
+.ct{font-size:13px;color:var(--dim);line-height:1.8}
+.dv{height:1px;background:var(--gb);margin:16px 0;opacity:.3}
+.il{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-bottom:6px;display:block}
+.inp{background:var(--bg3);border:1px solid rgba(255,255,255,.07);border-radius:var(--r);color:var(--text);font-family:"Barlow",sans-serif;font-size:15px;font-weight:300;padding:10px 14px;width:100%;outline:none;transition:border-color .2s}
+.inp:focus{border-color:var(--gold)}
+.inp::placeholder{color:var(--faint)}
+.irow{display:flex;gap:10px;flex-wrap:wrap}
+.bp{background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--bg);border:none;border-radius:var(--r);font-family:"Barlow Condensed",sans-serif;font-size:12px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;padding:12px 28px;cursor:pointer;transition:opacity .2s,transform .15s}
+.bp:hover{opacity:.9;transform:translateY(-1px)}
+.bs{background:transparent;color:var(--gold);border:1px solid var(--gb);border-radius:var(--r);font-family:"Barlow Condensed",sans-serif;font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;padding:9px 20px;cursor:pointer;transition:all .2s}
+.bs:hover{background:var(--gd)}
+.bn{background:transparent;color:var(--dim);border:1px solid rgba(255,255,255,.07);border-radius:var(--r);font-family:"Barlow",sans-serif;font-size:13px;padding:9px 18px;cursor:pointer;transition:all .2s}
+.bn:hover{border-color:var(--gold);color:var(--gold)}
+/* Cuadro 3x3 */
+.board{display:grid;grid-template-columns:repeat(3,72px);gap:6px;margin:0 auto}
+.bc{height:72px;border-radius:var(--r);display:flex;align-items:center;justify-content:center;font-family:"Cormorant Garamond",serif;font-size:26px;font-weight:300;position:relative;border:1.5px solid transparent;transition:all .22s;cursor:pointer}
+.bc.p{background:var(--gd);border-color:var(--gb);color:var(--gold2)}
+.bc.a{background:var(--bg3);border-color:var(--faint);color:var(--faint);border-style:dashed}
+.bc.p:hover,.bc.a:hover{transform:translateY(-2px)}
+.bc-cnt{position:absolute;top:4px;right:6px;font-size:9px;color:var(--gold);font-family:"Barlow",sans-serif;font-weight:500}
+/* Chips de flecha */
+.chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:4px}
+.chip{padding:7px 14px;border-radius:var(--r);font-size:12px;cursor:pointer;border:1px solid;transition:all .2s;line-height:1.3}
+.chip:hover{transform:translateY(-1px);filter:brightness(1.1)}
+.chip.c{background:var(--grd);border-color:var(--grb);color:var(--grn)}
+.chip.p{background:var(--acd);border-color:var(--acb);color:var(--acc)}
+.chip.e{background:var(--rdd);border-color:var(--rdb);color:#E09070;border-style:dashed}
+/* Estado badge */
+.sbadge{display:inline-flex;align-items:center;font-size:11px;padding:3px 10px;border-radius:12px;margin-bottom:10px}
+.sb-c{background:var(--grd);color:var(--grn);border:1px solid var(--grb)}
+.sb-p{background:var(--acd);color:var(--acc);border:1px solid var(--acb)}
+.sb-e{background:var(--rdd);color:#E09070;border:1px solid var(--rdb)}
+/* Bloques de acción */
+.blk{border-radius:var(--rm);padding:13px 16px;margin:9px 0}
+.blk.gold{background:var(--bg4);border-left:2px solid var(--gold)}
+.blk.b{background:var(--bg4);border-left:2px solid var(--acc)}
+.blk.g{background:var(--bg4);border-left:2px solid var(--grn)}
+.blk.r{background:var(--bg4);border-left:2px solid var(--red)}
+.blk.pu{background:rgba(155,127,212,.08);border:1px solid rgba(155,127,212,.28)}
+.blk-l{font-size:10px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:5px;font-weight:500}
+.blk.gold .blk-l{color:var(--gold)}
+.blk.b .blk-l{color:var(--acc)}
+.blk.g .blk-l{color:var(--grn)}
+.blk.r .blk-l{color:var(--red)}
+.blk.pu .blk-l{color:#9B7FD4}
+/* Panel de detalle */
+.det{background:var(--bg3);border:1px solid var(--gb);border-radius:var(--rl);padding:24px;margin-top:2px;display:none;animation:fu .3s ease}
+.det.open{display:block}
+.det-eye{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);margin-bottom:5px}
+.det-t{font-family:"Cormorant Garamond",serif;font-size:22px;color:var(--gold2);margin-bottom:12px;font-style:italic}
+/* Reto */
+.rr{background:var(--bg4);border:1px solid var(--gb);border-radius:var(--rm);padding:14px 16px;margin:9px 0}
+.rr-l{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:6px;font-weight:500}
+.rr.b{border-color:var(--acb)}.rr.b .rr-l{color:var(--acc)}
+.rr p{font-size:13px;color:var(--dim);line-height:1.75;margin-bottom:8px}
+.rta{background:var(--bg2);border:1px solid rgba(255,255,255,.07);border-radius:var(--r);color:var(--text);font-family:"Barlow",sans-serif;font-size:13px;font-weight:300;padding:10px 12px;width:100%;min-height:70px;outline:none;resize:vertical;line-height:1.65;transition:border-color .2s}
+.rta:focus{border-color:var(--gold)}
+.rta::placeholder{color:var(--faint)}
+.rchk{display:flex;align-items:center;gap:8px;margin-top:7px;cursor:pointer}
+.rchk input{width:15px;height:15px;accent-color:var(--gold);cursor:pointer}
+.rchk label{font-size:12px;color:var(--dim);cursor:pointer}
+.rdone{display:inline-flex;align-items:center;gap:5px;font-size:11px;color:var(--grn);padding:3px 9px;background:var(--grd);border:1px solid var(--grb);border-radius:12px;margin-top:5px}
+/* Daily */
+.dmsg{background:linear-gradient(135deg,rgba(201,168,76,.07),rgba(74,158,191,.05));border:1px solid var(--gb);border-radius:var(--rl);padding:15px 20px;margin-bottom:14px;text-align:center}
+.dm-l{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:5px}
+.dm-t{font-family:"Cormorant Garamond",serif;font-size:15px;font-style:italic;color:var(--gold3);line-height:1.8}
+/* Cierre */
+.cierre{background:linear-gradient(135deg,var(--bg3),var(--bg2));border:1px solid var(--gb);border-radius:var(--rl);padding:20px 24px;margin-top:18px;text-align:center}
+.cierre-t{font-family:"Cormorant Garamond",serif;font-size:18px;color:var(--gold2);margin-bottom:8px;font-style:italic}
+.cierre p{font-size:13px;color:var(--dim);line-height:1.75;max-width:460px;margin:0 auto}
+.nav{display:flex;justify-content:space-between;align-items:center;margin-top:24px;padding-top:15px;border-top:1px solid rgba(255,255,255,.05)}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--gb);border-radius:2px}
+@media(max-width:560px){.app{padding:0 14px 60px}.board{grid-template-columns:repeat(3,60px)}.bc{height:60px;font-size:22px}}
+
+
+
+/* VIDEO BANNER */
+.vid-banner{background:linear-gradient(135deg,rgba(201,168,76,.07),rgba(74,158,191,.04));border:1px solid rgba(201,168,76,.2);border-radius:14px;overflow:hidden;margin:0 22px 20px;display:none}
+.vid-banner.show{display:block}
+.vid-banner-hdr{padding:10px 16px;border-bottom:1px solid rgba(255,255,255,.05);display:flex;align-items:center;justify-content:space-between}
+.vid-banner-lbl{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#C9A84C;font-weight:500;font-family:Barlow Condensed,sans-serif}
+.vid-banner-mod{font-size:11px;color:#8A95A8}
+.vid-banner-player{position:relative;width:100%;aspect-ratio:16/9;background:#060A14}
+.vid-banner-player iframe{position:absolute;inset:0;width:100%;height:100%;border:none}
+.vid-banner-ph{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center;padding:20px}
+.vid-ph-icon{width:44px;height:44px;border-radius:50%;background:rgba(201,168,76,.13);border:1.5px solid rgba(201,168,76,.28);display:flex;align-items:center;justify-content:center;font-size:16px;color:#E8C96A}
+.vid-ph-t{font-family:Cormorant Garamond,serif;font-size:15px;color:#E8C96A;font-weight:300}
+.vid-ph-d{font-size:11px;color:#3A4558;line-height:1.55;max-width:240px}
+@media(max-width:560px){.vid-banner{margin:0 14px 16px}}
+
+
+/* BOTON BRUJULA */
+.brujula-btn-fixed{position:fixed;bottom:22px;right:22px;z-index:500;display:flex;flex-direction:column;align-items:flex-end;gap:6px}
+.brujula-btn{display:flex;align-items:center;gap:8px;background:linear-gradient(135deg,rgba(201,168,76,.15),rgba(201,168,76,.08));border:1px solid rgba(201,168,76,.35);border-radius:30px;padding:10px 16px;cursor:pointer;transition:all .25s;text-decoration:none;backdrop-filter:blur(8px)}
+.brujula-btn:hover{background:linear-gradient(135deg,rgba(201,168,76,.25),rgba(201,168,76,.15));border-color:rgba(201,168,76,.6);transform:translateY(-2px)}
+.brujula-btn-icon{font-family:"Cormorant Garamond",serif;font-size:18px;color:var(--gold2);font-weight:300;line-height:1}
+.brujula-btn-txt{font-size:11px;font-family:"Barlow Condensed",sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--gold2);font-weight:500}
+.brujula-toast{background:var(--bg3);border:1px solid var(--gb);border-radius:var(--rm,10px);padding:9px 14px;font-size:12px;color:var(--gold3);font-family:"Barlow",sans-serif;max-width:220px;text-align:right;line-height:1.5;display:none;animation:btoast .3s ease}
+.brujula-toast.show{display:block}
+@keyframes btoast{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
+</style>
+</head>
+<body>
+
+<!-- VIDEO BANNER: Las Flechas -->
+<div class="vid-banner" id="vid-banner-flechas">
+  <div class="vid-banner-hdr">
+    <div class="vid-banner-lbl">Introducción al módulo</div>
+    <div class="vid-banner-mod">Las Flechas</div>
+  </div>
+  <div class="vid-banner-player" id="vid-player-flechas">
+    <div class="vid-banner-ph">
+      <div class="vid-ph-icon">&#9654;</div>
+      <div class="vid-ph-t">Video de introducción</div>
+      <div class="vid-ph-d">Alonso te explica lo que encontrarás en este módulo y cómo aprovecharlo al máximo.</div>
+    </div>
+  </div>
+</div>
+<div class="app" id="app"></div>
+<script>
+// ============================================================
+// ANORMAL - Módulo de datos compartidos entre módulos
+// Usa sessionStorage para pasar datos entre páginas HTML
+// ============================================================
+
+var ANORMAL = {
+  
+  // Leer todos los datos del proceso
+  getData: function() {
+    try {
+      var raw = sessionStorage.getItem('anormal_proceso');
+      return raw ? JSON.parse(raw) : {};
+    } catch(e) { return {}; }
+  },
+  
+  // Guardar datos del proceso
+  setData: function(data) {
+    try {
+      sessionStorage.setItem('anormal_proceso', JSON.stringify(data));
+    } catch(e) {}
+  },
+  
+  // Actualizar una sección específica
+  update: function(section, value) {
+    var data = this.getData();
+    data[section] = value;
+    this.setData(data);
+  },
+  
+  // Agregar un compromiso/hábito a la agenda central
+  addAgenda: function(item) {
+    // item = {modulo, titulo, descripcion, fecha, periodicidad, tipo}
+    var data = this.getData();
+    if (!data.agenda) data.agenda = [];
+    item.id = 'ag_' + Date.now() + '_' + Math.random().toString(36).slice(2,6);
+    item.cumplido = false;
+    item.fechaCreacion = new Date().toLocaleDateString('es-CO');
+    data.agenda.push(item);
+    this.setData(data);
+    return item.id;
+  },
+  
+  // Guardar lo marcado en septenios para que fluya al ECG y al Niño Interior
+  saveSeptenios: function(checklistEstado, cicloActual, nombre, genero) {
+    var doloresPorCiclo = [];
+    
+    Object.keys(checklistEstado).forEach(function(chkKey) {
+      var est = checklistEstado[chkKey];
+      if (!est || !est.dolor || !est.dolor.length) return;
+      
+      // Extraer número de ciclo del key ('chk-3' -> 3, 'actual-5' -> 5)
+      var cicloNum = 0;
+      if (chkKey.startsWith('chk-')) cicloNum = parseInt(chkKey.replace('chk-',''));
+      else if (chkKey.startsWith('actual-')) cicloNum = parseInt(chkKey.replace('actual-',''));
+      if (!cicloNum) return;
+      
+      // Obtener los ítems de dolor marcados
+      var cicloDatos = window.CICLOS_DATA ? window.CICLOS_DATA[String(cicloNum)] : null;
+      if (!cicloDatos) return;
+      
+      var itemsMarcados = est.dolor.map(function(idx) {
+        return cicloDatos.dolor[idx] || '';
+      }).filter(Boolean);
+      
+      var itemsAlegria = (est.alegria || []).map(function(idx) {
+        return cicloDatos.alegria[idx] || '';
+      }).filter(Boolean);
+      
+      if (itemsMarcados.length || itemsAlegria.length) {
+        doloresPorCiclo.push({
+          ciclo: cicloNum,
+          tipo: cicloDatos.tipo,
+          titulo: cicloDatos.titulo,
+          edades: cicloDatos.titulo.match(/\d+ a \d+/)?.[0] || '',
+          dolores: itemsMarcados,
+          alegrias: itemsAlegria,
+          // Preguntas respondidas
+          respuestas: [0,1,2].map(function(pi) {
+            return checklistEstado[chkKey + '-preg-' + pi] || '';
+          }).filter(Boolean)
+        });
+      }
+    });
+    
+    // Ordenar por ciclo
+    doloresPorCiclo.sort(function(a,b){return a.ciclo - b.ciclo;});
+    
+    this.update('septenios', {
+      cicloActual: cicloActual,
+      nombre: nombre,
+      genero: genero,
+      doloresPorCiclo: doloresPorCiclo,
+      fecha: new Date().toLocaleDateString('es-CO')
+    });
+  },
+  
+  // Obtener datos de septenios para el ECG
+  getSepteniosParaECG: function() {
+    var data = this.getData();
+    return data.septenios || null;
+  },
+  
+  // Obtener ciclos 1-2-3 para el Niño Interior
+  getCiclosInfancia: function() {
+    var sep = this.getSepteniosParaECG();
+    if (!sep) return [];
+    return sep.doloresPorCiclo.filter(function(c) {
+      return c.ciclo <= 3;
+    });
+  },
+  
+  // Guardar compromisos de un módulo en la agenda central
+  saveCompromisos: function(moduloId, compromisos) {
+    if (!compromisos || !Object.keys(compromisos).length) return;
+    var data = this.getData();
+    if (!data.agenda) data.agenda = [];
+    
+    Object.keys(compromisos).forEach(function(key) {
+      var texto = (compromisos[key] || '').trim();
+      if (!texto) return;
+      // Evitar duplicados del mismo módulo+key
+      var exists = data.agenda.some(function(item) {
+        return item.moduloId === moduloId && item.key === key;
+      });
+      if (!exists) {
+        data.agenda.push({
+          id: 'ag_' + moduloId + '_' + key,
+          moduloId: moduloId,
+          key: key,
+          tipo: 'compromiso-principio',
+          descripcion: texto,
+          fechaCreacion: new Date().toLocaleDateString('es-CO'),
+          cumplido: false,
+          periodicidad: 'diario'
+        });
+      }
+    });
+    this.setData(data);
+  },
+
+  // ============================================================
+  // FASE 1 — ¿Quién soy? — guardado genérico por módulo
+  // ============================================================
+
+  // Guardar el resultado de un módulo de Fase 1 (o cualquier fase)
+  // moduloId: 'rueda' | 'elementos' | 'camino' | 'subnumeros' | 'mapa' |
+  //           'flechas' | 'nombre' | 'personas' | 'dolan' | 'ikigai' |
+  //           'siguiente_ciclo' | 'plan_vida'
+  saveFaseModulo: function(moduloId, resultado) {
+    var data = this.getData();
+    if (!data.fase1) data.fase1 = {};
+    if (!data.fase3) data.fase3 = {};
+    var fase3Ids = ['ikigai', 'siguiente_ciclo', 'plan_vida'];
+    var bucket = fase3Ids.indexOf(moduloId) >= 0 ? data.fase3 : data.fase1;
+    bucket[moduloId] = resultado;
+    bucket[moduloId + '_fecha'] = new Date().toLocaleDateString('es-CO');
+    this.setData(data);
+    this.marcarModuloCompletado(moduloId);
+  },
+
+  // Leer el resultado guardado de un módulo específico
+  getFaseModulo: function(moduloId) {
+    var data = this.getData();
+    if (data.fase1 && data.fase1[moduloId] !== undefined) return data.fase1[moduloId];
+    if (data.fase3 && data.fase3[moduloId] !== undefined) return data.fase3[moduloId];
+    return null;
+  },
+
+  // Obtener todo lo guardado de Fase 1 de una vez (para Perfil Integrado)
+  getFase1Completa: function() {
+    var data = this.getData();
+    return data.fase1 || {};
+  },
+
+  // Obtener todo lo guardado de Fase 3
+  getFase3Completa: function() {
+    var data = this.getData();
+    return data.fase3 || {};
+  },
+
+  // ============================================================
+  // PROGRESO — qué módulos completó la persona (para el Dashboard)
+  // ============================================================
+
+  TODOS_LOS_MODULOS: [
+    {id:'rueda', fase:1, nombre:'Rueda de Vida'},
+    {id:'elementos', fase:1, nombre:'Elementos'},
+    {id:'camino', fase:1, nombre:'Camino de Vida'},
+    {id:'subnumeros', fase:1, nombre:'Subnúmeros'},
+    {id:'mapa', fase:1, nombre:'Mapa Energético'},
+    {id:'flechas', fase:1, nombre:'Flechas'},
+    {id:'nombre', fase:1, nombre:'Nombre'},
+    {id:'personas', fase:1, nombre:'Personas'},
+    {id:'dolan', fase:1, nombre:'Valores Dolan'},
+    {id:'perfil', fase:1, nombre:'Perfil Integrado'},
+    {id:'septenios', fase:2, nombre:'Mis Ciclos de Vida'},
+    {id:'ecg', fase:2, nombre:'Mi Trabajo Emocional'},
+    {id:'perdon', fase:2, nombre:'Mi Trabajo del Perdón'},
+    {id:'ikigai', fase:3, nombre:'Ikigai'},
+    {id:'siguiente_ciclo', fase:3, nombre:'Siguiente Ciclo'},
+    {id:'plan_vida', fase:3, nombre:'Plan de Vida'}
+  ],
+
+  marcarModuloCompletado: function(moduloId) {
+    var data = this.getData();
+    if (!data.progreso) data.progreso = {};
+    data.progreso[moduloId] = {
+      completado: true,
+      fecha: new Date().toLocaleDateString('es-CO')
+    };
+    this.setData(data);
+  },
+
+  // Devuelve la lista de módulos con su estado de completado, para pintar el Dashboard
+  getProgreso: function() {
+    var data = this.getData();
+    var progreso = data.progreso || {};
+    return this.TODOS_LOS_MODULOS.map(function(m) {
+      return {
+        id: m.id,
+        fase: m.fase,
+        nombre: m.nombre,
+        completado: !!(progreso[m.id] && progreso[m.id].completado),
+        fecha: progreso[m.id] ? progreso[m.id].fecha : null
+      };
+    });
+  },
+
+  // Porcentaje de avance total y por fase
+  getPorcentajeAvance: function() {
+    var prog = this.getProgreso();
+    var total = prog.length;
+    var hechos = prog.filter(function(m){ return m.completado; }).length;
+    var porFase = {1:{total:0,hechos:0}, 2:{total:0,hechos:0}, 3:{total:0,hechos:0}};
+    prog.forEach(function(m) {
+      porFase[m.fase].total++;
+      if (m.completado) porFase[m.fase].hechos++;
+    });
+    return {
+      total: total, hechos: hechos,
+      porcentaje: total ? Math.round((hechos/total)*100) : 0,
+      porFase: porFase
+    };
+  }
+};
+
+// Sobrescribir guardarCompromisosModulo para que también vaya a la agenda
+window.guardarCompromisosModulo = function(moduloId, compromisos) {
+  if (!window.COMPROMISOS_PROCESO) window.COMPROMISOS_PROCESO = {};
+  window.COMPROMISOS_PROCESO[moduloId] = compromisos;
+  ANORMAL.saveCompromisos(moduloId, compromisos);
+};
+
+</script>
+<script>
+// ============================================================
+// WIDGET DE PRINCIPIOS Y COMPROMISOS - Anormal / Cafe con Proposito
+// v2.0 - Con recordatorio no negociable y orden original de principios
+// ============================================================
+
+var MODULO_PRINCIPIOS = {"bienvenida":[1,4,14],"rueda":[11,12],"elementos":[11,12],"camino":[5,9],"subnums":[5],"mapa":[9],"flechas":[9],"nombre":[5,9],"personas":[9,13],"dolan":[12,13],"perfil":[9],"septenios":[3,16],"ecg":[2,10],"nino":[2,3,7],"ikigai":[6,8,17],"ciclo":[15,16],"plan":[13,15,16],"dashboard":[18,9]};
+
+var PRINCIPIOS_DB = [{"num": 1, "titulo": "\u2200gradecer", "sesion": "bienvenida", "color": "#C9A84C", "no_negociable": "Mientras avanzas en este proceso, la gratitud no es opcional. Es el lente desde el que lees cada resultado, cada ejercicio, cada descubrimiento sobre ti mismo."}, {"num": 2, "titulo": "\u2200vanza en el perd\u00f3n", "sesion": "sesion3", "color": "#D4537E", "no_negociable": "Sin perd\u00f3n no hay transformaci\u00f3n real. Puedes completar todos los ejercicios \u2014 pero si cargas resentimiento, el proceso no puede hacer su trabajo completo."}, {"num": 3, "titulo": "\u2200provecha el dolor", "sesion": "sesion3", "color": "#D4537E", "no_negociable": "El dolor que emerja en este proceso no es se\u00f1al de que algo sale mal. Es la se\u00f1al de que algo est\u00e1 cambiando. No te detengas."}, {"num": 4, "titulo": "\u2200p\u00fantale al compromiso", "sesion": "bienvenida", "color": "#C9A84C", "no_negociable": "Ya te comprometiste al entrar. Ese compromiso no vence. Cada vez que sientas que quieres pausar, recuerda: te comprometiste antes de saber el c\u00f3mo. Conf\u00eda."}, {"num": 5, "titulo": "\u2200prende a normalizar lo extraordinario", "sesion": "sesion2", "color": "#9B7FD4", "no_negociable": "Lo que descubras sobre ti en esta sesi\u00f3n debe convertirse en tu nueva normalidad, no en un dato interesante que olvidas en una semana."}, {"num": 6, "titulo": "\u2200taca el miedo", "sesion": "sesion4", "color": "#E8C96A", "no_negociable": "Declarar tu prop\u00f3sito de vida activa todos tus miedos. Eso es normal y es buena se\u00f1al. La \u00fanica respuesta \u2200normal es seguir avanzando."}, {"num": 7, "titulo": "\u2200prende cero excusas", "sesion": "sesion3", "color": "#D4537E", "no_negociable": "Una excusa no te saca del proceso. Te saca de tu m\u00e1ximo potencial. Recuerda tu compromiso."}, {"num": 8, "titulo": "\u2200prende a pagar el precio", "sesion": "sesion4", "color": "#E8C96A", "no_negociable": "Vivir tu prop\u00f3sito tiene un precio real. Identificarlo aqu\u00ed y aceptarlo es el acto de honestidad que hace que el plan de vida funcione."}, {"num": 9, "titulo": "\u2200sume responsabilidad total", "sesion": "sesion2", "color": "#9B7FD4", "no_negociable": "Lo que tu numerolog\u00eda y tus valores revelan no es un destino fijo. Es un mapa. T\u00fa decides c\u00f3mo usarlo. Eso es responsabilidad total."}, {"num": 10, "titulo": "\u2200poyo emocional como combustible", "sesion": "sesion3", "color": "#D4537E", "no_negociable": "El dolor emocional que emerge en esta sesi\u00f3n no es un obst\u00e1culo. Es combustible. La intensidad que sientes es proporcional a la transformaci\u00f3n que viene."}, {"num": 11, "titulo": "\u2200palancamiento: la verdad contigo mismo", "sesion": "sesion1", "color": "#C9A84C", "no_negociable": "El diagn\u00f3stico solo funciona si eres brutalmente honesto. El n\u00famero que le das a cada \u00e1rea de tu vida debe reflejar la realidad, no c\u00f3mo quisieras que fuera."}, {"num": 12, "titulo": "\u2200doptas lo que toleras", "sesion": "sesion1", "color": "#C9A84C", "no_negociable": "Las \u00e1reas con calificaci\u00f3n baja son exactamente lo que has estado tolerando. Verlo sin juzgarte es el primer paso. Seguir toler\u00e1ndolo despu\u00e9s de verlo es la excusa."}, {"num": 13, "titulo": "\u2200pr\u00f3piate la insatisfacci\u00f3n", "sesion": "sesion2", "color": "#9B7FD4", "no_negociable": "La brecha entre tus valores declarados y los que realmente vives no es una falla \u2014 es informaci\u00f3n. Usa esa insatisfacci\u00f3n como motor, no como excusa."}, {"num": 14, "titulo": "\u2200dopta m\u00e9todos probados", "sesion": "bienvenida", "color": "#C9A84C", "no_negociable": "Esta plataforma integra metodolog\u00edas con d\u00e9cadas de validaci\u00f3n. Tu trabajo es aplicarlas con honestidad, no cuestionarlas antes de vivirlas."}, {"num": 15, "titulo": "\u2200lcanza el resultado, luego mejora", "sesion": "sesion5", "color": "#4ABF7A", "no_negociable": "Tu plan de vida no necesita ser perfecto para empezar. Necesita ser tuyo y necesita empezar. La acci\u00f3n imperfecta ejecutada vale m\u00e1s que el plan perfecto que nunca sale."}, {"num": 16, "titulo": "\u2200celera el proceso", "sesion": "sesion5", "color": "#4ABF7A", "no_negociable": "Cada d\u00eda que pasa sin ejecutar el plan es un d\u00eda que no vuelve. La urgencia no es ansiedad \u2014 es el respeto que le tienes a tu propio tiempo."}, {"num": 17, "titulo": "\u2200tenci\u00f3n y enfoque constante", "sesion": "sesion4", "color": "#E8C96A", "no_negociable": "Haz este m\u00f3dulo sin interrupciones. Lo que emerja es proporcional a tu concentraci\u00f3n."}, {"num": 18, "titulo": "\u2200lcanzas la anormalidad", "sesion": "sesion5", "color": "#4ABF7A", "no_negociable": "Completar este proceso te convierte en alguien diferente. Esa diferencia ser\u00e1 visible \u2014 y no todos la aplaudir\u00e1n. Esa resistencia confirma que el proceso funcion\u00f3."}];
+
+// Principios acumulados que el participante ya ha visto
+var PRINCIPIOS_VISTOS = (function(){
+  var v = {};
+  PRINCIPIOS_DB.forEach(function(pr){ v[pr.num] = false; });
+  return v;
+})();
+
+function buildWidgetPrincipios(moduloId, contenedor, onComplete) {
+  var principiosIds = MODULO_PRINCIPIOS[moduloId] || [];
+  if (!principiosIds.length) { if (onComplete) onComplete(); return; }
+
+  // Principios acumulados anteriores (ya vistos en modulos previos)
+  var anteriores = [];
+  PRINCIPIOS_DB.forEach(function(pr){
+    if(PRINCIPIOS_VISTOS[pr.num] && principiosIds.indexOf(pr.num) < 0){
+      anteriores.push(pr);
+    }
+  });
+
+  var compromisos_mod = {};
+  var paso = 0;
+  // Fases: -1=recordatorio, 0..N-1=principios, N=compromisos
+  var FASE_RECORD = -1;
+  var totalPasos = principiosIds.length + 1;
+  var hayAnteriores = anteriores.length > 0;
+
+  // Crear overlay
+  var overlay = document.createElement("div");
+  overlay.style.cssText = "position:fixed;inset:0;background:rgba(4,8,16,.97);z-index:2000;display:flex;align-items:center;justify-content:center;padding:16px;animation:wfadeIn .3s ease";
+
+  var box = document.createElement("div");
+  box.style.cssText = "background:#0A0F1E;border:1px solid rgba(201,168,76,.25);border-radius:20px;width:100%;max-width:560px;max-height:92vh;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 24px 64px rgba(0,0,0,.6)";
+
+  // Header
+  var hdr = document.createElement("div");
+  hdr.style.cssText = "padding:18px 22px 14px;border-bottom:1px solid rgba(255,255,255,.06);flex-shrink:0";
+  var htop = document.createElement("div");
+  htop.style.cssText = "display:flex;align-items:center;justify-content:space-between;margin-bottom:10px";
+  var hlogo = document.createElement("div");
+  hlogo.style.cssText = "font-family:Cormorant Garamond,serif;font-size:20px;color:#E8C96A;font-weight:300;letter-spacing:.02em";
+  hlogo.textContent = "\u2200normal";
+  var hstep = document.createElement("div");
+  hstep.id = "wp-step";
+  hstep.style.cssText = "font-size:10px;color:#3A4558;letter-spacing:.12em;text-transform:uppercase;font-family:Barlow Condensed,sans-serif";
+  htop.appendChild(hlogo); htop.appendChild(hstep);
+  var hbar = document.createElement("div");
+  hbar.style.cssText = "height:2px;background:#1A2640;border-radius:1px;overflow:hidden";
+  var hfill = document.createElement("div");
+  hfill.id = "wp-fill";
+  hfill.style.cssText = "height:100%;background:linear-gradient(90deg,#C9A84C,#E8C96A);border-radius:1px;transition:width .4s ease;width:0%";
+  hbar.appendChild(hfill); hdr.appendChild(htop); hdr.appendChild(hbar);
+  box.appendChild(hdr);
+
+  // Body
+  var body = document.createElement("div");
+  body.style.cssText = "flex:1;overflow-y:auto;padding:0 22px";
+
+  // Footer
+  var ftr = document.createElement("div");
+  ftr.style.cssText = "padding:14px 22px;border-top:1px solid rgba(255,255,255,.06);flex-shrink:0;display:flex;justify-content:space-between;align-items:center;gap:10px";
+
+  function upProg(){
+    var pct = paso < 0 ? 0 : Math.round(((paso+1)/totalPasos)*100);
+    var f=document.getElementById("wp-fill"); if(f)f.style.width=pct+"%";
+    var s=document.getElementById("wp-step");
+    if(s)s.textContent = paso < 0 ? "Recordatorio" : paso < principiosIds.length ? "Principio "+(paso+1)+" de "+principiosIds.length : "Mis compromisos";
+  }
+
+  function showPaso(){
+    body.innerHTML=""; ftr.innerHTML=""; upProg();
+
+    // FASE RECORDATORIO
+    if(paso===FASE_RECORD && hayAnteriores){
+      var sec=document.createElement("div"); sec.style.cssText="padding:20px 0";
+      var icon=document.createElement("div");icon.style.cssText="text-align:center;margin-bottom:16px";
+      var iconInner=document.createElement("div");iconInner.style.cssText="display:inline-flex;align-items:center;justify-content:center;width:52px;height:52px;border-radius:50%;background:rgba(212,83,126,.12);border:1.5px solid rgba(212,83,126,.35)";
+      iconInner.innerHTML="<span style='font-size:22px;color:#D4537E'>!</span>";
+      icon.appendChild(iconInner); sec.appendChild(icon);
+
+      var rt=document.createElement("div");rt.style.cssText="font-family:Cormorant Garamond,serif;font-size:22px;color:#E8C96A;text-align:center;margin-bottom:8px;font-weight:300;line-height:1.3";
+      rt.textContent="Antes de continuar"; sec.appendChild(rt);
+
+      var rs=document.createElement("div");rs.style.cssText="font-size:13px;color:#8A95A8;text-align:center;margin-bottom:18px;line-height:1.75;max-width:400px;margin-left:auto;margin-right:auto";
+      rs.innerHTML="Los principios que has aceptado <strong style='color:#F5E0A0'>no son opcionales ni negociables</strong>. Son el estándar que elegiste cuando decidiste entrar al camino ∀normal.";
+      sec.appendChild(rs);
+
+      var aviso=document.createElement("div");aviso.style.cssText="background:rgba(212,83,126,.07);border:1px solid rgba(212,83,126,.2);border-radius:12px;padding:14px 16px;margin-bottom:14px";
+      var avisoT=document.createElement("div");avisoT.style.cssText="font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#D4537E;font-weight:500;margin-bottom:8px;font-family:Barlow Condensed,sans-serif";
+      avisoT.textContent="Recuerda — Principios que ya aceptaste";aviso.appendChild(avisoT);
+      anteriores.slice(-3).forEach(function(pr){
+        var prow=document.createElement("div");prow.style.cssText="display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.04)";
+        var pn=document.createElement("div");pn.style.cssText="font-family:Cormorant Garamond,serif;font-size:18px;font-weight:300;color:"+pr.color+";min-width:30px";pn.textContent="∀"+pr.num;
+        var pt=document.createElement("div");pt.style.cssText="font-size:12px;color:#8A95A8";pt.textContent=pr.titulo;
+        prow.appendChild(pn);prow.appendChild(pt);aviso.appendChild(prow);
+      });
+      if(anteriores.length>3){var mas=document.createElement("div");mas.style.cssText="font-size:11px;color:#3A4558;margin-top:6px;text-align:center";mas.textContent="+ "+(anteriores.length-3)+" principios anteriores";aviso.appendChild(mas);}
+      sec.appendChild(aviso);
+
+      var pregunta=document.createElement("div");pregunta.style.cssText="background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.2);border-radius:10px;padding:12px 16px;text-align:center";
+      pregunta.innerHTML="<span style='font-family:Cormorant Garamond,serif;font-size:16px;color:#E8C96A;font-style:italic'>Una excusa no te saca de la plataforma — te saca de tu máximo potencial.<br>¿Sigues dentro del camino ∀normal?</span>";
+      sec.appendChild(pregunta);
+      body.appendChild(sec);
+
+      ftr.appendChild(document.createElement("span"));
+      var btnSi=document.createElement("button");btnSi.style.cssText="background:linear-gradient(135deg,#C9A84C,#E8C96A);color:#060A14;border:none;border-radius:4px;font-family:Barlow Condensed,sans-serif;font-size:12px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;padding:11px 26px;cursor:pointer";
+      btnSi.textContent="Sí, sigo dentro";
+      btnSi.onclick=function(){paso=0;showPaso();};
+      ftr.appendChild(btnSi);
+      return;
+    }
+
+    // FASE PRINCIPIOS
+    if(paso >= 0 && paso < principiosIds.length){
+      var pId=principiosIds[paso];
+      var pr=PRINCIPIOS_DB.find(function(p2){return p2.num===pId;});
+      if(!pr){paso++;showPaso();return;}
+      PRINCIPIOS_VISTOS[pr.num]=true;
+
+      var sec2=document.createElement("div");sec2.style.cssText="padding:20px 0";
+      var numDiv=document.createElement("div");numDiv.style.cssText="font-family:Cormorant Garamond,serif;font-size:60px;font-weight:300;line-height:1;color:"+pr.color+";opacity:.2;margin-bottom:2px";numDiv.textContent="∀"+pr.num;
+      sec2.appendChild(numDiv);
+      var tit=document.createElement("div");tit.style.cssText="font-family:Cormorant Garamond,serif;font-size:26px;font-weight:300;color:"+pr.color+";margin-bottom:14px;line-height:1.2";tit.textContent=pr.titulo;sec2.appendChild(tit);
+
+      if(pr.no_negociable){
+        var nnBlk=document.createElement("div");nnBlk.style.cssText="background:rgba(212,83,126,.07);border:1px solid rgba(212,83,126,.2);border-radius:10px;padding:11px 14px;margin-bottom:12px;display:flex;align-items:flex-start;gap:10px";
+        var nnIcon=document.createElement("div");nnIcon.style.cssText="font-size:14px;color:#D4537E;flex-shrink:0;margin-top:1px";nnIcon.textContent="!";
+        var nnTxt=document.createElement("div");
+        var nnLabel=document.createElement("div");nnLabel.style.cssText="font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#D4537E;font-weight:500;margin-bottom:4px;font-family:Barlow Condensed,sans-serif";nnLabel.textContent="No negociable";
+        var nnCont=document.createElement("div");nnCont.style.cssText="font-size:12px;color:#EAE6DC;line-height:1.65";nnCont.textContent=pr.no_negociable;
+        nnTxt.appendChild(nnLabel);nnTxt.appendChild(nnCont);nnBlk.appendChild(nnIcon);nnBlk.appendChild(nnTxt);sec2.appendChild(nnBlk);
+      }
+
+      if(pr.aplicacion){
+        var aplBlk=document.createElement("div");aplBlk.style.cssText="background:#1A2640;border-radius:10px;padding:12px 14px;border-left:3px solid "+pr.color+";margin-bottom:12px";
+        var aplL=document.createElement("div");aplL.style.cssText="font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:"+pr.color+";margin-bottom:4px;font-weight:500;font-family:Barlow Condensed,sans-serif";aplL.textContent="En este módulo";
+        var aplT=document.createElement("div");aplT.style.cssText="font-size:13px;color:#EAE6DC;line-height:1.65;font-style:italic";aplT.textContent=pr.aplicacion;
+        aplBlk.appendChild(aplL);aplBlk.appendChild(aplT);sec2.appendChild(aplBlk);
+      }
+
+      body.appendChild(sec2);
+
+      var btnP=paso>0?document.createElement("button"):document.createElement("span");
+      if(paso>0){btnP.style.cssText="background:transparent;color:#3A4558;border:1px solid #1E2A3A;border-radius:4px;font-family:Barlow,sans-serif;font-size:13px;padding:9px 16px;cursor:pointer";btnP.textContent="Anterior";btnP.onclick=function(){paso--;showPaso();};}
+      ftr.appendChild(btnP);
+      var btnN2=document.createElement("button");btnN2.style.cssText="background:linear-gradient(135deg,#C9A84C,#E8C96A);color:#060A14;border:none;border-radius:4px;font-family:Barlow Condensed,sans-serif;font-size:12px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;padding:11px 26px;cursor:pointer";
+      btnN2.textContent=paso<principiosIds.length-1?"Siguiente principio":"Mis compromisos";
+      btnN2.onclick=function(){paso++;showPaso();};ftr.appendChild(btnN2);
+      return;
+    }
+
+    // FASE COMPROMISOS
+    var sec3=document.createElement("div");sec3.style.cssText="padding:20px 0";
+    var ct=document.createElement("div");ct.style.cssText="font-family:Cormorant Garamond,serif;font-size:22px;color:#E8C96A;margin-bottom:6px;font-weight:300";ct.textContent="Mis compromisos para este módulo";sec3.appendChild(ct);
+    var cs=document.createElement("div");cs.style.cssText="font-size:13px;color:#8A95A8;margin-bottom:18px;line-height:1.65";cs.textContent="Los principios te dieron el marco. Ahora escribe qué harás diferente a partir de hoy en este módulo.";sec3.appendChild(cs);
+    principiosIds.forEach(function(pId2){
+      var pr2=PRINCIPIOS_DB.find(function(p2){return p2.num===pId2;});if(!pr2)return;
+      var blk=document.createElement("div");blk.style.cssText="margin-bottom:14px;background:#131D30;border-radius:10px;padding:13px 15px;border-left:3px solid "+pr2.color;
+      var bt=document.createElement("div");bt.style.cssText="font-size:11px;font-weight:500;color:"+pr2.color+";margin-bottom:6px;letter-spacing:.08em;text-transform:uppercase;font-family:Barlow Condensed,sans-serif";bt.textContent="∀"+pr2.num+" · "+pr2.titulo;blk.appendChild(bt);
+      var ta=document.createElement("textarea");ta.style.cssText="background:#0A0F1E;border:1px solid rgba(255,255,255,.07);border-radius:6px;color:#EAE6DC;font-family:Barlow,sans-serif;font-size:13px;padding:9px 12px;width:100%;min-height:70px;outline:none;resize:vertical;line-height:1.6;transition:border-color .2s";
+      ta.placeholder="Describe qué cambiarás o harás diferente a partir de hoy...";ta.value=compromisos_mod["p"+pId2]||"";
+      ta.onfocus=function(){this.style.borderColor=pr2.color;};ta.onblur=function(){this.style.borderColor="rgba(255,255,255,.07)";};
+      ta.oninput=(function(pid){return function(){compromisos_mod["p"+pid]=this.value;};})(pId2);
+      blk.appendChild(ta);sec3.appendChild(blk);
+    });
+    body.appendChild(sec3);
+
+    var btnB2=document.createElement("button");btnB2.style.cssText="background:transparent;color:#3A4558;border:1px solid #1E2A3A;border-radius:4px;font-family:Barlow,sans-serif;font-size:13px;padding:9px 16px;cursor:pointer";btnB2.textContent="Revisar";btnB2.onclick=function(){paso--;showPaso();};ftr.appendChild(btnB2);
+    var btnFin=document.createElement("button");btnFin.style.cssText="background:linear-gradient(135deg,#C9A84C,#E8C96A);color:#060A14;border:none;border-radius:4px;font-family:Barlow Condensed,sans-serif;font-size:12px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;padding:11px 26px;cursor:pointer";
+    btnFin.textContent="Comenzar el módulo";
+    btnFin.onclick=function(){
+      if(window.guardarCompromisosModulo)window.guardarCompromisosModulo(moduloId,compromisos_mod);
+      document.body.removeChild(overlay);
+      if(onComplete)onComplete();
+    };
+    ftr.appendChild(btnFin);
+  }
+
+  box.appendChild(body);box.appendChild(ftr);overlay.appendChild(box);
+
+  var style=document.createElement("style");
+  style.textContent="@keyframes wfadeIn{from{opacity:0}to{opacity:1}} .wp-scroll::-webkit-scrollbar{width:4px} .wp-scroll::-webkit-scrollbar-thumb{background:rgba(201,168,76,.28);border-radius:2px}";
+  document.head.appendChild(style);
+  document.body.appendChild(overlay);
+
+  // Arrancar en recordatorio si hay anteriores, si no en principios
+  paso = hayAnteriores ? FASE_RECORD : 0;
+  showPaso();
+}
+
+window.guardarCompromisosModulo = function(moduloId, compromisos){
+  if(!window.COMPROMISOS_PROCESO)window.COMPROMISOS_PROCESO={};
+  window.COMPROMISOS_PROCESO[moduloId]=compromisos;
+};
+
+
+
+const FRASES=["Quien camina con fe no necesita ver todo el camino — solo el siguiente paso.","El amor que das sin esperar nada es el que más lejos llega y más tiempo dura.","En el silencio de tu interior vive la respuesta que llevas tiempo buscando afuera.","No temas los comienzos difíciles — toda gran luz pasa primero por la oscuridad.","Tu vida es una oración vivida. Cada acción es una palabra que el universo escucha.","La misericordia que das a otros también la estás dando a la parte de ti que más la necesita.","El que sirve en pequeño recibe en grande. El tamaño del acto no importa — importa el amor.","Cuando sueltas lo que ya no te pertenece, abres las manos para recibir lo que viene.","La paz no es ausencia de tormenta — es la certeza de que nada puede apagar lo que hay en ti.","Busca primero entender, y la respuesta llegará por sí sola en el momento exacto.","Quien se conoce a sí mismo ha dado el primer paso hacia su propósito.","El sufrimiento que no se niega y se ofrece con amor se convierte en sabiduría.","Hay semillas que necesitan mucho tiempo bajo tierra. Tu proceso no es lento — es profundo.","No necesitas tener todo resuelto para avanzar. El camino se hace al caminar.","Lo que pides con el corazón limpio ya fue escuchado antes de que terminaras de pedirlo."];
+const frase=()=>FRASES[new Date().getDate()%FRASES.length];
+
+// ── DATOS DE FLECHAS ─────────────────────────────────────────
+const FD={
+  "1-2-3":{n:"Flecha del Intelecto",nums:[1,2,3],
+    qes:"Las flechas se forman cuando tres números que comparten una línea en el cuadro de nacimiento (horizontal, vertical o diagonal) están todos presentes. La Flecha del Intelecto une el 1 (iniciativa), el 2 (intuición) y el 3 (expresión) en una línea horizontal en la fila inferior del cuadro.",
+    c:{
+      desc:"Posees una mente analítica, lógica y creativa de gran potencia. Esta flecha une la iniciativa del 1, la intuición del 2 y la creatividad del 3. Procesas información con rapidez, ves conexiones que otros no ven y puedes comunicar ideas complejas de forma clara y carismática.",
+      como:"Esta flecha se manifiesta en tu facilidad para aprender, en tu capacidad de resolver problemas desde múltiples ángulos y en tu habilidad para comunicar ideas de forma que lleguen a distintos tipos de personas.",
+      usa:"Úsala en situaciones que requieren planificación, análisis profundo o comunicación estratégica. Tu mente es una herramienta de precisión — ponla al servicio de tu propósito.",
+      desafio:"El conocimiento que no se aplica no transforma. Esta flecha puede llevarte a sobre-analizar y sub-actuar. El desafío es pasar del análisis a la acción.",
+      fortalece:"Para seguir fortaleciendo esta flecha: lee sobre temas fuera de tu zona de confort, practica enseñar lo que sabes (enseñar es la mejor forma de integrar), y desafía tus propias conclusiones con regularidad.",
+      reto:"Esta semana toma una decisión importante confiando en tu análisis sin buscar más información. Tu mente ya tiene lo que necesita."
+    },
+    p:{
+      desc:"Tienes parte de la energía analítica e intelectual de esta flecha. Los números que tienes te dan acceso a algunas de estas capacidades — pero le falta al menos un eslabón para que la flecha opere en su potencia máxima.",
+      eslabones:{
+        1:"El 1 faltante indica que la <strong style='color:var(--gold3)'>iniciativa mental</strong> es el área a desarrollar. Tu capacidad analítica existe pero puede faltarle el impulso de actuar desde ella. Practica esta semana: propón una idea tuya sin esperar que alguien te la pida.",
+        2:"El 2 faltante indica que la <strong style='color:var(--gold3)'>intuición integrada</strong> es el eslabón que completa tu intelecto. Antes de analizar, pregúntate: ¿qué siento sobre esto? Esa respuesta también es información válida.",
+        3:"El 3 faltante indica que la <strong style='color:var(--gold3)'>expresión de tus ideas</strong> es el área a potenciar. Piensas bien pero la comunicación de ese pensamiento es el puente que falta. Practica escribir o hablar tus ideas en voz alta."
+      },
+      reto:"Esta semana trabaja conscientemente la energía del número faltante de esta flecha."
+    },
+    e:{
+      desc:"La Flecha del Intelecto está completamente ausente en tu cuadro. Esto no significa que seas menos inteligente — significa que tu forma de procesar la realidad es más intuitiva, experiencial y corporal que analítica. Aprendes mejor haciendo que estudiando. Sientes antes de pensar.",
+      aprender:"Lo que viniste a desarrollar: la confianza en tu propio proceso mental, que es diferente al estándar académico pero igualmente válido. Tu inteligencia es más holística — ve el todo antes que las partes.",
+      compensa:"Como esta flecha nunca estará completa en tu cuadro, tu estrategia es: 1) Rodéate de personas analíticas que complementen tu forma de procesar. 2) Usa herramientas externas (tomar notas, mapas mentales, listas) para estructurar lo que percibes. 3) Confía en que tu forma de aprender — experiencial, intuitiva — tiene un valor que el pensamiento puramente analítico no puede reemplazar.",
+      reto:"Esta semana, ante un desafío, escribe tres perspectivas diferentes antes de actuar. Ese ejercicio entrena el músculo analítico sin alejarte de tu intuición."
+    }
+  },
+  "4-5-6":{n:"Flecha de la Voluntad",nums:[4,5,6],
+    qes:"La Flecha de la Voluntad une el 4 (disciplina), el 5 (adaptabilidad) y el 6 (responsabilidad) en la fila central horizontal del cuadro. Es la flecha del hacer sostenido.",
+    c:{
+      desc:"Tienes una determinación y capacidad de trabajo sostenido extraordinarias. Esta flecha une la disciplina del 4, la versatilidad del 5 y la responsabilidad del 6. Una vez que decides, llevas a término — y puedes mantener ese esfuerzo incluso cuando las condiciones cambian.",
+      como:"Esta flecha se manifiesta en tu capacidad de mantener compromisos bajo presión, en tu fiabilidad y en tu habilidad para adaptarte sin perder el rumbo.",
+      usa:"Úsala en proyectos de largo aliento que requieran constancia. Tu voluntad puede sostener sueños que otros abandonarían.",
+      desafio:"Tu voluntad puede tornarse terquedad. A veces persistes en un camino que ya no sirve. Aprende a distinguir entre perseverancia genuina y resistencia al cambio disfrazada de fortaleza.",
+      fortalece:"Para seguir fortaleciendo esta flecha: elige proyectos que te importen genuinamente (la voluntad florece con propósito), practica soltar cuando algo ya no sirve (la voluntad madura sabe cuándo avanzar y cuándo soltar), y celebra los procesos no solo los resultados.",
+      reto:"Identifica algo importante que requiera más constancia. Comprométete con una acción diaria pequeña durante los próximos 21 días."
+    },
+    p:{
+      desc:"Tienes la semilla de la voluntad sostenida pero le falta al menos un eslabón para que opere en su máxima potencia.",
+      eslabones:{
+        4:"El 4 faltante indica que la <strong style='color:var(--gold3)'>disciplina metódica</strong> es el área a desarrollar. Tu voluntad existe pero puede ser intermitente. Practica: establece una rutina diaria de 5 minutos — tan pequeña que sea imposible no hacerla.",
+        5:"El 5 faltante indica que la <strong style='color:var(--gold3)'>adaptabilidad de la voluntad</strong> es el eslabón faltante. Tu constancia existe pero se quiebra ante los cambios imprevistos. Practica: mantén tu compromiso aunque cambien las condiciones externas.",
+        6:"El 6 faltante indica que la <strong style='color:var(--gold3)'>responsabilidad ante otros</strong> es lo que completaría tu voluntad. Hacer públicos tus compromisos los fortalece. Dile a alguien lo que vas a hacer."
+      },
+      reto:"Esta semana trabaja el número faltante de tu flecha de la voluntad."
+    },
+    e:{
+      desc:"La Flecha de la Voluntad está completamente ausente. Esto no significa que no tengas fuerza — significa que la disciplina sostenida y la constancia son aprendizajes centrales de esta vida. Aún estás descubriendo qué te motiva lo suficiente como para persistir.",
+      aprender:"La disciplina elegida desde el propósito es radicalmente diferente a la disciplina impuesta desde la obligación. Cuando encuentres tu por qué genuino, la constancia aparece naturalmente.",
+      compensa:"Tu estrategia: 1) Busca tu propósito antes que la disciplina — cuando algo importa de verdad, el compromiso surge solo. 2) Usa compromisos públicos y accountability con personas de confianza. 3) Divide los proyectos en pasos tan pequeños que iniciar sea casi inevitable.",
+      reto:"Elige una sola práctica esta semana. Hazla 7 días consecutivos. No importa cuán pequeña. El músculo de la constancia se construye con victorias pequeñas."
+    }
+  },
+  "7-8-9":{n:"Flecha de la Acción",nums:[7,8,9],
+    qes:"La Flecha de la Acción une el 7 (sabiduría), el 8 (poder ejecutivo) y el 9 (compasión) en la fila superior horizontal del cuadro. Es la flecha de la materialización consciente.",
+    c:{
+      desc:"Eres extraordinariamente efectivo en llevar ideas a la realidad. Esta flecha une la sabiduría del 7, el poder ejecutivo del 8 y la visión humanista del 9. Sabes cómo hacer que las cosas sucedan en el mundo concreto — y lo haces con una perspectiva que va más allá del beneficio personal.",
+      como:"Esta flecha se manifiesta en tu capacidad de ejecutar proyectos, de tomar decisiones de alto impacto y de convertir visiones en realidades tangibles.",
+      usa:"Úsala para ejecutar proyectos complejos, liderar equipos hacia resultados y transformar visiones en realidades.",
+      desafio:"Tu velocidad de acción puede llevarte a decisiones impulsivas. No toda situación requiere acción inmediata — algunas requieren espera, contemplación o simplemente presencia.",
+      fortalece:"Para seguir fortaleciendo esta flecha: conecta siempre tus acciones con un propósito mayor, practica la pausa reflexiva antes de ejecutar decisiones importantes, y celebra los resultados que benefician a otros más allá de ti.",
+      reto:"Esta semana antes de ejecutar una decisión importante, date 24 horas. Observa si la acción fue mejor que la que habrías tomado impulsivamente."
+    },
+    p:{
+      desc:"Tienes parte de la capacidad de acción y materialización. Los números presentes te dan acceso a algunas de estas energías — pero le falta al menos un eslabón para que la flecha opere en su máxima potencia.",
+      eslabones:{
+        7:"El 7 faltante indica que la <strong style='color:var(--gold3)'>reflexión estratégica</strong> es el eslabón que necesitas. Tu capacidad de acción existe pero puede actuar antes de entender completamente la situación. Practica: antes de ejecutar, pregúntate qué no estás viendo.",
+        8:"El 8 faltante indica que la <strong style='color:var(--gold3)'>relación con el poder y la autoridad</strong> es el área a desarrollar. Tienes visión y compasión pero puede faltarte la decisión ejecutiva. Practica: toma una decisión de liderazgo que llevas postergando.",
+        9:"El 9 faltante indica que <strong style='color:var(--gold3)'>conectar tu acción con un propósito mayor</strong> es lo que completaría esta flecha. Tu capacidad ejecutora existe pero puede faltarle la dimensión del servicio. Practica: antes de actuar, pregúntate cómo esto beneficia a alguien más."
+      },
+      reto:"Esta semana trabaja el número faltante de tu flecha de la acción."
+    },
+    e:{
+      desc:"La Flecha de la Acción está completamente ausente. Esto no significa que no puedas actuar — significa que la materialización concreta, la relación con el poder y la capacidad de impactar el mundo de forma tangible son aprendizajes importantes.",
+      aprender:"La acción imperfecta transforma más que la idea perfecta que nunca se ejecuta. Eso es lo que viniste a descubrir.",
+      compensa:"Tu estrategia: 1) Trabaja con personas de acción que te ayuden a materializar tus visiones. 2) Usa marcos de gestión de proyectos para estructurar la ejecución. 3) Celebra cada paso completado — no solo el resultado final. 4) Da el primer paso concreto aunque sea imperfecto.",
+      reto:"Esta semana toma una idea que tienes sin ejecutar y da el primer paso concreto, por pequeño que sea. Solo el primero."
+    }
+  },
+  "3-6-9":{n:"Flecha de la Compasión",nums:[3,6,9],
+    qes:"La Flecha de la Compasión une el 3 (expresión), el 6 (amor) y el 9 (servicio universal) en la columna derecha vertical del cuadro. Es la flecha del corazón.",
+    c:{
+      desc:"Tienes un corazón que ama con profundidad y una capacidad de empatía que transforma los espacios que habitas. Esta flecha une la expresión del 3, el amor del 6 y la compasión universal del 9. Haces que las personas se sientan profundamente comprendidas, cuidadas y vistas.",
+      como:"Esta flecha se manifiesta en tu calidez natural, en tu facilidad para crear vínculos genuinos y en tu capacidad de sanar con tu presencia.",
+      usa:"Úsala en liderazgo desde el servicio, enseñanza, coaching, acompañamiento — cualquier rol donde el corazón sea la herramienta principal.",
+      desafio:"Sin límites claros, tu compasión puede convertirse en absorción del dolor ajeno que te vacía. El corazón que no se cuida a sí mismo termina sin poder cuidar a nadie.",
+      fortalece:"Para seguir fortaleciendo esta flecha: practica poner límites desde el amor (decir no también es una forma de cuidar), desarrolla rituales de recarga emocional y aprende a recibir tan bien como das.",
+      reto:"Identifica a tres personas a quienes cuidas profundamente. Ahora escribe qué necesitas tú de cada una. ¿Lo has pedido?"
+    },
+    p:{
+      desc:"Tienes apertura al amor y al cuidado, pero la flecha incompleta muestra que hay dimensiones del dar o del recibir que aún estás integrando.",
+      eslabones:{
+        3:"El 3 faltante indica que la <strong style='color:var(--gold3)'>expresión del amor</strong> es el área a desarrollar. Puedes sentir mucho pero cuesta exteriorizarlo. Practica esta semana: di o escribe algo amoroso que normalmente te quedarías guardado.",
+        6:"El 6 faltante indica que el <strong style='color:var(--gold3)'>compromiso sostenido en el amor</strong> es el eslabón faltante. Sientes compasión pero puede ser difícil mantenerla en relaciones cotidianas y comprometidas. Practica: elige una relación y profundiza en ella con constancia esta semana.",
+        9:"El 9 faltante indica que el <strong style='color:var(--gold3)'>amor universal — más allá de los vínculos cercanos</strong> — es tu área de crecimiento. Sientes amor por los tuyos pero la compasión hacia lo que no conoces aún estás desarrollándola. Practica: haz un acto de bondad con alguien que no conozcas."
+      },
+      reto:"Esta semana expresa amor de una forma en que normalmente no lo harías."
+    },
+    e:{
+      desc:"La Flecha de la Compasión está completamente ausente. Esto no significa que no seas capaz de amar — significa que el amor empático, el cuidado genuino de otros y la conexión emocional profunda son aprendizajes importantes en esta vida.",
+      aprender:"Conectar con el otro no te hace perder — te completa. La compasión genuina transforma al que la recibe y al que la da. Tu mayor crecimiento ocurre cuando permites que algo externo te mueva.",
+      compensa:"Tu estrategia: 1) Cultiva relaciones con personas compasivas que te enseñen el lenguaje del cuidado. 2) Practica actos pequeños de servicio consciente — no grandes gestos, sino presencia genuina. 3) Pregúntate con regularidad: ¿cómo está esta persona? — y escucha de verdad la respuesta.",
+      reto:"Esta semana haz algo por alguien sin que te lo hayan pedido y sin esperar reconocimiento. Observa cómo te sientes."
+    }
+  },
+  "1-4-7":{n:"Flecha de la Determinación",nums:[1,4,7],
+    qes:"La Flecha de la Determinación une el 1 (voluntad), el 4 (disciplina) y el 7 (sabiduría) en la columna izquierda vertical del cuadro. Es la flecha de la fortaleza interior.",
+    c:{
+      desc:"Posees una columna vertebral emocional y mental extraordinaria. Esta flecha une la fuerza del 1, la solidez del 4 y la profundidad del 7. Frente a los obstáculos no te doblas — te fortaleces. Tu resiliencia inspira a quienes te rodean.",
+      como:"Esta flecha se manifiesta en tu capacidad de mantenerte firme bajo presión, en tu habilidad para recuperarte de los golpes y en la confianza que tu fortaleza genera en los demás.",
+      usa:"Úsala en los momentos de mayor dificultad. Cuando otros quieran rendirse, tú encuentras la manera. Esta flecha es tu ancla cuando el camino se complica.",
+      desafio:"Tu fortaleza puede convertirse en inflexibilidad. La determinación que no sabe doblar termina rompiéndose. Aprende a distinguir entre resiliencia genuina y resistencia al cambio.",
+      fortalece:"Para seguir fortaleciendo esta flecha: practica el descanso consciente (la determinación sostenible necesita recuperación), cultiva la flexibilidad como complemento de la fortaleza, y recuerda que pedir ayuda no reduce tu determinación — la amplifica.",
+      reto:"Esta semana identifica un desafío actual y escribe tres formas alternativas de abordarlo que no hayas considerado. Tu determinación es más poderosa cuando tiene opciones."
+    },
+    p:{
+      desc:"Tienes parte de la columna vertebral de la determinación. Los números presentes te dan resistencia en ciertas dimensiones — pero le falta al menos un eslabón para que la fortaleza sea consistente en todas las áreas.",
+      eslabones:{
+        1:"El 1 faltante indica que la <strong style='color:var(--gold3)'>iniciativa y la voluntad propia</strong> son el área a fortalecer. Tienes profundidad y disciplina pero puede faltarte el impulso de arrancar desde tu propio criterio. Practica: decide algo solo esta semana, sin consultar a nadie.",
+        4:"El 4 faltante indica que la <strong style='color:var(--gold3)'>disciplina sostenida</strong> es el eslabón faltante. Tienes voluntad y profundidad pero la constancia diaria es el área a desarrollar. Practica: comprométete con una práctica pequeña durante 7 días consecutivos.",
+        7:"El 7 faltante indica que la <strong style='color:var(--gold3)'>reflexión profunda antes de actuar</strong> es lo que completa tu determinación. Tienes fuerza y disciplina pero la sabiduría estratégica la hará más efectiva. Practica: antes de enfrentar un obstáculo, dedica 10 minutos a contemplar qué está realmente en juego."
+      },
+      reto:"Esta semana trabaja conscientemente el número faltante de tu flecha de la determinación."
+    },
+    e:{
+      desc:"La Flecha de la Determinación está completamente ausente. Esto no significa que no tengas fortaleza — significa que la resiliencia sostenida ante los obstáculos y la persistencia son aprendizajes centrales de esta vida.",
+      aprender:"La determinación más poderosa no nace de la dureza — nace de saber claramente por qué algo importa. Cuando encuentras tu propósito genuino, la resiliencia aparece de formas que nunca habías imaginado.",
+      compensa:"Tu estrategia: 1) Rodéate de personas determinadas y resilientes que te inspiren y sostengan. 2) Estudia historias de personas que superaron grandes obstáculos — esas narrativas construyen musculatura mental. 3) Crea sistemas externos (compromisos públicos, rutinas estructuradas) que soporten tu constancia cuando la motivación baje.",
+      reto:"Identifica una situación donde hayas querido rendirte pero no lo hiciste. Escribe qué te sostuvo. Esa es la fuente de tu determinación — conócela y nutrela."
+    }
+  },
+  "2-5-8":{n:"Flecha de la Sensibilidad",nums:[2,5,8],
+    qes:"La Flecha de la Sensibilidad une el 2 (intuición emocional), el 5 (versatilidad) y el 8 (poder) en la columna central vertical del cuadro. Es la flecha de la inteligencia emocional.",
+    c:{
+      desc:"Tienes una vida emocional profunda y una intuición extraordinariamente desarrollada. Esta flecha une la empatía del 2, la versatilidad del 5 y la visión ejecutiva del 8. Sientes lo que otros no sienten, lees dinámicas interpersonales con precisión y creas vínculos genuinos.",
+      como:"Esta flecha se manifiesta en tu capacidad de leer ambientes, en tu habilidad para navegar situaciones socialmente complejas y en la confianza que tu sensibilidad genera en los demás.",
+      usa:"Úsala en todos los contextos donde la inteligencia emocional marca la diferencia — liderazgo, relaciones, negociación, coaching.",
+      desafio:"Tu profundidad emocional puede convertirse en hipersensibilidad que te agota. Aprende a sentir sin absorber, a empatizar sin fusionarte con el dolor ajeno.",
+      fortalece:"Para seguir fortaleciendo esta flecha: practica rituales de cierre emocional al final de cada día, aprende a nombrar con precisión lo que sientes (el vocabulario emocional es poder), y cultiva la diferencia entre empatizar y absorber.",
+      reto:"Esta semana, después de una interacción emocionalmente intensa, practica un ritual de cierre: respira profundo y distingue conscientemente qué es tuyo y qué es de la otra persona."
+    },
+    p:{
+      desc:"Tienes parte de la sensibilidad emocional e interpersonal. Los números presentes te dan acceso a algunas de estas dimensiones — pero le falta al menos un eslabón.",
+      eslabones:{
+        2:"El 2 faltante indica que la <strong style='color:var(--gold3)'>empatía profunda y la escucha genuina</strong> son el área a desarrollar. Tu sensibilidad existe en otras formas pero el lenguaje emocional puro es tu aprendizaje. Practica: ten una conversación donde solo escuches, sin dar consejos.",
+        5:"El 5 faltante indica que la <strong style='color:var(--gold3)'>adaptabilidad emocional</strong> es el eslabón faltante. Tu sensibilidad puede ser profunda pero le falta la capacidad de fluir con los cambios emocionales. Practica: cuando algo te afecte fuertemente, espera 24 horas antes de responder.",
+        8:"El 8 faltante indica que la <strong style='color:var(--gold3)'>relación con el poder desde la sensibilidad</strong> es el área a desarrollar. Sientes mucho pero puede ser difícil convertir esa sensibilidad en liderazgo efectivo. Practica: toma una decisión de liderazgo guiada por tu intuición emocional."
+      },
+      reto:"Esta semana trabaja el número faltante de tu flecha de la sensibilidad."
+    },
+    e:{
+      desc:"La Flecha de la Sensibilidad está completamente ausente (faltan el 2, el 5 y el 8). Esto indica que el mundo emocional, la versatilidad y la relación con el poder son tres áreas importantes de aprendizaje en esta vida.",
+      aprender:"Tu mayor crecimiento ocurre en los vínculos íntimos, en las situaciones que requieren adaptación y en los contextos donde el poder y los recursos son parte de la ecuación.",
+      compensa:"Tu estrategia: 1) Lleva un diario emocional breve — nombrar lo que sientes lo hace manejable. 2) Cultiva relaciones con personas emocionalmente inteligentes que te muestren ese lenguaje. 3) Practica la pausa antes de responder en situaciones de carga emocional alta. 4) Toma un curso o proceso de desarrollo emocional — para ti es un recurso estratégico, no un lujo.",
+      reto:"Al final de cada día esta semana, escribe en una sola línea qué sentiste. No qué pensaste — qué sentiste. Ese vocabulario emocional es el primer paso."
+    }
+  },
+  "1-5-9":{n:"Flecha de la Ambición Espiritual",nums:[1,5,9],
+    qes:"La Flecha de la Ambición Espiritual une el 1 (voluntad personal), el 5 (transformación) y el 9 (amor universal) en la diagonal principal del cuadro. Es la flecha del propósito de gran escala.",
+    c:{
+      desc:"Combinas la voluntad personal más poderosa con la visión espiritual más expansiva. Esta flecha une la fuerza del 1, la versatilidad transformadora del 5 y la compasión universal del 9. Tienes la rara capacidad de querer algo grande Y conectarlo con un propósito que trasciende tu beneficio personal.",
+      como:"Esta flecha se manifiesta en tu capacidad de liderar transformaciones colectivas, en tu habilidad para inspirar a otros hacia algo más grande y en tu sentido natural de misión.",
+      usa:"Úsala para liderar proyectos de transformación, para inspirar a comunidades y para trabajar en misiones que impacten más vidas que la tuya.",
+      desafio:"Tu visión puede ser tan grande que intimide, tanto a ti como a otros. Aprende a comunicarla en pequeñas dosis y a avanzar un paso a la vez sin perder de vista el horizonte.",
+      fortalece:"Para seguir fortaleciendo esta flecha: conecta cada acción concreta con tu visión mayor (el mapa y el territorio juntos), practica simplificar tu visión hasta que pueda comunicarse en una sola frase y cultiva la paciencia con los tiempos del universo.",
+      reto:"Esta semana escribe en una frase tu visión más grande. Luego escribe cuál es el próximo paso concreto. El puente entre lo espiritual y lo práctico se construye así."
+    },
+    p:{
+      desc:"Tienes el inicio del hilo entre la voluntad personal y el propósito espiritual. Los números presentes te conectan con parte de esta energía — pero le falta el nudo que une el querer personal con el servicio al mundo.",
+      eslabones:{
+        1:"El 1 faltante indica que <strong style='color:var(--gold3)'>fortalecer la voluntad propia</strong> es lo que conectaría tu espiritualidad con la acción. Tienes visión y compasión pero puede faltarte el impulso de liderar desde tu propio criterio. Practica: actúa esta semana desde tu visión sin pedir permiso.",
+        5:"El 5 faltante indica que la <strong style='color:var(--gold3)'>apertura al cambio y la transformación</strong> son el eslabón faltante. Tienes voluntad y visión espiritual pero la capacidad de adaptarte en el camino es lo que completa la flecha. Practica: cuando algo no salga como planeaste, busca activamente la oportunidad que hay en el cambio.",
+        9:"El 9 faltante indica que <strong style='color:var(--gold3)'>conectar tu ambición con el servicio universal</strong> es lo que completaría esta flecha. Tienes fuerza y capacidad de transformación pero la dimensión del amor universal amplifica todo. Practica: esta semana toma una acción motivada exclusivamente por el beneficio de otros."
+      },
+      reto:"Esta semana conecta algo que quieres lograr con el impacto que tendría en otros. Esa conexión es la energía de esta flecha."
+    },
+    e:{
+      desc:"La Flecha de la Ambición Espiritual está completamente ausente. Esto indica que la integración entre la voluntad personal y el propósito espiritual es un aprendizaje de vida. Puede haber objetivos claros pero desconectados de un sentido mayor, o una espiritualidad elevada sin anclaje en la acción.",
+      aprender:"Cuando conectas lo que quieres con lo que el mundo necesita, tu voluntad se multiplica. Esa integración es lo que viniste a descubrir.",
+      compensa:"Tu estrategia: 1) Trabaja con un coach o mentor que te ayude a articular tu propósito. 2) Practica la meditación o la contemplación para conectar tus deseos con un sentido mayor. 3) Estudia las vidas de personas que unieron voluntad y espiritualidad — hay modelos de integración que pueden guiarte.",
+      reto:"Esta semana escribe cuál es tu deseo más importante ahora mismo. Luego escribe cómo ese deseo, si se cumpliera, podría beneficiar a alguien más allá de ti."
+    }
+  },
+  "3-5-7":{n:"Flecha de la Mente Espiritual",nums:[3,5,7],
+    qes:"La Flecha de la Mente Espiritual une el 3 (expresión), el 5 (versatilidad) y el 7 (sabiduría) en la diagonal secundaria del cuadro. Es la flecha del puente entre mundos.",
+    c:{
+      desc:"Tienes el don extraordinariamente raro de integrar el pensamiento racional y la intuición espiritual. Esta flecha une la expresión del 3, la versatilidad del 5 y la sabiduría del 7. Puedes entender lo profundo y explicarlo de forma accesible — eres un puente entre lo visible y lo invisible.",
+      como:"Esta flecha se manifiesta en tu capacidad de traducir ideas complejas o espirituales a un lenguaje que otros puedan entender, en tu creatividad para comunicar y en tu apertura a múltiples dimensiones de la realidad.",
+      usa:"Úsala para enseñar, escribir, facilitar y comunicar verdades complejas de forma simple. Tu don es hacer que lo invisible se vuelva visible.",
+      desafio:"Tu comprensión integrada puede generar frustración cuando otros no siguen tu ritmo. No todos tienen la misma síntesis — tu rol es guiar, no imponerte.",
+      fortalece:"Para seguir fortaleciendo esta flecha: practica simplificar tus comprensiones más profundas hasta que puedan comunicarse con palabras sencillas, cultiva la paciencia con quienes procesan diferente y comparte lo que sabes regularmente.",
+      reto:"Esta semana toma una comprensión espiritual profunda que tengas y escríbela de la forma más simple posible, como si se la explicaras a alguien que nunca ha pensado en eso."
+    },
+    p:{
+      desc:"Tienes parte del puente construido entre el pensamiento y la espiritualidad. Los números presentes te conectan con algunas de estas dimensiones — pero le faltan pilares para que el puente sea completo.",
+      eslabones:{
+        3:"El 3 faltante indica que la <strong style='color:var(--gold3)'>expresión y comunicación</strong> de tus comprensiones espirituales es el área a desarrollar. Entiendes en profundidad pero cuesta exteriorizarlo de forma accesible. Practica: comparte esta semana una comprensión tuya con alguien que pueda beneficiarse.",
+        5:"El 5 faltante indica que la <strong style='color:var(--gold3)'>apertura y adaptabilidad del pensamiento</strong> es el eslabón faltante. Tienes profundidad y expresión pero puede faltarte la flexibilidad para ver múltiples perspectivas igualmente válidas. Practica: esta semana, ante una idea que rechaces instintivamente, busca activamente qué hay de válido en ella.",
+        7:"El 7 faltante indica que la <strong style='color:var(--gold3)'>profundidad analítica y la conexión espiritual</strong> son lo que completaría esta flecha. Tienes expresión y versatilidad pero la dimensión contemplativa es el pilar que falta. Practica: 10 minutos de silencio diarios esta semana."
+      },
+      reto:"Esta semana comparte con alguien una comprensión que tengas — no la guardes. El acto de compartir activa el eslabón faltante."
+    },
+    e:{
+      desc:"La Flecha de la Mente Espiritual está completamente ausente. Esto indica que la integración entre el pensamiento racional, la versatilidad y la sabiduría espiritual es un aprendizaje de vida.",
+      aprender:"La mente y el alma no son opuestos — son dos instrumentos del mismo ser. Integrarlos es una de las tareas más profundas y más liberadoras que existen.",
+      compensa:"Tu estrategia: 1) Crea el hábito de preguntarte tanto ¿qué pienso sobre esto? como ¿qué siento sobre esto? — las dos respuestas juntas son más completas que cada una por separado. 2) Lee autores que integren el pensamiento riguroso con la apertura espiritual. 3) Practica compartir lo que piensas y sientes — no solo uno u otro.",
+      reto:"Esta semana toma un tema que entiendas muy bien intelectualmente y busca su dimensión espiritual. ¿Qué significa en términos de valores? ¿Cómo se siente cuando te detenes a vivirlo, no solo a pensarlo?"
+    }
+  }
+};
+
+// ── UTILS ────────────────────────────────────────────────────
+function red(n,m=true){if(m&&[11,22,33].includes(n))return n;if(n<10)return n;return red(String(n).split('').reduce((a,c)=>a+parseInt(c),0),m);}
+function redS(n){if(n<10)return n;return redS(String(n).split('').reduce((a,c)=>a+parseInt(c),0));}
+function digsFecha(dd,mm,aa){return[...`${dd}`.padStart(2,'0'),`${mm}`.padStart(2,'0'),`${aa}`].join('').split('').map(Number).filter(n=>n>0).map(n=>redS(n));}
+
+function rrH(key,lbl,txt,cl=''){
+  const v=S.reg[key]||'';const done=S.comp[key]||false;
+  return`<div class="rr ${cl}"><div class="rr-l">${lbl}</div><p>${txt}</p>
+  <textarea class="rta" placeholder="Escribe tu reflexión o compromiso concreto..." oninput="S.reg['${key}']=this.value">${v}</textarea>
+  <div class="rchk"><input type="checkbox" id="c-${key}" ${done?'checked':''} onchange="S.comp['${key}']=this.checked;uD('${key}')">
+  <label for="c-${key}">He reflexionado y tengo una acción concreta</label></div>
+  ${done?'<div class="rdone">Completado</div>':''}</div>`;
+}
+window.uD=function(k){const c=document.getElementById('c-'+k);if(!c)return;const p=c.closest('.rr');if(!p)return;const e=p.querySelector('.rdone');if(c.checked&&!e){const d=document.createElement('div');d.className='rdone';d.textContent='Completado';p.appendChild(d);}else if(!c.checked&&e)e.remove();};
+
+// ── ESTADO ───────────────────────────────────────────────────
+const S={fecha:null,pres:[],cnt:{},reg:{},comp:{}};
+const PASOS=[{l:"Fecha"},{l:"El cuadro"},{l:"Mis flechas"}];
+let paso=0;
+
+function rProg(){
+  const b=document.getElementById('pb');if(!b)return;b.innerHTML='';
+  PASOS.forEach((p,i)=>{
+    if(i>0){const l=document.createElement('div');l.className='pln'+(i<=paso?' done':'');b.appendChild(l);}
+    const s=document.createElement('div');s.className='ps'+(i===paso?' act':i<paso?' done':'');
+    s.innerHTML=`<div class="pn">${i<paso?'✓':(i+1)}</div><span class="ptxt">${p.l}</span>`;
+    if(i<paso)s.onclick=()=>irA(i);b.appendChild(s);
+  });
+}
+function irA(i){paso=i;rProg();document.querySelectorAll('.panel').forEach((p,j)=>p.classList.toggle('act',j===i));window.scrollTo({top:0,behavior:'smooth'});}
+window.avanzar=function(){if(paso<PASOS.length-1){const n=paso+1;if(n===1)bCuadro();if(n===2)bFlechas();irA(n);}};
+window.retro=function(){if(paso>0)irA(paso-1);};
+
+// ── INIT ─────────────────────────────────────────────────────
+function init(){
+  document.getElementById('app').innerHTML=`
+    <div style="padding:28px 0 0">
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:10px;letter-spacing:.2em;color:var(--gold);text-transform:uppercase;margin-bottom:4px">Café con Propósito · ¿Quién soy?</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:300;color:var(--gold2);margin-bottom:22px;font-style:italic">Las flechas de tu cuadro</div>
+    </div>
+    <div class="prog" id="pb"></div>
+    ${PASOS.map((_,i)=>`<div class="panel${i===0?' act':''}" id="p${i}"></div>`).join('')}`;
+  rProg(); bFecha();
+}
+
+// ── PANEL 0: FECHA ───────────────────────────────────────────
+function bFecha(){
+  document.getElementById('p0').innerHTML=`
+    <div class="pbadge"><div><div class="pbadge-q">¿Quién soy?</div><div class="pbadge-s">Fase 1d · Las flechas</div></div></div>
+    <div class="ph"><div class="ph-s">Paso 1 de 3</div>
+    <div class="ph-t">¿Qué patrones amplifican quién eres?</div>
+    <div class="ph-d">Las flechas son el siguiente nivel del cuadro de nacimiento. Cuando tres números comparten una línea — horizontal, vertical o diagonal — se forma una flecha que amplifica o intensifica esa energía.</div></div>
+    <div class="dmsg"><div class="dm-l">Reflexión del día</div><div class="dm-t">"${frase()}"</div></div>
+    <div class="card gold">
+      <div class="cl">Ingresa tu fecha</div>
+      <div class="irow">
+        <div style="flex:1;min-width:75px"><label class="il">Día</label><input class="inp" id="fD" type="number" min="1" max="31" placeholder="17"></div>
+        <div style="flex:1;min-width:75px"><label class="il">Mes</label><input class="inp" id="fM" type="number" min="1" max="12" placeholder="4"></div>
+        <div style="flex:1;min-width:105px"><label class="il">Año</label><input class="inp" id="fA" type="number" min="1900" max="2099" placeholder="1969"></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="cl">¿Qué es una flecha?</div>
+      <div class="ct">El cuadro de nacimiento organiza los números del 1 al 9 en una grilla de 3×3. Cuando tienes los tres números de una línea (horizontal, vertical o diagonal), se forma una <strong style="color:var(--gold3)">flecha completa</strong> — una fortaleza amplificada.<br><br>Si tienes uno o dos números de la línea, tienes una <strong style="color:var(--acc)">flecha parcial</strong> — un potencial en desarrollo. Y si no tienes ninguno de los tres, tienes una <strong style="color:#E09070">flecha vacía</strong> — un aprendizaje profundo.<br><br>Lo revelador no es solo qué flechas tienes — es entender qué hacer con eso.</div>
+    </div>
+    <div class="nav"><span></span><button class="bp" onclick="procFecha()">Ver mi cuadro</button></div>`;
+}
+
+window.procFecha=function(){
+  const dd=parseInt(document.getElementById('fD').value)||0;
+  const mm=parseInt(document.getElementById('fM').value)||0;
+  const aa=parseInt(document.getElementById('fA').value)||0;
+  if(!dd||!mm||!aa||dd>31||mm>12){alert('Por favor ingresa una fecha completa y válida.');return;}
+  S.fecha={dd,mm,aa};
+  const ds=digsFecha(dd,mm,aa);
+  S.pres=[...new Set(ds)].sort((a,b)=>a-b);
+  const cnt={};ds.forEach(n=>{cnt[n]=(cnt[n]||0)+1;});S.cnt=cnt;
+  if(window.ANORMAL){
+    ANORMAL.saveFaseModulo('flechas', { fecha: S.fecha, presentes: S.pres, conteo: S.cnt });
+  }
+  bCuadro(); avanzar();
+};
+
+// ── PANEL 1: EL CUADRO ───────────────────────────────────────
+function bCuadro(){
+  // Cuadro: fila superior 7-8-9, media 4-5-6, inferior 1-2-3
+  const orden=[[7,8,9],[4,5,6],[1,2,3]];
+  const boardH=orden.flat().map(n=>{
+    const p=S.pres.includes(n);
+    return`<div class="bc ${p?'p':'a'}" onclick="mostrarFlechasDeN(${n})">
+      ${p&&S.cnt[n]>1?`<div class="bc-cnt">${S.cnt[n]}</div>`:''}
+      <span>${p?n:`<span style="opacity:.18">${n}</span>`}</span>
+    </div>`;
+  }).join('');
+
+  // Clasificar flechas
+  let fC=[],fP=[],fE=[];
+  Object.keys(FD).forEach(k=>{
+    const ns=FD[k].nums;
+    const pr=ns.filter(n=>S.pres.includes(n));
+    if(pr.length===3)fC.push(k);
+    else if(pr.length===0)fE.push(k);
+    else fP.push({k,pr,au:ns.filter(n=>!S.pres.includes(n))});
+  });
+
+  document.getElementById('p1').innerHTML=`
+    <div class="pbadge"><div><div class="pbadge-q">¿Quién soy?</div><div class="pbadge-s">Tu cuadro de nacimiento</div></div></div>
+    <div class="ph"><div class="ph-s">Paso 2 de 3 — El cuadro</div>
+    <div class="ph-t">Así se ve tu cuadro</div>
+    <div class="ph-d">Los números dorados son los que tienes. Los grises punteados son los ausentes. Toca cualquier número para ver qué flechas lo incluyen.</div></div>
+
+    <div class="dmsg"><div class="dm-l">Reflexión del día</div><div class="dm-t">"${frase()}"</div></div>
+
+    <div class="card" style="padding:22px">
+      <div style="display:flex;justify-content:center;margin-bottom:18px">
+        <div>
+          <div class="cl" style="text-align:center;margin-bottom:14px">Tu cuadro — ${S.fecha.dd}/${S.fecha.mm}/${S.fecha.aa}</div>
+          <div class="board">${boardH}</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap">
+        <span style="font-size:11px;color:var(--dim);display:flex;align-items:center;gap:5px"><span style="width:11px;height:11px;border-radius:2px;background:var(--gd);border:1.5px solid var(--gb);display:inline-block"></span>Presente</span>
+        <span style="font-size:11px;color:var(--dim);display:flex;align-items:center;gap:5px"><span style="width:11px;height:11px;border-radius:2px;background:var(--bg3);border:1.5px dashed var(--faint);display:inline-block"></span>Ausente</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="cl">Las 8 flechas posibles</div>
+      <div class="ct" style="margin-bottom:10px">El cuadro tiene 8 líneas: 3 horizontales, 3 verticales y 2 diagonales. Cada una forma una flecha diferente.</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:12px;color:var(--dim)">
+        ${Object.keys(FD).map(k=>{
+          const ns=FD[k].nums;const pr=ns.filter(n=>S.pres.includes(n));
+          const est=pr.length===3?'c':pr.length===0?'e':'p';
+          const estLabel={c:'Completa',p:`Parcial (${pr.length}/3)`,e:'Vacía'};
+          const estCol={c:'var(--grn)',p:'var(--acc)',e:'#E09070'};
+          return`<div style="background:var(--bg3);border-radius:var(--rm);padding:9px 11px">
+            <div style="font-size:11px;color:${estCol[est]};margin-bottom:2px">${estLabel[est]}</div>
+            <div style="font-weight:400;color:var(--text)">${FD[k].n}</div>
+            <div style="font-size:11px;color:var(--faint)">${k.replace(/-/g,' · ')}</div>
+          </div>`;
+        }).join('')}
+      </div>
+    </div>
+
+    <div id="nFlechas" style="display:none" class="card acc">
+      <div class="cl b" id="nFTitle"></div>
+      <div id="nFContent"></div>
+    </div>
+
+    <div class="nav"><button class="bn" onclick="retro()">Anterior</button>
+    <button class="bp" onclick="avanzar()">Ver el análisis completo</button></div>`;
+}
+
+window.mostrarFlechasDeN=function(n){
+  const fls=Object.keys(FD).filter(k=>FD[k].nums.includes(n));
+  const box=document.getElementById('nFlechas');
+  const title=document.getElementById('nFTitle');
+  const content=document.getElementById('nFContent');
+  const isPres=S.pres.includes(n);
+  box.style.display='block';
+  title.textContent=`Número ${n} — flechas que lo incluyen`;
+  content.innerHTML=fls.map(k=>{
+    const pr=FD[k].nums.filter(x=>S.pres.includes(x));
+    const est=pr.length===3?'Completa':pr.length===0?'Vacía':`Parcial (${pr.length}/3)`;
+    const col=pr.length===3?'var(--grn)':pr.length===0?'#E09070':'var(--acc)';
+    return`<div style="display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.04)">
+      <span style="font-size:13px;color:var(--text)">${FD[k].n}</span>
+      <span style="font-size:11px;color:${col}">${est}</span>
+    </div>`;
+  }).join('');
+  box.scrollIntoView({behavior:'smooth',block:'nearest'});
+};
+
+// ── PANEL 2: FLECHAS DETALLADAS ──────────────────────────────
+function bFlechas(){
+  let fC=[],fP=[],fE=[];
+  Object.keys(FD).forEach(k=>{
+    const ns=FD[k].nums;const pr=ns.filter(n=>S.pres.includes(n));
+    if(pr.length===3)fC.push(k);
+    else if(pr.length===0)fE.push(k);
+    else fP.push({k,pr,au:ns.filter(n=>!S.pres.includes(n))});
+  });
+
+  const mkChip=(k,cls,label)=>`<div class="chip ${cls}" onclick="mFlecha('${k}')">${label}</div>`;
+  const hC=fC.length?fC.map(k=>mkChip(k,'c',`${FD[k].n} — ${k.replace(/-/g,' · ')}`)).join(''):`<div class="ct">No tienes flechas completas en tu cuadro.</div>`;
+  const hP=fP.length?fP.map(({k,pr,au})=>mkChip(k,'p',`${FD[k].n} — tienes ${pr.join(',')} · falta ${au.join(',')}`)).join(''):`<div class="ct">No tienes flechas parciales.</div>`;
+  const hE=fE.length?fE.map(k=>mkChip(k,'e',`${FD[k].n} — ${k.replace(/-/g,' · ')}`)).join(''):`<div class="ct">No tienes flechas completamente vacías.</div>`;
+
+  document.getElementById('p2').innerHTML=`
+    <div class="pbadge"><div><div class="pbadge-q">¿Quién soy?</div><div class="pbadge-s">Análisis completo de flechas</div></div></div>
+    <div class="ph"><div class="ph-s">Paso 3 de 3 — Tus flechas</div>
+    <div class="ph-t">Fortalezas, aprendizajes y estrategias</div>
+    <div class="ph-d">Selecciona cualquier flecha para ver su análisis completo — qué significa, cómo se manifiesta, cómo potenciarla y qué hacer si está ausente.</div></div>
+
+    <div class="card grn">
+      <div class="cl g">Flechas completas — tus fortalezas amplificadas</div>
+      <div class="ct" style="margin-bottom:10px">Los tres números de la línea están presentes. Esta energía opera en ti con máxima potencia.</div>
+      <div class="chips">${hC}</div>
+    </div>
+
+    <div class="card acc">
+      <div class="cl b">Flechas parciales — potencial en desarrollo</div>
+      <div class="ct" style="margin-bottom:10px">Tienes uno o dos números de la línea. Hay un eslabón faltante específico que, cuando se desarrolla, activa toda la fortaleza. Estas flechas son especialmente reveladoras.</div>
+      <div class="chips">${hP}</div>
+    </div>
+
+    <div class="card red">
+      <div class="cl r">Flechas vacías — aprendizajes profundos</div>
+      <div class="ct" style="margin-bottom:10px">Ninguno de los tres números está presente. <strong style="color:var(--gold3)">Esta flecha nunca estará completa en tu cuadro</strong> — y eso no es un defecto. Es un mapa de crecimiento consciente. La estrategia no es completarla sino volverse consciente de su ausencia y actuar desde esa conciencia.</div>
+      <div class="chips">${hE}</div>
+    </div>
+
+    <div class="det" id="fDet"></div>
+
+    <div class="cierre">
+      <div class="cierre-t">Con esto completas la lectura de tu fecha</div>
+      <p>Has descubierto tu número de vida, tus sub-números, tu mapa energético y las flechas de tu cuadro. Eso es un autoconocimiento profundo que pocas personas tienen sobre sí mismas.</p>
+      <p style="margin-top:10px">El siguiente paso es descubrir qué dice tu <strong style="color:var(--gold3)">nombre de nacimiento</strong> — y lo que revela puede sorprenderte. Abre el archivo <strong style="color:var(--gold3)">2a-nombre.html</strong> para continuar.</p>
+    </div>
+
+    <div class="nav"><button class="bn" onclick="retro()">Anterior</button>
+    <button class="bs" onclick="irA(0)" style="opacity:.5">Revisar cuadro</button></div>`;
+}
+
+window.mFlecha=function(key){
+  const f=FD[key];if(!f)return;
+  const ns=f.nums;const pr=ns.filter(n=>S.pres.includes(n));const au=ns.filter(n=>!S.pres.includes(n));
+  const est=pr.length===3?'c':pr.length===0?'e':'p';
+  const det=document.getElementById('fDet');det.classList.add('open');
+
+  let badge='',contenido='',reto='';
+
+  // ¿Qué es esta flecha?
+  const queEs=`<div class="blk gold" style="margin-bottom:12px"><div class="blk-l">¿Qué es esta flecha?</div><div class="ct">${f.qes}</div></div>`;
+
+  if(est==='c'){
+    badge=`<span class="sbadge sb-c">Flecha completa — fortaleza amplificada</span>`;
+    contenido=`
+      ${queEs}
+      <div class="blk g"><div class="blk-l">Lo que esta fortaleza significa en ti</div><div class="ct">${f.c.desc}</div></div>
+      <div class="blk gold"><div class="blk-l">Cómo se manifiesta en tu vida</div><div class="ct">${f.c.como}</div></div>
+      <div class="blk g"><div class="blk-l">Cómo usarla conscientemente</div><div class="ct">${f.c.usa}</div></div>
+      <div class="blk b"><div class="blk-l">El desafío que trae</div><div class="ct">${f.c.desafio}</div></div>
+      <div class="blk gold"><div class="blk-l">Cómo seguir fortaleciéndola</div><div class="ct">${f.c.fortalece}</div></div>`;
+    reto=rrH('fc-'+key,'Tu reto de esta semana',f.c.reto);
+  } else if(est==='e'){
+    badge=`<span class="sbadge sb-e">Flecha vacía — aprendizaje profundo</span>`;
+    contenido=`
+      ${queEs}
+      <div class="blk r"><div class="blk-l">Lo que significa esta ausencia</div><div class="ct">${f.e.desc}</div></div>
+      <div class="blk b"><div class="blk-l">Lo que viniste a aprender</div><div class="ct">${f.e.aprender}</div></div>
+      <div class="blk pu"><div class="blk-l">Esta flecha nunca estará completa — aquí está tu estrategia</div><div class="ct">${f.e.compensa}</div></div>`;
+    reto=rrH('fe-'+key,'Tu plan de compensación consciente',f.e.reto,'b');
+  } else {
+    badge=`<span class="sbadge sb-p">Flecha parcial — ${pr.length} de 3 presentes</span>`;
+    const eslH=au.map(n=>{
+      const esl=f.p.eslabones&&f.p.eslabones[String(n)]?f.p.eslabones[String(n)]:`El número ${n} es el eslabón faltante de esta flecha.`;
+      return`<div style="background:var(--bg4);border-left:2px solid var(--acc);border-radius:0 var(--r) var(--r) 0;padding:11px 14px;margin:7px 0">
+        <div style="font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--acc);margin-bottom:4px;font-weight:500">Número ${n} — el eslabón faltante</div>
+        <div class="ct">${esl}</div>
+      </div>`;
+    }).join('');
+    contenido=`
+      ${queEs}
+      <div class="blk b"><div class="blk-l">Lo que esta flecha parcial significa</div><div class="ct">${f.p.desc}</div></div>
+      <div class="blk gold"><div class="blk-l">Los números que ya tienes: ${pr.join(', ')}</div><div class="ct">Estos números ya te dan acceso parcial a esta energía. Úsalos conscientemente mientras desarrollas los faltantes.</div></div>
+      ${eslH}`;
+    reto=rrH('fp-'+key,'Tu reto — Desarrolla el eslabón',f.p.reto,'b');
+  }
+
+  det.innerHTML=`
+    <div class="det-eye">Análisis de flecha</div>
+    <div class="det-t">${f.n}</div>
+    ${badge}
+    <div class="dv"></div>
+    ${contenido}
+    ${reto}
+    <button class="bs" onclick="document.getElementById('fDet').classList.remove('open')" style="margin-top:12px">Cerrar</button>`;
+  det.scrollIntoView({behavior:'smooth',block:'nearest'});
+};
+
+buildWidgetPrincipios("flechas", document.body, function() {
+  init();
+});
+
+// INIT VIDEO BANNER
+(function(){
+  var vdb = document.getElementById("vid-banner-flechas");
+  var vdp = document.getElementById("vid-player-flechas");
+  var url = window.VIDEOS_MODULO && window.VIDEOS_MODULO["flechas"] || "";
+  if(url && vdb && vdp){
+    var m2 = url.match(/(?:v=|youtu\.be\/|embed\/)([\w-]{11})/);
+    if(m2){
+      var ifr = document.createElement("iframe");
+      ifr.src = "https://www.youtube.com/embed/" + m2[1] + "?rel=0";
+      ifr.allow = "accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture";
+      ifr.allowFullscreen = true;
+      vdp.innerHTML = "";
+      vdp.appendChild(ifr);
+    }
+    vdb.classList.add("show");
+  } else if(vdb){
+    vdb.classList.add("show");
+  }
+})();
+</script>
+
+<!-- BOTON BRUJULA -->
+<div class="brujula-btn-fixed" id="brujulaFloat">
+  <div class="brujula-toast" id="brujulaToast">Registra lo que descubriste en tu Brújula de Propósito</div>
+  <a class="brujula-btn" href="brujula-proposito.html" title="Mi Brújula de Propósito">
+    <div class="brujula-btn-icon">∀</div>
+    <div class="brujula-btn-txt">Mi Brújula</div>
+  </a>
+</div>
+<script>
+// Mostrar toast motivacional a los 90 segundos de estar en el módulo
+setTimeout(function(){
+  var t=document.getElementById("brujulaToast");
+  if(t){t.classList.add("show");setTimeout(function(){t.classList.remove("show");},5000);}
+},90000);
+</script>
+
+</body>
+</html>
