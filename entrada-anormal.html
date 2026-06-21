@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>∀normal — Inicio del Proceso</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Barlow:wght@300;400;500&family=Barlow+Condensed:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#060A14;--bg2:#0A0F1E;--bg3:#0E1525;--bg4:#131D30;--bg5:#1A2640;
+  --gold:#C9A84C;--gold2:#E8C96A;--gold3:#F5E0A0;
+  --gd:rgba(201,168,76,.13);--gb:rgba(201,168,76,.28);--gs:rgba(201,168,76,.06);
+  --text:#EAE6DC;--dim:#8A95A8;--faint:#3A4558;--ffaint:#1E2A3A;
+  --acc:#4A9EBF;--grn:#4ABF7A;--pur:#9B7FD4;--rose:#D4537E;
+  --r:4px;--rm:8px;--rl:14px;--rxl:20px;
+  --salud:#2D6A4F;--saludl:#4ABF7A;
+  --dinero:#7A5C1E;--dinerol:#C9A84C;
+  --amor:#6B1F35;--amorl:#D4537E;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font-weight:300;font-size:15px;line-height:1.65;min-height:100vh;overflow-x:hidden}
+.wrap{max-width:680px;margin:0 auto;padding:24px 20px 60px}
+
+/* HEADER */
+.hdr{display:flex;align-items:center;justify-content:space-between;padding:16px 0 24px;border-bottom:1px solid var(--faint);margin-bottom:32px}
+.hdr-logo{font-family:"Cormorant Garamond",serif;font-size:22px;font-weight:300;color:var(--gold2);letter-spacing:.05em}
+.hdr-paso{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim)}
+
+/* PROGRESS */
+.progress-wrap{margin-bottom:32px}
+.progress-bar{height:2px;background:var(--ffaint);border-radius:2px;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));transition:width .5s ease}
+.progress-steps{display:flex;justify-content:space-between;margin-top:8px}
+.progress-step{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);transition:color .3s}
+.progress-step.active{color:var(--gold)}
+.progress-step.done{color:var(--dim)}
+
+/* PANTALLAS */
+.pantalla{display:none;animation:fadeIn .4s ease}
+.pantalla.visible{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* TIPOGRAFÍA */
+.titulo{font-family:"Cormorant Garamond",serif;font-size:clamp(22px,5vw,32px);font-weight:300;color:var(--gold2);line-height:1.2;margin-bottom:10px}
+.subtitulo{font-size:13px;color:var(--dim);line-height:1.8;margin-bottom:24px}
+.label{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:10px}
+
+/* TARJETAS */
+.card{background:var(--bg2);border:1px solid rgba(255,255,255,.055);border-radius:var(--rl);padding:20px 24px;margin-bottom:12px}
+.card.gold{border-color:var(--gb);background:linear-gradient(135deg,var(--bg2),var(--bg3))}
+.card.dark{background:var(--bg3);border-color:rgba(255,255,255,.04)}
+.ct{font-size:13px;color:var(--dim);line-height:1.8}
+
+/* VIDEO */
+.video-placeholder{background:var(--bg3);border:1px solid var(--faint);border-radius:var(--rl);aspect-ratio:16/9;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;margin-bottom:20px}
+.video-icon{font-size:48px;opacity:.3}
+.video-text{font-size:13px;color:var(--dim);text-align:center}
+.video-frame{width:100%;aspect-ratio:16/9;border-radius:var(--rl);border:none;margin-bottom:20px}
+
+/* LÍNEAS DE TRABAJO */
+.lineas-grid{display:grid;grid-template-columns:1fr;gap:12px;margin-bottom:24px}
+@media(min-width:500px){.lineas-grid{grid-template-columns:repeat(3,1fr)}}
+.linea-card{border-radius:var(--rl);padding:24px 20px;cursor:pointer;border:1px solid var(--faint);transition:all .25s;text-align:left;position:relative;background:var(--bg2)}
+.linea-card:hover{border-color:var(--gold);background:var(--bg3)}
+.linea-card.selected{border-color:var(--gold2);background:var(--bg3)}
+.linea-emoji{display:none}
+.linea-nombre{font-family:"Cormorant Garamond",serif;font-size:22px;font-weight:400;color:var(--gold2);margin-bottom:8px;letter-spacing:.02em}
+.linea-subtitulo{font-size:13px;color:var(--dim);line-height:1.75;margin-bottom:12px}
+.linea-origen{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--faint)}
+.linea-card.selected .linea-origen{color:var(--gold)}
+.linea-check{position:absolute;top:14px;right:14px;width:18px;height:18px;border-radius:50%;background:var(--gold);color:var(--bg);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;opacity:0;transition:opacity .2s}
+.linea-card.selected .linea-check{opacity:1}
+.maquia-nota{background:var(--bg3);border-left:3px solid var(--gold);padding:14px 16px;border-radius:0 var(--rm) var(--rm) 0;margin-bottom:20px}
+.maquia-nota p{font-size:13px;color:var(--dim);line-height:1.8;font-style:italic}
+.maquia-nota strong{color:var(--gold2);font-style:normal}
+
+/* ACCIONES */
+.acciones-intro{background:var(--bg3);border:1px solid var(--faint);border-radius:var(--rl);padding:18px 20px;margin-bottom:20px}
+.acciones-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px}
+@media(max-width:480px){.acciones-grid{grid-template-columns:1fr}}
+.accion-item{display:flex;align-items:center;gap:8px;background:var(--bg2);border:1px solid var(--faint);border-radius:var(--rm);padding:8px 10px;transition:border-color .2s}
+.accion-item:focus-within{border-color:var(--gold)}
+.accion-num{font-size:11px;color:var(--dim);min-width:22px;font-family:"Barlow Condensed",sans-serif;letter-spacing:.05em}
+.accion-input{background:transparent;border:none;outline:none;color:var(--text);font-size:13px;font-family:"Barlow",sans-serif;font-weight:300;width:100%;line-height:1.5}
+.accion-input::placeholder{color:var(--faint)}
+.prioridad-wrap{margin-top:20px;display:none}
+.prioridad-instruccion{font-size:13px;color:var(--dim);margin-bottom:14px;line-height:1.7}
+.prioridad-lista{display:flex;flex-direction:column;gap:8px}
+.prioridad-item{display:flex;align-items:center;gap:10px;background:var(--bg2);border:1px solid var(--gb);border-radius:var(--rm);padding:10px 14px;cursor:pointer;transition:all .2s}
+.prioridad-item:hover{border-color:var(--gold2);background:var(--bg3)}
+.prioridad-item.seleccionada{background:var(--gd);border-color:var(--gold2)}
+.prioridad-item.seleccionada .p-num{background:var(--gold);color:var(--bg)}
+.p-num{min-width:24px;height:24px;border-radius:50%;background:var(--ffaint);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;transition:all .2s}
+.p-texto{font-size:13px;line-height:1.5}
+.prioridad-contador{font-size:11px;color:var(--dim);text-align:right;margin-top:8px}
+
+/* PRINCIPIOS */
+.principio-wrap{position:relative}
+.principio-card{background:var(--bg2);border:1px solid rgba(255,255,255,.055);border-radius:var(--rl);padding:28px 24px;margin-bottom:0}
+.principio-num{font-family:"Cormorant Garamond",serif;font-size:48px;font-weight:300;line-height:1;margin-bottom:4px}
+.principio-titulo{font-family:"Cormorant Garamond",serif;font-size:28px;font-weight:300;color:var(--gold2);margin-bottom:20px}
+.principio-separador{height:1px;background:var(--faint);margin-bottom:20px}
+.principio-no-neg{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--rose);margin-bottom:8px}
+.principio-exige{font-size:14px;color:var(--text);line-height:1.75;margin-bottom:20px;font-weight:300}
+.principio-maquia-label{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;font-style:normal}
+.principio-maquia{font-size:13px;color:var(--dim);line-height:1.8;font-style:italic;padding:14px 16px;background:var(--bg3);border-left:3px solid var(--gold);border-radius:0 var(--rm) var(--rm) 0;margin-bottom:24px}
+.principio-comprometido{display:none;align-items:center;gap:10px;padding:12px 16px;background:rgba(74,191,122,.08);border:1px solid rgba(74,191,122,.2);border-radius:var(--rm);margin-bottom:16px;font-size:13px;color:var(--grn)}
+.principio-comprometido.visible{display:flex}
+.principio-progreso{display:flex;gap:6px;margin-bottom:24px;flex-wrap:wrap}
+.p-dot{width:28px;height:4px;border-radius:2px;background:var(--ffaint);transition:background .3s}
+.p-dot.done{background:var(--grn)}
+.p-dot.active{background:var(--gold)}
+
+/* BOTONES */
+.bp{background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--bg);border:none;border-radius:var(--r);font-family:"Barlow Condensed",sans-serif;font-size:12px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;padding:13px 30px;cursor:pointer;transition:opacity .2s,transform .15s;display:inline-block}
+.bp:hover{opacity:.9;transform:translateY(-1px)}
+.bp:disabled{opacity:.4;cursor:not-allowed;transform:none}
+.bs{background:transparent;color:var(--gold);border:1px solid var(--gb);border-radius:var(--r);font-family:"Barlow Condensed",sans-serif;font-size:11px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;padding:11px 22px;cursor:pointer;transition:all .2s}
+.nav-btns{display:flex;gap:10px;justify-content:flex-end;margin-top:28px;flex-wrap:wrap}
+
+/* COMPLETADO */
+.completado-wrap{text-align:center;padding:40px 20px}
+.completado-icon{font-size:64px;margin-bottom:20px}
+.completado-titulo{font-family:"Cormorant Garamond",serif;font-size:32px;font-weight:300;color:var(--gold2);margin-bottom:12px}
+.completado-texto{font-size:14px;color:var(--dim);line-height:1.8;max-width:480px;margin:0 auto 28px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- HEADER -->
+  <div class="hdr">
+    <div class="hdr-logo">∀normal</div>
+    <div class="hdr-paso" id="hdr-paso">Inicio del proceso</div>
+  </div>
+
+  <!-- PROGRESS -->
+  <div class="progress-wrap">
+    <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:0%"></div></div>
+    <div class="progress-steps">
+      <span class="progress-step active" id="ps0">Video</span>
+      <span class="progress-step" id="ps1">Mi línea</span>
+      <span class="progress-step" id="ps2">Mis 21 acciones</span>
+      <span class="progress-step" id="ps3">Mis principios</span>
+    </div>
+  </div>
+
+  <!-- PANTALLA 0: VIDEO DE BIENVENIDA -->
+  <div class="pantalla visible" id="p0">
+    <div class="label">Bienvenida</div>
+    <h1 class="titulo">Antes de comenzar, necesito contarte algo.</h1>
+    <p class="subtitulo">Lo que estás a punto de vivir no es un curso. Es un proceso de transformación real — el mismo que yo recorrí, y que cambió mi salud, mi situación económica y mis relaciones de formas que no hubiera podido predecir.</p>
+
+    <div id="video-container">
+      <!-- Si hay URL de video, se muestra el iframe; si no, el placeholder -->
+      <div class="video-placeholder" id="video-placeholder">
+        <div class="video-icon">▶</div>
+        <p class="video-text">Video de bienvenida<br><span style="font-size:11px;opacity:.6">Próximamente disponible</span></p>
+      </div>
+    </div>
+
+    <div class="card gold" style="margin-bottom:20px">
+      <div class="label">Lo que este proceso puede hacer por ti</div>
+      <p class="ct" style="margin-bottom:12px">He acompañado a miles de personas a descubrir que el origen de sus problemas — de salud, de dinero, de amor — no está donde creen que está. Está en algo que ocurrió antes. En algo que cargan sin saberlo. En algo que tiene nombre, y que tiene solución.</p>
+      <p class="ct">∀normal es el mapa que permite descubrirlo. Las herramientas que vas a usar no son el objetivo — son el espejo. Lo que ves en ese espejo es lo que cambia todo.</p>
+    </div>
+
+    <div class="maquia-nota">
+      <p><strong>"El que quiere ser obedecido tiene primero que saber obedecer."</strong><br>
+      
+      Antes de pedirte que te comprometas con cualquier cosa externa, este proceso te pide que te obedezcas a ti mismo. Que hagas lo que sabes que debes hacer, aunque aún no sepas exactamente por qué.</p>
+    </div>
+
+    <div class="nav-btns">
+      <button class="bp" onclick="irA(1)">Estoy listo para empezar →</button>
+    </div>
+  </div>
+
+  <!-- PANTALLA 1: ESCOGE TU LÍNEA -->
+  <div class="pantalla" id="p1">
+    <div class="label">Paso 1 de 3</div>
+    <h1 class="titulo">¿Dónde sientes la mayor ausencia?</h1>
+    <p class="subtitulo">Esta es la decisión más importante de todo el proceso. No la hagas rápido. Siéntela. El área que elijas va a ser el hilo conductor de todo lo que viene — y al final del proceso vas a ver cómo trabajar esa área transformó también las otras dos.</p>
+
+    <div class="maquia-nota" style="margin-bottom:20px">
+      <p><strong>"El hombre prudente debe elegir siempre los caminos trillados por los grandes hombres e imitar a los que han sobresalido."</strong><br>
+      
+      Pero antes de elegir el camino, tienes que saber desde dónde partes. Elegir tu línea de trabajo no es admitir una debilidad — es el primer acto de honestidad radical con tu propia vida.</p>
+    </div>
+
+    <div class="lineas-grid">
+      <div class="linea-card linea-salud" onclick="elegirLinea('salud',this)" id="linea-salud">
+        <span class="linea-check">✓</span>
+        <div class="linea-nombre">Salud</div>
+        <div class="linea-subtitulo">Mi cuerpo carga algo que mi mente aún no ha podido procesar. Síntomas, enfermedades, cansancio crónico, o simplemente la sensación de que algo no está bien.</div>
+        <div class="linea-origen">Origen: heridas emocionales no resueltas</div>
+      </div>
+      <div class="linea-card linea-dinero" onclick="elegirLinea('dinero',this)" id="linea-dinero">
+        <span class="linea-check">✓</span>
+        <div class="linea-nombre">Dinero</div>
+        <div class="linea-subtitulo">La abundancia llega y se va, o simplemente nunca llega. Hay algo en mi relación con el dinero que no termina de funcionar, aunque trabaje duro.</div>
+        <div class="linea-origen">Origen: perdón pendiente hacia los padres</div>
+      </div>
+      <div class="linea-card linea-amor" onclick="elegirLinea('amor',this)" id="linea-amor">
+        <span class="linea-check">✓</span>
+        <div class="linea-nombre">Amor</div>
+        <div class="linea-subtitulo">Las relaciones se repiten en patrones que no entiendo, o siento que no puedo dar ni recibir amor de forma plena. Hay algo que aprendí antes de poder elegir.</div>
+        <div class="linea-origen">Origen: abandonos y ausencias heredadas</div>
+      </div>
+    </div>
+
+    <div id="linea-confirmacion" style="display:none;margin-bottom:20px">
+      <div class="card gold" id="linea-conf-card">
+        <div class="label" id="linea-conf-label">Tu elección</div>
+        <p class="ct" id="linea-conf-texto"></p>
+      </div>
+    </div>
+
+    <div class="nav-btns">
+      <button class="bs" onclick="irA(0)">← Anterior</button>
+      <button class="bp" id="btn-linea" disabled onclick="irA(2)">Confirmar mi línea →</button>
+    </div>
+  </div>
+
+  <!-- PANTALLA 2: 21 ACCIONES -->
+  <div class="pantalla" id="p2">
+    <div class="label">Paso 2 de 3</div>
+    <h1 class="titulo" id="acciones-titulo">Escribe tus 21 acciones</h1>
+    <p class="subtitulo" id="acciones-subtitulo">Escribe 21 cosas concretas que podrías hacer para mejorar tu situación. No las ordenes todavía — solo escríbelas todas. Cuanto más específicas, mejor.</p>
+
+    <div class="maquia-nota" style="margin-bottom:16px">
+      <p><strong>"No hay nada más difícil de ejecutar, ni de éxito más dudoso, ni más peligroso de manejar, que introducir un nuevo orden de cosas."</strong><br>
+      
+      Escribir estas 21 acciones ya es un acto de valentía. Muchas personas saben qué deberían hacer y nunca lo escriben — porque escribirlo lo hace real, y lo real exige respuesta.</p>
+    </div>
+
+    <div class="acciones-intro">
+      <p class="ct">Ejemplo: pedir cita médica · ir al médico · hacerme exámenes · tomar agua · cambiar la alimentación · hacer deporte · dormir 8 horas · meditar · hacer terapia · salir a caminar...</p>
+    </div>
+
+    <div class="acciones-grid" id="acciones-grid"></div>
+
+    <div id="prioridad-wrap" class="prioridad-wrap">
+      <div style="height:1px;background:var(--faint);margin:24px 0"></div>
+      <div class="label">Ahora elige tus 5 más importantes</div>
+      <p class="prioridad-instruccion" id="prioridad-instruccion">Aplicando la regla 80/20: si haces estas 5 cosas con consistencia, las otras 16 se impactan naturalmente. Elige con honestidad, no con lo que suena bien.</p>
+      <div class="prioridad-lista" id="prioridad-lista"></div>
+      <p class="prioridad-contador" id="prioridad-contador">0 de 5 seleccionadas</p>
+    </div>
+
+    <div class="nav-btns">
+      <button class="bs" onclick="irA(1)">← Anterior</button>
+      <button class="bp" id="btn-acciones" disabled onclick="irA(3)">Continuar con los principios →</button>
+    </div>
+  </div>
+
+  <!-- PANTALLA 3: 6 PRINCIPIOS -->
+  <div class="pantalla" id="p3">
+    <div class="label">Paso 3 de 3 — No negociables</div>
+    <h1 class="titulo">Los principios que van a sostenerte</h1>
+    <p class="subtitulo">Estos 6 principios son la base del proceso. No son sugerencias — son condiciones. Léelos con atención. Cuando hagas clic en "Me comprometo", no es un gesto simbólico — es el primer acto real de ∀normal.</p>
+
+    <div class="principio-progreso" id="p-progreso"></div>
+
+    <div class="principio-wrap" id="principio-wrap">
+      <div class="principio-card" id="principio-card">
+        <div class="principio-num" id="p-num"></div>
+        <div class="principio-titulo" id="p-titulo"></div>
+        <div class="principio-separador"></div>
+        <div class="principio-no-neg">No negociable</div>
+        <div class="principio-exige" id="p-exige"></div>
+        <div class="principio-maquia-label">Una voz que me acompaña</div>
+        <div class="principio-maquia" id="p-maquia"></div>
+        <div class="principio-comprometido" id="p-comprometido">
+          <span>✓</span>
+          <span id="p-comprometido-texto">Comprometido</span>
+        </div>
+        <div class="nav-btns" style="margin-top:0">
+          <button class="bp" id="btn-principio" onclick="aceptarPrincipio()">Me comprometo con este principio →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PANTALLA 4: COMPLETADO -->
+  <div class="pantalla" id="p4">
+    <div class="completado-wrap">
+      <div class="completado-icon">∀</div>
+      <h1 class="completado-titulo">El proceso ha comenzado.</h1>
+      <p class="completado-texto" id="completado-texto">Has elegido tu línea de trabajo, definido tus 5 acciones prioritarias, y aceptado los 6 principios que van a sostenerte. Lo que viene ahora no es información — es transformación.</p>
+      <div class="maquia-nota" style="text-align:left;margin-bottom:28px">
+        <p><strong>"El que llega al principado con ayuda de los grandes tiene más dificultad para mantenerse que el que llega con la del pueblo, pues el primero se rodea de muchos que se consideran sus iguales."</strong><br>
+        
+        No llegaste hasta aquí con ayuda externa. Llegaste con la única ayuda que vale: tu propia decisión. Eso ya te hace ∀normal.</p>
+      </div>
+      <button class="bp" onclick="irAlProceso()">Comenzar la Sesión 1 →</button>
+    </div>
+  </div>
+
+</div><!-- /wrap -->
+
+<script>
+// ── DATOS ────────────────────────────────────────────────────────────────
+var VIDEO_URL = ""; // Pegar aquí el link de YouTube/Vimeo cuando esté listo
+
+var LINEAS = {
+  salud: {
+    nombre: "Salud",
+    confirmacion: "Elegiste trabajar tu salud. Las herramientas que vas a usar te van a mostrar exactamente qué heridas emocionales no resueltas se están expresando a través de tu cuerpo. Eso que sientes no es casualidad — tiene historia, y tiene solución.",
+    ejemplo: "Ejemplo: pedir cita médica · ir al médico · hacerme exámenes de laboratorio · tomar 2 litros de agua al día · cambiar mi alimentación · hacer deporte · mejorar mis horas de sueño · hacer meditación · iniciar terapia psicológica · reducir el estrés...",
+  },
+  dinero: {
+    nombre: "Dinero",
+    confirmacion: "Elegiste trabajar tu relación con el dinero. Este proceso te va a mostrar qué creencias y dolores heredados están bloqueando tu abundancia — y cómo el perdón que debes hacer cambia la ecuación completamente.",
+    ejemplo: "Ejemplo: abrir una cuenta de ahorros · hacer un presupuesto mensual · liquidar la deuda más pequeña primero · identificar gastos innecesarios · buscar una fuente de ingreso adicional · tomar un curso de educación financiera · negociar un aumento · registrar mis gastos diarios · invertir aunque sea pequeño...",
+  },
+  amor: {
+    nombre: "Amor",
+    confirmacion: "Elegiste trabajar tu capacidad de dar y recibir amor. Las herramientas te van a mostrar de dónde vienen los patrones que se repiten en tus relaciones — y cómo sanar los abandonos y ausencias que aprendiste antes de poder elegir.",
+    ejemplo: "Ejemplo: hablar con honestidad con mis seres queridos · establecer límites sanos · hacer terapia de pareja o individual · escribir una carta a alguien con quien tengo deuda emocional · perdonar · dedicar tiempo de calidad sin distracciones · aprender a recibir sin culpa · sanar la relación conmigo mismo...",
+  }
+};
+
+var PRINCIPIOS = [
+  {
+    num: 1,
+    titulo: "\u2200gradecer",
+    color: "#C9A84C",
+    exige: "Mientras avanzas en este proceso, la gratitud no es opcional. Es el lente desde el que lees cada resultado, cada ejercicio, cada descubrimiento sobre ti mismo. Un resultado que te incomoda, visto con gratitud, se convierte en información. Visto sin gratitud, se convierte en excusa.",
+    maquia: "\"Den gracias en toda circunstancia.\"\n\nLa gratitud no es una emoción pasajera — es una decisión consciente de ver cada experiencia como parte de un proceso mayor. Quien no reconoce lo que ya tiene, no puede construir nada sólido sobre esa base. Yo lo aprendí cuando menos quería ser agradecido."
+  },
+  {
+    num: 2,
+    titulo: "\u2200vanza en el perd\u00f3n",
+    color: "#D4537E",
+    exige: "Sin perdón no hay transformación real. Puedes completar todos los ejercicios — pero si cargas resentimiento, el proceso no puede hacer su trabajo. El perdón que se pide en \u2200normal no es olvidar lo que ocurrió. Es dejar de cargar un peso que solo te pesa a ti.",
+    maquia: "\"Perdona y serás perdonado. La medida que uses para medir a otros se usará para medirte a ti.\"\n\nEl resentimiento es costoso para quien lo carga, no para quien lo merece. Avanzar en el perdón no es un acto de bondad hacia el otro — es el acto más estratégico que puedes hacer por ti mismo."
+  },
+  {
+    num: 3,
+    titulo: "\u2200provecha el dolor",
+    color: "#D4537E",
+    exige: "El dolor que emerja en este proceso no es señal de que algo sale mal. Es la señal de que algo está cambiando. No te detengas cuando aparezca — atraviésalo con la certeza de que del otro lado está la información que necesitas para transformarte.",
+    maquia: "\"El que pierde su vida la encontrará. No hay transformación sin entrega.\"\n\nHay un enemigo interno más difícil que cualquier obstáculo externo: el dolor que evitas. El que atraviesas pierde su poder. El que evitas, crece. Yo lo comprobé con mi propia salud."
+  },
+  {
+    num: 4,
+    titulo: "\u2200p\u00fantale al compromiso",
+    color: "#C9A84C",
+    exige: "Ya te comprometiste al entrar. Ese compromiso no vence. Cada vez que sientas que quieres pausar, recuerda: te comprometiste antes de saber el cómo. Eso es exactamente lo que distingue a quien transforma de quien solo aprende.",
+    maquia: "\"Nadie que pone la mano en el arado y mira hacia atrás es apto para lo que viene.\"\n\nLa parálisis ante la incertidumbre es la derrota más costosa. El compromiso que tomaste hoy es más inteligente que cualquier excusa que vayas a construir mañana. Apúntale — y no mires hacia atrás."
+  },
+  {
+    num: 5,
+    titulo: "\u2200prende a normalizar lo extraordinario",
+    color: "#9B7FD4",
+    exige: "Lo que descubras sobre ti en este proceso debe convertirse en tu nueva normalidad, no en un dato interesante que olvidas en una semana. Cada herramienta, cada insight, cada momento de claridad — no son revelaciones temporales. Son tu nueva forma de verte.",
+    maquia: "\"Quien cree en lo que está haciendo hará obras mayores de las que imagina.\"\n\nVer algo extraordinario en ti mismo es fácil. Normalizarlo — vivirlo, aplicarlo, habitarlo — eso es lo extraordinario. \u2200normal no busca que te sorprendas. Busca que te reconozcas."
+  },
+  {
+    num: 6,
+    titulo: "\u2200taca el miedo",
+    color: "#E8C96A",
+    exige: "Declarar quién eres y para qué estás aquí activa todos los miedos. Eso es normal y es buena señal — significa que lo que estás diciendo es real y tiene peso. La única respuesta \u2200normal ante ese miedo es seguir avanzando. No esperar a no tener miedo. Actuar con miedo.",
+    maquia: "\"No tengas miedo. Ya está vencido lo que crees que te detiene.\"\n\nEl miedo que sientes ante lo que vas a descubrir no es una advertencia — es la señal de que estás exactamente en el camino correcto. Yo también lo sentí. Y seguí."
+  }
+];
+
+// ── ESTADO ───────────────────────────────────────────────────────────────
+var estado = {
+  pantalla: 0,
+  linea: null,
+  acciones: [],
+  prioridades: [],
+  principiosAceptados: [],
+  principioActual: 0
+};
+
+// ── NAVEGACIÓN ────────────────────────────────────────────────────────────
+function irA(n) {
+  document.getElementById('p' + estado.pantalla).classList.remove('visible');
+  estado.pantalla = n;
+  document.getElementById('p' + n).classList.add('visible');
+  actualizarProgreso();
+  if (n === 2) iniciarAcciones();
+  if (n === 3) iniciarPrincipios();
+  window.scrollTo(0, 0);
+}
+
+function actualizarProgreso() {
+  var pcts = [0, 25, 50, 75];
+  var n = estado.pantalla;
+  document.getElementById('prog-fill').style.width = (n >= 4 ? 100 : pcts[n] || 0) + '%';
+  ['Video','Mi línea','Mis 21 acciones','Mis principios'].forEach(function(label, i) {
+    var el = document.getElementById('ps' + i);
+    if (!el) return;
+    el.className = 'progress-step' + (i === n ? ' active' : i < n ? ' done' : '');
+  });
+  var pasos = ['Inicio del proceso','Paso 1 — Tu línea de trabajo','Paso 2 — Tus 21 acciones','Paso 3 — Los principios','Proceso iniciado'];
+  document.getElementById('hdr-paso').textContent = pasos[n] || '';
+}
+
+// ── INICIAR VIDEO ─────────────────────────────────────────────────────────
+(function() {
+  if (!VIDEO_URL) return;
+  var cont = document.getElementById('video-container');
+  var url = VIDEO_URL;
+  if (url.includes('youtube.com') || url.includes('youtu.be')) {
+    var id = url.match(/(?:v=|youtu\.be\/)([^&\?]+)/);
+    if (id) url = 'https://www.youtube.com/embed/' + id[1];
+  } else if (url.includes('vimeo.com')) {
+    var id2 = url.match(/vimeo\.com\/(\d+)/);
+    if (id2) url = 'https://player.vimeo.com/video/' + id2[1];
+  }
+  cont.innerHTML = '<iframe class="video-frame" src="' + url + '" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
+})();
+
+// ── ELEGIR LÍNEA ──────────────────────────────────────────────────────────
+function elegirLinea(linea, el) {
+  document.querySelectorAll('.linea-card').forEach(function(c){ c.classList.remove('selected'); });
+  el.classList.add('selected');
+  estado.linea = linea;
+  var datos = LINEAS[linea];
+  document.getElementById('linea-confirmacion').style.display = 'block';
+  document.getElementById('linea-conf-label').textContent = datos.emoji + ' Elegiste: ' + datos.nombre;
+  document.getElementById('linea-conf-texto').textContent = datos.confirmacion;
+  document.getElementById('btn-linea').disabled = false;
+}
+
+// ── ACCIONES ──────────────────────────────────────────────────────────────
+function iniciarAcciones() {
+  var linea = LINEAS[estado.linea];
+  document.getElementById('acciones-titulo').textContent = 'Tus 21 acciones para mejorar tu ' + linea.nombre.toLowerCase();
+  document.getElementById('acciones-subtitulo').textContent = 'Escribe 21 cosas concretas que podrías hacer para mejorar tu ' + linea.nombre.toLowerCase() + '. No las ordenes todavía — solo escríbelas todas. Cuanto más específicas, mejor.';
+  document.getElementById('prioridad-instruccion').textContent = 'De estas 21 acciones, ¿cuáles 5 tienen el mayor impacto en tu ' + linea.nombre.toLowerCase() + '? Aplica la regla 80/20: hacer estas 5 con consistencia mueve las otras 16.';
+  // Actualizar el ejemplo según la línea
+  var introEl = document.querySelector('.acciones-intro .ct');
+  if (introEl) introEl.textContent = linea.ejemplo || '';
+  var grid = document.getElementById('acciones-grid');
+  grid.innerHTML = '';
+  for (var i = 1; i <= 21; i++) {
+    var div = document.createElement('div');
+    div.className = 'accion-item';
+    div.innerHTML = '<span class="accion-num">' + i + '</span><input class="accion-input" type="text" placeholder="Acción ' + i + '..." data-num="' + i + '" oninput="verificarAcciones()">';
+    grid.appendChild(div);
+  }
+}
+
+function verificarAcciones() {
+  var inputs = document.querySelectorAll('.accion-input');
+  var llenas = [];
+  inputs.forEach(function(inp) {
+    if (inp.value.trim()) llenas.push({num: inp.dataset.num, texto: inp.value.trim()});
+  });
+  estado.acciones = llenas;
+  if (llenas.length >= 21) {
+    mostrarPrioridad(llenas);
+  }
+}
+
+function mostrarPrioridad(acciones) {
+  document.getElementById('prioridad-wrap').style.display = 'block';
+  var lista = document.getElementById('prioridad-lista');
+  lista.innerHTML = '';
+  acciones.forEach(function(a) {
+    var div = document.createElement('div');
+    div.className = 'prioridad-item';
+    div.dataset.num = a.num;
+    div.innerHTML = '<div class="p-num">' + a.num + '</div><div class="p-texto">' + a.texto + '</div>';
+    div.onclick = function() { togglePrioridad(this); };
+    lista.appendChild(div);
+  });
+}
+
+function togglePrioridad(el) {
+  var num = el.dataset.num;
+  var idx = estado.prioridades.indexOf(num);
+  if (idx > -1) {
+    estado.prioridades.splice(idx, 1);
+    el.classList.remove('seleccionada');
+  } else if (estado.prioridades.length < 5) {
+    estado.prioridades.push(num);
+    el.classList.add('seleccionada');
+  }
+  document.getElementById('prioridad-contador').textContent = estado.prioridades.length + ' de 5 seleccionadas';
+  document.getElementById('btn-acciones').disabled = estado.prioridades.length < 5;
+}
+
+// ── PRINCIPIOS ────────────────────────────────────────────────────────────
+function iniciarPrincipios() {
+  estado.principioActual = 0;
+  estado.principiosAceptados = [];
+  renderPuntos();
+  mostrarPrincipio(0);
+}
+
+function renderPuntos() {
+  var wrap = document.getElementById('p-progreso');
+  wrap.innerHTML = '';
+  PRINCIPIOS.forEach(function(p, i) {
+    var dot = document.createElement('div');
+    dot.className = 'p-dot' + (i === 0 ? ' active' : '');
+    dot.id = 'dot-' + i;
+    wrap.appendChild(dot);
+  });
+}
+
+function mostrarPrincipio(idx) {
+  var p = PRINCIPIOS[idx];
+  document.getElementById('p-num').textContent = '∀' + p.num;
+  document.getElementById('p-num').style.color = p.color;
+  document.getElementById('p-titulo').textContent = p.titulo;
+  document.getElementById('p-exige').textContent = p.exige;
+  document.getElementById('p-maquia').innerText = p.maquia;
+  var comprometido = document.getElementById('p-comprometido');
+  comprometido.classList.remove('visible');
+  document.getElementById('btn-principio').style.display = 'inline-block';
+  document.getElementById('btn-principio').textContent = 'Me comprometo con este principio →';
+}
+
+function aceptarPrincipio() {
+  var idx = estado.principioActual;
+  estado.principiosAceptados.push(idx);
+  var dot = document.getElementById('dot-' + idx);
+  if (dot) dot.className = 'p-dot done';
+  var comprometido = document.getElementById('p-comprometido');
+  comprometido.classList.add('visible');
+  document.getElementById('p-comprometido-texto').textContent = 'Comprometido con ∀' + PRINCIPIOS[idx].num + ' — ' + PRINCIPIOS[idx].titulo;
+  document.getElementById('btn-principio').style.display = 'none';
+  setTimeout(function() {
+    if (idx < PRINCIPIOS.length - 1) {
+      estado.principioActual++;
+      var siguienteDot = document.getElementById('dot-' + estado.principioActual);
+      if (siguienteDot) siguienteDot.className = 'p-dot active';
+      mostrarPrincipio(estado.principioActual);
+    } else {
+      guardarYCompletar();
+    }
+  }, 800);
+}
+
+// ── GUARDAR Y COMPLETAR ───────────────────────────────────────────────────
+function guardarYCompletar() {
+  var linea = LINEAS[estado.linea];
+  localStorage.setItem('anormal_linea', estado.linea);
+  localStorage.setItem('anormal_acciones', JSON.stringify(estado.acciones));
+  localStorage.setItem('anormal_prioridades', JSON.stringify(estado.prioridades));
+  localStorage.setItem('anormal_entrada_completa', '1');
+  // Guardar también en sessionStorage para compatibilidad con el resto de la plataforma
+  try {
+    var data = JSON.parse(sessionStorage.getItem('anormal_proceso') || '{}');
+    data.entrada = {
+      linea: estado.linea,
+      acciones: estado.acciones,
+      prioridades: estado.prioridades,
+      principiosAceptados: PRINCIPIOS.map(function(p){ return p.num; }),
+      fechaCompletado: new Date().toLocaleDateString('es-CO')
+    };
+    if (!data.progreso) data.progreso = {};
+    data.progreso.entrada = { completado: true, fecha: new Date().toLocaleDateString('es-CO') };
+    sessionStorage.setItem('anormal_proceso', JSON.stringify(data));
+  } catch(e) {}
+  var texto = '∀normal ha comenzado para ti desde la línea de ' + linea.nombre + '. ' +
+    'Has definido tus 5 acciones prioritarias y aceptado los 6 principios que van a sostenerte. ' +
+    'Lo que viene en la Sesión 1 ya tiene contexto — y ese contexto lo pusiste tú.';
+  document.getElementById('completado-texto').textContent = texto;
+  irA(4);
+}
+
+function irAlProceso() {
+  window.location.href = 'brujula-proposito.html';
+}
+
+// ── VERIFICAR SI YA COMPLETÓ ──────────────────────────────────────────────
+(function() {
+  if (localStorage.getItem('anormal_entrada_completa') === '1') {
+    // Recuperar la elección para personalizaciones futuras
+    estado.linea = localStorage.getItem('anormal_linea') || 'salud';
+  }
+})();
+</script>
+</body>
+</html>
