@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>∀normal — Diagnóstico de Origen</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Barlow:wght@300;400;500&family=Barlow+Condensed:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#060A14;--bg2:#0A0F1E;--bg3:#0E1525;--bg4:#131D30;
+  --gold:#C9A84C;--gold2:#E8C96A;--gold3:#F5E0A0;
+  --gd:rgba(201,168,76,.13);--gb:rgba(201,168,76,.28);
+  --text:#EAE6DC;--dim:#8A95A8;--faint:#3A4558;--ffaint:#1E2A3A;
+  --grn:#4ABF7A;--rose:#D4537E;
+  --r:4px;--rm:8px;--rl:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font-weight:300;font-size:15px;line-height:1.65;min-height:100vh}
+.wrap{max-width:680px;margin:0 auto;padding:24px 20px 60px}
+
+.hdr{display:flex;align-items:center;justify-content:space-between;padding:16px 0 24px;border-bottom:1px solid var(--faint);margin-bottom:28px}
+.hdr-logo{font-family:"Cormorant Garamond",serif;font-size:22px;color:var(--gold2)}
+.hdr-info{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim)}
+
+.progress-bar{height:2px;background:var(--ffaint);border-radius:2px;overflow:hidden;margin-bottom:28px}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));transition:width .5s ease}
+
+.pantalla{display:none;animation:fadeIn .4s ease}
+.pantalla.visible{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+.label{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:10px}
+.titulo{font-family:"Cormorant Garamond",serif;font-size:clamp(22px,5vw,30px);font-weight:300;color:var(--gold2);line-height:1.2;margin-bottom:10px}
+.subtitulo{font-size:13px;color:var(--dim);line-height:1.8;margin-bottom:24px}
+
+.card{background:var(--bg2);border:1px solid rgba(255,255,255,.055);border-radius:var(--rl);padding:20px 24px;margin-bottom:12px}
+.card.gold{border-color:var(--gb);background:linear-gradient(135deg,var(--bg2),var(--bg3))}
+.ct{font-size:13px;color:var(--dim);line-height:1.8}
+
+/* ESCALA */
+.escala-wrap{margin-bottom:20px}
+.escala-item{display:flex;align-items:stretch;gap:0;margin-bottom:3px;border-radius:var(--r);overflow:hidden;cursor:pointer;transition:transform .15s}
+.escala-item:hover{transform:translateX(3px)}
+.escala-item.selected{outline:2px solid var(--gold2)}
+.escala-num{min-width:52px;display:flex;align-items:center;justify-content:center;font-family:"Barlow Condensed",sans-serif;font-size:13px;font-weight:500;color:rgba(255,255,255,.9);padding:10px 6px}
+.escala-content{flex:1;padding:10px 14px}
+.escala-nombre{font-size:13px;font-weight:500;margin-bottom:2px}
+.escala-desc{font-size:11px;opacity:.75;line-height:1.5}
+.escala-zona{font-size:9px;letter-spacing:.15em;text-transform:uppercase;opacity:.6;margin-top:3px}
+.escala-check{min-width:24px;display:flex;align-items:center;justify-content:center;font-size:14px;opacity:0;transition:opacity .2s}
+.escala-item.selected .escala-check{opacity:1}
+
+/* MAPA DE ORIGEN */
+.mapa-bloque{margin-bottom:16px;border-radius:var(--rl);overflow:hidden}
+.mapa-header{padding:14px 18px;display:flex;align-items:center;gap:12px}
+.mapa-titulo{font-size:14px;font-weight:500;color:#fff}
+.mapa-sub{font-size:11px;opacity:.75;margin-top:2px}
+.mapa-body{background:var(--bg3);padding:14px 18px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.mapa-col-title{font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--dim);margin-bottom:6px}
+.mapa-col-text{font-size:12px;color:var(--text);line-height:1.6}
+
+/* REFLEXIÓN */
+.reflexion-pregunta{font-family:"Cormorant Garamond",serif;font-size:20px;color:var(--gold2);line-height:1.4;margin-bottom:20px}
+.opciones-grid{display:flex;flex-direction:column;gap:8px;margin-bottom:20px}
+.opcion-btn{background:var(--bg2);border:1px solid var(--faint);border-radius:var(--rm);padding:12px 16px;cursor:pointer;text-align:left;transition:all .2s;color:var(--text);font-family:"Barlow",sans-serif;font-size:13px;line-height:1.5}
+.opcion-btn:hover{border-color:var(--gold);background:var(--bg3)}
+.opcion-btn.selected{border-color:var(--gold2);background:var(--gd)}
+
+.mensaje-origen{display:none;background:var(--bg3);border-left:3px solid var(--gold);padding:16px 18px;border-radius:0 var(--rm) var(--rm) 0;margin-bottom:20px}
+.mensaje-origen.visible{display:block}
+.mensaje-origen-label{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+.mensaje-origen-texto{font-size:14px;line-height:1.8;color:var(--text)}
+.mensaje-origen-conexion{font-size:13px;color:var(--dim);line-height:1.7;margin-top:10px;font-style:italic}
+
+/* BOTONES */
+.bp{background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--bg);border:none;border-radius:var(--r);font-family:"Barlow Condensed",sans-serif;font-size:12px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;padding:13px 30px;cursor:pointer;transition:opacity .2s,transform .15s}
+.bp:hover{opacity:.9;transform:translateY(-1px)}
+.bp:disabled{opacity:.4;cursor:not-allowed;transform:none}
+.bs{background:transparent;color:var(--gold);border:1px solid var(--gb);border-radius:var(--r);font-family:"Barlow Condensed",sans-serif;font-size:11px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;padding:11px 22px;cursor:pointer}
+.nav{display:flex;gap:10px;justify-content:flex-end;margin-top:28px;flex-wrap:wrap}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hdr">
+    <div class="hdr-logo">∀normal</div>
+    <div class="hdr-info" id="hdr-linea">Diagnóstico de origen</div>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" id="prog" style="width:33%"></div></div>
+
+  <!-- PANTALLA 1: LA ESCALA -->
+  <div class="pantalla visible" id="p0">
+    <div class="label" id="p0-label">Tu punto de partida</div>
+    <h1 class="titulo" id="p0-titulo">¿Desde dónde estás operando hoy?</h1>
+    <p class="subtitulo" id="p0-sub"></p>
+
+    <div class="card gold" style="margin-bottom:16px">
+      <div class="label">Lo que nadie te explicó</div>
+      <p class="ct" id="p0-intro"></p>
+    </div>
+
+    <div class="label" style="margin-bottom:12px" id="p0-escala-label">La escala — ¿dónde te reconoces hoy?</div>
+    <div class="escala-wrap" id="escala-wrap"></div>
+
+    <div class="nav">
+      <button class="bp" id="btn-p0" disabled onclick="irA(1)">Ver el origen de mi situación →</button>
+    </div>
+  </div>
+
+  <!-- PANTALLA 2: MAPA DE ORIGEN -->
+  <div class="pantalla" id="p1">
+    <div class="label">El origen</div>
+    <h1 class="titulo" id="p1-titulo">¿De dónde viene lo que estás viviendo?</h1>
+    <p class="subtitulo" id="p1-sub"></p>
+    <div id="mapa-origen-wrap"></div>
+    <div class="card" style="margin-bottom:20px;border-color:var(--gb)">
+      <div class="label">Lo que este proceso puede hacer</div>
+      <p class="ct" id="p1-promesa"></p>
+    </div>
+    <div class="nav">
+      <button class="bs" onclick="irA(0)">← Anterior</button>
+      <button class="bp" onclick="irA(2)">Continuar →</button>
+    </div>
+  </div>
+
+  <!-- PANTALLA 3: REFLEXIÓN -->
+  <div class="pantalla" id="p2">
+    <div class="label">Reflexión final</div>
+    <h1 class="titulo">Una pregunta antes de continuar</h1>
+    <p class="subtitulo">No hay respuesta correcta. Solo hay una respuesta honesta.</p>
+
+    <p class="reflexion-pregunta" id="p2-pregunta"></p>
+
+    <div class="opciones-grid" id="opciones-wrap"></div>
+
+    <div class="mensaje-origen" id="mensaje-wrap">
+      <div class="mensaje-origen-label">Lo que esto significa para tu proceso</div>
+      <div class="mensaje-origen-texto" id="mensaje-texto"></div>
+      <div class="mensaje-origen-conexion" id="mensaje-conexion"></div>
+    </div>
+
+    <div class="nav">
+      <button class="bs" onclick="irA(1)">← Anterior</button>
+      <button class="bp" id="btn-p2" disabled onclick="completar()">Entendido — continuar con mi proceso →</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── DATOS POR LÍNEA ────────────────────────────────────────────────────
+var DATOS = {
+  salud: {
+    label: "Línea de trabajo: Salud",
+    p0: {
+      titulo: "¿Desde dónde está operando tu cuerpo hoy?",
+      sub: "El cuerpo no miente. Lo que no se resuelve emocionalmente, se expresa físicamente. Esta escala te muestra en qué nivel emocional estás operando — y por qué eso importa para tu salud.",
+      intro: "Los estudios en psiconeuroinmunología confirman lo que la experiencia demuestra: los estados emocionales sostenidos en el tiempo alteran directamente el sistema inmune, hormonal y nervioso. La enfermedad no aparece de la nada — emerge de un estado emocional crónico que el cuerpo ya no puede sostener en silencio.",
+      escalaLabel: "Identifica en qué nivel reconoces tu estado emocional más frecuente",
+      escala: [
+        {num:700, nombre:"Paz e iluminación", desc:"El cuerpo opera en coherencia total. Energía alta, recuperación rápida.", zona:"Zona de regeneración", color:"#5C2FA0", texto:"EFE"},
+        {num:540, nombre:"Alegría y amor", desc:"Sistema inmune fortalecido. Pocas enfermedades, alta vitalidad.", zona:"Zona de regeneración", color:"#2979A0", texto:"EFE"},
+        {num:400, nombre:"Razón y aceptación", desc:"Equilibrio general. El cuerpo se mantiene estable con buenos hábitos.", zona:"Zona de estabilidad", color:"#297A4A", texto:"EFE"},
+        {num:200, nombre:"Coraje", desc:"Punto de inflexión. Con disciplina, el cuerpo puede recuperarse.", zona:"Zona de inflexión", color:"#7A6B29", texto:"EFE"},
+        {num:175, nombre:"Orgullo", desc:"Tendencia a ignorar síntomas. El cuerpo ya habla pero no se escucha.", zona:"Zona de alerta", color:"#A05A20", texto:"EFE"},
+        {num:150, nombre:"Ira y rabia", desc:"Inflamación crónica. El sistema nervioso en alerta constante.", zona:"Zona de alerta", color:"#A03520", texto:"EFE"},
+        {num:125, nombre:"Deseo compulsivo", desc:"Agotamiento suprarrenal. Ansiedad que el cuerpo siente físicamente.", zona:"Zona de escasez", color:"#A02020", texto:"EFE"},
+        {num:100, nombre:"Miedo", desc:"Sistema inmune deprimido. El cuerpo en modo supervivencia permanente.", zona:"Zona de escasez", color:"#8A1515", texto:"EFE"},
+        {num:75, nombre:"Pena y tristeza", desc:"Depresión del sistema. Dolores difusos, cansancio sin causa clara.", zona:"Zona de escasez", color:"#6A1010", texto:"EFE"},
+        {num:50, nombre:"Apatía y culpa", desc:"El cuerpo se rinde. Enfermedades crónicas, recuperación muy lenta.", zona:"Zona crítica", color:"#4A0A0A", texto:"EFE"},
+        {num:20, nombre:"Vergüenza", desc:"El nivel más bajo. El cuerpo como enemigo. Enfermedades autoinmunes.", zona:"Zona crítica", color:"#2A0505", texto:"EFE"},
+      ]
+    },
+    p1: {
+      titulo: "¿De dónde viene lo que tu cuerpo está expresando?",
+      sub: "El síntoma es el mensaje — no el problema. Lo que el cuerpo expresa tiene un origen emocional que antecede a la enfermedad.",
+      promesa: "∀normal te va a ayudar a encontrar en qué momento de tu historia se instaló esa emoción crónica. Cuando la encuentras y la trabajas, el cuerpo recupera lo que siempre supo hacer: sanar.",
+      mapa: [
+        {
+          titulo:"Exceso de responsabilidad", color:"#3A2A5A",
+          desc:"Cargás con lo que no es tuyo. Tensión en espalda alta y cuello.",
+          cols:["Niñez","Ancestros","Hoy"],
+          textos:["Creciste sintiendo que debías hacerte cargo de más responsabilidades de las que te correspondían.","Patrones de sacrificio y lealtad invisible que se repiten en tu familia hace generaciones.","Sientes que si no lo haces tú, nadie lo hace. Tu cuerpo carga ese peso literalmente."]
+        },
+        {
+          titulo:"Culpa y vergüenza", color:"#3A1A2A",
+          desc:"Te castigas físicamente por lo que sientes que hiciste o dejaste de hacer.",
+          cols:["Niñez","Ancestros","Hoy"],
+          textos:["Te hicieron sentir que nunca eras suficiente o que debías pedir perdón por existir.","Culpas heredadas que no te pertenecen pero que cargas como propias.","El cuerpo somatiza esa culpa en dolores crónicos, especialmente en espalda media."]
+        },
+        {
+          titulo:"Rabia e injusticia", color:"#3A1A0A",
+          desc:"Emociones reprimidas que el cuerpo convierte en inflamación.",
+          cols:["Niñez","Ancestros","Hoy"],
+          textos:["Frustraciones y gritos reprimidos desde pequeño. Lo que no pudiste decir.","Conflictos no resueltos entre generaciones que siguen vivos en ti.","Zona lumbar y digestivo: donde vive la rabia que no encontró salida."]
+        },
+        {
+          titulo:"Miedo e inseguridad", color:"#1A2A3A",
+          desc:"El sistema nervioso en alerta permanente agota el sistema inmune.",
+          cols:["Niñez","Ancestros","Hoy"],
+          textos:["Falta de seguridad, protección o amor constante en los primeros años.","Miedos transmitidos: escasez, amenaza, supervivencia como modo de vida.","Cadera, piernas, sistema inmune: el cuerpo preparado para huir de un peligro que ya no existe."]
+        }
+      ]
+    },
+    reflexion: {
+      pregunta: "De todo lo que viste, ¿qué emoción reconoces como la más presente y sostenida en tu vida en los últimos años?",
+      opciones: [
+        {texto:"Agotamiento y exceso de responsabilidad — cargo con demasiado", origen:"exceso"},
+        {texto:"Culpa o vergüenza — siento que no soy suficiente o que fallé", origen:"culpa"},
+        {texto:"Rabia o frustración — hay injusticias que no pude resolver", origen:"rabia"},
+        {texto:"Miedo o inseguridad — el futuro me genera ansiedad constante", origen:"miedo"},
+        {texto:"Tristeza o apatía — me cuesta encontrar energía y motivación", origen:"tristeza"},
+      ],
+      mensajes: {
+        exceso: {texto:"El agotamiento que sientes no es debilidad — es la señal de que llevas demasiado tiempo cargando lo que no es tuyo. Tu cuerpo lo sabe antes que tu mente.", conexion:"En este proceso vas a encontrar exactamente en qué momento de tu historia aprendiste que esa era tu responsabilidad — y cómo soltarla sin traicionarte."},
+        culpa: {texto:"La culpa que cargas tiene una historia. Alguien o algo te enseñó que no eras suficiente, y tu cuerpo lleva esa creencia como una carga física real.", conexion:"∀normal te va a mostrar el origen de esa culpa y el camino para liberarte de ella. No es tuya. Y puedes devolverla."},
+        rabia: {texto:"La rabia que sientes es energía bloqueada. Hay algo que no pudo decirse, resolverse o justiciarse. Tu cuerpo la convirtió en inflamación porque no tuvo otra salida.", conexion:"Este proceso te va a dar el espacio seguro para encontrar el origen de esa rabia y canalizarla hacia algo que te mueva en lugar de que te consuma."},
+        miedo: {texto:"El miedo que habita en ti aprendió a existir en algún momento de tu historia para protegerte. Ya cumplió su función — pero sigue activo porque nadie le dijo que el peligro ya pasó.", conexion:"En los ciclos de vida vas a encontrar exactamente cuándo y cómo ese miedo se instaló. Eso es el inicio de la liberación."},
+        tristeza: {texto:"La tristeza que sientes es amor que no encontró dónde ir. No es debilidad — es la señal de que algo importante para ti no está en el lugar que debería estar.", conexion:"∀normal te va a ayudar a entender qué perdiste o qué nunca tuviste, y cómo transformar esa tristeza en la claridad de para qué estás aquí."},
+      }
+    }
+  },
+
+  dinero: {
+    label: "Línea de trabajo: Dinero",
+    p0: {
+      titulo: "¿Desde qué nivel emocional estás relacionándote con el dinero?",
+      sub: "La relación con el dinero no es un problema de estrategia — es un problema de estado emocional. Esta escala muestra en qué nivel está operando tu conciencia económica hoy.",
+      intro: "El dinero es energía — y fluye hacia quienes operan en determinados estados emocionales y se aleja de quienes operan en otros. No es superstición: es el resultado de cómo el estado emocional determina las decisiones, las oportunidades que se perciben, y las relaciones que se construyen. Por debajo del nivel 200 (coraje), se vive en escasez. Por encima, la abundancia se vuelve posible.",
+      escalaLabel: "¿En qué nivel reconoces tu relación actual con el dinero?",
+      escala: [
+        {num:700, nombre:"Iluminación / Paz", desc:"El dinero llega como consecuencia natural. No se busca, se atrae.", zona:"Todo llega por añadidura", color:"#5C2FA0"},
+        {num:540, nombre:"Alegría y amor", desc:"Generosidad genuina. La abundancia se comparte y se multiplica.", zona:"Todo llega por añadidura", color:"#2979A0"},
+        {num:400, nombre:"Razón y aceptación", desc:"Decisiones financieras claras. Educación y método funcionan.", zona:"Todo llega por añadidura", color:"#297A4A"},
+        {num:350, nombre:"Disposición y aceptación", desc:"Éxito económico sostenible. Buenos hábitos financieros consolidados.", zona:"Zona de éxito económico", color:"#3A7A30"},
+        {num:250, nombre:"Neutralidad", desc:"Estabilidad básica. El dinero alcanza pero no sobra.", zona:"Zona de éxito económico", color:"#6A7A20"},
+        {num:200, nombre:"Coraje", desc:"Punto de inflexión. Con disciplina y acción, la abundancia es posible.", zona:"Zona de abundancia posible", color:"#7A6B29"},
+        {num:175, nombre:"Orgullo", desc:"Apariencia de éxito sin solidez real. Deuda para mantener imagen.", zona:"Zona de alerta", color:"#A05A20"},
+        {num:150, nombre:"Ira", desc:"Resentimiento hacia quienes tienen más. Bloqueo de oportunidades.", zona:"Zona de escasez", color:"#A03520"},
+        {num:125, nombre:"Deseo compulsivo", desc:"Gastos impulsivos. El dinero llega y se va sin control.", zona:"Zona de escasez", color:"#A02020"},
+        {num:100, nombre:"Miedo", desc:"Parálisis financiera. No se toman riesgos por miedo a perder.", zona:"Zona de escasez", color:"#8A1515"},
+        {num:75, nombre:"Pena y culpa", desc:"'El dinero es malo.' Creencias que repelen la abundancia.", zona:"Zona de escasez", color:"#6A1010"},
+        {num:20, nombre:"Vergüenza y apatía", desc:"'Yo no merezco tener.' La escasez como identidad.", zona:"Zona de escasez", color:"#2A0505"},
+      ]
+    },
+    p1: {
+      titulo: "¿De dónde viene tu relación con el dinero?",
+      sub: "La forma en que te relacionas con el dinero hoy no la elegiste. La aprendiste. Y lo que se aprende, se puede transformar.",
+      promesa: "Este proceso te va a mostrar exactamente en qué momento de tu historia aprendiste esa relación con el dinero — y quién o qué te la enseñó. Cuando lo descubres y lo trabajas, la relación con el dinero cambia porque tú cambias.",
+      mapa: [
+        {
+          titulo:"Lo que aprendiste de tus padres", color:"#2A3A1A",
+          desc:"La primera escuela de dinero es la familia.",
+          cols:["Lo que viste","Lo que escuchaste","Lo que aprendiste"],
+          textos:["Cómo tus padres se relacionaban con el dinero: si había abundancia o escasez, conflicto o paz, generosidad o miedo.","Las frases que se repetían: 'el dinero no crece en los árboles', 'los ricos son malos', 'nunca tenemos para nada'.", "Eso se convirtió en tu programación financiera — la que opera hoy aunque tú no lo hayas elegido conscientemente."]
+        },
+        {
+          titulo:"El perdón pendiente", color:"#3A2A1A",
+          desc:"La conexión más directa entre dinero y relaciones.",
+          cols:["Con el padre","Con la madre","Con otros"],
+          textos:["La figura paterna es, en muchas tradiciones, el arquetipo de la provisión y la abundancia. El resentimiento hacia el padre bloquea directamente la recepción de abundancia.","La figura materna representa la seguridad y el merecimiento. La herida con la madre afecta la capacidad de recibir y de sentirse merecedor.","Figuras de autoridad, empleadores, socios: el resentimiento acumulado actúa como un bloqueo energético hacia el dinero."]
+        },
+        {
+          titulo:"Las creencias heredadas", color:"#1A2A3A",
+          desc:"Lo que se transmite sin palabras entre generaciones.",
+          cols:["Niñez","Linaje","Hoy"],
+          textos:["Las experiencias de escasez en la infancia crean una programación de supervivencia que en la adultez limita la capacidad de pensar en abundancia.","Patrones que se repiten en la familia: pobreza generacional, deudas crónicas, o por el contrario, destrucción de la riqueza cada vez que llega.","Esos patrones operan en ti hoy de forma automática — hasta que los descubres y los interrumpes conscientemente."]
+        },
+        {
+          titulo:"El nivel de conciencia actual", color:"#2A1A3A",
+          desc:"Desde dónde tomas tus decisiones financieras.",
+          cols:["Por debajo de 200","En 200","Por encima de 200"],
+          textos:["Miedo, deseo compulsivo, ira, culpa: las decisiones desde aquí generan más escasez. No es falta de inteligencia — es el nivel desde el que se opera.","El coraje es el punto de inflexión. Desde aquí, la acción consciente empieza a cambiar los resultados.","Razón, aceptación, amor: las decisiones desde aquí generan abundancia de forma natural y sostenible."]
+        }
+      ]
+    },
+    reflexion: {
+      pregunta: "¿Cuál de estas frases describe mejor tu relación actual con el dinero?",
+      opciones: [
+        {texto:"El dinero siempre se va antes de lo que llega — nunca alcanza", origen:"escasez"},
+        {texto:"Me da miedo invertir o arriesgar — prefiero lo seguro aunque no crezca", origen:"miedo"},
+        {texto:"Me cuesta cobrar lo que valgo o pedir lo que merezco", origen:"merecimiento"},
+        {texto:"Hay algo en mí que sabotea el dinero cuando llega", origen:"sabotaje"},
+        {texto:"Tengo resentimiento hacia personas que tienen más que yo", origen:"resentimiento"},
+      ],
+      mensajes: {
+        escasez: {texto:"La escasez que vives no es mala suerte — es una frecuencia que aprendiste a habitar. Y las frecuencias se cambian.", conexion:"En este proceso vas a encontrar exactamente qué emoción sostenida está generando esa frecuencia de escasez — y cómo subirla."},
+        miedo: {texto:"El miedo financiero tiene un origen preciso en tu historia. Alguien o algo te enseñó que el dinero era peligroso, que podía perderse, o que no era para ti.", conexion:"∀normal te va a mostrar en qué ciclo de tu vida se instaló ese miedo. Cuando lo encuentras, deja de controlarte."},
+        merecimiento: {texto:"La dificultad para cobrar o pedir lo que mereces viene de una herida de valor propio que antecede al dinero. No es humildad — es una creencia de que no mereces.", conexion:"Este proceso trabaja esa creencia desde su origen — y ese origen casi siempre está en los primeros años de vida."},
+        sabotaje: {texto:"El sabotaje financiero es el patrón más claro de una programación inconsciente que opera en contra de tus intenciones conscientes. Es un conflicto interno entre lo que quieres y lo que crees que puedes tener.", conexion:"Los ciclos de vida y el trabajo del perdón son las dos herramientas que más directamente trabajan ese sabotaje."},
+        resentimiento: {texto:"El resentimiento hacia quien tiene más es energía que te cuesta a ti, no a ellos. Y además actúa como un repelente de la abundancia que dices querer.", conexion:"El trabajo del perdón en este proceso no es para el otro — es para liberar esa energía y ponerla a trabajar a tu favor."},
+      }
+    }
+  },
+
+  amor: {
+    label: "Línea de trabajo: Amor",
+    p0: {
+      titulo: "¿Desde qué estado emocional estás viviendo el amor hoy?",
+      sub: "La forma en que das y recibes amor hoy la aprendiste antes de poder elegirla. Esta escala muestra desde qué nivel emocional estás construyendo tus relaciones.",
+      intro: "El amor que somos capaces de dar está directamente limitado por el amor que aprendimos a recibir. Y el amor que recibimos en los primeros años de vida — o que no recibimos — se convierte en la plantilla desde la cual construimos todas nuestras relaciones adultas. No es destino. Es programación. Y la programación se puede reescribir.",
+      escalaLabel: "¿Desde qué nivel emocional estás viviendo tus relaciones más importantes hoy?",
+      escala: [
+        {num:540, nombre:"Amor incondicional", desc:"Presencia plena. Las relaciones fluyen desde la abundancia, no desde el miedo.", zona:"Amor que libera", color:"#5C2FA0"},
+        {num:500, nombre:"Amor", desc:"Conexión genuina. Capacidad de dar y recibir sin condiciones.", zona:"Amor que libera", color:"#2979A0"},
+        {num:400, nombre:"Razón y comprensión", desc:"Relaciones basadas en respeto y entendimiento mutuo.", zona:"Zona de estabilidad", color:"#297A4A"},
+        {num:350, nombre:"Aceptación", desc:"Capaz de ver al otro como es, sin querer cambiarlo.", zona:"Zona de estabilidad", color:"#3A7A30"},
+        {num:200, nombre:"Coraje", desc:"Capaz de ser vulnerable. Las relaciones empiezan a profundizar.", zona:"Zona de transición", color:"#7A6B29"},
+        {num:175, nombre:"Orgullo", desc:"Amor condicional. 'Te amo si...' Las relaciones como transacción.", zona:"Zona de alerta", color:"#A05A20"},
+        {num:150, nombre:"Ira", desc:"Conflictos recurrentes. El amor como campo de batalla.", zona:"Zona de alerta", color:"#A03520"},
+        {num:125, nombre:"Deseo posesivo", desc:"El amor como control. Celos, dependencia, pérdida de identidad.", zona:"Zona de dolor", color:"#A02020"},
+        {num:100, nombre:"Miedo al abandono", desc:"Relaciones desde el miedo a perder. Ansiedad de apego.", zona:"Zona de dolor", color:"#8A1515"},
+        {num:75, nombre:"Pena y soledad", desc:"El amor duele más que da. Patrones de relaciones que lastiman.", zona:"Zona de dolor", color:"#6A1010"},
+        {num:50, nombre:"Apatía y desconexión", desc:"'Para qué intentarlo.' Cierre emocional como protección.", zona:"Zona crítica", color:"#4A0A0A"},
+        {num:20, nombre:"Vergüenza", desc:"'No soy digno/a de ser amado/a.' La herida más profunda.", zona:"Zona crítica", color:"#2A0505"},
+      ]
+    },
+    p1: {
+      titulo: "¿De dónde vienen tus patrones de amor?",
+      sub: "Los patrones que se repiten en tus relaciones no son casualidad ni mala suerte. Tienen un origen preciso — y ese origen es exactamente lo que este proceso te va a ayudar a encontrar.",
+      promesa: "∀normal te va a mostrar en qué momento de tu historia aprendiste a relacionarte como lo haces. Cuando encuentras el origen del patrón, dejas de ser su víctima y puedes elegir algo diferente.",
+      mapa: [
+        {
+          titulo:"Los abandonos y ausencias", color:"#2A1A3A",
+          desc:"Lo que no estuvo cuando debía estar.",
+          cols:["Niñez","Adolescencia","Adultez"],
+          textos:["La presencia o ausencia emocional de los padres en los primeros años determina la capacidad de confiar en las relaciones adultas.","Las heridas de abandono en la adolescencia refuerzan la creencia de que el amor no dura o que no se es suficiente para que se queden.","En la adultez esas heridas se repiten: atraes o te atraen relaciones que confirman lo que aprendiste sobre el amor."]
+        },
+        {
+          titulo:"Lo que se heredó del amor", color:"#3A1A2A",
+          desc:"Los modelos de amor que viste en casa.",
+          cols:["Modelo paterno","Modelo materno","Lo que aprendiste"],
+          textos:["Cómo tu padre amaba — o no amaba — se convirtió en tu primer modelo de lo que significa el amor de un hombre o de una figura de autoridad.","Cómo tu madre amaba — o no amaba — se convirtió en tu primer modelo de lo que significa el amor incondicional, el cuidado y la seguridad.","Ese modelo opera hoy en tus relaciones aunque tú no lo hayas elegido. Es la plantilla desde la que construyes sin saberlo."]
+        },
+        {
+          titulo:"Los patrones que se repiten", color:"#1A2A2A",
+          desc:"Lo que se repite no es coincidencia — es información.",
+          cols:["El patrón","Por qué se repite","Cómo interrumpirlo"],
+          textos:["Relaciones con personas que se van, que no pueden comprometerse, que lastiman de la misma forma. El patrón dice algo sobre la herida que busca sanarse.","El patrón se repite porque es familiar — no porque sea bueno. El cerebro busca lo conocido, aunque lo conocido duela.","El primer paso para interrumpir un patrón es nombrarlo. ∀normal te da las herramientas para hacerlo."]
+        },
+        {
+          titulo:"La relación contigo mismo", color:"#2A2A1A",
+          desc:"El amor más importante — y el más olvidado.",
+          cols:["Autoimagen","Autocuidado","Autoaceptación"],
+          textos:["La forma en que te ves a ti mismo determina la forma en que permites que te traten. No puedes recibir más amor del que crees merecer.","El nivel de cuidado que te das a ti mismo refleja cuánto te valoras. Y eso lo aprendiste también en los primeros años.","La aceptación de ti mismo — con tus heridas, tus sombras y tus contradicciones — es la base desde la que todo lo demás puede construirse."]
+        }
+      ]
+    },
+    reflexion: {
+      pregunta: "¿Cuál de estos patrones reconoces con más claridad en tus relaciones?",
+      opciones: [
+        {texto:"Siempre termino eligiendo personas que no pueden comprometerse o que se van", origen:"abandono"},
+        {texto:"Me cuesta recibir amor sin sentir que debo devolver algo o que es demasiado", origen:"merecimiento"},
+        {texto:"Cuando alguien se acerca demasiado, algo en mí se cierra o se aleja", origen:"proteccion"},
+        {texto:"Repito las mismas dinámicas de conflicto en diferentes relaciones", origen:"patron"},
+        {texto:"Me cuesta amarme a mí mismo — soy más generoso con los demás que conmigo", origen:"autoamor"},
+      ],
+      mensajes: {
+        abandono: {texto:"Elegir personas que se van no es mala suerte — es un patrón aprendido en una época en que no podías elegir. Alguien importante para ti se fue o no estuvo, y desde entonces una parte de ti busca confirmar que eso es lo que le pasa al amor.", conexion:"En los ciclos de vida vas a encontrar exactamente cuándo y cómo se instaló ese patrón. Y el trabajo del perdón te va a dar el camino para interrumpirlo."},
+        merecimiento: {texto:"La dificultad para recibir amor viene de una creencia profunda de que no lo mereces — o de que recibirlo crea una deuda. Eso no es humildad: es una herida de valor propio.", conexion:"Este proceso trabaja esa creencia desde su raíz. El merecimiento no se declara — se descubre cuando sanas lo que lo bloqueó."},
+        proteccion: {texto:"Cerrarte cuando alguien se acerca es tu sistema de protección funcionando. Se construyó en un momento en que era necesario. El problema es que siguió funcionando cuando ya no lo era.", conexion:"∀normal te va a mostrar cuándo y por qué construiste esa protección — y cómo bajarla sin quedar vulnerable de la forma que más temes."},
+        patron: {texto:"Los patrones que se repiten en las relaciones son mensajes que la vida te manda sobre una herida que todavía no se ha cerrado. No eres una víctima del patrón — eres la persona que puede interrumpirlo.", conexion:"El trabajo del origen — los ciclos de vida, el ECG, el perdón — es exactamente la herramienta que necesitas para ver ese patrón desde afuera y elegir algo diferente."},
+        autoamor: {texto:"Ser más generoso con los demás que contigo mismo tiene un origen: en algún momento aprendiste que tus necesidades eran menos importantes. Eso se enseña, generalmente sin palabras.", conexion:"En este proceso vas a encontrar ese momento. Y vas a descubrir que amarte a ti mismo no te hace egoísta — te hace capaz de amar de verdad."},
+      }
+    }
+  }
+};
+
+// ── ESTADO ────────────────────────────────────────────────────────────────
+var linea = localStorage.getItem('anormal_linea') || 'salud';
+var datos = DATOS[linea] || DATOS.salud;
+var nivelElegido = null;
+var origenElegido = null;
+
+// ── INICIALIZAR ──────────────────────────────────────────────────────────
+document.getElementById('hdr-linea').textContent = datos.label;
+
+// Pantalla 0
+document.getElementById('p0-titulo').textContent = datos.p0.titulo;
+document.getElementById('p0-sub').textContent = datos.p0.sub;
+document.getElementById('p0-intro').textContent = datos.p0.intro;
+document.getElementById('p0-escala-label').textContent = datos.p0.escalaLabel;
+
+// Construir escala
+var escalaWrap = document.getElementById('escala-wrap');
+datos.p0.escala.forEach(function(item) {
+  var div = document.createElement('div');
+  div.className = 'escala-item';
+  div.dataset.nivel = item.num;
+  div.innerHTML =
+    '<div class="escala-num" style="background:' + item.color + '">' + item.num + '</div>' +
+    '<div class="escala-content" style="background:' + item.color + '22">' +
+      '<div class="escala-nombre">' + item.nombre + '</div>' +
+      '<div class="escala-desc">' + item.desc + '</div>' +
+      '<div class="escala-zona">' + item.zona + '</div>' +
+    '</div>' +
+    '<div class="escala-check" style="color:var(--gold2)">✓</div>';
+  div.onclick = function() {
+    document.querySelectorAll('.escala-item').forEach(function(el){ el.classList.remove('selected'); });
+    div.classList.add('selected');
+    nivelElegido = item.num;
+    document.getElementById('btn-p0').disabled = false;
+  };
+  escalaWrap.appendChild(div);
+});
+
+// Pantalla 1
+document.getElementById('p1-titulo').textContent = datos.p1.titulo;
+document.getElementById('p1-sub').textContent = datos.p1.sub;
+document.getElementById('p1-promesa').textContent = datos.p1.promesa;
+
+var mapaWrap = document.getElementById('mapa-origen-wrap');
+datos.p1.mapa.forEach(function(bloque) {
+  var div = document.createElement('div');
+  div.className = 'mapa-bloque';
+  var header = '<div class="mapa-header" style="background:' + bloque.color + '">' +
+    '<div><div class="mapa-titulo">' + bloque.titulo + '</div>' +
+    '<div class="mapa-sub">' + bloque.desc + '</div></div></div>';
+  var body = '<div class="mapa-body">';
+  bloque.cols.forEach(function(col, i) {
+    body += '<div><div class="mapa-col-title">' + col + '</div>' +
+      '<div class="mapa-col-text">' + bloque.textos[i] + '</div></div>';
+  });
+  body += '</div>';
+  div.innerHTML = header + body;
+  mapaWrap.appendChild(div);
+});
+
+// Pantalla 2
+document.getElementById('p2-pregunta').textContent = datos.reflexion.pregunta;
+var opcionesWrap = document.getElementById('opciones-wrap');
+datos.reflexion.opciones.forEach(function(op) {
+  var btn = document.createElement('button');
+  btn.className = 'opcion-btn';
+  btn.textContent = op.texto;
+  btn.onclick = function() {
+    document.querySelectorAll('.opcion-btn').forEach(function(b){ b.classList.remove('selected'); });
+    btn.classList.add('selected');
+    origenElegido = op.origen;
+    var msg = datos.reflexion.mensajes[op.origen];
+    var wrap = document.getElementById('mensaje-wrap');
+    document.getElementById('mensaje-texto').textContent = msg.texto;
+    document.getElementById('mensaje-conexion').textContent = msg.conexion;
+    wrap.classList.add('visible');
+    document.getElementById('btn-p2').disabled = false;
+    // Scroll al mensaje
+    setTimeout(function(){ wrap.scrollIntoView({behavior:'smooth',block:'nearest'}); }, 100);
+  };
+  opcionesWrap.appendChild(btn);
+});
+
+// ── NAVEGACIÓN ────────────────────────────────────────────────────────────
+function irA(n) {
+  document.querySelectorAll('.pantalla').forEach(function(p){ p.classList.remove('visible'); });
+  document.getElementById('p' + n).classList.add('visible');
+  var pcts = [33, 66, 90];
+  document.getElementById('prog').style.width = (pcts[n] || 33) + '%';
+  window.scrollTo(0,0);
+}
+
+// ── COMPLETAR ────────────────────────────────────────────────────────────
+function completar() {
+  // Guardar diagnóstico en localStorage y sessionStorage
+  localStorage.setItem('anormal_diagnostico', JSON.stringify({
+    linea: linea, nivel: nivelElegido, origen: origenElegido,
+    fecha: new Date().toLocaleDateString('es-CO')
+  }));
+  try {
+    var data = JSON.parse(sessionStorage.getItem('anormal_proceso') || '{}');
+    data.diagnostico = { linea: linea, nivel: nivelElegido, origen: origenElegido };
+    if (!data.progreso) data.progreso = {};
+    data.progreso.diagnostico = { completado: true, fecha: new Date().toLocaleDateString('es-CO') };
+    sessionStorage.setItem('anormal_proceso', JSON.stringify(data));
+  } catch(e){}
+  window.location.href = '0a-rueda-vida.html';
+}
+</script>
+</body>
+</html>
