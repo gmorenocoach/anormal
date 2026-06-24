@@ -770,10 +770,9 @@ function bInicio(){
 
   var cinput=mk("div","card gold");cinput.style.padding="16px 18px";
   cinput.appendChild(mk("label","il","Tu nombre"));
-  var nomInp=document.createElement("input");nomInp.className="inp";nomInp.id="inNom";nomInp.placeholder="Tu nombre";nomInp.value=S.nombre;nomInp.style.marginBottom="13px";cinput.appendChild(nomInp);
   var btn=mk("button","bp","Comenzar el diagn\u00f3stico");
   btn.onclick=function(){
-    S.nombre=(ge("inNom").value||"").trim()||"Participante";
+    S.nombre=localStorage.getItem('anormal_nombre')||S.nombre||"Participante";
     S.fechaInicio=new Date().toISOString();
     bDiagnostico();irA(1);
   };
