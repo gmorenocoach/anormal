@@ -129,6 +129,9 @@ body::before{content:"";position:fixed;inset:0;background:radial-gradient(ellips
 .brujula-toast.show{display:block}
 @keyframes btoast{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
 
+
+/* Video banner solo visible en pantalla inicial */
+#p1 .vid-banner, #p2 .vid-banner, #p3 .vid-banner, #p4 .vid-banner { display: none !important; }
 </style>
 </head>
 <body>
@@ -768,15 +771,38 @@ function bInicio(){
   });
   cexp.appendChild(pasos);p.appendChild(cexp);
 
-  var cinput=mk("div","card gold");cinput.style.padding="16px 18px";
-  cinput.appendChild(mk("label","il","Tu nombre"));
-  var btn=mk("button","bp","Comenzar el diagn\u00f3stico");
-  btn.onclick=function(){
-    S.nombre=localStorage.getItem('anormal_nombre')||S.nombre||"Participante";
-    S.fechaInicio=new Date().toISOString();
+  // Leer nombre y fecha guardados
+  var nombreGuardado = localStorage.getItem('anormal_nombre') || '';
+  var fechaGuardada = localStorage.getItem('anormal_fecha_nac') || '';
+  S.nombre = nombreGuardado || S.nombre || 'Participante';
+
+  var cinput = mk("div","card gold");
+  cinput.style.padding = "16px 18px";
+
+  if (nombreGuardado) {
+    // Mostrar datos confirmados
+    var confirmDiv = mk("div");
+    confirmDiv.style.cssText = "margin-bottom:14px";
+    var confLabel = mk("div","il","Participante");
+    var confNombre = mk("div");
+    confNombre.style.cssText = "font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--gold2);margin-bottom:4px";
+    confNombre.textContent = nombreGuardado;
+    var confFecha = mk("div");
+    confFecha.style.cssText = "font-size:12px;color:var(--dim)";
+    confFecha.textContent = "Fecha de nacimiento: " + fechaGuardada;
+    confirmDiv.appendChild(confLabel);
+    confirmDiv.appendChild(confNombre);
+    confirmDiv.appendChild(confFecha);
+    cinput.appendChild(confirmDiv);
+  }
+
+  var btn = mk("button","bp","Comenzar el diagnóstico");
+  btn.onclick = function(){
+    S.fechaInicio = new Date().toISOString();
     bDiagnostico();irA(1);
   };
-  cinput.appendChild(btn);p.appendChild(cinput);
+  cinput.appendChild(btn);
+  p.appendChild(cinput);
   p.appendChild(mk("div","nav"));
 }
 
@@ -958,6 +984,25 @@ function bRueda(){
   concProy.innerHTML = "Cada acción que cumples, cada principio que aplicas, sube tu nivel. En 75 días el objetivo es llegar al nivel <strong style='color:"+nivelProyectado.color+"'>"+nivelProyectado.nivel+" — "+nivelProyectado.nombre+"</strong>.";
   cConc.appendChild(concProy);
   p.appendChild(cConc);
+
+  // Frase de motivación
+  var frasesMot = [
+    "Pide y se te dará; busca y encontrarás; toca y se te abrirá la puerta. El que busca con el corazón, halla.",
+    "La verdad os hará libres. Ver con honestidad dónde estás hoy es el acto más valiente que puedes hacer.",
+    "El que persevera hasta el final, ese será salvo. Tu nivel de hoy no es tu destino — es tu punto de partida.",
+    "Todo el que pide recibe; el que busca halla; al que llama, se le abrirá. Aplica cada principio y observa lo que cambia.",
+    "No son los sanos los que necesitan médico, sino los enfermos. El primer paso es reconocer que necesitas sanar y decidir hacer algo al respecto.",
+    "No se pone una vela encendida bajo un cajón. Lo que descubras sobre ti en este proceso no es para guardarlo — es para vivirlo."
+  ];
+  var fraseMot = frasesMot[Math.floor(Math.random() * frasesMot.length)];
+  var cFrase = mk("div");
+  cFrase.style.cssText = "padding:16px 18px;border-left:3px solid var(--gold);background:var(--bg3);border-radius:0 var(--rl) var(--rl) 0;margin-bottom:12px";
+  var fraseTxt = mk("div");
+  fraseTxt.style.cssText = "font-family:'Cormorant Garamond',serif;font-size:16px;font-style:italic;color:var(--gold2);line-height:1.7;margin-bottom:6px";
+  fraseTxt.textContent = "\"" + fraseMot + "\"";
+  cFrase.appendChild(fraseTxt);
+  p.appendChild(cFrase);
+
   // ── FIN NIVEL DE CONCIENCIA ──────────────────────────────────────────
 
 
