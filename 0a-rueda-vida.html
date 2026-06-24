@@ -812,7 +812,7 @@ function bDiagnostico(){
     msgDiv.style.cssText += ';margin-bottom:16px;border-left:4px solid '+(lineaColores[lineaElegida]||'var(--gold)');
     msgDiv.appendChild(mk('div','cl','Por qué evalúas las 12 áreas'));
     msgDiv.appendChild(mk('div','ct', msgInterconexion[lineaElegida]));
-    cuerpo.appendChild(msgDiv);
+    p.appendChild(msgDiv);
   }
 
   AREAS.forEach(function(area){
@@ -830,7 +830,7 @@ function bDiagnostico(){
       sepDesc.textContent = area.linea===lineaElegida ? ' — Tu área de trabajo principal' : ' — También impacta tu objetivo';
       sep.appendChild(sepLabel);
       sep.appendChild(sepDesc);
-      cuerpo.appendChild(sep);
+      p.appendChild(sep);
     }
     var card=mk("div","area-card");
     if (area.linea === lineaElegida) { card.style.cssText += ";border-color:"+(lineaColores[lineaElegida]||'var(--gold)')+";box-shadow:0 0 0 1px "+(lineaColores[lineaElegida]||'var(--gold)')+"22"; }
