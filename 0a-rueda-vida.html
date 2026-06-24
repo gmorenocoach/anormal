@@ -1073,6 +1073,173 @@ function bRueda(){
 
   p.appendChild(caccion)
 
+
+  // ── PRINCIPIOS COMO RUTA DE ACCIÓN ──────────────────────────────────
+  var PRINC_RUTA = [
+    {n:1, titulo:"\u2200gradecer", accion:"Escribe 3 cosas por las que estás agradecido HOY — específicas, reales, de hoy.",
+     placeholder:"Hoy agradezco...", puntos:5,
+     conexion:"La gratitud activa el sistema nervioso parasimpático. No es metáfora — cambia tu biología."},
+    {n:2, titulo:"\u2200vanza en el perdón", accion:"¿A quién necesitas perdonar hoy? Escribe su nombre y una sola razón para soltar.",
+     placeholder:"Elijo soltar el resentimiento hacia...", puntos:8,
+     conexion:"El resentimiento sostenido mantiene tu nivel de conciencia en 150 o menos. Perdonar lo sube."},
+    {n:3, titulo:"\u2200provecha el dolor", accion:"¿Qué dolor o dificultad de tu vida puedes convertir hoy en aprendizaje? Nómbralo.",
+     placeholder:"Lo que me dolió me enseñó que...", puntos:6,
+     conexion:"Cada vez que reencuadras el dolor como información, subes un escalón en la escala de conciencia."},
+    {n:4, titulo:"\u2200púntale al compromiso", accion:"De tus 5 acciones prioritarias, ¿cuál vas a cumplir HOY? Una sola. Con hora.",
+     placeholder:"Hoy a las ___ voy a...", puntos:10,
+     conexion:"El compromiso cumplido genera confianza interna — el ingrediente que más sube el nivel."},
+    {n:5, titulo:"\u2200prende a normalizar lo extraordinario", accion:"¿Qué resultado positivo de tu proceso puedes reconocer hoy, aunque sea pequeño?",
+     placeholder:"Hoy reconozco que logré...", puntos:5,
+     conexion:"Normalizar lo que logras es lo que sostiene el crecimiento a largo plazo."},
+    {n:6, titulo:"\u2200taca el miedo", accion:"¿Qué has postergado por miedo? Escribe una acción pequeña que puedes hacer hoy para avanzar.",
+     placeholder:"Lo que he evitado y hoy haré...", puntos:7,
+     conexion:"Cada acción tomada con miedo reduce su poder sobre ti. Así funciona la escala."}
+  ];
+
+  var puntosBase = (nivelActual ? nivelActual.nivel : 100);
+  var puntosAcumulados = 0;
+  try { puntosAcumulados = parseInt(localStorage.getItem('anormal_puntos_conciencia') || '0'); } catch(e){}
+  var totalPuntos = puntosBase + puntosAcumulados;
+
+  var cRuta = mk("div","card");
+  cRuta.style.marginBottom = "12px";
+
+  var rutaTitle = mk("div","cl");
+  rutaTitle.textContent = "Los principios como ruta para subir tu nivel";
+  rutaTitle.style.color = "var(--gold)";
+  cRuta.appendChild(rutaTitle);
+
+  var rutaDesc = mk("div","ct");
+  rutaDesc.style.marginBottom = "16px";
+  rutaDesc.innerHTML = "Tu nivel actual es <strong style='color:"+(nivelActual?nivelActual.color:"var(--gold)")+"'>"+(nivelActual?nivelActual.nivel:100)+" — "+(nivelActual?nivelActual.nombre:"")+"</strong>. Cada principio que aplicas hoy suma puntos y sube tu nivel. No tienes que hacer todos — elige los que más resuenen hoy.";
+  cRuta.appendChild(rutaDesc);
+
+  // Mostrador de puntos acumulados
+  var puntosDiv = mk("div");
+  puntosDiv.style.cssText = "display:flex;align-items:center;gap:12px;padding:10px 14px;background:var(--bg3);border-radius:var(--rm);margin-bottom:14px";
+  var puntosNum = mk("div");
+  puntosNum.id = "puntos-display";
+  puntosNum.style.cssText = "font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:300;color:var(--gold2)";
+  puntosNum.textContent = totalPuntos;
+  var puntosInfo = mk("div");
+  var puntosLabel = mk("div");
+  puntosLabel.style.cssText = "font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--dim);margin-bottom:2px";
+  puntosLabel.textContent = "puntos de conciencia acumulados";
+  var puntosSub = mk("div");
+  puntosSub.id = "puntos-sublabel";
+  puntosSub.style.cssText = "font-size:12px;color:var(--dim)";
+  puntosSub.textContent = "Cada acción que completas suma puntos y sube tu nivel";
+  puntosInfo.appendChild(puntosLabel);
+  puntosInfo.appendChild(puntosSub);
+  puntosDiv.appendChild(puntosNum);
+  puntosDiv.appendChild(puntosInfo);
+  cRuta.appendChild(puntosDiv);
+
+  // Principios expandibles con registro de acción
+  var accionesRegistradas = {};
+  try { accionesRegistradas = JSON.parse(localStorage.getItem('anormal_acciones_principios') || '{}'); } catch(e){}
+
+  PRINC_RUTA.forEach(function(pr) {
+    var key = 'princ_' + pr.n + '_' + new Date().toISOString().slice(0,10);
+    var completado = !!accionesRegistradas[key];
+
+    var pDiv = mk("div");
+    pDiv.style.cssText = "margin-bottom:8px;border-radius:var(--rm);overflow:hidden;border:1px solid " +
+      (completado ? "rgba(74,191,122,.3)" : "var(--faint)");
+
+    var pHdr = mk("div");
+    pHdr.style.cssText = "display:flex;align-items:center;gap:10px;padding:12px 14px;cursor:pointer;background:" +
+      (completado ? "rgba(74,191,122,.06)" : "var(--bg3)");
+    pHdr.onclick = function() {
+      var body = pDiv.querySelector('.princ-body');
+      body.style.display = body.style.display === 'none' ? 'block' : 'none';
+    };
+
+    var pCheck = mk("div");
+    pCheck.style.cssText = "min-width:22px;height:22px;border-radius:50%;border:2px solid " +
+      (completado ? "var(--grn)" : "var(--faint)") +
+      ";display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;background:" +
+      (completado ? "var(--grn)" : "transparent") + ";color:" + (completado ? "var(--bg)" : "transparent");
+    pCheck.textContent = "\u2713";
+    pCheck.id = "check-" + pr.n;
+
+    var pNum = mk("span");
+    pNum.style.cssText = "font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--gold);min-width:28px";
+    pNum.textContent = "\u2200" + pr.n;
+    var pTit = mk("span");
+    pTit.style.cssText = "font-size:13px;font-weight:500;color:var(--text);flex:1";
+    pTit.textContent = pr.titulo;
+    var pPts = mk("span");
+    pPts.style.cssText = "font-size:11px;color:var(--gold);background:rgba(201,168,76,.15);padding:2px 8px;border-radius:10px";
+    pPts.textContent = "+" + pr.puntos + " pts";
+
+    pHdr.appendChild(pCheck);
+    pHdr.appendChild(pNum);
+    pHdr.appendChild(pTit);
+    pHdr.appendChild(pPts);
+
+    var pBody = mk("div");
+    pBody.className = "princ-body";
+    pBody.style.cssText = "display:none;padding:12px 14px;background:var(--bg2);border-top:1px solid var(--faint)";
+
+    var pAccion = mk("div");
+    pAccion.style.cssText = "font-size:13px;color:var(--text);line-height:1.7;margin-bottom:8px";
+    pAccion.textContent = pr.accion;
+    pBody.appendChild(pAccion);
+
+    var pConex = mk("div");
+    pConex.style.cssText = "font-size:12px;color:var(--dim);font-style:italic;margin-bottom:10px;padding:8px 10px;background:var(--bg3);border-radius:var(--r)";
+    pConex.textContent = pr.conexion;
+    pBody.appendChild(pConex);
+
+    if (!completado) {
+      var pTextarea = mk("textarea");
+      pTextarea.id = "ta-" + pr.n;
+      pTextarea.placeholder = pr.placeholder;
+      pTextarea.style.cssText = "width:100%;background:var(--bg3);border:1px solid var(--faint);border-radius:var(--rm);padding:10px 12px;font-size:13px;color:var(--text);font-family:Barlow,sans-serif;font-weight:300;resize:none;min-height:60px;line-height:1.6;margin-bottom:8px";
+      pTextarea.oninput = function(){ this.style.height="auto"; this.style.height=this.scrollHeight+"px"; };
+      pBody.appendChild(pTextarea);
+
+      var pBtn = mk("button","bp","Registrar mi acción +" + pr.puntos + " pts");
+      pBtn.style.cssText += ";font-size:11px;padding:9px 18px";
+      (function(princ, k, btn) {
+        btn.onclick = function() {
+          var texto = (document.getElementById('ta-' + princ.n) || {}).value || '';
+          if (texto.trim().length < 3) { alert('Escribe al menos una línea antes de registrar.'); return; }
+          accionesRegistradas[k] = { texto: texto, fecha: new Date().toISOString(), puntos: princ.puntos };
+          localStorage.setItem('anormal_acciones_principios', JSON.stringify(accionesRegistradas));
+          var ptsAcum = parseInt(localStorage.getItem('anormal_puntos_conciencia') || '0');
+          ptsAcum += princ.puntos;
+          localStorage.setItem('anormal_puntos_conciencia', ptsAcum);
+          // Actualizar el display
+          var disp = document.getElementById('puntos-display');
+          if (disp) {
+            var nuevo = puntosBase + ptsAcum;
+            disp.textContent = nuevo;
+            disp.style.color = "var(--grn)";
+            setTimeout(function(){ disp.style.color = "var(--gold2)"; }, 1000);
+          }
+          var sub = document.getElementById('puntos-sublabel');
+          if (sub) sub.textContent = "\u2713 \u2200" + princ.n + " registrado hoy. Sigue aplicando los demás principios.";
+          bRueda(); irA(2);
+        };
+      })(pr, key, pBtn);
+      pBody.appendChild(pBtn);
+    } else {
+      var pTextoReg = mk("div");
+      pTextoReg.style.cssText = "font-size:13px;color:var(--grn);padding:10px 12px;background:rgba(74,191,122,.06);border-radius:var(--rm)";
+      pTextoReg.textContent = "\u2713 Registrado hoy: " + (accionesRegistradas[key] ? accionesRegistradas[key].texto.substring(0,80) + "..." : "");
+      pBody.appendChild(pTextoReg);
+    }
+
+    pDiv.appendChild(pHdr);
+    pDiv.appendChild(pBody);
+    cRuta.appendChild(pDiv);
+  });
+
+  p.appendChild(cRuta);
+  // ── FIN PRINCIPIOS COMO RUTA ─────────────────────────────────────────
+
   var nav=mk("div","nav");
   var pb2=mk("button","bn","Anterior");pb2.onclick=function(){irA(1);};
   var pn=mk("button","bp","Agregar mis acciones");pn.onclick=function(){bAcciones();irA(3);};
