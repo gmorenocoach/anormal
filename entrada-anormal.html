@@ -293,7 +293,15 @@ body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font
         <p><strong>"Lo que estás a punto de descubrir sobre ti mismo no lo puede darte nadie más. Ningún título, ningún logro externo, ninguna validación ajena. Solo el trabajo honesto con tu propia historia."</strong></p>
         <p style="margin-top:12px;font-size:13px;color:var(--dim);line-height:1.8;">No llegaste hasta aquí porque alguien te empujó. Llegaste porque algo dentro de ti sabe que ya es tiempo. Eso ya te hace ∀normal.</p>
       </div>
-      <button class="bp" onclick="irAlProceso()">Comenzar la Sesión 1 →</button>
+      <div id="resumen-principios" style="text-align:left;margin-bottom:24px">
+        <div class="label" style="text-align:left;margin-bottom:12px">Los 6 principios que aceptaste hoy</div>
+        <div id="lista-principios-aceptados"></div>
+        <div style="margin-top:16px;background:var(--bg3);border:1px solid var(--gb);border-radius:var(--rl);padding:16px 18px">
+          <div class="label" style="margin-bottom:8px">Mi compromiso</div>
+          <textarea id="texto-compromiso" placeholder="Escribe con tus propias palabras cómo te vas a comprometer con estos principios en tu vida diaria..." style="width:100%;background:transparent;border:none;outline:none;color:var(--text);font-family:Barlow,sans-serif;font-size:13px;line-height:1.7;resize:none;min-height:80px" oninput="this.style.height='auto';this.style.height=this.scrollHeight+'px'"></textarea>
+        </div>
+      </div>
+      <button class="bp" onclick="irAlProceso()">Comenzar el diagnóstico →</button>
     </div>
   </div>
 
@@ -422,7 +430,7 @@ function elegirLinea(linea, el) {
   estado.linea = linea;
   var datos = LINEAS[linea];
   document.getElementById('linea-confirmacion').style.display = 'block';
-  document.getElementById('linea-conf-label').textContent = datos.emoji + ' Elegiste: ' + datos.nombre;
+  document.getElementById('linea-conf-label').textContent = 'Elegiste: ' + datos.nombre;
   document.getElementById('linea-conf-texto').textContent = datos.confirmacion;
   document.getElementById('btn-linea').disabled = false;
 }
@@ -564,10 +572,28 @@ function guardarYCompletar() {
     'Has definido tus 5 acciones prioritarias y aceptado los 6 principios que van a sostenerte. ' +
     'Lo que viene en la Sesión 1 ya tiene contexto — y ese contexto lo pusiste tú.';
   document.getElementById('completado-texto').textContent = texto;
+  mostrarResumenPrincipios();
   irA(4);
 }
 
+function mostrarResumenPrincipios() {
+  var lista = document.getElementById('lista-principios-aceptados');
+  if (!lista) return;
+  lista.innerHTML = '';
+  PRINCIPIOS.forEach(function(p) {
+    var div = document.createElement('div');
+    div.style.cssText = 'display:flex;gap:10px;align-items:flex-start;margin-bottom:8px;padding:10px 14px;background:var(--bg3);border-radius:var(--rm);border-left:3px solid ' + p.color;
+    div.innerHTML = '<span style="font-family:Cormorant Garamond,serif;font-size:18px;color:' + p.color + ';min-width:32px">' + p.num + '</span>' +
+      '<span style="font-size:13px;color:var(--text);line-height:1.6"><strong>' + p.titulo + '</strong><br><span style="color:var(--dim);font-size:12px">' + p.exige.substring(0,80) + '...</span></span>';
+    lista.appendChild(div);
+  });
+}
+
 function irAlProceso() {
+  var compromiso = document.getElementById('texto-compromiso');
+  if (compromiso && compromiso.value.trim()) {
+    localStorage.setItem('anormal_compromiso_inicial', compromiso.value.trim());
+  }
   window.location.href = 'diagnostico-origen.html';
 }
 
