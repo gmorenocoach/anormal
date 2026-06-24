@@ -710,7 +710,7 @@ function buildSlider(area, storeObj, containerId){
 function init(){
   var app=ge("app");app.innerHTML="";
   var hdr=mk("div");hdr.style.padding="26px 0 0";
-  var sub=mk("div");sub.style.cssText="font-family:Barlow Condensed,sans-serif;font-size:10px;letter-spacing:.2em;color:var(--gold);text-transform:uppercase;margin-bottom:4px";sub.textContent="Caf\u00e9 con Prop\u00f3sito \u00b7 Diagn\u00f3stico inicial";
+  var sub=mk("div");sub.style.cssText="font-family:Barlow Condensed,sans-serif;font-size:10px;letter-spacing:.2em;color:var(--gold);text-transform:uppercase;margin-bottom:4px";sub.textContent="\u2200normal \u00b7 Diagn\u00f3stico inicial";
   var tit=mk("div");tit.style.cssText="font-family:Cormorant Garamond,serif;font-size:23px;font-weight:300;color:var(--gold2);margin-bottom:18px;font-style:italic";tit.textContent="Mi Rueda de la Vida";
   hdr.appendChild(sub);hdr.appendChild(tit);app.appendChild(hdr);
   var pb=mk("div","prog");pb.id="pb";app.appendChild(pb);
@@ -853,7 +853,7 @@ function bRueda(){
   cmsg.appendChild(cmt);cmsg.appendChild(mk("div","ct",msgD));p.appendChild(cmsg);
 
   // Hoja de ruta
-  var cruta=mk("div","card gold");cruta.appendChild(mk("div","cl","Lo que el proceso de Caf\u00e9 con Prop\u00f3sito te va a dar"));
+  var cruta=mk("div","card gold");cruta.appendChild(mk("div","cl","Lo que \u2200normal te va a dar"));
   cruta.appendChild(mk("div","ct","Cada m\u00f3dulo del proceso est\u00e1 dise\u00f1ado para impactar directamente en las \u00e1reas que acabas de calificar."));
   [{fase:"Fase 1 \u00b7 \u00bfQui\u00e9n soy?",imp:"Claridad sobre qui\u00e9n eres, c\u00f3mo te relacionas y qu\u00e9 valores deben guiar tus decisiones.",col:"var(--pur)"},
    {fase:"Fase 2 \u00b7 \u00bfD\u00f3nde estoy?",imp:"Entiende el momento de vida que transitas y las heridas que necesitan sanaci\u00f3n.",col:"var(--acc)"},
@@ -866,20 +866,72 @@ function bRueda(){
   });
   p.appendChild(cruta);
 
-  // Primera accion
-  var caccion=mk("div","card acc");caccion.appendChild(mk("div","cl b","Tu primera acci\u00f3n \u2014 ahora mismo"));
-  caccion.appendChild(mk("div","ct","Elige una sola \u00e1rea y responde estas tres preguntas:"));
-  [{k:"acc-area",l:"\u00bfQu\u00e9 \u00e1rea eliges trabajar primero y por qu\u00e9?",ph:"Nombre del \u00e1rea y qu\u00e9 sientes al verla en ese puntaje..."},
-   {k:"acc-hoy",l:"\u00bfQu\u00e9 puedes hacer HOY en esa \u00e1rea?",ph:"Una sola acci\u00f3n. Espec\u00edfica. Hoy mismo."},
-   {k:"acc-razon",l:"\u00bfPor qu\u00e9 esta \u00e1rea importa para tu vida plena?",ph:"Con\u00e9ctala con tu bienestar..."}
-  ].forEach(function(item){
-    var wr=mk("div");wr.style.marginBottom="10px";
-    var lb=mk("label");lb.style.cssText="font-size:10px;letter-spacing:.12em;text-transform:uppercase;display:block;font-weight:500;margin-bottom:5px";lb.style.color="var(--acc)";lb.textContent=item.l;wr.appendChild(lb);
-    var ta=document.createElement("textarea");ta.className="rta";ta.style.minHeight="52px";ta.placeholder=item.ph;ta.value=S.reg[item.k]||"";
-    ta.oninput=(function(k){return function(){S.reg[k]=this.value;};})(item.k);
-    wr.appendChild(ta);caccion.appendChild(wr);
+  // Principios conectados a la linea elegida
+  var lineaGuardada = localStorage.getItem('anormal_linea') || '';
+  var prioridadesGuardadas = [];
+  try { prioridadesGuardadas = JSON.parse(localStorage.getItem('anormal_prioridades') || '[]'); } catch(e){}
+  var accionesGuardadas = [];
+  try { accionesGuardadas = JSON.parse(localStorage.getItem('anormal_acciones') || '[]'); } catch(e){}
+
+  var caccion=mk("div","card acc");
+  var titPrinc = mk("div","cl b","Tus principios de entrada");
+  titPrinc.style.color = "var(--gold)";
+  caccion.appendChild(titPrinc);
+  caccion.appendChild(mk("div","ct","Estos son los 6 principios que aceptaste. Cada vez que sientas que quieres rendirte, vuelve a leerlos."));
+
+  var PRINC_MINI = [
+    {n:1,t:"\u2200gradecer",c:"#C9A84C"},
+    {n:2,t:"\u2200vanza en el perd\u00f3n",c:"#D4537E"},
+    {n:3,t:"\u2200provecha el dolor",c:"#D4537E"},
+    {n:4,t:"\u2200p\u00fantale al compromiso",c:"#C9A84C"},
+    {n:5,t:"\u2200prende a normalizar lo extraordinario",c:"#9B7FD4"},
+    {n:6,t:"\u2200taca el miedo",c:"#E8C96A"},
+  ];
+  var gridPrinc = mk("div");
+  gridPrinc.style.cssText = "display:flex;flex-direction:column;gap:6px;margin:12px 0";
+  PRINC_MINI.forEach(function(p){
+    var row = mk("div");
+    row.style.cssText = "display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--bg3);border-radius:var(--rm);border-left:3px solid "+p.c;
+    var num = mk("span");
+    num.style.cssText = "font-family:'Cormorant Garamond',serif;font-size:16px;color:"+p.c+";min-width:28px;font-weight:400";
+    num.textContent = "\u2200"+p.n;
+    var txt = mk("span");
+    txt.style.cssText = "font-size:12px;color:var(--text)";
+    txt.textContent = p.t;
+    row.appendChild(num);
+    row.appendChild(txt);
+    gridPrinc.appendChild(row);
   });
-  p.appendChild(caccion);
+  caccion.appendChild(gridPrinc);
+
+  if (prioridadesGuardadas.length > 0 && accionesGuardadas.length > 0) {
+    var sepPrior = mk("div","cl b","Tus 5 acciones prioritarias");
+    sepPrior.style.cssText = "font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin:14px 0 8px";
+    caccion.appendChild(sepPrior);
+    var notaPrior = mk("div","ct","Estas son las acciones con las que te comprometiste. Aplica los principios para cumplirlas.");
+    notaPrior.style.marginBottom = "10px";
+    caccion.appendChild(notaPrior);
+    var listaPrior = mk("div");
+    listaPrior.style.cssText = "display:flex;flex-direction:column;gap:6px";
+    prioridadesGuardadas.forEach(function(num, i){
+      var acc = accionesGuardadas.find(function(a){ return a.num === num; });
+      if (!acc) return;
+      var row = mk("div");
+      row.style.cssText = "display:flex;gap:10px;align-items:flex-start;padding:8px 12px;background:var(--bg3);border-radius:var(--rm)";
+      var badge = mk("span");
+      badge.style.cssText = "background:var(--gold);color:var(--bg);font-size:10px;font-weight:600;padding:2px 7px;border-radius:10px;min-width:22px;text-align:center;margin-top:2px";
+      badge.textContent = (i+1);
+      var txt = mk("span");
+      txt.style.cssText = "font-size:13px;color:var(--text);line-height:1.5";
+      txt.textContent = acc.texto;
+      row.appendChild(badge);
+      row.appendChild(txt);
+      listaPrior.appendChild(row);
+    });
+    caccion.appendChild(listaPrior);
+  }
+
+  p.appendChild(caccion)
 
   var nav=mk("div","nav");
   var pb2=mk("button","bn","Anterior");pb2.onclick=function(){irA(1);};
