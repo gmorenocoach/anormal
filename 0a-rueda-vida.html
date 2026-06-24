@@ -1120,23 +1120,46 @@ function bRueda(){
 
 
   // ── PRINCIPIOS COMO RUTA DE ACCIÓN ──────────────────────────────────
+  var lineaActual = localStorage.getItem('anormal_linea') || 'salud';
+  var accionesPorLinea = {
+    salud: ["¿Por qué estás agradecido con tu cuerpo hoy? Escríbelo aunque te cueste encontrarlo.",
+            "¿A qué emoción o persona relacionada con tu salud necesitas perdonar hoy?",
+            "¿Qué síntoma o malestar puede ser un mensaje de tu cuerpo? ¿Qué te está diciendo?",
+            "De tus 5 acciones de salud, ¿cuál cumples HOY? Con hora exacta.",
+            "¿Qué mejoría pequeña de tu salud puedes reconocer hoy?",
+            "¿Qué hábito de salud has postergado por miedo? Escribe un paso que puedes dar hoy."],
+    dinero: ["¿Por qué estás agradecido con lo que tienes HOY — aunque no sea suficiente?",
+             "¿A qué persona o situación relacionada con el dinero necesitas perdonar hoy?",
+             "¿Qué bloqueo económico puede estar enseñándote algo valioso?",
+             "De tus 5 acciones de finanzas, ¿cuál cumples HOY? Con hora exacta.",
+             "¿Qué resultado positivo en tu economía puedes reconocer hoy, aunque sea pequeño?",
+             "¿Qué oportunidad económica has evitado por miedo? Escribe un paso que puedes dar hoy."],
+    amor: ["¿Por qué estás agradecido con las personas en tu vida HOY?",
+           "¿A quién necesitas perdonar hoy para liberar tu capacidad de amar?",
+           "¿Qué dificultad en tus relaciones puede estar enseñándote algo sobre ti mismo?",
+           "De tus 5 acciones de relaciones, ¿cuál cumples HOY? Con hora exacta.",
+           "¿Qué conexión positiva con alguien puedes reconocer hoy?",
+           "¿Qué conversación has evitado por miedo? Escribe el primer paso para tenerla hoy."]
+  };
+  var accsLinea = accionesPorLinea[lineaActual] || accionesPorLinea.salud;
+
   var PRINC_RUTA = [
-    {n:1, titulo:"\u2200gradecer", accion:"Escribe 3 cosas por las que estás agradecido HOY — específicas, reales, de hoy.",
+    {n:1, titulo:"\u2200gradecer", accion: accsLinea[0],
      placeholder:"Hoy agradezco...", puntos:5,
      conexion:"La gratitud activa el sistema nervioso parasimpático. No es metáfora — cambia tu biología."},
     {n:2, titulo:"\u2200vanza en el perdón", accion:"¿A quién necesitas perdonar hoy? Escribe su nombre y una sola razón para soltar.",
      placeholder:"Elijo soltar el resentimiento hacia...", puntos:8,
      conexion:"El resentimiento sostenido mantiene tu nivel de conciencia en 150 o menos. Perdonar lo sube."},
-    {n:3, titulo:"\u2200provecha el dolor", accion:"¿Qué dolor o dificultad de tu vida puedes convertir hoy en aprendizaje? Nómbralo.",
+    {n:3, titulo:"\u2200provecha el dolor", accion:accsLinea[2],
      placeholder:"Lo que me dolió me enseñó que...", puntos:6,
      conexion:"Cada vez que reencuadras el dolor como información, subes un escalón en la escala de conciencia."},
-    {n:4, titulo:"\u2200púntale al compromiso", accion:"De tus 5 acciones prioritarias, ¿cuál vas a cumplir HOY? Una sola. Con hora.",
+    {n:4, titulo:"\u2200púntale al compromiso", accion:accsLinea[3],
      placeholder:"Hoy a las ___ voy a...", puntos:10,
      conexion:"El compromiso cumplido genera confianza interna — el ingrediente que más sube el nivel."},
-    {n:5, titulo:"\u2200prende a normalizar lo extraordinario", accion:"¿Qué resultado positivo de tu proceso puedes reconocer hoy, aunque sea pequeño?",
+    {n:5, titulo:"\u2200prende a normalizar lo extraordinario", accion:accsLinea[4],
      placeholder:"Hoy reconozco que logré...", puntos:5,
      conexion:"Normalizar lo que logras es lo que sostiene el crecimiento a largo plazo."},
-    {n:6, titulo:"\u2200taca el miedo", accion:"¿Qué has postergado por miedo? Escribe una acción pequeña que puedes hacer hoy para avanzar.",
+    {n:6, titulo:"\u2200taca el miedo", accion:accsLinea[5],
      placeholder:"Lo que he evitado y hoy haré...", puntos:7,
      conexion:"Cada acción tomada con miedo reduce su poder sobre ti. Así funciona la escala."}
   ];
