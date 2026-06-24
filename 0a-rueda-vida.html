@@ -887,6 +887,81 @@ function bRueda(){
   cstat.appendChild(statrow);
   var rw=mk("div","rueda-wrap");rw.innerHTML=buildRuedaSVG(S.diagnostico,340);cstat.appendChild(rw);p.appendChild(cstat);
 
+  // ── NIVEL DE CONCIENCIA ─────────────────────────────────────────────
+  var nivelMap = [
+    {min:0,  max:2.5, nivel:20,  nombre:"Vergüenza",      zona:"Zona crítica",             color:"#4A0A0A", accion:"El primer paso es reconocer que estás aquí. Eso ya requiere valentía."},
+    {min:2.5,max:3.5, nivel:50,  nombre:"Apatía / Culpa", zona:"Zona crítica",             color:"#6A1010", accion:"Necesitas apoyo. Un paso pequeño hoy vale más que mil intenciones mañana."},
+    {min:3.5,max:4.5, nivel:75,  nombre:"Tristeza",       zona:"Zona de dolor",            color:"#8A1515", accion:"Reconocer el dolor es el inicio de la sanación. Ya estás en el camino."},
+    {min:4.5,max:5.5, nivel:100, nombre:"Miedo",          zona:"Zona de dolor",            color:"#A03520", accion:"El miedo es energía. Con los principios, lo conviertes en acción."},
+    {min:5.5,max:6.2, nivel:150, nombre:"Ira / Rabia",    zona:"Zona de alerta",           color:"#A05A20", accion:"La rabia señala que algo importa. Canalízala hacia el cambio real."},
+    {min:6.2,max:6.8, nivel:175, nombre:"Orgullo",        zona:"Zona de alerta",           color:"#7A6B29", accion:"El orgullo puede protegerte o bloquearte. La honestidad es la clave."},
+    {min:6.8,max:7.5, nivel:200, nombre:"Coraje",         zona:"Zona de inflexión",        color:"#3A7A30", accion:"Estás en el punto de inflexión. Desde aquí, cada acción cambia el resultado."},
+    {min:7.5,max:8.2, nivel:250, nombre:"Neutralidad",    zona:"Zona de crecimiento",      color:"#297A4A", accion:"Tienes la base. Ahora se trata de construir con consistencia diaria."},
+    {min:8.2,max:8.8, nivel:310, nombre:"Disposición",    zona:"Zona de crecimiento",      color:"#2979A0", accion:"Estás listo para avanzar. Los principios te llevarán más lejos de lo que imaginas."},
+    {min:8.8,max:9.3, nivel:350, nombre:"Aceptación",     zona:"Zona de éxito",            color:"#5C2FA0", accion:"Desde la aceptación, todo fluye mejor. Sostén este nivel con acciones diarias."},
+    {min:9.3,max:10,  nivel:400, nombre:"Razón / Amor",   zona:"Todo llega por añadidura", color:"#C9A84C", accion:"Cuando operas desde esta claridad, los resultados se multiplican solos."}
+  ];
+  var nivelActual = nivelMap[0];
+  for (var ni=0; ni<nivelMap.length; ni++) {
+    if (prom >= nivelMap[ni].min && prom < nivelMap[ni].max) { nivelActual = nivelMap[ni]; break; }
+    if (prom >= 9.3) { nivelActual = nivelMap[nivelMap.length-1]; }
+  }
+  var nivelIdxActual = nivelMap.indexOf(nivelActual);
+  var nivelProyectado = nivelMap[Math.min(nivelIdxActual + 2, nivelMap.length - 1)];
+
+  var cConc = mk("div","card");
+  cConc.style.cssText += ";border-left:4px solid "+nivelActual.color+";margin-bottom:12px";
+  var concTitle = mk("div","cl");
+  concTitle.textContent = "Tu nivel de conciencia hoy";
+  concTitle.style.color = nivelActual.color;
+  cConc.appendChild(concTitle);
+
+  var concRow = mk("div");
+  concRow.style.cssText = "display:flex;align-items:center;gap:14px;margin-bottom:12px";
+  var concNum = mk("div");
+  concNum.style.cssText = "font-family:'Cormorant Garamond',serif;font-size:44px;font-weight:300;color:"+nivelActual.color+";line-height:1;min-width:70px";
+  concNum.textContent = nivelActual.nivel;
+  var concInfo = mk("div");
+  var concNombre = mk("div");
+  concNombre.style.cssText = "font-size:15px;font-weight:500;color:var(--text);margin-bottom:3px";
+  concNombre.textContent = nivelActual.nombre;
+  var concZona = mk("div");
+  concZona.style.cssText = "font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--dim)";
+  concZona.textContent = nivelActual.zona;
+  concInfo.appendChild(concNombre);
+  concInfo.appendChild(concZona);
+  concRow.appendChild(concNum);
+  concRow.appendChild(concInfo);
+  cConc.appendChild(concRow);
+
+  var barraWrap = mk("div");
+  barraWrap.style.cssText = "margin-bottom:10px";
+  var barraMeta = mk("div");
+  barraMeta.style.cssText = "display:flex;justify-content:space-between;font-size:11px;color:var(--dim);margin-bottom:5px";
+  barraMeta.innerHTML = "<span>Nivel "+nivelActual.nivel+"</span><span>Objetivo: "+nivelProyectado.nivel+" — "+nivelProyectado.nombre+"</span>";
+  var barraFondo = mk("div");
+  barraFondo.style.cssText = "height:6px;background:var(--ffaint);border-radius:3px;overflow:hidden";
+  var barraRelleno = mk("div");
+  var pct = Math.round((nivelActual.nivel - 20) / (400 - 20) * 100);
+  barraRelleno.style.cssText = "height:100%;width:"+pct+"%;background:"+nivelActual.color+";border-radius:3px";
+  barraFondo.appendChild(barraRelleno);
+  barraWrap.appendChild(barraMeta);
+  barraWrap.appendChild(barraFondo);
+  cConc.appendChild(barraWrap);
+
+  var concAccion = mk("div");
+  concAccion.style.cssText = "font-size:13px;color:var(--dim);line-height:1.7;padding:10px 12px;background:var(--bg3);border-radius:var(--rm);margin-bottom:8px";
+  concAccion.textContent = nivelActual.accion;
+  cConc.appendChild(concAccion);
+
+  var concProy = mk("div");
+  concProy.style.cssText = "font-size:12px;color:var(--dim);padding-top:8px;border-top:1px solid var(--faint)";
+  concProy.innerHTML = "Cada acción que cumples, cada principio que aplicas, sube tu nivel. En 75 días el objetivo es llegar al nivel <strong style='color:"+nivelProyectado.color+"'>"+nivelProyectado.nivel+" — "+nivelProyectado.nombre+"</strong>.";
+  cConc.appendChild(concProy);
+  p.appendChild(cConc);
+  // ── FIN NIVEL DE CONCIENCIA ──────────────────────────────────────────
+
+
   var sorted=[].concat(AREAS).sort(function(a,b){return (S.diagnostico[a.id]||1)-(S.diagnostico[b.id]||1);});
   var criticas=sorted.slice(0,3);var fuertes=sorted.slice(9).reverse();
 
