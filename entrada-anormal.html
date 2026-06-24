@@ -172,8 +172,31 @@ body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font
       Antes de pedirte que te comprometas con cualquier cosa externa, este proceso te pide que te obedezcas a ti mismo. Que hagas lo que sabes que debes hacer, aunque aún no sepas exactamente por qué.</p>
     </div>
 
+    <div class="card gold" style="margin-bottom:20px">
+      <div class="label">Antes de continuar — tus datos</div>
+      <p class="ct" style="margin-bottom:16px">Ingresa tu nombre completo y fecha de nacimiento <strong style="color:var(--gold2)">exactamente como aparecen en tu documento de identidad</strong>. Estos datos alimentan los cálculos numerológicos del proceso y no se pueden cambiar después.</p>
+
+      <div style="margin-bottom:12px">
+        <div class="label" style="margin-bottom:6px">Nombre completo</div>
+        <input id="reg-nombre" type="text" class="accion-input" placeholder="Como aparece en tu documento..."
+          style="width:100%;background:var(--bg3);border:1px solid var(--faint);border-radius:var(--rm);padding:11px 14px;font-size:14px;color:var(--text)"
+          oninput="verificarRegistro()">
+      </div>
+
+      <div style="margin-bottom:12px">
+        <div class="label" style="margin-bottom:6px">Fecha de nacimiento</div>
+        <input id="reg-fecha" type="date" class="accion-input"
+          style="width:100%;background:var(--bg3);border:1px solid var(--faint);border-radius:var(--rm);padding:11px 14px;font-size:14px;color:var(--text)"
+          onchange="verificarRegistro()">
+      </div>
+
+      <div id="reg-confirmacion" style="display:none;padding:10px 12px;background:rgba(74,191,122,.08);border:1px solid rgba(74,191,122,.2);border-radius:var(--rm);font-size:12px;color:var(--grn);margin-top:4px">
+        ✓ Datos confirmados. Una vez avances no podrás modificarlos.
+      </div>
+    </div>
+
     <div class="nav-btns">
-      <button class="bp" onclick="irA(1)">Estoy listo para empezar →</button>
+      <button class="bp" id="btn-registro" disabled onclick="guardarRegistroYContinuar()">Estoy listo para empezar →</button>
     </div>
   </div>
 
@@ -375,6 +398,20 @@ var PRINCIPIOS = [
 ];
 
 // ── ESTADO ───────────────────────────────────────────────────────────────
+// Si ya tiene nombre y fecha guardados, saltar al paso 1 directamente
+(function() {
+  var nombreGuardado = localStorage.getItem('anormal_nombre');
+  var fechaGuardada = localStorage.getItem('anormal_fecha_nac');
+  var entradaCompleta = localStorage.getItem('anormal_entrada_completa');
+  if (nombreGuardado && fechaGuardada) {
+    // Pre-llenar los campos si existen
+    var inputNombre = document.getElementById('reg-nombre');
+    var inputFecha = document.getElementById('reg-fecha');
+    if (inputNombre) inputNombre.value = nombreGuardado;
+    if (inputFecha) inputFecha.value = fechaGuardada;
+    setTimeout(verificarRegistro, 100);
+  }
+})();
 var estado = {
   pantalla: 0,
   linea: null,
@@ -385,6 +422,32 @@ var estado = {
 };
 
 // ── NAVEGACIÓN ────────────────────────────────────────────────────────────
+function verificarRegistro() {
+  var nombre = (document.getElementById('reg-nombre').value || '').trim();
+  var fecha = (document.getElementById('reg-fecha').value || '').trim();
+  var btn = document.getElementById('btn-registro');
+  var conf = document.getElementById('reg-confirmacion');
+  var ok = nombre.length > 2 && fecha.length > 0;
+  if (btn) btn.disabled = !ok;
+  if (conf) conf.style.display = ok ? 'block' : 'none';
+}
+
+function guardarRegistroYContinuar() {
+  var nombre = (document.getElementById('reg-nombre').value || '').trim();
+  var fecha = (document.getElementById('reg-fecha').value || '').trim();
+  if (!nombre || !fecha) return;
+  localStorage.setItem('anormal_nombre', nombre);
+  localStorage.setItem('anormal_fecha_nac', fecha);
+  // Calcular número de camino de vida (suma de dígitos de la fecha)
+  var digitos = fecha.replace(/-/g,'').split('').map(Number);
+  var suma = digitos.reduce(function(a,b){ return a+b; }, 0);
+  while (suma > 9 && suma !== 11 && suma !== 22 && suma !== 33) {
+    suma = String(suma).split('').map(Number).reduce(function(a,b){ return a+b; }, 0);
+  }
+  localStorage.setItem('anormal_numero_camino', suma);
+  irA(1);
+}
+
 function irA(n) {
   document.getElementById('p' + estado.pantalla).classList.remove('visible');
   estado.pantalla = n;
