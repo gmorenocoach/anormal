@@ -613,8 +613,34 @@ window.guardarCompromisosModulo = function(moduloId, compromisos){
 var FRASES=["Una vida equilibrada no es perfecta \u2014 es consciente.","No puedes mejorar lo que no mides.","El primer paso del crecimiento es ver con honestidad d\u00f3nde est\u00e1s.","La rueda que m\u00e1s rueda es la m\u00e1s equilibrada, no la m\u00e1s inflada en un \u00e1rea.","Una acci\u00f3n concreta vale m\u00e1s que mil intenciones bien declaradas.","Ver el 3 que pusiste en un \u00e1rea sin juzgarte \u2014 eso es madurez.","Crecer no significa abandonar qui\u00e9n eres \u2014 significa expandir qui\u00e9n puedes ser.","Lo que medimos crece. Lo que ignoramos se estanca.","La brecha entre donde est\u00e1s y donde quieres estar no es un problema \u2014 es tu hoja de ruta.","30 d\u00edas de acci\u00f3n consciente cambian m\u00e1s que 10 a\u00f1os de intenci\u00f3n.","Las metas trimestrales son el lenguaje del cambio sostenible.","No es lo que sabes sino lo que aplicas lo que transforma tu vida.","El seguimiento honesto es la diferencia entre el coaching y el entretenimiento.","Una meta sin fecha es solo un sue\u00f1o. Una meta con fecha es un compromiso.","Lo que revisas regularmente, mejora regularmente."];
 function frase(){return FRASES[new Date().getDate()%FRASES.length]||"";}
 
-var AREAS=[{"id": "salud_fisica", "nombre": "Salud f\u00edsica y vitalidad", "color": "#4ABF7A"}, {"id": "salud_emocional", "nombre": "Salud emocional y mental", "color": "#9B7FD4"}, {"id": "familia", "nombre": "Familia y ra\u00edces", "color": "#C9A84C"}, {"id": "pareja", "nombre": "Pareja y amor", "color": "#D4537E"}, {"id": "relaciones", "nombre": "Relaciones y vida social", "color": "#4A9EBF"}, {"id": "trabajo", "nombre": "Trabajo y vocaci\u00f3n", "color": "#BF8A4A"}, {"id": "finanzas", "nombre": "Finanzas y abundancia", "color": "#6ABF4A"}, {"id": "espiritualidad", "nombre": "Crecimiento personal y espiritual", "color": "#BF4A9E"}, {"id": "proposito", "nombre": "Prop\u00f3sito y legado", "color": "#E8C96A"}, {"id": "ocio", "nombre": "Ocio, disfrute y descanso", "color": "#4ABFBF"}, {"id": "entorno", "nombre": "Entorno y hogar", "color": "#9BBF4A"}, {"id": "contribucion", "nombre": "Contribuci\u00f3n y servicio", "color": "#BF4A4A"}];
-var AREAS_EXTRA={"salud_fisica": {"pregunta": "\u00bfSientes que tu cuerpo, tu energ\u00eda y tus h\u00e1bitos de movimiento, alimentaci\u00f3n y sue\u00f1o est\u00e1n donde t\u00fa quieres? \u00bfTu cuerpo te acompa\u00f1a o te limita?", "pautas": ["Elige un h\u00e1bito de movimiento 3 veces por semana.", "Revisa tu alimentaci\u00f3n: un cambio peque\u00f1o esta semana.", "Define una hora fija para dormir.", "Programa un chequeo m\u00e9dico preventivo.", "Identifica una actividad f\u00edsica que disfrutes."]}, "salud_emocional": {"pregunta": "\u00bfPuedes nombrar lo que sientes? \u00bfGestionas tus emociones o ellas te gestionan a ti? \u00bfTienes paz interior m\u00e1s d\u00edas de los que no la tienes?", "pautas": ["Empieza un diario de emociones.", "Identifica tus detonantes emocionales.", "Busca acompa\u00f1amiento profesional si es necesario.", "Practica la gratitud diaria.", "Aprende a decir no con amor propio."]}, "familia": {"pregunta": "\u00bfC\u00f3mo est\u00e1 tu relaci\u00f3n con tu familia de origen? \u00bfHay heridas sin resolver o conversaciones pendientes?", "pautas": ["Identifica una conversaci\u00f3n pendiente y da el primer paso.", "Trabaja en el perd\u00f3n por tu propia libertad.", "Crea un ritual de conexi\u00f3n familiar.", "Reconoce patrones heredados que quieres cambiar.", "El m\u00f3dulo de ECG emocional te acompa\u00f1ar\u00e1 en heridas profundas."]}, "pareja": {"pregunta": "\u00bfTu relaci\u00f3n de pareja te nutre? \u00bfHay conexi\u00f3n real y comunicaci\u00f3n honesta? Si no tienes pareja, \u00bfest\u00e1s abierto al amor?", "pautas": ["Dedica tiempo de calidad sin pantallas.", "Expresa lo que necesitas sin esperar que adivinen.", "Trabaja tus heridas de apego.", "Revisa las creencias que te impiden abrirte al amor.", "El m\u00f3dulo de Perd\u00f3n libera cargas en v\u00ednculos \u00edntimos."]}, "relaciones": {"pregunta": "\u00bfTienes personas con quienes puedes ser t\u00fa completamente? \u00bfTus amistades te dan energ\u00eda o te la quitan?", "pautas": ["Lista qui\u00e9n te suma y qui\u00e9n te resta.", "Invierte tiempo en relaciones que te inspiren.", "Cultiva nuevos v\u00ednculos alineados con tus valores.", "Suelta relaciones que ya cumplieron su ciclo.", "La calidad de tus relaciones predice tu bienestar."]}, "trabajo": {"pregunta": "\u00bfLo que haces te da sentido? \u00bfHay alineaci\u00f3n entre tus talentos y lo que haces cada d\u00eda?", "pautas": ["Identifica momentos que te hacen perder la noci\u00f3n del tiempo.", "Trae m\u00e1s de tus talentos a lo que ya haces.", "El Ikigai es el m\u00f3dulo que m\u00e1s mueve esta \u00e1rea.", "Habla de lo que necesitas con quien corresponde.", "Considera qu\u00e9 habilidad nueva abrir\u00eda nuevas puertas."]}, "finanzas": {"pregunta": "\u00bfTu relaci\u00f3n con el dinero es sana? \u00bfEl dinero te da libertad o angustia constante?", "pautas": ["Construye un presupuesto real sin juzgarte.", "Cuestiona una creencia limitante sobre el dinero.", "Ahorra aunque sea poco. El h\u00e1bito importa m\u00e1s.", "Ed\u00facate en finanzas personales.", "Define para qu\u00e9 quieres el dinero, no cu\u00e1nto."]}, "espiritualidad": {"pregunta": "\u00bfTienes una pr\u00e1ctica que te conecte con algo m\u00e1s grande? \u00bfHay espacio para el silencio y la reflexi\u00f3n?", "pautas": ["Crea un ritual de conexi\u00f3n interior de 5 minutos.", "Lee algo que expanda tu conciencia cada semana.", "Practica el silencio intencional sin tel\u00e9fono.", "Profundiza en las creencias que dan sentido a tu vida.", "La meditaci\u00f3n es una herramienta de salud mental."]}, "proposito": {"pregunta": "\u00bfSabes para qu\u00e9 est\u00e1s en el mundo? \u00bfTus decisiones cotidianas apuntan a algo m\u00e1s grande?", "pautas": ["El m\u00f3dulo del Ikigai est\u00e1 dise\u00f1ado para esto.", "Escribe lo que no quieres que digan cuando ya no est\u00e9s.", "Identifica una acci\u00f3n esta semana alineada con lo que importa.", "Actuar desde la b\u00fasqueda ya es vivir con prop\u00f3sito.", "Habla con personas que admiras por c\u00f3mo viven."]}, "ocio": {"pregunta": "\u00bfTienes espacio genuino para el disfrute y el descanso? \u00bfO el descanso siempre llega tarde y culposo?", "pautas": ["Agenda el disfrute como agendas las reuniones.", "Recupera algo que amabas hacer y dejaste.", "Aprende a descansar sin culpa.", "Distingue el entretenimiento del descanso real.", "Explora algo nuevo: un hobby, un lugar, una experiencia."]}, "entorno": {"pregunta": "\u00bfTu hogar, tu ciudad y tu lugar de trabajo te nutren o te drenan? \u00bfEst\u00e1s rodeado de ambientes que inspiren?", "pautas": ["Organiza un espacio que hoy te genere malestar.", "Rodea tu entorno de elementos que inspiren.", "Eval\u00faa si tu ciudad apoya tu calidad de vida.", "Haz una limpieza de lo que ya no te representa.", "Tu entorno afecta tu estado mental m\u00e1s de lo que crees."]}, "contribucion": {"pregunta": "\u00bfHay algo que hagas por otros sin esperar nada? \u00bfTu presencia deja algo bueno en las personas que te rodean?", "pautas": ["Sirve desde donde est\u00e1s con lo que tienes ahora.", "El servicio no necesita ser grandioso para ser real.", "Vincula tu contribuci\u00f3n a tu prop\u00f3sito de vida.", "Busca una causa a la que aportar regularmente.", "Lo que das conscientemente siempre regresa."]}};
+var AREAS=[
+  {"id":"salud_fisica","nombre":"Salud física y vitalidad","color":"#4ABF7A","linea":"salud"},
+  {"id":"salud_emocional","nombre":"Salud emocional y mental","color":"#9B7FD4","linea":"salud"},
+  {"id":"habitos","nombre":"Hábitos y estilo de vida","color":"#4ABF7A","linea":"salud"},
+  {"id":"espiritualidad","nombre":"Crecimiento espiritual y paz","color":"#9B7FD4","linea":"salud"},
+  {"id":"finanzas","nombre":"Finanzas y abundancia","color":"#C9A84C","linea":"dinero"},
+  {"id":"trabajo","nombre":"Trabajo y vocación","color":"#E8C96A","linea":"dinero"},
+  {"id":"emprendimiento","nombre":"Emprendimiento y proyectos","color":"#C9A84C","linea":"dinero"},
+  {"id":"educacion","nombre":"Educación y desarrollo","color":"#E8C96A","linea":"dinero"},
+  {"id":"pareja","nombre":"Pareja y amor","color":"#D4537E","linea":"amor"},
+  {"id":"familia","nombre":"Familia y raíces","color":"#D4537E","linea":"amor"},
+  {"id":"relaciones","nombre":"Relaciones y vida social","color":"#E8A0B4","linea":"amor"},
+  {"id":"autoamor","nombre":"Relación contigo mismo","color":"#E8A0B4","linea":"amor"}
+];
+var AREAS_EXTRA={
+  "salud_fisica":{"pregunta":"¿Sientes que tu cuerpo, tu energía y tus hábitos de movimiento, alimentación y sueño están donde tú quieres? ¿Tu cuerpo te acompaña o te limita?","pautas":["Pedir cita médica esta semana.","Definir un horario de ejercicio realista.","Revisar la alimentación: un cambio pequeño.","Establecer hora fija para dormir.","Hacerte un chequeo preventivo este mes."]},
+  "salud_emocional":{"pregunta":"¿Puedes nombrar lo que sientes? ¿Gestionas tus emociones o ellas te gestionan a ti? ¿Tienes paz interior más días de los que no la tienes?","pautas":["Iniciar un diario de emociones.","Identificar tus detonantes emocionales.","Buscar apoyo profesional si lo necesitas.","Practicar 10 minutos de silencio al día.","Nombrar una emoción difícil antes de reaccionar."]},
+  "habitos":{"pregunta":"¿Tus hábitos diarios te acercan o alejan de la salud que quieres? ¿Hay algo que sabes que deberías hacer y no haces?","pautas":["Identificar el hábito que más impacta tu salud.","Reemplazar un hábito negativo por uno positivo.","Crear una rutina de mañana de 20 minutos.","Registrar tus hábitos por 7 días.","Comprometerte con un cambio durante 21 días."]},
+  "espiritualidad":{"pregunta":"¿Tienes una práctica que te conecte contigo mismo y con algo mayor? ¿Sientes paz o vacío cuando te quedas en silencio?","pautas":["Establecer una práctica diaria de gratitud.","Meditar o hacer respiración consciente 10 minutos.","Leer algo que nutra tu espíritu.","Conectarte con la naturaleza esta semana.","Identificar qué te da paz genuina."]},
+  "finanzas":{"pregunta":"¿Tus finanzas reflejan tus valores y tus metas? ¿Sabes exactamente cuánto entra, cuánto sale y cuánto queda?","pautas":["Crear un presupuesto mensual esta semana.","Abrir una cuenta de ahorros si no la tienes.","Liquidar la deuda más pequeña primero.","Automatizar un ahorro aunque sea mínimo.","Registrar gastos durante 7 días sin juzgarte."]},
+  "trabajo":{"pregunta":"¿Tu trabajo te da satisfacción más allá del dinero? ¿Estás donde quieres estar o donde las circunstancias te pusieron?","pautas":["Identificar qué te da energía en tu trabajo.","Tener una conversación difícil que has postergado.","Buscar un aprendizaje nuevo relacionado a tu área.","Establecer límites claros entre trabajo y vida.","Definir tu siguiente paso de carrera."]},
+  "emprendimiento":{"pregunta":"¿Tienes proyectos o ideas que quieres desarrollar? ¿Qué te ha impedido avanzar?","pautas":["Escribir la idea que tienes y sus primeros pasos.","Buscar un mentor o referente en lo que quieres hacer.","Destinar 1 hora semanal a ese proyecto.","Validar tu idea con una persona de confianza.","Hacer una pequeña acción concreta esta semana."]},
+  "educacion":{"pregunta":"¿Estás invirtiendo en tu desarrollo? ¿Hay algo que sabes que deberías aprender y no has empezado?","pautas":["Identificar la habilidad que más impacta tu ingreso.","Inscribirte en un curso o programa.","Leer 15 minutos diarios sobre tu área.","Buscar un mentor que ya haya logrado lo que quieres.","Aplicar inmediatamente lo que aprendes."]},
+  "pareja":{"pregunta":"¿Tu relación de pareja te nutre o te agota? ¿Hay conversaciones pendientes que evitas?","pautas":["Tener la conversación que has postergado.","Expresar gratitud genuina esta semana.","Establecer tiempo de calidad sin pantallas.","Identificar un patrón que quieres cambiar.","Buscar ayuda profesional si la relación lo necesita."]},
+  "familia":{"pregunta":"¿Cómo es tu relación con tu familia de origen? ¿Hay heridas, resentimientos o conversaciones pendientes?","pautas":["Hacer una llamada a alguien con quien tienes deuda emocional.","Escribir lo que agradeces de tu familia.","Identificar un patrón heredado que quieres interrumpir.","Establecer límites sanos si es necesario.","Perdonar algo que has cargado demasiado tiempo."]},
+  "relaciones":{"pregunta":"¿Tus amistades y relaciones sociales te dan energía? ¿Hay personas tóxicas o ausencias que notas?","pautas":["Contactar a alguien con quien perdiste contacto.","Evaluar qué relaciones te dan energía y cuáles te quitan.","Salir de tu zona social de confort una vez esta semana.","Ser más honesto en tus relaciones existentes.","Construir o fortalecer una amistad significativa."]},
+  "autoamor":{"pregunta":"¿Cómo te hablas a ti mismo? ¿Te tratas con la misma compasión con la que tratarías a un amigo querido?","pautas":["Escribir 3 cosas que valoras de ti mismo.","Identificar la crítica interna más frecuente y desafiarla.","Hacer algo solo para ti sin justificarlo.","Establecer un límite que necesitas poner para cuidarte.","Perdonarte por algo que cargas desde hace tiempo."]}
+};
 
 var S={
   nombre:"",
@@ -765,9 +791,49 @@ function bDiagnostico(){
   ph.appendChild(mk("div","ph-d","Lee la pregunta de cada \u00e1rea antes de calificar. El primer n\u00famero que te llega es el m\u00e1s verdadero."));
   p.appendChild(ph);
 
+  // Configuración de línea elegida
+  var lineaElegida = localStorage.getItem('anormal_linea') || '';
+  var prioridadesGuardadas = [];
+  try { prioridadesGuardadas = JSON.parse(localStorage.getItem('anormal_prioridades') || '[]'); } catch(e){}
+  var accionesGuardadas = [];
+  try { accionesGuardadas = JSON.parse(localStorage.getItem('anormal_acciones') || '[]'); } catch(e){}
+  var lineaLabels = {salud:'Tu línea: Salud',dinero:'Tu línea: Dinero',amor:'Tu línea: Amor'};
+  var lineaColores = {salud:'#4ABF7A',dinero:'#C9A84C',amor:'#D4537E'};
+  var ultimaLinea = null;
+
+  // Mensaje de interconexión por línea elegida
+  var msgInterconexion = {
+    salud: 'Elegiste Salud. Recuerda: sin salud no hay energía para el trabajo, sin trabajo no hay dinero, sin bienestar no hay amor pleno. Todo está conectado.',
+    dinero: 'Elegiste Dinero. Recuerda: sin salud no puedes trabajar, sin trabajo no hay ingreso, y el dinero solo fluye cuando estás en paz contigo mismo.',
+    amor: 'Elegiste Amor. Recuerda: la calidad de tus relaciones depende de cómo estás contigo mismo, y eso se conecta con tu salud y tu estabilidad económica.'
+  };
+  if (lineaElegida && msgInterconexion[lineaElegida]) {
+    var msgDiv = mk('div','card gold');
+    msgDiv.style.cssText += ';margin-bottom:16px;border-left:4px solid '+(lineaColores[lineaElegida]||'var(--gold)');
+    msgDiv.appendChild(mk('div','cl','Por qué evalúas las 12 áreas'));
+    msgDiv.appendChild(mk('div','ct', msgInterconexion[lineaElegida]));
+    cuerpo.appendChild(msgDiv);
+  }
+
   AREAS.forEach(function(area){
     var extra=AREAS_EXTRA[area.id]||{};
+    // Separador de grupo por línea
+    if (area.linea !== ultimaLinea) {
+      ultimaLinea = area.linea;
+      var sep = mk("div");
+      sep.style.cssText = "display:flex;align-items:center;gap:10px;margin:20px 0 8px;padding:8px 12px;background:var(--bg3);border-radius:var(--rm);border-left:4px solid "+(lineaColores[area.linea]||'var(--gold)');
+      var sepLabel = mk("span");
+      sepLabel.style.cssText = "font-size:10px;letter-spacing:.18em;text-transform:uppercase;font-weight:500;color:"+(lineaColores[area.linea]||'var(--gold)');
+      sepLabel.textContent = (area.linea===lineaElegida ? "★ " : "") + (area.linea==='salud'?'Salud':area.linea==='dinero'?'Dinero':'Amor');
+      var sepDesc = mk("span");
+      sepDesc.style.cssText = "font-size:12px;color:var(--dim)";
+      sepDesc.textContent = area.linea===lineaElegida ? ' — Tu área de trabajo principal' : ' — También impacta tu objetivo';
+      sep.appendChild(sepLabel);
+      sep.appendChild(sepDesc);
+      cuerpo.appendChild(sep);
+    }
     var card=mk("div","area-card");
+    if (area.linea === lineaElegida) { card.style.cssText += ";border-color:"+(lineaColores[lineaElegida]||'var(--gold)')+";box-shadow:0 0 0 1px "+(lineaColores[lineaElegida]||'var(--gold)')+"22"; }
     var hdr=mk("div","area-header");
     var dot=mk("div","area-dot");dot.style.background=area.color;
     var nom=mk("div","area-nombre",area.nombre);nom.style.color=area.color;
@@ -970,84 +1036,109 @@ function bAcciones(){
   var p=ge("p3");p.innerHTML="";
   var badge=mk("div","pbadge");badge.appendChild(mk("div","pbadge-q","Mis acciones de crecimiento"));p.appendChild(badge);
   var ph=mk("div","ph");
-  ph.appendChild(mk("div","ph-t","Asocia acciones a cada \u00e1rea"));
-  ph.appendChild(mk("div","ph-d","A lo largo del proceso ir\u00e1s identificando acciones en cada m\u00f3dulo. Agu\u00eda van, asociadas al \u00e1rea que impactan. Haz clic en un \u00e1rea para expandirla."));
+  ph.appendChild(mk("div","ph-t","Tus acciones conectadas a las áreas"));
+  ph.appendChild(mk("div","ph-d","Estas son las 5 acciones prioritarias que definiste al inicio, conectadas a las áreas que impactan. Marca las que vayas cumpliendo."));
   p.appendChild(ph);dmsg(p);
 
-  var cinst=mk("div","card acc");cinst.appendChild(mk("div","cl b","C\u00f3mo usar este panel"));
-  cinst.appendChild(mk("div","ct","Cada \u00e1rea tiene pautas sugeridas como punto de partida. Las acciones que identifiques en los otros m\u00f3dulos tambi\u00e9n puedes agregarlas aqu\u00ed, indicando de qu\u00e9 m\u00f3dulo vienen. Al check-in de 30 d\u00edas, marcar\u00e1s las que cumpliste."));
-  p.appendChild(cinst);
+  var lineaEleg = localStorage.getItem('anormal_linea') || '';
+  var priorid = [];
+  try { priorid = JSON.parse(localStorage.getItem('anormal_prioridades') || '[]'); } catch(e){}
+  var acciones = [];
+  try { acciones = JSON.parse(localStorage.getItem('anormal_acciones') || '[]'); } catch(e){}
+  var cumplidas = {};
+  try { cumplidas = JSON.parse(localStorage.getItem('anormal_cumplidas') || '{}'); } catch(e){}
 
-  AREAS.forEach(function(area){
-    if(!S.acciones[area.id])S.acciones[area.id]=[];
-    if(!S.accionesEstado[area.id])S.accionesEstado[area.id]=[];
-    if(!S.accionesSrc[area.id])S.accionesSrc[area.id]=[];
-    var extra=AREAS_EXTRA[area.id]||{};
-    var card=mk("div","area-card");
-    var hdr=mk("div","area-header");hdr.style.cursor="pointer";
-    var dot=mk("div","area-dot");dot.style.background=area.color;
-    var nom=mk("div","area-nombre",area.nombre);nom.style.color=area.color;
-    var cnt=mk("div");cnt.style.cssText="font-size:11px;color:var(--dim);min-width:60px;text-align:right";cnt.id="cnt-"+area.id;
-    cnt.textContent=(S.acciones[area.id]||[]).length+" acc.";
-    var val=mk("div");val.style.cssText="font-family:Cormorant Garamond,serif;font-size:18px;font-weight:300;min-width:35px;text-align:right";val.style.color=area.color;val.textContent=String(S.diagnostico[area.id]||1)+"/10";
-    hdr.appendChild(dot);hdr.appendChild(nom);hdr.appendChild(cnt);hdr.appendChild(val);card.appendChild(hdr);
+  var lc = {salud:'#4ABF7A',dinero:'#C9A84C',amor:'#D4537E'};
+  var ll = {salud:'Salud',dinero:'Dinero',amor:'Amor'};
 
-    var accDiv=mk("div","area-acciones");accDiv.id="acc-"+area.id;
-
-    // Pautas sugeridas
-    if(extra.pautas&&extra.pautas.length){
-      var cpautas=mk("div");cpautas.style.cssText="margin-bottom:10px;padding:10px 12px;background:var(--bg4);border-radius:var(--r);border:1px solid rgba(255,255,255,.06)";
-      var pt=mk("div");pt.style.cssText="font-size:10px;letter-spacing:.12em;text-transform:uppercase;font-weight:500;margin-bottom:7px";pt.style.color=area.color;pt.textContent="Pautas sugeridas \u2014 clic para agregar";cpautas.appendChild(pt);
-      extra.pautas.forEach(function(pauta){
-        var prow=mk("div","pauta-item");
-        var picon=mk("div","pauta-icon","+");picon.style.cssText="width:16px;height:16px;border-radius:3px;border:1px solid rgba(255,255,255,.15);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:11px;color:"+area.color+";margin-top:2px";
-        var ptxt=mk("div","ct",pauta);
-        prow.appendChild(picon);prow.appendChild(ptxt);
-        prow.onclick=(function(txt,pr,cnt2,div){return function(){
-          if((S.acciones[area.id]||[]).indexOf(txt)<0){
-            S.acciones[area.id].push(txt);S.accionesEstado[area.id].push(false);S.accionesSrc[area.id].push("sugerida");
-            cnt2.textContent=S.acciones[area.id].length+" acc.";
-            renderAcciones(area.id,div);
-            pr.style.opacity="0.35";pr.onclick=null;
-          }
-        };})(pauta,prow,cnt,accDiv);
-        cpautas.appendChild(prow);
-      });
-      accDiv.appendChild(cpautas);
-    }
-
-    // Input con selector de fuente
-    var addRow=mk("div","add-row");
-    var addInp=document.createElement("input");addInp.className="add-inp";addInp.placeholder="Describe una acci\u00f3n o pega la de otro m\u00f3dulo...";
-    var srcSel=document.createElement("select");srcSel.style.cssText="background:var(--bg3);border:1px solid rgba(255,255,255,.07);border-radius:var(--r);color:var(--dim);font-family:Barlow,sans-serif;font-size:11px;padding:6px 8px;outline:none;cursor:pointer";
-    ["propio","Numerolog\u00eda","Valores Dolan","Septenios","ECG","Ikigai","Plan de vida"].forEach(function(src){
-      var opt=document.createElement("option");opt.value=src;opt.textContent=src;srcSel.appendChild(opt);
+  if (priorid.length > 0 && acciones.length > 0) {
+    var cprior = mk("div","card gold");
+    var titPrior = mk("div","cl","Tus 5 compromisos");
+    titPrior.style.marginBottom = "12px";
+    cprior.appendChild(titPrior);
+    var notaConex = mk("div","ct");
+    notaConex.style.marginBottom = "14px";
+    notaConex.textContent = lineaEleg ? "Elegiste la línea de "+ll[lineaEleg]+". Estas acciones impactan directamente esa área — y por conexión, todas las demás." : "Estas son las acciones con las que te comprometiste.";
+    cprior.appendChild(notaConex);
+    priorid.forEach(function(num, i){
+      var acc = acciones.find(function(a){ return a.num === num; });
+      if (!acc) return;
+      var key = 'acc_'+num;
+      var row = mk("div");
+      row.style.cssText = "display:flex;align-items:flex-start;gap:12px;padding:12px 14px;background:var(--bg3);border-radius:var(--rm);margin-bottom:8px;cursor:pointer;border:1px solid var(--faint);transition:all .2s";
+      if (cumplidas[key]) { row.style.borderColor = lc[lineaEleg]||'var(--grn)'; row.style.background = 'rgba(74,191,122,.06)'; }
+      var chk = mk("div");
+      chk.style.cssText = "min-width:22px;height:22px;border-radius:50%;border:2px solid "+(lc[lineaEleg]||'var(--gold)')+";display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;margin-top:1px;transition:all .2s";
+      chk.style.background = cumplidas[key] ? (lc[lineaEleg]||'var(--grn)') : 'transparent';
+      chk.style.color = cumplidas[key] ? 'var(--bg)' : 'transparent';
+      chk.textContent = '✓';
+      var badge2 = mk("span");
+      badge2.style.cssText = "background:"+(lc[lineaEleg]||'var(--gold)')+";color:var(--bg);font-size:10px;font-weight:600;padding:2px 7px;border-radius:10px;min-width:20px;text-align:center";
+      badge2.textContent = (i+1);
+      var txt = mk("div");
+      var txtNombre = mk("div");
+      txtNombre.style.cssText = "font-size:13px;color:var(--text);line-height:1.5;margin-bottom:3px";
+      txtNombre.textContent = acc.texto;
+      var txtLinea = mk("div");
+      txtLinea.style.cssText = "font-size:11px;color:"+(lc[lineaEleg]||'var(--dim)');
+      txtLinea.textContent = "Impacta: "+(ll[lineaEleg]||'tu proceso');
+      txt.appendChild(txtNombre);
+      txt.appendChild(txtLinea);
+      row.appendChild(chk);
+      row.appendChild(badge2);
+      row.appendChild(txt);
+      (function(k, r, c2){
+        r.onclick = function(){
+          cumplidas[k] = !cumplidas[k];
+          localStorage.setItem('anormal_cumplidas', JSON.stringify(cumplidas));
+          bAcciones();
+        };
+      })(key, row, chk);
+      cprior.appendChild(row);
     });
-    var addBtn=mk("button","add-btn","+ Agregar");
-    addBtn.style.cssText="padding:7px 12px;border-radius:var(--r);border:1px solid var(--gb);font-family:Barlow Condensed,sans-serif;font-size:10px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;background:transparent;color:var(--gold);white-space:nowrap";
-    (function(a,inp,sel,cnt2,div){
-      function doAdd(){
-        var t=(inp.value||"").trim();if(!t)return;
-        S.acciones[a.id].push(t);S.accionesEstado[a.id].push(false);S.accionesSrc[a.id].push(sel.value||"propio");
-        inp.value="";cnt2.textContent=S.acciones[a.id].length+" acc.";
-        renderAcciones(a.id,div);
-      }
-      addBtn.onclick=doAdd;inp.onkeydown=function(e){if(e.key==="Enter")doAdd();};
-    })(area,addInp,srcSel,cnt,accDiv);
-    addRow.appendChild(addInp);addRow.appendChild(srcSel);addRow.appendChild(addBtn);accDiv.appendChild(addRow);
-    renderAcciones(area.id,accDiv);
-    card.appendChild(accDiv);
-    hdr.onclick=function(){
-      var isOpen=card.classList.contains("activa");
-      document.querySelectorAll(".area-card").forEach(function(c){c.classList.remove("activa");});
-      if(!isOpen)card.classList.add("activa");
-    };
-    p.appendChild(card);
+    var cumTotal = Object.values(cumplidas).filter(Boolean).length;
+    var pctText = mk("div");
+    pctText.style.cssText = "font-size:12px;color:var(--dim);text-align:right;margin-top:8px";
+    pctText.textContent = cumTotal + " de " + priorid.length + " compromisos cumplidos";
+    cprior.appendChild(pctText);
+    p.appendChild(cprior);
+  } else {
+    var cVacio = mk("div","card");
+    cVacio.appendChild(mk("div","cl","Sin acciones definidas"));
+    cVacio.appendChild(mk("div","ct","Regresa al módulo de entrada para definir tus 21 acciones y elegir las 5 prioritarias."));
+    p.appendChild(cVacio);
+  }
+
+  // Agregar acciones adicionales por área (las pautas del diagnóstico)
+  var cadicionales = mk("div","card dark");
+  var titAd = mk("div","cl","Acciones sugeridas por área");
+  cadicionales.appendChild(titAd);
+  var notaAd = mk("div","ct");
+  notaAd.style.marginBottom = "14px";
+  notaAd.textContent = "Además de tus compromisos, estas son acciones concretas para cada área según tu diagnóstico.";
+  cadicionales.appendChild(notaAd);
+  (window.AREAS||[]).forEach(function(area){
+    var extra = AREAS_EXTRA[area.id]||{};
+    if (!extra.pautas) return;
+    var areaDiv = mk("div");
+    areaDiv.style.cssText = "margin-bottom:12px;border-left:3px solid "+area.color+";padding-left:12px";
+    var aNom = mk("div");
+    aNom.style.cssText = "font-size:12px;font-weight:500;color:"+area.color+";margin-bottom:6px";
+    aNom.textContent = area.nombre;
+    areaDiv.appendChild(aNom);
+    extra.pautas.forEach(function(pauta){
+      var pRow = mk("div");
+      pRow.style.cssText = "font-size:12px;color:var(--dim);line-height:1.6;margin-bottom:3px;padding-left:8px";
+      pRow.textContent = "— " + pauta;
+      areaDiv.appendChild(pRow);
+    });
+    cadicionales.appendChild(areaDiv);
   });
+  p.appendChild(cadicionales);
 
   var nav=mk("div","nav");
-  var pb2=mk("button","bn","Anterior");pb2.onclick=function(){irA(2);};
-  var pn=mk("button","bp","Ir al check-in de 30 d\u00edas");pn.onclick=function(){bCheckin();irA(4);};
+  var pb2=mk("button","bs","← Anterior");pb2.onclick=function(){irA(2);};
+  var pn=mk("button","bp","Ir al check-in de 30 días");pn.onclick=function(){bCheckin();irA(4);};
   nav.appendChild(pb2);nav.appendChild(pn);p.appendChild(nav);
 }
 
