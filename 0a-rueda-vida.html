@@ -15,7 +15,7 @@
 --pur:#9B7FD4;--pud:rgba(155,127,212,.12);--pub:rgba(155,127,212,.28);
 --r:4px;--rm:8px;--rl:14px}
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font-weight:300;font-size:15px;line-height:1.65;min-height:100vh}
+body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font-weight:300;font-size:16.5px;line-height:1.7;min-height:100vh}
 body::before{content:"";position:fixed;inset:0;background:radial-gradient(ellipse at 20% 50%,rgba(201,168,76,.04),transparent 60%),radial-gradient(ellipse at 80% 20%,rgba(74,158,191,.04),transparent 50%);pointer-events:none;z-index:0}
 .app{position:relative;z-index:1;max-width:760px;margin:0 auto;padding:0 22px 80px}
 .prog{display:flex;align-items:center;margin-bottom:28px;overflow-x:auto;padding-bottom:3px}
@@ -35,15 +35,15 @@ body::before{content:"";position:fixed;inset:0;background:radial-gradient(ellips
 .ph{margin-bottom:20px}
 .ph-s{font-family:"Barlow Condensed",sans-serif;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:4px}
 .ph-t{font-family:"Cormorant Garamond",serif;font-size:clamp(18px,4vw,28px);font-weight:300;color:var(--gold2);line-height:1.15;margin-bottom:4px}
-.ph-d{font-size:13px;color:var(--dim);line-height:1.8;max-width:520px}
+.ph-d{font-size:14.5px;color:var(--dim);line-height:1.85;max-width:520px}
 .card{background:var(--bg2);border:1px solid rgba(255,255,255,.055);border-radius:var(--rl);padding:18px 22px;margin-bottom:11px}
 .card.gold{border-color:var(--gb);background:linear-gradient(135deg,var(--bg2),var(--bg3))}
 .card.pur{border-color:var(--pub);background:linear-gradient(135deg,var(--bg2),var(--pud))}
 .card.acc{border-color:var(--acb);background:linear-gradient(135deg,var(--bg2),var(--acd))}
 .card.grn{border-color:var(--grb);background:linear-gradient(135deg,var(--bg2),var(--grd))}
-.cl{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:9px}
+.cl{font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:9px}
 .cl.b{color:var(--acc)}.cl.p{color:var(--pur)}.cl.g{color:var(--grn)}
-.ct{font-size:13px;color:var(--dim);line-height:1.8}
+.ct{font-size:14.5px;color:var(--dim);line-height:1.8}
 .il{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-bottom:5px;display:block}
 .inp{background:var(--bg3);border:1px solid rgba(255,255,255,.07);border-radius:var(--r);color:var(--text);font-family:"Barlow",sans-serif;font-size:14px;font-weight:300;padding:9px 13px;width:100%;outline:none;transition:border-color .2s}
 .inp:focus{border-color:var(--gold)}
@@ -1032,152 +1032,92 @@ function bRueda(){
     "\"La verdad os hará libres.\" — Ver con honestidad dónde estás hoy es el acto más valiente que puedes hacer.",
     "\"El que persevera hasta el final, ese será salvo.\" — Tu nivel de hoy no es tu destino. Es tu punto de partida.",
     "\"No son los sanos los que necesitan médico, sino los enfermos.\" — Reconocer que necesitas sanar es la primera victoria.",
-    "\"No se pone una vela bajo un cajón, sino sobre el candelero.\" — Lo que descubras aquí no es para guardarlo. Es para vivirlo.",
-    "\"Quien cree hace obras mayores de las que imagina.\" — Aplica cada principio y observa lo que cambia en ti."
+    "\"No se pone una vela bajo un cajón, sino sobre el candelero.\" — Lo que descubras aquí no es para guardarlo. Es para vivirlo."
   ];
-  var cFrase=mk("div");cFrase.style.cssText="padding:14px 18px;border-left:3px solid var(--gold);background:var(--bg3);border-radius:0 var(--rl) var(--rl) 0;margin-bottom:12px";
-  var fraseTxt=mk("div");fraseTxt.style.cssText="font-family:'Cormorant Garamond',serif;font-size:15px;font-style:italic;color:var(--gold2);line-height:1.7";
+  var cFrase=mk("div");cFrase.style.cssText="padding:16px 20px;border-left:3px solid var(--gold);background:var(--bg3);border-radius:0 var(--rl) var(--rl) 0;margin-bottom:14px";
+  var fraseTxt=mk("div");fraseTxt.style.cssText="font-family:'Cormorant Garamond',serif;font-size:17px;font-style:italic;color:var(--gold2);line-height:1.7";
   fraseTxt.textContent=frasesMot[Math.floor(Math.random()*frasesMot.length)];
   cFrase.appendChild(fraseTxt);p.appendChild(cFrase);
 
-  // ── PUNTO 5: PRINCIPIOS CONECTADOS A LA LÍNEA Y PRIORIDADES ─────────
-  var priorid=[];try{priorid=JSON.parse(localStorage.getItem('anormal_prioridades')||'[]');}catch(e){}
-  var acciones=[];try{acciones=JSON.parse(localStorage.getItem('anormal_acciones')||'[]');}catch(e){}
-  var accionesRegistradas={};try{accionesRegistradas=JSON.parse(localStorage.getItem('anormal_acciones_principios')||'{}');}catch(e){}
-  var puntosBase=nivelActual.nivel;
-  var puntosAcum=0;try{puntosAcum=parseInt(localStorage.getItem('anormal_puntos_conciencia')||'0');}catch(e){}
+  // ── MOMENTO DE COMPROMISO: ACCIONES ASOCIADAS A LAS 3 ÁREAS MÁS BAJAS ──
+  var cComp=mk("div","card");cComp.style.cssText+=";margin-bottom:14px;border-color:var(--gb)";
+  var compTit=mk("div","cl","Tu plan de trabajo — escribe tus compromisos");compTit.style.color="var(--gold)";cComp.appendChild(compTit);
+  var compIntro=mk("div","ct");compIntro.style.cssText+=";margin-bottom:16px";
+  compIntro.innerHTML="Estas son tus 3 áreas más bajas. Para cada una, escribe una acción concreta que te comprometes a hacer en los próximos 15 días. Estas acciones serán tu plan — y a los 15 días vas a calificar cómo te fue.";
+  cComp.appendChild(compIntro);
 
-  var accsLinea={
-    salud:{1:"¿Por qué estás agradecido con tu cuerpo hoy? Escríbelo aunque te cueste.",
-           2:"¿Qué emoción o persona relacionada con tu salud necesitas perdonar hoy?",
-           3:"¿Qué síntoma puede ser un mensaje de tu cuerpo? ¿Qué te dice?",
-           4:"De tus compromisos de salud, ¿cuál cumples HOY? Con hora.",
-           5:"¿Qué mejoría pequeña de tu salud puedes reconocer hoy?",
-           6:"¿Qué hábito de salud has postergado por miedo? Escribe un paso para hoy."},
-    dinero:{1:"¿Por qué estás agradecido con lo que tienes HOY — aunque no sea suficiente?",
-            2:"¿A qué persona o situación de dinero necesitas perdonar hoy?",
-            3:"¿Qué bloqueo económico puede estar enseñándote algo valioso?",
-            4:"De tus compromisos de finanzas, ¿cuál cumples HOY? Con hora.",
-            5:"¿Qué resultado positivo en tu economía puedes reconocer hoy?",
-            6:"¿Qué oportunidad económica has evitado por miedo? Un paso hoy."},
-    amor:{1:"¿Por qué estás agradecido con las personas en tu vida HOY?",
-          2:"¿A quién necesitas perdonar hoy para liberar tu capacidad de amar?",
-          3:"¿Qué dificultad relacional puede estar enseñándote algo sobre ti?",
-          4:"De tus compromisos de relaciones, ¿cuál cumples HOY? Con hora.",
-          5:"¿Qué conexión positiva con alguien puedes reconocer hoy?",
-          6:"¿Qué conversación has evitado por miedo? El primer paso para hoy."}
-  };
-  var accs=accsLinea[lineaEleg]||accsLinea.salud;
+  // Cargar compromisos guardados
+  var compromisos={};
+  try{compromisos=JSON.parse(localStorage.getItem('anormal_compromisos_areas')||'{}');}catch(e){}
 
-  var PRINC=[
-    {n:1,t:"\u2200gradecer",c:"#C9A84C",pts:5},
-    {n:2,t:"\u2200vanza en el perd\u00f3n",c:"#D4537E",pts:8},
-    {n:3,t:"\u2200provecha el dolor",c:"#D4537E",pts:6},
-    {n:4,t:"\u2200p\u00fantale al compromiso",c:"#C9A84C",pts:10},
-    {n:5,t:"\u2200normaliza lo extraordinario",c:"#9B7FD4",pts:5},
-    {n:6,t:"\u2200taca el miedo",c:"#E8C96A",pts:7}
-  ];
+  criticas.forEach(function(a){
+    var areaWrap=mk("div");areaWrap.style.cssText="margin-bottom:16px;padding:14px;background:var(--bg3);border-radius:var(--rm);border-left:3px solid "+a.color;
+    var areaHdr=mk("div");areaHdr.style.cssText="display:flex;align-items:center;gap:8px;margin-bottom:4px";
+    var areaDot=mk("div");areaDot.style.cssText="width:9px;height:9px;border-radius:50%;background:"+a.color;
+    var areaNom=mk("div");areaNom.style.cssText="font-size:15px;font-weight:500;color:"+a.color;areaNom.textContent=a.nombre;
+    var areaScore=mk("span");areaScore.style.cssText="font-size:12px;color:var(--dim);margin-left:auto";areaScore.textContent=(S.diagnostico[a.id]||1)+"/10";
+    areaHdr.appendChild(areaDot);areaHdr.appendChild(areaNom);areaHdr.appendChild(areaScore);
+    areaWrap.appendChild(areaHdr);
 
-  var cPrinc=mk("div","card");cPrinc.style.marginBottom="12px";
-  var pTit=mk("div","cl","Los principios — tu ruta de acción de hoy");pTit.style.color="var(--gold)";cPrinc.appendChild(pTit);
-
-  // Mostrar las 5 prioridades si existen
-  if(priorid.length>0&&acciones.length>0){
-    var cumplidas={};try{cumplidas=JSON.parse(localStorage.getItem('anormal_cumplidas')||'{}');}catch(e){}
-    var pSubTit=mk("div","ct");pSubTit.style.cssText="margin-bottom:10px;font-size:12px";
-    pSubTit.textContent="Tus 5 compromisos de "+ll[lineaEleg]+" — marca los que vas cumpliendo:";
-    cPrinc.appendChild(pSubTit);
-    var cumTotal=0;
-    priorid.forEach(function(num,i){
-      var acc=acciones.find(function(a){return String(a.num)===String(num);});
-      if(!acc)return;
-      var key='acc_'+num;
-      var cumplida=!!cumplidas[key];
-      if(cumplida)cumTotal++;
-      var row=mk("div");
-      row.style.cssText="display:flex;align-items:flex-start;gap:10px;padding:10px 12px;background:var(--bg3);border-radius:var(--rm);margin-bottom:6px;cursor:pointer;border:1px solid "+(cumplida?(lc[lineaEleg]||'var(--grn)'):"var(--faint)")+";transition:all .2s";
-      var chk=mk("div");chk.style.cssText="min-width:20px;height:20px;border-radius:50%;border:2px solid "+(lc[lineaEleg]||'var(--gold)')+";display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;background:"+(cumplida?(lc[lineaEleg]||'var(--grn)'):"transparent")+";color:"+(cumplida?"var(--bg)":"transparent");
-      chk.textContent="\u2713";
-      var badge=mk("span");badge.style.cssText="background:"+(lc[lineaEleg]||'var(--gold)')+";color:var(--bg);font-size:10px;font-weight:600;padding:1px 6px;border-radius:8px;min-width:18px;text-align:center";badge.textContent=(i+1);
-      var txt=mk("div");txt.style.cssText="font-size:13px;color:var(--text);line-height:1.5;flex:1";txt.textContent=acc.texto;
-      row.appendChild(chk);row.appendChild(badge);row.appendChild(txt);
-      (function(k,r){r.onclick=function(){
-        cumplidas[k]=!cumplidas[k];
-        localStorage.setItem('anormal_cumplidas',JSON.stringify(cumplidas));
-        var pts=parseInt(localStorage.getItem('anormal_puntos_conciencia')||'0');
-        pts+=cumplidas[k]?5:-5;if(pts<0)pts=0;
-        localStorage.setItem('anormal_puntos_conciencia',pts);
-        bRueda();irA(2);
-      };})(key,row);
-      cPrinc.appendChild(row);
-    });
-    var cumLbl=mk("div");cumLbl.style.cssText="font-size:11px;color:var(--dim);text-align:right;margin-top:4px;margin-bottom:14px";
-    cumLbl.textContent=cumTotal+" de "+priorid.length+" compromisos cumplidos";
-    cPrinc.appendChild(cumLbl);
-  }
-
-  // Principios con acciones del día
-  var pDiaTit=mk("div");pDiaTit.style.cssText="font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:8px";
-  pDiaTit.textContent="Aplica cada principio hoy — "+puntosBase+" pts base + "+(puntosAcum)+" pts acumulados";
-  cPrinc.appendChild(pDiaTit);
-
-  var faseAnterior=null;
-  PRINC.forEach(function(pr,pi){
-    // Separador de fase
-    if(pr.fase!==faseAnterior){
-      faseAnterior=pr.fase;
-      var sepFase=mk("div");
-      sepFase.style.cssText="margin:"+(pi===0?"4px":"16px")+" 0 10px;padding:10px 12px;border-radius:var(--rm);background:"+(pr.fase==="inicial"?"var(--bg3)":"rgba(212,83,126,.08)")+";border-left:3px solid "+(pr.fase==="inicial"?"var(--gold)":"#D4537E");
-      var sepT=mk("div");
-      sepT.style.cssText="font-size:11px;letter-spacing:.15em;text-transform:uppercase;font-weight:500;color:"+(pr.fase==="inicial"?"var(--gold)":"#D4537E")+";margin-bottom:3px";
-      sepT.textContent=pr.fase==="inicial"?"Tus 3 principios iniciales":"Se activan ahora — tras conocer tu origen";
-      var sepD=mk("div");
-      sepD.style.cssText="font-size:12px;color:var(--dim);line-height:1.5";
-      sepD.textContent=pr.fase==="inicial"?"Los que aceptaste al entrar. Aplícalos cada día." : "Ahora que viste tu rueda y tu nivel, ya puedes trabajar el perdón, el dolor y el miedo desde un lugar más consciente.";
-      sepFase.appendChild(sepT);sepFase.appendChild(sepD);
-      cPrinc.appendChild(sepFase);
+    // Pregunta orientadora del área
+    var extra=AREAS_EXTRA[a.id]||{};
+    if(extra.pregunta){
+      var areaPreg=mk("div");areaPreg.style.cssText="font-size:13px;color:var(--dim);line-height:1.6;margin-bottom:10px;font-style:italic";
+      areaPreg.textContent=extra.pregunta;
+      areaWrap.appendChild(areaPreg);
     }
-    var key2='princ_'+pr.n+'_'+new Date().toISOString().slice(0,10);
-    var comp=!!accionesRegistradas[key2];
-    var pDiv=mk("div");pDiv.style.cssText="margin-bottom:7px;border-radius:var(--rm);overflow:hidden;border:1px solid "+(comp?"rgba(74,191,122,.3)":"var(--faint)");
-    var pHdr=mk("div");pHdr.style.cssText="display:flex;align-items:center;gap:9px;padding:10px 12px;cursor:pointer;background:"+(comp?"rgba(74,191,122,.06)":"var(--bg3)");
-    pHdr.onclick=(function(d){return function(){var b=d.querySelector('.pb');if(b)b.style.display=b.style.display==='none'?'block':'none';};})(pDiv);
-    var pChk=mk("div");pChk.style.cssText="min-width:18px;height:18px;border-radius:50%;border:2px solid "+(comp?"var(--grn)":pr.c)+";display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;background:"+(comp?"var(--grn)":"transparent")+";color:"+(comp?"var(--bg)":"transparent");pChk.textContent="\u2713";
-    var pNum=mk("span");pNum.style.cssText="font-family:'Cormorant Garamond',serif;font-size:16px;color:"+pr.c+";min-width:24px";pNum.textContent="\u2200"+pr.n;
-    var pTit2=mk("span");pTit2.style.cssText="font-size:12px;font-weight:500;color:var(--text);flex:1";pTit2.textContent=pr.t;
-    var pPts=mk("span");pPts.style.cssText="font-size:10px;color:var(--gold);background:rgba(201,168,76,.12);padding:2px 6px;border-radius:8px";pPts.textContent="+"+pr.pts;
-    pHdr.appendChild(pChk);pHdr.appendChild(pNum);pHdr.appendChild(pTit2);pHdr.appendChild(pPts);
-    var pBody=mk("div");pBody.className="pb";pBody.style.cssText="display:none;padding:10px 12px;background:var(--bg2);border-top:1px solid var(--faint)";
-    var pAcc=mk("div");pAcc.style.cssText="font-size:13px;color:var(--text);line-height:1.7;margin-bottom:8px";pAcc.textContent=accs[pr.n]||"Aplica este principio hoy.";
-    pBody.appendChild(pAcc);
-    if(!comp){
-      var pTA=mk("textarea");pTA.id="ta-"+pr.n;pTA.placeholder="Escribe tu respuesta...";
-      pTA.style.cssText="width:100%;background:var(--bg3);border:1px solid var(--faint);border-radius:var(--rm);padding:9px 11px;font-size:13px;color:var(--text);font-family:Barlow,sans-serif;font-weight:300;resize:none;min-height:55px;line-height:1.6;margin-bottom:7px;outline:none";
-      pTA.oninput=function(){this.style.height="auto";this.style.height=this.scrollHeight+"px";};
-      pBody.appendChild(pTA);
-      var pBtn=mk("button","bp","Registrar +"+pr.pts+" pts");pBtn.style.cssText+=";font-size:11px;padding:8px 16px";
-      (function(princ,k){pBtn.onclick=function(){
-        var txt=(document.getElementById('ta-'+princ.n)||{}).value||'';
-        if(txt.trim().length<3){return;}
-        accionesRegistradas[k]={texto:txt,fecha:new Date().toISOString(),puntos:princ.puntos||princ.pts};
-        localStorage.setItem('anormal_acciones_principios',JSON.stringify(accionesRegistradas));
-        var pts2=parseInt(localStorage.getItem('anormal_puntos_conciencia')||'0');
-        pts2+=princ.pts;localStorage.setItem('anormal_puntos_conciencia',pts2);
-        bRueda();irA(2);
-      };})(pr,key2);
-      pBody.appendChild(pBtn);
-    } else {
-      var pReg=mk("div");pReg.style.cssText="font-size:12px;color:var(--grn);padding:8px 10px;background:rgba(74,191,122,.06);border-radius:var(--rm)";
-      pReg.textContent="\u2713 Registrado hoy";
-      pBody.appendChild(pReg);
+
+    // Campo de compromiso
+    var ta=mk("textarea");ta.id="comp-"+a.id;ta.placeholder="Mi compromiso para esta área en los próximos 15 días...";
+    ta.style.cssText="width:100%;background:var(--bg2);border:1px solid var(--faint);border-radius:var(--rm);padding:11px 13px;font-size:14.5px;color:var(--text);font-family:Barlow,sans-serif;font-weight:300;resize:none;min-height:58px;line-height:1.6;outline:none";
+    ta.value=compromisos[a.id]||"";
+    ta.oninput=function(){this.style.height="auto";this.style.height=this.scrollHeight+"px";};
+    areaWrap.appendChild(ta);
+
+    // Sugerencias clickeables (de las pautas del área)
+    if(extra.pautas&&extra.pautas.length){
+      var sugLabel=mk("div");sugLabel.style.cssText="font-size:11px;color:var(--dim);margin:8px 0 6px";sugLabel.textContent="O elige una sugerencia:";
+      areaWrap.appendChild(sugLabel);
+      var sugWrap=mk("div");sugWrap.style.cssText="display:flex;flex-wrap:wrap;gap:6px";
+      extra.pautas.slice(0,3).forEach(function(pauta){
+        var chip=mk("button");chip.style.cssText="background:var(--bg2);border:1px solid var(--faint);border-radius:14px;padding:6px 12px;font-size:12px;color:var(--dim);cursor:pointer;font-family:Barlow,sans-serif;transition:all .2s;text-align:left";
+        chip.textContent=pauta;
+        (function(p2,areaId){chip.onclick=function(){
+          var t=document.getElementById('comp-'+areaId);
+          if(t){t.value=p2;t.style.height="auto";t.style.height=t.scrollHeight+"px";}
+        };})(pauta,a.id);
+        sugWrap.appendChild(chip);
+      });
+      areaWrap.appendChild(sugWrap);
     }
-    pDiv.appendChild(pHdr);pDiv.appendChild(pBody);cPrinc.appendChild(pDiv);
+    cComp.appendChild(areaWrap);
   });
-  p.appendChild(cPrinc);
 
+  p.appendChild(cComp);
+
+  // ── NAVEGACIÓN: GUARDAR COMPROMISOS Y CONTINUAR ──────────────────────
   var nav=mk("div","nav");
   var pb2=mk("button","bn","Anterior");pb2.onclick=function(){irA(1);};
-  var pn=mk("button","bp","Mis acciones \u2192");pn.onclick=function(){bAcciones();irA(3);};
+  var pn=mk("button","bp","Guardar mi plan y continuar \u2192");
+  pn.onclick=function(){
+    // Guardar todos los compromisos escritos
+    var comps={};
+    criticas.forEach(function(a){
+      var t=document.getElementById('comp-'+a.id);
+      if(t&&t.value.trim()){comps[a.id]={nombre:a.nombre,texto:t.value.trim(),fecha:new Date().toISOString()};}
+    });
+    localStorage.setItem('anormal_compromisos_areas',JSON.stringify(comps));
+    // Guardar resultado de la rueda
+    if(window.ANORMAL){
+      ANORMAL.saveFaseModulo('rueda',{
+        nombre:S.nombre,diagnostico:S.diagnostico,
+        nivel:nivelActual.nivel,compromisos:comps,
+        areas:(window.AREAS||[]).map(function(a){return {id:a.id,nombre:a.nombre,puntaje:S.diagnostico[a.id]||null};})
+      });
+    }
+    // Ir a los principios nuevos (perdón, dolor, miedo)
+    bPrincipiosNuevos();irA(3);
+  };
   nav.appendChild(pb2);nav.appendChild(pn);p.appendChild(nav);
 }
 
@@ -1208,114 +1148,100 @@ function renderAcciones(areaId,container){
   });
 }
 
-function bAcciones(){
+function bPrincipiosNuevos(){
   var p=ge("p3");p.innerHTML="";
-  var badge=mk("div","pbadge");badge.appendChild(mk("div","pbadge-q","Mis acciones de crecimiento"));p.appendChild(badge);
+  var badge=mk("div","pbadge");badge.appendChild(mk("div","pbadge-q","Los principios que se activan ahora"));p.appendChild(badge);
   var ph=mk("div","ph");
-  ph.appendChild(mk("div","ph-t","Tus acciones conectadas a las áreas"));
-  ph.appendChild(mk("div","ph-d","Estas son las 5 acciones prioritarias que definiste al inicio, conectadas a las áreas que impactan. Marca las que vayas cumpliendo."));
+  ph.appendChild(mk("div","ph-t","Ahora que conoces tu origen"));
+  ph.appendChild(mk("div","ph-d","Estos tres principios no se podían activar antes — porque requieren que primero entendieras tu historia. Ahora sí. Léelos con calma y comprométete con cada uno."));
   p.appendChild(ph);dmsg(p);
 
-  var lineaEleg = localStorage.getItem('anormal_linea') || '';
-  var priorid = [];
-  try { priorid = JSON.parse(localStorage.getItem('anormal_prioridades') || '[]'); } catch(e){}
-  var acciones = [];
-  try { acciones = JSON.parse(localStorage.getItem('anormal_acciones') || '[]'); } catch(e){}
-  var cumplidas = {};
-  try { cumplidas = JSON.parse(localStorage.getItem('anormal_cumplidas') || '{}'); } catch(e){}
+  var lineaEleg=localStorage.getItem('anormal_linea')||'';
+  var PRINC_NUEVOS=[
+    {n:2,titulo:"\u2200vanza en el perd\u00f3n",color:"#D4537E",
+     exige:"Sin perd\u00f3n no hay transformaci\u00f3n real. Puedes completar todos los ejercicios — pero si cargas resentimiento, el proceso no puede hacer su trabajo. El perd\u00f3n que se pide en \u2200normal no es olvidar lo que ocurri\u00f3. Es dejar de cargar un peso que solo te pesa a ti.",
+     voz:"\"Perdona y ser\u00e1s perdonado. La medida que uses para medir a otros se usar\u00e1 para medirte a ti.\"\n\nEl resentimiento es costoso para quien lo carga, no para quien lo merece. Avanzar en el perd\u00f3n no es un acto de bondad hacia el otro — es el acto m\u00e1s estrat\u00e9gico que puedes hacer por ti mismo.",
+     accion:"\u00bfA qui\u00e9n necesitas perdonar? Escribe su nombre y una raz\u00f3n para soltar."},
+    {n:3,titulo:"\u2200provecha el dolor",color:"#D4537E",
+     exige:"El dolor que emerja en este proceso no es se\u00f1al de que algo sale mal. Es la se\u00f1al de que algo est\u00e1 cambiando. No te detengas cuando aparezca — atravi\u00e9salo con la certeza de que del otro lado est\u00e1 la informaci\u00f3n que necesitas para transformarte.",
+     voz:"\"El que pierde su vida la encontrar\u00e1. No hay transformaci\u00f3n sin entrega.\"\n\nHay un enemigo interno m\u00e1s dif\u00edcil que cualquier obst\u00e1culo externo: el dolor que evitas. El que atraviesas pierde su poder. El que evitas, crece. Yo lo comprob\u00e9 con mi propia historia.",
+     accion:"\u00bfQu\u00e9 dolor de tu vida puedes convertir hoy en aprendizaje? N\u00f3mbralo."},
+    {n:6,titulo:"\u2200taca el miedo",color:"#E8C96A",
+     exige:"Declarar qui\u00e9n eres y para qu\u00e9 est\u00e1s aqu\u00ed activa todos los miedos. Eso es normal y es buena se\u00f1al — significa que lo que est\u00e1s diciendo es real y tiene peso. La \u00fanica respuesta \u2200normal ante ese miedo es seguir avanzando. No esperar a no tener miedo. Actuar con miedo.",
+     voz:"\"No tengas miedo. Ya est\u00e1 vencido lo que crees que te detiene.\"\n\nEl miedo que sientes ante lo que vas a descubrir no es una advertencia — es la se\u00f1al de que est\u00e1s exactamente en el camino correcto. Yo tambi\u00e9n lo sent\u00ed. Y segu\u00ed.",
+     accion:"\u00bfQu\u00e9 has postergado por miedo? Escribe una acci\u00f3n peque\u00f1a para hoy."}
+  ];
 
-  var lc = {salud:'#4ABF7A',dinero:'#C9A84C',amor:'#D4537E'};
-  var ll = {salud:'Salud',dinero:'Dinero',amor:'Amor'};
+  var aceptados={};
+  try{aceptados=JSON.parse(localStorage.getItem('anormal_principios_nuevos')||'{}');}catch(e){}
 
-  if (priorid.length > 0 && acciones.length > 0) {
-    var cprior = mk("div","card gold");
-    var titPrior = mk("div","cl","Tus 5 compromisos");
-    titPrior.style.marginBottom = "12px";
-    cprior.appendChild(titPrior);
-    var notaConex = mk("div","ct");
-    notaConex.style.marginBottom = "14px";
-    notaConex.textContent = lineaEleg ? "Elegiste la línea de "+ll[lineaEleg]+". Estas acciones impactan directamente esa área — y por conexión, todas las demás." : "Estas son las acciones con las que te comprometiste.";
-    cprior.appendChild(notaConex);
-    priorid.forEach(function(num, i){
-      var acc = acciones.find(function(a){ return a.num === num; });
-      if (!acc) return;
-      var key = 'acc_'+num;
-      var row = mk("div");
-      row.style.cssText = "display:flex;align-items:flex-start;gap:12px;padding:12px 14px;background:var(--bg3);border-radius:var(--rm);margin-bottom:8px;cursor:pointer;border:1px solid var(--faint);transition:all .2s";
-      if (cumplidas[key]) { row.style.borderColor = lc[lineaEleg]||'var(--grn)'; row.style.background = 'rgba(74,191,122,.06)'; }
-      var chk = mk("div");
-      chk.style.cssText = "min-width:22px;height:22px;border-radius:50%;border:2px solid "+(lc[lineaEleg]||'var(--gold)')+";display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;margin-top:1px;transition:all .2s";
-      chk.style.background = cumplidas[key] ? (lc[lineaEleg]||'var(--grn)') : 'transparent';
-      chk.style.color = cumplidas[key] ? 'var(--bg)' : 'transparent';
-      chk.textContent = '✓';
-      var badge2 = mk("span");
-      badge2.style.cssText = "background:"+(lc[lineaEleg]||'var(--gold)')+";color:var(--bg);font-size:10px;font-weight:600;padding:2px 7px;border-radius:10px;min-width:20px;text-align:center";
-      badge2.textContent = (i+1);
-      var txt = mk("div");
-      var txtNombre = mk("div");
-      txtNombre.style.cssText = "font-size:13px;color:var(--text);line-height:1.5;margin-bottom:3px";
-      txtNombre.textContent = acc.texto;
-      var txtLinea = mk("div");
-      txtLinea.style.cssText = "font-size:11px;color:"+(lc[lineaEleg]||'var(--dim)');
-      txtLinea.textContent = "Impacta: "+(ll[lineaEleg]||'tu proceso');
-      txt.appendChild(txtNombre);
-      txt.appendChild(txtLinea);
-      row.appendChild(chk);
-      row.appendChild(badge2);
-      row.appendChild(txt);
-      (function(k, r, c2){
-        r.onclick = function(){
-          cumplidas[k] = !cumplidas[k];
-          localStorage.setItem('anormal_cumplidas', JSON.stringify(cumplidas));
-          bAcciones();
-        };
-      })(key, row, chk);
-      cprior.appendChild(row);
-    });
-    var cumTotal = Object.values(cumplidas).filter(Boolean).length;
-    var pctText = mk("div");
-    pctText.style.cssText = "font-size:12px;color:var(--dim);text-align:right;margin-top:8px";
-    pctText.textContent = cumTotal + " de " + priorid.length + " compromisos cumplidos";
-    cprior.appendChild(pctText);
-    p.appendChild(cprior);
-  } else {
-    var cVacio = mk("div","card");
-    cVacio.appendChild(mk("div","cl","Sin acciones definidas"));
-    cVacio.appendChild(mk("div","ct","Regresa al módulo de entrada para definir tus 21 acciones y elegir las 5 prioritarias."));
-    p.appendChild(cVacio);
-  }
+  PRINC_NUEVOS.forEach(function(pr){
+    var aceptado=!!aceptados[pr.n];
+    var card=mk("div","card");
+    card.style.cssText+=";margin-bottom:14px;border-left:4px solid "+pr.color+(aceptado?";background:rgba(74,191,122,.04)":"");
 
-  // Agregar acciones adicionales por área (las pautas del diagnóstico)
-  var cadicionales = mk("div","card dark");
-  var titAd = mk("div","cl","Acciones sugeridas por área");
-  cadicionales.appendChild(titAd);
-  var notaAd = mk("div","ct");
-  notaAd.style.marginBottom = "14px";
-  notaAd.textContent = "Además de tus compromisos, estas son acciones concretas para cada área según tu diagnóstico.";
-  cadicionales.appendChild(notaAd);
-  (window.AREAS||[]).forEach(function(area){
-    var extra = AREAS_EXTRA[area.id]||{};
-    if (!extra.pautas) return;
-    var areaDiv = mk("div");
-    areaDiv.style.cssText = "margin-bottom:12px;border-left:3px solid "+area.color+";padding-left:12px";
-    var aNom = mk("div");
-    aNom.style.cssText = "font-size:12px;font-weight:500;color:"+area.color+";margin-bottom:6px";
-    aNom.textContent = area.nombre;
-    areaDiv.appendChild(aNom);
-    extra.pautas.forEach(function(pauta){
-      var pRow = mk("div");
-      pRow.style.cssText = "font-size:12px;color:var(--dim);line-height:1.6;margin-bottom:3px;padding-left:8px";
-      pRow.textContent = "— " + pauta;
-      areaDiv.appendChild(pRow);
-    });
-    cadicionales.appendChild(areaDiv);
+    // Número y título grande
+    var numDiv=mk("div");numDiv.style.cssText="font-family:'Cormorant Garamond',serif;font-size:44px;font-weight:300;color:"+pr.color+";line-height:1;margin-bottom:4px";numDiv.textContent="\u2200"+pr.n;
+    card.appendChild(numDiv);
+    var titDiv=mk("div");titDiv.style.cssText="font-family:'Cormorant Garamond',serif;font-size:24px;color:"+pr.color+";margin-bottom:14px";titDiv.textContent=pr.titulo;
+    card.appendChild(titDiv);
+
+    // Exigencia
+    var sep1=mk("div");sep1.style.cssText="height:1px;background:var(--faint);margin-bottom:12px";card.appendChild(sep1);
+    var exLabel=mk("div");exLabel.style.cssText="font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:"+pr.color+";margin-bottom:6px";exLabel.textContent="No negociable";card.appendChild(exLabel);
+    var exDiv=mk("div");exDiv.style.cssText="font-size:14.5px;color:var(--text);line-height:1.8;margin-bottom:16px";exDiv.textContent=pr.exige;card.appendChild(exDiv);
+
+    // Voz que acompaña
+    var vozWrap=mk("div");vozWrap.style.cssText="padding:14px 16px;background:var(--bg3);border-left:3px solid "+pr.color+";border-radius:0 var(--rm) var(--rm) 0;margin-bottom:16px";
+    var vozLabel=mk("div");vozLabel.style.cssText="font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:8px";vozLabel.textContent="Una voz que me acompaña";vozWrap.appendChild(vozLabel);
+    var vozTxt=mk("div");vozTxt.style.cssText="font-size:14px;color:var(--dim);line-height:1.8;white-space:pre-line;font-style:italic";vozTxt.textContent=pr.voz;vozWrap.appendChild(vozTxt);
+    card.appendChild(vozWrap);
+
+    // Botón de compromiso
+    if(!aceptado){
+      var btnComp=mk("button","bp","Me comprometo con este principio");btnComp.style.cssText+=";width:100%;justify-content:center";
+      (function(princ){btnComp.onclick=function(){
+        aceptados[princ.n]=true;
+        localStorage.setItem('anormal_principios_nuevos',JSON.stringify(aceptados));
+        var pts=parseInt(localStorage.getItem('anormal_puntos_conciencia')||'0');
+        pts+=5;localStorage.setItem('anormal_puntos_conciencia',pts);
+        bPrincipiosNuevos();
+        // Mantener scroll position - no saltar arriba
+        setTimeout(function(){
+          var cards=document.querySelectorAll('#p3 .card');
+          var idx=princ.n===2?0:princ.n===3?1:2;
+          if(cards[idx])cards[idx].scrollIntoView({behavior:'smooth',block:'center'});
+        },100);
+      };})(pr);
+      card.appendChild(btnComp);
+    }else{
+      var aceptadoDiv=mk("div");aceptadoDiv.style.cssText="display:flex;align-items:center;gap:8px;padding:10px 14px;background:rgba(74,191,122,.08);border-radius:var(--rm);color:var(--grn);font-size:14px";
+      aceptadoDiv.innerHTML="\u2713 Te comprometiste con este principio";
+      card.appendChild(aceptadoDiv);
+    }
+    p.appendChild(card);
   });
-  p.appendChild(cadicionales);
 
+  var totalAceptados=Object.keys(aceptados).length;
   var nav=mk("div","nav");
-  var pb2=mk("button","bs","← Anterior");pb2.onclick=function(){irA(2);};
-  var pn=mk("button","bp","Ir al check-in de 30 días");pn.onclick=function(){bCheckin();irA(4);};
+  var pb2=mk("button","bn","Anterior");pb2.onclick=function(){irA(2);};
+  var pn=mk("button","bp","Finalizar la Sesión 1 \u2192");
+  pn.disabled=totalAceptados<3;
+  pn.onclick=function(){
+    if(window.ANORMAL){ANORMAL.markComplete&&ANORMAL.markComplete('rueda');}
+    window.location.href='brujula-proposito.html';
+  };
   nav.appendChild(pb2);nav.appendChild(pn);p.appendChild(nav);
+  if(totalAceptados<3){
+    var aviso=mk("div");aviso.style.cssText="font-size:12px;color:var(--dim);text-align:center;margin-top:8px";
+    aviso.textContent="Comprométete con los 3 principios para finalizar la sesión";
+    p.appendChild(aviso);
+  }
+}
+
+function bAcciones(){
+  // Función legacy - redirige a principios nuevos
+  bPrincipiosNuevos();
 }
 
 // ── P4: CHECK-IN 30 DIAS ─────────────────────────────────────
