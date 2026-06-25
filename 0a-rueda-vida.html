@@ -1048,24 +1048,24 @@ function bRueda(){
   var puntosAcum=0;try{puntosAcum=parseInt(localStorage.getItem('anormal_puntos_conciencia')||'0');}catch(e){}
 
   var accsLinea={
-    salud:["¿Por qué estás agradecido con tu cuerpo hoy? Escríbelo aunque te cueste.",
-           "¿Qué emoción relacionada con tu salud necesitas soltar hoy?",
-           "¿Qué síntoma puede ser un mensaje de tu cuerpo? ¿Qué te dice?",
-           "De tus compromisos de salud, ¿cuál cumples HOY? Con hora.",
-           "¿Qué mejoría pequeña de tu salud puedes reconocer hoy?",
-           "¿Qué hábito de salud has postergado por miedo? Escribe un paso para hoy."],
-    dinero:["¿Por qué estás agradecido con lo que tienes HOY — aunque no sea suficiente?",
-            "¿A qué persona o situación de dinero necesitas perdonar hoy?",
-            "¿Qué bloqueo económico puede estar enseñándote algo valioso?",
-            "De tus compromisos de finanzas, ¿cuál cumples HOY? Con hora.",
-            "¿Qué resultado positivo en tu economía puedes reconocer hoy?",
-            "¿Qué oportunidad económica has evitado por miedo? Un paso hoy."],
-    amor:["¿Por qué estás agradecido con las personas en tu vida HOY?",
-          "¿A quién necesitas perdonar hoy para liberar tu capacidad de amar?",
-          "¿Qué dificultad relacional puede estar enseñándote algo sobre ti?",
-          "De tus compromisos de relaciones, ¿cuál cumples HOY? Con hora.",
-          "¿Qué conexión positiva con alguien puedes reconocer hoy?",
-          "¿Qué conversación has evitado por miedo? El primer paso para hoy."]
+    salud:{1:"¿Por qué estás agradecido con tu cuerpo hoy? Escríbelo aunque te cueste.",
+           2:"¿Qué emoción o persona relacionada con tu salud necesitas perdonar hoy?",
+           3:"¿Qué síntoma puede ser un mensaje de tu cuerpo? ¿Qué te dice?",
+           4:"De tus compromisos de salud, ¿cuál cumples HOY? Con hora.",
+           5:"¿Qué mejoría pequeña de tu salud puedes reconocer hoy?",
+           6:"¿Qué hábito de salud has postergado por miedo? Escribe un paso para hoy."},
+    dinero:{1:"¿Por qué estás agradecido con lo que tienes HOY — aunque no sea suficiente?",
+            2:"¿A qué persona o situación de dinero necesitas perdonar hoy?",
+            3:"¿Qué bloqueo económico puede estar enseñándote algo valioso?",
+            4:"De tus compromisos de finanzas, ¿cuál cumples HOY? Con hora.",
+            5:"¿Qué resultado positivo en tu economía puedes reconocer hoy?",
+            6:"¿Qué oportunidad económica has evitado por miedo? Un paso hoy."},
+    amor:{1:"¿Por qué estás agradecido con las personas en tu vida HOY?",
+          2:"¿A quién necesitas perdonar hoy para liberar tu capacidad de amar?",
+          3:"¿Qué dificultad relacional puede estar enseñándote algo sobre ti?",
+          4:"De tus compromisos de relaciones, ¿cuál cumples HOY? Con hora.",
+          5:"¿Qué conexión positiva con alguien puedes reconocer hoy?",
+          6:"¿Qué conversación has evitado por miedo? El primer paso para hoy."}
   };
   var accs=accsLinea[lineaEleg]||accsLinea.salud;
 
@@ -1133,7 +1133,7 @@ function bRueda(){
     var pPts=mk("span");pPts.style.cssText="font-size:10px;color:var(--gold);background:rgba(201,168,76,.12);padding:2px 6px;border-radius:8px";pPts.textContent="+"+pr.pts;
     pHdr.appendChild(pChk);pHdr.appendChild(pNum);pHdr.appendChild(pTit2);pHdr.appendChild(pPts);
     var pBody=mk("div");pBody.className="pb";pBody.style.cssText="display:none;padding:10px 12px;background:var(--bg2);border-top:1px solid var(--faint)";
-    var pAcc=mk("div");pAcc.style.cssText="font-size:13px;color:var(--text);line-height:1.7;margin-bottom:8px";pAcc.textContent=accs[pi]||"Aplica este principio hoy.";
+    var pAcc=mk("div");pAcc.style.cssText="font-size:13px;color:var(--text);line-height:1.7;margin-bottom:8px";pAcc.textContent=accs[pr.n]||"Aplica este principio hoy.";
     pBody.appendChild(pAcc);
     if(!comp){
       var pTA=mk("textarea");pTA.id="ta-"+pr.n;pTA.placeholder="Escribe tu respuesta...";
