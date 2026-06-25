@@ -2,12 +2,25 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="refresh" content="0;url=entrada-anormal.html">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>∀normal</title>
 <style>
 body{background:#060A14;color:#EAE6DC;font-family:Georgia,serif;display:flex;align-items:center;justify-content:center;height:100vh;margin:0;text-align:center}
 </style>
+<script>
+// Redirigir según estado del participante
+(function(){
+  var contrato = localStorage.getItem('anormal_contrato_firmado');
+  var entrada = localStorage.getItem('anormal_entrada_completa');
+  if (!contrato) {
+    window.location.replace('contrato-transformacion.html');
+  } else if (!entrada) {
+    window.location.replace('entrada-anormal.html');
+  } else {
+    window.location.replace('brujula-proposito.html');
+  }
+})();
+</script>
 </head>
 <body>
 <div>
