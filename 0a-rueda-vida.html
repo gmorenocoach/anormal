@@ -903,422 +903,266 @@ function bRueda(){
   var badge=mk("div","pbadge");badge.appendChild(mk("div","pbadge-q","Mi rueda de vida"));p.appendChild(badge);
   var ph=mk("div","ph");
   ph.appendChild(mk("div","ph-t","Tu rueda hoy, "+S.nombre));
-  ph.appendChild(mk("div","ph-d","La rueda perfecta rueda suavemente. \u00bfD\u00f3nde hay desequilibrio que est\u00e1 frenando tu avance?"));
+  ph.appendChild(mk("div","ph-d","Cada área refleja exactamente donde estás. No donde quisieras estar — donde estás."));
   p.appendChild(ph);dmsg(p);
 
   var total=0;AREAS.forEach(function(a){total+=S.diagnostico[a.id]||1;});
   var prom=Math.round(total/12*10)/10;
 
+  // ── NIVEL DE CONCIENCIA ──────────────────────────────────────────────
+  var nivelMap=[
+    {min:0,  max:2.5, nivel:20,  nombre:"Vergüenza",      zona:"Zona crítica",         color:"#4A0A0A"},
+    {min:2.5,max:3.5, nivel:50,  nombre:"Apatía / Culpa", zona:"Zona crítica",         color:"#6A1010"},
+    {min:3.5,max:4.5, nivel:75,  nombre:"Tristeza",       zona:"Zona de dolor",        color:"#8A1515"},
+    {min:4.5,max:5.5, nivel:100, nombre:"Miedo",          zona:"Zona de dolor",        color:"#A03520"},
+    {min:5.5,max:6.2, nivel:150, nombre:"Ira / Rabia",    zona:"Zona de alerta",       color:"#A05A20"},
+    {min:6.2,max:6.8, nivel:175, nombre:"Orgullo",        zona:"Zona de alerta",       color:"#7A6B29"},
+    {min:6.8,max:7.5, nivel:200, nombre:"Coraje",         zona:"Zona de inflexión",    color:"#3A7A30"},
+    {min:7.5,max:8.2, nivel:250, nombre:"Neutralidad",    zona:"Zona de crecimiento",  color:"#297A4A"},
+    {min:8.2,max:8.8, nivel:310, nombre:"Disposición",    zona:"Zona de crecimiento",  color:"#2979A0"},
+    {min:8.8,max:9.3, nivel:350, nombre:"Aceptación",     zona:"Zona de éxito",        color:"#5C2FA0"},
+    {min:9.3,max:10,  nivel:400, nombre:"Razón / Amor",   zona:"Todo llega por añadidura", color:"#C9A84C"}
+  ];
+  var nivelActual=nivelMap[0];
+  for(var ni=0;ni<nivelMap.length;ni++){
+    if(prom>=nivelMap[ni].min&&prom<nivelMap[ni].max){nivelActual=nivelMap[ni];break;}
+    if(prom>=9.3){nivelActual=nivelMap[nivelMap.length-1];}
+  }
+  var nivelIdx=nivelMap.indexOf(nivelActual);
+  var nivelProyectado=nivelMap[Math.min(nivelIdx+2,nivelMap.length-1)];
+
+  // ── STATS HEADER ────────────────────────────────────────────────────
   var cstat=mk("div","card gold");cstat.style.padding="14px 16px";
   var statrow=mk("div");statrow.style.cssText="display:flex;gap:9px;flex-wrap:wrap;margin-bottom:12px";
-  [{l:"Promedio general",v:prom+"/10"},{l:"Total de puntos",v:total+"/120"},{l:"Potencial de crecimiento",v:(120-total)+" puntos"}].forEach(function(item){
-    var s=mk("div");s.style.cssText="flex:1;min-width:90px;background:var(--bg4);border-radius:var(--r);padding:10px 12px;text-align:center";
-    var sn=mk("div");sn.style.cssText="font-family:Cormorant Garamond,serif;font-size:20px;color:var(--gold2);font-weight:300;line-height:1";sn.textContent=String(item.v);
-    var sl2=mk("div");sl2.style.cssText="font-size:10px;color:var(--dim);margin-top:3px;letter-spacing:.06em;text-transform:uppercase";sl2.textContent=item.l;
-    s.appendChild(sn);s.appendChild(sl2);statrow.appendChild(s);
+  [{l:"PROMEDIO GENERAL",v:prom+"/10"},{l:"NIVEL DE CONCIENCIA",v:nivelActual.nivel+" — "+nivelActual.nombre},{l:"OBJETIVO 75 DÍAS",v:nivelProyectado.nivel+" — "+nivelProyectado.nombre}].forEach(function(item){
+    var s=mk("div");s.style.cssText="flex:1;min-width:90px;text-align:center;background:var(--bg3);border-radius:var(--rm);padding:8px 6px";
+    var sv=mk("div");sv.style.cssText="font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:400;color:var(--gold2);line-height:1.1;margin-bottom:3px";sv.textContent=item.v;
+    var sl=mk("div");sl.style.cssText="font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)";sl.textContent=item.l;
+    s.appendChild(sv);s.appendChild(sl);statrow.appendChild(s);
   });
   cstat.appendChild(statrow);
-  var rw=mk("div","rueda-wrap");rw.innerHTML=buildRuedaSVG(S.diagnostico,340);cstat.appendChild(rw);p.appendChild(cstat);
+  p.appendChild(cstat);
 
-  // ── NIVEL DE CONCIENCIA ─────────────────────────────────────────────
-  var nivelMap = [
-    {min:0,  max:2.5, nivel:20,  nombre:"Vergüenza",      zona:"Zona crítica",             color:"#4A0A0A", accion:"El primer paso es reconocer que estás aquí. Eso ya requiere valentía."},
-    {min:2.5,max:3.5, nivel:50,  nombre:"Apatía / Culpa", zona:"Zona crítica",             color:"#6A1010", accion:"Necesitas apoyo. Un paso pequeño hoy vale más que mil intenciones mañana."},
-    {min:3.5,max:4.5, nivel:75,  nombre:"Tristeza",       zona:"Zona de dolor",            color:"#8A1515", accion:"Reconocer el dolor es el inicio de la sanación. Ya estás en el camino."},
-    {min:4.5,max:5.5, nivel:100, nombre:"Miedo",          zona:"Zona de dolor",            color:"#A03520", accion:"El miedo es energía. Con los principios, lo conviertes en acción."},
-    {min:5.5,max:6.2, nivel:150, nombre:"Ira / Rabia",    zona:"Zona de alerta",           color:"#A05A20", accion:"La rabia señala que algo importa. Canalízala hacia el cambio real."},
-    {min:6.2,max:6.8, nivel:175, nombre:"Orgullo",        zona:"Zona de alerta",           color:"#7A6B29", accion:"El orgullo puede protegerte o bloquearte. La honestidad es la clave."},
-    {min:6.8,max:7.5, nivel:200, nombre:"Coraje",         zona:"Zona de inflexión",        color:"#3A7A30", accion:"Estás en el punto de inflexión. Desde aquí, cada acción cambia el resultado."},
-    {min:7.5,max:8.2, nivel:250, nombre:"Neutralidad",    zona:"Zona de crecimiento",      color:"#297A4A", accion:"Tienes la base. Ahora se trata de construir con consistencia diaria."},
-    {min:8.2,max:8.8, nivel:310, nombre:"Disposición",    zona:"Zona de crecimiento",      color:"#2979A0", accion:"Estás listo para avanzar. Los principios te llevarán más lejos de lo que imaginas."},
-    {min:8.8,max:9.3, nivel:350, nombre:"Aceptación",     zona:"Zona de éxito",            color:"#5C2FA0", accion:"Desde la aceptación, todo fluye mejor. Sostén este nivel con acciones diarias."},
-    {min:9.3,max:10,  nivel:400, nombre:"Razón / Amor",   zona:"Todo llega por añadidura", color:"#C9A84C", accion:"Cuando operas desde esta claridad, los resultados se multiplican solos."}
-  ];
-  var nivelActual = nivelMap[0];
-  for (var ni=0; ni<nivelMap.length; ni++) {
-    if (prom >= nivelMap[ni].min && prom < nivelMap[ni].max) { nivelActual = nivelMap[ni]; break; }
-    if (prom >= 9.3) { nivelActual = nivelMap[nivelMap.length-1]; }
-  }
-  var nivelIdxActual = nivelMap.indexOf(nivelActual);
-  var nivelProyectado = nivelMap[Math.min(nivelIdxActual + 2, nivelMap.length - 1)];
+  // ── LAYOUT DOS COLUMNAS: RUEDA + ESCALA ─────────────────────────────
+  var layout=mk("div");
+  layout.style.cssText="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px";
 
-  var cConc = mk("div","card");
-  cConc.style.cssText += ";border-left:4px solid "+nivelActual.color+";margin-bottom:12px";
-  var concTitle = mk("div","cl");
-  concTitle.textContent = "Tu nivel de conciencia hoy";
-  concTitle.style.color = nivelActual.color;
-  cConc.appendChild(concTitle);
+  // Columna izquierda: gráfico de la rueda
+  var colIzq=mk("div","card");colIzq.style.padding="12px";
+  var rw=mk("div","rueda-wrap");rw.innerHTML=buildRuedaSVG(S.diagnostico,280);
+  colIzq.appendChild(rw);
+  // Nivel de conciencia debajo de la rueda
+  var nivelDiv=mk("div");nivelDiv.style.cssText="margin-top:8px;padding:8px 10px;background:var(--bg3);border-radius:var(--rm);border-left:3px solid "+nivelActual.color;
+  var nivelNum=mk("div");nivelNum.style.cssText="font-family:'Cormorant Garamond',serif;font-size:28px;color:"+nivelActual.color+";line-height:1";nivelNum.textContent=nivelActual.nivel;
+  var nivelNom=mk("div");nivelNom.style.cssText="font-size:12px;font-weight:500;color:var(--text)";nivelNom.textContent=nivelActual.nombre;
+  var nivelZona=mk("div");nivelZona.style.cssText="font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);margin-bottom:4px";nivelZona.textContent=nivelActual.zona;
+  var barFondo=mk("div");barFondo.style.cssText="height:4px;background:var(--ffaint);border-radius:2px;overflow:hidden;margin-top:6px";
+  var barRell=mk("div");barRell.style.cssText="height:100%;width:"+Math.round((nivelActual.nivel-20)/(400-20)*100)+"%;background:"+nivelActual.color+";border-radius:2px";
+  barFondo.appendChild(barRell);
+  nivelDiv.appendChild(nivelZona);nivelDiv.appendChild(nivelNum);nivelDiv.appendChild(nivelNom);nivelDiv.appendChild(barFondo);
+  colIzq.appendChild(nivelDiv);
+  layout.appendChild(colIzq);
 
-  var concRow = mk("div");
-  concRow.style.cssText = "display:flex;align-items:center;gap:14px;margin-bottom:12px";
-  var concNum = mk("div");
-  concNum.style.cssText = "font-family:'Cormorant Garamond',serif;font-size:44px;font-weight:300;color:"+nivelActual.color+";line-height:1;min-width:70px";
-  concNum.textContent = nivelActual.nivel;
-  var concInfo = mk("div");
-  var concNombre = mk("div");
-  concNombre.style.cssText = "font-size:15px;font-weight:500;color:var(--text);margin-bottom:3px";
-  concNombre.textContent = nivelActual.nombre;
-  var concZona = mk("div");
-  concZona.style.cssText = "font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--dim)";
-  concZona.textContent = nivelActual.zona;
-  concInfo.appendChild(concNombre);
-  concInfo.appendChild(concZona);
-  concRow.appendChild(concNum);
-  concRow.appendChild(concInfo);
-  cConc.appendChild(concRow);
+  // Columna derecha: escala completa con nivel actual resaltado
+  var colDer=mk("div","card");colDer.style.cssText="padding:10px;overflow-y:auto;max-height:420px";
+  var escLabel=mk("div","cl","¿En qué nivel reconoces tu relación actual?");escLabel.style.marginBottom="8px";
+  colDer.appendChild(escLabel);
+  nivelMap.slice().reverse().forEach(function(nv){
+    var row=mk("div");
+    var esActual=(nv.nivel===nivelActual.nivel);
+    row.style.cssText="display:flex;gap:8px;align-items:flex-start;padding:6px 8px;border-radius:var(--r);margin-bottom:3px;transition:all .2s"+(esActual?";border:1px solid "+nv.color+";background:"+nv.color+"22":";border:1px solid transparent");
+    var nNum=mk("div");nNum.style.cssText="min-width:32px;font-family:'Cormorant Garamond',serif;font-size:14px;font-weight:"+(esActual?"500":"300")+";color:"+nv.color+";text-align:right";nNum.textContent=nv.nivel;
+    var nInfo=mk("div");nInfo.style.flex="1";
+    var nNom=mk("div");nNom.style.cssText="font-size:12px;font-weight:"+(esActual?"500":"300")+";color:"+(esActual?"var(--text)":"var(--dim)");nNom.textContent=nv.nombre;
+    var nZona=mk("div");nZona.style.cssText="font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:"+nv.color+";opacity:.7";nZona.textContent=nv.zona;
+    nInfo.appendChild(nNom);nInfo.appendChild(nZona);
+    row.appendChild(nNum);row.appendChild(nInfo);
+    colDer.appendChild(row);
+  });
+  layout.appendChild(colDer);
+  p.appendChild(layout);
 
-  var barraWrap = mk("div");
-  barraWrap.style.cssText = "margin-bottom:10px";
-  var barraMeta = mk("div");
-  barraMeta.style.cssText = "display:flex;justify-content:space-between;font-size:11px;color:var(--dim);margin-bottom:5px";
-  barraMeta.innerHTML = "<span>Nivel "+nivelActual.nivel+"</span><span>Objetivo: "+nivelProyectado.nivel+" — "+nivelProyectado.nombre+"</span>";
-  var barraFondo = mk("div");
-  barraFondo.style.cssText = "height:6px;background:var(--ffaint);border-radius:3px;overflow:hidden";
-  var barraRelleno = mk("div");
-  var pct = Math.round((nivelActual.nivel - 20) / (400 - 20) * 100);
-  barraRelleno.style.cssText = "height:100%;width:"+pct+"%;background:"+nivelActual.color+";border-radius:3px";
-  barraFondo.appendChild(barraRelleno);
-  barraWrap.appendChild(barraMeta);
-  barraWrap.appendChild(barraFondo);
-  cConc.appendChild(barraWrap);
-
-  var concAccion = mk("div");
-  concAccion.style.cssText = "font-size:13px;color:var(--dim);line-height:1.7;padding:10px 12px;background:var(--bg3);border-radius:var(--rm);margin-bottom:8px";
-  concAccion.textContent = nivelActual.accion;
-  cConc.appendChild(concAccion);
-
-  var concProy = mk("div");
-  concProy.style.cssText = "font-size:12px;color:var(--dim);padding-top:8px;border-top:1px solid var(--faint)";
-  concProy.innerHTML = "Cada acción que cumples, cada principio que aplicas, sube tu nivel. En 75 días el objetivo es llegar al nivel <strong style='color:"+nivelProyectado.color+"'>"+nivelProyectado.nivel+" — "+nivelProyectado.nombre+"</strong>.";
-  cConc.appendChild(concProy);
-  p.appendChild(cConc);
-
-  // Frase de motivación
-  var frasesMot = [
-    "Pide y se te dará; busca y encontrarás; toca y se te abrirá la puerta. El que busca con el corazón, halla.",
-    "La verdad os hará libres. Ver con honestidad dónde estás hoy es el acto más valiente que puedes hacer.",
-    "El que persevera hasta el final, ese será salvo. Tu nivel de hoy no es tu destino — es tu punto de partida.",
-    "Todo el que pide recibe; el que busca halla; al que llama, se le abrirá. Aplica cada principio y observa lo que cambia.",
-    "No son los sanos los que necesitan médico, sino los enfermos. El primer paso es reconocer que necesitas sanar y decidir hacer algo al respecto.",
-    "No se pone una vela encendida bajo un cajón. Lo que descubras sobre ti en este proceso no es para guardarlo — es para vivirlo."
-  ];
-  var fraseMot = frasesMot[Math.floor(Math.random() * frasesMot.length)];
-  var cFrase = mk("div");
-  cFrase.style.cssText = "padding:16px 18px;border-left:3px solid var(--gold);background:var(--bg3);border-radius:0 var(--rl) var(--rl) 0;margin-bottom:12px";
-  var fraseTxt = mk("div");
-  fraseTxt.style.cssText = "font-family:'Cormorant Garamond',serif;font-size:16px;font-style:italic;color:var(--gold2);line-height:1.7;margin-bottom:6px";
-  fraseTxt.textContent = "\"" + fraseMot + "\"";
-  cFrase.appendChild(fraseTxt);
-  p.appendChild(cFrase);
-
-  // ── FIN NIVEL DE CONCIENCIA ──────────────────────────────────────────
-
+  // ── PUNTO 4: TEXTO EXPLICATIVO DE LA GRÁFICA ────────────────────────
+  var lineaEleg=localStorage.getItem('anormal_linea')||'';
+  var lc={salud:'#4ABF7A',dinero:'#C9A84C',amor:'#D4537E'};
+  var ll={salud:'Salud',dinero:'Dinero',amor:'Amor'};
 
   var sorted=[].concat(AREAS).sort(function(a,b){return (S.diagnostico[a.id]||1)-(S.diagnostico[b.id]||1);});
-  var criticas=sorted.slice(0,3);var fuertes=sorted.slice(9).reverse();
+  var criticas=sorted.slice(0,3);
+  var areasLineaBajas=sorted.filter(function(a){return a.linea===lineaEleg&&(S.diagnostico[a.id]||1)<6;});
 
-  var cdiag=mk("div","card");
-  var cl1=mk("div","cl","Las 3 \u00e1reas que m\u00e1s necesitan tu atenci\u00f3n");cl1.style.color="#BF4A4A";cdiag.appendChild(cl1);
+  var cExplica=mk("div","card");cExplica.style.marginBottom="12px";
+  var exTit=mk("div","cl","Lo que tu rueda te está diciendo");exTit.style.color="var(--gold)";cExplica.appendChild(exTit);
+
+  // Mensaje de interconexión personalizado
+  var msgConex=mk("div","ct");msgConex.style.marginBottom="10px";
+  if(lineaEleg&&areasLineaBajas.length>0){
+    var nomAreas=areasLineaBajas.map(function(a){return a.nombre;}).join(", ");
+    msgConex.textContent="Elegiste trabajar tu "+ll[lineaEleg]+". Tienes "+areasLineaBajas.length+" área(s) de esa línea por debajo de 6: "+nomAreas+". Ahí está el foco de este proceso.";
+  } else if(lineaEleg){
+    msgConex.textContent="Las áreas de tu línea de "+ll[lineaEleg]+" están en un nivel razonable. El trabajo es profundizar desde la conciencia, no solo desde los números.";
+  } else {
+    msgConex.textContent="Tu diagnóstico muestra "+criticas.length+" áreas que necesitan más atención. Ese desequilibrio es tu punto de partida, no un fracaso.";
+  }
+  cExplica.appendChild(msgConex);
+
+  // Las 3 críticas con mensaje motivador
   criticas.forEach(function(a){
-    var row=mk("div");row.style.cssText="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.04)";
+    var row=mk("div");row.style.cssText="display:flex;align-items:center;gap:10px;padding:8px 10px;background:var(--bg3);border-radius:var(--rm);margin-bottom:6px";
     var dot=mk("div");dot.style.cssText="width:8px;height:8px;border-radius:50%;background:"+a.color+";flex-shrink:0";
-    var info=mk("div");info.style.flex="1";info.appendChild(mk("div",null,a.nombre));
-    var val=mk("div");val.style.cssText="font-family:Cormorant Garamond,serif;font-size:20px;color:#BF4A4A;font-weight:300";val.textContent=String(S.diagnostico[a.id]||1)+"/10";
-    row.appendChild(dot);row.appendChild(info);row.appendChild(val);cdiag.appendChild(row);
+    var info=mk("div");info.style.flex="1";
+    var nom=mk("div");nom.style.cssText="font-size:13px;color:var(--text)";nom.textContent=a.nombre;
+    var val=mk("div");val.style.cssText="font-size:11px;color:var(--dim)";
+    var score=S.diagnostico[a.id]||1;
+    val.textContent="Calificaste "+score+"/10 — "+(score<=3?"Necesita atención urgente":score<=5?"Hay trabajo por hacer":"Sólido, puede crecer más");
+    info.appendChild(nom);info.appendChild(val);
+    row.appendChild(dot);row.appendChild(info);
+    cExplica.appendChild(row);
   });
-  var cl2=mk("div","cl","Tus 3 \u00e1reas m\u00e1s fuertes");cl2.style.cssText="color:var(--grn);margin-top:12px";cdiag.appendChild(cl2);
-  fuertes.forEach(function(a){
-    var row=mk("div");row.style.cssText="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.04)";
-    var dot=mk("div");dot.style.cssText="width:8px;height:8px;border-radius:50%;background:"+a.color+";flex-shrink:0";
-    var info=mk("div");info.style.flex="1";info.appendChild(mk("div",null,a.nombre));
-    var val=mk("div");val.style.cssText="font-family:Cormorant Garamond,serif;font-size:20px;color:var(--grn);font-weight:300";val.textContent=String(S.diagnostico[a.id]||1)+"/10";
-    row.appendChild(dot);row.appendChild(info);row.appendChild(val);cdiag.appendChild(row);
-  });
-  p.appendChild(cdiag);
 
-  // Mensaje motivacional personalizado
-  var msgT,msgD,msgCol;
-  if(prom>=8){msgCol="var(--grn)";msgT="Est\u00e1s en un momento poderoso";msgD="Tu promedio refleja una vida con bases s\u00f3lidas. El proceso que viene no es para arreglar algo \u2014 es para llevar lo bueno a lo extraordinario.";}
-  else if(prom>=5){msgCol="var(--gold2)";msgT="Est\u00e1s en el punto exacto para transformarte";msgD="Las personas que m\u00e1s crecen parten desde la honestidad, no desde la perfecci\u00f3n. Tienes fortalezas reales y espacios de crecimiento concretos.";}
-  else{msgCol="var(--acc)";msgT="Tu valent\u00eda de ver la verdad es el primer paso";msgD="Las transformaciones m\u00e1s profundas vienen de los diagn\u00f3sticos m\u00e1s honestos. El dolor que sientes al ver algunas \u00e1reas bajas es la energ\u00eda que mueve el proceso.";}
-  var cmsg=mk("div","card");cmsg.style.borderLeft="3px solid "+msgCol;
-  var cmt=mk("div");cmt.style.cssText="font-family:Cormorant Garamond,serif;font-size:17px;font-weight:300;margin-bottom:8px";cmt.style.color=msgCol;cmt.textContent=msgT;
-  cmsg.appendChild(cmt);cmsg.appendChild(mk("div","ct",msgD));p.appendChild(cmsg);
+  // Proyección motivadora
+  var proyDiv=mk("div");proyDiv.style.cssText="margin-top:10px;padding:10px 12px;background:var(--bg3);border-left:3px solid "+(lc[lineaEleg]||'var(--gold)')+";border-radius:0 var(--rm) var(--rm) 0";
+  proyDiv.innerHTML="Cada acción que tomas en tu línea de <strong style='color:"+(lc[lineaEleg]||'var(--gold)')+"'>"+(ll[lineaEleg]||'trabajo')+"</strong> mueve el nivel de conciencia hacia arriba. El objetivo en 75 días: nivel <strong style='color:"+nivelProyectado.color+"'>"+nivelProyectado.nivel+" — "+nivelProyectado.nombre+"</strong>.";
+  cExplica.appendChild(proyDiv);
+  p.appendChild(cExplica);
 
-  // Hoja de ruta
-  var cruta=mk("div","card gold");cruta.appendChild(mk("div","cl","Lo que \u2200normal te va a dar"));
-  cruta.appendChild(mk("div","ct","Cada m\u00f3dulo del proceso est\u00e1 dise\u00f1ado para impactar directamente en las \u00e1reas que acabas de calificar."));
-  [{fase:"Fase 1 \u00b7 \u00bfQui\u00e9n soy?",imp:"Claridad sobre qui\u00e9n eres, c\u00f3mo te relacionas y qu\u00e9 valores deben guiar tus decisiones.",col:"var(--pur)"},
-   {fase:"Fase 2 \u00b7 \u00bfD\u00f3nde estoy?",imp:"Entiende el momento de vida que transitas y las heridas que necesitan sanaci\u00f3n.",col:"var(--acc)"},
-   {fase:"Fase 3 \u00b7 \u00bfPara qu\u00e9 estoy aqu\u00ed?",imp:"Cuando sabes para qu\u00e9 est\u00e1s, el trabajo deja de ser carga y se convierte en expresi\u00f3n.",col:"var(--gold2)"},
-   {fase:"Fase 4 \u00b7 \u00bfHacia d\u00f3nde voy?",imp:"Convierte la visi\u00f3n en acci\u00f3n concreta con metas por ciclo.",col:"var(--grn)"}
-  ].forEach(function(mod){
-    var blk=mk("div");blk.style.cssText="background:var(--bg4);border-radius:var(--rm);padding:11px 13px;margin-bottom:7px;border-left:3px solid "+mod.col;
-    var ft=mk("div");ft.style.cssText="font-size:10px;letter-spacing:.14em;text-transform:uppercase;font-weight:500;margin-bottom:3px";ft.style.color=mod.col;ft.textContent=mod.fase;
-    blk.appendChild(ft);blk.appendChild(mk("div","ct",mod.imp));cruta.appendChild(blk);
-  });
-  p.appendChild(cruta);
-
-  // Principios conectados a la linea elegida
-  var lineaGuardada = localStorage.getItem('anormal_linea') || '';
-  var prioridadesGuardadas = [];
-  try { prioridadesGuardadas = JSON.parse(localStorage.getItem('anormal_prioridades') || '[]'); } catch(e){}
-  var accionesGuardadas = [];
-  try { accionesGuardadas = JSON.parse(localStorage.getItem('anormal_acciones') || '[]'); } catch(e){}
-
-  var caccion=mk("div","card acc");
-  var titPrinc = mk("div","cl b","Tus principios de entrada");
-  titPrinc.style.color = "var(--gold)";
-  caccion.appendChild(titPrinc);
-  caccion.appendChild(mk("div","ct","Estos son los 6 principios que aceptaste. Cada vez que sientas que quieres rendirte, vuelve a leerlos."));
-
-  var PRINC_MINI = [
-    {n:1,t:"\u2200gradecer",c:"#C9A84C"},
-    {n:2,t:"\u2200vanza en el perd\u00f3n",c:"#D4537E"},
-    {n:3,t:"\u2200provecha el dolor",c:"#D4537E"},
-    {n:4,t:"\u2200p\u00fantale al compromiso",c:"#C9A84C"},
-    {n:5,t:"\u2200prende a normalizar lo extraordinario",c:"#9B7FD4"},
-    {n:6,t:"\u2200taca el miedo",c:"#E8C96A"},
+  // ── FRASE DE MOTIVACIÓN ──────────────────────────────────────────────
+  var frasesMot=[
+    "\"Pide y se te dará; busca y encontrarás; toca y se te abrirá la puerta.\" — El que actúa con fe mueve montañas.",
+    "\"La verdad os hará libres.\" — Ver con honestidad dónde estás hoy es el acto más valiente que puedes hacer.",
+    "\"El que persevera hasta el final, ese será salvo.\" — Tu nivel de hoy no es tu destino. Es tu punto de partida.",
+    "\"No son los sanos los que necesitan médico, sino los enfermos.\" — Reconocer que necesitas sanar es la primera victoria.",
+    "\"No se pone una vela bajo un cajón, sino sobre el candelero.\" — Lo que descubras aquí no es para guardarlo. Es para vivirlo.",
+    "\"Quien cree hace obras mayores de las que imagina.\" — Aplica cada principio y observa lo que cambia en ti."
   ];
-  var gridPrinc = mk("div");
-  gridPrinc.style.cssText = "display:flex;flex-direction:column;gap:6px;margin:12px 0";
-  PRINC_MINI.forEach(function(p){
-    var row = mk("div");
-    row.style.cssText = "display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--bg3);border-radius:var(--rm);border-left:3px solid "+p.c;
-    var num = mk("span");
-    num.style.cssText = "font-family:'Cormorant Garamond',serif;font-size:16px;color:"+p.c+";min-width:28px;font-weight:400";
-    num.textContent = "\u2200"+p.n;
-    var txt = mk("span");
-    txt.style.cssText = "font-size:12px;color:var(--text)";
-    txt.textContent = p.t;
-    row.appendChild(num);
-    row.appendChild(txt);
-    gridPrinc.appendChild(row);
-  });
-  caccion.appendChild(gridPrinc);
+  var cFrase=mk("div");cFrase.style.cssText="padding:14px 18px;border-left:3px solid var(--gold);background:var(--bg3);border-radius:0 var(--rl) var(--rl) 0;margin-bottom:12px";
+  var fraseTxt=mk("div");fraseTxt.style.cssText="font-family:'Cormorant Garamond',serif;font-size:15px;font-style:italic;color:var(--gold2);line-height:1.7";
+  fraseTxt.textContent=frasesMot[Math.floor(Math.random()*frasesMot.length)];
+  cFrase.appendChild(fraseTxt);p.appendChild(cFrase);
 
-  if (prioridadesGuardadas.length > 0 && accionesGuardadas.length > 0) {
-    var sepPrior = mk("div","cl b","Tus 5 acciones prioritarias");
-    sepPrior.style.cssText = "font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin:14px 0 8px";
-    caccion.appendChild(sepPrior);
-    var notaPrior = mk("div","ct","Estas son las acciones con las que te comprometiste. Aplica los principios para cumplirlas.");
-    notaPrior.style.marginBottom = "10px";
-    caccion.appendChild(notaPrior);
-    var listaPrior = mk("div");
-    listaPrior.style.cssText = "display:flex;flex-direction:column;gap:6px";
-    prioridadesGuardadas.forEach(function(num, i){
-      var acc = accionesGuardadas.find(function(a){ return a.num === num; });
-      if (!acc) return;
-      var row = mk("div");
-      row.style.cssText = "display:flex;gap:10px;align-items:flex-start;padding:8px 12px;background:var(--bg3);border-radius:var(--rm)";
-      var badge = mk("span");
-      badge.style.cssText = "background:var(--gold);color:var(--bg);font-size:10px;font-weight:600;padding:2px 7px;border-radius:10px;min-width:22px;text-align:center;margin-top:2px";
-      badge.textContent = (i+1);
-      var txt = mk("span");
-      txt.style.cssText = "font-size:13px;color:var(--text);line-height:1.5";
-      txt.textContent = acc.texto;
-      row.appendChild(badge);
-      row.appendChild(txt);
-      listaPrior.appendChild(row);
+  // ── PUNTO 5: PRINCIPIOS CONECTADOS A LA LÍNEA Y PRIORIDADES ─────────
+  var priorid=[];try{priorid=JSON.parse(localStorage.getItem('anormal_prioridades')||'[]');}catch(e){}
+  var acciones=[];try{acciones=JSON.parse(localStorage.getItem('anormal_acciones')||'[]');}catch(e){}
+  var accionesRegistradas={};try{accionesRegistradas=JSON.parse(localStorage.getItem('anormal_acciones_principios')||'{}');}catch(e){}
+  var puntosBase=nivelActual.nivel;
+  var puntosAcum=0;try{puntosAcum=parseInt(localStorage.getItem('anormal_puntos_conciencia')||'0');}catch(e){}
+
+  var accsLinea={
+    salud:["¿Por qué estás agradecido con tu cuerpo hoy? Escríbelo aunque te cueste.",
+           "¿Qué emoción relacionada con tu salud necesitas soltar hoy?",
+           "¿Qué síntoma puede ser un mensaje de tu cuerpo? ¿Qué te dice?",
+           "De tus compromisos de salud, ¿cuál cumples HOY? Con hora.",
+           "¿Qué mejoría pequeña de tu salud puedes reconocer hoy?",
+           "¿Qué hábito de salud has postergado por miedo? Escribe un paso para hoy."],
+    dinero:["¿Por qué estás agradecido con lo que tienes HOY — aunque no sea suficiente?",
+            "¿A qué persona o situación de dinero necesitas perdonar hoy?",
+            "¿Qué bloqueo económico puede estar enseñándote algo valioso?",
+            "De tus compromisos de finanzas, ¿cuál cumples HOY? Con hora.",
+            "¿Qué resultado positivo en tu economía puedes reconocer hoy?",
+            "¿Qué oportunidad económica has evitado por miedo? Un paso hoy."],
+    amor:["¿Por qué estás agradecido con las personas en tu vida HOY?",
+          "¿A quién necesitas perdonar hoy para liberar tu capacidad de amar?",
+          "¿Qué dificultad relacional puede estar enseñándote algo sobre ti?",
+          "De tus compromisos de relaciones, ¿cuál cumples HOY? Con hora.",
+          "¿Qué conexión positiva con alguien puedes reconocer hoy?",
+          "¿Qué conversación has evitado por miedo? El primer paso para hoy."]
+  };
+  var accs=accsLinea[lineaEleg]||accsLinea.salud;
+
+  var PRINC=[
+    {n:1,t:"\u2200gradecer",c:"#C9A84C",pts:5},
+    {n:2,t:"\u2200vanza en el perd\u00f3n",c:"#D4537E",pts:8},
+    {n:3,t:"\u2200provecha el dolor",c:"#D4537E",pts:6},
+    {n:4,t:"\u2200p\u00fantale al compromiso",c:"#C9A84C",pts:10},
+    {n:5,t:"\u2200normaliza lo extraordinario",c:"#9B7FD4",pts:5},
+    {n:6,t:"\u2200taca el miedo",c:"#E8C96A",pts:7}
+  ];
+
+  var cPrinc=mk("div","card");cPrinc.style.marginBottom="12px";
+  var pTit=mk("div","cl","Los principios — tu ruta de acción de hoy");pTit.style.color="var(--gold)";cPrinc.appendChild(pTit);
+
+  // Mostrar las 5 prioridades si existen
+  if(priorid.length>0&&acciones.length>0){
+    var cumplidas={};try{cumplidas=JSON.parse(localStorage.getItem('anormal_cumplidas')||'{}');}catch(e){}
+    var pSubTit=mk("div","ct");pSubTit.style.cssText="margin-bottom:10px;font-size:12px";
+    pSubTit.textContent="Tus 5 compromisos de "+ll[lineaEleg]+" — marca los que vas cumpliendo:";
+    cPrinc.appendChild(pSubTit);
+    var cumTotal=0;
+    priorid.forEach(function(num,i){
+      var acc=acciones.find(function(a){return String(a.num)===String(num);});
+      if(!acc)return;
+      var key='acc_'+num;
+      var cumplida=!!cumplidas[key];
+      if(cumplida)cumTotal++;
+      var row=mk("div");
+      row.style.cssText="display:flex;align-items:flex-start;gap:10px;padding:10px 12px;background:var(--bg3);border-radius:var(--rm);margin-bottom:6px;cursor:pointer;border:1px solid "+(cumplida?(lc[lineaEleg]||'var(--grn)'):"var(--faint)")+";transition:all .2s";
+      var chk=mk("div");chk.style.cssText="min-width:20px;height:20px;border-radius:50%;border:2px solid "+(lc[lineaEleg]||'var(--gold)')+";display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;background:"+(cumplida?(lc[lineaEleg]||'var(--grn)'):"transparent")+";color:"+(cumplida?"var(--bg)":"transparent");
+      chk.textContent="\u2713";
+      var badge=mk("span");badge.style.cssText="background:"+(lc[lineaEleg]||'var(--gold)')+";color:var(--bg);font-size:10px;font-weight:600;padding:1px 6px;border-radius:8px;min-width:18px;text-align:center";badge.textContent=(i+1);
+      var txt=mk("div");txt.style.cssText="font-size:13px;color:var(--text);line-height:1.5;flex:1";txt.textContent=acc.texto;
+      row.appendChild(chk);row.appendChild(badge);row.appendChild(txt);
+      (function(k,r){r.onclick=function(){
+        cumplidas[k]=!cumplidas[k];
+        localStorage.setItem('anormal_cumplidas',JSON.stringify(cumplidas));
+        var pts=parseInt(localStorage.getItem('anormal_puntos_conciencia')||'0');
+        pts+=cumplidas[k]?5:-5;if(pts<0)pts=0;
+        localStorage.setItem('anormal_puntos_conciencia',pts);
+        bRueda();irA(2);
+      };})(key,row);
+      cPrinc.appendChild(row);
     });
-    caccion.appendChild(listaPrior);
+    var cumLbl=mk("div");cumLbl.style.cssText="font-size:11px;color:var(--dim);text-align:right;margin-top:4px;margin-bottom:14px";
+    cumLbl.textContent=cumTotal+" de "+priorid.length+" compromisos cumplidos";
+    cPrinc.appendChild(cumLbl);
   }
 
-  p.appendChild(caccion)
+  // Principios con acciones del día
+  var pDiaTit=mk("div");pDiaTit.style.cssText="font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:8px";
+  pDiaTit.textContent="Aplica cada principio hoy — "+puntosBase+" pts base + "+(puntosAcum)+" pts acumulados";
+  cPrinc.appendChild(pDiaTit);
 
-
-  // ── PRINCIPIOS COMO RUTA DE ACCIÓN ──────────────────────────────────
-  var lineaActual = localStorage.getItem('anormal_linea') || 'salud';
-  var accionesPorLinea = {
-    salud: ["¿Por qué estás agradecido con tu cuerpo hoy? Escríbelo aunque te cueste encontrarlo.",
-            "¿A qué emoción o persona relacionada con tu salud necesitas perdonar hoy?",
-            "¿Qué síntoma o malestar puede ser un mensaje de tu cuerpo? ¿Qué te está diciendo?",
-            "De tus 5 acciones de salud, ¿cuál cumples HOY? Con hora exacta.",
-            "¿Qué mejoría pequeña de tu salud puedes reconocer hoy?",
-            "¿Qué hábito de salud has postergado por miedo? Escribe un paso que puedes dar hoy."],
-    dinero: ["¿Por qué estás agradecido con lo que tienes HOY — aunque no sea suficiente?",
-             "¿A qué persona o situación relacionada con el dinero necesitas perdonar hoy?",
-             "¿Qué bloqueo económico puede estar enseñándote algo valioso?",
-             "De tus 5 acciones de finanzas, ¿cuál cumples HOY? Con hora exacta.",
-             "¿Qué resultado positivo en tu economía puedes reconocer hoy, aunque sea pequeño?",
-             "¿Qué oportunidad económica has evitado por miedo? Escribe un paso que puedes dar hoy."],
-    amor: ["¿Por qué estás agradecido con las personas en tu vida HOY?",
-           "¿A quién necesitas perdonar hoy para liberar tu capacidad de amar?",
-           "¿Qué dificultad en tus relaciones puede estar enseñándote algo sobre ti mismo?",
-           "De tus 5 acciones de relaciones, ¿cuál cumples HOY? Con hora exacta.",
-           "¿Qué conexión positiva con alguien puedes reconocer hoy?",
-           "¿Qué conversación has evitado por miedo? Escribe el primer paso para tenerla hoy."]
-  };
-  var accsLinea = accionesPorLinea[lineaActual] || accionesPorLinea.salud;
-
-  var PRINC_RUTA = [
-    {n:1, titulo:"\u2200gradecer", accion: accsLinea[0],
-     placeholder:"Hoy agradezco...", puntos:5,
-     conexion:"La gratitud activa el sistema nervioso parasimpático. No es metáfora — cambia tu biología."},
-    {n:2, titulo:"\u2200vanza en el perdón", accion:"¿A quién necesitas perdonar hoy? Escribe su nombre y una sola razón para soltar.",
-     placeholder:"Elijo soltar el resentimiento hacia...", puntos:8,
-     conexion:"El resentimiento sostenido mantiene tu nivel de conciencia en 150 o menos. Perdonar lo sube."},
-    {n:3, titulo:"\u2200provecha el dolor", accion:accsLinea[2],
-     placeholder:"Lo que me dolió me enseñó que...", puntos:6,
-     conexion:"Cada vez que reencuadras el dolor como información, subes un escalón en la escala de conciencia."},
-    {n:4, titulo:"\u2200púntale al compromiso", accion:accsLinea[3],
-     placeholder:"Hoy a las ___ voy a...", puntos:10,
-     conexion:"El compromiso cumplido genera confianza interna — el ingrediente que más sube el nivel."},
-    {n:5, titulo:"\u2200prende a normalizar lo extraordinario", accion:accsLinea[4],
-     placeholder:"Hoy reconozco que logré...", puntos:5,
-     conexion:"Normalizar lo que logras es lo que sostiene el crecimiento a largo plazo."},
-    {n:6, titulo:"\u2200taca el miedo", accion:accsLinea[5],
-     placeholder:"Lo que he evitado y hoy haré...", puntos:7,
-     conexion:"Cada acción tomada con miedo reduce su poder sobre ti. Así funciona la escala."}
-  ];
-
-  var puntosBase = (nivelActual ? nivelActual.nivel : 100);
-  var puntosAcumulados = 0;
-  try { puntosAcumulados = parseInt(localStorage.getItem('anormal_puntos_conciencia') || '0'); } catch(e){}
-  var totalPuntos = puntosBase + puntosAcumulados;
-
-  var cRuta = mk("div","card");
-  cRuta.style.marginBottom = "12px";
-
-  var rutaTitle = mk("div","cl");
-  rutaTitle.textContent = "Los principios como ruta para subir tu nivel";
-  rutaTitle.style.color = "var(--gold)";
-  cRuta.appendChild(rutaTitle);
-
-  var rutaDesc = mk("div","ct");
-  rutaDesc.style.marginBottom = "16px";
-  rutaDesc.innerHTML = "Tu nivel actual es <strong style='color:"+(nivelActual?nivelActual.color:"var(--gold)")+"'>"+(nivelActual?nivelActual.nivel:100)+" — "+(nivelActual?nivelActual.nombre:"")+"</strong>. Cada principio que aplicas hoy suma puntos y sube tu nivel. No tienes que hacer todos — elige los que más resuenen hoy.";
-  cRuta.appendChild(rutaDesc);
-
-  // Mostrador de puntos acumulados
-  var puntosDiv = mk("div");
-  puntosDiv.style.cssText = "display:flex;align-items:center;gap:12px;padding:10px 14px;background:var(--bg3);border-radius:var(--rm);margin-bottom:14px";
-  var puntosNum = mk("div");
-  puntosNum.id = "puntos-display";
-  puntosNum.style.cssText = "font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:300;color:var(--gold2)";
-  puntosNum.textContent = totalPuntos;
-  var puntosInfo = mk("div");
-  var puntosLabel = mk("div");
-  puntosLabel.style.cssText = "font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--dim);margin-bottom:2px";
-  puntosLabel.textContent = "puntos de conciencia acumulados";
-  var puntosSub = mk("div");
-  puntosSub.id = "puntos-sublabel";
-  puntosSub.style.cssText = "font-size:12px;color:var(--dim)";
-  puntosSub.textContent = "Cada acción que completas suma puntos y sube tu nivel";
-  puntosInfo.appendChild(puntosLabel);
-  puntosInfo.appendChild(puntosSub);
-  puntosDiv.appendChild(puntosNum);
-  puntosDiv.appendChild(puntosInfo);
-  cRuta.appendChild(puntosDiv);
-
-  // Principios expandibles con registro de acción
-  var accionesRegistradas = {};
-  try { accionesRegistradas = JSON.parse(localStorage.getItem('anormal_acciones_principios') || '{}'); } catch(e){}
-
-  PRINC_RUTA.forEach(function(pr) {
-    var key = 'princ_' + pr.n + '_' + new Date().toISOString().slice(0,10);
-    var completado = !!accionesRegistradas[key];
-
-    var pDiv = mk("div");
-    pDiv.style.cssText = "margin-bottom:8px;border-radius:var(--rm);overflow:hidden;border:1px solid " +
-      (completado ? "rgba(74,191,122,.3)" : "var(--faint)");
-
-    var pHdr = mk("div");
-    pHdr.style.cssText = "display:flex;align-items:center;gap:10px;padding:12px 14px;cursor:pointer;background:" +
-      (completado ? "rgba(74,191,122,.06)" : "var(--bg3)");
-    pHdr.onclick = function() {
-      var body = pDiv.querySelector('.princ-body');
-      body.style.display = body.style.display === 'none' ? 'block' : 'none';
-    };
-
-    var pCheck = mk("div");
-    pCheck.style.cssText = "min-width:22px;height:22px;border-radius:50%;border:2px solid " +
-      (completado ? "var(--grn)" : "var(--faint)") +
-      ";display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;background:" +
-      (completado ? "var(--grn)" : "transparent") + ";color:" + (completado ? "var(--bg)" : "transparent");
-    pCheck.textContent = "\u2713";
-    pCheck.id = "check-" + pr.n;
-
-    var pNum = mk("span");
-    pNum.style.cssText = "font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--gold);min-width:28px";
-    pNum.textContent = "\u2200" + pr.n;
-    var pTit = mk("span");
-    pTit.style.cssText = "font-size:13px;font-weight:500;color:var(--text);flex:1";
-    pTit.textContent = pr.titulo;
-    var pPts = mk("span");
-    pPts.style.cssText = "font-size:11px;color:var(--gold);background:rgba(201,168,76,.15);padding:2px 8px;border-radius:10px";
-    pPts.textContent = "+" + pr.puntos + " pts";
-
-    pHdr.appendChild(pCheck);
-    pHdr.appendChild(pNum);
-    pHdr.appendChild(pTit);
-    pHdr.appendChild(pPts);
-
-    var pBody = mk("div");
-    pBody.className = "princ-body";
-    pBody.style.cssText = "display:none;padding:12px 14px;background:var(--bg2);border-top:1px solid var(--faint)";
-
-    var pAccion = mk("div");
-    pAccion.style.cssText = "font-size:13px;color:var(--text);line-height:1.7;margin-bottom:8px";
-    pAccion.textContent = pr.accion;
-    pBody.appendChild(pAccion);
-
-    var pConex = mk("div");
-    pConex.style.cssText = "font-size:12px;color:var(--dim);font-style:italic;margin-bottom:10px;padding:8px 10px;background:var(--bg3);border-radius:var(--r)";
-    pConex.textContent = pr.conexion;
-    pBody.appendChild(pConex);
-
-    if (!completado) {
-      var pTextarea = mk("textarea");
-      pTextarea.id = "ta-" + pr.n;
-      pTextarea.placeholder = pr.placeholder;
-      pTextarea.style.cssText = "width:100%;background:var(--bg3);border:1px solid var(--faint);border-radius:var(--rm);padding:10px 12px;font-size:13px;color:var(--text);font-family:Barlow,sans-serif;font-weight:300;resize:none;min-height:60px;line-height:1.6;margin-bottom:8px";
-      pTextarea.oninput = function(){ this.style.height="auto"; this.style.height=this.scrollHeight+"px"; };
-      pBody.appendChild(pTextarea);
-
-      var pBtn = mk("button","bp","Registrar mi acción +" + pr.puntos + " pts");
-      pBtn.style.cssText += ";font-size:11px;padding:9px 18px";
-      (function(princ, k, btn) {
-        btn.onclick = function() {
-          var texto = (document.getElementById('ta-' + princ.n) || {}).value || '';
-          if (texto.trim().length < 3) { alert('Escribe al menos una línea antes de registrar.'); return; }
-          accionesRegistradas[k] = { texto: texto, fecha: new Date().toISOString(), puntos: princ.puntos };
-          localStorage.setItem('anormal_acciones_principios', JSON.stringify(accionesRegistradas));
-          var ptsAcum = parseInt(localStorage.getItem('anormal_puntos_conciencia') || '0');
-          ptsAcum += princ.puntos;
-          localStorage.setItem('anormal_puntos_conciencia', ptsAcum);
-          // Actualizar el display
-          var disp = document.getElementById('puntos-display');
-          if (disp) {
-            var nuevo = puntosBase + ptsAcum;
-            disp.textContent = nuevo;
-            disp.style.color = "var(--grn)";
-            setTimeout(function(){ disp.style.color = "var(--gold2)"; }, 1000);
-          }
-          var sub = document.getElementById('puntos-sublabel');
-          if (sub) sub.textContent = "\u2713 \u2200" + princ.n + " registrado hoy. Sigue aplicando los demás principios.";
-          bRueda(); irA(2);
-        };
-      })(pr, key, pBtn);
+  PRINC.forEach(function(pr,pi){
+    var key2='princ_'+pr.n+'_'+new Date().toISOString().slice(0,10);
+    var comp=!!accionesRegistradas[key2];
+    var pDiv=mk("div");pDiv.style.cssText="margin-bottom:7px;border-radius:var(--rm);overflow:hidden;border:1px solid "+(comp?"rgba(74,191,122,.3)":"var(--faint)");
+    var pHdr=mk("div");pHdr.style.cssText="display:flex;align-items:center;gap:9px;padding:10px 12px;cursor:pointer;background:"+(comp?"rgba(74,191,122,.06)":"var(--bg3)");
+    pHdr.onclick=(function(d){return function(){var b=d.querySelector('.pb');if(b)b.style.display=b.style.display==='none'?'block':'none';};})(pDiv);
+    var pChk=mk("div");pChk.style.cssText="min-width:18px;height:18px;border-radius:50%;border:2px solid "+(comp?"var(--grn)":pr.c)+";display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;background:"+(comp?"var(--grn)":"transparent")+";color:"+(comp?"var(--bg)":"transparent");pChk.textContent="\u2713";
+    var pNum=mk("span");pNum.style.cssText="font-family:'Cormorant Garamond',serif;font-size:16px;color:"+pr.c+";min-width:24px";pNum.textContent="\u2200"+pr.n;
+    var pTit2=mk("span");pTit2.style.cssText="font-size:12px;font-weight:500;color:var(--text);flex:1";pTit2.textContent=pr.t;
+    var pPts=mk("span");pPts.style.cssText="font-size:10px;color:var(--gold);background:rgba(201,168,76,.12);padding:2px 6px;border-radius:8px";pPts.textContent="+"+pr.pts;
+    pHdr.appendChild(pChk);pHdr.appendChild(pNum);pHdr.appendChild(pTit2);pHdr.appendChild(pPts);
+    var pBody=mk("div");pBody.className="pb";pBody.style.cssText="display:none;padding:10px 12px;background:var(--bg2);border-top:1px solid var(--faint)";
+    var pAcc=mk("div");pAcc.style.cssText="font-size:13px;color:var(--text);line-height:1.7;margin-bottom:8px";pAcc.textContent=accs[pi]||"Aplica este principio hoy.";
+    pBody.appendChild(pAcc);
+    if(!comp){
+      var pTA=mk("textarea");pTA.id="ta-"+pr.n;pTA.placeholder="Escribe tu respuesta...";
+      pTA.style.cssText="width:100%;background:var(--bg3);border:1px solid var(--faint);border-radius:var(--rm);padding:9px 11px;font-size:13px;color:var(--text);font-family:Barlow,sans-serif;font-weight:300;resize:none;min-height:55px;line-height:1.6;margin-bottom:7px;outline:none";
+      pTA.oninput=function(){this.style.height="auto";this.style.height=this.scrollHeight+"px";};
+      pBody.appendChild(pTA);
+      var pBtn=mk("button","bp","Registrar +"+pr.pts+" pts");pBtn.style.cssText+=";font-size:11px;padding:8px 16px";
+      (function(princ,k){pBtn.onclick=function(){
+        var txt=(document.getElementById('ta-'+princ.n)||{}).value||'';
+        if(txt.trim().length<3){return;}
+        accionesRegistradas[k]={texto:txt,fecha:new Date().toISOString(),puntos:princ.puntos||princ.pts};
+        localStorage.setItem('anormal_acciones_principios',JSON.stringify(accionesRegistradas));
+        var pts2=parseInt(localStorage.getItem('anormal_puntos_conciencia')||'0');
+        pts2+=princ.pts;localStorage.setItem('anormal_puntos_conciencia',pts2);
+        bRueda();irA(2);
+      };})(pr,key2);
       pBody.appendChild(pBtn);
     } else {
-      var pTextoReg = mk("div");
-      pTextoReg.style.cssText = "font-size:13px;color:var(--grn);padding:10px 12px;background:rgba(74,191,122,.06);border-radius:var(--rm)";
-      pTextoReg.textContent = "\u2713 Registrado hoy: " + (accionesRegistradas[key] ? accionesRegistradas[key].texto.substring(0,80) + "..." : "");
-      pBody.appendChild(pTextoReg);
+      var pReg=mk("div");pReg.style.cssText="font-size:12px;color:var(--grn);padding:8px 10px;background:rgba(74,191,122,.06);border-radius:var(--rm)";
+      pReg.textContent="\u2713 Registrado hoy";
+      pBody.appendChild(pReg);
     }
-
-    pDiv.appendChild(pHdr);
-    pDiv.appendChild(pBody);
-    cRuta.appendChild(pDiv);
+    pDiv.appendChild(pHdr);pDiv.appendChild(pBody);cPrinc.appendChild(pDiv);
   });
-
-  p.appendChild(cRuta);
-  // ── FIN PRINCIPIOS COMO RUTA ─────────────────────────────────────────
+  p.appendChild(cPrinc);
 
   var nav=mk("div","nav");
   var pb2=mk("button","bn","Anterior");pb2.onclick=function(){irA(1);};
-  var pn=mk("button","bp","Agregar mis acciones");pn.onclick=function(){bAcciones();irA(3);};
+  var pn=mk("button","bp","Mis acciones \u2192");pn.onclick=function(){bAcciones();irA(3);};
   nav.appendChild(pb2);nav.appendChild(pn);p.appendChild(nav);
 }
 
