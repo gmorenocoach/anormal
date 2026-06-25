@@ -61,7 +61,14 @@ body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font
         <span>Yo soy</span>
         <input class="yo-soy-nombre" id="input-nombre" placeholder="____________" oninput="verificarNombre()">
       </div>
-      <p class="ct">Esta declaración es el punto de partida. No eres lo que has logrado ni lo que has fallado — eres la persona que hoy decide abrazar su esencia.</p>
+      <p class="ct" style="margin-bottom:16px">Esta declaración es el punto de partida. No eres lo que has logrado ni lo que has fallado — eres la persona que hoy decide abrazar su esencia.</p>
+      <div style="border-top:1px solid var(--ffaint);padding-top:14px">
+        <div class="label" style="margin-bottom:8px">Fecha de nacimiento</div>
+        <input id="input-fecha" type="date"
+          style="width:100%;background:var(--bg3);border:1px solid var(--faint);border-radius:var(--rm);padding:11px 14px;font-size:14px;color:var(--text);outline:none;font-family:'Barlow',sans-serif;font-weight:300"
+          onchange="verificarNombre()">
+        <p class="ct" style="font-size:11px;margin-top:6px">Tu fecha de nacimiento alimenta los cálculos numerológicos del proceso. Ingrésala tal como aparece en tu documento.</p>
+      </div>
     </div>
 
     <div class="nav">
@@ -163,8 +170,14 @@ var pantalla=0;
   var n=localStorage.getItem('anormal_nombre')||'';
   if(n){
     var inp=document.getElementById('input-nombre');
-    if(inp){inp.value=n;setTimeout(verificarNombre,100);}
+    if(inp){inp.value=n;}
   }
+  var f=localStorage.getItem('anormal_fecha_nac')||'';
+  if(f){
+    var inf=document.getElementById('input-fecha');
+    if(inf){inf.value=f;}
+  }
+  if(n||f){setTimeout(verificarNombre,100);}
   // Fecha de firma
   var hoy=new Date();
   var opciones={year:'numeric',month:'long',day:'numeric'};
@@ -197,10 +210,21 @@ function toggleComp(i){
 
 function verificarNombre(){
   var val=(document.getElementById('input-nombre').value||'').trim();
+  var fecha=(document.getElementById('input-fecha')||{}).value||'';
   var btn=document.getElementById('btn-nombre');
-  if(btn)btn.disabled=val.length<3;
+  var ok=val.length>=3 && fecha.length>0;
+  if(btn)btn.disabled=!ok;
   if(val.length>=3){
     localStorage.setItem('anormal_nombre',val);
+  }
+  if(fecha){
+    localStorage.setItem('anormal_fecha_nac',fecha);
+    var digitos=fecha.replace(/-/g,'').split('').map(Number);
+    var suma=digitos.reduce(function(a,b){return a+b;},0);
+    while(suma>9&&suma!==11&&suma!==22&&suma!==33){
+      suma=String(suma).split('').map(Number).reduce(function(a,b){return a+b;},0);
+    }
+    localStorage.setItem('anormal_numero_camino',suma);
   }
 }
 
@@ -239,7 +263,7 @@ function completarContrato(){
 }
 
 function irAlProceso(){
-  window.location.href='diagnostico-origen.html';
+  window.location.href='entrada-anormal.html';
 }
 </script>
 </body>
