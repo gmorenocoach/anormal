@@ -282,7 +282,7 @@ body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font
   <div class="pantalla" id="p3">
     <div class="label">Paso 3 de 3 — No negociables</div>
     <h1 class="titulo">Los principios que van a sostenerte</h1>
-    <p class="subtitulo">Estos 6 principios son la base del proceso. No son sugerencias — son condiciones. Léelos con atención. Cuando hagas clic en "Me comprometo", no es un gesto simbólico — es el primer acto real de ∀normal.</p>
+    <p class="subtitulo">Estos 3 principios son la base del proceso. No son sugerencias — son condiciones. Léelos con atención. Cuando hagas clic en "Me comprometo", no es un gesto simbólico — es el primer acto real de ∀normal.</p>
 
     <div class="principio-progreso" id="p-progreso"></div>
 
@@ -311,13 +311,13 @@ body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font
     <div class="completado-wrap">
       <div class="completado-icon">∀</div>
       <h1 class="completado-titulo">El proceso ha comenzado.</h1>
-      <p class="completado-texto" id="completado-texto">Has elegido tu línea de trabajo, definido tus 5 acciones prioritarias, y aceptado los 6 principios que van a sostenerte. Lo que viene ahora no es información — es transformación.</p>
+      <p class="completado-texto" id="completado-texto">Has elegido tu línea de trabajo, definido tus 5 acciones prioritarias, y aceptado los 3 principios iniciales que van a sostenerte. Lo que viene ahora no es información — es transformación.</p>
       <div class="maquia-nota" style="text-align:left;margin-bottom:28px">
         <p><strong>"Lo que estás a punto de descubrir sobre ti mismo no lo puede darte nadie más. Ningún título, ningún logro externo, ninguna validación ajena. Solo el trabajo honesto con tu propia historia."</strong></p>
         <p style="margin-top:12px;font-size:13px;color:var(--dim);line-height:1.8;">No llegaste hasta aquí porque alguien te empujó. Llegaste porque algo dentro de ti sabe que ya es tiempo. Eso ya te hace ∀normal.</p>
       </div>
       <div id="resumen-principios" style="text-align:left;margin-bottom:24px">
-        <div class="label" style="text-align:left;margin-bottom:12px">Los 6 principios que aceptaste hoy</div>
+        <div class="label" style="text-align:left;margin-bottom:12px">Los 3 principios iniciales que aceptaste hoy</div>
         <div id="lista-principios-aceptados"></div>
         <div style="margin-top:16px;background:var(--bg3);border:1px solid var(--gb);border-radius:var(--rl);padding:16px 18px">
           <div class="label" style="margin-bottom:8px">Mi compromiso</div>
@@ -361,20 +361,6 @@ var PRINCIPIOS = [
     maquia: "\"Den gracias en toda circunstancia.\"\n\nLa gratitud no es una emoción pasajera — es una decisión consciente de ver cada experiencia como parte de un proceso mayor. Quien no reconoce lo que ya tiene, no puede construir nada sólido sobre esa base. Yo lo aprendí cuando menos quería ser agradecido."
   },
   {
-    num: 2,
-    titulo: "\u2200vanza en el perd\u00f3n",
-    color: "#D4537E",
-    exige: "Sin perdón no hay transformación real. Puedes completar todos los ejercicios — pero si cargas resentimiento, el proceso no puede hacer su trabajo. El perdón que se pide en \u2200normal no es olvidar lo que ocurrió. Es dejar de cargar un peso que solo te pesa a ti.",
-    maquia: "\"Perdona y serás perdonado. La medida que uses para medir a otros se usará para medirte a ti.\"\n\nEl resentimiento es costoso para quien lo carga, no para quien lo merece. Avanzar en el perdón no es un acto de bondad hacia el otro — es el acto más estratégico que puedes hacer por ti mismo."
-  },
-  {
-    num: 3,
-    titulo: "\u2200provecha el dolor",
-    color: "#D4537E",
-    exige: "El dolor que emerja en este proceso no es señal de que algo sale mal. Es la señal de que algo está cambiando. No te detengas cuando aparezca — atraviésalo con la certeza de que del otro lado está la información que necesitas para transformarte.",
-    maquia: "\"El que pierde su vida la encontrará. No hay transformación sin entrega.\"\n\nHay un enemigo interno más difícil que cualquier obstáculo externo: el dolor que evitas. El que atraviesas pierde su poder. El que evitas, crece. Yo lo comprobé con mi propia salud."
-  },
-  {
     num: 4,
     titulo: "\u2200p\u00fantale al compromiso",
     color: "#C9A84C",
@@ -387,13 +373,6 @@ var PRINCIPIOS = [
     color: "#9B7FD4",
     exige: "Lo que descubras sobre ti en este proceso debe convertirse en tu nueva normalidad, no en un dato interesante que olvidas en una semana. Cada herramienta, cada insight, cada momento de claridad — no son revelaciones temporales. Son tu nueva forma de verte.",
     maquia: "\"Quien cree en lo que está haciendo hará obras mayores de las que imagina.\"\n\nVer algo extraordinario en ti mismo es fácil. Normalizarlo — vivirlo, aplicarlo, habitarlo — eso es lo extraordinario. \u2200normal no busca que te sorprendas. Busca que te reconozcas."
-  },
-  {
-    num: 6,
-    titulo: "\u2200taca el miedo",
-    color: "#E8C96A",
-    exige: "Declarar quién eres y para qué estás aquí activa todos los miedos. Eso es normal y es buena señal — significa que lo que estás diciendo es real y tiene peso. La única respuesta \u2200normal ante ese miedo es seguir avanzando. No esperar a no tener miedo. Actuar con miedo.",
-    maquia: "\"No tengas miedo. Ya está vencido lo que crees que te detiene.\"\n\nEl miedo que sientes ante lo que vas a descubrir no es una advertencia — es la señal de que estás exactamente en el camino correcto. Yo también lo sentí. Y seguí."
   }
 ];
 
@@ -632,7 +611,7 @@ function guardarYCompletar() {
     sessionStorage.setItem('anormal_proceso', JSON.stringify(data));
   } catch(e) {}
   var texto = '∀normal ha comenzado para ti desde la línea de ' + linea.nombre + '. ' +
-    'Has definido tus 5 acciones prioritarias y aceptado los 6 principios que van a sostenerte. ' +
+    'Has definido tus 5 acciones prioritarias y aceptado los 3 principios iniciales que van a sostenerte. ' +
     'Lo que viene en la Sesión 1 ya tiene contexto — y ese contexto lo pusiste tú.';
   document.getElementById('completado-texto').textContent = texto;
   mostrarResumenPrincipios();
