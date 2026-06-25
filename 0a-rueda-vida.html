@@ -1121,7 +1121,22 @@ function bRueda(){
   pDiaTit.textContent="Aplica cada principio hoy — "+puntosBase+" pts base + "+(puntosAcum)+" pts acumulados";
   cPrinc.appendChild(pDiaTit);
 
+  var faseAnterior=null;
   PRINC.forEach(function(pr,pi){
+    // Separador de fase
+    if(pr.fase!==faseAnterior){
+      faseAnterior=pr.fase;
+      var sepFase=mk("div");
+      sepFase.style.cssText="margin:"+(pi===0?"4px":"16px")+" 0 10px;padding:10px 12px;border-radius:var(--rm);background:"+(pr.fase==="inicial"?"var(--bg3)":"rgba(212,83,126,.08)")+";border-left:3px solid "+(pr.fase==="inicial"?"var(--gold)":"#D4537E");
+      var sepT=mk("div");
+      sepT.style.cssText="font-size:11px;letter-spacing:.15em;text-transform:uppercase;font-weight:500;color:"+(pr.fase==="inicial"?"var(--gold)":"#D4537E")+";margin-bottom:3px";
+      sepT.textContent=pr.fase==="inicial"?"Tus 3 principios iniciales":"Se activan ahora — tras conocer tu origen";
+      var sepD=mk("div");
+      sepD.style.cssText="font-size:12px;color:var(--dim);line-height:1.5";
+      sepD.textContent=pr.fase==="inicial"?"Los que aceptaste al entrar. Aplícalos cada día." : "Ahora que viste tu rueda y tu nivel, ya puedes trabajar el perdón, el dolor y el miedo desde un lugar más consciente.";
+      sepFase.appendChild(sepT);sepFase.appendChild(sepD);
+      cPrinc.appendChild(sepFase);
+    }
     var key2='princ_'+pr.n+'_'+new Date().toISOString().slice(0,10);
     var comp=!!accionesRegistradas[key2];
     var pDiv=mk("div");pDiv.style.cssText="margin-bottom:7px;border-radius:var(--rm);overflow:hidden;border:1px solid "+(comp?"rgba(74,191,122,.3)":"var(--faint)");
