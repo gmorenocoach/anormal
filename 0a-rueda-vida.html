@@ -676,7 +676,15 @@ function rProg(){
     b.appendChild(s);
   }
 }
-function irA(i){paso=i;rProg();document.querySelectorAll(".panel").forEach(function(p,j){p.classList.toggle("act",j===i);});window.scrollTo({top:0,behavior:"smooth"});}
+function irA(i){
+  paso=i;
+  rProg();
+  document.querySelectorAll(".panel").forEach(function(p,j){p.classList.toggle("act",j===i);});
+  // Ocultar video banner en todos los pasos excepto el inicial
+  var vb = ge("vid-banner-rueda");
+  if (vb) vb.style.display = (i === 0) ? "" : "none";
+  window.scrollTo({top:0,behavior:"smooth"});
+}
 function dmsg(cont){var d=mk("div","dmsg");d.appendChild(mk("div","dm-l","Reflexi\u00f3n del d\u00eda"));d.appendChild(mk("div","dm-t",frase()));cont.appendChild(d);}
 
 function buildRuedaSVG(scores,size){
