@@ -311,7 +311,47 @@ function render(){
   html += '<a href="0a-rueda-vida.html" class="bs" style="flex:1;text-align:center">Volver a mi rueda</a>';
   html += '</div>';
 
+  // ACCESO MODO DE PRUEBA (discreto - solo para evaluación)
+  html += '<div style="text-align:center;margin-top:30px;opacity:.35">';
+  html += '<span style="font-size:11px;color:var(--dim);cursor:pointer;letter-spacing:.1em" onclick="togglePrueba()">· modo evaluación ·</span>';
+  html += '</div>';
+  html += '<div id="panel-prueba" style="display:none;margin-top:12px;padding:16px;background:var(--bg3);border:1px dashed var(--faint);border-radius:var(--rm)">';
+  html += '<div style="font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--rose);margin-bottom:10px">Modo evaluación — solo para pruebas</div>';
+  html += '<p style="font-size:13px;color:var(--dim);line-height:1.6;margin-bottom:12px">Este panel te deja simular el paso del tiempo y avanzar de sesión para evaluar la continuidad. En producción, las sesiones respetan los 15 días reales.</p>';
+  html += '<div style="display:flex;flex-direction:column;gap:8px">';
+  html += '<div style="font-size:13px;color:var(--text)">Sesión actual: <strong style="color:var(--gold2)">'+sesionActual+'</strong></div>';
+  html += '<button class="bs" onclick="pruebaAvanzarSesion()" style="text-align:center">Simular: desbloquear siguiente sesión →</button>';
+  html += '<button class="bs" onclick="pruebaReiniciar()" style="text-align:center;border-color:var(--rose);color:var(--rose)">Reiniciar todo el proceso</button>';
+  html += '</div></div>';
+
   cont.innerHTML = html;
+}
+
+// ── MODO DE PRUEBA ───────────────────────────────────────────────────
+function togglePrueba(){
+  var panel = document.getElementById('panel-prueba');
+  panel.style.display = panel.style.display==='none'?'block':'none';
+}
+function pruebaAvanzarSesion(){
+  var actual = parseInt(leer('anormal_sesion_actual','1'))||1;
+  if(actual>=5){ alert('Ya estás en la última sesión (5).'); return; }
+  localStorage.setItem('anormal_sesion_actual', actual+1);
+  // Poner fecha de la siguiente sesión como hoy (desbloqueada)
+  localStorage.setItem('anormal_fecha_sesion_'+(actual+1), new Date().toISOString());
+  alert('Sesión '+(actual+1)+' desbloqueada. (Los módulos de esta sesión aún están en construcción.)');
+  location.reload();
+}
+function pruebaReiniciar(){
+  if(confirm('¿Reiniciar todo el proceso? Se borrarán todos los datos para empezar de cero.')){
+    var claves = ['anormal_nombre','anormal_fecha_nac','anormal_numero_camino','anormal_linea',
+      'anormal_contrato','anormal_contrato_firmado','anormal_entrada_completa','anormal_diagnostico',
+      'anormal_acciones','anormal_prioridades','anormal_compromisos_areas','anormal_compromiso_inicial',
+      'anormal_principios_nuevos','anormal_puntos_conciencia','anormal_compromisos_cumplidos','anormal_sesion_actual'];
+    claves.forEach(function(k){ localStorage.removeItem(k); });
+    // Borrar también fechas de sesiones
+    for(var s=2;s<=5;s++){ localStorage.removeItem('anormal_fecha_sesion_'+s); }
+    window.location.href='contrato-transformacion.html';
+  }
 }
 
 // ── MODAL DE PRINCIPIO ───────────────────────────────────────────────
