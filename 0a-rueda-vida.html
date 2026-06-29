@@ -1538,17 +1538,9 @@ function bCrecimiento(){
   var nav=mk("div","nav");var pb2=mk("button","bn","Anterior");pb2.onclick=function(){irA(5);};var ps=mk("button","bs","Revisar desde el inicio");ps.style.opacity=".5";ps.onclick=function(){irA(0);};nav.appendChild(pb2);nav.appendChild(ps);p.appendChild(nav);
 }
 
-// Arrancar: si el widget ya se vio, ir directo al init
+// Arrancar SIEMPRE directo al init (el widget viejo de principios fue eliminado del flujo)
 (function() {
-  var _key = 'widget_visto_rueda';
-  if (localStorage.getItem(_key) === '1') {
-    init();
-  } else {
-    buildWidgetPrincipios("rueda", document.body, function() {
-      localStorage.setItem(_key, '1');
-      init();
-    });
-  }
+  init();
 })();
 
 
