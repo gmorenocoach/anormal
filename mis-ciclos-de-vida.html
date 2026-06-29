@@ -11,7 +11,7 @@
   --gold:#C9A84C;--gold2:#E8C96A;--gold3:#F5E0A0;
   --gd:rgba(201,168,76,.13);--gb:rgba(201,168,76,.28);
   --text:#EAE6DC;--dim:#8A95A8;--faint:#3A4558;--ffaint:#1E2A3A;
-  --grn:#4ABF7A;--rose:#D4537E;
+  --grn:#4ABF7A;--rose:#D4537E;--azul:#5A8CC0;
   --r:4px;--rm:8px;--rl:14px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
@@ -36,65 +36,69 @@ body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font
 
 .card{background:var(--bg2);border:1px solid rgba(255,255,255,.055);border-radius:var(--rl);padding:20px 24px;margin-bottom:12px}
 .card.gold{border-color:var(--gb);background:linear-gradient(135deg,var(--bg2),var(--bg3))}
-.ct{font-size:13px;color:var(--dim);line-height:1.8}
+.ct{font-size:13.5px;color:var(--text);line-height:1.85}
+.ct.dim{color:var(--dim);font-size:13px}
 
 .quote{font-family:"Cormorant Garamond",serif;font-style:italic;font-size:18px;color:var(--gold3);line-height:1.5;border-left:2px solid var(--gb);padding-left:16px;margin:18px 0}
 .quote-autor{display:block;font-size:11px;font-style:normal;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);margin-top:8px}
 
-/* LÍNEA DE SEPTENIOS */
-.septenios-track{display:flex;flex-direction:column;gap:6px;margin-bottom:20px}
-.septenio-item{display:flex;align-items:stretch;gap:0;border-radius:var(--r);overflow:hidden;border:1px solid var(--ffaint);transition:all .2s;opacity:.55}
-.septenio-item.recorrido{opacity:.85}
-.septenio-item.actual{opacity:1;outline:2px solid var(--gold2);box-shadow:0 0 0 4px var(--gd)}
-.septenio-rango{min-width:64px;display:flex;flex-direction:column;align-items:center;justify-content:center;background:var(--bg4);padding:10px 6px}
-.septenio-rango-edad{font-family:"Barlow Condensed",sans-serif;font-size:14px;font-weight:500;color:var(--gold2)}
-.septenio-rango-num{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);margin-top:2px}
-.septenio-content{flex:1;padding:10px 14px;background:var(--bg2)}
-.septenio-nombre{font-size:13px;font-weight:500;color:var(--text);margin-bottom:2px}
-.septenio-tarea{font-size:11px;color:var(--dim);line-height:1.5}
-.septenio-badge{display:inline-block;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-top:4px}
+.ciclo-row{display:flex;align-items:stretch;gap:0;border-radius:var(--r);overflow:hidden;border:1px solid var(--ffaint);margin-bottom:4px;transition:all .2s}
+.ciclo-row.actual{outline:2px solid var(--gold2);box-shadow:0 0 0 4px var(--gd)}
+.ciclo-row.espejo{outline:1px solid var(--azul);background:rgba(90,140,192,.05)}
+.ciclo-num{min-width:46px;display:flex;flex-direction:column;align-items:center;justify-content:center;background:var(--bg4);padding:8px 4px}
+.ciclo-num-n{font-family:"Cormorant Garamond",serif;font-size:20px;color:var(--gold2);line-height:1}
+.ciclo-num-e{font-size:8px;color:var(--dim);margin-top:2px}
+.ciclo-body{flex:1;padding:9px 13px;background:var(--bg2)}
+.ciclo-nombre{font-size:13px;font-weight:500;color:var(--text)}
+.ciclo-trab{font-size:11px;color:var(--dim);line-height:1.5}
+.ciclo-emo{display:inline-block;font-size:9px;letter-spacing:.1em;text-transform:uppercase;margin-top:3px;color:var(--gold)}
+.ciclo-tag{font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;padding:2px 6px;border-radius:3px;margin-left:6px}
+.tag-actual{background:var(--gd);color:var(--gold2)}
+.tag-espejo{background:rgba(90,140,192,.18);color:var(--azul)}
 
-/* CARD SEPTENIO ACTUAL */
 .actual-card{background:linear-gradient(135deg,var(--bg2),var(--bg3));border:1px solid var(--gb);border-radius:var(--rl);padding:22px 24px;margin-bottom:16px}
-.actual-edad{font-family:"Cormorant Garamond",serif;font-size:34px;color:var(--gold2);line-height:1}
-.actual-rango{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin:6px 0 14px}
-.actual-tarea-label{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);margin-bottom:6px}
-.actual-tarea{font-size:15px;color:var(--text);line-height:1.7;margin-bottom:14px}
-.actual-tono{font-size:13px;color:var(--dim);line-height:1.7;font-style:italic;border-top:1px solid var(--ffaint);padding-top:12px}
-.cruce-box{background:var(--bg3);border-left:3px solid var(--gold);padding:14px 16px;border-radius:0 var(--rm) var(--rm) 0;margin-top:16px}
-.cruce-label{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+.actual-edad{font-family:"Cormorant Garamond",serif;font-size:32px;color:var(--gold2);line-height:1}
+.actual-rango{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin:6px 0 14px}
+.actual-tarea{font-size:14.5px;color:var(--text);line-height:1.7;margin-bottom:12px}
+.espejo-box{background:rgba(90,140,192,.08);border-left:3px solid var(--azul);padding:14px 16px;border-radius:0 var(--rm) var(--rm) 0;margin-top:14px}
+.espejo-label{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--azul);margin-bottom:8px}
+.espejo-texto{font-size:13.5px;color:var(--text);line-height:1.75}
+.cruce-box{background:var(--bg3);border-left:3px solid var(--gold);padding:14px 16px;border-radius:0 var(--rm) var(--rm) 0;margin-top:14px}
+.cruce-label{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
 .cruce-texto{font-size:13.5px;color:var(--text);line-height:1.75}
 
-/* ESCALA HAWKINS */
-.escala-wrap{margin-bottom:20px}
-.escala-item{display:flex;align-items:stretch;gap:0;margin-bottom:3px;border-radius:var(--r);overflow:hidden;cursor:pointer;transition:transform .15s}
-.escala-item:hover{transform:translateX(3px)}
-.escala-item.selected{outline:2px solid var(--gold2)}
-.escala-num{min-width:52px;display:flex;align-items:center;justify-content:center;font-family:"Barlow Condensed",sans-serif;font-size:13px;font-weight:500;color:rgba(255,255,255,.9);padding:10px 6px}
-.escala-content{flex:1;padding:10px 14px}
-.escala-nombre{font-size:13px;font-weight:500;margin-bottom:2px}
-.escala-desc{font-size:11px;opacity:.75;line-height:1.5}
-.escala-zona{font-size:9px;letter-spacing:.15em;text-transform:uppercase;opacity:.6;margin-top:3px}
-.escala-check{min-width:24px;display:flex;align-items:center;justify-content:center;font-size:14px;opacity:0;transition:opacity .2s}
-.escala-item.selected .escala-check{opacity:1}
-
-.mensaje-origen{display:none;background:var(--bg3);border-left:3px solid var(--gold);padding:16px 18px;border-radius:0 var(--rm) var(--rm) 0;margin-bottom:20px}
-.mensaje-origen.visible{display:block}
-.mensaje-origen-label{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
-.mensaje-origen-texto{font-size:14px;line-height:1.8;color:var(--text)}
-.mensaje-origen-conexion{font-size:13px;color:var(--dim);line-height:1.7;margin-top:10px;font-style:italic}
-
-/* TEXTAREA */
-.campo-label{font-size:12px;color:var(--gold);letter-spacing:.05em;margin-bottom:8px;display:block}
-textarea{width:100%;background:var(--bg2);border:1px solid var(--faint);border-radius:var(--rm);color:var(--text);font-family:"Barlow",sans-serif;font-size:14px;line-height:1.7;padding:14px 16px;resize:vertical;min-height:90px}
+.inv-intro{background:var(--bg3);border:1px solid var(--gb);border-radius:var(--rl);padding:18px 22px;margin-bottom:18px}
+.inv-ciclo{border:1px solid var(--ffaint);border-radius:var(--rl);margin-bottom:14px;overflow:hidden}
+.inv-ciclo.es-actual{border-color:var(--gb)}
+.inv-ciclo.es-espejo{border-color:rgba(90,140,192,.4)}
+.inv-head{display:flex;align-items:center;gap:10px;padding:12px 16px;background:var(--bg3);cursor:pointer}
+.inv-head-n{min-width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:"Cormorant Garamond",serif;font-size:16px;color:var(--gold2);border:1px solid var(--gb)}
+.inv-head-info{flex:1}
+.inv-head-nombre{font-size:13px;font-weight:500;color:var(--text)}
+.inv-head-meta{font-size:10px;color:var(--dim);margin-top:1px}
+.inv-head-chevron{color:var(--dim);font-size:13px;transition:transform .2s}
+.inv-ciclo.open .inv-head-chevron{transform:rotate(90deg)}
+.inv-content{display:none;padding:14px 16px;background:var(--bg2)}
+.inv-ciclo.open .inv-content{display:block}
+.inv-guia{font-size:12px;color:var(--dim);line-height:1.7;margin-bottom:12px;font-style:italic}
+.inv-campo{margin-bottom:12px}
+.inv-campo-label{font-size:11px;letter-spacing:.05em;margin-bottom:6px;display:flex;align-items:center;gap:6px}
+.inv-campo-label.dolor{color:var(--rose)}
+.inv-campo-label.alegria{color:var(--grn)}
+.inv-dot{width:7px;height:7px;border-radius:50%}
+.inv-dot.dolor{background:var(--rose)}
+.inv-dot.alegria{background:var(--grn)}
+textarea{width:100%;background:var(--bg2);border:1px solid var(--faint);border-radius:var(--rm);color:var(--text);font-family:"Barlow",sans-serif;font-size:13.5px;line-height:1.7;padding:11px 13px;resize:vertical;min-height:62px}
 textarea:focus{outline:none;border-color:var(--gold)}
+.inv-progreso{font-size:11px;color:var(--dim);text-align:center;margin:14px 0 4px}
 
-/* CIERRE */
+.linea-chip{display:inline-flex;align-items:center;gap:6px;background:var(--gd);border:1px solid var(--gb);border-radius:20px;padding:5px 14px;font-size:12px;color:var(--gold2)}
+
 .cierre-resumen{background:var(--bg2);border:1px solid var(--gb);border-radius:var(--rl);padding:20px 24px;margin-bottom:18px}
 .cierre-fila{display:flex;justify-content:space-between;align-items:baseline;padding:8px 0;border-bottom:1px solid var(--ffaint)}
 .cierre-fila:last-child{border-bottom:none}
-.cierre-k{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
-.cierre-v{font-size:14px;color:var(--gold2);text-align:right;max-width:60%}
+.cierre-k{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
+.cierre-v{font-size:14px;color:var(--gold2);text-align:right;max-width:58%}
 
 .bp{background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--bg);border:none;border-radius:var(--r);font-family:"Barlow Condensed",sans-serif;font-size:12px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;padding:13px 30px;cursor:pointer;transition:opacity .2s,transform .15s}
 .bp:hover{opacity:.9;transform:translateY(-1px)}
@@ -114,34 +118,35 @@ textarea:focus{outline:none;border-color:var(--gold)}
     <div class="hdr-logo">∀normal</div>
     <div class="hdr-info">Sesión 2 · Ciclos de vida</div>
   </div>
-  <div class="progress-bar"><div class="progress-fill" id="prog" style="width:25%"></div></div>
+  <div class="progress-bar"><div class="progress-fill" id="prog" style="width:20%"></div></div>
 
-  <!-- PANTALLA 1: EL PRINCIPIO DEL CICLO -->
+  <!-- PANTALLA 1: ENTENDER EL MODELO -->
   <div class="pantalla visible" id="p0">
-    <div class="label">El principio del ciclo</div>
-    <h1 class="titulo">La vida no avanza en línea recta. Avanza en ciclos.</h1>
-    <p class="subtitulo">Cada siete años tu vida cierra una etapa y abre otra. No es una metáfora: es un ritmo. Y cada ciclo trae una tarea que, si no se completa, vuelve disfrazada en el siguiente.</p>
+    <div class="label">El modelo de los ciclos</div>
+    <h1 class="titulo">Tu vida tiene un mapa. Y se repite.</h1>
+    <p class="subtitulo">La vida humana se mueve en nueve ciclos de siete años. Cada uno tiene una tarea que cumplir y una emoción que lo marca. Pero lo más importante es esto: los ciclos no se viven una sola vez. Resuenan entre sí.</p>
 
     <div class="card gold">
-      <div class="label">Lo que nadie te explicó</div>
-      <p class="ct">Lo que aprendiste —o lo que te dolió— en un ciclo no se queda atrás. Se hereda hacia adelante. Por eso a veces sientes que repites la misma historia con caras distintas: no es mala suerte, es un ciclo que pide ser visto. Lo que resuelves dentro de ti, se ordena afuera. Lo que sanas en la raíz, florece en lo que vives.</p>
+      <div class="label">La clave que lo cambia todo</div>
+      <p class="ct">Los ciclos se reflejan en columna, de tres en tres. Lo que no resolviste en un ciclo vuelve, transformado, en el ciclo que lo refleja. Por eso a veces sientes que repites la misma historia con caras distintas: no es casualidad, es un ciclo anterior que sigue pidiendo ser visto. El 1 resuena con el 4 y el 7. El 2 con el 5 y el 8. El 3 con el 6 y el 9. Si entiendes esto, entiendes por qué estás viviendo lo que vives hoy.</p>
     </div>
 
-    <p class="quote">Acéptalo todo tal como llega, como parte del tejido del que estás hecho. No hay nada que te suceda que no estuvieras hecho para soportar.
-      <span class="quote-autor">Marco Aurelio</span></p>
+    <div class="label" style="margin:22px 0 12px">Los nueve ciclos</div>
+    <div id="mapa-ciclos"></div>
 
-    <p class="ct" style="margin-bottom:8px">En este módulo vas a ubicarte en tu ciclo actual, reconocer la tarea que te corresponde vivir, y encontrar la emoción que quedó atrapada en el camino. Ese es el inicio del trabajo del perdón.</p>
+    <p class="quote">Lo que no se hace consciente se manifiesta en nuestras vidas como destino.
+      <span class="quote-autor">Carl Jung</span></p>
 
     <div class="nav">
-      <button class="bp" onclick="irA(1)">Ubicar mi ciclo de vida →</button>
+      <button class="bp" onclick="irA(1)">Ubicar mi ciclo actual →</button>
     </div>
   </div>
 
-  <!-- PANTALLA 2: TU SEPTENIO ACTUAL -->
+  <!-- PANTALLA 2: TU CICLO + ESPEJOS -->
   <div class="pantalla" id="p1">
-    <div class="label">Tu ciclo actual</div>
+    <div class="label">Tu ciclo y su resonancia</div>
     <h1 class="titulo" id="p1-saludo">¿En qué ciclo estás hoy?</h1>
-    <p class="subtitulo">Tu edad te ubica en un septenio. Cada uno tiene una tarea evolutiva y un tono emocional propio. Reconocerlo te da un mapa de dónde estás parado.</p>
+    <p class="subtitulo">Tu edad te ubica en un ciclo. Pero no estás viviendo solo ese: estás reviviendo, sin darte cuenta, los ciclos que resuenan con él.</p>
 
     <div id="edad-faltante" style="display:none">
       <p class="ct" style="margin-bottom:4px">No encontramos tu edad. Escríbela para ubicar tu ciclo:</p>
@@ -154,61 +159,53 @@ textarea:focus{outline:none;border-color:var(--gold)}
 
     <div id="actual-wrap"></div>
 
-    <div class="label" style="margin:24px 0 12px">Tu recorrido hasta aquí</div>
-    <p class="ct" style="margin-bottom:14px">Estos son los ciclos que ya viviste y el que transitas ahora. Mira cuáles sientes resueltos y cuáles siguen pidiendo atención.</p>
-    <div class="septenios-track" id="septenios-track"></div>
-
     <div class="nav">
       <button class="bs" onclick="irA(0)">← Anterior</button>
-      <button class="bp" onclick="irA(2)">Continuar →</button>
+      <button class="bp" onclick="irA(2)">Hacer mi inventario →</button>
     </div>
   </div>
 
-  <!-- PANTALLA 3: LA EMOCIÓN DEL CICLO -->
+  <!-- PANTALLA 3: EL INVENTARIO -->
   <div class="pantalla" id="p2">
-    <div class="label">La emoción del ciclo</div>
-    <h1 class="titulo">¿Qué emoción quedó atrapada en el camino?</h1>
-    <p class="subtitulo">Todo ciclo no resuelto deja una emoción sostenida. No la juzgues: nómbrala. Identificar desde dónde operas emocionalmente es el primer paso para liberar lo que pesa.</p>
+    <div class="label">Tu inventario de vida</div>
+    <h1 class="titulo">Lo que cargas de cada ciclo</h1>
+    <p class="subtitulo">Aquí está el corazón de esta sesión. Recorre los ciclos que ya viviste y registra, en cada uno, los dolores y las alegrías que recuerdes. No tienes que llenarlos todos hoy — pero mientras más honesto seas, más claro será tu camino hacia el perdón.</p>
 
-    <div class="card" style="margin-bottom:16px">
-      <p class="ct">La conciencia tiene niveles. Abajo están las emociones que nos atan —vergüenza, culpa, miedo—; arriba, las que nos liberan. El punto de quiebre es el coraje: el momento en que decides mirar de frente lo que evitabas. Reconoce honestamente dónde te encuentras la mayor parte del tiempo.</p>
+    <div class="inv-intro">
+      <p class="ct" style="margin-bottom:10px">Este inventario es tu materia prima. Cada dolor que nombras aquí es algo que vas a poder soltar después. Cada alegría es un recurso que ya tienes.</p>
+      <p class="ct dim">Presta atención especial a tu ciclo actual y a sus ciclos espejo (resaltados): ahí suele estar la raíz de lo que vives hoy.</p>
+      <div id="linea-chip-wrap" style="margin-top:12px"></div>
     </div>
 
-    <div class="label" style="margin-bottom:12px">¿Desde dónde estás operando emocionalmente?</div>
-    <div class="escala-wrap" id="escala-wrap"></div>
-
-    <div class="mensaje-origen" id="mensaje-wrap">
-      <div class="mensaje-origen-label">El puente hacia el perdón</div>
-      <div class="mensaje-origen-texto" id="mensaje-texto"></div>
-      <div class="mensaje-origen-conexion" id="mensaje-conexion"></div>
-    </div>
-
-    <div id="origen-bloque" style="display:none">
-      <label class="campo-label">¿En qué momento o con quién reconoces el origen de esa emoción?</label>
-      <textarea id="origen-texto" placeholder="Escríbelo sin filtro. Nadie más lo verá. Esto será el punto de partida de tu trabajo del perdón."></textarea>
-    </div>
+    <div id="inventario-wrap"></div>
+    <div class="inv-progreso" id="inv-progreso"></div>
 
     <div class="nav">
       <button class="bs" onclick="irA(1)">← Anterior</button>
-      <button class="bp" id="btn-p2" disabled onclick="irA(3)">Continuar →</button>
+      <button class="bp" id="btn-p2" onclick="irA(3)">Cerrar mi inventario →</button>
     </div>
   </div>
 
-  <!-- PANTALLA 4: CIERRE Y COMPROMISO -->
+  <!-- PANTALLA 4: CIERRE -->
   <div class="pantalla" id="p3">
     <div class="label">Cierre del módulo</div>
-    <h1 class="titulo">Esto es lo que descubriste hoy</h1>
-    <p class="subtitulo">Lo que viste no se queda aquí. Es el material con el que vas a trabajar el perdón en el siguiente paso.</p>
+    <h1 class="titulo">Tomaste conciencia. Eso ya transforma.</h1>
+    <p class="subtitulo">Lo que viste no se queda aquí. Este inventario es exactamente lo que vas a trabajar en el perdón — empezando por el niño que fuiste.</p>
 
     <div class="cierre-resumen" id="cierre-resumen"></div>
 
-    <p class="quote">Entre el estímulo y la respuesta hay un espacio. En ese espacio está nuestro poder de elegir la respuesta. Y en nuestra respuesta está nuestro crecimiento y nuestra libertad.
+    <div class="card" style="margin-bottom:14px">
+      <div class="label">El puente al perdón</div>
+      <p class="ct">Los dolores que nombraste no empezaron contigo. Muchos los heredaste — de un ciclo tuyo no resuelto, o de tus padres cuando ellos vivían su propio ciclo. Mirar eso con conciencia, sin juicio, es el primer acto del perdón. Cuando sanas la raíz abajo, florece lo de arriba: tu salud, tu abundancia, tus relaciones.</p>
+    </div>
+
+    <p class="quote">Entre el estímulo y la respuesta hay un espacio. En ese espacio está nuestra libertad y nuestro poder de elegir la respuesta.
       <span class="quote-autor">Viktor Frankl</span></p>
 
     <div class="card gold">
-      <div class="label">Tu compromiso para este ciclo</div>
-      <p class="ct" style="margin-bottom:12px">Antes de avanzar, escribe una intención concreta: ¿qué estás dispuesto a mirar o soltar en este ciclo? No tiene que ser grande. Tiene que ser verdadero.</p>
-      <textarea id="compromiso-texto" placeholder="En este ciclo me comprometo a..."></textarea>
+      <div class="label">Antes de avanzar</div>
+      <p class="ct" style="margin-bottom:12px">De todo tu inventario, ¿cuál es el dolor que sientes que más pesa — el que más necesitas soltar? Nómbralo. Será por donde empiece tu trabajo del perdón.</p>
+      <textarea id="dolor-principal" placeholder="El dolor que más necesito soltar es..."></textarea>
     </div>
 
     <div class="nav">
@@ -219,235 +216,184 @@ textarea:focus{outline:none;border-color:var(--gold)}
 </div>
 
 <script>
-// ── UTILIDADES DE ALMACENAMIENTO ──────────────────────────────────────────
-function leer(k, def){ var v = localStorage.getItem(k); return (v===null||v===undefined)?def:v; }
+function leer(k,def){var v=localStorage.getItem(k);return (v===null||v===undefined)?def:v;}
 
-// ── DATOS: LOS SEPTENIOS ──────────────────────────────────────────────────
-// Marco evolutivo por ciclos de 7 años, adaptado al lenguaje de ∀normal.
-var SEPTENIOS = [
-  {ini:0,  fin:7,  nombre:"El cuerpo y el arraigo",        tarea:"Habitar el cuerpo y sentirte seguro en el mundo. Aquí se imprime si la vida es un lugar confiable o amenazante.", tono:"Lo que se grabó: el sentido básico de protección o desamparo.", badge:"Raíz"},
-  {ini:7,  fin:14, nombre:"El sentir y la pertenencia",    tarea:"Aprender a sentir y a vincularte. Se forma tu relación con la autoridad, las reglas y el lugar que ocupas entre los demás.", tono:"Lo que se grabó: si eras visto y querido, o si tenías que ganarte el amor.", badge:"Sentir"},
-  {ini:14, fin:21, nombre:"La identidad y la verdad",      tarea:"Descubrir quién eres más allá de tu familia. Búsqueda de identidad, ideales y rebeldía sana.", tono:"Lo que se grabó: si tu voz valía, o si debías callar para encajar.", badge:"Identidad"},
-  {ini:21, fin:28, nombre:"El alma joven y el mundo",      tarea:"Salir al mundo, probarte, construir vínculos adultos y sostener tus decisiones.", tono:"Lo que se mueve: la tensión entre lo que se espera de ti y lo que tú deseas.", badge:"Expansión"},
-  {ini:28, fin:35, nombre:"La organización de la vida",    tarea:"Ordenar tu vida: pareja, vocación, propósito. Un primer balance de lo construido.", tono:"Lo que se mueve: ¿estoy viviendo mi vida o la que me dijeron que viviera?", badge:"Estructura"},
-  {ini:35, fin:42, nombre:"La verdad interior",            tarea:"Confrontar lo que ya no eres. Caen máscaras; lo no resuelto pide ser mirado de frente.", tono:"Lo que se mueve: crisis fértil. Lo que evitaste empieza a tocar la puerta.", badge:"Confrontación"},
-  {ini:42, fin:49, nombre:"La autenticidad",               tarea:"Vivir desde lo esencial. Soltar lo que cargaste por otros y reclamar tu verdad.", tono:"Lo que se mueve: la necesidad de coherencia entre lo que sientes y lo que vives.", badge:"Autenticidad"},
-  {ini:49, fin:56, nombre:"La sabiduría que sirve",        tarea:"Transformar la experiencia en sabiduría. Lo vivido se vuelve don para otros.", badge:"Sabiduría", tono:"Lo que se mueve: el sentido. ¿Para qué y para quién es lo que aprendí?"},
-  {ini:56, fin:63, nombre:"La cosecha",                    tarea:"Recoger lo sembrado y reconciliarte con tu historia completa, luz y sombra.", tono:"Lo que se mueve: gratitud o resentimiento por el camino recorrido.", badge:"Cosecha"},
-  {ini:63, fin:200,nombre:"La integración y el legado",    tarea:"Integrar la vida entera y entregar tu legado. Paz con lo que fue, presencia con lo que es.", tono:"Lo que se mueve: la reconciliación final y la trascendencia.", badge:"Legado"}
+// ── LOS 9 CICLOS (modelo ∀normal, lenguaje neutro) ─────────────────────────
+var CICLOS = [
+  {n:1, ini:0,  fin:7,  nombre:"La base de todo",          trab:"Seguridad, amor y pertenencia. Lo que se grabó antes de las palabras.", emo:"Nostalgia", espejos:[4,7]},
+  {n:2, ini:7,  fin:14, nombre:"El despertar del cuerpo",  trab:"Identidad temprana y la pregunta: ¿soy suficiente?",                     emo:"Miedo",     espejos:[5,8]},
+  {n:3, ini:14, fin:21, nombre:"El primer crack",          trab:"Quién soy más allá de mi familia. El primer quiebre de identidad.",      emo:"Enojo",     espejos:[6,9]},
+  {n:4, ini:21, fin:28, nombre:"La salida al mundo",        trab:"Primeras responsabilidades adultas y decisiones propias.",               emo:"Sorpresa",  espejos:[1,7]},
+  {n:5, ini:28, fin:35, nombre:"La evaluación",             trab:"¿Es esto lo que quiero? Primer balance de lo construido.",               emo:"Alegría / Duda", espejos:[2,8]},
+  {n:6, ini:35, fin:42, nombre:"El segundo crack",          trab:"Crisis de propósito. Caen máscaras: ¿para qué estoy aquí?",              emo:"Tristeza",  espejos:[3,9]},
+  {n:7, ini:42, fin:49, nombre:"Recoger lo sembrado",       trab:"Liderar desde el ser. La experiencia se vuelve madurez.",                emo:"Equilibrio", espejos:[1,4]},
+  {n:8, ini:49, fin:56, nombre:"Desapego y sabiduría",      trab:"Soltar lo que ya no eres. La vida se destila en esencia.",               emo:"Nostalgia integrada", espejos:[2,5]},
+  {n:9, ini:56, fin:200,nombre:"Legado y plenitud",         trab:"Recoger la vida entera. Servir y trascender desde lo vivido.",           emo:"Amor",      espejos:[3,6]}
 ];
 
-function septenioDeEdad(edad){
-  for(var i=0;i<SEPTENIOS.length;i++){
-    if(edad>=SEPTENIOS[i].ini && edad<SEPTENIOS[i].fin) return i;
-  }
-  return SEPTENIOS.length-1;
+function cicloDeEdad(edad){
+  for(var i=0;i<CICLOS.length;i++){ if(edad>=CICLOS[i].ini && edad<CICLOS[i].fin) return i; }
+  return CICLOS.length-1;
 }
+function cicloPorNum(n){ for(var i=0;i<CICLOS.length;i++){ if(CICLOS[i].n===n) return CICLOS[i]; } return null; }
 
-// ── DATOS: ESCALA DE HAWKINS (consistente con Sesión 1) ───────────────────
-var ESCALA = [
-  {num:700, nombre:"Paz e iluminación", desc:"Coherencia total. Presencia plena.", zona:"Zona de regeneración", color:"#5C2FA0"},
-  {num:540, nombre:"Alegría y amor", desc:"Apertura, gratitud, conexión.", zona:"Zona de regeneración", color:"#2979A0"},
-  {num:400, nombre:"Razón y aceptación", desc:"Claridad, equilibrio, comprensión.", zona:"Zona de estabilidad", color:"#297A4A"},
-  {num:200, nombre:"Coraje", desc:"Punto de quiebre. Decides mirar de frente.", zona:"Zona de inflexión", color:"#7A6B29"},
-  {num:175, nombre:"Orgullo", desc:"Defensa, rigidez, negación del dolor.", zona:"Zona de alerta", color:"#A05A20"},
-  {num:150, nombre:"Ira y rabia", desc:"Lo no resuelto que arde hacia afuera.", zona:"Zona de alerta", color:"#A03520"},
-  {num:125, nombre:"Deseo compulsivo", desc:"Vacío que se intenta llenar afuera.", zona:"Zona de escasez", color:"#A02020"},
-  {num:100, nombre:"Miedo", desc:"Alerta constante. Supervivencia.", zona:"Zona de escasez", color:"#8A1515"},
-  {num:75,  nombre:"Pena y tristeza", desc:"Pérdida, duelo no transitado.", zona:"Zona de escasez", color:"#6A1010"},
-  {num:50,  nombre:"Apatía y culpa", desc:"Rendición, peso que paraliza.", zona:"Zona crítica", color:"#4A0A0A"},
-  {num:20,  nombre:"Vergüenza", desc:"El nivel más bajo. Sentirse indigno.", zona:"Zona crítica", color:"#2A0505"}
-];
+var edad=null, idxActual=null, inventario={};
 
-// Mensajes-puente según zona emocional elegida
-function mensajePuente(nivel){
-  if(nivel>=400){
-    return {texto:"Operas desde un lugar de estabilidad y aceptación. Eso no significa que no haya nada que sanar — significa que tienes la fuerza para mirar lo más profundo sin quebrarte. El trabajo del perdón aquí es de afinamiento: soltar lo último que todavía cargas sin darte cuenta.",
-            conexion:"Llevarás esta serenidad como base para el trabajo del perdón."};
-  } else if(nivel>=200){
-    return {texto:"Estás en el coraje: el punto exacto donde se inicia toda transformación. Mirar de frente lo que evitabas ya es un acto de valentía. Desde aquí, el perdón deja de ser una idea y se vuelve un camino posible.",
-            conexion:"Este coraje es justo el umbral que el trabajo del perdón necesita."};
-  } else {
-    return {texto:"Reconocer que operas desde una emoción que pesa —miedo, culpa, ira, tristeza, vergüenza— es el acto más honesto y más difícil. No estás roto: estás cargando algo que no empezó contigo. Eso que duele tiene un origen, y todo lo que tiene origen se puede trabajar.",
-            conexion:"Encontrar el origen de esta emoción es exactamente donde empieza el perdón."};
-  }
-}
-
-// ── ESTADO ────────────────────────────────────────────────────────────────
-var edad = null, septenioActual = null, nivelElegido = null;
-
-// ── INICIALIZACIÓN ──────────────────────────────────────────────────────────
 function calcularEdad(){
-  var fn = leer('anormal_fecha_nac', null);
-  if(fn){
-    var d = new Date(fn);
-    if(!isNaN(d.getTime())){
-      var hoy = new Date();
-      var e = hoy.getFullYear()-d.getFullYear();
-      var m = hoy.getMonth()-d.getMonth();
-      if(m<0||(m===0&&hoy.getDate()<d.getDate())) e--;
-      if(e>0 && e<120) return e;
-    }
-  }
+  var fn=leer('anormal_fecha_nac',null);
+  if(fn){ var d=new Date(fn); if(!isNaN(d.getTime())){ var h=new Date(); var e=h.getFullYear()-d.getFullYear(); var m=h.getMonth()-d.getMonth(); if(m<0||(m===0&&h.getDate()<d.getDate()))e--; if(e>0&&e<120) return e; } }
   return null;
 }
 
-function renderActual(){
-  var idx = septenioActual;
-  var s = SEPTENIOS[idx];
-  var nombre = leer('anormal_nombre','');
-  document.getElementById('p1-saludo').textContent = nombre ? (nombre.split(' ')[0] + ', este es tu ciclo') : 'Este es tu ciclo';
-
-  // Cruce con línea de trabajo y diagnóstico previo
-  var linea = leer('anormal_linea','');
-  var cruceTxt = "";
-  try{
-    var diag = JSON.parse(leer('anormal_diagnostico','{}'));
-    var nivelNombre = "";
-    for(var i=0;i<ESCALA.length;i++){ if(ESCALA[i].num==diag.nivel){ nivelNombre=ESCALA[i].nombre; break; } }
-    if(linea && nivelNombre){
-      cruceTxt = "Elegiste trabajar tu <strong style='color:var(--gold2)'>"+linea+"</strong>, y reconociste operar desde <strong style='color:var(--gold2)'>"+nivelNombre+"</strong>. Cruzado con el ciclo en que estás, eso te muestra exactamente dónde mirar: la emoción de este ciclo es la que está afectando tu "+linea+".";
-    } else if(linea){
-      cruceTxt = "Elegiste trabajar tu <strong style='color:var(--gold2)'>"+linea+"</strong>. Lo que vivas en este ciclo es lo que hoy se refleja ahí.";
-    }
-  }catch(e){}
-
-  var html = '<div class="actual-card">'+
-    '<div class="actual-edad">'+edad+' <span style="font-size:15px;color:var(--dim)">años</span></div>'+
-    '<div class="actual-rango">Septenio '+(idx+1)+' · '+s.ini+'–'+(s.fin>100?'+':s.fin)+' años · '+s.nombre+'</div>'+
-    '<div class="actual-tarea-label">La tarea de este ciclo</div>'+
-    '<div class="actual-tarea">'+s.tarea+'</div>'+
-    '<div class="actual-tono">'+s.tono+'</div>';
-  if(cruceTxt){
-    html += '<div class="cruce-box"><div class="cruce-label">Lo que esto significa para ti</div><div class="cruce-texto">'+cruceTxt+'</div></div>';
-  }
-  html += '</div>';
-  document.getElementById('actual-wrap').innerHTML = html;
-
-  // Línea de recorrido
-  var track = document.getElementById('septenios-track');
-  track.innerHTML = '';
-  for(var i=0;i<=idx;i++){
-    var sp = SEPTENIOS[i];
-    var clase = (i===idx) ? 'actual' : 'recorrido';
-    var div = document.createElement('div');
-    div.className = 'septenio-item '+clase;
-    div.innerHTML =
-      '<div class="septenio-rango"><div class="septenio-rango-edad">'+sp.ini+'–'+(sp.fin>100?'+':sp.fin)+'</div><div class="septenio-rango-num">Cic. '+(i+1)+'</div></div>'+
-      '<div class="septenio-content"><div class="septenio-nombre">'+sp.nombre+'</div><div class="septenio-tarea">'+sp.tarea+'</div><span class="septenio-badge">'+(i===idx?'◆ Estás aquí · '+sp.badge:sp.badge)+'</span></div>';
-    track.appendChild(div);
-  }
-}
-
-function aplicarEdadManual(){
-  var v = parseInt(document.getElementById('edad-manual').value);
-  if(v>0 && v<120){
-    edad = v;
-    localStorage.setItem('anormal_edad', String(v));
-    septenioActual = septenioDeEdad(edad);
-    document.getElementById('edad-faltante').style.display='none';
-    renderActual();
-  }
-}
-
-// Escala Hawkins en pantalla 3
-function renderEscala(){
-  var wrap = document.getElementById('escala-wrap');
-  ESCALA.forEach(function(item){
-    var div = document.createElement('div');
-    div.className = 'escala-item';
-    div.innerHTML =
-      '<div class="escala-num" style="background:'+item.color+'">'+item.num+'</div>'+
-      '<div class="escala-content" style="background:'+item.color+'22">'+
-        '<div class="escala-nombre">'+item.nombre+'</div>'+
-        '<div class="escala-desc">'+item.desc+'</div>'+
-        '<div class="escala-zona">'+item.zona+'</div>'+
-      '</div>'+
-      '<div class="escala-check" style="color:var(--gold2)">✓</div>';
-    div.onclick = function(){
-      document.querySelectorAll('.escala-item').forEach(function(el){ el.classList.remove('selected'); });
-      div.classList.add('selected');
-      nivelElegido = item.num;
-      var msg = mensajePuente(item.num);
-      document.getElementById('mensaje-texto').textContent = msg.texto;
-      document.getElementById('mensaje-conexion').textContent = msg.conexion;
-      document.getElementById('mensaje-wrap').classList.add('visible');
-      document.getElementById('origen-bloque').style.display='block';
-      document.getElementById('btn-p2').disabled = false;
-      setTimeout(function(){ document.getElementById('mensaje-wrap').scrollIntoView({behavior:'smooth',block:'nearest'}); },100);
-    };
-    wrap.appendChild(div);
+function renderMapa(){
+  var cont=document.getElementById('mapa-ciclos'); cont.innerHTML='';
+  var espejosActual=(idxActual!==null)?CICLOS[idxActual].espejos:[];
+  CICLOS.forEach(function(c,i){
+    var clase='ciclo-row', tag='';
+    if(idxActual!==null && i===idxActual){ clase+=' actual'; tag='<span class="ciclo-tag tag-actual">Estás aquí</span>'; }
+    else if(idxActual!==null && espejosActual.indexOf(c.n)>=0){ clase+=' espejo'; tag='<span class="ciclo-tag tag-espejo">Resuena</span>'; }
+    var rango=c.ini+'–'+(c.fin>100?'+':c.fin);
+    var div=document.createElement('div'); div.className=clase;
+    div.innerHTML='<div class="ciclo-num"><div class="ciclo-num-n">'+c.n+'</div><div class="ciclo-num-e">'+rango+'</div></div>'+
+      '<div class="ciclo-body"><div class="ciclo-nombre">'+c.nombre+tag+'</div><div class="ciclo-trab">'+c.trab+'</div>'+
+      '<span class="ciclo-emo">Emoción: '+c.emo+'</span></div>';
+    cont.appendChild(div);
   });
 }
 
-// ── NAVEGACIÓN ──────────────────────────────────────────────────────────────
+function renderActual(){
+  var c=CICLOS[idxActual];
+  var nombre=leer('anormal_nombre','');
+  document.getElementById('p1-saludo').textContent = nombre ? (nombre.split(' ')[0]+', este es tu ciclo') : 'Este es tu ciclo';
+
+  var espTxt='';
+  c.espejos.forEach(function(en){
+    var e=cicloPorNum(en);
+    if(e){ espTxt+='<p style="margin-bottom:8px"><strong style="color:var(--azul)">Ciclo '+e.n+' · '+e.nombre+'</strong> ('+e.ini+'–'+(e.fin>100?'+':e.fin)+' años): '+e.trab+' Lo que quedó abierto aquí, hoy te toca de nuevo.</p>'; }
+  });
+
+  var linea=leer('anormal_linea','');
+  var cruceTxt='';
+  if(linea){
+    cruceTxt='En la sesión anterior elegiste trabajar tu <strong style="color:var(--gold2)">'+linea+'</strong>. La emoción dominante de tu ciclo actual ('+c.emo+') y la de tus ciclos espejo es justo lo que hoy está afectando tu '+linea+'. Recordar de dónde viene es empezar a sanarlo.';
+  }
+
+  var html='<div class="actual-card">'+
+    '<div class="actual-edad">'+edad+' <span style="font-size:14px;color:var(--dim)">años</span></div>'+
+    '<div class="actual-rango">Ciclo '+c.n+' · '+c.nombre+' · '+c.ini+'–'+(c.fin>100?'+':c.fin)+' años</div>'+
+    '<div class="actual-tarea"><strong>La tarea de este ciclo:</strong> '+c.trab+'</div>'+
+    '<div class="actual-tarea" style="margin-bottom:0"><strong>Su emoción:</strong> '+c.emo+'</div>'+
+    '<div class="espejo-box"><div class="espejo-label">◑ Los ciclos que estás reviviendo</div><div class="espejo-texto">'+espTxt+'</div></div>';
+  if(cruceTxt){ html+='<div class="cruce-box"><div class="cruce-label">Lo que esto significa para tu '+linea+'</div><div class="cruce-texto">'+cruceTxt+'</div></div>'; }
+  html+='</div>';
+
+  html+='<div class="card" style="margin-top:4px"><div class="label">Una mirada más</div><p class="ct dim">Si estás en un ciclo avanzado, mira también a tus padres cuando tenían la edad de tus ciclos espejo. Mucho de lo que cargas es lo que ellos vivieron y te transmitieron sin saberlo. Tenerlo presente te ayudará en el inventario que sigue.</p></div>';
+
+  document.getElementById('actual-wrap').innerHTML=html;
+  renderMapa();
+}
+
+function aplicarEdadManual(){
+  var v=parseInt(document.getElementById('edad-manual').value);
+  if(v>0&&v<120){ edad=v; localStorage.setItem('anormal_edad',String(v)); idxActual=cicloDeEdad(edad); document.getElementById('edad-faltante').style.display='none'; renderActual(); }
+}
+
+function renderInventario(){
+  var linea=leer('anormal_linea','');
+  if(linea){ document.getElementById('linea-chip-wrap').innerHTML='<span class="linea-chip">◆ Tu línea de trabajo: '+linea+'</span><div class="ct dim" style="margin-top:8px">Mientras escribes, pregúntate: ¿este dolor tiene que ver con mi '+linea+'?</div>'; }
+
+  var cont=document.getElementById('inventario-wrap'); cont.innerHTML='';
+  var espejosActual=CICLOS[idxActual].espejos;
+  for(var i=0;i<=idxActual;i++){
+    var c=CICLOS[i];
+    var esActual=(i===idxActual), esEspejo=(espejosActual.indexOf(c.n)>=0);
+    var clase='inv-ciclo'+(esActual?' es-actual':'')+(esEspejo?' es-espejo':'');
+    var meta=c.ini+'–'+(c.fin>100?'+':c.fin)+' años · '+c.emo;
+    if(esActual) meta+=' · ◆ Tu ciclo actual'; else if(esEspejo) meta+=' · ◑ Resuena con tu ciclo';
+    var div=document.createElement('div'); div.className=clase; div.dataset.ciclo=c.n;
+    div.innerHTML='<div class="inv-head" onclick="toggleInv(this)">'+
+        '<div class="inv-head-n">'+c.n+'</div>'+
+        '<div class="inv-head-info"><div class="inv-head-nombre">'+c.nombre+'</div><div class="inv-head-meta">'+meta+'</div></div>'+
+        '<div class="inv-head-chevron">▶</div></div>'+
+      '<div class="inv-content"><div class="inv-guia">'+c.trab+'</div>'+
+        '<div class="inv-campo"><div class="inv-campo-label dolor"><span class="inv-dot dolor"></span>Dolores de este ciclo</div>'+
+          '<textarea data-tipo="dolor" data-ciclo="'+c.n+'" placeholder="¿Qué te dolió en esta etapa? Pérdidas, ausencias, heridas, lo que no llegó..." oninput="guardarInv()"></textarea></div>'+
+        '<div class="inv-campo"><div class="inv-campo-label alegria"><span class="inv-dot alegria"></span>Alegrías de este ciclo</div>'+
+          '<textarea data-tipo="alegria" data-ciclo="'+c.n+'" placeholder="¿Qué te dio vida en esta etapa? Logros, vínculos, momentos que aún te sostienen..." oninput="guardarInv()"></textarea></div>'+
+      '</div>';
+    cont.appendChild(div);
+  }
+  var actualEl=cont.querySelector('.inv-ciclo.es-actual'); if(actualEl) actualEl.classList.add('open');
+  actualizarProgreso();
+}
+
+function toggleInv(head){ head.parentElement.classList.toggle('open'); }
+
+function guardarInv(){
+  document.querySelectorAll('#inventario-wrap textarea').forEach(function(ta){
+    var n=ta.dataset.ciclo, tipo=ta.dataset.tipo;
+    if(!inventario[n]) inventario[n]={dolores:'',alegrias:''};
+    if(tipo==='dolor') inventario[n].dolores=ta.value; else inventario[n].alegrias=ta.value;
+  });
+  actualizarProgreso();
+}
+
+function actualizarProgreso(){
+  var conAlgo=0, total=idxActual+1;
+  for(var i=0;i<=idxActual;i++){ var n=CICLOS[i].n; if(inventario[n] && (inventario[n].dolores.trim()||inventario[n].alegrias.trim())) conAlgo++; }
+  document.getElementById('inv-progreso').textContent='Has registrado '+conAlgo+' de '+total+' ciclos vividos.';
+}
+
 function irA(n){
-  document.querySelectorAll('.pantalla').forEach(function(p){ p.classList.remove('visible'); });
+  document.querySelectorAll('.pantalla').forEach(function(p){p.classList.remove('visible');});
   document.getElementById('p'+n).classList.add('visible');
-  var pcts=[25,50,75,100];
-  document.getElementById('prog').style.width=(pcts[n]||25)+'%';
+  var pcts=[20,45,75,100];
+  document.getElementById('prog').style.width=(pcts[n]||20)+'%';
+  if(n===2 && document.getElementById('inventario-wrap').children.length===0) renderInventario();
   if(n===3) renderCierre();
   window.scrollTo(0,0);
 }
 
 function renderCierre(){
-  var s = SEPTENIOS[septenioActual];
-  var nivelNombre='—';
-  for(var i=0;i<ESCALA.length;i++){ if(ESCALA[i].num==nivelElegido){ nivelNombre=ESCALA[i].nombre; break; } }
-  var origen = (document.getElementById('origen-texto').value||'').trim();
-  var html =
-    '<div class="cierre-fila"><span class="cierre-k">Tu ciclo actual</span><span class="cierre-v">'+s.nombre+'</span></div>'+
-    '<div class="cierre-fila"><span class="cierre-k">La tarea</span><span class="cierre-v">'+s.badge+'</span></div>'+
-    '<div class="cierre-fila"><span class="cierre-k">Emoción reconocida</span><span class="cierre-v">'+nivelNombre+'</span></div>';
-  if(origen){
-    html += '<div class="cierre-fila"><span class="cierre-k">Origen identificado</span><span class="cierre-v">'+ (origen.length>60?origen.slice(0,60)+'…':origen) +'</span></div>';
-  }
-  document.getElementById('cierre-resumen').innerHTML = html;
+  var c=CICLOS[idxActual]; guardarInv();
+  var dolores=0, alegrias=0;
+  for(var k in inventario){ if(inventario[k].dolores.trim()) dolores++; if(inventario[k].alegrias.trim()) alegrias++; }
+  document.getElementById('cierre-resumen').innerHTML=
+    '<div class="cierre-fila"><span class="cierre-k">Tu ciclo actual</span><span class="cierre-v">'+c.n+' · '+c.nombre+'</span></div>'+
+    '<div class="cierre-fila"><span class="cierre-k">Ciclos que resuenan</span><span class="cierre-v">'+c.espejos.join(' y ')+'</span></div>'+
+    '<div class="cierre-fila"><span class="cierre-k">Ciclos con dolores nombrados</span><span class="cierre-v">'+dolores+'</span></div>'+
+    '<div class="cierre-fila"><span class="cierre-k">Ciclos con alegrías nombradas</span><span class="cierre-v">'+alegrias+'</span></div>';
 }
 
-// ── COMPLETAR ───────────────────────────────────────────────────────────────
 function completar(){
-  var origen = (document.getElementById('origen-texto').value||'').trim();
-  var compromiso = (document.getElementById('compromiso-texto').value||'').trim();
-  var s = SEPTENIOS[septenioActual];
-
+  guardarInv();
+  var c=CICLOS[idxActual];
+  var dolorPrincipal=(document.getElementById('dolor-principal').value||'').trim();
+  var invArray=[];
+  for(var i=0;i<=idxActual;i++){
+    var n=CICLOS[i].n; var item=inventario[n]||{dolores:'',alegrias:''};
+    invArray.push({ciclo:n, nombre:CICLOS[i].nombre, dolores:item.dolores, alegrias:item.alegrias});
+  }
   localStorage.setItem('anormal_ciclos', JSON.stringify({
-    edad: edad,
-    septenio: septenioActual+1,
-    nombre_ciclo: s.nombre,
-    tarea: s.badge,
-    nivel_emocion: nivelElegido,
-    origen: origen,
-    compromiso: compromiso,
-    fecha: new Date().toLocaleDateString('es-CO')
+    edad:edad, cicloActual:c.n, nombre_ciclo:c.nombre, emocion:c.emo, espejos:c.espejos,
+    inventario:invArray, dolor_principal:dolorPrincipal, fecha:new Date().toLocaleDateString('es-CO')
   }));
-
-  // Espejo en anormal_proceso (consistente con Sesión 1)
   try{
-    var data = JSON.parse(sessionStorage.getItem('anormal_proceso')||'{}');
-    data.ciclos = { septenio: septenioActual+1, nombre: s.nombre, nivel: nivelElegido, origen: origen, compromiso: compromiso };
+    var data=JSON.parse(sessionStorage.getItem('anormal_proceso')||'{}');
+    data.ciclos={cicloActual:c.n, nombre:c.nombre, espejos:c.espejos, inventario:invArray, dolor_principal:dolorPrincipal};
     if(!data.progreso) data.progreso={};
-    data.progreso.ciclos = { completado:true, fecha:new Date().toLocaleDateString('es-CO') };
+    data.progreso.ciclos={completado:true, fecha:new Date().toLocaleDateString('es-CO')};
     sessionStorage.setItem('anormal_proceso', JSON.stringify(data));
   }catch(e){}
-
-  window.location.href = 'mi-trabajo-del-perdon.html';
+  window.location.href='mi-trabajo-del-perdon.html';
 }
 
-// ── ARRANQUE ────────────────────────────────────────────────────────────────
 (function init(){
-  edad = calcularEdad();
-  if(!edad){
-    var em = parseInt(leer('anormal_edad','0'));
-    if(em>0) edad = em;
-  }
-  if(edad){
-    septenioActual = septenioDeEdad(edad);
-    renderActual();
-  } else {
-    document.getElementById('edad-faltante').style.display='block';
-  }
-  renderEscala();
+  edad=calcularEdad();
+  if(!edad){ var em=parseInt(leer('anormal_edad','0')); if(em>0) edad=em; }
+  if(edad){ idxActual=cicloDeEdad(edad); renderActual(); }
+  else { document.getElementById('edad-faltante').style.display='block'; }
+  renderMapa();
 })();
 </script>
 </body>
