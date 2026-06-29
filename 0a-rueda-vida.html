@@ -666,7 +666,7 @@ var S={
     if(dg){ var a = JSON.parse(dg); if(a && typeof a==='object'){ S.diagnostico = a; } }
   }catch(e){}
 })();
-var STEPS=["Inicio","Diagn\u00f3stico","Mi rueda","Mis acciones","Check-in 30d","Mis metas 90d","Mi crecimiento"];
+var STEPS=["Inicio","Diagn\u00f3stico","Mi rueda","Mis compromisos"];
 var paso=0;
 
 function ge(id){return document.getElementById(id);}
@@ -997,7 +997,7 @@ function bRueda(){
   var ll={salud:'Salud',dinero:'Dinero',amor:'Amor'};
 
   var sorted=[].concat(AREAS).sort(function(a,b){return (S.diagnostico[a.id]||1)-(S.diagnostico[b.id]||1);});
-  var areasBajo5 = sorted.filter(function(a){ return (S.diagnostico[a.id]||1) < 5; });
+  var areasBajo5 = sorted.filter(function(a){ return (S.diagnostico[a.id]||1) <= 5; });
   var criticas = areasBajo5.length > 0 ? areasBajo5 : sorted.slice(0,3);
   var areasLineaBajas=sorted.filter(function(a){return a.linea===lineaEleg&&(S.diagnostico[a.id]||1)<6;});
 
@@ -1129,7 +1129,7 @@ function bRueda(){
       var t=document.getElementById('comp-'+a.id);
       var val=t?t.value.trim():'';
       if(val){comps[a.id]={nombre:a.nombre,texto:val,fecha:new Date().toISOString()};}
-      else if((S.diagnostico[a.id]||1)<5){faltanComp.push(a.nombre);}
+      else if((S.diagnostico[a.id]||1)<=5){faltanComp.push(a.nombre);}
     });
     if(faltanComp.length>0){
       alert("Para continuar, debes escribir un compromiso para: "+faltanComp.join(", ")+".");
