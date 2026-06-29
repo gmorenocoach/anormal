@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>∀normal — Sesión 2 · Ciclos de Vida</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Barlow:wght@300;400;500&family=Barlow+Condensed:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#060A14;--bg2:#0A0F1E;--bg3:#0E1525;--bg4:#131D30;
+  --gold:#C9A84C;--gold2:#E8C96A;--gold3:#F5E0A0;
+  --gd:rgba(201,168,76,.13);--gb:rgba(201,168,76,.28);
+  --text:#EAE6DC;--dim:#8A95A8;--faint:#3A4558;--ffaint:#1E2A3A;
+  --grn:#4ABF7A;--rose:#D4537E;
+  --r:4px;--rm:8px;--rl:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font-weight:300;font-size:15px;line-height:1.65;min-height:100vh}
+.wrap{max-width:680px;margin:0 auto;padding:24px 20px 60px}
+
+.hdr{display:flex;align-items:center;justify-content:space-between;padding:16px 0 24px;border-bottom:1px solid var(--faint);margin-bottom:28px}
+.hdr-logo{font-family:"Cormorant Garamond",serif;font-size:22px;color:var(--gold2)}
+.hdr-info{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim)}
+
+.sesion-marca{text-align:center;margin-bottom:24px}
+.sesion-num{font-family:"Cormorant Garamond",serif;font-size:13px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold)}
+.sesion-line{width:40px;height:1px;background:var(--gb);margin:10px auto}
+
+.label{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:10px}
+.titulo{font-family:"Cormorant Garamond",serif;font-size:clamp(24px,5.5vw,34px);font-weight:300;color:var(--gold2);line-height:1.18;margin-bottom:14px}
+.subtitulo{font-size:14px;color:var(--dim);line-height:1.8;margin-bottom:26px}
+
+.card{background:var(--bg2);border:1px solid rgba(255,255,255,.055);border-radius:var(--rl);padding:22px 24px;margin-bottom:14px}
+.card.gold{border-color:var(--gb);background:linear-gradient(135deg,var(--bg2),var(--bg3))}
+.ct{font-size:14px;color:var(--text);line-height:1.85}
+.ct.dim{color:var(--dim);font-size:13px}
+
+.video-box{background:var(--bg3);border:1px dashed var(--faint);border-radius:var(--rl);padding:34px 24px;text-align:center;margin-bottom:18px}
+.video-play{font-size:30px;color:var(--gold);margin-bottom:8px}
+.video-txt{font-size:13px;color:var(--dim)}
+.video-soon{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--faint);margin-top:8px}
+
+.quote{font-family:"Cormorant Garamond",serif;font-style:italic;font-size:19px;color:var(--gold3);line-height:1.5;border-left:2px solid var(--gb);padding-left:18px;margin:22px 0}
+.quote-autor{display:block;font-size:11px;font-style:normal;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);margin-top:8px}
+
+.recorrido-mini{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:18px 0 4px}
+.paso-mini{display:flex;align-items:center;gap:8px}
+.paso-dot{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:"Barlow Condensed",sans-serif;font-size:12px;border:1px solid var(--gb);color:var(--gold)}
+.paso-dot.done{background:var(--gd);border-color:var(--gold)}
+.paso-label{font-size:11px;color:var(--dim)}
+.paso-sep{color:var(--faint);font-size:12px}
+
+.bp{background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--bg);border:none;border-radius:var(--r);font-family:"Barlow Condensed",sans-serif;font-size:12px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;padding:14px 32px;cursor:pointer;transition:opacity .2s,transform .15s}
+.bp:hover{opacity:.9;transform:translateY(-1px)}
+.bs{background:transparent;color:var(--gold);border:1px solid var(--gb);border-radius:var(--r);font-family:"Barlow Condensed",sans-serif;font-size:11px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;padding:12px 24px;cursor:pointer}
+.nav{display:flex;gap:10px;justify-content:space-between;align-items:center;margin-top:30px;flex-wrap:wrap}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hdr">
+    <div class="hdr-logo">∀normal</div>
+    <div class="hdr-info">Sesión 2</div>
+  </div>
+
+  <div class="sesion-marca">
+    <div class="sesion-num">Sesión Dos</div>
+    <div class="sesion-line"></div>
+    <div class="hdr-info" style="color:var(--dim)">Ciclos de vida</div>
+  </div>
+
+  <h1 class="titulo">Llegaste hasta aquí. Eso ya dice algo de ti.</h1>
+  <p class="subtitulo">En la primera sesión miraste tu vida hoy: dónde estás, qué te pesa, desde dónde operas. Ahora vamos a mirar el <em>cuándo</em>. Porque nada de lo que vives empezó hoy — empezó en un ciclo, en una etapa, en un momento que dejó huella.</p>
+
+  <div class="video-box">
+    <div class="video-play">▶</div>
+    <div class="video-txt">Video de apertura — Sesión 2</div>
+    <div class="video-soon">Próximamente disponible</div>
+  </div>
+
+  <div class="card gold">
+    <div class="label">Lo que vas a vivir en esta sesión</div>
+    <p class="ct">La vida se mueve en ciclos de siete años. Cada uno trae una tarea, y cada uno deja una marca. En esta sesión vas a ubicarte en tu ciclo actual, reconocer la tarea que te toca, y encontrar la emoción que quedó atrapada en el camino. Esa emoción tiene un origen — y todo lo que tiene origen se puede sanar. Ese es el comienzo del trabajo del perdón.</p>
+  </div>
+
+  <p class="quote">No es que tengamos poco tiempo, sino que perdemos mucho. La vida es lo bastante larga si sabes usarla.
+    <span class="quote-autor">Séneca</span></p>
+
+  <div class="card">
+    <div class="label">Cómo se conecta con lo que ya hiciste</div>
+    <p class="ct dim">Lo que descubriste en tu diagnóstico —tu línea de trabajo y el nivel desde el que operas— no se quedó atrás. Aquí lo vas a cruzar con tu ciclo de vida para ver, con más claridad que nunca, dónde mirar y por qué.</p>
+
+    <div class="recorrido-mini">
+      <div class="paso-mini"><div class="paso-dot">1</div><div class="paso-label">Ciclos de vida</div></div>
+      <span class="paso-sep">→</span>
+      <div class="paso-mini"><div class="paso-dot">2</div><div class="paso-label">Perdón</div></div>
+      <span class="paso-sep">→</span>
+      <div class="paso-mini"><div class="paso-dot">3</div><div class="paso-label">Dolor</div></div>
+      <span class="paso-sep">→</span>
+      <div class="paso-mini"><div class="paso-dot">4</div><div class="paso-label">Miedo</div></div>
+    </div>
+  </div>
+
+  <p class="ct" style="margin-top:8px">Tómate tu tiempo. Esta sesión no se hace con prisa: se hace con honestidad.</p>
+
+  <div class="nav">
+    <button class="bs" onclick="volverResumen()">← Volver al resumen</button>
+    <button class="bp" onclick="comenzar()">Comenzar la Sesión 2 →</button>
+  </div>
+</div>
+
+<script>
+function leer(k,def){var v=localStorage.getItem(k);return (v===null||v===undefined)?def:v;}
+
+// Personalizar saludo con el nombre si existe
+(function(){
+  var nombre=leer('anormal_nombre','');
+  if(nombre){
+    var primer=nombre.split(' ')[0];
+    document.querySelector('.titulo').textContent = primer+', llegaste hasta aquí. Eso ya dice algo de ti.';
+  }
+})();
+
+function comenzar(){
+  // Marcar la sesión 2 como iniciada y entregar al primer módulo
+  try{
+    var data=JSON.parse(sessionStorage.getItem('anormal_proceso')||'{}');
+    if(!data.progreso) data.progreso={};
+    data.progreso.sesion2_entrada={completado:true,fecha:new Date().toLocaleDateString('es-CO')};
+    sessionStorage.setItem('anormal_proceso',JSON.stringify(data));
+  }catch(e){}
+  localStorage.setItem('anormal_sesion2_iniciada','1');
+  window.location.href='mis-ciclos-de-vida.html';
+}
+
+function volverResumen(){
+  window.location.href='resumen-conciencia.html';
+}
+</script>
+</body>
+</html>
