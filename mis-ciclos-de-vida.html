@@ -115,12 +115,34 @@ textarea:focus{outline:none;border-color:var(--gold)}
 /* PISTAS POR CICLO */
 .pistas-box{background:rgba(255,255,255,.02);border:1px solid var(--ffaint);border-radius:var(--rm);padding:12px 14px;margin-bottom:14px}
 .pistas-titulo{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-bottom:9px}
-.pista{display:flex;gap:9px;align-items:flex-start;font-size:12.5px;color:var(--dim);line-height:1.6;margin-bottom:7px;padding:4px 0}
-.pista:last-child{margin-bottom:0}
-.pista-bullet{color:var(--faint);flex-shrink:0;margin-top:1px}
-.pista.afin{color:var(--text)}
-.pista.afin .pista-bullet{color:var(--rose)}
-.pista-flag{font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--rose);background:rgba(212,83,126,.12);padding:1px 6px;border-radius:3px;margin-left:6px;white-space:nowrap}
+
+/* ÍTEM MARCABLE */
+.item{border:1px solid var(--ffaint);border-radius:var(--rm);margin-bottom:7px;overflow:hidden;transition:all .15s}
+.item.on{border-color:var(--rose);background:rgba(212,83,126,.06)}
+.item.afin{border-color:rgba(212,83,126,.3)}
+.item-head{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;cursor:pointer;user-select:none}
+.item-check{width:19px;height:19px;border-radius:5px;border:1.5px solid var(--faint);display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff;flex-shrink:0;margin-top:1px;transition:all .15s}
+.item.on .item-check{background:var(--rose);border-color:var(--rose)}
+.item-texto{flex:1;font-size:12.5px;color:var(--dim);line-height:1.55}
+.item.on .item-texto{color:var(--text)}
+.item.afin .item-texto{color:var(--text)}
+.item-flag{font-size:8px;letter-spacing:.08em;text-transform:uppercase;color:var(--rose);background:rgba(212,83,126,.14);padding:1px 5px;border-radius:3px;margin-left:5px;white-space:nowrap}
+.item-peso{display:none;align-items:center;gap:7px;padding:0 12px 11px 41px}
+.item.on .item-peso{display:flex}
+.item-peso-label{font-size:10px;color:var(--dim);min-width:58px}
+.peso-dots{display:flex;gap:5px}
+.pdot{width:22px;height:22px;border-radius:50%;border:1px solid var(--faint);display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--dim);cursor:pointer;transition:all .15s;font-family:"Barlow Condensed",sans-serif}
+.pdot.on{background:var(--rose);border-color:var(--rose);color:#fff}
+.item.recurso.on{border-color:var(--grn);background:rgba(74,191,122,.06)}
+.item.recurso.on .item-check{background:var(--grn);border-color:var(--grn)}
+.item.recurso .pdot.on{background:var(--grn);border-color:var(--grn)}
+.item-add{display:flex;gap:8px;margin-top:8px}
+.item-add input{flex:1;background:var(--bg2);border:1px solid var(--faint);border-radius:var(--rm);color:var(--text);font-family:"Barlow",sans-serif;font-size:12.5px;padding:9px 11px}
+.item-add input:focus{outline:none;border-color:var(--gold)}
+.item-add button{background:var(--gd);border:1px solid var(--gb);border-radius:var(--rm);color:var(--gold2);font-size:18px;width:38px;cursor:pointer}
+.bloque-label{font-size:10px;letter-spacing:.14em;text-transform:uppercase;margin:14px 0 8px}
+.bloque-label.dolor{color:var(--rose)}
+.bloque-label.recurso{color:var(--grn)}
 
 /* CONTENCIÓN */
 .contencion{background:rgba(74,191,122,.06);border:1px solid rgba(74,191,122,.25);border-radius:var(--rl);padding:16px 18px;margin-bottom:18px}
@@ -190,8 +212,8 @@ textarea:focus{outline:none;border-color:var(--gold)}
       </div>
       <div class="columna col-c">
         <div class="columna-titulo">Identidad y propósito<br><span style="font-size:9px;opacity:.8">3 · 6 · 9</span></div>
-        <div class="celda"><div class="celda-n">3</div><div class="celda-edad">14–21</div><div class="celda-nom">El primer crack</div></div>
-        <div class="celda"><div class="celda-n">6</div><div class="celda-edad">35–42</div><div class="celda-nom">El segundo crack</div></div>
+        <div class="celda"><div class="celda-n">3</div><div class="celda-edad">14–21</div><div class="celda-nom">Despertar identidad</div></div>
+        <div class="celda"><div class="celda-n">6</div><div class="celda-edad">35–42</div><div class="celda-nom">Búsqueda de sentido</div></div>
         <div class="celda"><div class="celda-n">9</div><div class="celda-edad">56–63</div><div class="celda-nom">Legado y plenitud</div></div>
       </div>
     </div>
@@ -275,8 +297,7 @@ textarea:focus{outline:none;border-color:var(--gold)}
 
     <div class="cierre-resumen" id="cierre-resumen"></div>
 
-    <p class="quote">Entre el estímulo y la respuesta hay un espacio. En ese espacio está nuestra libertad y nuestro poder de elegir la respuesta.
-      <span class="quote-autor">Viktor Frankl</span></p>
+    <p class="quote">Entre lo que te pasó y lo que decides hacer con eso, hay un espacio. En ese espacio vive tu libertad. Y hoy estás empezando a habitarlo.</p>
 
     <div class="card gold">
       <div class="label">Antes de avanzar</div>
@@ -298,10 +319,10 @@ function leer(k,def){var v=localStorage.getItem(k);return (v===null||v===undefin
 var CICLOS = [
   {n:1, ini:0,  fin:7,  nombre:"La base de todo",         trab:"Seguridad, amor y pertenencia. Lo que se grabó antes de las palabras.", emo:"Nostalgia", col:0, espejos:[4,7]},
   {n:2, ini:7,  fin:14, nombre:"El despertar del cuerpo", trab:"Identidad temprana y la pregunta: ¿soy suficiente?",                    emo:"Miedo",     col:1, espejos:[5,8]},
-  {n:3, ini:14, fin:21, nombre:"El primer crack",         trab:"Quién soy más allá de mi familia. El primer quiebre de identidad.",     emo:"Enojo",     col:2, espejos:[6,9]},
+  {n:3, ini:14, fin:21, nombre:"El despertar de la identidad",         trab:"Quién soy más allá de mi familia. El primer gran quiebre.",     emo:"Enojo",     col:2, espejos:[6,9]},
   {n:4, ini:21, fin:28, nombre:"La salida al mundo",       trab:"Primeras responsabilidades adultas y decisiones propias.",             emo:"Sorpresa",  col:0, espejos:[1,7]},
   {n:5, ini:28, fin:35, nombre:"La evaluación",            trab:"¿Es esto lo que quiero? Primer balance de lo construido.",             emo:"Alegría / Duda", col:1, espejos:[2,8]},
-  {n:6, ini:35, fin:42, nombre:"El segundo crack",         trab:"Crisis de propósito. Caen máscaras: ¿para qué estoy aquí?",            emo:"Tristeza",  col:2, espejos:[3,9]},
+  {n:6, ini:35, fin:42, nombre:"La búsqueda de sentido",         trab:"Caen las máscaras: ¿para qué estoy aquí? El reencuentro con el sentido.",            emo:"Tristeza",  col:2, espejos:[3,9]},
   {n:7, ini:42, fin:49, nombre:"Recoger lo sembrado",      trab:"Liderar desde el ser. La experiencia se vuelve madurez.",              emo:"Equilibrio", col:0, espejos:[1,4]},
   {n:8, ini:49, fin:56, nombre:"Desapego y sabiduría",     trab:"Soltar lo que ya no eres. La vida se destila en esencia.",             emo:"Nostalgia integrada", col:1, espejos:[2,5]},
   {n:9, ini:56, fin:200,nombre:"Legado y plenitud",        trab:"Recoger la vida entera. Servir y trascender desde lo vivido.",         emo:"Amor",      col:2, espejos:[3,6]}
@@ -346,6 +367,19 @@ var NIVEL_TAG = {
   125:"deseo", 150:"ira", 175:"verguenza", 200:"ira", 400:"tristeza", 540:"tristeza", 700:"tristeza"
 };
 var TAG_LABEL = {verguenza:"vergüenza/culpa", miedo:"miedo", tristeza:"tristeza", ira:"ira/impotencia", deseo:"escasez/vacío"};
+
+// ── RECURSOS POR CICLO: lo que te sostuvo (marcable y cuantificable) ───────
+var RECURSOS = {
+  1:["El amor o cuidado de alguien (madre, padre, abuelos)","Sentirte protegido y seguro en casa","Juego, risa, momentos de ternura"],
+  2:["Amigos o compañeros que te acompañaron","Descubrir un talento o algo que te gustaba","Un adulto que creyó en ti (maestro, familiar)"],
+  3:["Un grupo donde sí pertenecías","Logros, reconocimientos, tu primera pasión","Alguien que te escuchó y te valoró"],
+  4:["Independencia y primeras conquistas propias","Personas o vínculos que te dieron fuerza","Aprender de lo que salía mal"],
+  5:["Estabilidad o frutos de lo construido","Relaciones que te sostuvieron","Claridad sobre lo que sí querías"],
+  6:["Reencontrarte con lo que te da sentido","Apoyo en medio de la crisis","Sabiduría ganada en el camino"],
+  7:["El reconocimiento de los tuyos","Madurez para liderar y guiar","Paz con buena parte de tu historia"],
+  8:["Libertad de soltar lo que ya no era","Sabiduría para acompañar a otros","Serenidad y desapego"],
+  9:["Gratitud por la vida vivida","El legado que dejas en otros","Plenitud y reconciliación"]
+};
 
 // ── NIVELES DE HAWKINS (con su emoción-raíz rastreable) ───────────────────
 var HAWKINS = {
@@ -449,9 +483,8 @@ function renderRastreo(){
 
   var tagNivel = nivel && NIVEL_TAG[nivel] ? NIVEL_TAG[nivel] : null;
   var enfasisTxt = tagNivel ? ' Como tu nivel marca <b>'+(emocionRaiz||'')+'</b>, te resaltamos en cada etapa las heridas que suelen producir <b>'+TAG_LABEL[tagNivel]+'</b> — para que te sea más fácil reconocer dónde empezó.' : '';
-  intro.innerHTML='<p class="ct" style="margin-bottom:8px">Vamos a recorrer tu vida ciclo por ciclo. En cada uno verás <b>pistas de lo que suele dolernos en esa etapa</b>. No tienes que haberlas vivido todas — son para ayudarte a recordar. Donde algo resuene, márcalo, dile cuánto pesó y escríbelo.'+enfasisTxt+'</p><p class="ct dim">Verás que muchas marcas caen en una misma columna. Ese es tu patrón — el eco que vienes a romper.</p>';
+  intro.innerHTML='<p class="ct" style="margin-bottom:8px">Vamos a recorrer tu vida ciclo por ciclo. En cada etapa verás una lista de <b>lo que pudo pasar</b>. Marca con un clic lo que reconozcas como tuyo, y a cada cosa dile <b>cuánto pesó</b> (porque no todo dolió igual). Puedes marcar lo mismo en varios ciclos si te pasó más de una vez, y añadir lo tuyo si no está en la lista.'+enfasisTxt+'</p><p class="ct dim">Cada cosa que marcas, con su peso, queda lista para tu trabajo del perdón. No tendrás que volver a calificarla.</p>';
 
-  // Nota de contención
   var cont0=document.createElement('div');
   cont0.className='contencion';
   cont0.innerHTML='<div class="contencion-label">✿ Antes de empezar — respira</div>'+
@@ -462,78 +495,125 @@ function renderRastreo(){
   cont.appendChild(cont0);
   var espejos=CICLOS[idxActual].espejos;
   for(var i=0;i<=idxActual;i++){
-    var c=CICLOS[i];
-    var esActual=(i===idxActual),esEspejo=(espejos.indexOf(c.n)>=0);
-    var clase='rastreo-ciclo'+(esActual?' es-actual':'')+(esEspejo?' es-espejo':'');
-    var meta=c.ini+'–'+(c.fin>100?'+':c.fin)+' años · '+COL_NOMBRES[c.col].split(' (')[0];
-    if(esActual)meta+=' · ◆ Actual';else if(esEspejo)meta+=' · ◑ Tu columna';
+    (function(c){
+      var esActual=(c.n===CICLOS[idxActual].n),esEspejo=(espejos.indexOf(c.n)>=0);
+      var clase='rastreo-ciclo'+(esActual?' es-actual':'')+(esEspejo?' es-espejo':'');
+      var meta=c.ini+'–'+(c.fin>100?'+':c.fin)+' años · '+COL_NOMBRES[c.col].split(' (')[0];
+      if(esActual)meta+=' · ◆ Actual';else if(esEspejo)meta+=' · ◑ Tu columna';
 
-    // Construir pistas del ciclo, resaltando las afines al nivel
-    var pistasArr = PISTAS[c.n]||[];
-    var pistasHtml='';
-    pistasArr.forEach(function(p){
-      var afin = (tagNivel && p.tag===tagNivel);
-      var flag = afin ? '<span class="pista-flag">tu '+TAG_LABEL[tagNivel].split('/')[0]+'</span>' : '';
-      pistasHtml+='<div class="pista'+(afin?' afin':'')+'"><span class="pista-bullet">'+(afin?'◆':'·')+'</span><span>'+p.t+flag+'</span></div>';
-    });
+      var div=document.createElement('div');div.className=clase;div.dataset.ciclo=c.n;div.id='rc-'+c.n;
+      div.innerHTML=
+        '<div class="rastreo-head" onclick="abrirCiclo('+c.n+')">'+
+          '<div class="rastreo-n">'+c.n+'</div>'+
+          '<div class="rastreo-info"><div class="rastreo-nom">'+c.nombre+'</div><div class="rastreo-meta">'+meta+'</div></div>'+
+          '<div class="rastreo-toggle"><span id="resumen-'+c.n+'">Abrir</span><div class="rastreo-check" style="border:none;color:var(--gold2)">▸</div></div>'+
+        '</div>'+
+        '<div class="rastreo-detalle" id="det-'+c.n+'">'+
+          '<div class="bloque-label dolor">● Lo que pudo dolerte en esta etapa</div>'+
+          '<div id="dolores-'+c.n+'"></div>'+
+          '<div class="item-add"><input type="text" id="add-dolor-'+c.n+'" placeholder="Añadir algo tuyo que no está en la lista..."><button onclick="agregarPropio('+c.n+',\'dolor\')">+</button></div>'+
+          '<div class="bloque-label recurso">● Lo que te sostuvo en esta etapa</div>'+
+          '<div id="recursos-'+c.n+'"></div>'+
+          '<div class="item-add"><input type="text" id="add-recurso-'+c.n+'" placeholder="Añadir un recurso o alegría tuya..."><button onclick="agregarPropio('+c.n+',\'recurso\')">+</button></div>'+
+        '</div>';
+      cont.appendChild(div);
 
-    var div=document.createElement('div');div.className=clase;div.dataset.ciclo=c.n;div.id='rc-'+c.n;
-    div.innerHTML=
-      '<div class="rastreo-head">'+
-        '<div class="rastreo-n">'+c.n+'</div>'+
-        '<div class="rastreo-info"><div class="rastreo-nom">'+c.nombre+'</div><div class="rastreo-meta">'+meta+'</div></div>'+
-        '<div class="rastreo-toggle" onclick="toggleMarca('+c.n+')"><span>Lo viví aquí</span><div class="rastreo-check">✓</div></div>'+
-      '</div>'+
-      '<div class="rastreo-detalle">'+
-        '<div class="pistas-box"><div class="pistas-titulo">Lo que pudo pasar en esta etapa</div>'+pistasHtml+'</div>'+
-        '<div class="intensidad-row"><span class="intensidad-label">¿Cuánto pesó?</span><div class="intensidad-dots">'+
-          [1,2,3,4,5].map(function(v){return '<div class="idot" onclick="setIntensidad('+c.n+','+v+')" data-v="'+v+'">'+v+'</div>';}).join('')+
-        '</div></div>'+
-        '<div class="campo-mini"><div class="campo-mini-label dolor"><span class="mini-dot dolor"></span>¿Qué pasó? El dolor de este ciclo</div><textarea data-tipo="dolor" data-ciclo="'+c.n+'" placeholder="Lo que recuerdes: qué pasó, con quién, qué sentiste..." oninput="guardarRastreo()"></textarea></div>'+
-        '<div class="campo-mini"><div class="campo-mini-label alegria"><span class="mini-dot alegria"></span>¿Y qué te sostuvo? La alegría de este ciclo</div><textarea data-tipo="alegria" data-ciclo="'+c.n+'" placeholder="Algo bueno de esa misma etapa, un recurso que aún tienes..." oninput="guardarRastreo()"></textarea></div>'+
-      '</div>';
-    cont.appendChild(div);
+      // Render ítems de dolores
+      var pistasArr=PISTAS[c.n]||[];
+      pistasArr.forEach(function(p,idx){ pintarItem(c.n,'dolor','d'+idx,p.t,(tagNivel&&p.tag===tagNivel)); });
+      // Render ítems de recursos
+      var recArr=RECURSOS[c.n]||[];
+      recArr.forEach(function(r,idx){ pintarItem(c.n,'recurso','r'+idx,r,false); });
+    })(CICLOS[i]);
   }
+  // abrir el ciclo actual por defecto
+  abrirCiclo(CICLOS[idxActual].n, true);
 }
 
-function toggleMarca(n){
-  var el=document.getElementById('rc-'+n);
-  el.classList.toggle('marcado');
-  if(!rastreo[n])rastreo[n]={intensidad:0,dolor:'',alegria:'',marcado:false};
-  rastreo[n].marcado=el.classList.contains('marcado');
+function pintarItem(ciclo,tipo,id,texto,afin){
+  var cont=document.getElementById((tipo==='dolor'?'dolores-':'recursos-')+ciclo);
+  var div=document.createElement('div');
+  div.className='item'+(tipo==='recurso'?' recurso':'')+(afin?' afin':'');
+  div.id='it-'+ciclo+'-'+id;
+  var flag=afin?'<span class="item-flag">tu '+TAG_LABEL[NIVEL_TAG[nivel]].split('/')[0]+'</span>':'';
+  div.innerHTML=
+    '<div class="item-head" onclick="toggleItem('+ciclo+',\''+tipo+'\',\''+id+'\')">'+
+      '<div class="item-check">✓</div>'+
+      '<div class="item-texto">'+texto+flag+'</div>'+
+    '</div>'+
+    '<div class="item-peso"><span class="item-peso-label">'+(tipo==='dolor'?'¿Cuánto pesó?':'¿Cuánto sumó?')+'</span><div class="peso-dots">'+
+      [1,2,3,4,5].map(function(v){return '<div class="pdot" onclick="setPeso('+ciclo+',\''+tipo+'\',\''+id+'\','+v+')" data-v="'+v+'">'+v+'</div>';}).join('')+
+    '</div></div>';
+  div.dataset.texto=texto;
+  cont.appendChild(div);
+}
+
+function abrirCiclo(n, forzar){
+  var det=document.getElementById('det-'+n);
+  var abierto=det.style.display==='block';
+  if(forzar) abierto=false;
+  det.style.display=abierto?'none':'block';
+  document.getElementById('resumen-'+n).textContent=abierto?'Abrir':'Cerrar';
+}
+
+function asegurar(ciclo,tipo,id,texto){
+  if(!rastreo[ciclo]) rastreo[ciclo]={dolores:{},recursos:{}};
+  var bolsa=(tipo==='dolor')?rastreo[ciclo].dolores:rastreo[ciclo].recursos;
+  if(!bolsa[id]) bolsa[id]={texto:texto,peso:0,on:false};
+  return bolsa[id];
+}
+
+function toggleItem(ciclo,tipo,id){
+  var el=document.getElementById('it-'+ciclo+'-'+id);
+  var texto=el.dataset.texto;
+  var item=asegurar(ciclo,tipo,id,texto);
+  item.on=!item.on;
+  el.classList.toggle('on', item.on);
+  if(item.on && item.peso===0){ setPeso(ciclo,tipo,id,3); } // peso por defecto medio
   actualizarPatron();
 }
-function setIntensidad(n,v){
-  var el=document.getElementById('rc-'+n);
-  el.querySelectorAll('.idot').forEach(function(d){d.classList.toggle('on', parseInt(d.dataset.v)<=v);});
-  if(!rastreo[n])rastreo[n]={intensidad:0,dolor:'',alegria:'',marcado:true};
-  rastreo[n].intensidad=v;
-  if(!el.classList.contains('marcado')){el.classList.add('marcado');rastreo[n].marcado=true;}
+
+function setPeso(ciclo,tipo,id,v){
+  var el=document.getElementById('it-'+ciclo+'-'+id);
+  var item=asegurar(ciclo,tipo,id,el.dataset.texto);
+  item.peso=v;
+  if(!item.on){ item.on=true; el.classList.add('on'); }
+  el.querySelectorAll('.pdot').forEach(function(d){ d.classList.toggle('on', parseInt(d.dataset.v)<=v); });
   actualizarPatron();
 }
-function guardarRastreo(){
-  document.querySelectorAll('#rastreo-wrap textarea').forEach(function(ta){
-    var n=ta.dataset.ciclo,tipo=ta.dataset.tipo;
-    if(!rastreo[n])rastreo[n]={intensidad:0,dolor:'',alegria:'',marcado:false};
-    rastreo[n][tipo]=ta.value;
-  });
+
+var propiosCount={};
+function agregarPropio(ciclo,tipo){
+  var inp=document.getElementById('add-'+tipo+'-'+ciclo);
+  var txt=(inp.value||'').trim();
+  if(!txt) return;
+  var key=ciclo+'-'+tipo;
+  propiosCount[key]=(propiosCount[key]||0)+1;
+  var id='p'+propiosCount[key];
+  pintarItem(ciclo,tipo,id,txt,false);
+  inp.value='';
+  // marcar automáticamente lo que el usuario añade
+  toggleItem(ciclo,tipo,id);
 }
 
 function actualizarPatron(){
-  // contar marcas por columna
-  var porCol=[0,0,0],marcados=[];
-  for(var n in rastreo){if(rastreo[n].marcado){var c=CICLOS[n-1];porCol[c.col]++;marcados.push(parseInt(n));}}
+  var porCol=[0,0,0], ciclosConDolor=[];
+  for(var n in rastreo){
+    var hayDolor=false;
+    var d=rastreo[n].dolores||{};
+    for(var k in d){ if(d[k].on){ hayDolor=true; } }
+    if(hayDolor){ var c=CICLOS[n-1]; porCol[c.col]++; ciclosConDolor.push(parseInt(n)); }
+  }
   var wrap=document.getElementById('patron-wrap');
-  if(marcados.length<2){wrap.innerHTML='';return;}
-  marcados.sort(function(a,b){return a-b;});
-  // columna dominante
+  if(ciclosConDolor.length<2){ wrap.innerHTML=''; return; }
+  ciclosConDolor.sort(function(a,b){return a-b;});
   var maxCol=porCol.indexOf(Math.max.apply(null,porCol));
   var emo=emocionRaiz||'esa emoción';
-  var txt='Marcaste tu <b>'+emo.toLowerCase()+'</b> en los ciclos <b>'+marcados.join(', ')+'</b>. ';
+  var txt='Hasta ahora marcaste dolores en los ciclos <b>'+ciclosConDolor.join(', ')+'</b>. ';
   if(porCol[maxCol]>=2){
-    txt+='Mira algo importante: varias de esas marcas caen en tu columna <b>'+COL_NOMBRES[maxCol]+'</b>. Eso confirma el patrón — la misma herida volviendo una y otra vez en la misma línea de aprendizaje. <b>No es casualidad. Es el eco que esta sesión vino a romper.</b>';
+    txt+='Mira algo importante: varios caen en tu columna <b>'+COL_NOMBRES[maxCol]+'</b>. Eso confirma el patrón — la misma raíz volviendo una y otra vez en la misma línea de aprendizaje. <b>No es casualidad. Es el eco que esta sesión vino a romper.</b>';
   } else {
-    txt+='Tu emoción aparece repartida en distintos momentos. Cada uno es una pieza del mismo aprendizaje que hoy te toca integrar.';
+    txt+='Tu dolor aparece repartido en distintos momentos. Cada uno es una pieza del mismo aprendizaje que hoy te toca integrar.';
   }
   wrap.innerHTML='<div class="patron-box"><div class="patron-label">◉ Tu patrón, hecho consciente</div><div class="patron-texto">'+txt+'</div></div>';
 }
@@ -550,36 +630,48 @@ function irA(n){
 }
 
 function renderCierre(){
-  guardarRastreo();
   var c=CICLOS[idxActual];
-  var marcados=[];for(var k in rastreo){if(rastreo[k].marcado)marcados.push(parseInt(k));}
-  marcados.sort(function(a,b){return a-b;});
+  // contar ítems marcados y ciclos con dolor
+  var ciclosDolor=[], totalDolores=0, totalRecursos=0, pesoTotal=0;
+  for(var n in rastreo){
+    var d=rastreo[n].dolores||{}, r=rastreo[n].recursos||{};
+    var hay=false;
+    for(var k in d){ if(d[k].on){ totalDolores++; pesoTotal+=d[k].peso; hay=true; } }
+    for(var k2 in r){ if(r[k2].on){ totalRecursos++; } }
+    if(hay) ciclosDolor.push(parseInt(n));
+  }
+  ciclosDolor.sort(function(a,b){return a-b;});
   document.getElementById('cierre-resumen').innerHTML=
     '<div class="cierre-fila"><span class="cierre-k">Tu nivel de conciencia</span><span class="cierre-v">'+(nivel&&HAWKINS[nivel]?nivel+' · '+HAWKINS[nivel].nombre:'—')+'</span></div>'+
     '<div class="cierre-fila"><span class="cierre-k">Emoción rastreada</span><span class="cierre-v">'+(emocionRaiz||'—')+'</span></div>'+
-    '<div class="cierre-fila"><span class="cierre-k">Tu ciclo actual</span><span class="cierre-v">'+c.n+' · '+c.nombre+'</span></div>'+
-    '<div class="cierre-fila"><span class="cierre-k">La viviste en los ciclos</span><span class="cierre-v">'+(marcados.length?marcados.join(', '):'—')+'</span></div>';
+    '<div class="cierre-fila"><span class="cierre-k">Heridas que nombraste</span><span class="cierre-v">'+totalDolores+'</span></div>'+
+    '<div class="cierre-fila"><span class="cierre-k">Recursos que reconociste</span><span class="cierre-v">'+totalRecursos+'</span></div>'+
+    '<div class="cierre-fila"><span class="cierre-k">Aparecen en los ciclos</span><span class="cierre-v">'+(ciclosDolor.length?ciclosDolor.join(', '):'—')+'</span></div>';
 }
 
 function completar(){
-  guardarRastreo();
   var c=CICLOS[idxActual];
   var dolorPrincipal=(document.getElementById('dolor-principal').value||'').trim();
+  // Construir inventario detallado por ciclo, con cada ítem y su peso (para el ECG)
   var invArray=[];
   for(var i=0;i<=idxActual;i++){
-    var n=CICLOS[i].n;var r=rastreo[n]||{intensidad:0,dolor:'',alegria:'',marcado:false};
-    invArray.push({ciclo:n,nombre:CICLOS[i].nombre,marcado:r.marcado,intensidad:r.intensidad,dolores:r.dolor,alegrias:r.alegria});
+    var n=CICLOS[i].n;
+    var r=rastreo[n]||{dolores:{},recursos:{}};
+    var dols=[], recs=[];
+    for(var k in (r.dolores||{})){ if(r.dolores[k].on) dols.push({texto:r.dolores[k].texto, peso:r.dolores[k].peso}); }
+    for(var k2 in (r.recursos||{})){ if(r.recursos[k2].on) recs.push({texto:r.recursos[k2].texto, peso:r.recursos[k2].peso}); }
+    invArray.push({ciclo:n, nombre:CICLOS[i].nombre, edad_ini:CICLOS[i].ini, edad_fin:CICLOS[i].fin, dolores:dols, recursos:recs});
   }
   localStorage.setItem('anormal_ciclos', JSON.stringify({
-    edad:edad,cicloActual:c.n,nombre_ciclo:c.nombre,columna:COL_NOMBRES[c.col],espejos:c.espejos,
-    nivel_conciencia:nivel,emocion_raiz:emocionRaiz,inventario:invArray,dolor_principal:dolorPrincipal,
+    edad:edad, cicloActual:c.n, nombre_ciclo:c.nombre, columna:COL_NOMBRES[c.col], espejos:c.espejos,
+    nivel_conciencia:nivel, emocion_raiz:emocionRaiz, inventario:invArray, dolor_principal:dolorPrincipal,
     fecha:new Date().toLocaleDateString('es-CO')
   }));
   try{
     var data=JSON.parse(sessionStorage.getItem('anormal_proceso')||'{}');
-    data.ciclos={cicloActual:c.n,nombre:c.nombre,espejos:c.espejos,emocion_raiz:emocionRaiz,inventario:invArray,dolor_principal:dolorPrincipal};
+    data.ciclos={cicloActual:c.n, nombre:c.nombre, espejos:c.espejos, emocion_raiz:emocionRaiz, inventario:invArray, dolor_principal:dolorPrincipal};
     if(!data.progreso)data.progreso={};
-    data.progreso.ciclos={completado:true,fecha:new Date().toLocaleDateString('es-CO')};
+    data.progreso.ciclos={completado:true, fecha:new Date().toLocaleDateString('es-CO')};
     sessionStorage.setItem('anormal_proceso',JSON.stringify(data));
   }catch(e){}
   window.location.href='mi-trabajo-del-perdon.html';
