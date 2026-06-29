@@ -112,6 +112,22 @@ textarea:focus{outline:none;border-color:var(--gold)}
 .mini-dot.dolor{background:var(--rose)}.mini-dot.alegria{background:var(--grn)}
 .campo-mini{margin-bottom:10px}
 
+/* PISTAS POR CICLO */
+.pistas-box{background:rgba(255,255,255,.02);border:1px solid var(--ffaint);border-radius:var(--rm);padding:12px 14px;margin-bottom:14px}
+.pistas-titulo{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-bottom:9px}
+.pista{display:flex;gap:9px;align-items:flex-start;font-size:12.5px;color:var(--dim);line-height:1.6;margin-bottom:7px;padding:4px 0}
+.pista:last-child{margin-bottom:0}
+.pista-bullet{color:var(--faint);flex-shrink:0;margin-top:1px}
+.pista.afin{color:var(--text)}
+.pista.afin .pista-bullet{color:var(--rose)}
+.pista-flag{font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--rose);background:rgba(212,83,126,.12);padding:1px 6px;border-radius:3px;margin-left:6px;white-space:nowrap}
+
+/* CONTENCIÓN */
+.contencion{background:rgba(74,191,122,.06);border:1px solid rgba(74,191,122,.25);border-radius:var(--rl);padding:16px 18px;margin-bottom:18px}
+.contencion-label{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--grn);margin-bottom:8px}
+.contencion-texto{font-size:13px;color:var(--text);line-height:1.8}
+.contencion-nota{font-size:11.5px;color:var(--dim);line-height:1.7;margin-top:10px;padding-top:10px;border-top:1px solid rgba(74,191,122,.15)}
+
 /* PATRÓN DETECTADO */
 .patron-box{background:linear-gradient(135deg,rgba(212,83,126,.08),var(--bg3));border:1px solid rgba(212,83,126,.3);border-radius:var(--rl);padding:18px 20px;margin:16px 0}
 .patron-label{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--rose);margin-bottom:8px}
@@ -292,6 +308,45 @@ var CICLOS = [
 ];
 var COL_NOMBRES=["Cuerpo y raíz (1·4·7)","Sentir y valor (2·5·8)","Identidad y propósito (3·6·9)"];
 
+// ── PISTAS POR CICLO: qué pudo pasar (heridas típicas de cada etapa) ──────
+var PISTAS = {
+  1:[ {t:"La ausencia de uno o ambos padres, o sentir que no fuiste del todo bienvenido", tag:"verguenza"},
+      {t:"Un entorno sin seguridad ni estabilidad, gritos o tensión constante en casa", tag:"miedo"},
+      {t:"Falta de contacto, de afecto o de brazos cuando los necesitabas", tag:"tristeza"},
+      {t:"Escasez en lo básico: comida, abrigo, atención", tag:"deseo"} ],
+  2:[ {t:"Maltrato físico o verbal, castigos que dolieron más de la cuenta", tag:"miedo"},
+      {t:"Comparaciones, sentir que nunca eras suficiente para tus padres", tag:"verguenza"},
+      {t:"Bullying o burlas en el colegio, sentirte solo o distinto", tag:"tristeza"},
+      {t:"Abuso o situaciones que te hicieron sentir invadido o sin protección", tag:"miedo"},
+      {t:"Una mudanza, una pérdida o una separación que te marcó", tag:"tristeza"} ],
+  3:[ {t:"Rechazo o exclusión de tu grupo, no sentirte aceptado", tag:"verguenza"},
+      {t:"Presión por encajar o por cumplir expectativas que no eran tuyas", tag:"ira"},
+      {t:"Primeras traiciones, desamores o abusos de confianza", tag:"ira"},
+      {t:"No poder ser quien eras, tener que silenciar tu voz", tag:"tristeza"} ],
+  4:[ {t:"La presión de salir al mundo sin sentirte listo", tag:"miedo"},
+      {t:"Decisiones forzadas: estudios, trabajo o pareja que no elegiste del todo", tag:"ira"},
+      {t:"Primeros fracasos o rechazos que golpearon tu confianza", tag:"verguenza"} ],
+  5:[ {t:"La sensación de estar viviendo una vida que no es la tuya", tag:"tristeza"},
+      {t:"Rupturas, deudas, o el peso de sostener a otros", tag:"deseo"},
+      {t:"Mirar lo construido y sentir vacío o duda", tag:"tristeza"} ],
+  6:[ {t:"La crisis de propósito: ¿para qué estoy haciendo todo esto?", tag:"tristeza"},
+      {t:"Pérdidas importantes, separaciones, el desgaste de los vínculos", tag:"tristeza"},
+      {t:"La rabia por el tiempo o las oportunidades que sientes perdidas", tag:"ira"} ],
+  7:[ {t:"El cansancio de haber cargado a muchos durante años", tag:"tristeza"},
+      {t:"Reconciliarte —o no— con las decisiones que tomaste", tag:"verguenza"} ],
+  8:[ {t:"Soltar roles, lugares o personas; el duelo de lo que ya no eres", tag:"tristeza"},
+      {t:"El miedo a lo que viene cuando lo conocido se acaba", tag:"miedo"} ],
+  9:[ {t:"Mirar la vida entera y sentir gratitud o resentimiento", tag:"tristeza"},
+      {t:"La pregunta por el legado: ¿qué dejo, qué me llevo?", tag:"tristeza"} ]
+};
+
+// Mapeo nivel Hawkins → emoción-raíz (tag) para resaltar pistas afines
+var NIVEL_TAG = {
+  20:"verguenza", 50:"verguenza", 75:"tristeza", 100:"miedo",
+  125:"deseo", 150:"ira", 175:"verguenza", 200:"ira", 400:"tristeza", 540:"tristeza", 700:"tristeza"
+};
+var TAG_LABEL = {verguenza:"vergüenza/culpa", miedo:"miedo", tristeza:"tristeza", ira:"ira/impotencia", deseo:"escasez/vacío"};
+
 // ── NIVELES DE HAWKINS (con su emoción-raíz rastreable) ───────────────────
 var HAWKINS = {
   700:{nombre:"Paz e iluminación", emo:"Paz",        color:"#5C2FA0", zona:"alto"},
@@ -391,9 +446,20 @@ function cicloDeEdad(e){for(var i=0;i<CICLOS.length;i++){if(e>=CICLOS[i].ini&&e<
 function renderRastreo(){
   var intro=document.getElementById('rastreo-intro');
   document.getElementById('p3-titulo').textContent='¿En qué ciclos viviste '+(emocionRaiz?('tu '+emocionRaiz.toLowerCase()):'esta emoción')+'?';
-  intro.innerHTML='<p class="ct" style="margin-bottom:8px">Vamos a buscar tu <b>'+(emocionRaiz||'emoción')+'</b> a lo largo de tu vida. En cada ciclo donde la sentiste, márcalo, dile cuánto pesó, y escribe el recuerdo. No te apures: este es el inventario que te va a servir en el perdón.</p><p class="ct dim">Verás que muchas marcas caen en una misma columna. Ese es tu patrón.</p>';
+
+  var tagNivel = nivel && NIVEL_TAG[nivel] ? NIVEL_TAG[nivel] : null;
+  var enfasisTxt = tagNivel ? ' Como tu nivel marca <b>'+(emocionRaiz||'')+'</b>, te resaltamos en cada etapa las heridas que suelen producir <b>'+TAG_LABEL[tagNivel]+'</b> — para que te sea más fácil reconocer dónde empezó.' : '';
+  intro.innerHTML='<p class="ct" style="margin-bottom:8px">Vamos a recorrer tu vida ciclo por ciclo. En cada uno verás <b>pistas de lo que suele dolernos en esa etapa</b>. No tienes que haberlas vivido todas — son para ayudarte a recordar. Donde algo resuene, márcalo, dile cuánto pesó y escríbelo.'+enfasisTxt+'</p><p class="ct dim">Verás que muchas marcas caen en una misma columna. Ese es tu patrón — el eco que vienes a romper.</p>';
+
+  // Nota de contención
+  var cont0=document.createElement('div');
+  cont0.className='contencion';
+  cont0.innerHTML='<div class="contencion-label">✿ Antes de empezar — respira</div>'+
+    '<div class="contencion-texto">Lo que vas a recordar puede remover. Está bien. No estás reviviendo para sufrir, sino para <b style="color:var(--grn)">soltar</b>. Ve a tu ritmo. Y recuerda algo esencial: ya no eres ese niño indefenso — eres el adulto que viene a sanarlo.</div>'+
+    '<div class="contencion-nota">Si al recordar emerge algo muy fuerte —especialmente situaciones de abuso o trauma—, mereces no atravesarlo en soledad. Buscar el acompañamiento de un psicólogo o terapeuta no es debilidad: es parte del cuidado de ti mismo.</div>';
 
   var cont=document.getElementById('rastreo-wrap');cont.innerHTML='';
+  cont.appendChild(cont0);
   var espejos=CICLOS[idxActual].espejos;
   for(var i=0;i<=idxActual;i++){
     var c=CICLOS[i];
@@ -401,6 +467,16 @@ function renderRastreo(){
     var clase='rastreo-ciclo'+(esActual?' es-actual':'')+(esEspejo?' es-espejo':'');
     var meta=c.ini+'–'+(c.fin>100?'+':c.fin)+' años · '+COL_NOMBRES[c.col].split(' (')[0];
     if(esActual)meta+=' · ◆ Actual';else if(esEspejo)meta+=' · ◑ Tu columna';
+
+    // Construir pistas del ciclo, resaltando las afines al nivel
+    var pistasArr = PISTAS[c.n]||[];
+    var pistasHtml='';
+    pistasArr.forEach(function(p){
+      var afin = (tagNivel && p.tag===tagNivel);
+      var flag = afin ? '<span class="pista-flag">tu '+TAG_LABEL[tagNivel].split('/')[0]+'</span>' : '';
+      pistasHtml+='<div class="pista'+(afin?' afin':'')+'"><span class="pista-bullet">'+(afin?'◆':'·')+'</span><span>'+p.t+flag+'</span></div>';
+    });
+
     var div=document.createElement('div');div.className=clase;div.dataset.ciclo=c.n;div.id='rc-'+c.n;
     div.innerHTML=
       '<div class="rastreo-head">'+
@@ -409,6 +485,7 @@ function renderRastreo(){
         '<div class="rastreo-toggle" onclick="toggleMarca('+c.n+')"><span>Lo viví aquí</span><div class="rastreo-check">✓</div></div>'+
       '</div>'+
       '<div class="rastreo-detalle">'+
+        '<div class="pistas-box"><div class="pistas-titulo">Lo que pudo pasar en esta etapa</div>'+pistasHtml+'</div>'+
         '<div class="intensidad-row"><span class="intensidad-label">¿Cuánto pesó?</span><div class="intensidad-dots">'+
           [1,2,3,4,5].map(function(v){return '<div class="idot" onclick="setIntensidad('+c.n+','+v+')" data-v="'+v+'">'+v+'</div>';}).join('')+
         '</div></div>'+
