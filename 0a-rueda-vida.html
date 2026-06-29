@@ -929,7 +929,9 @@ function bRueda(){
     if(prom>=9.3){nivelActual=nivelMap[nivelMap.length-1];}
   }
   var nivelIdx=nivelMap.indexOf(nivelActual);
-  var nivelProyectado=nivelMap[Math.min(nivelIdx+2,nivelMap.length-1)];
+  // El objetivo es SIEMPRE 200 (Coraje) si está por debajo; si ya pasó, el siguiente nivel
+  var nivelCoraje = nivelMap.find(function(n){return n.nivel===200;});
+  var nivelProyectado = nivelActual.nivel < 200 ? nivelCoraje : nivelMap[Math.min(nivelIdx+1,nivelMap.length-1)];
 
   // ── STATS HEADER ────────────────────────────────────────────────────
   var cstat=mk("div","card gold");cstat.style.padding="14px 16px";
@@ -1538,21 +1540,7 @@ function bCrecimiento(){
 })();
 </script>
 
-<!-- BOTON BRUJULA -->
-<div class="brujula-btn-fixed" id="brujulaFloat">
-  <div class="brujula-toast" id="brujulaToast">Registra lo que descubriste en tu Brújula de Propósito</div>
-  <a class="brujula-btn" href="resumen-conciencia.html" title="Mi Brújula de Propósito">
-    <div class="brujula-btn-icon">∀</div>
-    <div class="brujula-btn-txt">Mi Brújula</div>
-  </a>
-</div>
-<script>
-// Mostrar toast motivacional a los 90 segundos de estar en el módulo
-setTimeout(function(){
-  var t=document.getElementById("brujulaToast");
-  if(t){t.classList.add("show");setTimeout(function(){t.classList.remove("show");},5000);}
-},90000);
-</script>
+<!-- boton brujula eliminado -->
 
 </body>
 </htmlvar PRINC=[
@@ -2490,7 +2478,9 @@ function bRueda(){
     if(prom>=9.3){nivelActual=nivelMap[nivelMap.length-1];}
   }
   var nivelIdx=nivelMap.indexOf(nivelActual);
-  var nivelProyectado=nivelMap[Math.min(nivelIdx+2,nivelMap.length-1)];
+  // El objetivo es SIEMPRE 200 (Coraje) si está por debajo; si ya pasó, el siguiente nivel
+  var nivelCoraje = nivelMap.find(function(n){return n.nivel===200;});
+  var nivelProyectado = nivelActual.nivel < 200 ? nivelCoraje : nivelMap[Math.min(nivelIdx+1,nivelMap.length-1)];
 
   // ── STATS HEADER ────────────────────────────────────────────────────
   var cstat=mk("div","card gold");cstat.style.padding="14px 16px";
@@ -3099,21 +3089,7 @@ function bCrecimiento(){
 })();
 </script>
 
-<!-- BOTON BRUJULA -->
-<div class="brujula-btn-fixed" id="brujulaFloat">
-  <div class="brujula-toast" id="brujulaToast">Registra lo que descubriste en tu Brújula de Propósito</div>
-  <a class="brujula-btn" href="resumen-conciencia.html" title="Mi Brújula de Propósito">
-    <div class="brujula-btn-icon">∀</div>
-    <div class="brujula-btn-txt">Mi Brújula</div>
-  </a>
-</div>
-<script>
-// Mostrar toast motivacional a los 90 segundos de estar en el módulo
-setTimeout(function(){
-  var t=document.getElementById("brujulaToast");
-  if(t){t.classList.add("show");setTimeout(function(){t.classList.remove("show");},5000);}
-},90000);
-</script>
+<!-- boton brujula eliminado -->
 
 </body>
 </htmlvar accsLinea={
@@ -4057,7 +4033,9 @@ function bRueda(){
     if(prom>=9.3){nivelActual=nivelMap[nivelMap.length-1];}
   }
   var nivelIdx=nivelMap.indexOf(nivelActual);
-  var nivelProyectado=nivelMap[Math.min(nivelIdx+2,nivelMap.length-1)];
+  // El objetivo es SIEMPRE 200 (Coraje) si está por debajo; si ya pasó, el siguiente nivel
+  var nivelCoraje = nivelMap.find(function(n){return n.nivel===200;});
+  var nivelProyectado = nivelActual.nivel < 200 ? nivelCoraje : nivelMap[Math.min(nivelIdx+1,nivelMap.length-1)];
 
   // ── STATS HEADER ────────────────────────────────────────────────────
   var cstat=mk("div","card gold");cstat.style.padding="14px 16px";
@@ -4666,21 +4644,7 @@ function bCrecimiento(){
 })();
 </script>
 
-<!-- BOTON BRUJULA -->
-<div class="brujula-btn-fixed" id="brujulaFloat">
-  <div class="brujula-toast" id="brujulaToast">Registra lo que descubriste en tu Brújula de Propósito</div>
-  <a class="brujula-btn" href="resumen-conciencia.html" title="Mi Brújula de Propósito">
-    <div class="brujula-btn-icon">∀</div>
-    <div class="brujula-btn-txt">Mi Brújula</div>
-  </a>
-</div>
-<script>
-// Mostrar toast motivacional a los 90 segundos de estar en el módulo
-setTimeout(function(){
-  var t=document.getElementById("brujulaToast");
-  if(t){t.classList.add("show");setTimeout(function(){t.classList.remove("show");},5000);}
-},90000);
-</script>
+<!-- boton brujula eliminado -->
 
 </body>
 </htmlvar PRINC=[
@@ -5618,7 +5582,9 @@ function bRueda(){
     if(prom>=9.3){nivelActual=nivelMap[nivelMap.length-1];}
   }
   var nivelIdx=nivelMap.indexOf(nivelActual);
-  var nivelProyectado=nivelMap[Math.min(nivelIdx+2,nivelMap.length-1)];
+  // El objetivo es SIEMPRE 200 (Coraje) si está por debajo; si ya pasó, el siguiente nivel
+  var nivelCoraje = nivelMap.find(function(n){return n.nivel===200;});
+  var nivelProyectado = nivelActual.nivel < 200 ? nivelCoraje : nivelMap[Math.min(nivelIdx+1,nivelMap.length-1)];
 
   // ── STATS HEADER ────────────────────────────────────────────────────
   var cstat=mk("div","card gold");cstat.style.padding="14px 16px";
@@ -6227,21 +6193,7 @@ function bCrecimiento(){
 })();
 </script>
 
-<!-- BOTON BRUJULA -->
-<div class="brujula-btn-fixed" id="brujulaFloat">
-  <div class="brujula-toast" id="brujulaToast">Registra lo que descubriste en tu Brújula de Propósito</div>
-  <a class="brujula-btn" href="resumen-conciencia.html" title="Mi Brújula de Propósito">
-    <div class="brujula-btn-icon">∀</div>
-    <div class="brujula-btn-txt">Mi Brújula</div>
-  </a>
-</div>
-<script>
-// Mostrar toast motivacional a los 90 segundos de estar en el módulo
-setTimeout(function(){
-  var t=document.getElementById("brujulaToast");
-  if(t){t.classList.add("show");setTimeout(function(){t.classList.remove("show");},5000);}
-},90000);
-</script>
+<!-- boton brujula eliminado -->
 
 </body>
 </html>
