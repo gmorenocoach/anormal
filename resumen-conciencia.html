@@ -145,7 +145,8 @@ for(var i=0;i<nivelMap.length;i++){
   if(nivelTotal>=nivelMap[i].nivel) nivelActual=nivelMap[i];
 }
 var nivelIdx = nivelMap.indexOf(nivelActual);
-var nivelObjetivo = nivelMap[Math.min(nivelIdx+2,nivelMap.length-1)];
+var nivelCoraje = nivelMap.find(function(n){return n.nivel===200;});
+var nivelObjetivo = nivelActual.nivel < 200 ? nivelCoraje : nivelMap[Math.min(nivelIdx+1,nivelMap.length-1)];
 
 // ── PRINCIPIOS POR SESIÓN (los 18 reordenados) ──────────────────────
 var PRINCIPIOS_18=[
@@ -191,7 +192,8 @@ function render(){
   nivelActual = nivelMap[0];
   for(var i=0;i<nivelMap.length;i++){ if(nivelTotal>=nivelMap[i].nivel) nivelActual=nivelMap[i]; }
   nivelIdx = nivelMap.indexOf(nivelActual);
-  nivelObjetivo = nivelMap[Math.min(nivelIdx+2,nivelMap.length-1)];
+  var nivelCoraje = nivelMap.find(function(n){return n.nivel===200;});
+  nivelObjetivo = nivelActual.nivel < 200 ? nivelCoraje : nivelMap[Math.min(nivelIdx+1,nivelMap.length-1)];
 
   var cont = document.getElementById('contenido');
 
@@ -211,6 +213,20 @@ function render(){
   html += '<h1 class="titulo">Resumen de tu conciencia</h1>';
   html += '<p class="subtitulo">Todo lo que has descubierto y a lo que te has comprometido vive aquí. Este es el centro de tu transformación.</p>';
 
+  // VIDEO DE CIERRE DE SESIÓN
+  var VIDEO_CIERRE_URL = ''; // Se activa cuando German grabe el video de cierre
+  html += '<div class="card gold" style="padding:0;overflow:hidden;margin-bottom:16px">';
+  if(VIDEO_CIERRE_URL){
+    html += '<div style="position:relative;padding-bottom:56.25%;height:0"><iframe src="'+VIDEO_CIERRE_URL+'" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allowfullscreen></iframe></div>';
+  } else {
+    html += '<div style="padding:28px 24px;text-align:center">';
+    html += '<div style="font-family:\'Cormorant Garamond\',serif;font-size:40px;color:var(--gold2);margin-bottom:8px">▶</div>';
+    html += '<div style="font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:8px">Video de cierre — Sesión 1</div>';
+    html += '<p style="font-size:13.5px;color:var(--dim);line-height:1.8;max-width:440px;margin:0 auto">Aquí irá el mensaje de cierre: dónde estás, a dónde debes llegar, y el recordatorio de que los compromisos que adquiriste son contigo mismo y con el proceso que iniciaste — no con nadie más. Lo que hiciste hoy es el insumo del siguiente nivel de conciencia.</p>';
+    html += '</div>';
+  }
+  html += '</div>';
+
   // NIVEL DE CONCIENCIA HERO
   html += '<div class="card gold">';
   html += '<div class="cl">Tu nivel de conciencia hoy</div>';
@@ -218,6 +234,10 @@ function render(){
   html += '<div class="nivel-num" style="color:'+nivelActual.color+'">'+nivelActual.nivel+'</div>';
   html += '<div class="nivel-nombre">'+nivelActual.nombre+'</div>';
   html += '<div class="nivel-zona">'+nivelActual.zona+'</div>';
+  // Explicación calificado vs real (si hay diferencia por las respuestas del diagnóstico)
+  if(diagnostico.nivelCalificado && diagnostico.nivelCalificado !== nivelActual.nivel){
+    html += '<div style="font-size:13px;color:var(--dim);line-height:1.7;margin-bottom:14px;padding:0 10px">En tu rueda calificaste un promedio que da <strong style="color:var(--gold2)">'+diagnostico.nivelCalificado+'</strong>, pero al cruzarlo con tus respuestas sobre tu origen, tu nivel de conciencia real hoy es <strong style="color:'+nivelActual.color+'">'+nivelActual.nivel+'</strong>. Eso es honestidad — y la honestidad es el punto de partida.</div>';
+  }
   var pct = Math.round((nivelActual.nivel-20)/(400-20)*100);
   html += '<div class="nivel-barra"><div class="nivel-relleno" style="width:'+pct+'%;background:'+nivelActual.color+'"></div></div>';
   html += '<div class="nivel-meta"><span>Nivel '+nivelActual.nivel+'</span><span>Objetivo: '+nivelObjetivo.nivel+' — '+nivelObjetivo.nombre+'</span></div>';
@@ -227,7 +247,7 @@ function render(){
   // DATOS CLAVE
   html += '<div class="card"><div class="cl">Tu punto de partida</div><div class="datos-grid">';
   if(linea) html += '<div class="dato"><div class="dato-val" style="color:'+(lineaColores[linea]||'var(--gold2)')+'">'+(lineaLabels[linea]||linea)+'</div><div class="dato-lbl">Tu línea</div></div>';
-  if(numeroCamino) html += '<div class="dato"><div class="dato-val">'+numeroCamino+'</div><div class="dato-lbl">Número de vida</div></div>';
+  // número de vida se muestra en sesión de numerología, no aquí
   html += '<div class="dato"><div class="dato-val">'+(diagnostico.nivel||nivelBase)+'</div><div class="dato-lbl">Nivel inicial</div></div>';
   html += '</div></div>';
 
@@ -296,11 +316,22 @@ function render(){
     var prox = new Date(fechaProxima);
     diasRestantes = Math.max(0,Math.ceil((prox-hoy)/(1000*60*60*24)));
   }
+  // Calcular si la cuenta regresiva ya inició
+  var fechaInicio = leer('anormal_fecha_inicio_proceso','');
+  if(!fechaInicio){
+    // Iniciar la cuenta regresiva el día que termina la Sesión 1
+    fechaInicio = new Date().toISOString();
+    localStorage.setItem('anormal_fecha_inicio_proceso', fechaInicio);
+  }
+  var diasTranscurridos = Math.floor((new Date() - new Date(fechaInicio))/(1000*60*60*24));
+  var diasParaSesion = Math.max(0, 15 - diasTranscurridos);
+
   html += '<div class="sesion-card">';
-  html += '<div class="label" style="text-align:center">Tu próxima sesión</div>';
-  html += '<div class="sesion-dias">'+diasRestantes+'</div>';
-  html += '<div class="sesion-txt">días para desbloquear la Sesión '+(sesionActual+1)+'</div>';
-  html += '<p style="font-size:13px;color:var(--dim);margin-top:12px;line-height:1.7">Mientras tanto, cumple tus compromisos y vive tus principios. Cuando vuelvas, vas a calificar tu avance y ver cómo subió tu nivel de conciencia.</p>';
+  html += '<div class="label" style="text-align:center;color:var(--rose)">La cuenta ya inició</div>';
+  html += '<div class="sesion-dias" style="color:var(--rose)">'+diasParaSesion+'</div>';
+  html += '<div class="sesion-txt">días para tu Sesión '+(sesionActual+1)+'</div>';
+  html += '<p style="font-size:13.5px;color:var(--text);margin-top:14px;line-height:1.8;font-weight:400">Estos compromisos no son conmigo. Son contigo y con el proceso que iniciaste hoy. Cada día cuenta. Cada acción cumplida sube tu nivel de conciencia.</p>';
+  html += '<p style="font-size:13px;color:var(--dim);margin-top:10px;line-height:1.7">Cuando vuelvas en '+diasParaSesion+' días, vas a calificar lo que cumpliste — y ese es el insumo del siguiente nivel de tu transformación.</p>';
   html += '</div>';
 
   // BOTONES DE ACCIÓN
