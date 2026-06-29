@@ -88,6 +88,13 @@ body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font
   <div id="contenido"></div>
 </div>
 
+<div id="modal" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(6,10,20,.88);z-index:100;align-items:center;justify-content:center;padding:20px" onclick="if(event.target===this)cerrarModal()">
+  <div style="background:var(--bg2);border:1px solid var(--gb);border-radius:var(--rl);padding:26px 24px;max-width:560px;width:100%;max-height:85vh;overflow-y:auto;position:relative">
+    <button onclick="cerrarModal()" style="position:absolute;top:14px;right:16px;background:transparent;border:none;color:var(--dim);font-size:26px;cursor:pointer;line-height:1">×</button>
+    <div id="modal-body"></div>
+  </div>
+</div>
+
 <script>
 // ── LEER TODO EL ESTADO ──────────────────────────────────────────────
 function leer(clave, def){
@@ -258,16 +265,17 @@ function render(){
   html += '<div class="card"><div class="cl">Mis principios inquebrantables</div>';
   html += '<p class="ct" style="margin-bottom:14px">Estos son los principios que ya activaste. Cada uno es no negociable — son la ruta para subir tu conciencia. Se irán sumando a medida que avances en las sesiones.</p>';
   principiosActivos.forEach(function(p){
-    html += '<div class="princ-item" style="border-left-color:'+p.color+'">';
+    html += '<div class="princ-item princ-click" style="border-left-color:'+p.color+';cursor:pointer" onclick="abrirPrincipio('+p.n+')">';
     html += '<div class="princ-num" style="color:'+p.color+'">∀'+p.n+'</div>';
     html += '<div class="princ-nombre">'+p.nombre+'</div>';
-    html += '<div class="princ-badge">Inquebrantable</div>';
+    html += '<div class="princ-flecha" style="color:'+p.color+';font-size:18px">›</div>';
     html += '</div>';
   });
   var faltan = PRINCIPIOS_18.length - principiosActivos.length;
   if(faltan>0){
     html += '<p style="font-size:13px;color:var(--dim);text-align:center;margin-top:10px">Te faltan '+faltan+' principios por descubrir en las próximas sesiones</p>';
   }
+  html += '<p style="font-size:12px;color:var(--dim);text-align:center;margin-top:6px;font-style:italic">Toca cualquier principio para releerlo</p>';
   html += '</div>';
 
   // LO QUE ESCRIBÍ (intención, visión, compromiso)
@@ -295,7 +303,78 @@ function render(){
   html += '<p style="font-size:13px;color:var(--dim);margin-top:12px;line-height:1.7">Mientras tanto, cumple tus compromisos y vive tus principios. Cuando vuelvas, vas a calificar tu avance y ver cómo subió tu nivel de conciencia.</p>';
   html += '</div>';
 
+  // BOTONES DE ACCIÓN
+  html += '<div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:8px">';
+  if(contrato.firma || contrato.intencion){
+    html += '<button class="bs" style="flex:1;text-align:center" onclick="abrirContrato()">Ver mi contrato firmado</button>';
+  }
+  html += '<a href="0a-rueda-vida.html" class="bs" style="flex:1;text-align:center">Volver a mi rueda</a>';
+  html += '</div>';
+
   cont.innerHTML = html;
+}
+
+// ── MODAL DE PRINCIPIO ───────────────────────────────────────────────
+var PRINC_DETALLE = {
+  1:{voz:"\"Den gracias en toda circunstancia.\" La gratitud no es una emoción pasajera — es una decisión consciente de ver cada experiencia como parte de un proceso mayor. Quien no reconoce lo que ya tiene, no puede construir nada sólido sobre esa base.",
+     exige:"La gratitud no es opcional. Es el lente desde el que lees cada resultado, cada ejercicio, cada descubrimiento sobre ti mismo. Un resultado que te incomoda, visto con gratitud, se convierte en información. Visto sin gratitud, se convierte en excusa."},
+  2:{voz:"\"Nadie que pone la mano en el arado y mira hacia atrás es apto para lo que viene.\" El compromiso que tomaste hoy es más inteligente que cualquier excusa que vayas a construir mañana.",
+     exige:"Ya te comprometiste al entrar. Ese compromiso no vence. Cada vez que sientas que quieres pausar, recuerda: te comprometiste antes de saber el cómo. Eso es lo que distingue a quien transforma de quien solo aprende."},
+  3:{voz:"\"Quien cree en lo que está haciendo hará obras mayores de las que imagina.\" Ver algo extraordinario en ti mismo es fácil. Normalizarlo — vivirlo, aplicarlo, habitarlo — eso es lo extraordinario.",
+     exige:"Lo que descubras sobre ti en este proceso debe convertirse en tu nueva normalidad, no en un dato interesante que olvidas en una semana. No son revelaciones temporales. Son tu nueva forma de verte."}
+};
+
+function abrirPrincipio(n){
+  var p = PRINCIPIOS_18.find(function(x){return x.n===n;});
+  var det = PRINC_DETALLE[n] || {};
+  var modal = document.getElementById('modal');
+  var body = document.getElementById('modal-body');
+  var h = '';
+  h += '<div style="font-family:\'Cormorant Garamond\',serif;font-size:48px;color:'+p.color+';line-height:1;margin-bottom:4px">∀'+p.n+'</div>';
+  h += '<div style="font-family:\'Cormorant Garamond\',serif;font-size:26px;color:'+p.color+';margin-bottom:16px">'+p.nombre+'</div>';
+  h += '<div style="height:1px;background:var(--faint);margin-bottom:14px"></div>';
+  if(det.exige){
+    h += '<div style="font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:'+p.color+';margin-bottom:6px">No negociable</div>';
+    h += '<div style="font-size:14.5px;color:var(--text);line-height:1.8;margin-bottom:16px">'+det.exige+'</div>';
+  }
+  if(det.voz){
+    h += '<div style="padding:14px 16px;background:var(--bg3);border-left:3px solid '+p.color+';border-radius:0 var(--rm) var(--rm) 0">';
+    h += '<div style="font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:8px">Una voz que me acompaña</div>';
+    h += '<div style="font-size:14px;color:var(--dim);line-height:1.8;font-style:italic">'+det.voz+'</div>';
+    h += '</div>';
+  }
+  body.innerHTML = h;
+  modal.style.display = 'flex';
+}
+
+function abrirContrato(){
+  var modal = document.getElementById('modal');
+  var body = document.getElementById('modal-body');
+  var h = '';
+  h += '<div style="font-family:\'Cormorant Garamond\',serif;font-size:28px;color:var(--gold2);margin-bottom:6px">Mi Contrato de Transformación</div>';
+  h += '<div style="font-size:12px;color:var(--dim);margin-bottom:16px">Firmado por '+nombre+'</div>';
+  h += '<div style="height:1px;background:var(--faint);margin-bottom:16px"></div>';
+  if(contrato.intencion){
+    h += '<div style="font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);margin-bottom:6px">Mi intención trascendente</div>';
+    h += '<div style="font-size:14.5px;color:var(--text);line-height:1.8;margin-bottom:16px">'+contrato.intencion+'</div>';
+  }
+  if(contrato.vision){
+    h += '<div style="font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);margin-bottom:6px">Mi visión ∀normal</div>';
+    h += '<div style="font-size:14.5px;color:var(--text);line-height:1.8;margin-bottom:16px">'+contrato.vision+'</div>';
+  }
+  h += '<div style="padding:14px 16px;background:var(--bg3);border-left:3px solid var(--gold);border-radius:0 var(--rm) var(--rm) 0;margin-top:8px">';
+  h += '<div style="font-size:14px;color:var(--gold2);line-height:1.8;font-style:italic">"Con esta firma, declaro la guerra a mi mediocridad. Elijo conscientemente el camino menos transitado."</div>';
+  if(contrato.fecha){
+    var f = new Date(contrato.fecha);
+    h += '<div style="font-size:12px;color:var(--dim);margin-top:10px">Firmado el '+f.toLocaleDateString('es-CO',{year:'numeric',month:'long',day:'numeric'})+'</div>';
+  }
+  h += '</div>';
+  body.innerHTML = h;
+  modal.style.display = 'flex';
+}
+
+function cerrarModal(){
+  document.getElementById('modal').style.display = 'none';
 }
 
 render();
