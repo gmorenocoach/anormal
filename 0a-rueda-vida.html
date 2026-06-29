@@ -990,7 +990,10 @@ function bRueda(){
   var ll={salud:'Salud',dinero:'Dinero',amor:'Amor'};
 
   var sorted=[].concat(AREAS).sort(function(a,b){return (S.diagnostico[a.id]||1)-(S.diagnostico[b.id]||1);});
-  var criticas=sorted.slice(0,3);
+  // Áreas que requieren compromiso obligatorio: todas las que estén por debajo de 5
+  var areasBajo5 = sorted.filter(function(a){ return (S.diagnostico[a.id]||1) < 5; });
+  // Si hay áreas bajo 5, esas son las críticas obligatorias; si no, las 3 más bajas
+  var criticas = areasBajo5.length > 0 ? areasBajo5 : sorted.slice(0,3);
   var areasLineaBajas=sorted.filter(function(a){return a.linea===lineaEleg&&(S.diagnostico[a.id]||1)<6;});
 
   var cExplica=mk("div","card");cExplica.style.marginBottom="12px";
@@ -1045,7 +1048,9 @@ function bRueda(){
   var cComp=mk("div","card");cComp.style.cssText+=";margin-bottom:14px;border-color:var(--gb)";
   var compTit=mk("div","cl","Tu plan de trabajo — escribe tus compromisos");compTit.style.color="var(--gold)";cComp.appendChild(compTit);
   var compIntro=mk("div","ct");compIntro.style.cssText+=";margin-bottom:16px";
-  compIntro.innerHTML="Estas son tus 3 áreas más bajas. Para cada una, escribe una acción concreta que te comprometes a hacer en los próximos 15 días. Estas acciones serán tu plan — y a los 15 días vas a calificar cómo te fue.";
+  compIntro.innerHTML = areasBajo5.length > 0
+    ? "Estas son las áreas que calificaste por debajo de 5 — las que más necesitan tu atención. Para cada una, <strong style='color:var(--gold2)'>debes escribir un compromiso concreto</strong> para los próximos 15 días. No puedes avanzar sin comprometerte con ellas."
+    : "Estas son tus 3 áreas más bajas. Para cada una, escribe una acción concreta que te comprometes a hacer en los próximos 15 días. Estas acciones serán tu plan.";
   cComp.appendChild(compIntro);
 
   // Cargar compromisos guardados
@@ -1104,11 +1109,34 @@ function bRueda(){
   pn.onclick=function(){
     // Guardar todos los compromisos escritos
     var comps={};
+    var faltanComp=[];
     criticas.forEach(function(a){
       var t=document.getElementById('comp-'+a.id);
-      if(t&&t.value.trim()){comps[a.id]={nombre:a.nombre,texto:t.value.trim(),fecha:new Date().toISOString()};}
+      var val=t?t.value.trim():'';
+      if(val){comps[a.id]={nombre:a.nombre,texto:val,fecha:new Date().toISOString()};}
+      else if((S.diagnostico[a.id]||1)<5){faltanComp.push(a.nombre);}
     });
+    // Validación: áreas bajo 5 requieren compromiso obligatorio
+    if(faltanComp.length>0){
+      alert("Para continuar, debes escribir un compromiso para: "+faltanComp.join(", ")+".\n\nEstas áreas están por debajo de 5 y necesitan tu compromiso.");
+      var primerFalta=document.getElementById('comp-'+criticas.find(function(a){return faltanComp.indexOf(a.nombre)>=0;}).id);
+      if(primerFalta)primerFalta.scrollIntoView({behavior:'smooth',block:'center'});
+      return;
+    }
     localStorage.setItem('anormal_compromisos_areas',JSON.stringify(comps));
+    // Guardar el diagnóstico con nivel calificado (promedio) y nivel real
+    var nivelCalif = nivelMap.find(function(n){
+      return prom>=n.min && prom<n.max;
+    });
+    if(!nivelCalif && prom>=9.3) nivelCalif = nivelMap[nivelMap.length-1];
+    if(!nivelCalif) nivelCalif = nivelActual;
+    localStorage.setItem('anormal_diagnostico', JSON.stringify({
+      nivel: nivelActual.nivel,
+      nivelCalificado: nivelCalif.nivel,
+      linea: lineaEleg,
+      promedio: prom,
+      fecha: new Date().toISOString()
+    }));
     // Guardar resultado de la rueda
     if(window.ANORMAL){
       ANORMAL.saveFaseModulo('rueda',{
@@ -1117,7 +1145,6 @@ function bRueda(){
         areas:(window.AREAS||[]).map(function(a){return {id:a.id,nombre:a.nombre,puntaje:S.diagnostico[a.id]||null};})
       });
     }
-    // Ir a los principios nuevos (perdón, dolor, miedo)
     window.location.href='resumen-conciencia.html';
   };
   nav.appendChild(pb2);nav.appendChild(pn);p.appendChild(nav);
@@ -2539,7 +2566,10 @@ function bRueda(){
   var ll={salud:'Salud',dinero:'Dinero',amor:'Amor'};
 
   var sorted=[].concat(AREAS).sort(function(a,b){return (S.diagnostico[a.id]||1)-(S.diagnostico[b.id]||1);});
-  var criticas=sorted.slice(0,3);
+  // Áreas que requieren compromiso obligatorio: todas las que estén por debajo de 5
+  var areasBajo5 = sorted.filter(function(a){ return (S.diagnostico[a.id]||1) < 5; });
+  // Si hay áreas bajo 5, esas son las críticas obligatorias; si no, las 3 más bajas
+  var criticas = areasBajo5.length > 0 ? areasBajo5 : sorted.slice(0,3);
   var areasLineaBajas=sorted.filter(function(a){return a.linea===lineaEleg&&(S.diagnostico[a.id]||1)<6;});
 
   var cExplica=mk("div","card");cExplica.style.marginBottom="12px";
@@ -2594,7 +2624,9 @@ function bRueda(){
   var cComp=mk("div","card");cComp.style.cssText+=";margin-bottom:14px;border-color:var(--gb)";
   var compTit=mk("div","cl","Tu plan de trabajo — escribe tus compromisos");compTit.style.color="var(--gold)";cComp.appendChild(compTit);
   var compIntro=mk("div","ct");compIntro.style.cssText+=";margin-bottom:16px";
-  compIntro.innerHTML="Estas son tus 3 áreas más bajas. Para cada una, escribe una acción concreta que te comprometes a hacer en los próximos 15 días. Estas acciones serán tu plan — y a los 15 días vas a calificar cómo te fue.";
+  compIntro.innerHTML = areasBajo5.length > 0
+    ? "Estas son las áreas que calificaste por debajo de 5 — las que más necesitan tu atención. Para cada una, <strong style='color:var(--gold2)'>debes escribir un compromiso concreto</strong> para los próximos 15 días. No puedes avanzar sin comprometerte con ellas."
+    : "Estas son tus 3 áreas más bajas. Para cada una, escribe una acción concreta que te comprometes a hacer en los próximos 15 días. Estas acciones serán tu plan.";
   cComp.appendChild(compIntro);
 
   // Cargar compromisos guardados
@@ -2653,11 +2685,34 @@ function bRueda(){
   pn.onclick=function(){
     // Guardar todos los compromisos escritos
     var comps={};
+    var faltanComp=[];
     criticas.forEach(function(a){
       var t=document.getElementById('comp-'+a.id);
-      if(t&&t.value.trim()){comps[a.id]={nombre:a.nombre,texto:t.value.trim(),fecha:new Date().toISOString()};}
+      var val=t?t.value.trim():'';
+      if(val){comps[a.id]={nombre:a.nombre,texto:val,fecha:new Date().toISOString()};}
+      else if((S.diagnostico[a.id]||1)<5){faltanComp.push(a.nombre);}
     });
+    // Validación: áreas bajo 5 requieren compromiso obligatorio
+    if(faltanComp.length>0){
+      alert("Para continuar, debes escribir un compromiso para: "+faltanComp.join(", ")+".\n\nEstas áreas están por debajo de 5 y necesitan tu compromiso.");
+      var primerFalta=document.getElementById('comp-'+criticas.find(function(a){return faltanComp.indexOf(a.nombre)>=0;}).id);
+      if(primerFalta)primerFalta.scrollIntoView({behavior:'smooth',block:'center'});
+      return;
+    }
     localStorage.setItem('anormal_compromisos_areas',JSON.stringify(comps));
+    // Guardar el diagnóstico con nivel calificado (promedio) y nivel real
+    var nivelCalif = nivelMap.find(function(n){
+      return prom>=n.min && prom<n.max;
+    });
+    if(!nivelCalif && prom>=9.3) nivelCalif = nivelMap[nivelMap.length-1];
+    if(!nivelCalif) nivelCalif = nivelActual;
+    localStorage.setItem('anormal_diagnostico', JSON.stringify({
+      nivel: nivelActual.nivel,
+      nivelCalificado: nivelCalif.nivel,
+      linea: lineaEleg,
+      promedio: prom,
+      fecha: new Date().toISOString()
+    }));
     // Guardar resultado de la rueda
     if(window.ANORMAL){
       ANORMAL.saveFaseModulo('rueda',{
@@ -2666,7 +2721,6 @@ function bRueda(){
         areas:(window.AREAS||[]).map(function(a){return {id:a.id,nombre:a.nombre,puntaje:S.diagnostico[a.id]||null};})
       });
     }
-    // Ir a los principios nuevos (perdón, dolor, miedo)
     window.location.href='resumen-conciencia.html';
   };
   nav.appendChild(pb2);nav.appendChild(pn);p.appendChild(nav);
@@ -4094,7 +4148,10 @@ function bRueda(){
   var ll={salud:'Salud',dinero:'Dinero',amor:'Amor'};
 
   var sorted=[].concat(AREAS).sort(function(a,b){return (S.diagnostico[a.id]||1)-(S.diagnostico[b.id]||1);});
-  var criticas=sorted.slice(0,3);
+  // Áreas que requieren compromiso obligatorio: todas las que estén por debajo de 5
+  var areasBajo5 = sorted.filter(function(a){ return (S.diagnostico[a.id]||1) < 5; });
+  // Si hay áreas bajo 5, esas son las críticas obligatorias; si no, las 3 más bajas
+  var criticas = areasBajo5.length > 0 ? areasBajo5 : sorted.slice(0,3);
   var areasLineaBajas=sorted.filter(function(a){return a.linea===lineaEleg&&(S.diagnostico[a.id]||1)<6;});
 
   var cExplica=mk("div","card");cExplica.style.marginBottom="12px";
@@ -4149,7 +4206,9 @@ function bRueda(){
   var cComp=mk("div","card");cComp.style.cssText+=";margin-bottom:14px;border-color:var(--gb)";
   var compTit=mk("div","cl","Tu plan de trabajo — escribe tus compromisos");compTit.style.color="var(--gold)";cComp.appendChild(compTit);
   var compIntro=mk("div","ct");compIntro.style.cssText+=";margin-bottom:16px";
-  compIntro.innerHTML="Estas son tus 3 áreas más bajas. Para cada una, escribe una acción concreta que te comprometes a hacer en los próximos 15 días. Estas acciones serán tu plan — y a los 15 días vas a calificar cómo te fue.";
+  compIntro.innerHTML = areasBajo5.length > 0
+    ? "Estas son las áreas que calificaste por debajo de 5 — las que más necesitan tu atención. Para cada una, <strong style='color:var(--gold2)'>debes escribir un compromiso concreto</strong> para los próximos 15 días. No puedes avanzar sin comprometerte con ellas."
+    : "Estas son tus 3 áreas más bajas. Para cada una, escribe una acción concreta que te comprometes a hacer en los próximos 15 días. Estas acciones serán tu plan.";
   cComp.appendChild(compIntro);
 
   // Cargar compromisos guardados
@@ -4208,11 +4267,34 @@ function bRueda(){
   pn.onclick=function(){
     // Guardar todos los compromisos escritos
     var comps={};
+    var faltanComp=[];
     criticas.forEach(function(a){
       var t=document.getElementById('comp-'+a.id);
-      if(t&&t.value.trim()){comps[a.id]={nombre:a.nombre,texto:t.value.trim(),fecha:new Date().toISOString()};}
+      var val=t?t.value.trim():'';
+      if(val){comps[a.id]={nombre:a.nombre,texto:val,fecha:new Date().toISOString()};}
+      else if((S.diagnostico[a.id]||1)<5){faltanComp.push(a.nombre);}
     });
+    // Validación: áreas bajo 5 requieren compromiso obligatorio
+    if(faltanComp.length>0){
+      alert("Para continuar, debes escribir un compromiso para: "+faltanComp.join(", ")+".\n\nEstas áreas están por debajo de 5 y necesitan tu compromiso.");
+      var primerFalta=document.getElementById('comp-'+criticas.find(function(a){return faltanComp.indexOf(a.nombre)>=0;}).id);
+      if(primerFalta)primerFalta.scrollIntoView({behavior:'smooth',block:'center'});
+      return;
+    }
     localStorage.setItem('anormal_compromisos_areas',JSON.stringify(comps));
+    // Guardar el diagnóstico con nivel calificado (promedio) y nivel real
+    var nivelCalif = nivelMap.find(function(n){
+      return prom>=n.min && prom<n.max;
+    });
+    if(!nivelCalif && prom>=9.3) nivelCalif = nivelMap[nivelMap.length-1];
+    if(!nivelCalif) nivelCalif = nivelActual;
+    localStorage.setItem('anormal_diagnostico', JSON.stringify({
+      nivel: nivelActual.nivel,
+      nivelCalificado: nivelCalif.nivel,
+      linea: lineaEleg,
+      promedio: prom,
+      fecha: new Date().toISOString()
+    }));
     // Guardar resultado de la rueda
     if(window.ANORMAL){
       ANORMAL.saveFaseModulo('rueda',{
@@ -4221,7 +4303,6 @@ function bRueda(){
         areas:(window.AREAS||[]).map(function(a){return {id:a.id,nombre:a.nombre,puntaje:S.diagnostico[a.id]||null};})
       });
     }
-    // Ir a los principios nuevos (perdón, dolor, miedo)
     window.location.href='resumen-conciencia.html';
   };
   nav.appendChild(pb2);nav.appendChild(pn);p.appendChild(nav);
@@ -5643,7 +5724,10 @@ function bRueda(){
   var ll={salud:'Salud',dinero:'Dinero',amor:'Amor'};
 
   var sorted=[].concat(AREAS).sort(function(a,b){return (S.diagnostico[a.id]||1)-(S.diagnostico[b.id]||1);});
-  var criticas=sorted.slice(0,3);
+  // Áreas que requieren compromiso obligatorio: todas las que estén por debajo de 5
+  var areasBajo5 = sorted.filter(function(a){ return (S.diagnostico[a.id]||1) < 5; });
+  // Si hay áreas bajo 5, esas son las críticas obligatorias; si no, las 3 más bajas
+  var criticas = areasBajo5.length > 0 ? areasBajo5 : sorted.slice(0,3);
   var areasLineaBajas=sorted.filter(function(a){return a.linea===lineaEleg&&(S.diagnostico[a.id]||1)<6;});
 
   var cExplica=mk("div","card");cExplica.style.marginBottom="12px";
@@ -5698,7 +5782,9 @@ function bRueda(){
   var cComp=mk("div","card");cComp.style.cssText+=";margin-bottom:14px;border-color:var(--gb)";
   var compTit=mk("div","cl","Tu plan de trabajo — escribe tus compromisos");compTit.style.color="var(--gold)";cComp.appendChild(compTit);
   var compIntro=mk("div","ct");compIntro.style.cssText+=";margin-bottom:16px";
-  compIntro.innerHTML="Estas son tus 3 áreas más bajas. Para cada una, escribe una acción concreta que te comprometes a hacer en los próximos 15 días. Estas acciones serán tu plan — y a los 15 días vas a calificar cómo te fue.";
+  compIntro.innerHTML = areasBajo5.length > 0
+    ? "Estas son las áreas que calificaste por debajo de 5 — las que más necesitan tu atención. Para cada una, <strong style='color:var(--gold2)'>debes escribir un compromiso concreto</strong> para los próximos 15 días. No puedes avanzar sin comprometerte con ellas."
+    : "Estas son tus 3 áreas más bajas. Para cada una, escribe una acción concreta que te comprometes a hacer en los próximos 15 días. Estas acciones serán tu plan.";
   cComp.appendChild(compIntro);
 
   // Cargar compromisos guardados
@@ -5757,11 +5843,34 @@ function bRueda(){
   pn.onclick=function(){
     // Guardar todos los compromisos escritos
     var comps={};
+    var faltanComp=[];
     criticas.forEach(function(a){
       var t=document.getElementById('comp-'+a.id);
-      if(t&&t.value.trim()){comps[a.id]={nombre:a.nombre,texto:t.value.trim(),fecha:new Date().toISOString()};}
+      var val=t?t.value.trim():'';
+      if(val){comps[a.id]={nombre:a.nombre,texto:val,fecha:new Date().toISOString()};}
+      else if((S.diagnostico[a.id]||1)<5){faltanComp.push(a.nombre);}
     });
+    // Validación: áreas bajo 5 requieren compromiso obligatorio
+    if(faltanComp.length>0){
+      alert("Para continuar, debes escribir un compromiso para: "+faltanComp.join(", ")+".\n\nEstas áreas están por debajo de 5 y necesitan tu compromiso.");
+      var primerFalta=document.getElementById('comp-'+criticas.find(function(a){return faltanComp.indexOf(a.nombre)>=0;}).id);
+      if(primerFalta)primerFalta.scrollIntoView({behavior:'smooth',block:'center'});
+      return;
+    }
     localStorage.setItem('anormal_compromisos_areas',JSON.stringify(comps));
+    // Guardar el diagnóstico con nivel calificado (promedio) y nivel real
+    var nivelCalif = nivelMap.find(function(n){
+      return prom>=n.min && prom<n.max;
+    });
+    if(!nivelCalif && prom>=9.3) nivelCalif = nivelMap[nivelMap.length-1];
+    if(!nivelCalif) nivelCalif = nivelActual;
+    localStorage.setItem('anormal_diagnostico', JSON.stringify({
+      nivel: nivelActual.nivel,
+      nivelCalificado: nivelCalif.nivel,
+      linea: lineaEleg,
+      promedio: prom,
+      fecha: new Date().toISOString()
+    }));
     // Guardar resultado de la rueda
     if(window.ANORMAL){
       ANORMAL.saveFaseModulo('rueda',{
@@ -5770,7 +5879,6 @@ function bRueda(){
         areas:(window.AREAS||[]).map(function(a){return {id:a.id,nombre:a.nombre,puntaje:S.diagnostico[a.id]||null};})
       });
     }
-    // Ir a los principios nuevos (perdón, dolor, miedo)
     window.location.href='resumen-conciencia.html';
   };
   nav.appendChild(pb2);nav.appendChild(pn);p.appendChild(nav);
