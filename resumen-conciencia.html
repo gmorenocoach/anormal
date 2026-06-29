@@ -347,6 +347,12 @@ function render(){
   html += '<p style="font-size:13px;color:var(--dim);margin-top:10px;line-height:1.7">Cuando vuelvas en '+diasParaSesion+' días, vas a calificar lo que cumpliste — y ese es el insumo del siguiente nivel de tu transformación.</p>';
   html += '</div>';
 
+  // ACCESO SESIÓN 2 (cuando está desbloqueada)
+  var sesion2Lista = (sesionActual >= 2) || (diasParaSesion === 0);
+  if(sesion2Lista){
+    html += '<a href="entrada-sesion2.html" class="bp" style="display:block;text-align:center;text-decoration:none;margin-top:14px">Entrar a la Sesión 2 · Ciclos de vida →</a>';
+  }
+
   // BOTONES DE ACCIÓN
   html += '<div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:8px">';
   if(contrato.firma || contrato.intencion){
