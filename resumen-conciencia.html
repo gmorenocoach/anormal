@@ -251,34 +251,46 @@ function render(){
   html += '<div class="dato"><div class="dato-val">'+(diagnostico.nivel||nivelBase)+'</div><div class="dato-lbl">Nivel inicial</div></div>';
   html += '</div></div>';
 
-  // COMPROMISOS REGISTRABLES (de las áreas)
-  var keysComp = Object.keys(compromisosAreas);
-  if(keysComp.length>0){
-    html += '<div class="card"><div class="cl">Mis compromisos — registra lo que vas cumpliendo</div>';
-    html += '<p class="ct" style="margin-bottom:8px">Marca cada compromiso cuando lo cumplas. Cada uno que completas sube tu nivel de conciencia.</p>';
-    html += '<div style="font-size:13px;color:var(--gold2);line-height:1.7;margin-bottom:14px;padding:10px 14px;background:var(--gd);border-radius:8px;border-left:3px solid var(--gold)">Vuelve aquí cada día y registra lo que vas cumpliendo. La idea es que cuando lleguen los 15 días, ya tengas tus compromisos realizados — no que los dejes para el final. La constancia diaria es lo que te vuelve ∀normal.</div>';
-    keysComp.forEach(function(areaId){
-      var comp = compromisosAreas[areaId];
-      var key = 'comp_'+areaId;
-      var cumplido = !!cumplidasComp[key];
-      html += '<div class="comp-item'+(cumplido?' cumplido':'')+'" onclick="guardarCumplido(\''+key+'\')">';
-      html += '<div class="comp-check'+(cumplido?' on':'')+'">✓</div>';
-      html += '<div class="comp-body"><div class="comp-area">'+comp.nombre+'</div><div class="comp-texto">'+comp.texto+'</div></div>';
-      html += '</div>';
+  // COMPROMISOS REGISTRABLES — áreas críticas + 5 acciones prioritarias unificadas
+  var listaCompromisos = [];
+  // Compromisos de áreas (los escritos en la rueda)
+  Object.keys(compromisosAreas).forEach(function(areaId){
+    var comp = compromisosAreas[areaId];
+    listaCompromisos.push({
+      key:'comp_'+areaId,
+      etiqueta: comp.nombre,
+      texto: (comp.texto||comp),
+      tipo:'area'
     });
-    var totalCump = keysComp.filter(function(a){return cumplidasComp['comp_'+a];}).length;
-    html += '<p style="font-size:13px;color:var(--dim);text-align:right;margin-top:8px">'+totalCump+' de '+keysComp.length+' compromisos cumplidos</p>';
-    html += '</div>';
-  }
-
-  // 5 ACCIONES PRIORITARIAS
+  });
+  // Las 5 acciones prioritarias
   if(prioridades.length>0 && acciones.length>0){
-    html += '<div class="card"><div class="cl">Mis 5 acciones prioritarias</div>';
     prioridades.forEach(function(num,i){
       var acc = acciones.find(function(a){return String(a.num)===String(num);});
       if(!acc)return;
-      html += '<div class="escrito-item"><div class="escrito-label">Acción '+(i+1)+'</div><div class="escrito-texto">'+acc.texto+'</div></div>';
+      listaCompromisos.push({
+        key:'accion_'+num,
+        etiqueta:'Acción prioritaria '+(i+1),
+        texto: acc.texto,
+        tipo:'accion'
+      });
     });
+  }
+
+  if(listaCompromisos.length>0){
+    html += '<div class="card"><div class="cl">Mis compromisos y acciones — registra lo que vas cumpliendo</div>';
+    html += '<p class="ct" style="margin-bottom:8px">Marca cada compromiso y cada acción cuando los cumplas. Cada uno que completas sube tu nivel de conciencia.</p>';
+    html += '<div style="font-size:13px;color:var(--gold2);line-height:1.7;margin-bottom:14px;padding:10px 14px;background:var(--gd);border-radius:8px;border-left:3px solid var(--gold)">Vuelve aquí cada día y registra lo que vas cumpliendo. La idea es que cuando lleguen los 15 días, ya tengas tus compromisos realizados — no que los dejes para el final. La constancia diaria es lo que te vuelve ∀normal.</div>';
+    listaCompromisos.forEach(function(item){
+      var cumplido = !!cumplidasComp[item.key];
+      var colorTipo = item.tipo==='area' ? 'var(--gold)' : 'var(--rose)';
+      html += '<div class="comp-item'+(cumplido?' cumplido':'')+'" onclick="guardarCumplido(\''+item.key+'\')">';
+      html += '<div class="comp-check'+(cumplido?' on':'')+'">✓</div>';
+      html += '<div class="comp-body"><div class="comp-area" style="color:'+colorTipo+'">'+item.etiqueta+'</div><div class="comp-texto">'+item.texto+'</div></div>';
+      html += '</div>';
+    });
+    var totalCump = listaCompromisos.filter(function(it){return cumplidasComp[it.key];}).length;
+    html += '<p style="font-size:13px;color:var(--dim);text-align:right;margin-top:8px">'+totalCump+' de '+listaCompromisos.length+' cumplidos</p>';
     html += '</div>';
   }
 
