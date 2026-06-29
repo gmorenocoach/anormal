@@ -16,7 +16,7 @@
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font-weight:300;font-size:15px;line-height:1.65;min-height:100vh}
+body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font-weight:300;font-size:16.5px;line-height:1.7;min-height:100vh}
 .wrap{max-width:700px;margin:0 auto;padding:24px 20px 60px}
 
 .hdr{display:flex;align-items:center;justify-content:space-between;padding:16px 0 24px;border-bottom:1px solid var(--faint);margin-bottom:28px}
@@ -32,12 +32,12 @@ body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font
 
 .label{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:10px}
 .titulo{font-family:"Cormorant Garamond",serif;font-size:clamp(22px,5vw,30px);font-weight:300;color:var(--gold2);line-height:1.2;margin-bottom:10px}
-.subtitulo{font-size:13px;color:var(--dim);line-height:1.8;margin-bottom:24px}
+.subtitulo{font-size:14.5px;color:var(--dim);line-height:1.85;margin-bottom:24px}
 
 .card{background:var(--bg2);border:1px solid rgba(255,255,255,.055);border-radius:var(--rl);padding:20px 24px;margin-bottom:12px}
 .card.gold{border-color:var(--gb);background:linear-gradient(135deg,var(--bg2),var(--bg3))}
-.ct{font-size:13.5px;color:var(--text);line-height:1.85}
-.ct.dim{color:var(--dim);font-size:13px}
+.ct{font-size:15px;color:var(--text);line-height:1.9}
+.ct.dim{color:var(--dim);font-size:14px}
 .ct b,.ct strong{color:var(--gold2);font-weight:500}
 
 .quote{font-family:"Cormorant Garamond",serif;font-style:italic;font-size:18px;color:var(--gold3);line-height:1.5;border-left:2px solid var(--gb);padding-left:16px;margin:18px 0}
@@ -46,7 +46,7 @@ body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font
 /* PASO EXPLICATIVO (numerado) */
 .paso{display:flex;gap:14px;margin-bottom:16px;align-items:flex-start}
 .paso-n{min-width:30px;height:30px;border-radius:50%;background:var(--gd);border:1px solid var(--gb);display:flex;align-items:center;justify-content:center;font-family:"Cormorant Garamond",serif;font-size:16px;color:var(--gold2);flex-shrink:0}
-.paso-txt{font-size:13.5px;color:var(--text);line-height:1.8}
+.paso-txt{font-size:15px;color:var(--text);line-height:1.85}
 
 /* CUADRO 3 COLUMNAS */
 .columnas{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin:18px 0}
@@ -80,7 +80,7 @@ body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font
 .actual-tarea{font-size:14px;color:var(--text);line-height:1.7;margin-bottom:10px}
 .espejo-box{background:rgba(90,140,192,.08);border-left:3px solid var(--azul);padding:14px 16px;border-radius:0 var(--rm) var(--rm) 0;margin-top:14px}
 .espejo-label{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--azul);margin-bottom:8px}
-.espejo-texto{font-size:13.5px;color:var(--text);line-height:1.75}
+.espejo-texto{font-size:14.5px;color:var(--text);line-height:1.8}
 
 /* RASTREO */
 .rastreo-intro{background:var(--bg3);border:1px solid var(--gb);border-radius:var(--rl);padding:18px 22px;margin-bottom:18px}
@@ -103,7 +103,7 @@ body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font
 .intensidad-dots{display:flex;gap:6px}
 .idot{width:26px;height:26px;border-radius:50%;border:1px solid var(--faint);display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--dim);cursor:pointer;transition:all .15s;font-family:"Barlow Condensed",sans-serif}
 .idot.on{background:var(--rose);border-color:var(--rose);color:#fff}
-textarea{width:100%;background:var(--bg2);border:1px solid var(--faint);border-radius:var(--rm);color:var(--text);font-family:"Barlow",sans-serif;font-size:13.5px;line-height:1.7;padding:11px 13px;resize:vertical;min-height:58px}
+textarea{width:100%;background:var(--bg2);border:1px solid var(--faint);border-radius:var(--rm);color:var(--text);font-family:"Barlow",sans-serif;font-size:14.5px;line-height:1.7;padding:11px 13px;resize:vertical;min-height:58px}
 textarea:focus{outline:none;border-color:var(--gold)}
 .campo-mini-label{font-size:10.5px;letter-spacing:.04em;margin-bottom:6px;display:flex;align-items:center;gap:6px;color:var(--dim)}
 .campo-mini-label.dolor{color:var(--rose)}
@@ -123,7 +123,7 @@ textarea:focus{outline:none;border-color:var(--gold)}
 .item-head{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;cursor:pointer;user-select:none}
 .item-check{width:19px;height:19px;border-radius:5px;border:1.5px solid var(--faint);display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff;flex-shrink:0;margin-top:1px;transition:all .15s}
 .item.on .item-check{background:var(--rose);border-color:var(--rose)}
-.item-texto{flex:1;font-size:12.5px;color:var(--dim);line-height:1.55}
+.item-texto{flex:1;font-size:14px;color:var(--dim);line-height:1.6}
 .item.on .item-texto{color:var(--text)}
 .item.afin .item-texto{color:var(--text)}
 .item-flag{font-size:8px;letter-spacing:.08em;text-transform:uppercase;color:var(--rose);background:rgba(212,83,126,.14);padding:1px 5px;border-radius:3px;margin-left:5px;white-space:nowrap}
@@ -147,13 +147,31 @@ textarea:focus{outline:none;border-color:var(--gold)}
 /* CONTENCIÓN */
 .contencion{background:rgba(74,191,122,.06);border:1px solid rgba(74,191,122,.25);border-radius:var(--rl);padding:16px 18px;margin-bottom:18px}
 .contencion-label{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--grn);margin-bottom:8px}
-.contencion-texto{font-size:13px;color:var(--text);line-height:1.8}
+.contencion-texto{font-size:14.5px;color:var(--text);line-height:1.85}
 .contencion-nota{font-size:11.5px;color:var(--dim);line-height:1.7;margin-top:10px;padding-top:10px;border-top:1px solid rgba(74,191,122,.15)}
 
 /* PATRÓN DETECTADO */
 .patron-box{background:linear-gradient(135deg,rgba(212,83,126,.08),var(--bg3));border:1px solid rgba(212,83,126,.3);border-radius:var(--rl);padding:18px 20px;margin:16px 0}
 .patron-label{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--rose);margin-bottom:8px}
-.patron-texto{font-size:13.5px;color:var(--text);line-height:1.8}
+.patron-texto{font-size:15px;color:var(--text);line-height:1.85}
+
+/* DIAGNÓSTICO DE ORIGEN */
+.diag-origen{background:linear-gradient(135deg,rgba(201,168,76,.1),var(--bg3));border:1px solid var(--gb);border-radius:var(--rl);padding:20px 24px;margin-bottom:18px}
+.diag-origen-label{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
+.diag-origen-titulo{font-family:"Cormorant Garamond",serif;font-size:20px;color:var(--gold2);line-height:1.3;margin-bottom:12px}
+.diag-origen-texto{font-size:15px;color:var(--text);line-height:1.9}
+.diag-origen-texto b{color:var(--gold2);font-weight:500}
+
+/* PRÓXIMOS CICLOS */
+.prox-box{background:var(--bg2);border:1px solid var(--ffaint);border-radius:var(--rl);padding:20px 24px;margin-bottom:18px}
+.prox-label{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--azul);margin-bottom:6px}
+.prox-intro{font-size:14px;color:var(--dim);line-height:1.8;margin-bottom:14px}
+.prox-ciclo{display:flex;gap:12px;align-items:flex-start;padding:12px 0;border-bottom:1px solid var(--ffaint)}
+.prox-ciclo:last-child{border-bottom:none}
+.prox-n{min-width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:"Cormorant Garamond",serif;font-size:17px;color:var(--azul);border:1px solid rgba(90,140,192,.4);flex-shrink:0}
+.prox-info-nom{font-size:14.5px;font-weight:500;color:var(--text);margin-bottom:2px}
+.prox-info-edad{font-size:11px;color:var(--dim);margin-bottom:4px}
+.prox-info-trab{font-size:13.5px;color:var(--dim);line-height:1.65}
 
 .cierre-resumen{background:var(--bg2);border:1px solid var(--gb);border-radius:var(--rl);padding:20px 24px;margin-bottom:18px}
 .cierre-fila{display:flex;justify-content:space-between;align-items:baseline;padding:8px 0;border-bottom:1px solid var(--ffaint)}
@@ -296,6 +314,10 @@ textarea:focus{outline:none;border-color:var(--gold)}
     <p class="subtitulo">Ver el patrón es el primer paso para romperlo. Esto es exactamente lo que vas a sanar en el trabajo del perdón.</p>
 
     <div class="cierre-resumen" id="cierre-resumen"></div>
+
+    <div id="diagnostico-origen-wrap"></div>
+
+    <div id="proximos-ciclos-wrap"></div>
 
     <p class="quote">Entre lo que te pasó y lo que decides hacer con eso, hay un espacio. En ese espacio vive tu libertad. Y hoy estás empezando a habitarlo.</p>
 
@@ -631,22 +653,85 @@ function irA(n){
 
 function renderCierre(){
   var c=CICLOS[idxActual];
-  // contar ítems marcados y ciclos con dolor
-  var ciclosDolor=[], totalDolores=0, totalRecursos=0, pesoTotal=0;
+  // contar ítems marcados, pesos, y dónde están los dolores más fuertes
+  var ciclosDolor=[], totalDolores=0, totalRecursos=0;
+  var pesoPorCiclo={}, dolorMasFuerte={ciclo:null,peso:0,texto:''};
   for(var n in rastreo){
     var d=rastreo[n].dolores||{}, r=rastreo[n].recursos||{};
-    var hay=false;
-    for(var k in d){ if(d[k].on){ totalDolores++; pesoTotal+=d[k].peso; hay=true; } }
+    var hay=false, pc=0;
+    for(var k in d){ if(d[k].on){ totalDolores++; pc+=d[k].peso; hay=true;
+      if(d[k].peso>dolorMasFuerte.peso){ dolorMasFuerte={ciclo:parseInt(n),peso:d[k].peso,texto:d[k].texto}; } } }
     for(var k2 in r){ if(r[k2].on){ totalRecursos++; } }
-    if(hay) ciclosDolor.push(parseInt(n));
+    if(hay){ ciclosDolor.push(parseInt(n)); pesoPorCiclo[n]=pc; }
   }
   ciclosDolor.sort(function(a,b){return a-b;});
+
   document.getElementById('cierre-resumen').innerHTML=
     '<div class="cierre-fila"><span class="cierre-k">Tu nivel de conciencia</span><span class="cierre-v">'+(nivel&&HAWKINS[nivel]?nivel+' · '+HAWKINS[nivel].nombre:'—')+'</span></div>'+
     '<div class="cierre-fila"><span class="cierre-k">Emoción rastreada</span><span class="cierre-v">'+(emocionRaiz||'—')+'</span></div>'+
     '<div class="cierre-fila"><span class="cierre-k">Heridas que nombraste</span><span class="cierre-v">'+totalDolores+'</span></div>'+
     '<div class="cierre-fila"><span class="cierre-k">Recursos que reconociste</span><span class="cierre-v">'+totalRecursos+'</span></div>'+
     '<div class="cierre-fila"><span class="cierre-k">Aparecen en los ciclos</span><span class="cierre-v">'+(ciclosDolor.length?ciclosDolor.join(', '):'—')+'</span></div>';
+
+  // ── DIAGNÓSTICO DE ORIGEN (interpreta: raíz en primeros ciclos → bloqueo en tu línea) ──
+  renderDiagnosticoOrigen(ciclosDolor, pesoPorCiclo, dolorMasFuerte);
+
+  // ── PRÓXIMOS CICLOS (para todos: lo que viene según la edad) ──
+  renderProximosCiclos();
+}
+
+function renderDiagnosticoOrigen(ciclosDolor, pesoPorCiclo, dolorMasFuerte){
+  var wrap=document.getElementById('diagnostico-origen-wrap');
+  var linea=leer('anormal_linea','');
+  var lineaTxt = linea ? ('tu <b>'+linea+'</b>') : 'tu salud, tu dinero y tu amor';
+
+  // ¿hay dolores en los primeros tres ciclos?
+  var enPrimeros=ciclosDolor.filter(function(n){return n<=3;});
+  var pesoPrimeros=0; enPrimeros.forEach(function(n){pesoPrimeros+=(pesoPorCiclo[n]||0);});
+
+  var titulo, texto;
+  if(ciclosDolor.length===0){
+    wrap.innerHTML=''; return;
+  }
+  if(enPrimeros.length>0){
+    titulo='El origen de tus bloqueos apunta a tus primeros años.';
+    texto='Según lo que acabas de hacer consciente, buena parte de lo que hoy bloquea '+lineaTxt+' tiene su raíz en lo que viviste en tus <b>primeros ciclos</b> (los ciclos '+enPrimeros.join(', ')+', de los 0 a los 21 años). ';
+    texto+='Ahí —en la base, en el sentir, en la identidad— se instaló la emoción que todavía cargas. ';
+    if(dolorMasFuerte.ciclo){
+      texto+='Lo que marcaste con más peso fue <b>«'+dolorMasFuerte.texto+'»</b> en el ciclo '+dolorMasFuerte.ciclo+'. Ese podría ser el primer hilo del que tirar. ';
+    }
+    texto+='No es casualidad que se repita: esa raíz vuelve, ciclo tras ciclo, hasta que la sanas. Y mientras no la sanes, sigue afectando '+lineaTxt+'. <b>Por eso el perdón es el siguiente paso.</b>';
+  } else {
+    titulo='El origen de tus bloqueos está en lo que hiciste consciente.';
+    texto='Lo que hoy bloquea '+lineaTxt+' tiene su raíz en lo que marcaste en los ciclos '+ciclosDolor.join(', ')+'. ';
+    if(dolorMasFuerte.ciclo){
+      texto+='Lo que más pesó fue <b>«'+dolorMasFuerte.texto+'»</b> (ciclo '+dolorMasFuerte.ciclo+'). ';
+    }
+    texto+='Esa emoción se repite en tu columna hasta que la sanas — y mientras tanto, sigue afectando '+lineaTxt+'. <b>Por eso el perdón es el siguiente paso.</b>';
+  }
+
+  wrap.innerHTML='<div class="diag-origen"><div class="diag-origen-label">◉ Tu nuevo diagnóstico</div>'+
+    '<div class="diag-origen-titulo">'+titulo+'</div>'+
+    '<div class="diag-origen-texto">'+texto+'</div></div>';
+}
+
+function renderProximosCiclos(){
+  var wrap=document.getElementById('proximos-ciclos-wrap');
+  // los próximos 3 ciclos después del actual
+  var prox=[];
+  for(var i=idxActual+1; i<CICLOS.length && prox.length<3; i++){ prox.push(CICLOS[i]); }
+  if(prox.length===0){ wrap.innerHTML=''; return; }
+
+  var html='<div class="prox-box"><div class="prox-label">↗ Lo que viene en tu camino</div>'+
+    '<p class="prox-intro">Así como miraste hacia atrás, mira hacia adelante. Estos son los ciclos que vienen para ti. Conocerlos te prepara: lo que sanes hoy, lo vivirás distinto mañana.</p>';
+  prox.forEach(function(c){
+    html+='<div class="prox-ciclo"><div class="prox-n">'+c.n+'</div>'+
+      '<div><div class="prox-info-nom">'+c.nombre+'</div>'+
+      '<div class="prox-info-edad">'+c.ini+'–'+(c.fin>100?'+':c.fin)+' años · columna '+COL_NOMBRES[c.col]+'</div>'+
+      '<div class="prox-info-trab">'+c.trab+'</div></div></div>';
+  });
+  html+='</div>';
+  wrap.innerHTML=html;
 }
 
 function completar(){
