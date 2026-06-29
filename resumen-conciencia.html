@@ -399,7 +399,7 @@ function pruebaReiniciar(){
     var claves = ['anormal_nombre','anormal_fecha_nac','anormal_numero_camino','anormal_linea',
       'anormal_contrato','anormal_contrato_firmado','anormal_entrada_completa','anormal_diagnostico',
       'anormal_acciones','anormal_prioridades','anormal_compromisos_areas','anormal_compromiso_inicial',
-      'anormal_principios_nuevos','anormal_puntos_conciencia','anormal_compromisos_cumplidos','anormal_sesion_actual'];
+      'anormal_principios_nuevos','anormal_puntos_conciencia','anormal_compromisos_cumplidos','anormal_sesion_actual','anormal_rueda_areas','widget_visto_rueda','anormal_fecha_inicio_proceso'];
     claves.forEach(function(k){ localStorage.removeItem(k); });
     // Borrar también fechas de sesiones
     for(var s=2;s<=5;s++){ localStorage.removeItem('anormal_fecha_sesion_'+s); }
