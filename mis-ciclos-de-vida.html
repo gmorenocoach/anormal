@@ -11,13 +11,13 @@
   --gold:#C9A84C;--gold2:#E8C96A;--gold3:#F5E0A0;
   --gd:rgba(201,168,76,.13);--gb:rgba(201,168,76,.28);
   --text:#EAE6DC;--dim:#8A95A8;--faint:#3A4558;--ffaint:#1E2A3A;
-  --grn:#4ABF7A;--rose:#D4537E;--azul:#5A8CC0;
+  --grn:#4ABF7A;--rose:#D4537E;--azul:#5A8CC0;--viol:#9B7BC0;
   --r:4px;--rm:8px;--rl:14px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font-weight:300;font-size:15px;line-height:1.65;min-height:100vh}
-.wrap{max-width:680px;margin:0 auto;padding:24px 20px 60px}
+.wrap{max-width:700px;margin:0 auto;padding:24px 20px 60px}
 
 .hdr{display:flex;align-items:center;justify-content:space-between;padding:16px 0 24px;border-bottom:1px solid var(--faint);margin-bottom:28px}
 .hdr-logo{font-family:"Cormorant Garamond",serif;font-size:22px;color:var(--gold2)}
@@ -38,71 +38,94 @@ body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font
 .card.gold{border-color:var(--gb);background:linear-gradient(135deg,var(--bg2),var(--bg3))}
 .ct{font-size:13.5px;color:var(--text);line-height:1.85}
 .ct.dim{color:var(--dim);font-size:13px}
+.ct b,.ct strong{color:var(--gold2);font-weight:500}
 
 .quote{font-family:"Cormorant Garamond",serif;font-style:italic;font-size:18px;color:var(--gold3);line-height:1.5;border-left:2px solid var(--gb);padding-left:16px;margin:18px 0}
 .quote-autor{display:block;font-size:11px;font-style:normal;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);margin-top:8px}
 
-.ciclo-row{display:flex;align-items:stretch;gap:0;border-radius:var(--r);overflow:hidden;border:1px solid var(--ffaint);margin-bottom:4px;transition:all .2s}
-.ciclo-row.actual{outline:2px solid var(--gold2);box-shadow:0 0 0 4px var(--gd)}
-.ciclo-row.espejo{outline:1px solid var(--azul);background:rgba(90,140,192,.05)}
-.ciclo-num{min-width:46px;display:flex;flex-direction:column;align-items:center;justify-content:center;background:var(--bg4);padding:8px 4px}
-.ciclo-num-n{font-family:"Cormorant Garamond",serif;font-size:20px;color:var(--gold2);line-height:1}
-.ciclo-num-e{font-size:8px;color:var(--dim);margin-top:2px}
-.ciclo-body{flex:1;padding:9px 13px;background:var(--bg2)}
-.ciclo-nombre{font-size:13px;font-weight:500;color:var(--text)}
-.ciclo-trab{font-size:11px;color:var(--dim);line-height:1.5}
-.ciclo-emo{display:inline-block;font-size:9px;letter-spacing:.1em;text-transform:uppercase;margin-top:3px;color:var(--gold)}
-.ciclo-tag{font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;padding:2px 6px;border-radius:3px;margin-left:6px}
-.tag-actual{background:var(--gd);color:var(--gold2)}
-.tag-espejo{background:rgba(90,140,192,.18);color:var(--azul)}
+/* PASO EXPLICATIVO (numerado) */
+.paso{display:flex;gap:14px;margin-bottom:16px;align-items:flex-start}
+.paso-n{min-width:30px;height:30px;border-radius:50%;background:var(--gd);border:1px solid var(--gb);display:flex;align-items:center;justify-content:center;font-family:"Cormorant Garamond",serif;font-size:16px;color:var(--gold2);flex-shrink:0}
+.paso-txt{font-size:13.5px;color:var(--text);line-height:1.8}
 
+/* CUADRO 3 COLUMNAS */
+.columnas{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin:18px 0}
+.columna{background:var(--bg2);border:1px solid var(--ffaint);border-radius:var(--rl);overflow:hidden}
+.columna.resaltada{border-color:var(--gold2);box-shadow:0 0 0 3px var(--gd)}
+.columna-titulo{padding:10px 8px;text-align:center;font-size:11px;letter-spacing:.06em;font-weight:500;border-bottom:1px solid var(--ffaint);line-height:1.35}
+.col-a .columna-titulo{background:rgba(201,168,76,.12);color:var(--gold2)}
+.col-b .columna-titulo{background:rgba(90,140,192,.14);color:var(--azul)}
+.col-c .columna-titulo{background:rgba(155,123,192,.14);color:var(--viol)}
+.celda{padding:11px 9px;border-bottom:1px solid var(--ffaint);text-align:center}
+.celda:last-child{border-bottom:none}
+.celda.actual{background:var(--gd)}
+.celda-n{font-family:"Cormorant Garamond",serif;font-size:22px;color:var(--gold2);line-height:1}
+.celda-edad{font-size:9px;color:var(--dim);margin-top:2px}
+.celda-nom{font-size:10px;color:var(--text);margin-top:4px;line-height:1.3}
+.celda-here{font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-top:3px;display:block}
+.columnas-leyenda{font-size:11.5px;color:var(--dim);line-height:1.7;text-align:center;margin-top:4px}
+
+/* NIVEL DE CONCIENCIA */
+.nivel-card{border-radius:var(--rl);padding:22px 24px;margin-bottom:16px;border:1px solid var(--gb)}
+.nivel-num{font-family:"Cormorant Garamond",serif;font-size:40px;line-height:1}
+.nivel-nombre{font-size:15px;letter-spacing:.1em;text-transform:uppercase;margin:4px 0 12px}
+.nivel-emo-link{background:var(--bg3);border-left:3px solid var(--gold);padding:13px 16px;border-radius:0 var(--rm) var(--rm) 0;margin-top:14px}
+.nivel-emo-label{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:6px}
+.nivel-emo-texto{font-size:13.5px;color:var(--text);line-height:1.75}
+
+/* CICLO ACTUAL */
 .actual-card{background:linear-gradient(135deg,var(--bg2),var(--bg3));border:1px solid var(--gb);border-radius:var(--rl);padding:22px 24px;margin-bottom:16px}
 .actual-edad{font-family:"Cormorant Garamond",serif;font-size:32px;color:var(--gold2);line-height:1}
 .actual-rango{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin:6px 0 14px}
-.actual-tarea{font-size:14.5px;color:var(--text);line-height:1.7;margin-bottom:12px}
+.actual-tarea{font-size:14px;color:var(--text);line-height:1.7;margin-bottom:10px}
 .espejo-box{background:rgba(90,140,192,.08);border-left:3px solid var(--azul);padding:14px 16px;border-radius:0 var(--rm) var(--rm) 0;margin-top:14px}
 .espejo-label{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--azul);margin-bottom:8px}
 .espejo-texto{font-size:13.5px;color:var(--text);line-height:1.75}
-.cruce-box{background:var(--bg3);border-left:3px solid var(--gold);padding:14px 16px;border-radius:0 var(--rm) var(--rm) 0;margin-top:14px}
-.cruce-label{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
-.cruce-texto{font-size:13.5px;color:var(--text);line-height:1.75}
 
-.inv-intro{background:var(--bg3);border:1px solid var(--gb);border-radius:var(--rl);padding:18px 22px;margin-bottom:18px}
-.inv-ciclo{border:1px solid var(--ffaint);border-radius:var(--rl);margin-bottom:14px;overflow:hidden}
-.inv-ciclo.es-actual{border-color:var(--gb)}
-.inv-ciclo.es-espejo{border-color:rgba(90,140,192,.4)}
-.inv-head{display:flex;align-items:center;gap:10px;padding:12px 16px;background:var(--bg3);cursor:pointer}
-.inv-head-n{min-width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:"Cormorant Garamond",serif;font-size:16px;color:var(--gold2);border:1px solid var(--gb)}
-.inv-head-info{flex:1}
-.inv-head-nombre{font-size:13px;font-weight:500;color:var(--text)}
-.inv-head-meta{font-size:10px;color:var(--dim);margin-top:1px}
-.inv-head-chevron{color:var(--dim);font-size:13px;transition:transform .2s}
-.inv-ciclo.open .inv-head-chevron{transform:rotate(90deg)}
-.inv-content{display:none;padding:14px 16px;background:var(--bg2)}
-.inv-ciclo.open .inv-content{display:block}
-.inv-guia{font-size:12px;color:var(--dim);line-height:1.7;margin-bottom:12px;font-style:italic}
-.inv-campo{margin-bottom:12px}
-.inv-campo-label{font-size:11px;letter-spacing:.05em;margin-bottom:6px;display:flex;align-items:center;gap:6px}
-.inv-campo-label.dolor{color:var(--rose)}
-.inv-campo-label.alegria{color:var(--grn)}
-.inv-dot{width:7px;height:7px;border-radius:50%}
-.inv-dot.dolor{background:var(--rose)}
-.inv-dot.alegria{background:var(--grn)}
-textarea{width:100%;background:var(--bg2);border:1px solid var(--faint);border-radius:var(--rm);color:var(--text);font-family:"Barlow",sans-serif;font-size:13.5px;line-height:1.7;padding:11px 13px;resize:vertical;min-height:62px}
+/* RASTREO */
+.rastreo-intro{background:var(--bg3);border:1px solid var(--gb);border-radius:var(--rl);padding:18px 22px;margin-bottom:18px}
+.rastreo-ciclo{border:1px solid var(--ffaint);border-radius:var(--rl);margin-bottom:12px;overflow:hidden;transition:all .2s}
+.rastreo-ciclo.es-espejo{border-color:rgba(90,140,192,.4)}
+.rastreo-ciclo.es-actual{border-color:var(--gb)}
+.rastreo-ciclo.marcado{border-color:var(--rose);box-shadow:0 0 0 2px rgba(212,83,126,.12)}
+.rastreo-head{display:flex;align-items:center;gap:12px;padding:13px 16px;background:var(--bg3)}
+.rastreo-n{min-width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:"Cormorant Garamond",serif;font-size:17px;color:var(--gold2);border:1px solid var(--gb)}
+.rastreo-info{flex:1}
+.rastreo-nom{font-size:13.5px;font-weight:500;color:var(--text)}
+.rastreo-meta{font-size:10px;color:var(--dim);margin-top:1px}
+.rastreo-toggle{display:flex;align-items:center;gap:7px;font-size:11px;color:var(--dim);cursor:pointer;user-select:none}
+.rastreo-check{width:20px;height:20px;border-radius:5px;border:1.5px solid var(--faint);display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--rose);transition:all .15s}
+.rastreo-ciclo.marcado .rastreo-check{border-color:var(--rose);background:rgba(212,83,126,.15)}
+.rastreo-detalle{display:none;padding:14px 16px;background:var(--bg2);border-top:1px solid var(--ffaint)}
+.rastreo-ciclo.marcado .rastreo-detalle{display:block}
+.intensidad-row{display:flex;align-items:center;gap:8px;margin-bottom:14px}
+.intensidad-label{font-size:11px;color:var(--dim);min-width:74px}
+.intensidad-dots{display:flex;gap:6px}
+.idot{width:26px;height:26px;border-radius:50%;border:1px solid var(--faint);display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--dim);cursor:pointer;transition:all .15s;font-family:"Barlow Condensed",sans-serif}
+.idot.on{background:var(--rose);border-color:var(--rose);color:#fff}
+textarea{width:100%;background:var(--bg2);border:1px solid var(--faint);border-radius:var(--rm);color:var(--text);font-family:"Barlow",sans-serif;font-size:13.5px;line-height:1.7;padding:11px 13px;resize:vertical;min-height:58px}
 textarea:focus{outline:none;border-color:var(--gold)}
-.inv-progreso{font-size:11px;color:var(--dim);text-align:center;margin:14px 0 4px}
+.campo-mini-label{font-size:10.5px;letter-spacing:.04em;margin-bottom:6px;display:flex;align-items:center;gap:6px;color:var(--dim)}
+.campo-mini-label.dolor{color:var(--rose)}
+.campo-mini-label.alegria{color:var(--grn)}
+.mini-dot{width:6px;height:6px;border-radius:50%}
+.mini-dot.dolor{background:var(--rose)}.mini-dot.alegria{background:var(--grn)}
+.campo-mini{margin-bottom:10px}
 
-.linea-chip{display:inline-flex;align-items:center;gap:6px;background:var(--gd);border:1px solid var(--gb);border-radius:20px;padding:5px 14px;font-size:12px;color:var(--gold2)}
+/* PATRÓN DETECTADO */
+.patron-box{background:linear-gradient(135deg,rgba(212,83,126,.08),var(--bg3));border:1px solid rgba(212,83,126,.3);border-radius:var(--rl);padding:18px 20px;margin:16px 0}
+.patron-label{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--rose);margin-bottom:8px}
+.patron-texto{font-size:13.5px;color:var(--text);line-height:1.8}
 
 .cierre-resumen{background:var(--bg2);border:1px solid var(--gb);border-radius:var(--rl);padding:20px 24px;margin-bottom:18px}
 .cierre-fila{display:flex;justify-content:space-between;align-items:baseline;padding:8px 0;border-bottom:1px solid var(--ffaint)}
 .cierre-fila:last-child{border-bottom:none}
 .cierre-k{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
-.cierre-v{font-size:14px;color:var(--gold2);text-align:right;max-width:58%}
+.cierre-v{font-size:14px;color:var(--gold2);text-align:right;max-width:56%}
 
 .bp{background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--bg);border:none;border-radius:var(--r);font-family:"Barlow Condensed",sans-serif;font-size:12px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;padding:13px 30px;cursor:pointer;transition:opacity .2s,transform .15s}
 .bp:hover{opacity:.9;transform:translateY(-1px)}
-.bp:disabled{opacity:.4;cursor:not-allowed;transform:none}
+.bp:disabled{opacity:.4;cursor:not-allowed}
 .bs{background:transparent;color:var(--gold);border:1px solid var(--gb);border-radius:var(--r);font-family:"Barlow Condensed",sans-serif;font-size:11px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;padding:11px 22px;cursor:pointer}
 .nav{display:flex;gap:10px;justify-content:flex-end;margin-top:28px;flex-wrap:wrap}
 
@@ -110,6 +133,7 @@ textarea:focus{outline:none;border-color:var(--gold)}
 .edad-input-row input{width:90px;background:var(--bg2);border:1px solid var(--faint);border-radius:var(--rm);color:var(--text);font-family:"Barlow Condensed",sans-serif;font-size:20px;text-align:center;padding:10px}
 .edad-input-row input:focus{outline:none;border-color:var(--gold)}
 .edad-input-row label{font-size:13px;color:var(--dim)}
+@media(max-width:560px){.celda-nom{display:none}.columna-titulo{font-size:10px}}
 </style>
 </head>
 <body>
@@ -118,35 +142,79 @@ textarea:focus{outline:none;border-color:var(--gold)}
     <div class="hdr-logo">∀normal</div>
     <div class="hdr-info">Sesión 2 · Ciclos de vida</div>
   </div>
-  <div class="progress-bar"><div class="progress-fill" id="prog" style="width:20%"></div></div>
+  <div class="progress-bar"><div class="progress-fill" id="prog" style="width:16%"></div></div>
 
-  <!-- PANTALLA 1: ENTENDER EL MODELO -->
+  <!-- PANTALLA 1: ENTENDER EL MODELO DE CERO -->
   <div class="pantalla visible" id="p0">
-    <div class="label">El modelo de los ciclos</div>
-    <h1 class="titulo">Tu vida tiene un mapa. Y se repite.</h1>
-    <p class="subtitulo">La vida humana se mueve en nueve ciclos de siete años. Cada uno tiene una tarea que cumplir y una emoción que lo marca. Pero lo más importante es esto: los ciclos no se viven una sola vez. Resuenan entre sí.</p>
+    <div class="label">Antes de empezar — entiende esto</div>
+    <h1 class="titulo">Tu vida no es una línea. Es una espiral que se repite.</h1>
+    <p class="subtitulo">Tómate un momento. Lo que vas a entender ahora es la base de toda esta sesión. Si lo comprendes, todo lo demás va a tener sentido.</p>
 
-    <div class="card gold">
-      <div class="label">La clave que lo cambia todo</div>
-      <p class="ct">Los ciclos se reflejan en columna, de tres en tres. Lo que no resolviste en un ciclo vuelve, transformado, en el ciclo que lo refleja. Por eso a veces sientes que repites la misma historia con caras distintas: no es casualidad, es un ciclo anterior que sigue pidiendo ser visto. El 1 resuena con el 4 y el 7. El 2 con el 5 y el 8. El 3 con el 6 y el 9. Si entiendes esto, entiendes por qué estás viviendo lo que vives hoy.</p>
+    <div class="card">
+      <div class="paso"><div class="paso-n">1</div><div class="paso-txt">La vida humana avanza en <b>ciclos de siete años</b>. Cada siete años cierras una etapa y abres otra. Son nueve ciclos en total, del nacimiento hasta los 63 años, y luego un tiempo de integración.</div></div>
+      <div class="paso"><div class="paso-n">2</div><div class="paso-txt">Cada ciclo trae una <b>tarea</b> que aprender y una <b>emoción</b> que lo marca. Si vives bien la tarea, avanzas en paz. Si algo te dolió y no lo sanaste, esa emoción se queda guardada.</div></div>
+      <div class="paso"><div class="paso-n">3</div><div class="paso-txt">Y aquí está lo más importante: los ciclos <b>se repiten en columnas de tres</b>. Lo que no sanaste en un ciclo, <b>vuelve</b> en el siguiente de su columna. Por eso sientes que repites la misma historia con caras distintas.</div></div>
     </div>
 
-    <div class="label" style="margin:22px 0 12px">Los nueve ciclos</div>
-    <div id="mapa-ciclos"></div>
+    <div class="label" style="margin:22px 0 4px">Las tres columnas de tu vida</div>
+    <p class="ct dim" style="margin-bottom:6px">Mira cómo se agrupan. Cada columna comparte un mismo tipo de aprendizaje que vuelve tres veces en tu vida:</p>
 
-    <p class="quote">Lo que no se hace consciente se manifiesta en nuestras vidas como destino.
-      <span class="quote-autor">Carl Jung</span></p>
+    <div class="columnas">
+      <div class="columna col-a">
+        <div class="columna-titulo">Cuerpo y raíz<br><span style="font-size:9px;opacity:.8">1 · 4 · 7</span></div>
+        <div class="celda"><div class="celda-n">1</div><div class="celda-edad">0–7</div><div class="celda-nom">La base de todo</div></div>
+        <div class="celda"><div class="celda-n">4</div><div class="celda-edad">21–28</div><div class="celda-nom">Salida al mundo</div></div>
+        <div class="celda"><div class="celda-n">7</div><div class="celda-edad">42–49</div><div class="celda-nom">Recoger lo sembrado</div></div>
+      </div>
+      <div class="columna col-b">
+        <div class="columna-titulo">Sentir y valor<br><span style="font-size:9px;opacity:.8">2 · 5 · 8</span></div>
+        <div class="celda"><div class="celda-n">2</div><div class="celda-edad">7–14</div><div class="celda-nom">Despertar del cuerpo</div></div>
+        <div class="celda"><div class="celda-n">5</div><div class="celda-edad">28–35</div><div class="celda-nom">La evaluación</div></div>
+        <div class="celda"><div class="celda-n">8</div><div class="celda-edad">49–56</div><div class="celda-nom">Desapego y sabiduría</div></div>
+      </div>
+      <div class="columna col-c">
+        <div class="columna-titulo">Identidad y propósito<br><span style="font-size:9px;opacity:.8">3 · 6 · 9</span></div>
+        <div class="celda"><div class="celda-n">3</div><div class="celda-edad">14–21</div><div class="celda-nom">El primer crack</div></div>
+        <div class="celda"><div class="celda-n">6</div><div class="celda-edad">35–42</div><div class="celda-nom">El segundo crack</div></div>
+        <div class="celda"><div class="celda-n">9</div><div class="celda-edad">56–63</div><div class="celda-nom">Legado y plenitud</div></div>
+      </div>
+    </div>
+    <p class="columnas-leyenda">Lee cada columna de arriba abajo. Lo que vives en el ciclo de arriba, <b style="color:var(--gold2)">vuelve</b> en los de abajo de la misma columna.</p>
+
+    <div class="card gold" style="margin-top:18px">
+      <div class="label">Un ejemplo para que lo sientas</div>
+      <p class="ct">Imagina que en tu ciclo 1 (de bebé) viviste <b>miedo</b> — una ausencia, un susto, falta de seguridad. Si nadie te ayudó a sanarlo, ese miedo no desapareció: <b>volvió</b> en tu ciclo 4 (al salir al mundo) y en el 7 (al madurar). Es la misma herida, con tres caras. Y mientras no la sanes, te <b>estanca</b> en tu salud, tu dinero y tu amor. Esta sesión existe para que la encuentres.</p>
+    </div>
 
     <div class="nav">
-      <button class="bp" onclick="irA(1)">Ubicar mi ciclo actual →</button>
+      <button class="bp" onclick="irA(1)">Lo entendí — continuar →</button>
     </div>
   </div>
 
-  <!-- PANTALLA 2: TU CICLO + ESPEJOS -->
+  <!-- PANTALLA 2: TU NIVEL DE CONCIENCIA (HILO CONDUCTOR) -->
   <div class="pantalla" id="p1">
-    <div class="label">Tu ciclo y su resonancia</div>
-    <h1 class="titulo" id="p1-saludo">¿En qué ciclo estás hoy?</h1>
-    <p class="subtitulo">Tu edad te ubica en un ciclo. Pero no estás viviendo solo ese: estás reviviendo, sin darte cuenta, los ciclos que resuenan con él.</p>
+    <div class="label">Tu punto de partida</div>
+    <h1 class="titulo">Desde dónde estás operando hoy</h1>
+    <p class="subtitulo">En la primera sesión reconociste tu nivel de conciencia. Ese nivel es el reflejo de una emoción que hoy gobierna tu vida — y que tiene raíces en tus ciclos. Empecemos por verla con claridad.</p>
+
+    <div id="nivel-wrap"></div>
+
+    <div class="card" style="margin-top:4px">
+      <div class="label">Por qué esto importa</div>
+      <p class="ct">Tu nivel de conciencia no es un defecto ni una etiqueta. Es <b>información</b>. Te dice qué emoción está pesando más en ti ahora mismo. Y como toda emoción que pesa, no llegó hoy: se instaló en algún ciclo de tu vida y, al no sanarse, se quedó. En las siguientes pantallas vas a rastrear <b>exactamente en qué ciclos la viviste</b> — y ahí empieza tu liberación.</p>
+    </div>
+
+    <div class="nav">
+      <button class="bs" onclick="irA(0)">← Anterior</button>
+      <button class="bp" onclick="irA(2)">Ver mi ciclo actual →</button>
+    </div>
+  </div>
+
+  <!-- PANTALLA 3: TU CICLO Y SU COLUMNA -->
+  <div class="pantalla" id="p2">
+    <div class="label">Dónde estás en el mapa</div>
+    <h1 class="titulo" id="p2-saludo">Tu ciclo actual y su columna</h1>
+    <p class="subtitulo">Tu edad te ubica en un ciclo. Y ese ciclo pertenece a una columna que ya recorriste antes. Lo que vives hoy resuena con esos ciclos anteriores.</p>
 
     <div id="edad-faltante" style="display:none">
       <p class="ct" style="margin-bottom:4px">No encontramos tu edad. Escríbela para ubicar tu ciclo:</p>
@@ -158,58 +226,50 @@ textarea:focus{outline:none;border-color:var(--gold)}
     </div>
 
     <div id="actual-wrap"></div>
-
-    <div class="nav">
-      <button class="bs" onclick="irA(0)">← Anterior</button>
-      <button class="bp" onclick="irA(2)">Hacer mi inventario →</button>
-    </div>
-  </div>
-
-  <!-- PANTALLA 3: EL INVENTARIO -->
-  <div class="pantalla" id="p2">
-    <div class="label">Tu inventario de vida</div>
-    <h1 class="titulo">Lo que cargas de cada ciclo</h1>
-    <p class="subtitulo">Aquí está el corazón de esta sesión. Recorre los ciclos que ya viviste y registra, en cada uno, los dolores y las alegrías que recuerdes. No tienes que llenarlos todos hoy — pero mientras más honesto seas, más claro será tu camino hacia el perdón.</p>
-
-    <div class="inv-intro">
-      <p class="ct" style="margin-bottom:10px">Este inventario es tu materia prima. Cada dolor que nombras aquí es algo que vas a poder soltar después. Cada alegría es un recurso que ya tienes.</p>
-      <p class="ct dim">Presta atención especial a tu ciclo actual y a sus ciclos espejo (resaltados): ahí suele estar la raíz de lo que vives hoy.</p>
-      <div id="linea-chip-wrap" style="margin-top:12px"></div>
-    </div>
-
-    <div id="inventario-wrap"></div>
-    <div class="inv-progreso" id="inv-progreso"></div>
+    <div class="label" style="margin:22px 0 4px">Tu columna, resaltada</div>
+    <div id="columnas-actual"></div>
 
     <div class="nav">
       <button class="bs" onclick="irA(1)">← Anterior</button>
-      <button class="bp" id="btn-p2" onclick="irA(3)">Cerrar mi inventario →</button>
+      <button class="bp" onclick="irA(3)">Rastrear mi emoción →</button>
     </div>
   </div>
 
-  <!-- PANTALLA 4: CIERRE -->
+  <!-- PANTALLA 4: RASTREO CONSCIENTE -->
   <div class="pantalla" id="p3">
+    <div class="label">Hazlo consciente</div>
+    <h1 class="titulo" id="p3-titulo">¿En qué ciclos viviste esta emoción?</h1>
+    <p class="subtitulo" id="p3-sub">Recorre tu vida ciclo por ciclo. Marca aquellos en los que sentiste esta emoción, di con qué intensidad, y escribe lo que recuerdes. Vas a ver aparecer tu patrón.</p>
+
+    <div class="rastreo-intro" id="rastreo-intro"></div>
+    <div id="rastreo-wrap"></div>
+    <div id="patron-wrap"></div>
+
+    <div class="nav">
+      <button class="bs" onclick="irA(2)">← Anterior</button>
+      <button class="bp" onclick="irA(4)">Cerrar mi trabajo →</button>
+    </div>
+  </div>
+
+  <!-- PANTALLA 5: CIERRE -->
+  <div class="pantalla" id="p4">
     <div class="label">Cierre del módulo</div>
-    <h1 class="titulo">Tomaste conciencia. Eso ya transforma.</h1>
-    <p class="subtitulo">Lo que viste no se queda aquí. Este inventario es exactamente lo que vas a trabajar en el perdón — empezando por el niño que fuiste.</p>
+    <h1 class="titulo">Lo hiciste consciente. Eso ya transforma.</h1>
+    <p class="subtitulo">Ver el patrón es el primer paso para romperlo. Esto es exactamente lo que vas a sanar en el trabajo del perdón.</p>
 
     <div class="cierre-resumen" id="cierre-resumen"></div>
-
-    <div class="card" style="margin-bottom:14px">
-      <div class="label">El puente al perdón</div>
-      <p class="ct">Los dolores que nombraste no empezaron contigo. Muchos los heredaste — de un ciclo tuyo no resuelto, o de tus padres cuando ellos vivían su propio ciclo. Mirar eso con conciencia, sin juicio, es el primer acto del perdón. Cuando sanas la raíz abajo, florece lo de arriba: tu salud, tu abundancia, tus relaciones.</p>
-    </div>
 
     <p class="quote">Entre el estímulo y la respuesta hay un espacio. En ese espacio está nuestra libertad y nuestro poder de elegir la respuesta.
       <span class="quote-autor">Viktor Frankl</span></p>
 
     <div class="card gold">
       <div class="label">Antes de avanzar</div>
-      <p class="ct" style="margin-bottom:12px">De todo tu inventario, ¿cuál es el dolor que sientes que más pesa — el que más necesitas soltar? Nómbralo. Será por donde empiece tu trabajo del perdón.</p>
+      <p class="ct" style="margin-bottom:12px">De todo lo que viste, ¿cuál es el dolor que sientes que más pesa — el que más necesitas soltar? Nómbralo. Será por donde empiece tu trabajo del perdón.</p>
       <textarea id="dolor-principal" placeholder="El dolor que más necesito soltar es..."></textarea>
     </div>
 
     <div class="nav">
-      <button class="bs" onclick="irA(2)">← Anterior</button>
+      <button class="bs" onclick="irA(3)">← Anterior</button>
       <button class="bp" onclick="completar()">Iniciar mi trabajo del perdón →</button>
     </div>
   </div>
@@ -218,182 +278,244 @@ textarea:focus{outline:none;border-color:var(--gold)}
 <script>
 function leer(k,def){var v=localStorage.getItem(k);return (v===null||v===undefined)?def:v;}
 
-// ── LOS 9 CICLOS (modelo ∀normal, lenguaje neutro) ─────────────────────────
+// ── LOS 9 CICLOS ──────────────────────────────────────────────────────────
 var CICLOS = [
-  {n:1, ini:0,  fin:7,  nombre:"La base de todo",          trab:"Seguridad, amor y pertenencia. Lo que se grabó antes de las palabras.", emo:"Nostalgia", espejos:[4,7]},
-  {n:2, ini:7,  fin:14, nombre:"El despertar del cuerpo",  trab:"Identidad temprana y la pregunta: ¿soy suficiente?",                     emo:"Miedo",     espejos:[5,8]},
-  {n:3, ini:14, fin:21, nombre:"El primer crack",          trab:"Quién soy más allá de mi familia. El primer quiebre de identidad.",      emo:"Enojo",     espejos:[6,9]},
-  {n:4, ini:21, fin:28, nombre:"La salida al mundo",        trab:"Primeras responsabilidades adultas y decisiones propias.",               emo:"Sorpresa",  espejos:[1,7]},
-  {n:5, ini:28, fin:35, nombre:"La evaluación",             trab:"¿Es esto lo que quiero? Primer balance de lo construido.",               emo:"Alegría / Duda", espejos:[2,8]},
-  {n:6, ini:35, fin:42, nombre:"El segundo crack",          trab:"Crisis de propósito. Caen máscaras: ¿para qué estoy aquí?",              emo:"Tristeza",  espejos:[3,9]},
-  {n:7, ini:42, fin:49, nombre:"Recoger lo sembrado",       trab:"Liderar desde el ser. La experiencia se vuelve madurez.",                emo:"Equilibrio", espejos:[1,4]},
-  {n:8, ini:49, fin:56, nombre:"Desapego y sabiduría",      trab:"Soltar lo que ya no eres. La vida se destila en esencia.",               emo:"Nostalgia integrada", espejos:[2,5]},
-  {n:9, ini:56, fin:200,nombre:"Legado y plenitud",         trab:"Recoger la vida entera. Servir y trascender desde lo vivido.",           emo:"Amor",      espejos:[3,6]}
+  {n:1, ini:0,  fin:7,  nombre:"La base de todo",         trab:"Seguridad, amor y pertenencia. Lo que se grabó antes de las palabras.", emo:"Nostalgia", col:0, espejos:[4,7]},
+  {n:2, ini:7,  fin:14, nombre:"El despertar del cuerpo", trab:"Identidad temprana y la pregunta: ¿soy suficiente?",                    emo:"Miedo",     col:1, espejos:[5,8]},
+  {n:3, ini:14, fin:21, nombre:"El primer crack",         trab:"Quién soy más allá de mi familia. El primer quiebre de identidad.",     emo:"Enojo",     col:2, espejos:[6,9]},
+  {n:4, ini:21, fin:28, nombre:"La salida al mundo",       trab:"Primeras responsabilidades adultas y decisiones propias.",             emo:"Sorpresa",  col:0, espejos:[1,7]},
+  {n:5, ini:28, fin:35, nombre:"La evaluación",            trab:"¿Es esto lo que quiero? Primer balance de lo construido.",             emo:"Alegría / Duda", col:1, espejos:[2,8]},
+  {n:6, ini:35, fin:42, nombre:"El segundo crack",         trab:"Crisis de propósito. Caen máscaras: ¿para qué estoy aquí?",            emo:"Tristeza",  col:2, espejos:[3,9]},
+  {n:7, ini:42, fin:49, nombre:"Recoger lo sembrado",      trab:"Liderar desde el ser. La experiencia se vuelve madurez.",              emo:"Equilibrio", col:0, espejos:[1,4]},
+  {n:8, ini:49, fin:56, nombre:"Desapego y sabiduría",     trab:"Soltar lo que ya no eres. La vida se destila en esencia.",             emo:"Nostalgia integrada", col:1, espejos:[2,5]},
+  {n:9, ini:56, fin:200,nombre:"Legado y plenitud",        trab:"Recoger la vida entera. Servir y trascender desde lo vivido.",         emo:"Amor",      col:2, espejos:[3,6]}
 ];
+var COL_NOMBRES=["Cuerpo y raíz (1·4·7)","Sentir y valor (2·5·8)","Identidad y propósito (3·6·9)"];
 
-function cicloDeEdad(edad){
-  for(var i=0;i<CICLOS.length;i++){ if(edad>=CICLOS[i].ini && edad<CICLOS[i].fin) return i; }
-  return CICLOS.length-1;
-}
-function cicloPorNum(n){ for(var i=0;i<CICLOS.length;i++){ if(CICLOS[i].n===n) return CICLOS[i]; } return null; }
+// ── NIVELES DE HAWKINS (con su emoción-raíz rastreable) ───────────────────
+var HAWKINS = {
+  700:{nombre:"Paz e iluminación", emo:"Paz",        color:"#5C2FA0", zona:"alto"},
+  540:{nombre:"Alegría y amor",    emo:"Amor",       color:"#2979A0", zona:"alto"},
+  400:{nombre:"Razón y aceptación",emo:"Aceptación", color:"#297A4A", zona:"alto"},
+  200:{nombre:"Coraje",            emo:"Coraje",     color:"#7A6B29", zona:"umbral"},
+  175:{nombre:"Orgullo",           emo:"Orgullo",    color:"#A05A20", zona:"bajo"},
+  150:{nombre:"Ira y rabia",       emo:"Ira",        color:"#A03520", zona:"bajo"},
+  125:{nombre:"Deseo compulsivo",  emo:"Deseo / vacío",color:"#A02020", zona:"bajo"},
+  100:{nombre:"Miedo",             emo:"Miedo",      color:"#8A1515", zona:"bajo"},
+  75: {nombre:"Pena y tristeza",   emo:"Tristeza",   color:"#6A1010", zona:"bajo"},
+  50: {nombre:"Apatía y culpa",    emo:"Culpa",      color:"#4A0A0A", zona:"bajo"},
+  20: {nombre:"Vergüenza",         emo:"Vergüenza",  color:"#2A0505", zona:"bajo"}
+};
 
-var edad=null, idxActual=null, inventario={};
+var edad=null, idxActual=null, nivel=null, emocionRaiz=null, rastreo={};
 
 function calcularEdad(){
   var fn=leer('anormal_fecha_nac',null);
-  if(fn){ var d=new Date(fn); if(!isNaN(d.getTime())){ var h=new Date(); var e=h.getFullYear()-d.getFullYear(); var m=h.getMonth()-d.getMonth(); if(m<0||(m===0&&h.getDate()<d.getDate()))e--; if(e>0&&e<120) return e; } }
+  if(fn){var d=new Date(fn);if(!isNaN(d.getTime())){var h=new Date();var e=h.getFullYear()-d.getFullYear();var m=h.getMonth()-d.getMonth();if(m<0||(m===0&&h.getDate()<d.getDate()))e--;if(e>0&&e<120)return e;}}
   return null;
 }
+function obtenerNivel(){
+  try{var diag=JSON.parse(leer('anormal_diagnostico','{}'));if(diag.nivel) return parseInt(diag.nivel);}catch(e){}
+  var n=parseInt(leer('anormal_nivel_conciencia','0'));return n>0?n:null;
+}
 
-function renderMapa(){
-  var cont=document.getElementById('mapa-ciclos'); cont.innerHTML='';
-  var espejosActual=(idxActual!==null)?CICLOS[idxActual].espejos:[];
-  CICLOS.forEach(function(c,i){
-    var clase='ciclo-row', tag='';
-    if(idxActual!==null && i===idxActual){ clase+=' actual'; tag='<span class="ciclo-tag tag-actual">Estás aquí</span>'; }
-    else if(idxActual!==null && espejosActual.indexOf(c.n)>=0){ clase+=' espejo'; tag='<span class="ciclo-tag tag-espejo">Resuena</span>'; }
-    var rango=c.ini+'–'+(c.fin>100?'+':c.fin);
-    var div=document.createElement('div'); div.className=clase;
-    div.innerHTML='<div class="ciclo-num"><div class="ciclo-num-n">'+c.n+'</div><div class="ciclo-num-e">'+rango+'</div></div>'+
-      '<div class="ciclo-body"><div class="ciclo-nombre">'+c.nombre+tag+'</div><div class="ciclo-trab">'+c.trab+'</div>'+
-      '<span class="ciclo-emo">Emoción: '+c.emo+'</span></div>';
-    cont.appendChild(div);
+// ── PANTALLA 2: NIVEL DE CONCIENCIA ───────────────────────────────────────
+function renderNivel(){
+  var wrap=document.getElementById('nivel-wrap');
+  if(!nivel || !HAWKINS[nivel]){
+    wrap.innerHTML='<div class="card"><p class="ct dim">No encontramos tu nivel de conciencia de la sesión anterior. Puedes continuar igual: rastrearás las emociones que más reconozcas en tu vida.</p></div>';
+    emocionRaiz='la emoción que más te pesa';
+    return;
+  }
+  var hk=HAWKINS[nivel];
+  emocionRaiz=hk.emo;
+  var linea=leer('anormal_linea','');
+  var texto='Tu nivel marca <b>'+hk.emo+'</b> como la emoción que hoy gobierna desde el fondo. ';
+  if(hk.zona==='bajo') texto+='Es una emoción que pesa — y que probablemente llevas cargando desde hace mucho, sin saber desde cuándo.';
+  else if(hk.zona==='umbral') texto+='Estás justo en el punto donde se inicia toda transformación: el coraje de mirar de frente.';
+  else texto+='Operas desde un lugar luminoso. Aun así, rastrear tu historia te dará claridad sobre lo último que falta soltar.';
+  if(linea) texto+=' Y es justamente lo que está afectando tu <b>'+linea+'</b>.';
+
+  wrap.innerHTML='<div class="nivel-card" style="background:linear-gradient(135deg,'+hk.color+'22,var(--bg2))">'+
+    '<div class="nivel-num" style="color:'+hk.color+';filter:brightness(1.6)">'+nivel+'</div>'+
+    '<div class="nivel-nombre" style="color:'+hk.color+';filter:brightness(1.5)">'+hk.nombre+'</div>'+
+    '<div class="nivel-emo-link"><div class="nivel-emo-label">La emoción que vamos a rastrear</div>'+
+    '<div class="nivel-emo-texto">'+texto+'</div></div></div>';
+}
+
+// ── PANTALLA 3: CICLO ACTUAL + COLUMNA RESALTADA ──────────────────────────
+function renderColumnasResaltadas(contId, colResaltada){
+  var c=document.getElementById(contId);
+  var cols=[[1,4,7],[2,5,8],[3,6,9]];
+  var clasesCol=['col-a','col-b','col-c'];
+  var html='<div class="columnas">';
+  cols.forEach(function(grupo,ci){
+    var res=(ci===colResaltada)?' resaltada':'';
+    html+='<div class="columna '+clasesCol[ci]+res+'"><div class="columna-titulo">'+COL_NOMBRES[ci].split(' (')[0]+'<br><span style="font-size:9px;opacity:.8">'+grupo.join(' · ')+'</span></div>';
+    grupo.forEach(function(num){
+      var cc=CICLOS[num-1];
+      var act=(idxActual!==null && CICLOS[idxActual].n===num)?' actual':'';
+      var here=(idxActual!==null && CICLOS[idxActual].n===num)?'<span class="celda-here">Aquí estás</span>':'';
+      html+='<div class="celda'+act+'"><div class="celda-n">'+num+'</div><div class="celda-edad">'+cc.ini+'–'+(cc.fin>100?'+':cc.fin)+'</div><div class="celda-nom">'+cc.nombre+'</div>'+here+'</div>';
+    });
+    html+='</div>';
   });
+  html+='</div>';
+  c.innerHTML=html;
 }
 
 function renderActual(){
   var c=CICLOS[idxActual];
   var nombre=leer('anormal_nombre','');
-  document.getElementById('p1-saludo').textContent = nombre ? (nombre.split(' ')[0]+', este es tu ciclo') : 'Este es tu ciclo';
+  document.getElementById('p2-saludo').textContent = nombre ? (nombre.split(' ')[0]+', tu ciclo y tu columna') : 'Tu ciclo actual y su columna';
 
   var espTxt='';
-  c.espejos.forEach(function(en){
-    var e=cicloPorNum(en);
-    if(e){ espTxt+='<p style="margin-bottom:8px"><strong style="color:var(--azul)">Ciclo '+e.n+' · '+e.nombre+'</strong> ('+e.ini+'–'+(e.fin>100?'+':e.fin)+' años): '+e.trab+' Lo que quedó abierto aquí, hoy te toca de nuevo.</p>'; }
-  });
-
-  var linea=leer('anormal_linea','');
-  var cruceTxt='';
-  if(linea){
-    cruceTxt='En la sesión anterior elegiste trabajar tu <strong style="color:var(--gold2)">'+linea+'</strong>. La emoción dominante de tu ciclo actual ('+c.emo+') y la de tus ciclos espejo es justo lo que hoy está afectando tu '+linea+'. Recordar de dónde viene es empezar a sanarlo.';
-  }
+  c.espejos.forEach(function(en){var e=CICLOS[en-1];espTxt+='<p style="margin-bottom:8px"><strong style="color:var(--azul)">Ciclo '+e.n+' · '+e.nombre+'</strong> ('+e.ini+'–'+(e.fin>100?'+':e.fin)+' años): '+e.trab+'</p>';});
 
   var html='<div class="actual-card">'+
     '<div class="actual-edad">'+edad+' <span style="font-size:14px;color:var(--dim)">años</span></div>'+
-    '<div class="actual-rango">Ciclo '+c.n+' · '+c.nombre+' · '+c.ini+'–'+(c.fin>100?'+':c.fin)+' años</div>'+
-    '<div class="actual-tarea"><strong>La tarea de este ciclo:</strong> '+c.trab+'</div>'+
-    '<div class="actual-tarea" style="margin-bottom:0"><strong>Su emoción:</strong> '+c.emo+'</div>'+
-    '<div class="espejo-box"><div class="espejo-label">◑ Los ciclos que estás reviviendo</div><div class="espejo-texto">'+espTxt+'</div></div>';
-  if(cruceTxt){ html+='<div class="cruce-box"><div class="cruce-label">Lo que esto significa para tu '+linea+'</div><div class="cruce-texto">'+cruceTxt+'</div></div>'; }
-  html+='</div>';
-
-  html+='<div class="card" style="margin-top:4px"><div class="label">Una mirada más</div><p class="ct dim">Si estás en un ciclo avanzado, mira también a tus padres cuando tenían la edad de tus ciclos espejo. Mucho de lo que cargas es lo que ellos vivieron y te transmitieron sin saberlo. Tenerlo presente te ayudará en el inventario que sigue.</p></div>';
-
+    '<div class="actual-rango">Ciclo '+c.n+' · '+c.nombre+' · columna '+COL_NOMBRES[c.col]+'</div>'+
+    '<div class="actual-tarea"><strong>Tu tarea ahora:</strong> '+c.trab+'</div>'+
+    '<div class="espejo-box"><div class="espejo-label">◑ Los ciclos de tu columna que ya viviste</div><div class="espejo-texto">'+espTxt+'Lo que quedó abierto en ellos, hoy te toca de nuevo. Por eso lo que sientes ahora no es nuevo: es un eco.</div></div></div>';
   document.getElementById('actual-wrap').innerHTML=html;
-  renderMapa();
+  renderColumnasResaltadas('columnas-actual', c.col);
 }
 
 function aplicarEdadManual(){
   var v=parseInt(document.getElementById('edad-manual').value);
-  if(v>0&&v<120){ edad=v; localStorage.setItem('anormal_edad',String(v)); idxActual=cicloDeEdad(edad); document.getElementById('edad-faltante').style.display='none'; renderActual(); }
+  if(v>0&&v<120){edad=v;localStorage.setItem('anormal_edad',String(v));idxActual=cicloDeEdad(edad);document.getElementById('edad-faltante').style.display='none';renderActual();}
 }
+function cicloDeEdad(e){for(var i=0;i<CICLOS.length;i++){if(e>=CICLOS[i].ini&&e<CICLOS[i].fin)return i;}return CICLOS.length-1;}
 
-function renderInventario(){
-  var linea=leer('anormal_linea','');
-  if(linea){ document.getElementById('linea-chip-wrap').innerHTML='<span class="linea-chip">◆ Tu línea de trabajo: '+linea+'</span><div class="ct dim" style="margin-top:8px">Mientras escribes, pregúntate: ¿este dolor tiene que ver con mi '+linea+'?</div>'; }
+// ── PANTALLA 4: RASTREO ───────────────────────────────────────────────────
+function renderRastreo(){
+  var intro=document.getElementById('rastreo-intro');
+  document.getElementById('p3-titulo').textContent='¿En qué ciclos viviste '+(emocionRaiz?('tu '+emocionRaiz.toLowerCase()):'esta emoción')+'?';
+  intro.innerHTML='<p class="ct" style="margin-bottom:8px">Vamos a buscar tu <b>'+(emocionRaiz||'emoción')+'</b> a lo largo de tu vida. En cada ciclo donde la sentiste, márcalo, dile cuánto pesó, y escribe el recuerdo. No te apures: este es el inventario que te va a servir en el perdón.</p><p class="ct dim">Verás que muchas marcas caen en una misma columna. Ese es tu patrón.</p>';
 
-  var cont=document.getElementById('inventario-wrap'); cont.innerHTML='';
-  var espejosActual=CICLOS[idxActual].espejos;
+  var cont=document.getElementById('rastreo-wrap');cont.innerHTML='';
+  var espejos=CICLOS[idxActual].espejos;
   for(var i=0;i<=idxActual;i++){
     var c=CICLOS[i];
-    var esActual=(i===idxActual), esEspejo=(espejosActual.indexOf(c.n)>=0);
-    var clase='inv-ciclo'+(esActual?' es-actual':'')+(esEspejo?' es-espejo':'');
-    var meta=c.ini+'–'+(c.fin>100?'+':c.fin)+' años · '+c.emo;
-    if(esActual) meta+=' · ◆ Tu ciclo actual'; else if(esEspejo) meta+=' · ◑ Resuena con tu ciclo';
-    var div=document.createElement('div'); div.className=clase; div.dataset.ciclo=c.n;
-    div.innerHTML='<div class="inv-head" onclick="toggleInv(this)">'+
-        '<div class="inv-head-n">'+c.n+'</div>'+
-        '<div class="inv-head-info"><div class="inv-head-nombre">'+c.nombre+'</div><div class="inv-head-meta">'+meta+'</div></div>'+
-        '<div class="inv-head-chevron">▶</div></div>'+
-      '<div class="inv-content"><div class="inv-guia">'+c.trab+'</div>'+
-        '<div class="inv-campo"><div class="inv-campo-label dolor"><span class="inv-dot dolor"></span>Dolores de este ciclo</div>'+
-          '<textarea data-tipo="dolor" data-ciclo="'+c.n+'" placeholder="¿Qué te dolió en esta etapa? Pérdidas, ausencias, heridas, lo que no llegó..." oninput="guardarInv()"></textarea></div>'+
-        '<div class="inv-campo"><div class="inv-campo-label alegria"><span class="inv-dot alegria"></span>Alegrías de este ciclo</div>'+
-          '<textarea data-tipo="alegria" data-ciclo="'+c.n+'" placeholder="¿Qué te dio vida en esta etapa? Logros, vínculos, momentos que aún te sostienen..." oninput="guardarInv()"></textarea></div>'+
+    var esActual=(i===idxActual),esEspejo=(espejos.indexOf(c.n)>=0);
+    var clase='rastreo-ciclo'+(esActual?' es-actual':'')+(esEspejo?' es-espejo':'');
+    var meta=c.ini+'–'+(c.fin>100?'+':c.fin)+' años · '+COL_NOMBRES[c.col].split(' (')[0];
+    if(esActual)meta+=' · ◆ Actual';else if(esEspejo)meta+=' · ◑ Tu columna';
+    var div=document.createElement('div');div.className=clase;div.dataset.ciclo=c.n;div.id='rc-'+c.n;
+    div.innerHTML=
+      '<div class="rastreo-head">'+
+        '<div class="rastreo-n">'+c.n+'</div>'+
+        '<div class="rastreo-info"><div class="rastreo-nom">'+c.nombre+'</div><div class="rastreo-meta">'+meta+'</div></div>'+
+        '<div class="rastreo-toggle" onclick="toggleMarca('+c.n+')"><span>Lo viví aquí</span><div class="rastreo-check">✓</div></div>'+
+      '</div>'+
+      '<div class="rastreo-detalle">'+
+        '<div class="intensidad-row"><span class="intensidad-label">¿Cuánto pesó?</span><div class="intensidad-dots">'+
+          [1,2,3,4,5].map(function(v){return '<div class="idot" onclick="setIntensidad('+c.n+','+v+')" data-v="'+v+'">'+v+'</div>';}).join('')+
+        '</div></div>'+
+        '<div class="campo-mini"><div class="campo-mini-label dolor"><span class="mini-dot dolor"></span>¿Qué pasó? El dolor de este ciclo</div><textarea data-tipo="dolor" data-ciclo="'+c.n+'" placeholder="Lo que recuerdes: qué pasó, con quién, qué sentiste..." oninput="guardarRastreo()"></textarea></div>'+
+        '<div class="campo-mini"><div class="campo-mini-label alegria"><span class="mini-dot alegria"></span>¿Y qué te sostuvo? La alegría de este ciclo</div><textarea data-tipo="alegria" data-ciclo="'+c.n+'" placeholder="Algo bueno de esa misma etapa, un recurso que aún tienes..." oninput="guardarRastreo()"></textarea></div>'+
       '</div>';
     cont.appendChild(div);
   }
-  var actualEl=cont.querySelector('.inv-ciclo.es-actual'); if(actualEl) actualEl.classList.add('open');
-  actualizarProgreso();
 }
 
-function toggleInv(head){ head.parentElement.classList.toggle('open'); }
-
-function guardarInv(){
-  document.querySelectorAll('#inventario-wrap textarea').forEach(function(ta){
-    var n=ta.dataset.ciclo, tipo=ta.dataset.tipo;
-    if(!inventario[n]) inventario[n]={dolores:'',alegrias:''};
-    if(tipo==='dolor') inventario[n].dolores=ta.value; else inventario[n].alegrias=ta.value;
+function toggleMarca(n){
+  var el=document.getElementById('rc-'+n);
+  el.classList.toggle('marcado');
+  if(!rastreo[n])rastreo[n]={intensidad:0,dolor:'',alegria:'',marcado:false};
+  rastreo[n].marcado=el.classList.contains('marcado');
+  actualizarPatron();
+}
+function setIntensidad(n,v){
+  var el=document.getElementById('rc-'+n);
+  el.querySelectorAll('.idot').forEach(function(d){d.classList.toggle('on', parseInt(d.dataset.v)<=v);});
+  if(!rastreo[n])rastreo[n]={intensidad:0,dolor:'',alegria:'',marcado:true};
+  rastreo[n].intensidad=v;
+  if(!el.classList.contains('marcado')){el.classList.add('marcado');rastreo[n].marcado=true;}
+  actualizarPatron();
+}
+function guardarRastreo(){
+  document.querySelectorAll('#rastreo-wrap textarea').forEach(function(ta){
+    var n=ta.dataset.ciclo,tipo=ta.dataset.tipo;
+    if(!rastreo[n])rastreo[n]={intensidad:0,dolor:'',alegria:'',marcado:false};
+    rastreo[n][tipo]=ta.value;
   });
-  actualizarProgreso();
 }
 
-function actualizarProgreso(){
-  var conAlgo=0, total=idxActual+1;
-  for(var i=0;i<=idxActual;i++){ var n=CICLOS[i].n; if(inventario[n] && (inventario[n].dolores.trim()||inventario[n].alegrias.trim())) conAlgo++; }
-  document.getElementById('inv-progreso').textContent='Has registrado '+conAlgo+' de '+total+' ciclos vividos.';
+function actualizarPatron(){
+  // contar marcas por columna
+  var porCol=[0,0,0],marcados=[];
+  for(var n in rastreo){if(rastreo[n].marcado){var c=CICLOS[n-1];porCol[c.col]++;marcados.push(parseInt(n));}}
+  var wrap=document.getElementById('patron-wrap');
+  if(marcados.length<2){wrap.innerHTML='';return;}
+  marcados.sort(function(a,b){return a-b;});
+  // columna dominante
+  var maxCol=porCol.indexOf(Math.max.apply(null,porCol));
+  var emo=emocionRaiz||'esa emoción';
+  var txt='Marcaste tu <b>'+emo.toLowerCase()+'</b> en los ciclos <b>'+marcados.join(', ')+'</b>. ';
+  if(porCol[maxCol]>=2){
+    txt+='Mira algo importante: varias de esas marcas caen en tu columna <b>'+COL_NOMBRES[maxCol]+'</b>. Eso confirma el patrón — la misma herida volviendo una y otra vez en la misma línea de aprendizaje. <b>No es casualidad. Es el eco que esta sesión vino a romper.</b>';
+  } else {
+    txt+='Tu emoción aparece repartida en distintos momentos. Cada uno es una pieza del mismo aprendizaje que hoy te toca integrar.';
+  }
+  wrap.innerHTML='<div class="patron-box"><div class="patron-label">◉ Tu patrón, hecho consciente</div><div class="patron-texto">'+txt+'</div></div>';
 }
 
+// ── NAVEGACIÓN ────────────────────────────────────────────────────────────
 function irA(n){
   document.querySelectorAll('.pantalla').forEach(function(p){p.classList.remove('visible');});
   document.getElementById('p'+n).classList.add('visible');
-  var pcts=[20,45,75,100];
-  document.getElementById('prog').style.width=(pcts[n]||20)+'%';
-  if(n===2 && document.getElementById('inventario-wrap').children.length===0) renderInventario();
-  if(n===3) renderCierre();
+  var pcts=[16,38,58,82,100];
+  document.getElementById('prog').style.width=(pcts[n]||16)+'%';
+  if(n===3 && document.getElementById('rastreo-wrap').children.length===0) renderRastreo();
+  if(n===4) renderCierre();
   window.scrollTo(0,0);
 }
 
 function renderCierre(){
-  var c=CICLOS[idxActual]; guardarInv();
-  var dolores=0, alegrias=0;
-  for(var k in inventario){ if(inventario[k].dolores.trim()) dolores++; if(inventario[k].alegrias.trim()) alegrias++; }
+  guardarRastreo();
+  var c=CICLOS[idxActual];
+  var marcados=[];for(var k in rastreo){if(rastreo[k].marcado)marcados.push(parseInt(k));}
+  marcados.sort(function(a,b){return a-b;});
   document.getElementById('cierre-resumen').innerHTML=
+    '<div class="cierre-fila"><span class="cierre-k">Tu nivel de conciencia</span><span class="cierre-v">'+(nivel&&HAWKINS[nivel]?nivel+' · '+HAWKINS[nivel].nombre:'—')+'</span></div>'+
+    '<div class="cierre-fila"><span class="cierre-k">Emoción rastreada</span><span class="cierre-v">'+(emocionRaiz||'—')+'</span></div>'+
     '<div class="cierre-fila"><span class="cierre-k">Tu ciclo actual</span><span class="cierre-v">'+c.n+' · '+c.nombre+'</span></div>'+
-    '<div class="cierre-fila"><span class="cierre-k">Ciclos que resuenan</span><span class="cierre-v">'+c.espejos.join(' y ')+'</span></div>'+
-    '<div class="cierre-fila"><span class="cierre-k">Ciclos con dolores nombrados</span><span class="cierre-v">'+dolores+'</span></div>'+
-    '<div class="cierre-fila"><span class="cierre-k">Ciclos con alegrías nombradas</span><span class="cierre-v">'+alegrias+'</span></div>';
+    '<div class="cierre-fila"><span class="cierre-k">La viviste en los ciclos</span><span class="cierre-v">'+(marcados.length?marcados.join(', '):'—')+'</span></div>';
 }
 
 function completar(){
-  guardarInv();
+  guardarRastreo();
   var c=CICLOS[idxActual];
   var dolorPrincipal=(document.getElementById('dolor-principal').value||'').trim();
   var invArray=[];
   for(var i=0;i<=idxActual;i++){
-    var n=CICLOS[i].n; var item=inventario[n]||{dolores:'',alegrias:''};
-    invArray.push({ciclo:n, nombre:CICLOS[i].nombre, dolores:item.dolores, alegrias:item.alegrias});
+    var n=CICLOS[i].n;var r=rastreo[n]||{intensidad:0,dolor:'',alegria:'',marcado:false};
+    invArray.push({ciclo:n,nombre:CICLOS[i].nombre,marcado:r.marcado,intensidad:r.intensidad,dolores:r.dolor,alegrias:r.alegria});
   }
   localStorage.setItem('anormal_ciclos', JSON.stringify({
-    edad:edad, cicloActual:c.n, nombre_ciclo:c.nombre, emocion:c.emo, espejos:c.espejos,
-    inventario:invArray, dolor_principal:dolorPrincipal, fecha:new Date().toLocaleDateString('es-CO')
+    edad:edad,cicloActual:c.n,nombre_ciclo:c.nombre,columna:COL_NOMBRES[c.col],espejos:c.espejos,
+    nivel_conciencia:nivel,emocion_raiz:emocionRaiz,inventario:invArray,dolor_principal:dolorPrincipal,
+    fecha:new Date().toLocaleDateString('es-CO')
   }));
   try{
     var data=JSON.parse(sessionStorage.getItem('anormal_proceso')||'{}');
-    data.ciclos={cicloActual:c.n, nombre:c.nombre, espejos:c.espejos, inventario:invArray, dolor_principal:dolorPrincipal};
-    if(!data.progreso) data.progreso={};
-    data.progreso.ciclos={completado:true, fecha:new Date().toLocaleDateString('es-CO')};
-    sessionStorage.setItem('anormal_proceso', JSON.stringify(data));
+    data.ciclos={cicloActual:c.n,nombre:c.nombre,espejos:c.espejos,emocion_raiz:emocionRaiz,inventario:invArray,dolor_principal:dolorPrincipal};
+    if(!data.progreso)data.progreso={};
+    data.progreso.ciclos={completado:true,fecha:new Date().toLocaleDateString('es-CO')};
+    sessionStorage.setItem('anormal_proceso',JSON.stringify(data));
   }catch(e){}
   window.location.href='mi-trabajo-del-perdon.html';
 }
 
+// ── ARRANQUE ──────────────────────────────────────────────────────────────
 (function init(){
   edad=calcularEdad();
-  if(!edad){ var em=parseInt(leer('anormal_edad','0')); if(em>0) edad=em; }
-  if(edad){ idxActual=cicloDeEdad(edad); renderActual(); }
-  else { document.getElementById('edad-faltante').style.display='block'; }
-  renderMapa();
+  if(!edad){var em=parseInt(leer('anormal_edad','0'));if(em>0)edad=em;}
+  nivel=obtenerNivel();
+  renderNivel();
+  if(edad){idxActual=cicloDeEdad(edad);renderActual();}
+  else{document.getElementById('edad-faltante').style.display='block';}
 })();
 </script>
 </body>
