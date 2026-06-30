@@ -116,22 +116,22 @@ body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font
 
   <!-- PANTALLA 3: CIERRE -->
   <div class="pantalla" id="p2">
-    <div class="label">Cierre de la Sesión 2</div>
+    <div class="label">Diagnóstico completo</div>
     <h1 class="titulo">Tu diagnóstico está completo.</h1>
-    <p class="subtitulo">Recorriste tus ciclos, escuchaste tu cuerpo y viste el latido de tu vida. Ya sabes de dónde vienen tus bloqueos y dónde se alojan hoy. Lo que sigue es sanarlos.</p>
+    <p class="subtitulo">Recorriste tus ciclos, escuchaste tu cuerpo y viste el latido de tu vida. Ya sabes de dónde vienen tus bloqueos y dónde se alojan hoy. Ahora viene lo más importante: soltarlos.</p>
 
     <div class="cierre-resumen" id="cierre-resumen"></div>
 
     <p class="quote">No puedes cambiar lo que viviste. Pero sí puedes cambiar el peso que sigue teniendo hoy. Eso es el perdón.</p>
 
     <div class="card gold">
-      <div class="label">Lo que viene</div>
-      <p class="ct">En la próxima sesión empieza tu trabajo del <b>perdón</b>. Vas a tomar cada valle, cada dolor que pesó, y vas a soltarlo — uno por uno. Y a medida que perdones, tu aura se irá encendiendo. Hoy guardaste tu punto de partida; pronto verás cuánto has subido.</p>
+      <div class="label">Lo que sigue, ahora mismo</div>
+      <p class="ct">Cierras tu diagnóstico y entras directo a tu <b>trabajo del perdón</b>. Vas a tomar cada valle, cada dolor que pesó, y vas a soltarlo — uno por uno. Y a medida que perdones, tu aura se irá encendiendo. Hoy guardaste tu punto de partida; ahora verás cuánto puedes subir.</p>
     </div>
 
     <div class="nav">
       <button class="bs" onclick="irA(1)">← Anterior</button>
-      <button class="bp" onclick="completar()">Guardar mi diagnóstico →</button>
+      <button class="bp" onclick="completar()">Entrar a mi trabajo del perdón →</button>
     </div>
   </div>
 </div>
@@ -335,10 +335,9 @@ function completar(){
     data.ecg=diagnostico;
     if(!data.progreso)data.progreso={};
     data.progreso.ecg={completado:true, fecha:new Date().toLocaleDateString('es-CO')};
-    data.progreso.sesion2_completa={completado:true, fecha:new Date().toLocaleDateString('es-CO')};
     sessionStorage.setItem('anormal_proceso',JSON.stringify(data));
   }catch(e){}
-  window.location.href='resumen-conciencia.html';
+  window.location.href='mi-trabajo-del-perdon.html';
 }
 
 // ── ARRANQUE ──────────────────────────────────────────────────────────────
