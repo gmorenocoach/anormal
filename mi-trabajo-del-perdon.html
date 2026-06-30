@@ -42,6 +42,18 @@ body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font
 .ct b,.ct strong{color:var(--gold2);font-weight:500}
 .quote{font-family:"Cormorant Garamond",serif;font-style:italic;font-size:18px;color:var(--gold3);line-height:1.5;border-left:2px solid var(--gb);padding-left:16px;margin:18px 0}
 
+/* RITUAL */
+.ritual{background:linear-gradient(135deg,rgba(201,168,76,.07),var(--bg3));border:1px solid var(--gb);border-radius:var(--rl);padding:18px 20px;margin-bottom:16px}
+.ritual-label{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:4px}
+.ritual-sub{font-size:12.5px;color:var(--dim);margin-bottom:14px;font-style:italic}
+.ritual-fase{margin-bottom:14px}
+.ritual-fase:last-child{margin-bottom:0}
+.ritual-fase-tit{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--gold2);margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.ritual-fase-num{width:22px;height:22px;border-radius:50%;background:var(--gd);border:1px solid var(--gb);display:flex;align-items:center;justify-content:center;font-family:"Cormorant Garamond",serif;font-size:13px;color:var(--gold2)}
+.ritual-paso{display:flex;gap:10px;align-items:flex-start;margin-bottom:7px;font-size:13.5px;color:var(--text);line-height:1.65;padding-left:30px}
+.ritual-paso:last-child{margin-bottom:0}
+.ritual-bullet{color:var(--gold);flex-shrink:0;margin-top:1px;margin-left:-16px}
+
 .viz{background:linear-gradient(135deg,rgba(90,140,192,.08),var(--bg3));border:1px solid rgba(90,140,192,.25);border-radius:var(--rl);padding:18px 20px;margin-bottom:16px}
 .viz-label{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--azul);margin-bottom:10px}
 .viz-paso{display:flex;gap:11px;align-items:flex-start;margin-bottom:9px;font-size:13.5px;color:var(--text);line-height:1.7}
@@ -63,14 +75,23 @@ textarea:focus{outline:none;border-color:var(--gold)}
 .sello-texto{font-size:13.5px;color:var(--text);line-height:1.5}
 .sello.on .sello-texto{color:var(--grn)}
 
+.aviso{font-size:12.5px;color:var(--rose);text-align:center;margin-top:14px;display:none}
+.aviso.visible{display:block}
+
 .subpasos{display:flex;gap:6px;justify-content:center;margin-bottom:18px;flex-wrap:wrap}
-.subpaso{width:auto;padding:4px 10px;border-radius:20px;font-size:10px;letter-spacing:.08em;text-transform:uppercase;border:1px solid var(--ffaint);color:var(--dim)}
+.subpaso{padding:5px 11px;border-radius:20px;font-size:10px;letter-spacing:.06em;text-transform:uppercase;border:1px solid var(--ffaint);color:var(--dim);display:flex;align-items:center;gap:5px}
 .subpaso.activo{border-color:var(--gold);color:var(--gold2);background:var(--gd)}
 .subpaso.hecho{border-color:var(--grn);color:var(--grn)}
+.subpaso.bloq{opacity:.45}
 
 .selector-ciclo{display:flex;gap:7px;flex-wrap:wrap;margin:10px 0 16px}
 .sc-btn{padding:8px 12px;border:1px solid var(--faint);border-radius:var(--rm);font-size:12px;color:var(--dim);cursor:pointer;font-family:"Barlow Condensed",sans-serif;letter-spacing:.04em}
 .sc-btn.on{border-color:var(--gold);color:var(--gold2);background:var(--gd)}
+
+.energia-nota{background:rgba(155,107,192,.08);border:1px solid rgba(155,107,192,.25);border-radius:var(--rl);padding:16px 18px;margin-bottom:16px}
+.energia-label{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#B98BD8;margin-bottom:8px}
+.energia-texto{font-size:14px;color:var(--text);line-height:1.85}
+.energia-texto b{color:#C9A8E0}
 
 .aura-compara{display:flex;gap:16px;justify-content:center;align-items:center;flex-wrap:wrap;margin:16px 0}
 .aura-col{text-align:center}
@@ -102,43 +123,38 @@ textarea:focus{outline:none;border-color:var(--gold)}
   <!-- PANTALLA 1: ENCUADRE -->
   <div class="pantalla visible" id="p0">
     <div class="label">∀4 · El perdón</div>
-    <h1 class="titulo">Perdonar es soltar la piedra que te hunde.</h1>
-    <p class="subtitulo">Ya hiciste consciente tu dolor: lo viste en tus ciclos, lo sentiste en tu cuerpo, lo dibujaste en tu aura. Ahora viene el paso que lo transforma todo. No para olvidar — para dejar de cargarlo.</p>
+    <h1 class="titulo">Aquí está la solución que buscabas.</h1>
+    <p class="subtitulo" id="encuadre-sub">Todo lo que recorriste te trajo hasta este punto. Y aquí está la verdad: la solución a lo que viniste a trabajar no está afuera. Está en el perdón. Y empieza por sanar al niño que fuiste.</p>
 
     <div class="card gold">
-      <div class="label">Qué es, y qué no es perdonar</div>
-      <p class="ct">Perdonar <b>no es</b> olvidar. No es decir que lo que pasó estuvo bien. No es justificar a quien te hirió. Perdonar es <b>recordar sin dolor</b>. Es soltar la piedra que llevas en el bolsillo desde hace años, esa que te hunde sin que lo notes. Cuando la sueltas, no sanas solo tú — sanas la historia.</p>
+      <div class="label">Por qué desde el corazón</div>
+      <p class="ct">El perdón no se piensa — se siente. No es un acto de la mente que entiende, sino del <b>corazón</b> que suelta. Por eso no basta con «ya lo superé»: hay que sentirlo, llorarlo, soltarlo de verdad. Cuando perdonas desde el corazón, tu cuerpo lo registra, tu energía cambia, y eso que estaba bloqueado —tu salud, tu abundancia, tu amor— empieza a fluir.</p>
     </div>
 
+    <div class="card" id="card-linea"></div>
+
     <div class="card">
-      <div class="label">El camino que vas a recorrer</div>
-      <p class="ct">Empezarás por lo más importante: el <b>niño que fuiste</b>, en los primeros ciclos donde se grabó el dolor. Porque como es adentro, es afuera: el dolor de ese niño es el que hoy se refleja en tu vida adulta. Luego irás a tu <b>madre</b>, a tu <b>padre</b>, y a <b>quienes te marcaron</b> — para verlos como los seres heridos que también fueron, y soltar el juicio.</p>
+      <div class="label">Por qué empezar por el niño interior</div>
+      <p class="ct">Como es adentro, es afuera. El adulto que hoy sufre es el eco de un niño que fue herido y nunca consolado. No puedes sanar lo de afuera sin sanar primero esa raíz. Por eso empezamos por él: por darle al niño que fuiste lo que necesitó y no recibió. Cuando ese niño sana, el adulto se libera.</p>
     </div>
 
     <p class="quote">Antes de juzgar a quien te hirió, velo como el niño que fue. Pregúntate qué le pasó a él. Ahí está la respuesta a todo.</p>
 
     <div class="nav">
       <span></span>
-      <button class="bp" onclick="irA(1)">Empezar por mi niño interior →</button>
+      <button class="bp" onclick="irA(1)">Empezar el ritual del perdón →</button>
     </div>
   </div>
 
-  <!-- PANTALLA 2: NIÑO INTERIOR (3 cartas) -->
+  <!-- PANTALLA 2: NIÑO INTERIOR (3 cartas con ritual) -->
   <div class="pantalla" id="p1">
     <div class="label">Paso 1 · Tu niño interior</div>
-    <h1 class="titulo">Reconcíliate con el niño que fuiste.</h1>
-    <p class="subtitulo">Vas a escribirle tres cartas — una por cada uno de tus primeros ciclos, los que más te marcaron. Desde ti, el adulto de hoy, hacia ese niño que necesitaba ser visto.</p>
+    <h1 class="titulo">El ritual de sanar al niño que fuiste.</h1>
+    <p class="subtitulo">Tres cartas, una por cada uno de tus primeros ciclos. Cada una es un ritual completo: se escribe, se lee y se suelta. Hazlas de a una — no avances hasta completar la anterior.</p>
 
     <div class="subpasos" id="nino-subpasos"></div>
-
-    <div class="viz">
-      <div class="viz-label">◑ Primero, visualiza</div>
-      <div class="viz-paso"><span class="viz-dot">·</span><span>Cierra los ojos un momento y respira hondo tres veces.</span></div>
-      <div class="viz-paso"><span class="viz-dot">·</span><span>Imagínate en un lugar seguro y tranquilo, y trae ahí a tu versión niña, a la edad de este ciclo.</span></div>
-      <div class="viz-paso"><span class="viz-dot">·</span><span>Míralo a los ojos. Abrázalo. Ofrécele la protección y el amor que le faltaron — hoy tú tienes el control para cuidarlo.</span></div>
-    </div>
-
     <div id="nino-contenido"></div>
+    <div class="aviso" id="nino-aviso">Para avanzar necesitas transcribir la carta y confirmar que completaste el ritual.</div>
 
     <div class="nav">
       <button class="bs" onclick="ninoAnterior()">← Anterior</button>
@@ -149,12 +165,13 @@ textarea:focus{outline:none;border-color:var(--gold)}
   <!-- PANTALLA 3: MADRE -->
   <div class="pantalla" id="p2">
     <div class="label">Paso 2 · Tu madre</div>
-    <h1 class="titulo">Velа como la niña que fue.</h1>
+    <h1 class="titulo">Vela como la niña que fue.</h1>
     <p class="subtitulo">Tu madre también fue una niña. También la hirieron. Dio lo que recibió. Elige en qué momento de su vida quieres verla, para entenderla y soltar el juicio.</p>
     <div id="madre-contenido"></div>
+    <div class="aviso" id="madre-aviso">Para avanzar, escribe tu carta y confirma que hiciste el ritual.</div>
     <div class="nav">
       <button class="bs" onclick="irA(1)">← Anterior</button>
-      <button class="bp" onclick="irA(3)">Continuar con mi padre →</button>
+      <button class="bp" onclick="avanzarFamiliar('madre',3)">Continuar con mi padre →</button>
     </div>
   </div>
 
@@ -164,9 +181,10 @@ textarea:focus{outline:none;border-color:var(--gold)}
     <h1 class="titulo">Velo como el niño que fue.</h1>
     <p class="subtitulo">Tu padre también fue un niño. También cargó heridas que nunca sanó. Velo en su momento, entiende lo que llevaba, y suelta el juicio.</p>
     <div id="padre-contenido"></div>
+    <div class="aviso" id="padre-aviso">Para avanzar, escribe tu carta y confirma que hiciste el ritual.</div>
     <div class="nav">
       <button class="bs" onclick="irA(2)">← Anterior</button>
-      <button class="bp" onclick="irA(4)">Continuar →</button>
+      <button class="bp" onclick="avanzarFamiliar('padre',4)">Continuar →</button>
     </div>
   </div>
 
@@ -182,14 +200,13 @@ textarea:focus{outline:none;border-color:var(--gold)}
     </div>
   </div>
 
-  <!-- PANTALLA 6: CIERRE + AURA ANTES/DESPUÉS -->
+  <!-- PANTALLA 6: CIERRE -->
   <div class="pantalla" id="p5">
     <div class="label">Cierre · Tu transformación</div>
     <h1 class="titulo">Soltaste la piedra. Mira tu luz.</h1>
     <p class="subtitulo">Cada perdón que diste encendió algo en ti. Esto es lo que cambió en tu aura al soltar lo que cargabas.</p>
 
     <div id="aura-compara-wrap"></div>
-
     <div class="cierre-resumen" id="cierre-resumen"></div>
 
     <p class="quote">No cambiaste lo que viviste. Cambiaste el peso que tenía. Eso es subir de nivel — y nadie podrá quitártelo.</p>
@@ -214,7 +231,6 @@ function leerJSON(k,def){try{var v=localStorage.getItem(k);return v?JSON.parse(v
 var AURA_COLORES={raiz:'#E03B36', sacro:'#F0822B', plexo:'#F2D33C', corazon:'#5BD37E', garganta:'#48B6E0', tercer:'#5A6BD8', corona:'#A86BD8'};
 var CICLO_NOMBRES={1:"La base de todo",2:"El despertar del cuerpo",3:"El despertar de la identidad",4:"La salida al mundo",5:"La evaluación",6:"La búsqueda de sentido",7:"Recoger lo sembrado",8:"Desapego y sabiduría",9:"Legado y plenitud"};
 var CICLO_EDADES={1:"0–7",2:"7–14",3:"14–21",4:"21–28",5:"28–35",6:"35–42",7:"42–49",8:"49–56",9:"56+"};
-// lo que cada ciclo necesitaba oír
 var CICLO_NECESIDAD={
   1:{frase:"estás a salvo, eres bienvenido a este mundo", falta:"seguridad y protección"},
   2:{frase:"eres suficiente tal como eres, mereces ser querido", falta:"pertenencia y valor"},
@@ -223,12 +239,38 @@ var CICLO_NECESIDAD={
 
 var ciclosData=null, edad=null, idxNino=0, ciclosNino=[1,2,3];
 var cartas={nino:{}, madre:{}, padre:{}, otros:{}};
-var sellos={madre:false, padre:false, otros:false};
+var ritualHecho={nino:{}, madre:false, padre:false, otros:false};
 var cicloElegido={madre:null, padre:null};
 
 function init0(){
   ciclosData=leerJSON('anormal_ciclos',null);
   edad=parseInt(leer('anormal_edad','0'))|| (ciclosData&&ciclosData.edad)||0;
+  // encuadre según línea
+  var linea=leer('anormal_linea','');
+  var card=document.getElementById('card-linea');
+  if(linea){
+    card.innerHTML='<div class="label">Tu '+linea+' está esperando esto</div><p class="ct">Elegiste trabajar tu <b>'+linea+'</b>. Quiero que entiendas algo profundo: eso que no fluye en tu '+linea+' no se arregla con esfuerzo ni con técnica. Se libera cuando perdonas lo que lo bloqueó. El perdón que estás por hacer es, literalmente, la llave de tu '+linea+'.</p>';
+  } else {
+    card.style.display='none';
+  }
+}
+
+// ── RITUAL (bloque reutilizable) ──────────────────────────────────────────
+function bloqueRitual(quienTexto){
+  return '<div class="ritual"><div class="ritual-label">✦ El ritual del perdón</div>'+
+    '<div class="ritual-sub">El perdón se hace con el cuerpo, no solo con la mente. Prepara este pequeño ritual — hazlo con calma, sin prisa.</div>'+
+    '<div class="ritual-fase"><div class="ritual-fase-tit"><span class="ritual-fase-num">1</span>Prepara</div>'+
+      '<div class="ritual-paso"><span class="ritual-bullet">·</span><span>Toma una hoja en blanco, sin rayas ni cuadros — limpia, como un nuevo comienzo.</span></div>'+
+      '<div class="ritual-paso"><span class="ritual-bullet">·</span><span>Busca o imagina una foto que represente a '+quienTexto+'.</span></div>'+
+      '<div class="ritual-paso"><span class="ritual-bullet">·</span><span>Ten cerca un vaso de agua para beber. Y permítete todo: está bien llorar, está bien reír.</span></div></div>'+
+    '<div class="ritual-fase"><div class="ritual-fase-tit"><span class="ritual-fase-num">2</span>Escribe y prepárate</div>'+
+      '<div class="ritual-paso"><span class="ritual-bullet">·</span><span>Escribe la carta a mano en esa hoja (usa la guía de abajo y hazla tuya).</span></div>'+
+      '<div class="ritual-paso"><span class="ritual-bullet">·</span><span>Antes de leerla: respira hondo, da gracias. Si es de tu preferencia, haz una oración.</span></div></div>'+
+    '<div class="ritual-fase"><div class="ritual-fase-tit"><span class="ritual-fase-num">3</span>Lee y suelta</div>'+
+      '<div class="ritual-paso"><span class="ritual-bullet">·</span><span>Lee la carta en voz alta, mirando la foto o la imagen.</span></div>'+
+      '<div class="ritual-paso"><span class="ritual-bullet">·</span><span>Al terminar: da las gracias, pide perdón, y rompe la carta.</span></div>'+
+      '<div class="ritual-paso"><span class="ritual-bullet">·</span><span>Bótala por el sanitario, como símbolo de soltar lo que ya no llevas contigo.</span></div></div>'+
+    '</div>';
 }
 
 // ── NAVEGACIÓN ────────────────────────────────────────────────────────────
@@ -247,7 +289,7 @@ function irA(n){
   window.scrollTo(0,0);
 }
 
-// ── PASO 1: NIÑO INTERIOR (3 cartas) ──────────────────────────────────────
+// ── PASO 1: NIÑO INTERIOR ─────────────────────────────────────────────────
 function dolorDeCiclo(ciclo){
   if(!ciclosData||!ciclosData.inventario) return null;
   var c=ciclosData.inventario.filter(function(x){return x.ciclo===ciclo;})[0];
@@ -255,47 +297,58 @@ function dolorDeCiclo(ciclo){
   var top=c.dolores.slice().sort(function(a,b){return (b.peso||0)-(a.peso||0);})[0];
   return top?top.texto:null;
 }
-
 function cartaGuiaNino(ciclo){
   var nec=CICLO_NECESIDAD[ciclo];
   var dolor=dolorDeCiclo(ciclo);
   var edadTxt=CICLO_EDADES[ciclo];
   var g='Mi pequeño:\n\n';
   g+='Soy tú, muchos años después. Vengo a decirte lo que nadie te dijo cuando tenías '+edadTxt+' años.\n\n';
-  if(dolor){ g+='Sé lo que viviste: '+dolor+'. Y quiero que sepas algo: no fue tu culpa. Eras un niño, hiciste lo que pudiste, y no merecías cargar con eso.\n\n'; }
-  else { g+='Sé que en esa etapa te faltó '+nec.falta+'. Y quiero que sepas algo: no fue tu culpa.\n\n'; }
-  g+='Hoy estoy aquí para cuidarte. Estás a salvo conmigo. '+(nec.frase.charAt(0).toUpperCase()+nec.frase.slice(1))+'.\n\n';
-  g+='Te abrazo. No vuelves a estar solo. Yo tengo el control ahora, y voy a protegerte.\n\nCon amor, tu yo adulto.';
+  if(dolor){ g+='Sé lo que viviste: '+dolor+'. Y quiero que lo escuches bien: no fue tu culpa. Eras un niño, hiciste lo que pudiste, y no merecías cargar con eso.\n\n'; }
+  else { g+='Sé que en esa etapa te faltó '+nec.falta+'. Y quiero que lo escuches bien: no fue tu culpa.\n\n'; }
+  g+='Hoy estoy aquí, y no me voy. Estás a salvo conmigo. '+(nec.frase.charAt(0).toUpperCase()+nec.frase.slice(1))+'.\n\n';
+  g+='Te miro, te abrazo, y te prometo que de ahora en adelante yo te cuido. Ya tengo el control, y nada de eso volverá a pasarte solo.\n\nCon todo mi amor, tu yo adulto.';
   return g;
 }
-
 function renderNino(){
-  // subpasos
   var sp=document.getElementById('nino-subpasos'); sp.innerHTML='';
   ciclosNino.forEach(function(c,i){
-    var cls='subpaso'+(i===idxNino?' activo':'')+((cartas.nino[c]&&cartas.nino[c].trim())?' hecho':'');
-    sp.innerHTML+='<div class="'+cls+'">Ciclo '+c+' · '+CICLO_EDADES[c]+'</div>';
+    var completa=(cartas.nino[c]&&cartas.nino[c].trim()&&ritualHecho.nino[c]);
+    var bloqueada=(i>idxNino && !puedePasarNino(i-1));
+    var cls='subpaso'+(i===idxNino?' activo':'')+(completa?' hecho':'')+(bloqueada?' bloq':'');
+    sp.innerHTML+='<div class="'+cls+'">'+(completa?'✓ ':'')+'Ciclo '+c+' · '+CICLO_EDADES[c]+'</div>';
   });
   var ciclo=ciclosNino[idxNino];
   var nec=CICLO_NECESIDAD[ciclo];
   var cont=document.getElementById('nino-contenido');
   cont.innerHTML=
     '<div class="card"><div class="label">Ciclo '+ciclo+' · '+CICLO_NOMBRES[ciclo]+' ('+CICLO_EDADES[ciclo]+' años)</div>'+
-    '<p class="ct">En este ciclo, lo que tu niño más necesitaba era <b>'+nec.falta+'</b>: oír «'+nec.frase+'». Eso es lo que vas a darle ahora.</p></div>'+
-    '<div class="carta-guia"><div class="carta-guia-label">✎ Carta guía (úsala como punto de partida)</div><div class="carta-guia-texto">'+cartaGuiaNino(ciclo)+'</div></div>'+
-    '<label class="campo-label">Ahora transcríbela con tus palabras — hazla tuya:</label>'+
-    '<textarea id="carta-nino-'+ciclo+'" placeholder="Mi pequeño..." oninput="guardarNino('+ciclo+')">'+(cartas.nino[ciclo]||'')+'</textarea>';
+      '<p class="ct">En este ciclo, lo que tu niño más necesitaba era <b>'+nec.falta+'</b>: oír «'+nec.frase+'». Eso es lo que vas a darle ahora.</p></div>'+
+    '<div class="viz"><div class="viz-label">◑ Primero, visualiza</div>'+
+      '<div class="viz-paso"><span class="viz-dot">·</span><span>Cierra los ojos y respira hondo tres veces.</span></div>'+
+      '<div class="viz-paso"><span class="viz-dot">·</span><span>Imagínate en un lugar seguro y tranquilo, y trae ahí a tu versión niña, con '+CICLO_EDADES[ciclo].split("–")[0]+'–'+CICLO_EDADES[ciclo].split("–")[1]+' años.</span></div>'+
+      '<div class="viz-paso"><span class="viz-dot">·</span><span>Míralo a los ojos. Abrázalo. Ofrécele la protección y el amor que le faltaron.</span></div></div>'+
+    bloqueRitual('el niño que fuiste')+
+    '<div class="carta-guia"><div class="carta-guia-label">✎ Carta guía (tu punto de partida)</div><div class="carta-guia-texto">'+cartaGuiaNino(ciclo)+'</div></div>'+
+    '<label class="campo-label">Transcríbela con tus palabras — hazla tuya:</label>'+
+    '<textarea id="carta-nino-'+ciclo+'" placeholder="Mi pequeño..." oninput="guardarNino('+ciclo+')">'+(cartas.nino[ciclo]||'')+'</textarea>'+
+    '<div class="sello'+(ritualHecho.nino[ciclo]?' on':'')+'" id="sello-nino-'+ciclo+'" onclick="toggleRitualNino('+ciclo+')"><div class="sello-check">✓</div><div class="sello-texto">Completé el ritual: escribí la carta, la leí mirando la imagen, la rompí y la solté.</div></div>';
   document.getElementById('nino-next').textContent=(idxNino===ciclosNino.length-1)?'Continuar con mi madre →':'Siguiente carta →';
+  document.getElementById('nino-aviso').classList.remove('visible');
 }
 function guardarNino(ciclo){ cartas.nino[ciclo]=document.getElementById('carta-nino-'+ciclo).value; }
+function toggleRitualNino(ciclo){ ritualHecho.nino[ciclo]=!ritualHecho.nino[ciclo]; document.getElementById('sello-nino-'+ciclo).classList.toggle('on', ritualHecho.nino[ciclo]); renderNino && document.getElementById('nino-subpasos') && actualizarSubpasosNino(); }
+function actualizarSubpasosNino(){
+  var sp=document.getElementById('nino-subpasos'); if(!sp) return;
+  var hijos=sp.children;
+  ciclosNino.forEach(function(c,i){ var completa=(cartas.nino[c]&&cartas.nino[c].trim()&&ritualHecho.nino[c]); if(hijos[i]){ hijos[i].classList.toggle('hecho', completa); } });
+}
+function puedePasarNino(i){ var c=ciclosNino[i]; return cartas.nino[c]&&cartas.nino[c].trim()&&ritualHecho.nino[c]; }
 function ninoSiguiente(){
+  if(!puedePasarNino(idxNino)){ document.getElementById('nino-aviso').classList.add('visible'); return; }
   if(idxNino<ciclosNino.length-1){ idxNino++; renderNino(); window.scrollTo(0,0); }
   else { irA(2); }
 }
-function ninoAnterior(){
-  if(idxNino>0){ idxNino--; renderNino(); window.scrollTo(0,0); }
-  else { irA(0); }
-}
+function ninoAnterior(){ if(idxNino>0){ idxNino--; renderNino(); window.scrollTo(0,0); } else { irA(0); } }
 
 // ── PASO 2-3: MADRE / PADRE ───────────────────────────────────────────────
 function renderFamiliar(quien){
@@ -303,32 +356,34 @@ function renderFamiliar(quien){
   var art=(quien==='madre')?'la':'lo';
   var rol=(quien==='madre')?'tu madre':'tu padre';
   var ninezPal=(quien==='madre')?'niña':'niño';
-  // selector de ciclo (en qué momento verla/o)
   var sel='<div class="card"><div class="label">¿En qué momento quieres ver a '+rol+'?</div>'+
-    '<p class="ct dim" style="margin-bottom:4px">El dolor pudo originarse en cualquier etapa. Elige el ciclo en el que quieres mirar'+(quien==='madre'?'la':'lo')+' — quizás cuando '+(quien==='madre'?'era niña':'era niño')+', o en la edad en que te hirió.</p>'+
+    '<p class="ct dim" style="margin-bottom:4px">El dolor pudo originarse en cualquier etapa. Quizás tú estás en tu ciclo 9, pero el dolor que '+art+' viviste por '+(quien==='madre'?'ella':'él')+' está en tu ciclo 1. Elige el ciclo en el que quieres mirar'+(quien==='madre'?'la':'lo')+'.</p>'+
     '<div class="selector-ciclo" id="sel-'+quien+'"></div></div>';
+  var energia='<div class="energia-nota"><div class="energia-label">✦ Aunque ya no esté presente</div>'+
+    '<div class="energia-texto">El perdón a '+rol+' se hace <b>aunque ya haya partido</b>. Porque somos <b>energía</b>, y la energía no desaparece — se transforma. Tu perdón viaja, llega, y libera el vínculo entre ustedes dos, estén donde estén. Lo que sueltas aquí, se suelta de verdad.</div></div>';
   var guia='<div class="viz"><div class="viz-label">◑ Visualiza antes de escribir</div>'+
     '<div class="viz-paso"><span class="viz-dot">·</span><span>Respira. Imagina a '+rol+' como '+ninezPal+', a la edad que elegiste.</span></div>'+
     '<div class="viz-paso"><span class="viz-dot">·</span><span>Pregúntate: ¿qué le pasó a '+(quien==='madre'?'esa niña':'ese niño')+'? ¿Cómo '+art+' trataron? ¿Qué heridas cargaba que nunca sanó?</span></div>'+
     '<div class="viz-paso"><span class="viz-dot">·</span><span>Mira cómo '+art+' dio lo que recibió. No para justificar — para entender, y soltar el juicio.</span></div></div>';
   var carta='<label class="campo-label">Escríbele una carta a '+rol+' — lo que hoy entiendes y lo que sueltas:</label>'+
     '<textarea id="carta-'+quien+'" placeholder="'+(quien==='madre'?'Mamá':'Papá')+', hoy te veo distinto..." oninput="guardarFam(\''+quien+'\')">'+(cartas[quien].texto||'')+'</textarea>'+
-    '<div class="sello" id="sello-'+quien+'" onclick="toggleSello(\''+quien+'\')"><div class="sello-check">✓</div><div class="sello-texto">Hoy elijo soltar el juicio hacia '+rol+' y recordar sin dolor.</div></div>';
-  cont.innerHTML=sel+guia+carta;
-  // pintar selector
+    '<div class="sello'+(ritualHecho[quien]?' on':'')+'" id="sello-'+quien+'" onclick="toggleRitualFam(\''+quien+'\')"><div class="sello-check">✓</div><div class="sello-texto">Completé el ritual: escribí la carta, la leí mirando su imagen, la rompí y la solté. Suelto el juicio y recuerdo sin dolor.</div></div>';
+  cont.innerHTML=sel+energia+bloqueRitual(rol)+guia+carta;
   var sc=document.getElementById('sel-'+quien); sc.innerHTML='';
   for(var i=1;i<=9;i++){
     var on=(cicloElegido[quien]===i)?' on':'';
     sc.innerHTML+='<div class="sc-btn'+on+'" onclick="elegirCiclo(\''+quien+'\','+i+')">Ciclo '+i+' · '+CICLO_EDADES[i]+'</div>';
   }
-  if(sellos[quien]) document.getElementById('sello-'+quien).classList.add('on');
+  document.getElementById(quien+'-aviso').classList.remove('visible');
 }
-function elegirCiclo(quien,i){
-  cicloElegido[quien]=i;
-  document.querySelectorAll('#sel-'+quien+' .sc-btn').forEach(function(b,idx){ b.classList.toggle('on', idx+1===i); });
-}
+function elegirCiclo(quien,i){ cicloElegido[quien]=i; document.querySelectorAll('#sel-'+quien+' .sc-btn').forEach(function(b,idx){ b.classList.toggle('on', idx+1===i); }); }
 function guardarFam(quien){ cartas[quien].texto=document.getElementById('carta-'+quien).value; }
-function toggleSello(quien){ sellos[quien]=!sellos[quien]; document.getElementById('sello-'+quien).classList.toggle('on', sellos[quien]); }
+function toggleRitualFam(quien){ ritualHecho[quien]=!ritualHecho[quien]; document.getElementById('sello-'+quien).classList.toggle('on', ritualHecho[quien]); }
+function avanzarFamiliar(quien,destino){
+  var ok=(cartas[quien].texto&&cartas[quien].texto.trim()&&ritualHecho[quien]);
+  if(!ok){ document.getElementById(quien+'-aviso').classList.add('visible'); return; }
+  irA(destino);
+}
 
 // ── PASO 4: OTROS ─────────────────────────────────────────────────────────
 function renderOtros(){
@@ -337,20 +392,16 @@ function renderOtros(){
     '<div class="viz"><div class="viz-label">◑ Antes de escribir</div>'+
     '<div class="viz-paso"><span class="viz-dot">·</span><span>Piensa en quién más influyó en tu dolor en esos primeros ciclos: un familiar, un maestro, alguien cercano.</span></div>'+
     '<div class="viz-paso"><span class="viz-dot">·</span><span>Y no olvides a la persona que a veces más perdón necesita: tú mismo.</span></div></div>'+
+    bloqueRitual('quien eliges perdonar')+
     '<label class="campo-label">¿A quién eliges perdonar, y qué le sueltas?</label>'+
     '<textarea id="carta-otros" placeholder="Hoy elijo perdonar a..." oninput="guardarOtros()">'+(cartas.otros.texto||'')+'</textarea>'+
-    '<div class="sello" id="sello-otros" onclick="toggleSello(\'otros\')"><div class="sello-check">✓</div><div class="sello-texto">Hoy suelto lo último que cargaba. Elijo recordar sin dolor.</div></div>';
-  if(sellos.otros) document.getElementById('sello-otros').classList.add('on');
+    '<div class="sello'+(ritualHecho.otros?' on':'')+'" id="sello-otros" onclick="toggleRitualOtros()"><div class="sello-check">✓</div><div class="sello-texto">Completé el ritual y solté lo último que cargaba. Elijo recordar sin dolor.</div></div>';
 }
 function guardarOtros(){ cartas.otros.texto=document.getElementById('carta-otros').value; }
+function toggleRitualOtros(){ ritualHecho.otros=!ritualHecho.otros; document.getElementById('sello-otros').classList.toggle('on', ritualHecho.otros); }
 
-// ── AURA (antes/después) ──────────────────────────────────────────────────
-function iniciales(){
-  var nombre=leer('anormal_nombre','');
-  if(!nombre) return '∀';
-  var p=nombre.trim().split(/\s+/); var ini=p[0].charAt(0); if(p.length>1) ini+=p[1].charAt(0);
-  return ini.toUpperCase();
-}
+// ── AURA ──────────────────────────────────────────────────────────────────
+function iniciales(){ var n=leer('anormal_nombre',''); if(!n) return '∀'; var p=n.trim().split(/\s+/); var i=p[0].charAt(0); if(p.length>1) i+=p[1].charAt(0); return i.toUpperCase(); }
 function renderAura(luzMap, size){
   var orden=['raiz','sacro','plexo','corazon','garganta','tercer','corona'];
   var W=size,H=size+20,cx=size/2,cy=size/2+10;
@@ -367,35 +418,23 @@ function renderAura(luzMap, size){
   var rc=(size*0.30).toFixed(0);
   return '<svg viewBox="0 0 '+W+' '+H+'" width="'+size+'" xmlns="http://www.w3.org/2000/svg"><defs>'+defs+'</defs><rect width="'+W+'" height="'+H+'" fill="#0A0F1E"/><g>'+capas+'</g><rect width="'+W+'" height="'+H+'" fill="url(#pvin-'+size+')"/><circle cx="'+cx+'" cy="'+cy+'" r="'+rc+'" fill="#0A0F1E" stroke="rgba(255,255,255,.2)" stroke-width="1"/><text x="'+cx+'" y="'+(cy+7)+'" text-anchor="middle" font-family="Cormorant Garamond, serif" font-size="'+(size*0.18).toFixed(0)+'" fill="#E8C96A">'+iniciales()+'</text></svg>';
 }
-
-// número de pasos de perdón completados (para iluminar)
 function gradoPerdon(){
-  var hechos=0, total=6; // 3 cartas niño + madre + padre + otros
-  ciclosNino.forEach(function(c){ if(cartas.nino[c]&&cartas.nino[c].trim()) hechos++; });
-  if(cartas.madre.texto&&cartas.madre.texto.trim()) hechos++;
-  if(cartas.padre.texto&&cartas.padre.texto.trim()) hechos++;
-  if(cartas.otros.texto&&cartas.otros.texto.trim()) hechos++;
-  // sellos suman intención
+  var hechos=0, total=6;
+  ciclosNino.forEach(function(c){ if(cartas.nino[c]&&cartas.nino[c].trim()&&ritualHecho.nino[c]) hechos++; });
+  if(cartas.madre.texto&&cartas.madre.texto.trim()&&ritualHecho.madre) hechos++;
+  if(cartas.padre.texto&&cartas.padre.texto.trim()&&ritualHecho.padre) hechos++;
+  if(cartas.otros.texto&&cartas.otros.texto.trim()&&ritualHecho.otros) hechos++;
   return Math.min(1, hechos/total);
 }
-
 function renderCierre(){
   var emo=leerJSON('anormal_emocional',null);
-  var base=leerJSON('anormal_aura_base',null);
-  // luz inicial
   var luzIni={};
   if(emo&&emo.luz_inicial){ Object.keys(emo.luz_inicial).forEach(function(k){ luzIni[k]=emo.luz_inicial[k]/100; }); }
   else if(emo&&emo.chakras){ emo.chakras.forEach(function(c){ luzIni[c.id]=c.suma/c.max; }); }
   else { ['raiz','sacro','plexo','corazon','garganta','tercer','corona'].forEach(function(k){ luzIni[k]=0.4; }); }
-
-  // luz después: cada centro sube hacia la plenitud según el grado de perdón
   var g=gradoPerdon();
   var luzDespues={};
-  Object.keys(luzIni).forEach(function(k){
-    var l=luzIni[k];
-    luzDespues[k]=Math.min(1, l + (1-l)*g*0.6); // sube proporcional al perdón hecho
-  });
-
+  Object.keys(luzIni).forEach(function(k){ var l=luzIni[k]; luzDespues[k]=Math.min(1, l+(1-l)*g*0.6); });
   document.getElementById('aura-compara-wrap').innerHTML=
     '<div class="aura-compara">'+
       '<div class="aura-col"><div class="aura-col-label">Antes</div>'+renderAura(luzIni,150)+'</div>'+
@@ -403,23 +442,20 @@ function renderCierre(){
       '<div class="aura-col"><div class="aura-col-label">Después del perdón</div>'+renderAura(luzDespues,150)+'</div>'+
     '</div>'+
     '<div class="card"><p class="ct">Mira la diferencia. Cada carta que escribiste, cada juicio que soltaste, encendió tu aura. Esto no es magia — es lo que pasa cuando dejas de cargar lo que no era tuyo. Y mientras más profundo sea tu perdón en la vida real, más se sostendrá esta luz.</p></div>';
-
-  // resumen
   var nCartas=0;
   ciclosNino.forEach(function(c){ if(cartas.nino[c]&&cartas.nino[c].trim()) nCartas++; });
   if(cartas.madre.texto&&cartas.madre.texto.trim()) nCartas++;
   if(cartas.padre.texto&&cartas.padre.texto.trim()) nCartas++;
   if(cartas.otros.texto&&cartas.otros.texto.trim()) nCartas++;
   document.getElementById('cierre-resumen').innerHTML=
-    '<div class="cierre-fila"><span class="cierre-k">Cartas de perdón escritas</span><span class="cierre-v">'+nCartas+'</span></div>'+
+    '<div class="cierre-fila"><span class="cierre-k">Cartas de perdón</span><span class="cierre-v">'+nCartas+'</span></div>'+
     '<div class="cierre-fila"><span class="cierre-k">Tu niño interior</span><span class="cierre-v">'+Object.keys(cartas.nino).filter(function(k){return cartas.nino[k]&&cartas.nino[k].trim();}).length+' de 3 ciclos</span></div>'+
     '<div class="cierre-fila"><span class="cierre-k">Aumento de luz</span><span class="cierre-v">+'+Math.round(g*60)+'%</span></div>';
 }
-
 function completar(){
   var palabra=(document.getElementById('palabra-final').value||'').trim();
   localStorage.setItem('anormal_perdon', JSON.stringify({
-    cartas:cartas, sellos:sellos, cicloElegido:cicloElegido, palabra_final:palabra,
+    cartas:cartas, ritual:ritualHecho, cicloElegido:cicloElegido, palabra_final:palabra,
     grado:gradoPerdon(), fecha:new Date().toLocaleDateString('es-CO')
   }));
   try{
@@ -431,8 +467,6 @@ function completar(){
   }catch(e){}
   window.location.href='resumen-conciencia.html';
 }
-
-// ── ARRANQUE ──────────────────────────────────────────────────────────────
 (function(){ init0(); })();
 </script>
 </body>
