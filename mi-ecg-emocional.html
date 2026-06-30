@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>∀normal — Mi ECG Emocional</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Barlow:wght@300;400;500&family=Barlow+Condensed:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#060A14;--bg2:#0A0F1E;--bg3:#0E1525;--bg4:#131D30;
+  --gold:#C9A84C;--gold2:#E8C96A;--gold3:#F5E0A0;
+  --gd:rgba(201,168,76,.13);--gb:rgba(201,168,76,.28);
+  --text:#EAE6DC;--dim:#8A95A8;--faint:#3A4558;--ffaint:#1E2A3A;
+  --grn:#4ABF7A;--rose:#D4537E;--azul:#5A8CC0;
+  --r:4px;--rm:8px;--rl:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font-weight:300;font-size:16.5px;line-height:1.7;min-height:100vh}
+.wrap{max-width:760px;margin:0 auto;padding:24px 20px 60px}
+
+.hdr{display:flex;align-items:center;justify-content:space-between;padding:16px 0 24px;border-bottom:1px solid var(--faint);margin-bottom:24px}
+.hdr-logo{font-family:"Cormorant Garamond",serif;font-size:22px;color:var(--gold2)}
+.hdr-info{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim)}
+
+.progress-bar{height:2px;background:var(--ffaint);border-radius:2px;overflow:hidden;margin-bottom:10px}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));transition:width .5s ease}
+.progress-txt{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);text-align:center;margin-bottom:24px}
+
+.pantalla{display:none;animation:fadeIn .4s ease}
+.pantalla.visible{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+.label{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:10px}
+.titulo{font-family:"Cormorant Garamond",serif;font-size:clamp(22px,5vw,30px);font-weight:300;color:var(--gold2);line-height:1.2;margin-bottom:10px}
+.subtitulo{font-size:14.5px;color:var(--dim);line-height:1.85;margin-bottom:24px}
+
+.card{background:var(--bg2);border:1px solid rgba(255,255,255,.055);border-radius:var(--rl);padding:20px 24px;margin-bottom:12px}
+.card.gold{border-color:var(--gb);background:linear-gradient(135deg,var(--bg2),var(--bg3))}
+.ct{font-size:15px;color:var(--text);line-height:1.9}
+.ct.dim{color:var(--dim);font-size:14px}
+.ct b,.ct strong{color:var(--gold2);font-weight:500}
+.quote{font-family:"Cormorant Garamond",serif;font-style:italic;font-size:18px;color:var(--gold3);line-height:1.5;border-left:2px solid var(--gb);padding-left:16px;margin:18px 0}
+
+.ecg-box{background:#05080F;border:1px solid var(--ffaint);border-radius:var(--rl);padding:14px 10px 8px;margin-bottom:14px;overflow-x:auto}
+.ecg-leyenda{display:flex;justify-content:center;gap:20px;margin:6px 0 16px;font-size:11px;color:var(--dim);flex-wrap:wrap}
+.ecg-leyenda span{display:inline-flex;align-items:center;gap:6px}
+.dot{width:9px;height:9px;border-radius:50%}
+
+.valle-card{background:linear-gradient(135deg,rgba(212,83,126,.08),var(--bg3));border:1px solid rgba(212,83,126,.3);border-radius:var(--rl);padding:18px 20px;margin-bottom:14px}
+.valle-label{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--rose);margin-bottom:10px}
+.valle-item{display:flex;gap:12px;align-items:flex-start;padding:9px 0;border-bottom:1px solid var(--ffaint)}
+.valle-item:last-child{border-bottom:none}
+.valle-n{min-width:30px;height:30px;border-radius:50%;background:rgba(212,83,126,.15);border:1px solid rgba(212,83,126,.4);display:flex;align-items:center;justify-content:center;font-family:"Cormorant Garamond",serif;font-size:15px;color:var(--rose);flex-shrink:0}
+.valle-info-nom{font-size:14px;font-weight:500;color:var(--text)}
+.valle-info-edad{font-size:11px;color:var(--dim)}
+.valle-info-dolor{font-size:13px;color:var(--dim);margin-top:3px;line-height:1.5}
+
+.aura-sintesis{background:var(--bg2);border:1px solid var(--gb);border-radius:var(--rl);padding:22px 24px;margin-bottom:14px;text-align:center}
+.aura-sintesis-label{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
+.aura-sintesis-txt{font-size:14px;color:var(--text);line-height:1.85;margin-top:14px}
+.aura-sintesis-txt b{color:var(--gold2)}
+
+.cierre-resumen{background:var(--bg2);border:1px solid var(--gb);border-radius:var(--rl);padding:20px 24px;margin-bottom:18px}
+.cierre-fila{display:flex;justify-content:space-between;align-items:baseline;padding:8px 0;border-bottom:1px solid var(--ffaint)}
+.cierre-fila:last-child{border-bottom:none}
+.cierre-k{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
+.cierre-v{font-size:14px;color:var(--gold2);text-align:right;max-width:56%}
+
+.bp{background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--bg);border:none;border-radius:var(--r);font-family:"Barlow Condensed",sans-serif;font-size:12px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;padding:13px 30px;cursor:pointer;transition:opacity .2s,transform .15s}
+.bp:hover{opacity:.9;transform:translateY(-1px)}
+.bs{background:transparent;color:var(--gold);border:1px solid var(--gb);border-radius:var(--r);font-family:"Barlow Condensed",sans-serif;font-size:11px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;padding:11px 22px;cursor:pointer}
+.nav{display:flex;gap:10px;justify-content:space-between;align-items:center;margin-top:24px;flex-wrap:wrap}
+
+.sin-datos{background:var(--bg3);border:1px dashed var(--faint);border-radius:var(--rl);padding:20px 22px;margin-bottom:14px}
+.sin-datos a{color:var(--gold2)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hdr">
+    <div class="hdr-logo">∀normal</div>
+    <div class="hdr-info">Sesión 2 · ECG emocional</div>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" id="prog" style="width:33%"></div></div>
+  <div class="progress-txt" id="prog-txt">Tu electrocardiograma de vida</div>
+
+  <!-- PANTALLA 1: EL ECG -->
+  <div class="pantalla visible" id="p0">
+    <div class="label">El latido de tu vida</div>
+    <h1 class="titulo">Tu vida tiene un pulso. Vamos a verlo.</h1>
+    <p class="subtitulo">Así como el corazón tiene un electrocardiograma, tu vida emocional también. Esta línea recorre tus ciclos: sube con lo que te dio vida, baja con lo que te dolió. Es el mapa de tus altibajos, desde que naciste hasta hoy.</p>
+
+    <div id="ecg-contenido"></div>
+
+    <div class="nav">
+      <span></span>
+      <button class="bp" onclick="irA(1)">Ver mis puntos a sanar →</button>
+    </div>
+  </div>
+
+  <!-- PANTALLA 2: VALLES + AURA -->
+  <div class="pantalla" id="p1">
+    <div class="label">De dónde vienes, cómo estás</div>
+    <h1 class="titulo">Tus valles de hoy, tu aura de ahora.</h1>
+    <p class="subtitulo">Los puntos más bajos de tu línea son los ciclos donde más dolió. Esos son los que el perdón viene a sanar. Y mira cómo ese recorrido desemboca en tu aura de hoy.</p>
+
+    <div id="valles-wrap"></div>
+    <div id="aura-sintesis-wrap"></div>
+
+    <div class="nav">
+      <button class="bs" onclick="irA(0)">← Anterior</button>
+      <button class="bp" onclick="irA(2)">Cerrar mi diagnóstico →</button>
+    </div>
+  </div>
+
+  <!-- PANTALLA 3: CIERRE -->
+  <div class="pantalla" id="p2">
+    <div class="label">Cierre de la Sesión 2</div>
+    <h1 class="titulo">Tu diagnóstico está completo.</h1>
+    <p class="subtitulo">Recorriste tus ciclos, escuchaste tu cuerpo y viste el latido de tu vida. Ya sabes de dónde vienen tus bloqueos y dónde se alojan hoy. Lo que sigue es sanarlos.</p>
+
+    <div class="cierre-resumen" id="cierre-resumen"></div>
+
+    <p class="quote">No puedes cambiar lo que viviste. Pero sí puedes cambiar el peso que sigue teniendo hoy. Eso es el perdón.</p>
+
+    <div class="card gold">
+      <div class="label">Lo que viene</div>
+      <p class="ct">En la próxima sesión empieza tu trabajo del <b>perdón</b>. Vas a tomar cada valle, cada dolor que pesó, y vas a soltarlo — uno por uno. Y a medida que perdones, tu aura se irá encendiendo. Hoy guardaste tu punto de partida; pronto verás cuánto has subido.</p>
+    </div>
+
+    <div class="nav">
+      <button class="bs" onclick="irA(1)">← Anterior</button>
+      <button class="bp" onclick="completar()">Guardar mi diagnóstico →</button>
+    </div>
+  </div>
+</div>
+
+<script>
+function leer(k,def){var v=localStorage.getItem(k);return (v===null||v===undefined)?def:v;}
+function leerJSON(k,def){try{var v=localStorage.getItem(k);return v?JSON.parse(v):def;}catch(e){return def;}}
+
+var AURA_COLORES={raiz:'#E03B36', sacro:'#F0822B', plexo:'#F2D33C', corazon:'#5BD37E', garganta:'#48B6E0', tercer:'#5A6BD8', corona:'#A86BD8'};
+var CICLO_NOMBRES={1:"La base de todo",2:"El despertar del cuerpo",3:"El despertar de la identidad",4:"La salida al mundo",5:"La evaluación",6:"La búsqueda de sentido",7:"Recoger lo sembrado",8:"Desapego y sabiduría",9:"Legado y plenitud"};
+var CICLO_EDADES={1:"0–7",2:"7–14",3:"14–21",4:"21–28",5:"28–35",6:"35–42",7:"42–49",8:"49–56",9:"56+"};
+
+var ciclosData=null, emocionalData=null, puntos=[], valles=[];
+
+// ── CALCULAR LA SERIE DEL ECG ─────────────────────────────────────────────
+function calcularSerie(){
+  ciclosData=leerJSON('anormal_ciclos',null);
+  emocionalData=leerJSON('anormal_emocional',null);
+  puntos=[];
+  if(!ciclosData || !ciclosData.inventario){ return false; }
+  // por cada ciclo: balance = suma pesos alegrías - suma pesos dolores
+  ciclosData.inventario.forEach(function(c){
+    var dol=0,ale=0;
+    (c.dolores||[]).forEach(function(d){ dol+=(d.peso||0); });
+    (c.recursos||[]).forEach(function(r){ ale+=(r.peso||0); });
+    var balance=ale-dol; // positivo arriba, negativo abajo
+    puntos.push({ciclo:c.ciclo, nombre:c.nombre||CICLO_NOMBRES[c.ciclo], balance:balance, dol:dol, ale:ale, dolores:c.dolores||[]});
+  });
+  // identificar valles (los más bajos) — ciclos con balance negativo, ordenados
+  valles=puntos.filter(function(p){return p.balance<0;}).sort(function(a,b){return a.balance-b.balance;}).slice(0,3);
+  return puntos.length>0;
+}
+
+// ── DIBUJAR EL ECG (SVG línea continua) ───────────────────────────────────
+function dibujarECG(){
+  var W=Math.max(680, puntos.length*78), H=300, padL=40, padR=20, padT=30, padB=46;
+  var innerW=W-padL-padR, innerH=H-padT-padB;
+  var midY=padT+innerH/2;
+  // escala de balance
+  var maxAbs=1; puntos.forEach(function(p){ if(Math.abs(p.balance)>maxAbs) maxAbs=Math.abs(p.balance); });
+  var n=puntos.length;
+  function xAt(i){ return padL + (n===1? innerW/2 : innerW*i/(n-1)); }
+  function yAt(bal){ return midY - (bal/maxAbs)*(innerH/2*0.82); }
+
+  // línea base
+  var grid='<line x1="'+padL+'" y1="'+midY+'" x2="'+(W-padR)+'" y2="'+midY+'" stroke="rgba(255,255,255,.12)" stroke-width="1" stroke-dasharray="3 4"/>';
+  // construir path tipo ECG con pequeños picos
+  var d='', dArea='';
+  var coords=[];
+  puntos.forEach(function(p,i){ coords.push({x:xAt(i), y:yAt(p.balance), p:p}); });
+  // path suave
+  d='M '+coords[0].x.toFixed(1)+' '+coords[0].y.toFixed(1);
+  for(var i=1;i<coords.length;i++){
+    var x0=coords[i-1].x, y0=coords[i-1].y, x1=coords[i].x, y1=coords[i].y;
+    var xm=(x0+x1)/2;
+    d+=' C '+xm.toFixed(1)+' '+y0.toFixed(1)+' '+xm.toFixed(1)+' '+y1.toFixed(1)+' '+x1.toFixed(1)+' '+y1.toFixed(1);
+  }
+  // área bajo la línea (degradado)
+  dArea=d+' L '+coords[coords.length-1].x.toFixed(1)+' '+midY+' L '+coords[0].x.toFixed(1)+' '+midY+' Z';
+
+  // puntos y etiquetas
+  var nodos='';
+  coords.forEach(function(c,i){
+    var esValle=valles.some(function(v){return v.ciclo===c.p.ciclo;});
+    var col=c.p.balance<0?'#D4537E':(c.p.balance>0?'#4ABF7A':'#8A95A8');
+    var r=esValle?6:4;
+    nodos+='<circle cx="'+c.x.toFixed(1)+'" cy="'+c.y.toFixed(1)+'" r="'+r+'" fill="'+col+'"'+(esValle?' stroke="#fff" stroke-width="1.5"':'')+'/>';
+    if(esValle){ nodos+='<text x="'+c.x.toFixed(1)+'" y="'+(c.y-12).toFixed(1)+'" text-anchor="middle" font-family="Barlow Condensed" font-size="10" fill="#D4537E">a sanar</text>'; }
+    // etiqueta ciclo abajo
+    nodos+='<text x="'+c.x.toFixed(1)+'" y="'+(H-padB+18)+'" text-anchor="middle" font-family="Barlow Condensed" font-size="11" fill="#8A95A8">C'+c.p.ciclo+'</text>';
+    nodos+='<text x="'+c.x.toFixed(1)+'" y="'+(H-padB+31)+'" text-anchor="middle" font-family="Barlow" font-size="8.5" fill="#3A4558">'+CICLO_EDADES[c.p.ciclo]+'</text>';
+  });
+
+  // etiquetas eje
+  var ejes='<text x="'+(padL-6)+'" y="'+(padT+10)+'" text-anchor="end" font-family="Barlow Condensed" font-size="10" fill="#4ABF7A">+ alegría</text>'+
+           '<text x="'+(padL-6)+'" y="'+(H-padB-2)+'" text-anchor="end" font-family="Barlow Condensed" font-size="10" fill="#D4537E">− dolor</text>';
+
+  var svg='<svg viewBox="0 0 '+W+' '+H+'" width="'+W+'" height="'+H+'" xmlns="http://www.w3.org/2000/svg">'+
+    '<defs><linearGradient id="ecgArea" x1="0" y1="0" x2="0" y2="1">'+
+      '<stop offset="0%" stop-color="#4ABF7A" stop-opacity="0.18"/>'+
+      '<stop offset="50%" stop-color="#4ABF7A" stop-opacity="0.02"/>'+
+      '<stop offset="50%" stop-color="#D4537E" stop-opacity="0.02"/>'+
+      '<stop offset="100%" stop-color="#D4537E" stop-opacity="0.18"/></linearGradient></defs>'+
+    grid+
+    '<path d="'+dArea+'" fill="url(#ecgArea)"/>'+
+    '<path d="'+d+'" fill="none" stroke="#E8C96A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>'+
+    nodos+ejes+
+    '</svg>';
+  return svg;
+}
+
+// ── PANTALLA 1 ────────────────────────────────────────────────────────────
+function renderECG(){
+  var cont=document.getElementById('ecg-contenido');
+  if(!calcularSerie()){
+    cont.innerHTML='<div class="sin-datos"><p class="ct dim">Aún no tienes el inventario de ciclos para trazar tu electrocardiograma. Vuelve primero al módulo de <a href="mis-ciclos-de-vida.html">Mis Ciclos de Vida</a> y registra tus dolores y alegrías por ciclo.</p></div>';
+    return;
+  }
+  cont.innerHTML='<div class="ecg-box">'+dibujarECG()+'</div>'+
+    '<div class="ecg-leyenda"><span><span class="dot" style="background:#4ABF7A"></span>Alegrías (sube)</span><span><span class="dot" style="background:#D4537E"></span>Dolores (baja)</span><span><span class="dot" style="background:#fff;outline:2px solid #D4537E"></span>Punto a sanar</span></div>'+
+    '<div class="card"><div class="label">Cómo leerlo</div><p class="ct">Cada punto es un ciclo de tu vida. Donde la línea <b>sube</b>, viviste más alegría que dolor; donde <b>baja</b>, el dolor pesó más. Los puntos marcados <b>«a sanar»</b> son tus valles — los ciclos donde más necesitas el perdón.</p></div>';
+}
+
+// ── PANTALLA 2 ────────────────────────────────────────────────────────────
+function renderValles(){
+  var wrap=document.getElementById('valles-wrap');
+  if(valles.length===0){
+    wrap.innerHTML='<div class="card"><p class="ct">Tu línea no muestra valles profundos — predominan las alegrías sobre los dolores. Eso habla de una vida con buenos recursos. Aun así, si algún ciclo te pesa, el perdón siempre suma luz.</p></div>';
+  } else {
+    var html='<div class="valle-card"><div class="valle-label">◉ Tus ciclos a sanar (los más bajos)</div>';
+    valles.forEach(function(v){
+      var dolorTxt='';
+      if(v.dolores && v.dolores.length){
+        // dolor de mayor peso
+        var top=v.dolores.slice().sort(function(a,b){return (b.peso||0)-(a.peso||0);})[0];
+        if(top && top.texto) dolorTxt=top.texto;
+      }
+      html+='<div class="valle-item"><div class="valle-n">'+v.ciclo+'</div>'+
+        '<div><div class="valle-info-nom">'+(v.nombre||CICLO_NOMBRES[v.ciclo])+'</div>'+
+        '<div class="valle-info-edad">'+CICLO_EDADES[v.ciclo]+' años</div>'+
+        (dolorTxt?'<div class="valle-info-dolor">Lo que más pesó: '+dolorTxt+'</div>':'')+'</div></div>';
+    });
+    html+='</div>';
+    wrap.innerHTML=html;
+  }
+}
+
+function renderAuraSintesis(){
+  var wrap=document.getElementById('aura-sintesis-wrap');
+  if(!emocionalData || !emocionalData.chakras){
+    wrap.innerHTML='<div class="sin-datos"><p class="ct dim">Aún no tienes tu aura. Completa primero <a href="mi-trabajo-emocional.html">Mi Trabajo Emocional</a> para verla aquí.</p></div>';
+    return;
+  }
+  var cargas=emocionalData.chakras;
+  var aura=renderAura(cargas);
+  // texto que conecta valles con aura
+  var apag=(emocionalData.apagados&&emocionalData.apagados.length)?emocionalData.apagados:cargas.slice().sort(function(a,b){return a.suma-b.suma;}).slice(0,3);
+  var nombresApag=apag.map(function(c){return c.nombre;}).join(', ');
+  var txt='El recorrido de tu vida desemboca en esta aura. Tus centros más apagados hoy —<b>'+nombresApag+'</b>— guardan el eco de esos valles que viste arriba. Cuando perdones lo que dolió en aquellos ciclos, estos centros se encenderán.';
+  wrap.innerHTML='<div class="aura-sintesis"><div class="aura-sintesis-label">Tu aura hoy</div>'+aura+'<div class="aura-sintesis-txt">'+txt+'</div></div>';
+}
+
+// ── AURA (misma lógica del módulo emocional) ──────────────────────────────
+function iniciales(){
+  var nombre=leer('anormal_nombre','');
+  if(!nombre) return '∀';
+  var partes=nombre.trim().split(/\s+/);
+  var ini=partes[0].charAt(0); if(partes.length>1) ini+=partes[1].charAt(0);
+  return ini.toUpperCase();
+}
+function renderAura(cargas){
+  var luz={}; cargas.forEach(function(c){ luz[c.id]=c.suma/c.max; });
+  var W=260,H=280,cx=130,cy=140;
+  var orden=['raiz','sacro','plexo','corazon','garganta','tercer','corona'];
+  var defs='',capas='',n=orden.length;
+  orden.forEach(function(id,i){
+    var col=AURA_COLORES[id]; var l=luz[id]!==undefined?luz[id]:0.5;
+    var op=(0.10+0.82*l).toFixed(2);
+    var t=i/(n-1); var yPos=cy+92-(184*t);
+    var gid='ec-'+id;
+    defs+='<radialGradient id="'+gid+'" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="'+col+'" stop-opacity="'+op+'"/><stop offset="55%" stop-color="'+col+'" stop-opacity="'+(op*0.55).toFixed(2)+'"/><stop offset="100%" stop-color="'+col+'" stop-opacity="0"/></radialGradient>';
+    capas+='<ellipse cx="'+cx+'" cy="'+yPos.toFixed(0)+'" rx="118" ry="52" fill="url(#'+gid+')"/>';
+  });
+  defs+='<radialGradient id="ecvin" cx="50%" cy="50%" r="62%"><stop offset="62%" stop-color="#0A0F1E" stop-opacity="0"/><stop offset="100%" stop-color="#0A0F1E" stop-opacity="0.92"/></radialGradient>';
+  return '<svg viewBox="0 0 '+W+' '+H+'" width="100%" style="max-width:260px;display:block;margin:0 auto" xmlns="http://www.w3.org/2000/svg"><defs>'+defs+'</defs><rect width="'+W+'" height="'+H+'" fill="#0A0F1E"/><g>'+capas+'</g><rect width="'+W+'" height="'+H+'" fill="url(#ecvin)"/><circle cx="'+cx+'" cy="'+cy+'" r="40" fill="#0A0F1E" stroke="rgba(255,255,255,.2)" stroke-width="1"/><text x="'+cx+'" y="'+(cy+8)+'" text-anchor="middle" font-family="Cormorant Garamond, serif" font-size="26" fill="#E8C96A">'+iniciales()+'</text></svg>';
+}
+
+// ── NAVEGACIÓN ────────────────────────────────────────────────────────────
+function irA(n){
+  document.querySelectorAll('.pantalla').forEach(function(p){p.classList.remove('visible');});
+  document.getElementById('p'+n).classList.add('visible');
+  var pcts=[33,66,100], txts=['Tu electrocardiograma de vida','Valles y aura','Cierre de la Sesión 2'];
+  document.getElementById('prog').style.width=(pcts[n]||33)+'%';
+  document.getElementById('prog-txt').textContent=txts[n]||'';
+  if(n===1){ renderValles(); renderAuraSintesis(); }
+  if(n===2) renderCierre();
+  window.scrollTo(0,0);
+}
+
+function renderCierre(){
+  var nVall=valles.length;
+  var apag='—';
+  if(emocionalData && emocionalData.apagados) apag=emocionalData.apagados.map(function(c){return c.nombre;}).join(', ');
+  document.getElementById('cierre-resumen').innerHTML=
+    '<div class="cierre-fila"><span class="cierre-k">Ciclos a sanar</span><span class="cierre-v">'+(nVall||'—')+'</span></div>'+
+    '<div class="cierre-fila"><span class="cierre-k">Centros a iluminar</span><span class="cierre-v">'+apag+'</span></div>'+
+    '<div class="cierre-fila"><span class="cierre-k">Tu línea de trabajo</span><span class="cierre-v">'+(leer('anormal_linea','—'))+'</span></div>';
+}
+
+function completar(){
+  // guardar el diagnóstico consolidado de la Sesión 2
+  var diagnostico={
+    valles:valles.map(function(v){return {ciclo:v.ciclo, nombre:v.nombre, balance:v.balance};}),
+    serie:puntos.map(function(p){return {ciclo:p.ciclo, balance:p.balance};}),
+    aura_apagados:(emocionalData&&emocionalData.apagados)?emocionalData.apagados:[],
+    fecha:new Date().toLocaleDateString('es-CO')
+  };
+  localStorage.setItem('anormal_ecg', JSON.stringify(diagnostico));
+  try{
+    var data=JSON.parse(sessionStorage.getItem('anormal_proceso')||'{}');
+    data.ecg=diagnostico;
+    if(!data.progreso)data.progreso={};
+    data.progreso.ecg={completado:true, fecha:new Date().toLocaleDateString('es-CO')};
+    data.progreso.sesion2_completa={completado:true, fecha:new Date().toLocaleDateString('es-CO')};
+    sessionStorage.setItem('anormal_proceso',JSON.stringify(data));
+  }catch(e){}
+  window.location.href='resumen-conciencia.html';
+}
+
+// ── ARRANQUE ──────────────────────────────────────────────────────────────
+(function init(){ renderECG(); })();
+</script>
+</body>
+</html>
