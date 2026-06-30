@@ -155,6 +155,7 @@ body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font
     <h1 class="titulo">Esta es la luz de tu aura hoy.</h1>
     <p class="subtitulo">Tu cuerpo es como un aura de siete luces. Estos son los tres centros más apagados — los que hoy piden tu atención. Para cada uno, la emoción que estás transitando, la parte de tu cuerpo que lo expresa, y la virtud que lo vuelve a encender por el camino del perdón.</p>
 
+    <div id="aura-wrap" style="margin-bottom:20px"></div>
     <div id="diag-wrap"></div>
 
     <div class="label" style="margin:22px 0 12px">Tu mapa energético completo</div>
@@ -353,8 +354,59 @@ function calcularCarga(){
   return cargas;
 }
 
+// ── AURA RADIAL (SVG) — resplandor de 7 capas, cada una según su luz ───────
+function iniciales(){
+  var nombre=leer('anormal_nombre','');
+  if(!nombre) return '∀';
+  var partes=nombre.trim().split(/\s+/);
+  var ini=partes[0].charAt(0);
+  if(partes.length>1) ini+=partes[1].charAt(0);
+  return ini.toUpperCase();
+}
+var AURA_COLORES={raiz:'#E03B36', sacro:'#F0822B', plexo:'#F2D33C', corazon:'#5BD37E', garganta:'#48B6E0', tercer:'#5A6BD8', corona:'#A86BD8'};
+
+function renderAura(cargas){
+  var luz={}; cargas.forEach(function(c){ luz[c.id]=c.suma/c.max; });
+  var W=300,H=320,cx=150,cy=160;
+  // orden vertical: raíz abajo (y mayor) → corona arriba (y menor)
+  var ordenAbajoArriba=['raiz','sacro','plexo','corazon','garganta','tercer','corona'];
+  var defs='', capas='';
+  // cada chakra es un resplandor elíptico ubicado a una altura distinta
+  // raíz abajo del centro, corona arriba; el corazón queda al centro
+  var n=ordenAbajoArriba.length;
+  ordenAbajoArriba.forEach(function(id,i){
+    var col=AURA_COLORES[id];
+    var l=luz[id]!==undefined?luz[id]:0.5;
+    var op=(0.10+0.82*l).toFixed(2);
+    // posición vertical: i=0 (raíz) abajo, i=n-1 (corona) arriba
+    var t=i/(n-1);              // 0..1 de abajo a arriba
+    var yPos=cy+105-(210*t);   // de cy+105 (abajo) a cy-105 (arriba)
+    var gid='ga-'+id;
+    defs+='<radialGradient id="'+gid+'" cx="50%" cy="50%" r="50%">'+
+      '<stop offset="0%" stop-color="'+col+'" stop-opacity="'+op+'"/>'+
+      '<stop offset="55%" stop-color="'+col+'" stop-opacity="'+(op*0.55).toFixed(2)+'"/>'+
+      '<stop offset="100%" stop-color="'+col+'" stop-opacity="0"/>'+
+      '</radialGradient>';
+    // elipse ancha y suave centrada a esa altura
+    capas+='<ellipse cx="'+cx+'" cy="'+yPos.toFixed(0)+'" rx="135" ry="60" fill="url(#'+gid+')"/>';
+  });
+  // viñeta para fundir bordes
+  defs+='<radialGradient id="vin" cx="50%" cy="50%" r="62%"><stop offset="62%" stop-color="#04060C" stop-opacity="0"/><stop offset="100%" stop-color="#04060C" stop-opacity="0.92"/></radialGradient>';
+
+  var svg='<svg viewBox="0 0 '+W+' '+H+'" width="100%" style="max-width:300px;display:block;margin:0 auto" xmlns="http://www.w3.org/2000/svg">'+
+    '<defs>'+defs+'</defs>'+
+    '<rect width="'+W+'" height="'+H+'" fill="#04060C"/>'+
+    '<g filter="blur(2px)">'+capas+'</g>'+
+    '<rect width="'+W+'" height="'+H+'" fill="url(#vin)"/>'+
+    '<circle cx="'+cx+'" cy="'+cy+'" r="44" fill="#0A0F1E" stroke="rgba(255,255,255,.2)" stroke-width="1"/>'+
+    '<text x="'+cx+'" y="'+(cy+8)+'" text-anchor="middle" font-family="Cormorant Garamond, serif" font-size="28" fill="#E8C96A">'+iniciales()+'</text>'+
+    '</svg>';
+  return svg;
+}
+
 function renderResultado(){
   var cargas=calcularCarga();
+  document.getElementById('aura-wrap').innerHTML=renderAura(cargas);
   var linea=leer('anormal_linea','');
   // ordenar de MENOR a MAYOR luz: los más apagados primero (los que piden trabajo)
   var orden=cargas.slice().sort(function(a,b){return a.suma-b.suma;});
