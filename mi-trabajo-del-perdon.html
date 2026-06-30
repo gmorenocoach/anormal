@@ -166,9 +166,9 @@ textarea:focus{outline:none;border-color:var(--gold)}
     <div class="card" id="card-linea"></div>
 
     <div class="label" style="margin:22px 0 12px">Los tres principios que sostienen esta etapa</div>
-    <div class="principio"><div class="principio-num">∀4</div><div><div class="principio-info-tit">El Perdón</div><div class="principio-info-txt">El perdón no es un regalo para el otro — es tu liberación. El resentimiento es un veneno que tomas tú esperando que le haga daño a otro. Perdonar es soltar la piedra.</div></div></div>
-    <div class="principio"><div class="principio-num">∀5</div><div><div class="principio-info-tit">El Dolor</div><div class="principio-info-txt">El dolor no llegó para destruirte, sino para enseñarte. Cada herida trae un aprendizaje escondido. Aprovecharlo es transformar la herida en sabiduría.</div></div></div>
-    <div class="principio"><div class="principio-num">∀6</div><div><div class="principio-info-tit">El Miedo</div><div class="principio-info-txt">El miedo es la puerta que cuida lo que más necesitas sanar. Atravesarlo —no evitarlo— es lo que te devuelve la libertad. Del otro lado está tu paz.</div></div></div>
+    <div class="principio"><div class="principio-num">∀4</div><div><div class="principio-info-tit">Avanza en el perdón</div><div class="principio-info-txt">El perdón no es un regalo para el otro — es tu liberación. El resentimiento es un veneno que tomas tú esperando que le haga daño a otro. Perdonar es soltar la piedra.</div></div></div>
+    <div class="principio"><div class="principio-num">∀5</div><div><div class="principio-info-tit">Aprovecha el dolor</div><div class="principio-info-txt">El dolor no llegó para destruirte, sino para enseñarte. Cada herida trae un aprendizaje escondido. Aprovecharlo es transformar la herida en sabiduría.</div></div></div>
+    <div class="principio"><div class="principio-num">∀6</div><div><div class="principio-info-tit">Ataca el miedo</div><div class="principio-info-txt">El miedo es la puerta que cuida lo que más necesitas sanar. Atravesarlo —no evitarlo— es lo que te devuelve la libertad. Del otro lado está tu paz.</div></div></div>
 
     <div class="nav">
       <span></span>
@@ -281,9 +281,9 @@ textarea:focus{outline:none;border-color:var(--gold)}
     <div id="compromisos-wrap"></div>
 
     <div class="label" style="margin:20px 0 12px">Los principios que activaste</div>
-    <div class="principio activo"><div class="principio-num">∀4</div><div><div class="principio-info-tit">El Perdón · activado</div><div class="principio-info-txt">Soltaste la piedra. Liberaste el veneno que cargabas.</div></div></div>
-    <div class="principio activo"><div class="principio-num">∀5</div><div><div class="principio-info-tit">El Dolor · activado</div><div class="principio-info-txt">Transformaste tus heridas en aprendizajes. El dolor se volvió sabiduría.</div></div></div>
-    <div class="principio activo"><div class="principio-num">∀6</div><div><div class="principio-info-tit">El Miedo · activado</div><div class="principio-info-txt">Atravesaste lo que evitabas. Del otro lado estaba tu paz.</div></div></div>
+    <div class="principio activo"><div class="principio-num">∀4</div><div><div class="principio-info-tit">Avanza en el perdón · activado</div><div class="principio-info-txt">Soltaste la piedra. Liberaste el veneno que cargabas.</div></div></div>
+    <div class="principio activo"><div class="principio-num">∀5</div><div><div class="principio-info-tit">Aprovecha el dolor · activado</div><div class="principio-info-txt">Transformaste tus heridas en aprendizajes. El dolor se volvió sabiduría.</div></div></div>
+    <div class="principio activo"><div class="principio-num">∀6</div><div><div class="principio-info-tit">Ataca el miedo · activado</div><div class="principio-info-txt">Atravesaste lo que evitabas. Del otro lado estaba tu paz.</div></div></div>
 
     <div class="cierre-resumen" id="cierre-resumen"></div>
 
@@ -355,49 +355,58 @@ function recordatorioRitual(){
 }
 
 // ── PASO 1: NIÑO INTERIOR ─────────────────────────────────────────────────
-function dolorDeCiclo(ciclo){
-  if(!ciclosData||!ciclosData.inventario) return null;
+function doloresDeCiclo(ciclo){
+  if(!ciclosData||!ciclosData.inventario) return [];
   var c=ciclosData.inventario.filter(function(x){return x.ciclo===ciclo;})[0];
-  if(!c||!c.dolores||!c.dolores.length) return null;
-  var top=c.dolores.slice().sort(function(a,b){return (b.peso||0)-(a.peso||0);})[0];
-  return top?top.texto:null;
+  if(!c||!c.dolores||!c.dolores.length) return [];
+  return c.dolores.slice().sort(function(a,b){return (b.peso||0)-(a.peso||0);});
 }
 function renderNino(){
   var sp=document.getElementById('nino-subpasos'); sp.innerHTML='';
   ciclosNino.forEach(function(c,i){
     var e=cartas.nino[c].estado;
     var cls='subpaso'+(i===idxNino?' activo':'')+(e==='hecho'?' hecho':'')+(e==='compromiso'?' comprom':'');
-    sp.innerHTML+='<div class="'+cls+'" onclick="saltarNino('+i+')">'+(e==='hecho'?'✓ ':'')+(e==='compromiso'?'◷ ':'')+'Ciclo '+c+'</div>';
+    sp.innerHTML+='<div class="'+cls+'" onclick="saltarNino('+i+')">'+(e==='hecho'?'✓ ':'')+(e==='compromiso'?'◷ ':'')+'Carta '+(i+1)+' · Ciclo '+c+'</div>';
   });
   var ciclo=ciclosNino[idxNino];
   var t=CICLO_TEMA[ciclo];
-  var dolor=dolorDeCiclo(ciclo);
+  var dolores=doloresDeCiclo(ciclo);
   var ct=cartas.nino[ciclo];
+  if(!ct.dolores) ct.dolores={};
+  var frenteHtml='';
+  if(dolores.length){
+    frenteHtml='<div class="parte-guia">En este ciclo marcaste en tu camino (tu ECG) estos dolores. Escríbele a quien fuiste sobre cada uno: qué pasó y cómo te hizo sentir.</div>';
+    dolores.forEach(function(d,di){
+      var val=ct.dolores[di]||'';
+      frenteHtml+='<div style="margin-bottom:12px"><div style="font-size:13.5px;color:var(--rose);margin-bottom:6px">◆ '+d.texto+(d.peso?' <span style="color:var(--faint)">(peso '+d.peso+')</span>':'')+'</div>'+
+        '<textarea placeholder="Sobre esto que viví... yo sentí..." oninput="guardarNinoDolor('+ciclo+','+di+',this.value)">'+val+'</textarea></div>';
+    });
+  } else {
+    frenteHtml='<div class="parte-guia">Escríbele a quien fuiste lo que viviste y sentiste en este ciclo de '+t.tema+'.</div>'+
+      '<textarea placeholder="Mi pequeño, en aquella época yo sentí..." oninput="guardarNino('+ciclo+',\'frente\',this.value)">'+(ct.frente||'')+'</textarea>';
+  }
   var cont=document.getElementById('nino-contenido');
   cont.innerHTML=
-    '<div class="card"><div class="label">Ciclo '+ciclo+' · '+CICLO_NOMBRES[ciclo]+' ('+CICLO_EDADES[ciclo]+' años)</div>'+
-      '<p class="ct">Este ciclo habla de <b>'+t.tema+'</b>. Lo que tu niño más necesitaba era '+t.necesitaba+'.'+(dolor?' Y en el camino recorrido marcaste: <b>«'+dolor+'»</b>. Justo eso es lo que hoy vienes a sanar.':'')+'</p></div>'+
+    '<div class="card gold"><div class="label">✦ Carta '+(idxNino+1)+' de 3 · Ciclo '+ciclo+' · '+CICLO_NOMBRES[ciclo]+' ('+CICLO_EDADES[ciclo]+' años)</div>'+
+      '<p class="ct">Este ciclo habla de <b>'+t.tema+'</b>. Lo que tu niño más necesitaba era '+t.necesitaba+'. Justo eso es lo que hoy vienes a sanar.</p></div>'+
     '<div class="viz"><div class="viz-label">◑ Primero, visualízate</div>'+
       '<div class="viz-paso"><span class="viz-dot">·</span><span>Cierra los ojos y respira hondo tres veces.</span></div>'+
       '<div class="viz-paso"><span class="viz-dot">·</span><span>Imagínate en un lugar seguro y tranquilo, y trae ahí a quien fuiste, con '+CICLO_EDADES[ciclo]+' años.</span></div>'+
       '<div class="viz-paso"><span class="viz-dot">·</span><span>Mírale a los ojos. Abrázale. Ofrécele la protección y el amor que le faltaron.</span></div></div>'+
     recordatorioRitual()+
-    // Parte 1: frente
-    '<div class="parte parte-frente"><div class="parte-cab"><div class="parte-icono">1</div><div class="parte-tit">El frente: lo que sentiste</div></div>'+
-      '<div class="parte-guia">Escríbele a quien fuiste lo que viviste y sentiste en este ciclo de '+t.tema+'.'+(dolor?' Por ejemplo, eso de «'+dolor+'» y cómo te hizo sentir.':'')+'</div>'+
-      '<textarea placeholder="Mi pequeño, en aquella época yo sentí..." oninput="guardarNino('+ciclo+',\'frente\',this.value)">'+ct.frente+'</textarea></div>'+
-    // Parte 2: aprendizajes
+    '<div class="parte parte-frente"><div class="parte-cab"><div class="parte-icono">1</div><div class="parte-tit">El frente de la hoja: lo que sentiste</div></div>'+
+      frenteHtml+'</div>'+
     '<div class="parte parte-aprend"><div class="parte-cab"><div class="parte-icono">2</div><div class="parte-tit">El reverso (1): los aprendizajes</div></div>'+
       '<div class="parte-guia">Dile lo que hoy, de adulto, aprendiste por haber vivido eso. Qué te enseñó ese dolor, en qué te hizo más fuerte o más sabio.</div>'+
-      '<textarea placeholder="Hoy entiendo que aquello me enseñó..." oninput="guardarNino('+ciclo+',\'aprend\',this.value)">'+ct.aprend+'</textarea></div>'+
-    // Parte 3: gracias
+      '<textarea placeholder="Hoy entiendo que aquello me enseñó..." oninput="guardarNino('+ciclo+',\'aprend\',this.value)">'+(ct.aprend||'')+'</textarea></div>'+
     '<div class="parte parte-gracias"><div class="parte-cab"><div class="parte-icono">3</div><div class="parte-tit">El reverso (2): gracias y abrazo</div></div>'+
       '<div class="parte-guia">Dale las gracias y abrázale. Hoy se sanan juntos: tú, el adulto, y quien fuiste.</div>'+
-      '<textarea placeholder="Gracias por sostenerme. Hoy te abrazo y nos sanamos juntos..." oninput="guardarNino('+ciclo+',\'gracias\',this.value)">'+ct.gracias+'</textarea></div>'+
-    // estado
-    '<div class="sello'+(ct.estado==='hecho'?' on':'')+'" id="sello-nino" onclick="marcarNinoHecho('+ciclo+')"><div class="sello-check">✓</div><div class="sello-texto">Completé el ritual de esta carta: la escribí, la leí mirando la imagen, la rompí y la solté.</div></div>'+
+      '<textarea placeholder="Gracias por sostenerme. Hoy te abrazo y nos sanamos juntos..." oninput="guardarNino('+ciclo+',\'gracias\',this.value)">'+(ct.gracias||'')+'</textarea></div>'+
+    '<div class="recordatorio-ritual" style="border-color:var(--rose);color:var(--gold3)">✍ Lo que escribes aquí es tu guía. La carta de verdad se escribe <b style="color:var(--gold2)">a mano, en la hoja en blanco</b> — el cuerpo necesita el gesto de escribir para soltar.</div>'+
+    '<div class="sello'+(ct.estado==='hecho'?' on':'')+'" id="sello-nino" onclick="marcarNinoHecho('+ciclo+')"><div class="sello-check">✓</div><div class="sello-texto">Completé el ritual de esta carta: la escribí a mano, la leí mirando la imagen, la rompí y la solté.</div></div>'+
     '<div class="estado-linea"><span class="ct dim" style="font-size:13.5px">¿Aún no estás listo?</span><button class="btn-compromiso'+(ct.estado==='compromiso'?' on':'')+'" onclick="marcarNinoCompromiso('+ciclo+')">Dejarlo como compromiso</button></div>';
 }
+function guardarNinoDolor(ciclo,di,val){ if(!cartas.nino[ciclo].dolores) cartas.nino[ciclo].dolores={}; cartas.nino[ciclo].dolores[di]=val; }
 function guardarNino(ciclo,campo,val){ cartas.nino[ciclo][campo]=val; }
 function marcarNinoHecho(ciclo){ cartas.nino[ciclo].estado=(cartas.nino[ciclo].estado==='hecho')?'pendiente':'hecho'; renderNino(); }
 function marcarNinoCompromiso(ciclo){ cartas.nino[ciclo].estado=(cartas.nino[ciclo].estado==='compromiso')?'pendiente':'compromiso'; renderNino(); }
@@ -544,15 +553,26 @@ function renderCierre(){
     '</div>'+
     '<div class="card"><p class="ct">Cada carta que completaste encendió tu aura. Esto no es magia — es lo que pasa cuando dejas de cargar lo que no era tuyo. Y mientras más perdones en la vida real, más se sostendrá esta luz.</p></div>';
 
-  // compromisos pendientes
+  // compromisos pendientes del perdón (de esta sesión)
   var comp=cuentaCompromisos();
   var cw=document.getElementById('compromisos-wrap');
+  var ch='';
   if(comp.length){
-    var ch='<div class="compromisos-box"><div class="compromisos-label">◷ Tus compromisos de perdón (para cuando estés listo)</div>';
+    ch+='<div class="compromisos-box"><div class="compromisos-label">◷ Tus compromisos de perdón (para cuando estés listo)</div>';
     comp.forEach(function(c){ ch+='<div class="compromiso-item"><span style="color:var(--azul)">◷</span><span>'+c+'</span></div>'; });
-    ch+='<p class="ct dim" style="font-size:13.5px;margin-top:10px">No hay prisa. El perdón llega cuando el corazón está listo. Estos quedan guardados, esperándote.</p></div>';
-    cw.innerHTML=ch;
-  } else { cw.innerHTML=''; }
+    ch+='<p class="ct dim" style="font-size:13.5px;margin-top:10px">No hay prisa. El perdón llega cuando el corazón está listo. Estos se guardan en tu repositorio de compromisos, esperándote.</p></div>';
+  }
+  // compromisos previos ya consolidados en el repositorio (sesiones anteriores)
+  try{
+    var repoPrev=JSON.parse(localStorage.getItem('anormal_compromisos_areas')||'{}');
+    var previos=Object.keys(repoPrev).filter(function(k){ return k.indexOf('perdon_')!==0; });
+    if(previos.length){
+      ch+='<div class="compromisos-box" style="border-color:var(--gb)"><div class="compromisos-label" style="color:var(--gold2)">✦ Tu repositorio de compromisos (de todo el proceso)</div>';
+      previos.forEach(function(k){ var c=repoPrev[k]; ch+='<div class="compromiso-item"><span style="color:var(--gold)">·</span><span>'+(c.nombre||k)+'</span></div>'; });
+      ch+='<p class="ct dim" style="font-size:13.5px;margin-top:10px">Todos tus compromisos se siguen consolidando aquí y en tu Resumen de Conciencia.</p></div>';
+    }
+  }catch(e){}
+  cw.innerHTML=ch;
 
   document.getElementById('cierre-resumen').innerHTML=
     '<div class="cierre-fila"><span class="cierre-k">Perdones completados</span><span class="cierre-v">'+cuentaHechos()+'</span></div>'+
@@ -567,6 +587,28 @@ function completar(){
     hechos:cuentaHechos(), compromisos:cuentaCompromisos(), grado:gradoPerdon(),
     fecha:new Date().toLocaleDateString('es-CO')
   }));
+
+  // ── Consolidar compromisos del perdón en el repositorio general ──
+  // (la misma clave anormal_compromisos_areas que lee el Resumen de Conciencia)
+  try{
+    var repo=JSON.parse(localStorage.getItem('anormal_compromisos_areas')||'{}');
+    // limpiar compromisos de perdón anteriores para no duplicar
+    Object.keys(repo).forEach(function(k){ if(k.indexOf('perdon_')===0) delete repo[k]; });
+    ciclosNino.forEach(function(c){
+      if(cartas.nino[c].estado==='compromiso')
+        repo['perdon_nino_'+c]={nombre:'Perdón · mi niño del ciclo '+c+' ('+CICLO_EDADES[c]+' años)', texto:'Escribir y hacer el ritual de la carta de perdón a quien fui en el ciclo '+c+'.'};
+    });
+    if(cartas.madre.estado==='compromiso')
+      repo['perdon_madre']={nombre:'Perdón · mi madre', texto:'Escribir y hacer el ritual de la carta de perdón a mi madre.'};
+    if(cartas.padre.estado==='compromiso')
+      repo['perdon_padre']={nombre:'Perdón · mi padre', texto:'Escribir y hacer el ritual de la carta de perdón a mi padre.'};
+    cartas.otros.forEach(function(s,i){
+      if(s.estado==='compromiso')
+        repo['perdon_otro_'+i]={nombre:'Perdón · '+s.nombre, texto:'Escribir y hacer el ritual de la carta de perdón a '+s.nombre+'.'};
+    });
+    localStorage.setItem('anormal_compromisos_areas', JSON.stringify(repo));
+  }catch(e){}
+
   try{
     var data=JSON.parse(sessionStorage.getItem('anormal_proceso')||'{}');
     data.perdon={hechos:cuentaHechos(), compromisos:cuentaCompromisos(), grado:gradoPerdon(), palabra_final:palabra};
