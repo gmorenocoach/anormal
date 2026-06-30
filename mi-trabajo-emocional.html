@@ -21,12 +21,13 @@ html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font-weight:300;font-size:16.5px;line-height:1.7;min-height:100vh}
 .wrap{max-width:700px;margin:0 auto;padding:24px 20px 60px}
 
-.hdr{display:flex;align-items:center;justify-content:space-between;padding:16px 0 24px;border-bottom:1px solid var(--faint);margin-bottom:28px}
+.hdr{display:flex;align-items:center;justify-content:space-between;padding:16px 0 24px;border-bottom:1px solid var(--faint);margin-bottom:24px}
 .hdr-logo{font-family:"Cormorant Garamond",serif;font-size:22px;color:var(--gold2)}
 .hdr-info{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim)}
 
-.progress-bar{height:2px;background:var(--ffaint);border-radius:2px;overflow:hidden;margin-bottom:28px}
+.progress-bar{height:2px;background:var(--ffaint);border-radius:2px;overflow:hidden;margin-bottom:10px}
 .progress-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));transition:width .5s ease}
+.progress-txt{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);text-align:center;margin-bottom:24px}
 
 .pantalla{display:none;animation:fadeIn .4s ease}
 .pantalla.visible{display:block}
@@ -41,51 +42,40 @@ body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font
 .ct{font-size:15px;color:var(--text);line-height:1.9}
 .ct.dim{color:var(--dim);font-size:14px}
 .ct b,.ct strong{color:var(--gold2);font-weight:500}
-
 .quote{font-family:"Cormorant Garamond",serif;font-style:italic;font-size:18px;color:var(--gold3);line-height:1.5;border-left:2px solid var(--gb);padding-left:16px;margin:18px 0}
 
-/* CUERPO + CHAKRAS */
-.chakra-card{border:1px solid var(--ffaint);border-radius:var(--rl);margin-bottom:12px;overflow:hidden;transition:all .2s}
-.chakra-card.abierto{border-color:var(--gb)}
-.chakra-head{display:flex;align-items:center;gap:14px;padding:14px 16px;cursor:pointer;user-select:none}
-.chakra-punto{width:38px;height:38px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:"Cormorant Garamond",serif;font-size:16px;color:#fff;box-shadow:0 0 14px}
-.chakra-info{flex:1}
-.chakra-nombre{font-size:15px;font-weight:500;color:var(--text)}
-.chakra-cuerpo{font-size:12px;color:var(--dim);margin-top:1px}
-.chakra-chevron{color:var(--dim);font-size:14px;transition:transform .2s}
-.chakra-card.abierto .chakra-chevron{transform:rotate(90deg)}
-.chakra-detalle{display:none;padding:0 16px 16px;background:var(--bg2)}
-.chakra-card.abierto .chakra-detalle{display:block}
-.chakra-tema{font-size:13.5px;color:var(--dim);line-height:1.7;margin:6px 0 14px;font-style:italic}
+/* CABECERA DE CENTRO */
+.centro-cab{display:flex;align-items:center;gap:14px;margin-bottom:6px}
+.centro-punto{width:48px;height:48px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:"Cormorant Garamond",serif;font-size:20px;color:#fff}
+.centro-tit{font-family:"Cormorant Garamond",serif;font-size:24px;color:var(--gold2);line-height:1.1}
+.centro-cuerpo{font-size:12px;color:var(--dim);margin-top:2px;letter-spacing:.02em}
+.centro-tema{font-size:14px;color:var(--text);line-height:1.8;font-style:italic;margin:12px 0 4px;padding:12px 16px;background:var(--bg3);border-radius:var(--rm);border-left:3px solid var(--faint)}
 
-.bloque-mini-label{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin:12px 0 9px}
-.sintoma{display:flex;gap:9px;align-items:flex-start;padding:8px 11px;border:1px solid var(--ffaint);border-radius:var(--rm);margin-bottom:6px;cursor:pointer;transition:all .15s}
-.sintoma.on{border-color:var(--rose);background:rgba(212,83,126,.06)}
-.sintoma-check{width:18px;height:18px;border-radius:5px;border:1.5px solid var(--faint);display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff;flex-shrink:0;margin-top:1px}
-.sintoma.on .sintoma-check{background:var(--rose);border-color:var(--rose)}
-.sintoma-texto{font-size:13.5px;color:var(--dim);line-height:1.5}
-.sintoma.on .sintoma-texto{color:var(--text)}
+/* PREGUNTA */
+.preg{background:var(--bg2);border:1px solid var(--ffaint);border-radius:var(--rl);padding:16px 18px;margin-bottom:10px}
+.preg-num{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:7px}
+.preg-texto{font-size:14.5px;color:var(--text);line-height:1.6;margin-bottom:14px}
+.preg-dots{display:flex;gap:7px;align-items:center;justify-content:space-between;max-width:360px;margin:0 auto}
+.qdot{flex:1;max-width:48px;height:42px;border-radius:var(--rm);border:1px solid var(--faint);display:flex;align-items:center;justify-content:center;font-size:14px;color:var(--dim);cursor:pointer;transition:all .15s;font-family:"Barlow Condensed",sans-serif}
+.qdot:hover{border-color:var(--gold)}
+.qdot.on{color:#fff;font-weight:500;transform:scale(1.06)}
+.preg-leyenda{display:flex;justify-content:space-between;max-width:360px;margin:7px auto 0;font-size:10.5px;color:var(--faint)}
 
-.escala-chakra{margin-top:14px}
-.escala-pregunta{font-size:13px;color:var(--text);margin-bottom:10px;line-height:1.6}
-.escala-dots{display:flex;gap:8px;align-items:center;justify-content:space-between;max-width:340px}
-.cdot{width:38px;height:38px;border-radius:50%;border:1px solid var(--faint);display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--dim);cursor:pointer;transition:all .15s;font-family:"Barlow Condensed",sans-serif}
-.cdot.on{color:#fff;font-weight:500}
-.escala-leyenda{display:flex;justify-content:space-between;max-width:340px;font-size:10px;color:var(--faint);margin-top:5px}
+.aviso-faltan{font-size:12px;color:var(--rose);text-align:center;margin-top:14px;display:none}
+.aviso-faltan.visible{display:block}
 
-/* REVELACIÓN */
+/* RESULTADO */
 .revelacion{background:linear-gradient(135deg,rgba(74,191,122,.1),var(--bg3));border:1px solid rgba(74,191,122,.3);border-radius:var(--rl);padding:22px 24px;margin-bottom:18px}
 .revelacion-label{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--grn);margin-bottom:10px}
 .revelacion-titulo{font-family:"Cormorant Garamond",serif;font-size:21px;color:var(--gold2);line-height:1.3;margin-bottom:12px}
 .revelacion-texto{font-size:15px;color:var(--text);line-height:1.9}
 .revelacion-texto b{color:var(--gold2);font-weight:500}
 
-/* BARRAS RESULTADO */
 .barra-chakra{display:flex;align-items:center;gap:12px;margin-bottom:9px}
 .barra-label{min-width:96px;font-size:12px;color:var(--text);text-align:right}
-.barra-track{flex:1;height:18px;background:var(--bg3);border-radius:9px;overflow:hidden;position:relative}
+.barra-track{flex:1;height:18px;background:var(--bg3);border-radius:9px;overflow:hidden}
 .barra-fill{height:100%;border-radius:9px;transition:width .8s ease}
-.barra-valor{min-width:30px;font-size:12px;color:var(--dim);font-family:"Barlow Condensed",sans-serif}
+.barra-valor{min-width:42px;font-size:11px;color:var(--dim);font-family:"Barlow Condensed",sans-serif}
 
 .cierre-resumen{background:var(--bg2);border:1px solid var(--gb);border-radius:var(--rl);padding:20px 24px;margin-bottom:18px}
 .cierre-fila{display:flex;justify-content:space-between;align-items:baseline;padding:8px 0;border-bottom:1px solid var(--ffaint)}
@@ -95,8 +85,9 @@ body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font
 
 .bp{background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--bg);border:none;border-radius:var(--r);font-family:"Barlow Condensed",sans-serif;font-size:12px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;padding:13px 30px;cursor:pointer;transition:opacity .2s,transform .15s}
 .bp:hover{opacity:.9;transform:translateY(-1px)}
+.bp:disabled{opacity:.4;cursor:not-allowed}
 .bs{background:transparent;color:var(--gold);border:1px solid var(--gb);border-radius:var(--r);font-family:"Barlow Condensed",sans-serif;font-size:11px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;padding:11px 22px;cursor:pointer}
-.nav{display:flex;gap:10px;justify-content:flex-end;margin-top:28px;flex-wrap:wrap}
+.nav{display:flex;gap:10px;justify-content:space-between;align-items:center;margin-top:24px;flex-wrap:wrap}
 </style>
 </head>
 <body>
@@ -105,48 +96,51 @@ body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font
     <div class="hdr-logo">∀normal</div>
     <div class="hdr-info">Sesión 2 · Trabajo emocional</div>
   </div>
-  <div class="progress-bar"><div class="progress-fill" id="prog" style="width:25%"></div></div>
+  <div class="progress-bar"><div class="progress-fill" id="prog" style="width:5%"></div></div>
+  <div class="progress-txt" id="prog-txt">Introducción</div>
 
-  <!-- PANTALLA 1: EL CUERPO HABLA -->
-  <div class="pantalla visible" id="p0">
+  <!-- INTRO -->
+  <div class="pantalla visible" id="intro">
     <div class="label">El cuerpo guarda lo que la mente calla</div>
     <h1 class="titulo">Tu cuerpo lleva el registro de todo lo que sentiste.</h1>
-    <p class="subtitulo">En los ciclos recorriste tu historia. Ahora vas a ver dónde se guardó esa historia en tu cuerpo. Porque la emoción que no se expresa, no desaparece: se aloja, y con el tiempo se vuelve síntoma.</p>
+    <p class="subtitulo">En los ciclos recorriste tu historia. Ahora vas a ver dónde se guardó en tu cuerpo. La emoción que no se expresa no desaparece: se aloja, y con el tiempo se vuelve síntoma.</p>
 
     <div class="card gold">
-      <div class="label">Los siete centros de tu energía</div>
-      <p class="ct">Tu cuerpo tiene siete centros, de la base a la cabeza. Cada uno gobierna una zona física y un tema de tu vida: la seguridad, el placer, el poder, el amor, la voz, la visión, el propósito. Son como una escalera que sube desde lo más denso —la supervivencia— hasta lo más elevado —la conexión—. Igual que tu nivel de conciencia, pero anclado al cuerpo.</p>
+      <div class="label">Cómo funciona</div>
+      <p class="ct">Vas a recorrer tus siete centros de energía, de la base a la cabeza. En cada uno responderás cinco preguntas, del 1 (nada) al 5 (mucho). No hay respuestas correctas — solo tu verdad. Al final, tu cuerpo te mostrará dónde está la raíz de lo que hoy te bloquea.</p>
     </div>
 
     <div class="card">
-      <div class="label">Lo que vas a descubrir</div>
-      <p class="ct">Aquí está la clave: el lugar donde <b>crees</b> que está tu problema casi nunca es donde está la raíz. Puedes haber elegido trabajar tu dinero —la base, la supervivencia— pero al final el cuerpo se resiente en otra parte, y descubres que lo que faltaba era <b>amor</b>. El cuerpo no miente. Vamos a escucharlo.</p>
+      <div class="label">La clave</div>
+      <p class="ct">El lugar donde <b>crees</b> que está tu problema casi nunca es donde está la raíz. Puedes haber elegido tu dinero —la supervivencia— pero descubrir que lo que faltaba era <b>amor</b>. El cuerpo no miente. Escúchalo con honestidad.</p>
     </div>
 
     <div class="nav">
-      <button class="bp" onclick="irA(1)">Escuchar mi cuerpo →</button>
+      <span></span>
+      <button class="bp" onclick="empezar()">Comenzar la evaluación →</button>
     </div>
   </div>
 
-  <!-- PANTALLA 2: RECORRIDO POR LOS CHAKRAS -->
-  <div class="pantalla" id="p1">
-    <div class="label">De la base a la corona</div>
-    <h1 class="titulo">Recorre tus siete centros</h1>
-    <p class="subtitulo">Abre cada centro. Marca los síntomas que reconozcas en tu cuerpo, y luego dile cuánto sientes que ese centro está pidiendo atención. Sé honesto: aquí no hay respuestas buenas o malas, solo verdad.</p>
-
-    <div id="chakras-wrap"></div>
-
+  <!-- CENTRO (dinámico) -->
+  <div class="pantalla" id="centro">
+    <div class="centro-cab">
+      <div class="centro-punto" id="c-punto">1</div>
+      <div><div class="centro-tit" id="c-titulo">Raíz</div><div class="centro-cuerpo" id="c-cuerpo"></div></div>
+    </div>
+    <div class="centro-tema" id="c-tema"></div>
+    <div id="preguntas-wrap"></div>
+    <div class="aviso-faltan" id="aviso">Responde todas las preguntas para continuar.</div>
     <div class="nav">
-      <button class="bs" onclick="irA(0)">← Anterior</button>
-      <button class="bp" onclick="irA(2)">Ver lo que mi cuerpo revela →</button>
+      <button class="bs" id="btn-atras" onclick="centroAnterior()">← Atrás</button>
+      <button class="bp" id="btn-siguiente" onclick="centroSiguiente()">Siguiente centro →</button>
     </div>
   </div>
 
-  <!-- PANTALLA 3: LA REVELACIÓN -->
-  <div class="pantalla" id="p2">
+  <!-- RESULTADO -->
+  <div class="pantalla" id="resultado">
     <div class="label">Lo que tu cuerpo revela</div>
     <h1 class="titulo">Donde se resiente tu cuerpo, está tu verdad.</h1>
-    <p class="subtitulo">Esto es lo que escuchamos de tu cuerpo. Mira dónde está la mayor carga — y compáralo con la línea que elegiste trabajar.</p>
+    <p class="subtitulo">Esto es lo que escuchamos de tus siete centros. Mira dónde está la mayor carga — y compáralo con la línea que elegiste trabajar.</p>
 
     <div id="revelacion-wrap"></div>
 
@@ -154,16 +148,16 @@ body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font
     <div id="barras-wrap"></div>
 
     <div class="nav">
-      <button class="bs" onclick="irA(1)">← Anterior</button>
-      <button class="bp" onclick="irA(3)">Cerrar mi trabajo emocional →</button>
+      <button class="bs" onclick="volverUltimoCentro()">← Atrás</button>
+      <button class="bp" onclick="irCierre()">Cerrar mi trabajo emocional →</button>
     </div>
   </div>
 
-  <!-- PANTALLA 4: CIERRE -->
-  <div class="pantalla" id="p3">
+  <!-- CIERRE -->
+  <div class="pantalla" id="cierre">
     <div class="label">Cierre del módulo</div>
     <h1 class="titulo">Ya sabes qué pide sanar.</h1>
-    <p class="subtitulo">Tienes los ciclos, las emociones y ahora el cuerpo. Con esto, tu diagnóstico emocional está casi completo. Lo que sigue es ver todo junto.</p>
+    <p class="subtitulo">Tienes los ciclos, las emociones y ahora el cuerpo. Tu diagnóstico emocional está casi completo. Lo que sigue es ver todo junto.</p>
 
     <div class="cierre-resumen" id="cierre-resumen"></div>
 
@@ -171,12 +165,12 @@ body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font
 
     <div class="card gold">
       <div class="label">Una intención para tu cuerpo</div>
-      <p class="ct" style="margin-bottom:12px">¿Qué le quieres decir a esa parte de ti que ha estado cargando en silencio? Escríbele algo.</p>
+      <p class="ct" style="margin-bottom:12px">¿Qué le quieres decir a esa parte de ti que ha estado cargando en silencio?</p>
       <textarea id="intencion-cuerpo" style="width:100%;background:var(--bg2);border:1px solid var(--faint);border-radius:var(--rm);color:var(--text);font-family:'Barlow',sans-serif;font-size:14.5px;line-height:1.7;padding:12px 14px;resize:vertical;min-height:70px" placeholder="A mi cuerpo le digo..."></textarea>
     </div>
 
     <div class="nav">
-      <button class="bs" onclick="irA(2)">← Anterior</button>
+      <button class="bs" onclick="irA('resultado')">← Atrás</button>
       <button class="bp" onclick="completar()">Ver mi diagnóstico emocional →</button>
     </div>
   </div>
@@ -185,184 +179,227 @@ body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font
 <script>
 function leer(k,def){var v=localStorage.getItem(k);return (v===null||v===undefined)?def:v;}
 
-// ── LOS 7 CHAKRAS (cuerpo + tema + nivel + síntomas) ──────────────────────
-var CHAKRAS=[
-  {id:'raiz', nombre:"Raíz", cuerpo:"piernas, base de la columna, huesos", color:"var(--c-raiz)", glow:"rgba(200,65,59,.5)",
+// ── LOS 7 CENTROS, con 5 preguntas cada uno (puntaje alto = más carga/bloqueo) ──
+var CENTROS=[
+  {id:'raiz', nombre:"Raíz", n:1, cuerpo:"piernas · base de la columna · huesos", color:"var(--c-raiz)", glow:"rgba(200,65,59,.5)", linea:"dinero",
+   nivel:"miedo, culpa y vergüenza",
    tema:"Tu seguridad, tu supervivencia, el dinero, el sentirte con derecho a existir y a tener.",
-   linea:"dinero",
-   sintomas:["Dolores de espalda baja, piernas o rodillas","Problemas de dinero o miedo constante a la escasez","Sensación de inseguridad o de no tener piso","Tensión, rigidez, dificultad para soltar el control"]},
-  {id:'sacro', nombre:"Sacro", cuerpo:"caderas, vientre, zona sexual", color:"var(--c-sacro)", glow:"rgba(216,122,43,.5)",
-   tema:"Tu placer, tu creatividad, tus emociones, tu capacidad de disfrutar y crear.",
-   linea:"",
-   sintomas:["Molestias en caderas, vientre o zona reproductiva","Dificultad para disfrutar o permitirte placer","Bloqueo creativo o falta de entusiasmo","Culpa alrededor del deseo o la sexualidad"]},
-  {id:'plexo', nombre:"Plexo solar", cuerpo:"estómago, digestión", color:"var(--c-plexo)", glow:"rgba(232,194,74,.5)",
+   pregs:[
+     "Siento miedo o angustia cuando pienso en el dinero o en el futuro.",
+     "Me cuesta sentir que el mundo es un lugar seguro para mí.",
+     "Cargo tensión física en la espalda baja, las piernas o las articulaciones.",
+     "Siento que tengo que luchar constantemente solo para sobrevivir.",
+     "Me cuesta confiar en que tendré lo que necesito."
+   ]},
+  {id:'sacro', nombre:"Sacro", n:2, cuerpo:"caderas · vientre · zona sexual", color:"var(--c-sacro)", glow:"rgba(216,122,43,.5)", linea:"",
+   nivel:"culpa y deseo",
+   tema:"Tu placer, tu creatividad, tus emociones, tu capacidad de disfrutar y de crear.",
+   pregs:[
+     "Me cuesta permitirme disfrutar o sentir placer sin culpa.",
+     "Siento bloqueada mi creatividad o mi entusiasmo por la vida.",
+     "Reprimo o me avergüenzan mis emociones y mis deseos.",
+     "Tengo molestias en la zona baja del vientre o las caderas.",
+     "Me cuesta soltarme y fluir; necesito controlarlo todo."
+   ]},
+  {id:'plexo', nombre:"Plexo solar", n:3, cuerpo:"estómago · digestión · centro del torso", color:"var(--c-plexo)", glow:"rgba(232,194,74,.5)", linea:"",
+   nivel:"ira y orgullo",
    tema:"Tu poder personal, tu voluntad, tu autoestima, tu capacidad de decidir y poner límites.",
-   linea:"",
-   sintomas:["Problemas digestivos, gastritis, nudo en el estómago","Dificultad para poner límites o decir que no","Baja autoestima o sensación de no poder","Ira contenida, frustración, querer controlarlo todo"]},
-  {id:'corazon', nombre:"Corazón", cuerpo:"pecho, pulmones, brazos", color:"var(--c-corazon)", glow:"rgba(74,191,122,.5)",
-   tema:"Tu amor, tu capacidad de dar y recibir, el perdón, los vínculos. El centro de todo.",
-   linea:"amor",
-   sintomas:["Opresión en el pecho, problemas respiratorios","Dificultad para dar o recibir amor","Duelos o resentimientos no sanados","Sensación de soledad aunque estés acompañado"]},
-  {id:'garganta', nombre:"Garganta", cuerpo:"cuello, garganta, tiroides", color:"var(--c-garganta)", glow:"rgba(74,168,200,.5)",
-   tema:"Tu expresión, tu verdad, tu voz, el poder decir lo que sientes y eres.",
-   linea:"",
-   sintomas:["Molestias de garganta, cuello o tiroides","Dificultad para expresar lo que sientes","Callar para evitar conflicto","Sentir que tu voz no es escuchada o no vale"]},
-  {id:'tercer', nombre:"Tercer ojo", cuerpo:"frente, ojos, cabeza", color:"var(--c-tercer)", glow:"rgba(90,107,192,.5)",
+   pregs:[
+     "Me cuesta poner límites o decir que no sin sentir culpa.",
+     "Siento que no tengo control sobre mi propia vida.",
+     "Guardo ira o frustración que no logro expresar sanamente.",
+     "Tengo problemas digestivos o un nudo frecuente en el estómago.",
+     "Dudo de mi valor o de mi capacidad para lograr lo que quiero."
+   ]},
+  {id:'corazon', nombre:"Corazón", n:4, cuerpo:"pecho · pulmones · brazos", color:"var(--c-corazon)", glow:"rgba(74,191,122,.5)", linea:"amor",
+   nivel:"el umbral: del miedo al amor",
+   tema:"Tu amor, tu capacidad de dar y recibir, el perdón, tus vínculos. El centro de todo.",
+   pregs:[
+     "Me cuesta dar o recibir amor con apertura.",
+     "Cargo resentimientos o duelos que no he logrado sanar.",
+     "Me siento solo, incluso cuando estoy acompañado.",
+     "Siento opresión en el pecho o dificultad para respirar hondo.",
+     "Me cuesta perdonar — a otros o a mí mismo."
+   ]},
+  {id:'garganta', nombre:"Garganta", n:5, cuerpo:"cuello · garganta · tiroides", color:"var(--c-garganta)", glow:"rgba(74,168,200,.5)", linea:"",
+   nivel:"aceptación y verdad",
+   tema:"Tu expresión, tu verdad, tu voz, el poder decir lo que sientes y lo que eres.",
+   pregs:[
+     "Me callo lo que siento para evitar el conflicto.",
+     "Siento que mi voz no es escuchada o no tiene valor.",
+     "Me cuesta expresar mi verdad o pedir lo que necesito.",
+     "Tengo molestias frecuentes en garganta, cuello o tiroides.",
+     "Digo que sí cuando por dentro quiero decir que no."
+   ]},
+  {id:'tercer', nombre:"Tercer ojo", n:6, cuerpo:"frente · ojos · cabeza", color:"var(--c-tercer)", glow:"rgba(90,107,192,.5)", linea:"",
+   nivel:"razón y claridad",
    tema:"Tu intuición, tu claridad mental, tu capacidad de ver más allá de lo evidente.",
-   linea:"",
-   sintomas:["Dolores de cabeza, tensión en la frente, vista cansada","Confusión o dificultad para ver con claridad","Exceso de pensamiento, mente que no para","Desconexión de tu intuición"]},
-  {id:'corona', nombre:"Corona", cuerpo:"cabeza, sistema nervioso", color:"var(--c-corona)", glow:"rgba(155,107,192,.5)",
-   tema:"Tu propósito, tu conexión con algo más grande, tu sentido de vida.",
-   linea:"",
-   sintomas:["Insomnio, agotamiento, sistema nervioso alterado","Sensación de vacío o falta de sentido","Desconexión de tu propósito","Sentir que la vida no tiene dirección"]}
+   pregs:[
+     "Mi mente no para; pienso en exceso y me cuesta calmarla.",
+     "Siento confusión o falta de claridad sobre mi camino.",
+     "Desconfío de mi intuición o no la escucho.",
+     "Tengo dolores de cabeza o tensión frecuente en la frente.",
+     "Me cuesta ver el sentido o la enseñanza detrás de lo que vivo."
+   ]},
+  {id:'corona', nombre:"Corona", n:7, cuerpo:"coronilla · sistema nervioso", color:"var(--c-corona)", glow:"rgba(155,107,192,.5)", linea:"",
+   nivel:"paz y conexión",
+   tema:"Tu propósito, tu conexión con algo más grande que tú, tu sentido de vida.",
+   pregs:[
+     "Siento un vacío o una falta de sentido en mi vida.",
+     "Me siento desconectado de mi propósito.",
+     "Siento que la vida no tiene una dirección clara para mí.",
+     "Tengo insomnio o mi sistema nervioso está agotado.",
+     "Me cuesta confiar en que la vida me sostiene."
+   ]}
 ];
 
-var estado={}; // por chakra: {sintomas:{}, puntaje:0}
+var respuestas={}; // centroId -> [v1..v5]
+var idxCentro=0;
 
-function initEstado(){ CHAKRAS.forEach(function(c){ estado[c.id]={sintomas:{}, puntaje:0}; }); }
+function initRespuestas(){ CENTROS.forEach(function(c){ respuestas[c.id]=[0,0,0,0,0]; }); }
 
-// ── PANTALLA 2: RENDER CHAKRAS ────────────────────────────────────────────
-function renderChakras(){
-  var cont=document.getElementById('chakras-wrap');cont.innerHTML='';
+// ── NAVEGACIÓN DE PANTALLAS ───────────────────────────────────────────────
+function irA(id){
+  document.querySelectorAll('.pantalla').forEach(function(p){p.classList.remove('visible');});
+  document.getElementById(id).classList.add('visible');
+  window.scrollTo(0,0);
+}
+function setProgreso(pct,txt){ document.getElementById('prog').style.width=pct+'%'; document.getElementById('prog-txt').textContent=txt; }
+
+function empezar(){ idxCentro=0; renderCentro(); irA('centro'); }
+
+// ── RENDER DE UN CENTRO ───────────────────────────────────────────────────
+function renderCentro(){
+  var c=CENTROS[idxCentro];
   var linea=leer('anormal_linea','');
-  CHAKRAS.forEach(function(c,idx){
-    var esLinea=(c.linea && c.linea===linea);
-    var div=document.createElement('div');
-    div.className='chakra-card'+(idx===0?' abierto':'');
-    div.id='ch-'+c.id;
-    var sintHtml='';
-    c.sintomas.forEach(function(s,si){
-      sintHtml+='<div class="sintoma" id="s-'+c.id+'-'+si+'" onclick="toggleSintoma(\''+c.id+'\','+si+')"><div class="sintoma-check">✓</div><div class="sintoma-texto">'+s+'</div></div>';
-    });
-    var dotsHtml='';
-    [1,2,3,4,5].forEach(function(v){ dotsHtml+='<div class="cdot" id="cd-'+c.id+'-'+v+'" onclick="setPuntaje(\''+c.id+'\','+v+')" data-v="'+v+'" style="--cc:'+c.color+'">'+v+'</div>'; });
-    div.innerHTML=
-      '<div class="chakra-head" onclick="toggleChakra(\''+c.id+'\')">'+
-        '<div class="chakra-punto" style="background:'+c.color+';box-shadow:0 0 14px '+c.glow+'">'+(idx+1)+'</div>'+
-        '<div class="chakra-info"><div class="chakra-nombre">'+c.nombre+(esLinea?' · tu línea':'')+'</div><div class="chakra-cuerpo">'+c.cuerpo+'</div></div>'+
-        '<div class="chakra-chevron">▶</div>'+
-      '</div>'+
-      '<div class="chakra-detalle">'+
-        '<div class="chakra-tema">'+c.tema+'</div>'+
-        '<div class="bloque-mini-label">¿Reconoces alguno de estos en tu cuerpo o tu vida?</div>'+
-        sintHtml+
-        '<div class="escala-chakra"><div class="escala-pregunta">¿Cuánto sientes que este centro está pidiendo atención?</div>'+
-          '<div class="escala-dots">'+dotsHtml+'</div>'+
-          '<div class="escala-leyenda"><span>En paz</span><span>Muy cargado</span></div>'+
-        '</div>'+
-      '</div>';
-    cont.appendChild(div);
+  document.getElementById('c-punto').textContent=c.n;
+  document.getElementById('c-punto').style.background=c.color;
+  document.getElementById('c-punto').style.boxShadow='0 0 16px '+c.glow;
+  document.getElementById('c-titulo').textContent=c.nombre+((c.linea&&c.linea===linea)?' · tu línea':'');
+  document.getElementById('c-cuerpo').textContent=c.cuerpo;
+  document.getElementById('c-tema').textContent=c.tema;
+
+  var wrap=document.getElementById('preguntas-wrap');wrap.innerHTML='';
+  c.pregs.forEach(function(p,pi){
+    var dots='';
+    for(var v=1;v<=5;v++){
+      var on=(respuestas[c.id][pi]===v)?' on':'';
+      dots+='<div class="qdot'+on+'" id="q-'+c.id+'-'+pi+'-'+v+'" onclick="responder(\''+c.id+'\','+pi+','+v+')" data-v="'+v+'" style="--cc:'+c.color+'">'+v+'</div>';
+    }
+    wrap.innerHTML+='<div class="preg"><div class="preg-num">Pregunta '+(pi+1)+' de 5</div><div class="preg-texto">'+p+'</div>'+
+      '<div class="preg-dots">'+dots+'</div>'+
+      '<div class="preg-leyenda"><span>Nada</span><span>Mucho</span></div></div>';
   });
+  // restaurar selección visual
+  c.pregs.forEach(function(p,pi){ if(respuestas[c.id][pi]>0) pintarRespuesta(c.id,pi,respuestas[c.id][pi]); });
+
+  document.getElementById('btn-atras').style.visibility = (idxCentro===0)?'hidden':'visible';
+  document.getElementById('btn-siguiente').textContent = (idxCentro===CENTROS.length-1)?'Ver mi diagnóstico →':'Siguiente centro →';
+  document.getElementById('aviso').classList.remove('visible');
+  setProgreso(Math.round(((idxCentro+1)/(CENTROS.length+1))*90)+5, 'Centro '+c.n+' de 7 · '+c.nombre);
 }
 
-function toggleChakra(id){
-  var el=document.getElementById('ch-'+id);
-  el.classList.toggle('abierto');
+function responder(cid,pi,v){
+  respuestas[cid][pi]=v;
+  pintarRespuesta(cid,pi,v);
+  document.getElementById('aviso').classList.remove('visible');
 }
-function toggleSintoma(cid,si){
-  var el=document.getElementById('s-'+cid+'-'+si);
-  el.classList.toggle('on');
-  estado[cid].sintomas[si]=el.classList.contains('on');
-}
-function setPuntaje(cid,v){
-  estado[cid].puntaje=v;
-  var c=CHAKRAS.filter(function(x){return x.id===cid;})[0];
+function pintarRespuesta(cid,pi,v){
+  var c=CENTROS.filter(function(x){return x.id===cid;})[0];
   for(var i=1;i<=5;i++){
-    var d=document.getElementById('cd-'+cid+'-'+i);
-    if(i<=v){ d.classList.add('on'); d.style.background=c.color; d.style.borderColor=c.color; }
+    var d=document.getElementById('q-'+cid+'-'+pi+'-'+i);
+    if(!d) continue;
+    if(i===v){ d.classList.add('on'); d.style.background=c.color; d.style.borderColor=c.color; }
     else { d.classList.remove('on'); d.style.background=''; d.style.borderColor=''; }
   }
 }
 
-// ── PANTALLA 3: REVELACIÓN ────────────────────────────────────────────────
+function centroCompleto(){
+  var c=CENTROS[idxCentro];
+  return respuestas[c.id].every(function(v){return v>0;});
+}
+function centroSiguiente(){
+  if(!centroCompleto()){ document.getElementById('aviso').classList.add('visible'); return; }
+  if(idxCentro<CENTROS.length-1){ idxCentro++; renderCentro(); window.scrollTo(0,0); }
+  else { renderResultado(); irA('resultado'); setProgreso(96,'Tu diagnóstico'); }
+}
+function centroAnterior(){
+  if(idxCentro>0){ idxCentro--; renderCentro(); window.scrollTo(0,0); }
+}
+function volverUltimoCentro(){ idxCentro=CENTROS.length-1; renderCentro(); irA('centro'); }
+
+// ── CÁLCULO Y RESULTADO ───────────────────────────────────────────────────
 function calcularCarga(){
-  // carga por chakra = puntaje + nº de síntomas marcados
   var cargas=[];
-  CHAKRAS.forEach(function(c){
-    var nsint=0; for(var k in estado[c.id].sintomas){ if(estado[c.id].sintomas[k]) nsint++; }
-    var carga=estado[c.id].puntaje + nsint;
-    cargas.push({id:c.id, nombre:c.nombre, color:c.color, carga:carga, puntaje:estado[c.id].puntaje, nsint:nsint, tema:c.tema, linea:c.linea});
+  CENTROS.forEach(function(c){
+    var suma=respuestas[c.id].reduce(function(a,b){return a+b;},0); // 5..25
+    var prom=suma/5; // 1..5
+    cargas.push({id:c.id, nombre:c.nombre, color:c.color, suma:suma, prom:prom, tema:c.tema, linea:c.linea, nivel:c.nivel});
   });
   return cargas;
 }
 
-function renderRevelacion(){
+function renderResultado(){
   var cargas=calcularCarga();
   var linea=leer('anormal_linea','');
-  // chakra con más carga
-  var ordenado=cargas.slice().sort(function(a,b){return b.carga-a.carga;});
+  var ordenado=cargas.slice().sort(function(a,b){return b.suma-a.suma;});
   var top=ordenado[0];
   var corazon=cargas.filter(function(x){return x.id==='corazon';})[0];
+  var chakraLinea=CENTROS.filter(function(x){return x.linea===linea;})[0];
 
-  var wrap=document.getElementById('revelacion-wrap');
-  if(top.carga===0){
-    wrap.innerHTML='<div class="card"><p class="ct dim">No marcaste suficiente para leer tu cuerpo. Vuelve y reconoce con honestidad lo que sientes — el cuerpo siempre tiene algo que decir.</p></div>';
+  var titulo, texto;
+  if(top.suma<=7){
+    titulo='Tu cuerpo está bastante en paz.';
+    texto='No marcaste una carga fuerte en ningún centro. Eso habla de equilibrio — o quizás de que aún hay cosas que no te has permitido sentir del todo. Si algo resuena más adelante, vuelve a escucharte.';
+  } else if(top.id==='corazon'){
+    titulo='Tu cuerpo lo dice claro: lo que pide sanar es el amor.';
+    texto='La mayor carga está en tu <b>corazón</b>. ';
+    if(linea) texto+='Elegiste trabajar tu <b>'+linea+'</b>, pero mira lo que revela el cuerpo: por debajo de eso, lo que realmente pide atención es el amor — dar, recibir, perdonar, reconciliar tus vínculos. ';
+    texto+='Casi todo lo que duele, rastreado hasta el fondo, es una forma de amor que faltó o que no pudo expresarse.';
+  } else if(linea && chakraLinea && top.id!==chakraLinea.id && corazon.suma>=top.suma-3){
+    titulo='Elegiste una línea, pero tu cuerpo apunta más profundo.';
+    texto='Elegiste trabajar tu <b>'+linea+'</b> (el centro '+chakraLinea.nombre+'). Pero tu cuerpo muestra la mayor carga en tu <b>'+top.nombre+'</b>, y muy cerca tu <b>corazón</b>. ';
+    texto+='Eso suele significar algo importante: el síntoma aparece en un lugar, pero la raíz está en otro — casi siempre en el amor. El cuerpo te muestra dónde mirar de verdad.';
   } else {
-    var titulo, texto;
-    var chakraLinea = CHAKRAS.filter(function(x){return x.linea===linea;})[0];
-    var nombreLinea = chakraLinea?chakraLinea.nombre:null;
-
-    if(top.id==='corazon'){
-      titulo='Tu cuerpo lo dice claro: lo que pide sanar es el amor.';
-      texto='La mayor carga de tu cuerpo está en tu <b>corazón</b>. ';
-      if(linea) texto+='Elegiste trabajar tu <b>'+linea+'</b>, pero mira lo que revela el cuerpo: por debajo de eso, lo que realmente está pidiendo atención es el amor — dar, recibir, perdonar, reconciliar tus vínculos. ';
-      texto+='Casi todo lo que duele, cuando se rastrea hasta el fondo, es una forma de amor que faltó o que no pudo expresarse.';
-    } else if(linea && top.id!==(chakraLinea?chakraLinea.id:'') && corazon.carga>0 && corazon.carga>=top.carga-1){
-      titulo='Elegiste una línea, pero tu cuerpo apunta más profundo.';
-      texto='Elegiste trabajar tu <b>'+linea+'</b>'+(nombreLinea?(' (el centro '+nombreLinea+')'):'')+'. Pero tu cuerpo muestra que la mayor carga está en tu <b>'+top.nombre+'</b>, y muy cerca, en tu <b>corazón</b>. ';
-      texto+='Eso suele significar algo importante: el síntoma aparece en un lugar, pero la raíz está en otro — casi siempre en el amor. El cuerpo te está mostrando dónde mirar de verdad.';
-    } else {
-      titulo='Tu cuerpo señala dónde está la mayor carga.';
-      texto='La mayor carga de tu cuerpo está en tu <b>'+top.nombre+'</b>: '+top.tema+' ';
-      if(linea && chakraLinea && top.id===chakraLinea.id){
-        texto+='Coincide con la línea que elegiste trabajar (<b>'+linea+'</b>), lo que confirma que vas en la dirección correcta. ';
-      }
-      if(corazon.carga>0){ texto+='Y tu corazón también pide atención — recuerda que, al fondo, casi todo bloqueo es una forma de amor pendiente.'; }
+    titulo='Tu cuerpo señala dónde está la mayor carga.';
+    texto='La mayor carga está en tu <b>'+top.nombre+'</b>: '+top.tema+' Ese centro suele vibrar en '+top.nivel+'. ';
+    if(linea && chakraLinea && top.id===chakraLinea.id){
+      texto+='Coincide con la línea que elegiste (<b>'+linea+'</b>), lo que confirma que vas en la dirección correcta. ';
     }
-    wrap.innerHTML='<div class="revelacion"><div class="revelacion-label">◉ Lo que revela tu cuerpo</div><div class="revelacion-titulo">'+titulo+'</div><div class="revelacion-texto">'+texto+'</div></div>';
+    if(corazon.suma>9){ texto+='Y tu corazón también pide atención — recuerda que, al fondo, casi todo bloqueo es una forma de amor pendiente.'; }
   }
+  document.getElementById('revelacion-wrap').innerHTML='<div class="revelacion"><div class="revelacion-label">◉ Lo que revela tu cuerpo</div><div class="revelacion-titulo">'+titulo+'</div><div class="revelacion-texto">'+texto+'</div></div>';
 
-  // Barras del mapa energético
-  var maxCarga=9; // puntaje 5 + 4 síntomas
-  var barras=document.getElementById('barras-wrap');
-  barras.innerHTML='';
+  var barras=document.getElementById('barras-wrap');barras.innerHTML='';
   cargas.forEach(function(c){
-    var pct=Math.round((c.carga/maxCarga)*100);
+    var pct=Math.round((c.suma/25)*100);
     barras.innerHTML+='<div class="barra-chakra"><div class="barra-label">'+c.nombre+'</div>'+
       '<div class="barra-track"><div class="barra-fill" style="width:0%;background:'+c.color+'" data-pct="'+pct+'"></div></div>'+
-      '<div class="barra-valor">'+c.carga+'</div></div>';
+      '<div class="barra-valor">'+c.suma+'/25</div></div>';
   });
-  // animar barras
   setTimeout(function(){ document.querySelectorAll('.barra-fill').forEach(function(b){ b.style.width=b.dataset.pct+'%'; }); },100);
 }
 
-// ── NAVEGACIÓN ────────────────────────────────────────────────────────────
-function irA(n){
-  document.querySelectorAll('.pantalla').forEach(function(p){p.classList.remove('visible');});
-  document.getElementById('p'+n).classList.add('visible');
-  var pcts=[25,50,75,100];
-  document.getElementById('prog').style.width=(pcts[n]||25)+'%';
-  if(n===2) renderRevelacion();
-  if(n===3) renderCierre();
-  window.scrollTo(0,0);
-}
+function irCierre(){ renderCierre(); irA('cierre'); setProgreso(100,'Cierre'); }
 
 function renderCierre(){
   var cargas=calcularCarga();
-  var ordenado=cargas.slice().sort(function(a,b){return b.carga-a.carga;});
-  var top=ordenado[0];
-  var totalSint=0; cargas.forEach(function(c){totalSint+=c.nsint;});
+  var top=cargas.slice().sort(function(a,b){return b.suma-a.suma;})[0];
+  var totalAlto=0; cargas.forEach(function(c){ respuestas[c.id].forEach(function(v){ if(v>=4)totalAlto++; }); });
   document.getElementById('cierre-resumen').innerHTML=
-    '<div class="cierre-fila"><span class="cierre-k">Centro con mayor carga</span><span class="cierre-v">'+top.nombre+'</span></div>'+
-    '<div class="cierre-fila"><span class="cierre-k">Síntomas reconocidos</span><span class="cierre-v">'+totalSint+'</span></div>'+
+    '<div class="cierre-fila"><span class="cierre-k">Centro con mayor carga</span><span class="cierre-v">'+top.nombre+' ('+top.suma+'/25)</span></div>'+
+    '<div class="cierre-fila"><span class="cierre-k">Respuestas de alta intensidad</span><span class="cierre-v">'+totalAlto+'</span></div>'+
     '<div class="cierre-fila"><span class="cierre-k">Tu línea de trabajo</span><span class="cierre-v">'+(leer('anormal_linea','—'))+'</span></div>';
 }
 
 function completar(){
   var cargas=calcularCarga();
   var intencion=(document.getElementById('intencion-cuerpo').value||'').trim();
+  // guardar también el detalle de respuestas para el ECG
+  var detalle={};
+  CENTROS.forEach(function(c){ detalle[c.id]=respuestas[c.id].slice(); });
   localStorage.setItem('anormal_emocional', JSON.stringify({
-    chakras:cargas, intencion:intencion, fecha:new Date().toLocaleDateString('es-CO')
+    chakras:cargas, respuestas:detalle, intencion:intencion, fecha:new Date().toLocaleDateString('es-CO')
   }));
   try{
     var data=JSON.parse(sessionStorage.getItem('anormal_proceso')||'{}');
@@ -375,10 +412,7 @@ function completar(){
 }
 
 // ── ARRANQUE ──────────────────────────────────────────────────────────────
-(function init(){
-  initEstado();
-  renderChakras();
-})();
+(function init(){ initRespuestas(); })();
 </script>
 </body>
 </html>
