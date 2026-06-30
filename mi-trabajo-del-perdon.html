@@ -229,8 +229,8 @@ textarea:focus{outline:none;border-color:var(--gold)}
     <div class="subpasos" id="nino-subpasos"></div>
     <div id="nino-contenido"></div>
     <div class="nav">
-      <button class="bs" onclick="irA(1)">← Anterior</button>
-      <button class="bp" onclick="irA(3)">Continuar con mi madre →</button>
+      <button class="bs" id="nino-prev" onclick="ninoAnterior()">← Anterior</button>
+      <button class="bp" id="nino-next" onclick="ninoSiguiente()">Siguiente carta →</button>
     </div>
   </div>
 
@@ -405,12 +405,25 @@ function renderNino(){
     '<div class="recordatorio-ritual" style="border-color:var(--rose);color:var(--gold3)">✍ Lo que escribes aquí es tu guía. La carta de verdad se escribe <b style="color:var(--gold2)">a mano, en la hoja en blanco</b> — el cuerpo necesita el gesto de escribir para soltar.</div>'+
     '<div class="sello'+(ct.estado==='hecho'?' on':'')+'" id="sello-nino" onclick="marcarNinoHecho('+ciclo+')"><div class="sello-check">✓</div><div class="sello-texto">Completé el ritual de esta carta: la escribí a mano, la leí mirando la imagen, la rompí y la solté.</div></div>'+
     '<div class="estado-linea"><span class="ct dim" style="font-size:13.5px">¿Aún no estás listo?</span><button class="btn-compromiso'+(ct.estado==='compromiso'?' on':'')+'" onclick="marcarNinoCompromiso('+ciclo+')">Dejarlo como compromiso</button></div>';
+  // textos de navegación según la carta
+  var bn=document.getElementById('nino-next');
+  if(bn) bn.textContent=(idxNino===ciclosNino.length-1)?'Continuar con mi madre →':'Siguiente carta ('+(idxNino+2)+' de 3) →';
+  var bp=document.getElementById('nino-prev');
+  if(bp) bp.textContent=(idxNino===0)?'← Volver al ritual':'← Carta anterior';
 }
 function guardarNinoDolor(ciclo,di,val){ if(!cartas.nino[ciclo].dolores) cartas.nino[ciclo].dolores={}; cartas.nino[ciclo].dolores[di]=val; }
 function guardarNino(ciclo,campo,val){ cartas.nino[ciclo][campo]=val; }
 function marcarNinoHecho(ciclo){ cartas.nino[ciclo].estado=(cartas.nino[ciclo].estado==='hecho')?'pendiente':'hecho'; renderNino(); }
 function marcarNinoCompromiso(ciclo){ cartas.nino[ciclo].estado=(cartas.nino[ciclo].estado==='compromiso')?'pendiente':'compromiso'; renderNino(); }
 function saltarNino(i){ idxNino=i; renderNino(); window.scrollTo(0,0); }
+function ninoSiguiente(){
+  if(idxNino < ciclosNino.length-1){ idxNino++; renderNino(); window.scrollTo(0,0); }
+  else { irA(3); } // ya es la última carta → pasar a la madre
+}
+function ninoAnterior(){
+  if(idxNino > 0){ idxNino--; renderNino(); window.scrollTo(0,0); }
+  else { irA(1); } // primera carta → volver al ritual
+}
 
 // ── PASO 2-3: MADRE / PADRE ───────────────────────────────────────────────
 function renderFamiliar(quien){
