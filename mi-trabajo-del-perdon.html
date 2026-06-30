@@ -627,6 +627,7 @@ function completar(){
     data.perdon={hechos:cuentaHechos(), compromisos:cuentaCompromisos(), grado:gradoPerdon(), palabra_final:palabra};
     if(!data.progreso)data.progreso={};
     data.progreso.perdon={completado:true, fecha:new Date().toLocaleDateString('es-CO')};
+    data.progreso.sesion2_completa={completado:true, fecha:new Date().toLocaleDateString('es-CO')};
     sessionStorage.setItem('anormal_proceso',JSON.stringify(data));
   }catch(e){}
   window.location.href='resumen-conciencia.html';
