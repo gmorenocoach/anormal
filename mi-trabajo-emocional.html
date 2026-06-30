@@ -120,7 +120,7 @@ body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font
 
     <div class="card gold">
       <div class="label">Cómo funciona</div>
-      <p class="ct">Vas a recorrer tus siete centros de energía, de la base a la cabeza. En cada uno responderás seis afirmaciones, calificando del 1 (nada) al 5 (mucho) qué tanto se parece a ti. Responde con honestidad — algunas están en positivo y otras en negativo, así que léelas con calma. Al final, tu cuerpo te mostrará los tres centros que más piden sanar.</p>
+      <p class="ct">Vas a recorrer tus siete centros de energía, de la base a la cabeza. En cada uno responderás seis afirmaciones, calificando del 1 (nada) al 5 (mucho) qué tanto se parece a ti. Responde con honestidad — algunas están en positivo y otras en negativo, así que léelas con calma. Al final verás tu aura: los centros más iluminados y los más apagados, esos que el perdón vendrá a encender.</p>
     </div>
 
     <div class="card">
@@ -152,8 +152,8 @@ body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font
   <!-- RESULTADO -->
   <div class="pantalla" id="resultado">
     <div class="label">Lo que tu cuerpo revela</div>
-    <h1 class="titulo">Donde se resiente tu cuerpo, está tu verdad.</h1>
-    <p class="subtitulo">Estos son los tres centros que más piden tu atención. Para cada uno, la emoción que estás transitando, la parte de tu cuerpo que lo expresa, y la virtud que te abre el camino del perdón.</p>
+    <h1 class="titulo">Esta es la luz de tu aura hoy.</h1>
+    <p class="subtitulo">Tu cuerpo es como un aura de siete luces. Estos son los tres centros más apagados — los que hoy piden tu atención. Para cada uno, la emoción que estás transitando, la parte de tu cuerpo que lo expresa, y la virtud que lo vuelve a encender por el camino del perdón.</p>
 
     <div id="diag-wrap"></div>
 
@@ -337,14 +337,15 @@ function centroSiguiente(){
 function centroAnterior(){ if(idxCentro>0){ idxCentro--; renderCentro(); window.scrollTo(0,0); } }
 function volverUltimoCentro(){ idxCentro=CENTROS.length-1; renderCentro(); irA('centro'); }
 
-// ── CÁLCULO: carga = suma de valores ajustados (positivas invertidas: 6-v) ──
+// ── CÁLCULO: LUZ del centro (lógica de aura). Alto = más iluminado/fuerte ──
+// Positiva (inv:true) suma directo; negativa (inv:false) se invierte (6-v).
 function calcularCarga(){
   var cargas=[];
   CENTROS.forEach(function(c){
     var suma=0;
     c.pregs.forEach(function(p,pi){
       var v=respuestas[c.id][pi];
-      suma += p.inv ? (6-v) : v; // positiva: invertir para que alto=carga
+      suma += p.inv ? v : (6-v); // positiva suma luz; negativa resta luz
     });
     cargas.push({id:c.id, nombre:c.nombre, yo:c.yo, color:c.color, suma:suma, max:c.pregs.length*5,
       tema:c.tema, linea:c.linea, nivel:c.nivel, emos:c.emos, cuerpo:c.cuerpo, virtud:c.virtud, virtudMsg:c.virtudMsg});
@@ -355,43 +356,44 @@ function calcularCarga(){
 function renderResultado(){
   var cargas=calcularCarga();
   var linea=leer('anormal_linea','');
-  var orden=cargas.slice().sort(function(a,b){return b.suma-a.suma;});
-  var top3=orden.slice(0,3);
+  // ordenar de MENOR a MAYOR luz: los más apagados primero (los que piden trabajo)
+  var orden=cargas.slice().sort(function(a,b){return a.suma-b.suma;});
+  var apagados=orden.slice(0,3);
 
-  // Encabezado interpretativo
   var corazon=cargas.filter(function(x){return x.id==='corazon';})[0];
   var chakraLinea=CENTROS.filter(function(x){return x.linea===linea;})[0];
   var headTxt;
-  if(top3[0].id==='corazon'){
-    headTxt='Tu cuerpo lo dice claro: lo que más pide sanar es el <b>amor</b>'+(linea?' — aunque elegiste trabajar tu '+linea+', la raíz está en el corazón':'')+'.';
-  } else if(linea && chakraLinea && corazon.suma>=top3[0].suma-4 && top3[0].id!=='corazon'){
-    headTxt='Elegiste tu <b>'+linea+'</b>, pero tu cuerpo muestra que la mayor carga está en tu <b>'+top3[0].nombre+'</b>, con el corazón muy cerca. El síntoma aparece en un lugar; la raíz, casi siempre, en el amor.';
+  if(apagados[0].id==='corazon'){
+    headTxt='Tu cuerpo lo dice claro: el centro que más necesita iluminarse es el <b>amor</b>'+(linea?' — aunque elegiste trabajar tu '+linea+', la raíz está en el corazón':'')+'.';
+  } else if(linea && chakraLinea && corazon.suma<=apagados[0].suma+4 && apagados[0].id!=='corazon'){
+    headTxt='Elegiste tu <b>'+linea+'</b>, pero tu cuerpo muestra que el centro más apagado es tu <b>'+apagados[0].nombre+'</b>, con el corazón también pidiendo luz. El síntoma aparece en un lugar; la raíz, casi siempre, en el amor.';
   } else {
-    headTxt='Estos son los tres centros que más piden tu atención hoy. En ellos está la puerta de tu trabajo del perdón.';
+    headTxt='Estos son los tres centros más apagados — los que hoy piden tu luz. En ellos está la puerta de tu trabajo del perdón: al perdonar, se encienden.';
   }
-  var html='<div class="diag-top"><div class="diag-top-label">◉ Tu diagnóstico emocional</div><div class="diag-top-titulo">'+headTxt+'</div></div>';
+  var html='<div class="diag-top"><div class="diag-top-label">◉ Tu diagnóstico de luz</div><div class="diag-top-titulo">'+headTxt+'</div></div>';
 
-  top3.forEach(function(c,i){
-    var emoActiva=c.emos.split(' · ').slice(2).join(' o '); // las dos emociones "bajas"
+  apagados.forEach(function(c,i){
+    var emoActiva=c.emos.split(' · ').slice(2).join(' o ');
+    var pct=Math.round((c.suma/c.max)*100);
     html+='<div class="centro-diag">'+
       '<div class="cd-cab"><div class="cd-rank">'+(i+1)+'</div>'+
-        '<div class="cd-punto" style="background:'+c.color+';box-shadow:0 0 12px '+c.color+'88">'+CENTROS.filter(function(x){return x.id===c.id;})[0].n+'</div>'+
-        '<div><div class="cd-nombre">'+c.nombre+'</div><div class="cd-yo">'+c.yo+' · '+c.suma+'/'+c.max+'</div></div></div>'+
+        '<div class="cd-punto" style="background:'+c.color+';box-shadow:0 0 12px '+c.color+'88;opacity:'+(0.4+0.6*(c.suma/c.max))+'">'+CENTROS.filter(function(x){return x.id===c.id;})[0].n+'</div>'+
+        '<div><div class="cd-nombre">'+c.nombre+'</div><div class="cd-yo">'+c.yo+' · luz '+pct+'%</div></div></div>'+
       '<div class="cd-fila"><div class="cd-k">Emoción</div><div class="cd-v">Estás transitando '+emoActiva+'.</div></div>'+
       '<div class="cd-fila"><div class="cd-k">En tu cuerpo</div><div class="cd-v">'+c.cuerpo+'. Esta es la zona que te conviene escuchar.</div></div>'+
       '<div class="cd-fila"><div class="cd-k">Nivel</div><div class="cd-v">Suele vibrar en '+c.nivel+'.</div></div>'+
-      '<div class="cd-virtud">El camino: '+c.virtudMsg+'</div>'+
+      '<div class="cd-virtud">El camino para encenderlo: '+c.virtudMsg+'</div>'+
     '</div>';
   });
   document.getElementById('diag-wrap').innerHTML=html;
 
-  // barras de todos
+  // barras = nivel de luz de cada centro (ordenadas por el orden natural raíz→corona)
   var barras=document.getElementById('barras-wrap');barras.innerHTML='';
   cargas.forEach(function(c){
     var pct=Math.round((c.suma/c.max)*100);
     barras.innerHTML+='<div class="barra-chakra"><div class="barra-label">'+c.nombre+'</div>'+
       '<div class="barra-track"><div class="barra-fill" style="width:0%;background:'+c.color+'" data-pct="'+pct+'"></div></div>'+
-      '<div class="barra-valor">'+c.suma+'/'+c.max+'</div></div>';
+      '<div class="barra-valor">'+pct+'%</div></div>';
   });
   setTimeout(function(){ document.querySelectorAll('.barra-fill').forEach(function(b){ b.style.width=b.dataset.pct+'%'; }); },100);
 }
@@ -399,26 +401,41 @@ function renderResultado(){
 function irCierre(){ renderCierre(); irA('cierre'); setProgreso(100,'Cierre'); }
 function renderCierre(){
   var cargas=calcularCarga();
-  var orden=cargas.slice().sort(function(a,b){return b.suma-a.suma;});
-  var top3=orden.slice(0,3).map(function(c){return c.nombre;}).join(', ');
+  var orden=cargas.slice().sort(function(a,b){return a.suma-b.suma;});
+  var apagados=orden.slice(0,3).map(function(c){return c.nombre;}).join(', ');
+  var pctPrincipal=Math.round((orden[0].suma/orden[0].max)*100);
   document.getElementById('cierre-resumen').innerHTML=
-    '<div class="cierre-fila"><span class="cierre-k">Centros a trabajar</span><span class="cierre-v">'+top3+'</span></div>'+
-    '<div class="cierre-fila"><span class="cierre-k">Centro principal</span><span class="cierre-v">'+orden[0].nombre+' ('+orden[0].suma+'/'+orden[0].max+')</span></div>'+
+    '<div class="cierre-fila"><span class="cierre-k">Centros a iluminar</span><span class="cierre-v">'+apagados+'</span></div>'+
+    '<div class="cierre-fila"><span class="cierre-k">El más apagado</span><span class="cierre-v">'+orden[0].nombre+' (luz '+pctPrincipal+'%)</span></div>'+
     '<div class="cierre-fila"><span class="cierre-k">Tu línea de trabajo</span><span class="cierre-v">'+(leer('anormal_linea','—'))+'</span></div>';
 }
 
 function completar(){
   var cargas=calcularCarga();
-  var orden=cargas.slice().sort(function(a,b){return b.suma-a.suma;});
+  var orden=cargas.slice().sort(function(a,b){return a.suma-b.suma;}); // apagados primero
   var intencion=(document.getElementById('intencion-cuerpo').value||'').trim();
   var detalle={}; CENTROS.forEach(function(c){ detalle[c.id]=respuestas[c.id].slice(); });
-  localStorage.setItem('anormal_emocional', JSON.stringify({
-    chakras:cargas, top3:orden.slice(0,3).map(function(c){return {id:c.id,nombre:c.nombre,suma:c.suma,virtud:c.virtud};}),
-    respuestas:detalle, intencion:intencion, fecha:new Date().toLocaleDateString('es-CO')
-  }));
+
+  // mapa de luz por centro (para comparar antes/después al perdonar)
+  var luzPorCentro={}; cargas.forEach(function(c){ luzPorCentro[c.id]=Math.round((c.suma/c.max)*100); });
+
+  var registro={
+    chakras:cargas,
+    apagados:orden.slice(0,3).map(function(c){return {id:c.id,nombre:c.nombre,luz:Math.round((c.suma/c.max)*100),virtud:c.virtud};}),
+    luz_inicial:luzPorCentro,           // el "ANTES" para comparar el "DESPUÉS" tras el perdón
+    respuestas:detalle, intencion:intencion,
+    fecha:new Date().toLocaleDateString('es-CO')
+  };
+  localStorage.setItem('anormal_emocional', JSON.stringify(registro));
+
+  // Guardar una línea base inmutable del aura inicial (solo la primera vez)
+  if(!localStorage.getItem('anormal_aura_base')){
+    localStorage.setItem('anormal_aura_base', JSON.stringify({luz:luzPorCentro, fecha:new Date().toLocaleDateString('es-CO')}));
+  }
+
   try{
     var data=JSON.parse(sessionStorage.getItem('anormal_proceso')||'{}');
-    data.emocional={chakras:cargas, top3:orden.slice(0,3), intencion:intencion};
+    data.emocional={chakras:cargas, apagados:orden.slice(0,3), luz_inicial:luzPorCentro, intencion:intencion};
     if(!data.progreso)data.progreso={};
     data.progreso.emocional={completado:true, fecha:new Date().toLocaleDateString('es-CO')};
     sessionStorage.setItem('anormal_proceso',JSON.stringify(data));
