@@ -353,6 +353,14 @@ function render(){
     html += '<a href="entrada-sesion2.html" class="bp" style="display:block;text-align:center;text-decoration:none;margin-top:14px">Entrar a la Sesión 2 · Ciclos de vida →</a>';
   }
 
+  // ACCESO SESIÓN 3 (cuando la Sesión 2 está completa)
+  var sesion2Completa = false;
+  try{ var proc=JSON.parse(sessionStorage.getItem('anormal_proceso')||'{}'); sesion2Completa=!!(proc.progreso&&proc.progreso.sesion2_completa); }catch(e){}
+  var sesion3Lista = (sesionActual >= 3) || sesion2Completa;
+  if(sesion3Lista){
+    html += '<a href="entrada-sesion3.html" class="bp" style="display:block;text-align:center;text-decoration:none;margin-top:14px">Entrar a la Sesión 3 · ¿Quién soy? →</a>';
+  }
+
   // BOTONES DE ACCIÓN
   html += '<div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:8px">';
   if(contrato.firma || contrato.intencion){
