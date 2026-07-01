@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>∀normal — Mis Sub-números</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Barlow:wght@300;400;500&family=Barlow+Condensed:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#060A14;--bg2:#0A0F1E;--bg3:#0E1525;--bg4:#131D30;--gold:#C9A84C;--gold2:#E8C96A;--gold3:#F5E0A0;--gd:rgba(201,168,76,.13);--gb:rgba(201,168,76,.28);--text:#EAE6DC;--dim:#9AA5B8;--faint:#3A4558;--ffaint:#1E2A3A;--grn:#4ABF7A;--rose:#D4537E;--azul:#5A8CC0;--r:4px;--rm:8px;--rl:14px;}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font-weight:300;font-size:17.5px;line-height:1.75;min-height:100vh}
+.wrap{max-width:720px;margin:0 auto;padding:24px 20px 60px}
+.hdr{display:flex;align-items:center;justify-content:space-between;padding:16px 0 24px;border-bottom:1px solid var(--faint);margin-bottom:24px}
+.hdr-logo{font-family:"Cormorant Garamond",serif;font-size:23px;color:var(--gold2)}
+.hdr-info{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim)}
+.progress-bar{height:2px;background:var(--ffaint);border-radius:2px;overflow:hidden;margin-bottom:10px}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));transition:width .5s ease}
+.progress-txt{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);text-align:center;margin-bottom:24px}
+.pantalla{display:none;animation:fadeIn .4s ease}
+.pantalla.visible{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.label{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:10px}
+.titulo{font-family:"Cormorant Garamond",serif;font-size:clamp(24px,5.5vw,33px);font-weight:300;color:var(--gold2);line-height:1.2;margin-bottom:12px}
+.subtitulo{font-size:16px;color:var(--dim);line-height:1.85;margin-bottom:24px}
+.card{background:var(--bg2);border:1px solid rgba(255,255,255,.06);border-radius:var(--rl);padding:22px 26px;margin-bottom:14px}
+.card.gold{border-color:var(--gb);background:linear-gradient(135deg,var(--bg2),var(--bg3))}
+.ct{font-size:16px;color:var(--text);line-height:1.95}
+.ct.dim{color:var(--dim);font-size:15px}
+.ct b,.ct strong{color:var(--gold2);font-weight:500}
+.video-opcional{background:var(--bg3);border:1px dashed var(--faint);border-radius:14px;padding:20px 22px;margin-bottom:18px;display:flex;align-items:center;gap:16px}
+.video-opcional .vo-play{font-size:24px;color:var(--gold);flex-shrink:0}
+.video-opcional .vo-tit{font-size:13px;color:var(--text)}
+.video-opcional .vo-sub{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--faint);margin-top:3px}
+.subnum-hero{text-align:center;margin:12px 0 18px}
+.subnum-circ{width:88px;height:88px;margin:0 auto 8px;border-radius:50%;background:var(--gd);border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;font-family:"Cormorant Garamond",serif;font-size:42px;color:var(--gold2)}
+.subnum-nom{font-family:"Cormorant Garamond",serif;font-style:italic;font-size:22px;color:var(--gold3)}
+.calc-chain{font-family:"Barlow Condensed",sans-serif;font-size:16px;color:var(--dim);letter-spacing:.05em;text-align:center;margin-bottom:6px}
+.tabs{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap;justify-content:center}
+.tab{padding:9px 16px;border-radius:20px;font-size:13px;border:1px solid var(--ffaint);color:var(--dim);cursor:pointer;font-family:"Barlow Condensed",sans-serif;letter-spacing:.06em;text-transform:uppercase}
+.tab.on{border-color:var(--gold);color:var(--gold2);background:var(--gd)}
+.tab.done{border-color:var(--grn);color:var(--grn)}
+.bp{background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--bg);border:none;border-radius:var(--r);font-family:"Barlow Condensed",sans-serif;font-size:13px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;padding:14px 32px;cursor:pointer;transition:opacity .2s,transform .15s}
+.bp:hover{opacity:.9;transform:translateY(-1px)}
+.bs{background:transparent;color:var(--gold);border:1px solid var(--gb);border-radius:var(--r);font-family:"Barlow Condensed",sans-serif;font-size:12px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;padding:12px 24px;cursor:pointer}
+.nav{display:flex;gap:10px;justify-content:space-between;align-items:center;margin-top:26px;flex-wrap:wrap}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hdr">
+    <div class="hdr-logo">∀normal</div>
+    <div class="hdr-info">Sesión 3 · Sub-números</div>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" id="prog" style="width:20%"></div></div>
+  <div class="progress-txt" id="prog-txt">Los matices</div>
+
+  <div class="pantalla visible" id="p0">
+    <div class="label">Numerología · Los matices</div>
+    <h1 class="titulo">Los tres matices de tu esencia.</h1>
+    <p class="subtitulo">Tu Camino de Vida es el gran título de tu historia. Pero hay tres sub-números que lo afinan y le dan color: tu <b style="color:var(--gold2)">Actitud</b> (cómo reaccionas), tu <b style="color:var(--gold2)">Generación</b> (la vibración de tu época) y tu <b style="color:var(--gold2)">Día</b> (el don con que naciste). Juntos, matizan quién eres.</p>
+    <div class="video-opcional">
+      <div class="vo-play">▶</div>
+      <div class="vo-txt"><div class="vo-tit">Video — Tus sub-números</div><div class="vo-sub">Opcional · próximamente</div></div>
+    </div>
+    <div class="card gold"><div class="label">Cómo se calculan</div>
+      <p class="ct">Cada uno nace de una parte de tu fecha: la <b>Actitud</b> del mes en que naciste, la <b>Generación</b> del año, y el <b>Día</b> del día exacto. Son matices que se suman a tu Camino de Vida.</p></div>
+    <div id="fecha-info"></div>
+    <div class="nav"><span></span><button class="bp" onclick="calcular()">Ver mis sub-números →</button></div>
+  </div>
+
+  <div class="pantalla" id="p1">
+    <div class="tabs" id="tabs"></div>
+    <div id="subnum-contenido"></div>
+    <div class="nav">
+      <button class="bs" onclick="irA(0)">← Anterior</button>
+      <button class="bp" id="btn-next" onclick="siguienteTab()">Siguiente matiz →</button>
+    </div>
+  </div>
+</div>
+
+<script>
+function leer(k,def){var v=localStorage.getItem(k);return (v===null||v===undefined)?def:v;}
+var ACTITUD = {
+  1:{n:"El Iniciador",col:"gold",
+    d:"La energía del mes 1 te hace llegar a las situaciones con iniciativa y liderazgo natural. Las personas te perciben como alguien que arranca, propone y da el primer paso cuando otros dudan.",
+    sig:"Llegas a cada momento de tu vida con la frecuencia del 1 — el número del inicio y la acción. Esto significa que tu primera reacción ante cualquier situación tiende a ser tomar las riendas, proponer algo nuevo o moverse hacia adelante.",
+    conex:"Esta actitud complementa o contrasta con tu número de vida de formas interesantes. Si tu NV también es 1, se amplifica el liderazgo. Si es muy diferente, puede haber una tensión creativa entre cómo eres profundamente y cómo llegas a los momentos.",
+    reto:"Esta semana observa cómo llegas a tres situaciones diferentes. ¿Cuándo tu actitud iniciadora ayuda? ¿Cuándo puede ser oportuno ceder el inicio a otro?"},
+  2:{n:"La Cooperadora",col:"acc",
+    d:"El mes 2 te hace llegar a las situaciones con sensibilidad y disposición genuina a escuchar. Las personas perciben tu empatía y tu capacidad natural para crear puentes donde hay tensión.",
+    sig:"Tu actitud es la del encuentro — llegas buscando conectar, no competir. Eso crea un campo de confianza que facilita las conversaciones difíciles y las colaboraciones complejas.",
+    conex:"Esta actitud de apertura y escucha matiza tu número de vida. Independientemente de cuál sea tu misión central, llegas a ella con la disposición del que quiere entender antes de actuar.",
+    reto:"Esta semana nota en cuántas situaciones tu actitud cooperadora fue la clave que abrió una puerta. Escribe un ejemplo concreto."},
+  3:{n:"La Creativa",col:"pur",
+    d:"El mes 3 te hace llegar con alegría, humor y creatividad natural. Tienes el don de hacer que cualquier situación parezca manejable y que la gente se sienta más liviana en tu presencia.",
+    sig:"Tu actitud es la del creador — ves posibilidades donde otros ven obstáculos. Llegas a los momentos con una energía que abre el espacio para pensar diferente.",
+    conex:"Esta actitud creativa y optimista puede ser uno de tus mayores activos relacionales. Las personas confían en alguien que hace que los problemas parezcan manejables.",
+    reto:"Esta semana usa conscientemente tu actitud creativa ante un problema que parezca difícil. ¿Qué posibilidad ves que otros no ven?"},
+  4:{n:"La Constructora",col:"gold",
+    d:"El mes 4 te hace llegar a las situaciones con seriedad, método y enfoque claro en los resultados. Las personas confían en que cuando dices algo, lo cumples.",
+    sig:"Tu actitud es la del que construye — llegas queriendo entender cómo funciona algo y cómo mejorarlo. No te conformas con la superficie.",
+    conex:"Esta actitud metódica puede generar confianza rápidamente en entornos profesionales. Las personas valoran a alguien que llega preparado y con intención de producir.",
+    reto:"Esta semana identifica una situación donde tu actitud constructora marcó la diferencia. ¿Qué hiciste diferente a alguien que llegó sin ese enfoque?"},
+  5:{n:"La Aventurera",col:"acc",
+    d:"El mes 5 te hace llegar con curiosidad y apertura genuina. Las personas perciben tu energía libre y tu capacidad de adaptación — no sabes bien qué va a pasar y eso no te preocupa.",
+    sig:"Tu actitud es la del explorador — llegas a cada situación dispuesto a descubrir algo nuevo. Esa apertura es contagiosa y suele romper la rigidez de los ambientes cerrados.",
+    conex:"Esta actitud aventurera puede ser un catalizador poderoso en grupos que se han quedado estancados. Tu llegada suele mover algo.",
+    reto:"Esta semana llega a una situación conocida con ojos nuevos, como si fuera la primera vez. ¿Qué descubres que antes no veías?"},
+  6:{n:"La Cuidadora",col:"gold",
+    d:"El mes 6 te hace llegar con calidez y preocupación genuina por los demás. Las personas sienten que estás presente para ellas, no de paso.",
+    sig:"Tu actitud es la del cuidado — llegas preguntándote cómo están los demás, qué necesitan, cómo puedes contribuir al bienestar del espacio. Eso crea seguridad.",
+    conex:"Esta actitud cuidadora puede ser uno de tus mayores dones en el liderazgo. Las personas trabajan mejor cuando sienten que a quien las lidera le importan genuinamente.",
+    reto:"Esta semana antes de entrar a una reunión o conversación importante, pregúntate: ¿cómo está esta persona? ¿qué necesita hoy? Observa cómo cambia la interacción."},
+  7:{n:"La Analítica",col:"pur",
+    d:"El mes 7 te hace llegar con profundidad y reflexión. Las personas perciben tu inteligencia y tu necesidad de entender bien antes de actuar.",
+    sig:"Tu actitud es la del que busca el sentido — llegas preguntándote por qué, qué hay detrás, qué no se está diciendo. Esa profundidad puede ser muy valiosa o puede ralentizar los procesos, según el contexto.",
+    conex:"Esta actitud analítica complementa muy bien un número de vida de acción (1, 8) porque le pone reflexión antes de la velocidad. Y puede necesitar más esfuerzo consciente en entornos que requieren respuesta inmediata.",
+    reto:"Esta semana observa cuándo tu actitud analítica fue un regalo para el grupo y cuándo pudo haber sido un freno. ¿Qué aprendes sobre el contexto en que más aportas?"},
+  8:{n:"La Ejecutiva",col:"gold",
+    d:"El mes 8 te hace llegar con autoridad y visión de resultados. Las personas perciben tu liderazgo y tu enfoque en las metas grandes desde el primer momento.",
+    sig:"Tu actitud es la del que materializa — llegas pensando en cómo convertir la conversación en resultados concretos. Eso puede ser muy energizante en contextos que necesitan dirección.",
+    conex:"Esta actitud ejecutiva combinada con tu número de vida crea un perfil muy orientado al impacto. El desafío es recordar que no todas las situaciones requieren resultado inmediato — algunas requieren presencia.",
+    reto:"Esta semana practica llegar a una situación sin agenda de resultado. Solo estar presente. ¿Qué emerge cuando no buscas producir algo?"},
+  9:{n:"La Humanista",col:"pur",
+    d:"El mes 9 te hace llegar con compasión y perspectiva amplia. Las personas perciben tu sabiduría y tu preocupación genuina por el bien colectivo.",
+    sig:"Tu actitud es la del que ve el cuadro grande — llegas pensando en el impacto de las decisiones sobre todos los involucrados. Esa perspectiva humanista es rara y muy necesaria.",
+    conex:"Esta actitud humanista puede convertirte en el ancla ética de los grupos que integras. Las personas te buscan cuando necesitan perspectiva más allá de lo inmediato.",
+    reto:"Esta semana identifica una decisión o conversación donde tu perspectiva amplia marcó la diferencia. Escribe qué viste que otros no estaban viendo."},
+  10:{n:"El Iniciador-Cero",col:"gold",
+    d:"El mes 10 (1+0=1) te trae la energía del liderazgo. Llegas a las situaciones con claridad de dirección y capacidad de proponer.",
+    sig:"La energía del mes 10 reduce al 1 — el iniciador. El 0 amplifica la energía del 1, dándole una dimensión de totalidad y apertura al camino completo.",
+    conex:"Tu actitud de liderazgo tiene una dimensión de apertura — no solo lideras, sino que creas espacio para que otros también emerjan.",
+    reto:"Esta semana lidera algo pequeño con la intención de que otros crezcan en el proceso. No solo producir un resultado — desarrollar a alguien."},
+  11:{n:"La Inspiradora",col:"pur",
+    d:"El mes 11 (número maestro) te hace llegar con sensibilidad espiritual elevada. Las personas perciben algo especial en tu presencia aunque no sepan explicar exactamente qué es.",
+    sig:"Tu actitud está impregnada de la energía del 11 — intuición elevada, capacidad de inspirar y de crear campos de posibilidad. Los grupos se transforman cuando llegues con plena conciencia de esta energía.",
+    conex:"Esta actitud inspiradora puede ser un recurso extraordinario cuando se combina con tu número de vida. El desafío es no sobre-exigirte en cada situación — no todas requieren tu máxima energía.",
+    reto:"Esta semana llega a una situación difícil con la intención de elevar la energía del espacio. Sin forzar, con presencia. Observa qué ocurre."},
+  12:{n:"La Creadora-Intuitiva",col:"acc",
+    d:"El mes 12 (1+2=3) te trae la energía de la expresión y la creatividad. Llegas a las situaciones con ideas frescas y una perspectiva luminosa.",
+    sig:"La energía del 12 reduce al 3 — el creador. Llegas con la síntesis del 1 (iniciativa) y el 2 (conexión), que juntos producen la expresión creativa del 3.",
+    conex:"Tu actitud creativa tiene además una dimensión relacional — no solo creas, sino que conectas a través de lo que creas. Eso es poderoso en la comunicación y la enseñanza.",
+    reto:"Esta semana expresa algo creativamente que normalmente comunicarías de forma más directa. ¿Cómo cambia la recepción cuando usas la creatividad como canal?"}
+}
+var GENERACION = {
+  1:{n:"Generación del liderazgo independiente",
+    d:"Tu generación tiene como misión colectiva el desarrollo de la autonomía, la innovación y la iniciativa personal. Nacieron para romper moldes establecidos y crear nuevos caminos que otros puedan seguir.",
+    sig:"Las personas de tu generación comparten contigo una energía de pioneros — todos, de formas diferentes, están aprendiendo a liderar desde su propia autenticidad, a confiar en su criterio y a atreverse a hacer lo que aún no se ha hecho.",
+    reto:"¿En qué área de tu vida estás siendo pionero? ¿Dónde estás rompiendo moldes — aunque sea pequeños?"},
+  2:{n:"Generación de la cooperación",
+    d:"Tu generación tiene como misión colectiva construir puentes, desarrollar la diplomacia y la inteligencia emocional como herramientas de transformación social.",
+    sig:"Las personas de tu generación comparten la búsqueda de formas más armoniosas de convivir. No es casual: nacieron en un tiempo que necesitaba aprender a cooperar más que a competir.",
+    reto:"¿Dónde en tu vida estás contribuyendo a construir puentes? ¿Cómo tu capacidad de cooperación está sirviendo algo más grande que tú?"},
+  3:{n:"Generación creativa",
+    d:"Tu generación tiene como misión colectiva la expresión, la comunicación y el arte como transformadores sociales.",
+    sig:"Las personas de tu generación sienten que tienen algo que decir — que la expresión creativa no es decoración sino herramienta de cambio. Nacieron en un tiempo que necesitaba más belleza y más voces.",
+    reto:"¿Qué está esperando ser expresado por ti? ¿Qué crearías si supieras que alguien lo necesita?"},
+  4:{n:"Generación constructora",
+    d:"Tu generación tiene como misión colectiva la construcción de sistemas sólidos y estructuras que perduren más allá de sus vidas.",
+    sig:"Las personas de tu generación comparten la vocación de construir algo que dure. Nacieron en un tiempo de transición que necesitaba nuevas estructuras — en la familia, en el trabajo, en la sociedad.",
+    reto:"¿Qué estás construyendo que va a durar más que tú? ¿Cuál es tu legado en construcción?"},
+  5:{n:"Generación del cambio",
+    d:"Tu generación tiene como misión colectiva transformar estructuras anticuadas y abrir nuevos caminos de libertad.",
+    sig:"Las personas de tu generación nacieron en un tiempo de grandes transformaciones. Comparten la misión de cuestionar lo establecido y explorar formas más libres de vivir.",
+    reto:"¿Qué estructura anticuada en tu vida o en tu entorno estás transformando? ¿Dónde eres agente de cambio?"},
+  6:{n:"Generación del servicio",
+    d:"Tu generación tiene como misión colectiva el cuidado, la sanación y la creación de comunidades más amorosas.",
+    sig:"Las personas de tu generación comparten una vocación profunda de servicio. Nacieron en un tiempo que necesitaba más cuidado — en las familias, en las organizaciones, en la sociedad.",
+    reto:"¿A quién estás sirviendo desde tu lugar en el mundo? ¿Cómo tu vida contribuye al bienestar de tu comunidad?"},
+  7:{n:"Generación del conocimiento",
+    d:"Tu generación tiene como misión colectiva la búsqueda de la verdad, la integración de ciencia y espiritualidad, y el pensamiento profundo como herramienta de evolución.",
+    sig:"Las personas de tu generación comparten una sed de conocimiento y una desconfianza sana de las verdades fáciles. Nacieron en un tiempo que necesitaba pensadores más profundos.",
+    reto:"¿Qué conocimiento estás desarrollando o compartiendo que contribuye a la evolución de tu entorno? ¿Cómo usas lo que sabes para transformar?"},
+  8:{n:"Generación del poder consciente",
+    d:"Tu generación tiene como misión colectiva redefinir el poder, la abundancia y el liderazgo con integridad y responsabilidad.",
+    sig:"Las personas de tu generación nacieron en un tiempo donde el poder estaba siendo cuestionado y renegociado. Su misión es mostrar que el éxito y la ética no son opuestos.",
+    reto:"¿Cómo ejerces el poder en tu vida de una forma que integre la integridad? ¿Dónde tienes influencia y cómo la usas?"},
+  9:{n:"Generación humanista",
+    d:"Tu generación tiene como misión colectiva el servicio universal y la elevación de la conciencia colectiva.",
+    sig:"Las personas de tu generación comparten una visión del mundo que trasciende lo personal. Nacieron con la misión de sanar — en sus familias, sus comunidades, su época.",
+    reto:"¿Cuál es tu contribución al bien colectivo en este momento de tu vida? ¿Cómo tu historia personal se convierte en recurso para otros?"}
+}
+var DIA = {
+  1:{n:"El Pionero",d:"El día 1 trae al nacimiento la energía del inicio y el liderazgo. Eres alguien que lleva en su esencia la capacidad de empezar — proyectos, conversaciones, caminos. Ese don de iniciativa es uno de tus activos más valiosos.",sig:"Nacer un día 1 significa que tu energía de vida tiene una chispa de inicio que se suma a todo lo demás. Las personas con esta energía suelen ser los que proponen, los que dan el primer paso, los que no esperan permiso."},
+  2:{n:"El Mediador",d:"El día 2 trae sensibilidad e intuición elevada. Hay en ti una capacidad natural para leer entre líneas, para sentir lo que no se dice y para crear armonía donde hay tensión.",sig:"Nacer un día 2 te da un don especial para las relaciones. Esa antena emocional es un recurso poderoso — cuando aprendes a confiar en ella."},
+  3:{n:"El Creador",d:"El día 3 trae creatividad y capacidad de expresión. Hay en ti una energía natural de comunicación y creación que, cuando se usa conscientemente, ilumina los espacios que habitas.",sig:"Nacer un día 3 te da el don de transformar lo ordinario en extraordinario. Tu forma de ver y de expresar tiene una chispa que pocos poseen."},
+  4:{n:"El Constructor",d:"El día 4 trae solidez, método y capacidad de trabajo. Hay en ti una disciplina natural y una confiabilidad que las personas perciben incluso antes de conocerte bien.",sig:"Nacer un día 4 te da un don de construcción — no solo de objetos o proyectos, sino de confianza. Las personas saben que lo que está en tus manos está bien cuidado."},
+  5:{n:"El Explorador",d:"El día 5 trae versatilidad y adaptabilidad. Hay en ti una energía libre y curiosa que te permite moverte en terrenos que a otros les resultan difíciles.",sig:"Nacer un día 5 te da el don del movimiento y la adaptación. En un mundo que cambia constantemente, esa capacidad es cada vez más valiosa."},
+  6:{n:"El Sanador",d:"El día 6 trae amor, cuidado y vocación de servicio. Hay en ti una calidez natural y una preocupación genuina por el bienestar de los demás que las personas sienten de inmediato.",sig:"Nacer un día 6 te da el don de crear ambientes seguros y amorosos. Ese don tiene un impacto que muchas veces no ves porque se expresa en lo cotidiano."},
+  7:{n:"El Sabio",d:"El día 7 trae profundidad, intuición y conexión espiritual. Hay en ti una mente que no se conforma con la superficie y una capacidad de percepción que va más allá de lo visible.",sig:"Nacer un día 7 te da el don de la profundidad — en el pensamiento, en las relaciones y en la conexión con lo sagrado."},
+  8:{n:"El Ejecutivo",d:"El día 8 trae poder ejecutivo y capacidad de manifestación. Hay en ti una energía natural para el liderazgo, los recursos y la materialización de proyectos.",sig:"Nacer un día 8 te da el don de convertir las visiones en realidades. Ese talento de manifestación es uno de los más raros y valiosos."},
+  9:{n:"El Humanista",d:"El día 9 trae compasión universal y sabiduría profunda. Hay en ti una capacidad de comprensión humana que va más allá de lo que has aprendido — viene de un lugar más profundo.",sig:"Nacer un día 9 te da el don de la compasión y la perspectiva amplia. Las personas con este don suelen ser los que recuerdan que hay algo más importante que el resultado inmediato."},
+  10:{n:"El Iniciador Total",d:"El día 10 (1+0=1) trae liderazgo con una dimensión de totalidad. El cero amplifica la energía del 1, dándole una apertura y una completud al impulso de iniciativa.",sig:"Nacer un día 10 te da el don del inicio consciente — no solo comenzar, sino comenzar con visión del todo."},
+  11:{n:"El Iluminado",d:"El día 11 (número maestro) trae una sensibilidad espiritual extraordinaria. No se reduce porque su potencia es demasiado elevada para condensarse en un solo dígito.",sig:"Nacer un día 11 es traer una antena espiritual muy fina. Las percepciones que tienes, las intuiciones que emergen — tienen una calidad diferente a las de otros."},
+  12:{n:"El Creador Relacional",d:"El día 12 (1+2=3) trae la síntesis de la iniciativa y la conexión en la expresión creativa.",sig:"Nacer un día 12 te da el don de la expresión que conecta. No solo creas — creas vínculos a través de lo que expresas."},
+  13:{n:"El Constructor Transformador",d:"El día 13 (1+3=4) trae la energía del constructor con un componente de transformación profunda.",sig:"Nacer un día 13 te da el don de construir desde la transformación — lo que construyes suele nacer de algo que primero tuvo que cambiar."},
+  14:{n:"El Explorador Consciente",d:"El día 14 (1+4=5) trae la versatilidad del 5 con una energía de liderazgo y disciplina que la ancla.",sig:"Nacer un día 14 te da el don de la libertad responsable — exploras pero sin perderte."},
+  15:{n:"El Sanador Activo",d:"El día 15 (1+5=6) trae el amor y el cuidado del 6 con una energía de iniciativa que lo pone en acción.",sig:"Nacer un día 15 te da el don de cuidar activamente — no esperas a que los demás pidan ayuda, la ofreces."},
+  16:{n:"El Sabio Profundo",d:"El día 16 (1+6=7) trae la profundidad del 7 con una tensión entre el ego y la apertura espiritual que genera una sabiduría muy particular.",sig:"Nacer un día 16 implica un camino de humildad — los mayores aprendizajes suelen venir cuando el ego suelta."},
+  17:{n:"El Ejecutivo Espiritual",d:"El día 17 (1+7=8) trae el poder del 8 con la sabiduría y la conexión espiritual del 7. Es una de las combinaciones más poderosas.",sig:"Nacer un día 17 te da el don de materializar con sabiduría. Tu éxito tiene más profundidad que el de otros porque está anclado en comprensión."},
+  18:{n:"El Humanista Ejecutivo",d:"El día 18 (1+8=9) trae la compasión universal del 9 con la energía de poder y materialización del 8.",sig:"Nacer un día 18 te da el don de servir desde el poder. Tienes la capacidad de crear impacto real, no solo de tener buenas intenciones."},
+  19:{n:"El Pionero Independiente",d:"El día 19 (1+9=10=1) trae el liderazgo del 1 amplificado por el humanismo del 9 y completado por el cero del 10.",sig:"Nacer un día 19 te da el don del liderazgo maduro — has aprendido (o estás aprendiendo) a liderar al servicio de algo más grande."},
+  20:{n:"El Mediador Profundo",d:"El día 20 (2+0=2) trae la sensibilidad y la cooperación del 2 amplificada por el cero.",sig:"Nacer un día 20 te da el don de la conexión profunda. Tu empatía tiene una dimensión de totalidad que poca gente alcanza."},
+  21:{n:"El Creador Iniciador",d:"El día 21 (2+1=3) trae la creatividad del 3 con la síntesis de la cooperación del 2 y el liderazgo del 1.",sig:"Nacer un día 21 te da el don de crear conexión — lo que expresas une a las personas."},
+  22:{n:"El Maestro Constructor",d:"El día 22 (número maestro) trae el mayor poder de manifestación. No se reduce porque su potencia es extraordinaria.",sig:"Nacer un día 22 implica una misión de gran escala. Lo que construyes está destinado a servir a muchos."},
+  23:{n:"El Comunicador Libre",d:"El día 23 (2+3=5) trae la libertad y versatilidad del 5 con la sensibilidad del 2 y la creatividad del 3.",sig:"Nacer un día 23 te da el don de comunicar con libertad — de formas que llegan a personas muy diversas."},
+  24:{n:"El Constructor Amoroso",d:"El día 24 (2+4=6) trae el amor y el cuidado del 6 con la solidez del 4 y la sensibilidad del 2.",sig:"Nacer un día 24 te da el don de construir desde el amor — lo que creas tiene calidez humana."},
+  25:{n:"El Sabio Cooperador",d:"El día 25 (2+5=7) trae la profundidad del 7 con la curiosidad del 5 y la sensibilidad del 2.",sig:"Nacer un día 25 te da el don de la sabiduría relacional — entiendes a las personas en profundidad."},
+  26:{n:"El Ejecutivo Cuidador",d:"El día 26 (2+6=8) trae el poder del 8 con el cuidado del 6 y la sensibilidad del 2.",sig:"Nacer un día 26 te da el don de liderar con corazón. Tienes autoridad y calidez al mismo tiempo."},
+  27:{n:"El Humanista Profundo",d:"El día 27 (2+7=9) trae la compasión del 9 con la sabiduría del 7 y la sensibilidad del 2.",sig:"Nacer un día 27 te da el don de la comprensión profunda del ser humano. Ves lo que otros no ven en las personas."},
+  28:{n:"El Pionero Cooperativo",d:"El día 28 (2+8=10=1) trae el liderazgo del 1 con la sensibilidad del 2 y el poder del 8.",sig:"Nacer un día 28 te da el don de liderar desde la relación. Eres un líder que lleva a otros consigo."},
+  29:{n:"El Maestro Sensible",d:"El día 29 (2+9=11) te acerca a la energía del número maestro 11 — la sensibilidad espiritual elevada.",sig:"Nacer un día 29 te da una sensibilidad especial que, cuando se integra con madurez, se convierte en un don inspiracional."},
+  30:{n:"El Creador Pleno",d:"El día 30 (3+0=3) trae la creatividad del 3 amplificada por el cero — totalidad en la expresión.",sig:"Nacer un día 30 te da el don de la expresión completa. Tu creatividad tiene una amplitud que puede tocar a personas muy diversas."},
+  31:{n:"El Constructor Creativo",d:"El día 31 (3+1=4) trae la solidez del 4 con la iniciativa del 1 y la creatividad del 3.",sig:"Nacer un día 31 te da el don de construir con originalidad — lo que haces tiene tanto solidez como innovación."}
+}
+
+function calcSubNums(dd,mm,aaaa){
+  // Actitud = suma reducida del mes
+  const actS = mm;
+  const act = red(actS, true);
+  const actChain = mm > 9
+    ? `${String(mm).split('').join(' + ')} = ${String(mm).split('').reduce((a,c)=>a+parseInt(c),0)} → ${act}`
+    : `${mm}`;
+
+  // Generación = suma reducida del año
+  const genDigits = String(aaaa).split('').map(Number);
+  const genS = genDigits.reduce((a,c)=>a+c,0);
+  const gen = red(genS, true);
+  let genChain = `${genDigits.join(' + ')} = ${genS}`;
+  if(genS >= 10){ const s2=redS(genS); if(s2!==genS) genChain+=` → ${String(genS).split('').join(' + ')} = ${s2}`; }
+
+  // Día de nacimiento = el día reducido
+  const dia = red(dd, true);
+  const diaChain = dd > 9
+    ? `${String(dd).split('').join(' + ')} = ${String(dd).split('').reduce((a,c)=>a+parseInt(c),0)}${red(String(dd).split('').reduce((a,c)=>a+parseInt(c),0),true)!==String(dd).split('').reduce((a,c)=>a+parseInt(c),0)?' → '+dia:''}`
+    : `${dd}`;
+
+  return { act, actChain, gen, genChain, dia, diaChain };
+}
+function red(n,m){ if(m===undefined)m=true; if(m&&[11,22,33].includes(n))return n; if(n<10)return n; return red(String(n).split('').reduce(function(a,c){return a+parseInt(c);},0),m); }
+function redS(n){ return red(n,false); }
+
+var sub=null, tabActual=0;
+var TABS=[{key:'actitud',lbl:'Actitud',data:null},{key:'generacion',lbl:'Generación',data:null},{key:'dia',lbl:'Día',data:null}];
+
+function init0(){
+  var f=leer('anormal_fecha_nac','');
+  var info=document.getElementById('fecha-info');
+  if(f){ info.innerHTML='<div class="card"><p class="ct dim">Usaremos tu fecha de nacimiento: <b style="color:var(--gold2)">'+fmtFecha(f)+'</b></p></div>'; }
+  else { info.innerHTML='<div class="card"><div class="label">Tu fecha de nacimiento</div><input type="date" id="input-fecha" style="background:var(--bg3);border:1px solid var(--faint);border-radius:var(--rm);color:var(--text);font-size:16px;padding:11px 14px"></div>'; }
+}
+function fmtFecha(iso){var p=iso.split('-');if(p.length!==3)return iso;var m=['','enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];return parseInt(p[2])+' de '+m[parseInt(p[1])]+' de '+p[0];}
+
+function calcular(){
+  var f=leer('anormal_fecha_nac','');
+  if(!f){ var inp=document.getElementById('input-fecha'); f=inp?inp.value:''; }
+  if(!f){ alert('Ingresa tu fecha de nacimiento.'); return; }
+  localStorage.setItem('anormal_fecha_nac',f);
+  var p=f.split('-'); var dd=parseInt(p[2]),mm=parseInt(p[1]),aa=parseInt(p[0]);
+  var act=red(mm,true), gen=red(String(aa).split('').reduce(function(a,c){return a+parseInt(c);},0),true), diaN=dd;
+  sub={actitud:act, generacion:gen, dia:diaN, dd:dd, mm:mm, aa:aa};
+  TABS[0].data=ACTITUD[act]; TABS[1].data=GENERACION[gen]||GENERACION[redS(gen)]; TABS[2].data=DIA[diaN];
+  localStorage.setItem('anormal_subnumeros', JSON.stringify(sub));
+  irA(1);
+}
+function irA(n){
+  document.querySelectorAll('.pantalla').forEach(function(p){p.classList.remove('visible');});
+  document.getElementById('p'+n).classList.add('visible');
+  document.getElementById('prog').style.width=(n===0?20:100)+'%';
+  document.getElementById('prog-txt').textContent=(n===0?'Los matices':'Tus sub-números');
+  if(n===1){ tabActual=0; renderTabs(); renderTab(); }
+  window.scrollTo(0,0);
+}
+function renderTabs(){
+  var t=document.getElementById('tabs'); t.innerHTML='';
+  TABS.forEach(function(tb,i){
+    t.innerHTML+='<div class="tab'+(i===tabActual?' on':'')+'" onclick="tabActual='+i+';renderTabs();renderTab();window.scrollTo(0,0)">'+tb.lbl+'</div>';
+  });
+}
+function renderTab(){
+  var tb=TABS[tabActual]; var d=tb.data;
+  var valores={actitud:sub.actitud, generacion:sub.generacion, dia:sub.dia};
+  var val=valores[tb.key];
+  var cont=document.getElementById('subnum-contenido');
+  if(!d){ cont.innerHTML='<div class="card"><p class="ct">No hay datos para este matiz.</p></div>'; return; }
+  var explica={actitud:'Tu Actitud nace del <b>mes</b> en que naciste. Es tu primera reacción ante la vida, cómo te perciben los demás cuando llegas.',
+    generacion:'Tu Generación nace del <b>año</b> en que naciste. Es la vibración que compartes con tu época, la energía colectiva de los tuyos.',
+    dia:'Tu Día nace del <b>día exacto</b> de tu nacimiento. Es un don específico que traes contigo, un talento de nacimiento.'};
+  cont.innerHTML=
+    '<div class="label">'+tb.lbl+' · el número '+val+'</div>'+
+    '<div class="subnum-hero"><div class="subnum-circ">'+val+'</div><div class="subnum-nom">'+(d.n||'')+'</div></div>'+
+    '<div class="card"><p class="ct dim">'+explica[tb.key]+'</p></div>'+
+    (d.d?'<div class="card"><p class="ct">'+d.d+'</p></div>':'')+
+    (d.sig?'<div class="card"><p class="ct">'+d.sig+'</p></div>':'')+
+    (d.conex?'<div class="card gold"><div class="label">Cómo se conecta</div><p class="ct">'+d.conex+'</p></div>':'');
+  // botón
+  var bn=document.getElementById('btn-next');
+  bn.textContent = (tabActual===TABS.length-1) ? 'Continuar con mi Mapa Energético →' : 'Siguiente matiz →';
+}
+function siguienteTab(){
+  if(tabActual<TABS.length-1){ tabActual++; renderTabs(); renderTab(); window.scrollTo(0,0); }
+  else { continuar(); }
+}
+function continuar(){
+  try{ var data=JSON.parse(sessionStorage.getItem('anormal_proceso')||'{}');
+    data.subnumeros=sub; if(!data.progreso)data.progreso={};
+    data.progreso.subnumeros={completado:true,fecha:new Date().toLocaleDateString('es-CO')};
+    sessionStorage.setItem('anormal_proceso',JSON.stringify(data)); }catch(e){}
+  window.location.href='mapa-energetico.html';
+}
+(function(){ init0(); })();
+</script>
+</body>
+</html>
