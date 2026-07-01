@@ -280,10 +280,16 @@ textarea:focus{outline:none;border-color:var(--gold)}
 
     <div id="compromisos-wrap"></div>
 
-    <div class="label" style="margin:20px 0 12px">Los principios que activaste</div>
+    <div class="label" style="margin:20px 0 12px">Los principios que activaste en esta sesión</div>
     <div class="principio activo"><div class="principio-num">∀4</div><div><div class="principio-info-tit">Avanza en el perdón · activado</div><div class="principio-info-txt">Soltaste la piedra. Liberaste el veneno que cargabas.</div></div></div>
     <div class="principio activo"><div class="principio-num">∀5</div><div><div class="principio-info-tit">Aprovecha el dolor · activado</div><div class="principio-info-txt">Transformaste tus heridas en aprendizajes. El dolor se volvió sabiduría.</div></div></div>
     <div class="principio activo"><div class="principio-num">∀6</div><div><div class="principio-info-tit">Ataca el miedo · activado</div><div class="principio-info-txt">Atravesaste lo que evitabas. Del otro lado estaba tu paz.</div></div></div>
+
+    <div class="card gold">
+      <div class="label">Tu compromiso con estos principios</div>
+      <p class="ct" style="margin-bottom:12px">Activar un principio no es entenderlo — es vivirlo. Escribe cómo te comprometes a llevar el perdón, el aprendizaje del dolor y el coraje frente al miedo a tu vida diaria, a partir de hoy.</p>
+      <textarea id="compromiso-principios" placeholder="Me comprometo a..."></textarea>
+    </div>
 
     <div class="cierre-resumen" id="cierre-resumen"></div>
 
@@ -295,9 +301,15 @@ textarea:focus{outline:none;border-color:var(--gold)}
       <textarea id="palabra-final" placeholder="Hoy me reconozco por..."></textarea>
     </div>
 
+    <div class="video-box">
+      <div class="video-play">▶</div>
+      <div class="video-txt">Video de cierre — Sesión 2</div>
+      <div class="video-soon">Próximamente disponible</div>
+    </div>
+
     <div class="nav">
       <button class="bs" onclick="irA(5)">← Anterior</button>
-      <button class="bp" onclick="completar()">Guardar mi trabajo del perdón →</button>
+      <button class="bp" onclick="completar()">Cerrar la Sesión 2 →</button>
     </div>
   </div>
 </div>
@@ -595,11 +607,21 @@ function renderCierre(){
 
 function completar(){
   var palabra=(document.getElementById('palabra-final').value||'').trim();
+  var compPrincipios=(document.getElementById('compromiso-principios')?document.getElementById('compromiso-principios').value:'').trim();
   localStorage.setItem('anormal_perdon', JSON.stringify({
-    cartas:cartas, cicloElegido:cicloElegido, palabra_final:palabra,
+    cartas:cartas, cicloElegido:cicloElegido, palabra_final:palabra, compromiso_principios:compPrincipios,
     hechos:cuentaHechos(), compromisos:cuentaCompromisos(), grado:gradoPerdon(),
     fecha:new Date().toLocaleDateString('es-CO')
   }));
+
+  // guardar el compromiso con los principios de la sesión en el repositorio general
+  if(compPrincipios){
+    try{
+      var repoP=JSON.parse(localStorage.getItem('anormal_compromisos_areas')||'{}');
+      repoP['principios_sesion2']={nombre:'Vivir los principios ∀4·∀5·∀6', texto:compPrincipios};
+      localStorage.setItem('anormal_compromisos_areas', JSON.stringify(repoP));
+    }catch(e){}
+  }
 
   // ── Consolidar compromisos del perdón en el repositorio general ──
   // (la misma clave anormal_compromisos_areas que lee el Resumen de Conciencia)
