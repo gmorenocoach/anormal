@@ -74,6 +74,11 @@ body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font
 
 .sin-datos{background:var(--bg3);border:1px dashed var(--faint);border-radius:var(--rl);padding:20px 22px;margin-bottom:14px}
 .sin-datos a{color:var(--gold2)}
+.video-opcional{background:var(--bg3);border:1px dashed var(--faint);border-radius:14px;padding:20px 22px;margin-bottom:18px;display:flex;align-items:center;gap:16px}
+.video-opcional .vo-play{font-size:24px;color:var(--gold);flex-shrink:0}
+.video-opcional .vo-txt{flex:1}
+.video-opcional .vo-tit{font-size:13px;color:var(--text)}
+.video-opcional .vo-sub{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--faint);margin-top:3px}
 </style>
 </head>
 <body>
@@ -90,6 +95,11 @@ body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font
     <div class="label">El latido de tu vida</div>
     <h1 class="titulo">Tu vida tiene un pulso. Vamos a verlo.</h1>
     <p class="subtitulo">Así como el corazón tiene un electrocardiograma, tu vida emocional también. Esta línea recorre tus ciclos: sube con lo que te dio vida, baja con lo que te dolió. Es el mapa de tus altibajos, desde que naciste hasta hoy.</p>
+
+    <div class="video-opcional">
+      <div class="vo-play">▶</div>
+      <div class="vo-txt"><div class="vo-tit">Video — Tu electrocardiograma emocional</div><div class="vo-sub">Opcional · próximamente</div></div>
+    </div>
 
     <div id="ecg-contenido"></div>
 
