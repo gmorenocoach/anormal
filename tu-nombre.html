@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>∀normal — Tu Nombre</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Barlow:wght@300;400;500&family=Barlow+Condensed:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#060A14;--bg2:#0A0F1E;--bg3:#0E1525;--bg4:#131D30;--gold:#C9A84C;--gold2:#E8C96A;--gold3:#F5E0A0;--gd:rgba(201,168,76,.13);--gb:rgba(201,168,76,.28);--text:#EAE6DC;--dim:#9AA5B8;--faint:#3A4558;--ffaint:#1E2A3A;--grn:#4ABF7A;--rose:#D4537E;--azul:#5A8CC0;--r:4px;--rm:8px;--rl:14px;}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font-weight:300;font-size:17.5px;line-height:1.75;min-height:100vh}
+.wrap{max-width:720px;margin:0 auto;padding:24px 20px 60px}
+.hdr{display:flex;align-items:center;justify-content:space-between;padding:16px 0 24px;border-bottom:1px solid var(--faint);margin-bottom:24px}
+.hdr-logo{font-family:"Cormorant Garamond",serif;font-size:23px;color:var(--gold2)}
+.hdr-info{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim)}
+.progress-bar{height:2px;background:var(--ffaint);border-radius:2px;overflow:hidden;margin-bottom:10px}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));transition:width .5s ease}
+.progress-txt{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);text-align:center;margin-bottom:24px}
+.pantalla{display:none;animation:fadeIn .4s ease}
+.pantalla.visible{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.label{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:10px}
+.titulo{font-family:"Cormorant Garamond",serif;font-size:clamp(24px,5.5vw,33px);font-weight:300;color:var(--gold2);line-height:1.2;margin-bottom:12px}
+.subtitulo{font-size:16px;color:var(--dim);line-height:1.85;margin-bottom:24px}
+.card{background:var(--bg2);border:1px solid rgba(255,255,255,.06);border-radius:var(--rl);padding:22px 26px;margin-bottom:14px}
+.card.gold{border-color:var(--gb);background:linear-gradient(135deg,var(--bg2),var(--bg3))}
+.ct{font-size:16px;color:var(--text);line-height:1.95}
+.ct.dim{color:var(--dim);font-size:15px}
+.ct b,.ct strong{color:var(--gold2);font-weight:500}
+.video-opcional{background:var(--bg3);border:1px dashed var(--faint);border-radius:14px;padding:20px 22px;margin-bottom:18px;display:flex;align-items:center;gap:16px}
+.video-opcional .vo-play{font-size:24px;color:var(--gold);flex-shrink:0}
+.video-opcional .vo-tit{font-size:13px;color:var(--text)}
+.video-opcional .vo-sub{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--faint);margin-top:3px}
+.input-nombre{width:100%;background:var(--bg3);border:1px solid var(--faint);border-radius:var(--rm);color:var(--text);font-family:"Barlow",sans-serif;font-size:17px;padding:13px 16px;text-align:center;letter-spacing:.04em}
+.input-nombre:focus{outline:none;border-color:var(--gold)}
+.tres-nums{display:flex;gap:10px;margin:16px 0}
+.tn{flex:1;background:var(--bg3);border:1px solid var(--ffaint);border-radius:var(--rl);padding:16px 10px;text-align:center;cursor:pointer;transition:all .2s}
+.tn.on{border-color:var(--gold);background:var(--gd)}
+.tn-circ{font-family:"Cormorant Garamond",serif;font-size:34px;color:var(--gold2)}
+.tn-lbl{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--dim);margin-top:4px}
+.letras-vis{display:flex;flex-wrap:wrap;gap:4px;justify-content:center;margin:14px 0}
+.letra{display:flex;flex-direction:column;align-items:center;padding:4px 6px;border-radius:6px;background:var(--bg3);min-width:26px}
+.letra.vocal{background:rgba(201,168,76,.12)}
+.letra-l{font-size:15px;color:var(--text)}
+.letra-v{font-size:10px;color:var(--dim)}
+.bp{background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--bg);border:none;border-radius:var(--r);font-family:"Barlow Condensed",sans-serif;font-size:13px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;padding:14px 32px;cursor:pointer;transition:opacity .2s,transform .15s}
+.bp:hover{opacity:.9;transform:translateY(-1px)}
+.bs{background:transparent;color:var(--gold);border:1px solid var(--gb);border-radius:var(--r);font-family:"Barlow Condensed",sans-serif;font-size:12px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;padding:12px 24px;cursor:pointer}
+.nav{display:flex;gap:10px;justify-content:space-between;align-items:center;margin-top:26px;flex-wrap:wrap}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hdr"><div class="hdr-logo">∀normal</div><div class="hdr-info">Sesión 3 · Tu Nombre</div></div>
+  <div class="progress-bar"><div class="progress-fill" id="prog" style="width:20%"></div></div>
+  <div class="progress-txt" id="prog-txt">Tu nombre</div>
+
+  <div class="pantalla visible" id="p0">
+    <div class="label">Numerología · Tu nombre</div>
+    <h1 class="titulo">Lo que tu nombre revela.</h1>
+    <p class="subtitulo">Tu fecha habla de lo que traes. Tu nombre habla de cómo lo expresas. Cada letra tiene un valor, y de ellas nacen tres números: tu <b style="color:var(--gold2)">Alma</b> (lo que deseas en lo profundo), tu <b style="color:var(--gold2)">Personalidad</b> (cómo te ven) y tu <b style="color:var(--gold2)">Expresión</b> (quién eres al mostrarte).</p>
+    <div class="video-opcional"><div class="vo-play">▶</div><div class="vo-txt"><div class="vo-tit">Video — Tu nombre</div><div class="vo-sub">Opcional · próximamente</div></div></div>
+    <div class="card gold"><div class="label">Usa tu nombre de nacimiento</div><p class="ct">Escribe tu nombre completo tal como aparece en tu registro. Las <b>vocales</b> revelan tu alma; las <b>consonantes</b>, tu personalidad; y todo junto, tu expresión.</p></div>
+    <div class="card"><input type="text" class="input-nombre" id="input-nombre" placeholder="Tu nombre completo"></div>
+    <div class="nav"><span></span><button class="bp" onclick="calcular()">Descubrir mi nombre →</button></div>
+  </div>
+
+  <div class="pantalla" id="p1">
+    <div class="label">Los números de tu nombre</div>
+    <h1 class="titulo" id="nombre-titulo">Tu nombre en números.</h1>
+    <div class="letras-vis" id="letras"></div>
+    <div class="tres-nums" id="tres-nums"></div>
+    <div id="nombre-detalle"></div>
+    <div class="nav"><button class="bs" onclick="irA(0)">← Anterior</button><button class="bp" onclick="continuar()">Continuar con mi Linaje →</button></div>
+  </div>
+</div>
+
+<script>
+function leer(k,def){var v=localStorage.getItem(k);return (v===null||v===undefined)?def:v;}
+var ND={
+  1:{n:"El Pionero",
+    alma:"Tu alma más profunda desea liderar, crear y ser pionero en algo genuinamente tuyo. En lo más íntimo, te mueve la necesidad de ser original, de no seguir caminos ya trazados. Esa sed de autonomía y creación es tu brújula interior más honesta.",
+    pers:"El mundo te percibe, antes de conocerte en profundidad, como alguien con autoridad y determinación. Proyectas la energía del que sabe a dónde va — incluso cuando por dentro tienes dudas. Esa primera impresión de liderazgo abre puertas.",
+    exp:"Tu potencial total de vida está orientado hacia el liderazgo transformador. No el liderazgo de cargo sino el liderazgo de visión — el que abre caminos donde no los hay.",
+    talentos:["Liderazgo natural","Iniciativa","Originalidad","Determinación","Visión estratégica"]},
+  2:{n:"El Mediador",
+    alma:"Tu alma más profunda desea conexión, armonía y ser el puente que une lo que está separado. En lo íntimo, te mueve la necesidad de sentirte parte de algo, de crear lazos genuinos y de que las personas a tu alrededor estén bien.",
+    pers:"El mundo te percibe como alguien sensible, confiable y fácil de acercarse. Tu primer encuentro con los demás está marcado por una calidez que genera confianza rápidamente.",
+    exp:"Tu potencial total de vida está orientado hacia la cooperación profunda y la creación de armonía — en las relaciones, en los grupos, en los contextos donde estás.",
+    talentos:["Inteligencia emocional","Diplomacia","Escucha genuina","Intuición","Cooperación"]},
+  3:{n:"El Creador",
+    alma:"Tu alma más profunda desea expresarse, crear e inspirar. En lo íntimo, te mueve la necesidad de que lo que sientes y piensas salga al mundo de alguna forma — en palabras, en arte, en humor, en conexión.",
+    pers:"El mundo te percibe como alguien alegre, carismático y creativo. Tu energía ilumina los espacios y hace que las personas se sientan más ligeras en tu presencia.",
+    exp:"Tu potencial total de vida está orientado hacia la expresión creativa al servicio de algo más grande que el entretenimiento — transformar a través de la comunicación y el arte.",
+    talentos:["Creatividad","Comunicación carismática","Optimismo","Expresión artística","Humor"]},
+  4:{n:"El Constructor",
+    alma:"Tu alma más profunda desea construir algo que dure. En lo íntimo, te mueve la necesidad de crear estructuras sólidas — en tu trabajo, en tus relaciones, en tu vida. La solidez y la confiabilidad son valores que tu alma sostiene con profundidad.",
+    pers:"El mundo te percibe como alguien serio, confiable y metódico. Antes de conocerte profundamente, las personas sienten que lo que está en tus manos va a salir bien.",
+    exp:"Tu potencial total de vida está orientado hacia la construcción de legado — algo que dure más allá del momento y que sirva a quienes vengan después.",
+    talentos:["Disciplina","Organización","Fiabilidad","Sentido práctico","Lealtad"]},
+  5:{n:"El Explorador",
+    alma:"Tu alma más profunda desea libertad y exploración. En lo íntimo, te mueve la necesidad de moverte, descubrir, transformar y no quedarte atrapado en lo conocido. La aventura es tu estado natural.",
+    pers:"El mundo te percibe como alguien versátil, curioso y adaptable. Tu energía libre es perceptible desde el primer encuentro.",
+    exp:"Tu potencial total de vida está orientado hacia ser puente de transformación — ayudar a que las cosas, personas y contextos evolucionen.",
+    talentos:["Adaptabilidad","Versatilidad","Curiosidad","Comunicación fluida","Creatividad en la crisis"]},
+  6:{n:"El Sanador",
+    alma:"Tu alma más profunda desea amar, cuidar y crear armonía. En lo íntimo, te mueve la necesidad de que quienes te rodean estén bien — de que los espacios que habitas sean cálidos y seguros.",
+    pers:"El mundo te percibe como alguien cálido, responsable y genuinamente preocupado por los demás. Tu presencia genera seguridad.",
+    exp:"Tu potencial total de vida está orientado hacia la sanación — de personas, de relaciones, de contextos que necesitan más amor y más cuidado.",
+    talentos:["Amor profundo","Responsabilidad","Crear ambientes armónicos","Don para la sanación","Lealtad"]},
+  7:{n:"El Sabio",
+    alma:"Tu alma más profunda desea conocimiento, verdad y conexión con algo más grande. En lo íntimo, te mueve la necesidad de entender el por qué — no la superficie, sino el fondo.",
+    pers:"El mundo te percibe como alguien profundo, analítico y con una presencia que invita a la reflexión. Tu primera impresión es de alguien que piensa antes de hablar.",
+    exp:"Tu potencial total de vida está orientado hacia la sabiduría compartida — hacia usar lo que comprendes para elevar la comprensión de otros.",
+    talentos:["Análisis profundo","Intuición espiritual","Contemplación","Perfeccionismo al servicio","Conexión con lo sagrado"]},
+  8:{n:"El Ejecutivo",
+    alma:"Tu alma más profunda desea manifestar, construir poder consciente y dejar un legado material que sirva a otros. En lo íntimo, te mueve la necesidad de crear abundancia — no solo para ti, sino como canal para que otros también prosperen.",
+    pers:"El mundo te percibe como alguien con autoridad, visión y capacidad ejecutiva. Tu primera impresión es de liderazgo y dirección.",
+    exp:"Tu potencial total de vida está orientado hacia la materialización al servicio — crear estructuras de abundancia que impacten a muchos.",
+    talentos:["Liderazgo ejecutivo","Visión para los negocios","Determinación","Autoridad natural","Pensamiento estratégico"]},
+  9:{n:"El Humanista",
+    alma:"Tu alma más profunda desea servir, sanar y elevar. En lo íntimo, te mueve el amor por la humanidad — una compasión que no tiene fronteras y que siente el dolor del mundo como propio.",
+    pers:"El mundo te percibe como alguien sabio, compasivo y con perspectiva amplia. Tu primer encuentro con los demás transmite calidez y comprensión.",
+    exp:"Tu potencial total de vida está orientado hacia el servicio universal — hacia transformar el mundo desde el amor.",
+    talentos:["Compasión universal","Sabiduría intuitiva","Enseñanza transformacional","Expresión profunda","Cerrar ciclos"]},
+  11:{n:"El Iluminado",
+    alma:"Tu alma más profunda desea inspirar y elevar la conciencia. En lo íntimo, te mueve una sensibilidad espiritual extraordinaria que percibe dimensiones que otros no ven.",
+    pers:"El mundo percibe algo especial en ti aunque no pueda explicarlo. Tu presencia tiene una calidad particular que despierta algo en los demás.",
+    exp:"Tu potencial total de vida está orientado hacia la inspiración y la elevación — ser un canal de luz en los contextos que habitas.",
+    talentos:["Intuición elevada","Inspiración","Sensibilidad extraordinaria","Acceso a comprensiones profundas"]},
+  22:{n:"El Maestro Constructor",
+    alma:"Tu alma más profunda desea construir algo de escala transformadora. En lo íntimo, te mueve una visión que trasciende lo personal.",
+    pers:"El mundo percibe en ti una combinación poco común de visión elevada y capacidad práctica.",
+    exp:"Tu potencial total de vida está orientado hacia la construcción de sistemas o estructuras que sirvan a la humanidad.",
+    talentos:["Visión grandiosa","Construcción transformadora","Liderazgo de gran escala","Integración espiritual-práctica"]},
+  33:{n:"El Maestro Sanador",
+    alma:"Tu alma más profunda desea amar y sanar sin condiciones. En lo íntimo, te mueve un amor que trasciende las fronteras ordinarias.",
+    pers:"El mundo percibe en ti una presencia sanadora extraordinaria.",
+    exp:"Tu potencial total de vida está orientado hacia la sanación y elevación de la conciencia colectiva.",
+    talentos:["Amor universal","Enseñanza transformadora","Presencia sanadora","Compasión sin fronteras"]}
+}
+
+var LECCION={
+  1:"Número 1 — Lección de la voluntad propia: Vienes a desarrollar la iniciativa, la autonomía y la confianza en tu propio criterio. La tendencia a seguir a otros en lugar de liderar tu propio camino es el patrón que estás transformando.",
+  2:"Número 2 — Lección de la cooperación: Vienes a desarrollar la sensibilidad, la paciencia y la habilidad para trabajar genuinamente con otros. El individualismo excesivo o la impaciencia con los tiempos ajenos son los patrones a transformar.",
+  3:"Número 3 — Lección de la expresión: Vienes a desarrollar tu voz creativa y tu capacidad de comunicar. La represión de la expresión propia o la dificultad para mostrar lo que creas son los patrones a transformar.",
+  4:"Número 4 — Lección de la disciplina: Vienes a desarrollar el orden, la constancia y el trabajo metódico. La resistencia a la rutina o la dificultad para comprometerse con procesos de largo aliento son los patrones a transformar.",
+  5:"Número 5 — Lección de la libertad responsable: Vienes a desarrollar la apertura al cambio sin huir de los compromisos. El exceso en alguna dirección — demasiada rigidez o demasiada dispersión — es el patrón a transformar.",
+  6:"Número 6 — Lección del amor y el servicio: Vienes a desarrollar la capacidad de cuidar y comprometerte en las relaciones. La dificultad para asumir responsabilidades afectivas es el patrón a transformar.",
+  7:"Número 7 — Lección de la fe y la confianza: Vienes a desarrollar la conexión espiritual y la confianza en algo más grande. El cinismo o el materialismo excesivo son los patrones a transformar.",
+  8:"Número 8 — Lección del poder y la abundancia: Vienes a desarrollar una relación sana con el éxito, el dinero y el poder. Los bloqueos frente a la abundancia o el uso desequilibrado del poder son los patrones a transformar.",
+  9:"Número 9 — Lección del amor universal: Vienes a desarrollar la compasión sin fronteras y la capacidad de soltar. La dificultad para perdonar o para cerrar ciclos son los patrones a transformar."
+}
+
+var DEUDA={
+  13:{n:"Deuda kármica 13/4 — El trabajo",
+    d:"El 13 antes de reducir al 4 indica una vida anterior donde se evadió el trabajo, la responsabilidad o se abusó del esfuerzo ajeno. En esta vida, el trabajo disciplinado y la honestidad en los compromisos son el camino de liberación.",
+    s:"El desafío del 13 se resuelve construyendo con paciencia y cumpliendo lo que se promete. No como castigo — como aprendizaje elegido."},
+  14:{n:"Deuda kármica 14/5 — La libertad",
+    d:"El 14 indica una vida anterior donde se abusó de la libertad o se usó la versatilidad para manipular o lastimar. En esta vida, la libertad se gana con responsabilidad.",
+    s:"El desafío del 14 se resuelve con autodisciplina, moderación y la capacidad de comprometerse genuinamente."},
+  16:{n:"Deuda kármica 16/7 — El ego",
+    d:"El 16 indica una vida anterior donde el ego o el orgullo excesivo generaron daño. En esta vida, la caída del ego es el camino de evolución — no como humillación, sino como apertura a algo más grande.",
+    s:"El desafío del 16 se resuelve cultivando la humildad, el servicio desinteresado y la conexión espiritual genuina."},
+  19:{n:"Deuda kármica 19/1 — El poder",
+    d:"El 19 indica una vida anterior donde el poder personal se usó de forma egoísta o se dañó a otros en la búsqueda del propio beneficio. En esta vida, el liderazgo debe construirse desde el servicio.",
+    s:"El desafío del 19 se resuelve aprendiendo a pedir ayuda, reconocer la interdependencia y liderar desde el amor."}
+}
+
+var TABLA={A:1,B:2,C:3,D:4,E:5,F:6,G:7,H:8,I:9,J:1,K:2,L:3,M:4,N:5,O:6,P:7,Q:8,R:9,S:1,T:2,U:3,V:4,W:5,X:6,Y:7,Z:8}
+
+function calcNombre(nombre){
+  var letras=nombre.toUpperCase().replace(/[^A-Z ]/g,'').split('');
+  let sv=0,sc=0;
+  var info=letras.map(l=>{
+    if(l===' ')return{l:' ',t:'espacio',v:0};
+    const v=TABLA[l]||0;
+    if(VOCALES.includes(l))sv+=v; else sc+=v;
+    return{l,t:VOCALES.includes(l)?'vocal':'cons',v};
+  });
+  // Detectar deudas (sumas intermedias 13,14,16,19)
+  var deudas=[];
+  [sv,sc,sv+sc].forEach(s=>{if([13,14,16,19].includes(s))deudas.push(s);});
+  // Lecciones kármicas (valores 1-9 ausentes en el nombre)
+  var presNom=new Set(letras.filter(l=>l!==' ').map(l=>TABLA[l]||0).filter(v=>v>0));
+  var lecciones=[1,2,3,4,5,6,7,8,9].filter(n=>!presNom.has(n));
+  return{
+    info,
+    alma:red(sv,true),almaRaw:sv,
+    pers:red(sc,true),persRaw:sc,
+    exp:red(sv+sc,true),expRaw:sv+sc,
+    deudas:[...new Set(deudas)],
+    lecciones
+  };
+}
+var resultado=null, tabSel='alma';
+
+function init0(){
+  var n=leer('anormal_nombre','');
+  if(n){ var inp=document.getElementById('input-nombre'); if(inp) inp.value=n; }
+}
+function calcular(){
+  var nombre=(document.getElementById('input-nombre').value||'').trim();
+  if(!nombre){ alert('Escribe tu nombre completo.'); return; }
+  localStorage.setItem('anormal_nombre_completo', nombre);
+  resultado=calcNombre(nombre);
+  localStorage.setItem('anormal_nombre_num', JSON.stringify({alma:resultado.alma,pers:resultado.pers,exp:resultado.exp}));
+  irA(1);
+}
+function irA(n){
+  document.querySelectorAll('.pantalla').forEach(function(p){p.classList.remove('visible');});
+  document.getElementById('p'+n).classList.add('visible');
+  document.getElementById('prog').style.width=(n===0?20:100)+'%';
+  if(n===1){ renderLetras(); tabSel='alma'; renderTres(); renderDetalle(); }
+  window.scrollTo(0,0);
+}
+function renderLetras(){
+  var cont=document.getElementById('letras'); cont.innerHTML='';
+  resultado.info.forEach(function(x){
+    if(x.t==='espacio'){ cont.innerHTML+='<div style="width:10px"></div>'; return; }
+    cont.innerHTML+='<div class="letra '+(x.t==='vocal'?'vocal':'')+'"><span class="letra-l">'+x.l+'</span><span class="letra-v">'+x.v+'</span></div>';
+  });
+}
+function renderTres(){
+  var t=document.getElementById('tres-nums');
+  var items=[{k:'alma',lbl:'Alma',v:resultado.alma},{k:'pers',lbl:'Personalidad',v:resultado.pers},{k:'exp',lbl:'Expresión',v:resultado.exp}];
+  t.innerHTML=items.map(function(it){return '<div class="tn'+(tabSel===it.k?' on':'')+'" onclick="tabSel=\''+it.k+'\';renderTres();renderDetalle()"><div class="tn-circ">'+it.v+'</div><div class="tn-lbl">'+it.lbl+'</div></div>';}).join('');
+}
+function renderDetalle(){
+  var val={alma:resultado.alma,pers:resultado.pers,exp:resultado.exp}[tabSel];
+  var d=ND[val]; if(!d){ document.getElementById('nombre-detalle').innerHTML=''; return; }
+  var campo={alma:'alma',pers:'pers',exp:'exp'}[tabSel];
+  var explica={alma:'Tu número del Alma nace de las <b>vocales</b> de tu nombre. Es tu deseo más profundo, lo que te mueve por dentro.',
+    pers:'Tu número de Personalidad nace de las <b>consonantes</b>. Es la primera impresión, cómo te percibe el mundo antes de conocerte.',
+    exp:'Tu número de Expresión nace de <b>todas las letras</b>. Es quién eres cuando te muestras, tu forma natural de estar en el mundo.'};
+  document.getElementById('nombre-detalle').innerHTML=
+    '<div class="label">'+({alma:'Tu Alma',pers:'Tu Personalidad',exp:'Tu Expresión'}[tabSel])+' · el número '+val+' · '+(d.n||'')+'</div>'+
+    '<div class="card"><p class="ct dim">'+explica[tabSel]+'</p></div>'+
+    (d[campo]?'<div class="card"><p class="ct">'+d[campo]+'</p></div>':'');
+}
+function continuar(){
+  try{ var data=JSON.parse(sessionStorage.getItem('anormal_proceso')||'{}');
+    data.nombre={alma:resultado.alma,pers:resultado.pers,exp:resultado.exp}; if(!data.progreso)data.progreso={};
+    data.progreso.nombre={completado:true,fecha:new Date().toLocaleDateString('es-CO')};
+    sessionStorage.setItem('anormal_proceso',JSON.stringify(data)); }catch(e){}
+  window.location.href='numerologia-transgeneracional.html';
+}
+(function(){ init0(); })();
+</script>
+</body>
+</html>
