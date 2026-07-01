@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>∀normal — Numerología Transgeneracional</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Barlow:wght@300;400;500&family=Barlow+Condensed:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#060A14;--bg2:#0A0F1E;--bg3:#0E1525;--bg4:#131D30;
+  --gold:#C9A84C;--gold2:#E8C96A;--gold3:#F5E0A0;
+  --gd:rgba(201,168,76,.13);--gb:rgba(201,168,76,.28);
+  --text:#EAE6DC;--dim:#9AA5B8;--faint:#3A4558;--ffaint:#1E2A3A;
+  --grn:#4ABF7A;--rose:#D4537E;--azul:#5A8CC0;--acc:#8A7BD8;
+  --r:4px;--rm:8px;--rl:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font-weight:300;font-size:17.5px;line-height:1.75;min-height:100vh}
+.wrap{max-width:720px;margin:0 auto;padding:24px 20px 60px}
+.hdr{display:flex;align-items:center;justify-content:space-between;padding:16px 0 24px;border-bottom:1px solid var(--faint);margin-bottom:24px}
+.hdr-logo{font-family:"Cormorant Garamond",serif;font-size:23px;color:var(--gold2)}
+.hdr-info{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim)}
+.progress-bar{height:2px;background:var(--ffaint);border-radius:2px;overflow:hidden;margin-bottom:10px}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));transition:width .5s ease}
+.progress-txt{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);text-align:center;margin-bottom:24px}
+.pantalla{display:none;animation:fadeIn .4s ease}
+.pantalla.visible{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.label{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:10px}
+.titulo{font-family:"Cormorant Garamond",serif;font-size:clamp(24px,5.5vw,33px);font-weight:300;color:var(--gold2);line-height:1.2;margin-bottom:12px}
+.subtitulo{font-size:16px;color:var(--dim);line-height:1.85;margin-bottom:24px}
+.card{background:var(--bg2);border:1px solid rgba(255,255,255,.06);border-radius:var(--rl);padding:22px 26px;margin-bottom:14px}
+.card.gold{border-color:var(--gb);background:linear-gradient(135deg,var(--bg2),var(--bg3))}
+.ct{font-size:16px;color:var(--text);line-height:1.95}
+.ct.dim{color:var(--dim);font-size:15px}
+.ct b,.ct strong{color:var(--gold2);font-weight:500}
+.quote{font-family:"Cormorant Garamond",serif;font-style:italic;font-size:20px;color:var(--gold3);line-height:1.55;border-left:2px solid var(--gb);padding-left:18px;margin:20px 0}
+.video-opcional{background:var(--bg3);border:1px dashed var(--faint);border-radius:14px;padding:20px 22px;margin-bottom:18px;display:flex;align-items:center;gap:16px}
+.video-opcional .vo-play{font-size:24px;color:var(--gold);flex-shrink:0}
+.video-opcional .vo-tit{font-size:13px;color:var(--text)}
+.video-opcional .vo-sub{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--faint);margin-top:3px}
+.dato-fecha{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:14px 0}
+.dato-fecha label{font-size:14px;color:var(--dim);min-width:130px}
+.dato-fecha input{background:var(--bg3);border:1px solid var(--faint);border-radius:var(--rm);color:var(--text);font-family:"Barlow",sans-serif;font-size:16px;padding:11px 14px;flex:1;min-width:150px}
+.dato-fecha input:focus{outline:none;border-color:var(--gold)}
+.par-nums{display:flex;gap:14px;justify-content:center;align-items:center;margin:16px 0}
+.par-col{text-align:center}
+.par-col-lbl{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);margin-bottom:8px}
+.par-circ{width:82px;height:82px;border-radius:50%;background:var(--gd);border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;font-family:"Cormorant Garamond",serif;font-size:36px;color:var(--gold2)}
+.par-nom{font-size:12px;color:var(--gold3);margin-top:6px}
+.par-vs{font-size:22px;color:var(--faint)}
+.rel-titulo{font-family:"Cormorant Garamond",serif;font-size:24px;color:var(--gold2);margin-bottom:6px}
+.rel-badge{display:inline-block;font-size:11px;letter-spacing:.12em;text-transform:uppercase;padding:4px 12px;border-radius:20px;margin-bottom:12px;border:1px solid var(--gb);color:var(--gold2)}
+.chk-item{display:flex;gap:10px;align-items:flex-start;padding:9px 0;border-bottom:1px solid var(--ffaint);cursor:pointer;font-size:14.5px;color:var(--text)}
+.chk-item:last-child{border-bottom:none}
+.chk-box{width:22px;height:22px;border-radius:5px;border:1.5px solid var(--faint);display:flex;align-items:center;justify-content:center;font-size:12px;color:#fff;flex-shrink:0}
+.chk-item.on .chk-box{background:var(--gold);border-color:var(--gold)}
+.chk-item.on{color:var(--gold3)}
+textarea{width:100%;background:var(--bg3);border:1px solid var(--faint);border-radius:var(--rm);color:var(--text);font-family:"Barlow",sans-serif;font-size:15.5px;line-height:1.75;padding:13px 15px;resize:vertical;min-height:90px}
+textarea:focus{outline:none;border-color:var(--gold)}
+.perdon-box{background:rgba(212,83,126,.06);border:1px solid rgba(212,83,126,.3);border-radius:var(--rl);padding:18px 22px;margin-top:14px}
+.perdon-lbl{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--rose);margin-bottom:10px}
+.persona-chip{display:inline-flex;align-items:center;gap:8px;background:var(--bg2);border:1px solid var(--ffaint);border-radius:20px;padding:7px 14px;margin:4px 6px 4px 0;font-size:14px;color:var(--text);cursor:pointer}
+.persona-chip.hecho{border-color:var(--grn);color:var(--grn)}
+.add-persona{background:var(--bg3);border:1px dashed var(--gb);border-radius:var(--rl);padding:16px 20px;margin-bottom:14px}
+.add-persona input{width:100%;background:var(--bg2);border:1px solid var(--faint);border-radius:var(--rm);color:var(--text);font-family:"Barlow",sans-serif;font-size:15px;padding:11px 14px;margin-top:8px}
+.add-persona input:focus{outline:none;border-color:var(--gold)}
+.tope-aviso{font-size:13px;color:var(--dim);text-align:center;margin:10px 0}
+.bp{background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--bg);border:none;border-radius:var(--r);font-family:"Barlow Condensed",sans-serif;font-size:13px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;padding:14px 32px;cursor:pointer;transition:opacity .2s,transform .15s}
+.bp:hover{opacity:.9;transform:translateY(-1px)}
+.bs{background:transparent;color:var(--gold);border:1px solid var(--gb);border-radius:var(--r);font-family:"Barlow Condensed",sans-serif;font-size:12px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;padding:12px 24px;cursor:pointer}
+.nav{display:flex;gap:10px;justify-content:space-between;align-items:center;margin-top:26px;flex-wrap:wrap}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hdr">
+    <div class="hdr-logo">∀normal</div>
+    <div class="hdr-info">Sesión 3 · Linaje y vínculos</div>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" id="prog" style="width:16%"></div></div>
+  <div class="progress-txt" id="prog-txt">Tu linaje</div>
+
+  <!-- P0: INTRO -->
+  <div class="pantalla visible" id="p0">
+    <div class="label">Numerología transgeneracional</div>
+    <h1 class="titulo">Lo que viaja por tu sangre.</h1>
+    <p class="subtitulo">En la Sesión 2 perdonaste a tu madre y a tu padre. Ahora vas a mirar, con números, qué comparten ustedes: qué patrón viaja de una generación a la otra, qué viniste a aprender de ellos, y cómo entenderlo te ayuda a soltar y a sanar aún más.</p>
+
+    <div class="video-opcional">
+      <div class="vo-play">▶</div>
+      <div class="vo-txt"><div class="vo-tit">Video — Numerología transgeneracional</div><div class="vo-sub">Opcional · próximamente</div></div>
+    </div>
+
+    <div class="card gold">
+      <div class="label">Por qué esto sana</div>
+      <p class="ct">Muchos de nuestros patrones no los inventamos: los heredamos. Vienen de nuestros padres, y de los padres de ellos. Cuando ves el número que compartes con tu madre o tu padre, entiendes que muchas cosas no eran contra ti — eran el patrón de un linaje. Y lo que se comprende, se puede soltar. <b>Esto no es esoterismo:</b> es un espejo para entender tu historia familiar con más compasión.</p>
+    </div>
+
+    <p class="subtitulo" style="margin-bottom:8px">Empecemos con quienes te dieron la vida. Ingresa sus fechas de nacimiento (si no las tienes exactas, puedes volver luego).</p>
+
+    <div class="card">
+      <div class="dato-fecha"><label>Tu madre nació el</label><input type="date" id="fecha-madre"></div>
+      <div class="dato-fecha"><label>Tu padre nació el</label><input type="date" id="fecha-padre"></div>
+      <p class="ct dim" style="font-size:13px;margin-top:8px">Puedes hacer uno solo si prefieres. Con al menos una fecha, continuamos.</p>
+    </div>
+
+    <div class="nav">
+      <span></span>
+      <button class="bp" onclick="procesarPadres()">Ver lo que compartimos →</button>
+    </div>
+  </div>
+
+  <!-- P1: TRANSGENERACIONAL (madre/padre) -->
+  <div class="pantalla" id="p1">
+    <div class="label">Tu linaje directo</div>
+    <h1 class="titulo">Tú y quienes te dieron la vida.</h1>
+    <div id="transg-contenido"></div>
+    <div class="nav">
+      <button class="bs" onclick="irA(0)">← Anterior</button>
+      <button class="bp" onclick="irA(2)">Continuar con otras personas →</button>
+    </div>
+  </div>
+
+  <!-- P2: LAS PERSONAS (hasta 8) -->
+  <div class="pantalla" id="p2">
+    <div class="label">Las personas en tu vida</div>
+    <h1 class="titulo">Los otros vínculos que te marcan.</h1>
+    <p class="subtitulo">Abuelos, hermanos, hijos, pareja, un amigo o un jefe. Agrega hasta 8 personas y descubre qué tipo de relación numerológica tienen — y qué vinieron a enseñarse.</p>
+    <div id="personas-contenido"></div>
+    <div class="nav">
+      <button class="bs" onclick="irA(1)">← Anterior</button>
+      <button class="bp" onclick="continuar()">Guardar y continuar →</button>
+    </div>
+  </div>
+</div>
+
+<script>
+function leer(k,def){var v=localStorage.getItem(k);return (v===null||v===undefined)?def:v;}
+
+function red(n,m){ if(m===undefined)m=true; if(m&&[11,22,33].includes(n))return n; if(n<10)return n; return red(String(n).split('').reduce(function(a,c){return a+parseInt(c);},0),m); }
+function redS(n){ return red(n,false); }
+function calcNV(dd,mm,aaaa){ var s=String(dd).padStart(2,'0')+String(mm).padStart(2,'0')+String(aaaa); var digs=s.split('').map(Number); var suma=digs.reduce(function(a,c){return a+c;},0); return {digs:digs,digStr:s,suma:suma,nv:red(suma,true)}; }
+function nvNom(n){ return NV_N[n]||NV_N[redS(n)]||''; }
+function nvMis(n){ return NV_M[n]||NV_M[redS(n)]||''; }
+
+const NV_N={1:"El Pionero",2:"El Mediador",3:"El Creador",4:"El Constructor",5:"El Explorador",6:"El Sanador",7:"El Sabio",8:"El Ejecutivo",9:"El Humanista",11:"El Iluminado",22:"El Maestro Constructor",33:"El Maestro Sanador"};
+const NV_M={1:"Liderar, crear e iniciar con autenticidad y coraje.",2:"Crear armonía, cooperar y conectar con sensibilidad.",3:"Comunicar, crear e inspirar a través de la alegría.",4:"Construir fundamentos duraderos con orden y perseverancia.",5:"Vivir el cambio con sabiduría y ser puente de transformación.",6:"Sanar, cuidar y crear belleza y armonía en el mundo.",7:"Buscar la verdad, conectar con lo espiritual y compartir sabiduría.",8:"Crear abundancia, ejercer el poder con responsabilidad.",9:"Servir, transformar y elevar la conciencia colectiva.",11:"Inspirar, iluminar y elevar la conciencia.",22:"Materializar visiones transformadoras al servicio de la humanidad.",33:"Sanar y elevar la conciencia con amor incondicional."}
+const NV_CUAL={
+  1:["Toma decisiones sin dudar","Propone ideas originales con confianza","Lidera sin esperar validación","Actúa desde su propio criterio","Inspira a través de su ejemplo","Abre caminos donde no los había"],
+  2:["Escucha de verdad sin juzgar","Crea armonía en situaciones tensas","Percibe lo que otros sienten sin que lo digan","Media conflictos con delicadeza","Hace que las personas se sientan vistas","Coopera sin perder su centro"],
+  3:["Se expresa con creatividad natural","Hace reír en los momentos más tensos","Comunica ideas complejas de forma simple","Irradia alegría que eleva el ambiente","Crea sin limitarse por el qué dirán","Inspira a través de su expresión"],
+  4:["Cumple lo que promete siempre","Construye con paciencia y método","Organiza el caos con claridad","Se mantiene firme ante los obstáculos","Genera confianza por su consistencia","Da seguimiento hasta completar"],
+  5:["Se adapta a los cambios sin perder el rumbo","Explora ideas nuevas con genuina curiosidad","Conecta con personas muy diversas","Convierte los imprevistos en oportunidades","Piensa fuera de los marcos establecidos","Fluye con lo desconocido sin paralizarse"],
+  6:["Cuida sin esperar reconocimiento","Crea ambientes donde otros se sienten seguros","Asume responsabilidades que otros evitan","Ama con una intensidad que transforma","Sostiene a otros en sus momentos difíciles","Crea belleza y armonía donde va"],
+  7:["Analiza en profundidad antes de actuar","Confía en su intuición aunque no pueda explicarla","Hace preguntas que otros no se atreven a hacer","Busca el sentido detrás de las apariencias","Conecta el pensamiento con la espiritualidad","Encuentra sabiduría donde otros ven problemas"],
+  8:["Organiza recursos con visión estratégica","Toma decisiones de alto impacto con claridad","Lidera desde la autoridad que genera confianza","Materializa proyectos que otros solo sueñan","Ejerce el poder con integridad","Crea abundancia que beneficia a otros"],
+  9:["Comprende el sufrimiento ajeno sin juzgar","Sirve sin calcular lo que recibe a cambio","Tiene perspectiva amplia en situaciones difíciles","Cierra ciclos con gracia y sin resentimiento","Ve lo mejor en las personas aunque fallen","Transforma el dolor en sabiduría"]
+}
+
+function relacion(nvPropio,nvOtro,presPropio,ausPropio){
+  const pS=redS(nvPropio), oS=redS(nvOtro);
+  // Escenario 1: NV del otro es uno de mis ausentes → Kármica
+  if(ausPropio.includes(oS)){
+    const cual=NV_CUAL[oS]||[];
+    return{tipo:'karma',tag:'tr',
+      titulo:'Esta persona es tu Maestro Kármico',
+      col:'#E09070',bgCard:'rel-karma',
+      desc:`Su número de vida es el <strong style="color:var(--gold3)">${nvOtro} — ${nvNom(nvOtro)}</strong>, exactamente uno de tus números ausentes. No es casualidad: su alma y la tuya acordaron este encuentro. Lo que más te genera admiración, fricción o incomodidad en esta persona es exactamente la energía que tu alma eligió aprender en esta vida.`,
+      ens:`Cada momento de tensión con esta persona es una clase. Cada momento de admiración también. La energía del ${nvOtro} que encarna te muestra el camino de tu propio desarrollo.`,
+      checklist:cual,
+      chkLabel:`¿Qué de esto reconoces en esta persona?`,
+      chkGuia:`Marca las cualidades que ves en esta persona. Las que marques son exactamente las que tú estás aprendiendo a desarrollar. El karma no es un castigo — es un regalo disfrazado de fricción.`,
+      reto:`¿Qué cualidad de esta persona te genera más admiración? ¿Qué te genera más fricción? Las dos respuestas son espejos del número ${nvOtro} que viniste a integrar. Escribe ambas.`,
+      perdon:`Este es el espacio del perdón: si esta persona te ha causado dolor, ese dolor es parte de la lección. Lo que vino a enseñarte no siempre llega de forma gentil. ¿Hay algo que perdonar aquí — no para justificar lo que hizo, sino para liberarte tú?`
+    };
+  }
+  // Escenario 2: mismo NV reducido → Espejo
+  if(pS===oS){
+    const cual=NV_CUAL[oS]||[];
+    return{tipo:'espejo',tag:'tg',
+      titulo:'Esta persona es tu espejo más directo',
+      col:'var(--gold2)',bgCard:'rel-espejo',
+      desc:`Ambos comparten la energía del número <strong style="color:var(--gold3)">${oS}</strong>. Esta es una de las relaciones más reveladoras. Lo que ves en ella — tanto lo que admiras como lo que te irrita — tiene que ver directamente contigo.`,
+      ens:`Cuando dos personas del mismo número se encuentran, se amplifican mutuamente: los dones y las sombras. Lo que más te incomoda de esta persona probablemente es un aspecto de ti que aún no has integrado. Lo que más admiras es el potencial de tu número que aún no has desplegado.`,
+      checklist:cual,
+      chkLabel:`¿Qué de esto ves en esta persona?`,
+      chkGuia:`Las cualidades que marques de esta persona son el espejo de lo que tú también tienes o estás desarrollando. La relación espejo no es cómoda — pero es de las más transformadoras.`,
+      reto:`Escribe tres cualidades que admiras en esta persona y tres que te generan fricción. Luego pregúntate honestamente: ¿cuánto de cada una también está en ti?`,
+      perdon:`A veces las personas que son nuestro espejo son también las que más nos han herido — precisamente porque nos muestran lo que no queremos ver. ¿Hay algo que necesitas perdonar o perdonarte en esta relación?`
+    };
+  }
+  // Escenario 3: NV del otro está en mis presentes → Complemento
+  if(presPropio.includes(oS)){
+    const cual=NV_CUAL[oS]||[];
+    return{tipo:'comp',tag:'tgr',
+      titulo:'Esta persona complementa tu energía',
+      col:'var(--grn)',bgCard:'rel-comp',
+      desc:`Su número de vida <strong style="color:var(--gold3)">${nvOtro} — ${nvNom(nvOtro)}</strong> está presente en tu cuadro de nacimiento. Hay una resonancia natural — sus energías se nutren mutuamente sin la tensión del encuentro kármico.`,
+      ens:`Esta persona no vino a enseñarte algo que no tienes — vino a reforzar y ampliar una energía que ya llevas. La relación tiene un potencial de crecimiento alto cuando ambos son conscientes de lo que cada uno aporta.`,
+      checklist:cual,
+      chkLabel:`¿Qué de esto te aporta esta persona?`,
+      chkGuia:`Las cualidades que marques son las que esta persona activa o amplifica en ti. Una relación complementaria florece cuando ambos reconocen conscientemente lo que cada uno trae.`,
+      reto:`¿En qué áreas de tu vida esta persona te ha complementado o apoyado de forma natural? Escribe cómo su energía del ${nvOtro} ha sido un recurso para ti.`,
+      perdon:null
+    };
+  }
+  // Escenario 4: Aprendizaje mutuo
+  return{tipo:'mutual',tag:'tb',
+    titulo:'Relación de aprendizaje mutuo',
+    col:'var(--acc)',bgCard:'rel-mutual',
+    desc:`Sus energías (${pS} y ${oS}) crean una relación de crecimiento en dos direcciones. Cada uno lleva algo que el otro necesita desarrollar — aunque no siempre sea evidente de inmediato.`,
+    ens:`Esta relación requiere más intención consciente para ser nutritiva. Cuando ambos entienden qué han venido a enseñarse mutuamente, la dinámica cambia completamente.`,
+    checklist:NV_CUAL[oS]||[],
+    chkLabel:`¿Qué cualidades de esta persona reconoces?`,
+    chkGuia:`Identificar qué tiene esta persona que tú necesitas desarrollar convierte una relación de fricción en una relación de aprendizaje consciente.`,
+    reto:`¿Qué has aprendido de esta persona que no habrías aprendido de alguien más similar a ti? Escribe al menos una cualidad que esta relación ha desarrollado en ti.`,
+    perdon:null
+  };
+}
+
+// helpers de cálculo
+function calcNVfromISO(iso){
+  if(!iso) return null;
+  var p=iso.split('-'); if(p.length!==3) return null;
+  var c=calcNV(parseInt(p[2]), parseInt(p[1]), parseInt(p[0]));
+  return c.nv;
+}
+function presAusDeFecha(iso){
+  // presentes: dígitos 1-9 que aparecen en la fecha; ausentes: los que faltan
+  if(!iso) return {pres:[],aus:[]};
+  var digs=iso.replace(/[^0-9]/g,'').split('').map(Number).filter(function(n){return n>=1&&n<=9;});
+  var pres=[], aus=[];
+  for(var i=1;i<=9;i++){ if(digs.indexOf(i)>=0) pres.push(i); else aus.push(i); }
+  return {pres:pres, aus:aus};
+}
+function iniPersona(nombre){ return {nombre:nombre, fecha:'', nv:null, marcados:[], reto:'', perdon:'', hecho:false}; }
+
+var miNV=null, miPres=[], miAus=[];
+var madre={fecha:'',nv:null}, padre={fecha:'',nv:null};
+var personas=[];
+
+function init0(){
+  var f=leer('anormal_fecha_nac','');
+  miNV=parseInt(leer('anormal_camino_vida','0'))||calcNVfromISO(f);
+  var pa=presAusDeFecha(f);
+  miPres=pa.pres; miAus=pa.aus;
+}
+
+function irA(n){
+  document.querySelectorAll('.pantalla').forEach(function(p){p.classList.remove('visible');});
+  document.getElementById('p'+n).classList.add('visible');
+  var pcts=[16,60,100]; var txts=['Tu linaje','Madre y padre','Otras personas'];
+  document.getElementById('prog').style.width=(pcts[n]||16)+'%';
+  document.getElementById('prog-txt').textContent=txts[n]||'';
+  if(n===1) renderTransg();
+  if(n===2) renderPersonas();
+  window.scrollTo(0,0);
+}
+
+function procesarPadres(){
+  madre.fecha=document.getElementById('fecha-madre').value||'';
+  padre.fecha=document.getElementById('fecha-padre').value||'';
+  if(!madre.fecha && !padre.fecha){ alert('Ingresa al menos una fecha (madre o padre).'); return; }
+  madre.nv=calcNVfromISO(madre.fecha);
+  padre.nv=calcNVfromISO(padre.fecha);
+  irA(1);
+}
+
+function tarjetaVinculo(quien, datos, idx){
+  if(!datos.fecha || !datos.nv) return '';
+  var rel=relacion(miNV, datos.nv, miPres, miAus);
+  var html='<div class="card gold">'+
+    '<div class="par-nums">'+
+      '<div class="par-col"><div class="par-col-lbl">Tú</div><div class="par-circ">'+miNV+'</div><div class="par-nom">'+nvNom(miNV)+'</div></div>'+
+      '<div class="par-vs">✦</div>'+
+      '<div class="par-col"><div class="par-col-lbl">'+quien+'</div><div class="par-circ">'+datos.nv+'</div><div class="par-nom">'+nvNom(datos.nv)+'</div></div>'+
+    '</div>'+
+    '<div style="text-align:center"><span class="rel-badge">'+rel.titulo+'</span></div>'+
+    '<p class="ct">'+rel.desc.replace(/esta persona/g,'tu '+quien.toLowerCase()).replace(/Esta persona/g,'Tu '+quien.toLowerCase())+'</p>'+
+    '<p class="ct" style="margin-top:10px">'+rel.ens+'</p>';
+  // perdón (siempre presente para madre/padre por el vínculo transgeneracional)
+  var textoP=rel.perdon || 'Este vínculo con tu '+quien.toLowerCase()+' ya lo trabajaste en el perdón. Aquí, viendo el patrón que comparten, ¿hay algo más que quieras soltar o comprender?';
+  html+='<div class="perdon-box"><div class="perdon-lbl">✦ El puente al perdón</div>'+
+    '<p class="ct" style="font-size:15px;margin-bottom:10px">'+textoP+'</p>'+
+    '<textarea placeholder="Lo que hoy comprendo y suelto de mi '+quien.toLowerCase()+'..." oninput="guardarPerdonPadre(\''+quien+'\',this.value)"></textarea></div>';
+  html+='</div>';
+  return html;
+}
+var perdonPadres={madre:'',padre:''};
+function guardarPerdonPadre(quien,val){ perdonPadres[quien.toLowerCase()]=val; }
+
+function renderTransg(){
+  var cont=document.getElementById('transg-contenido');
+  var html='';
+  if(!miNV){ html='<div class="card"><p class="ct">Necesitamos tu Camino de Vida. Vuelve al módulo anterior para calcularlo.</p></div>'; cont.innerHTML=html; return; }
+  html+=tarjetaVinculo('Madre', madre);
+  html+=tarjetaVinculo('Padre', padre);
+  if(!html) html='<div class="card"><p class="ct">No ingresaste fechas. Puedes volver atrás para hacerlo.</p></div>';
+  cont.innerHTML=html;
+}
+
+// ── LAS PERSONAS ──
+function renderPersonas(){
+  var cont=document.getElementById('personas-contenido');
+  var chips='';
+  personas.forEach(function(pp,i){
+    chips+='<span class="persona-chip'+(pp.hecho?' hecho':'')+'" onclick="editarPersona('+i+')">'+(pp.hecho?'✓ ':'')+(pp.nombre||'(sin nombre)')+'</span>';
+  });
+  var tope=personas.length>=8;
+  cont.innerHTML=
+    (tope?'':'<div class="add-persona"><div class="label">Agregar una persona</div>'+
+      '<p class="ct dim" style="font-size:14px">Su nombre o relación (mi abuela, mi hijo, mi pareja...) y su fecha de nacimiento.</p>'+
+      '<input type="text" id="nueva-persona-nom" placeholder="¿Quién es?">'+
+      '<input type="date" id="nueva-persona-fecha" style="margin-top:8px">'+
+      '<div style="margin-top:10px"><button class="bs" onclick="agregarPersona()">Agregar</button></div></div>')+
+    '<div class="tope-aviso">'+personas.length+' de 8 personas</div>'+
+    (chips?'<div style="margin-bottom:14px">'+chips+'</div>':'<p class="ct dim" style="text-align:center;margin-bottom:14px">Aún no has agregado a nadie.</p>')+
+    '<div id="persona-editor"></div>';
+}
+function agregarPersona(){
+  if(personas.length>=8){ alert('Llegaste al tope de 8 personas.'); return; }
+  var nom=(document.getElementById('nueva-persona-nom').value||'').trim();
+  var fecha=document.getElementById('nueva-persona-fecha').value||'';
+  if(!nom){ alert('Escribe el nombre o la relación.'); return; }
+  if(!fecha){ alert('Ingresa la fecha de nacimiento.'); return; }
+  var pp=iniPersona(nom); pp.fecha=fecha; pp.nv=calcNVfromISO(fecha);
+  personas.push(pp);
+  renderPersonas();
+  editarPersona(personas.length-1);
+}
+function editarPersona(i){
+  var pp=personas[i];
+  var rel=relacion(miNV, pp.nv, miPres, miAus);
+  var ed=document.getElementById('persona-editor');
+  var chk='';
+  (rel.checklist||[]).forEach(function(c,ci){
+    var on=pp.marcados.indexOf(ci)>=0;
+    chk+='<div class="chk-item'+(on?' on':'')+'" onclick="togglePersonaChk('+i+','+ci+')"><div class="chk-box">'+(on?'✓':'')+'</div><span>'+c+'</span></div>';
+  });
+  var html='<div class="card gold">'+
+    '<div class="par-nums">'+
+      '<div class="par-col"><div class="par-col-lbl">Tú</div><div class="par-circ">'+miNV+'</div><div class="par-nom">'+nvNom(miNV)+'</div></div>'+
+      '<div class="par-vs">✦</div>'+
+      '<div class="par-col"><div class="par-col-lbl">'+pp.nombre+'</div><div class="par-circ">'+pp.nv+'</div><div class="par-nom">'+nvNom(pp.nv)+'</div></div>'+
+    '</div>'+
+    '<div style="text-align:center"><span class="rel-badge">'+rel.titulo+'</span></div>'+
+    '<p class="ct">'+rel.desc+'</p>'+
+    '<p class="ct" style="margin-top:10px">'+rel.ens+'</p>'+
+    (chk?'<div style="margin-top:14px"><div class="label">'+(rel.chkLabel||'')+'</div><p class="ct dim" style="font-size:13.5px;margin-bottom:8px">'+(rel.chkGuia||'')+'</p>'+chk+'</div>':'')+
+    '<div style="margin-top:14px"><div class="label">Tu reflexión</div><p class="ct dim" style="font-size:13.5px;margin-bottom:8px">'+(rel.reto||'')+'</p>'+
+      '<textarea placeholder="Escribe aquí..." oninput="guardarPersonaReto('+i+',this.value)">'+(pp.reto||'')+'</textarea></div>'+
+    (rel.perdon?'<div class="perdon-box"><div class="perdon-lbl">✦ El espacio del perdón</div><p class="ct" style="font-size:15px;margin-bottom:10px">'+rel.perdon+'</p>'+
+      '<textarea placeholder="Lo que suelto de esta relación..." oninput="guardarPersonaPerdon('+i+',this.value)">'+(pp.perdon||'')+'</textarea></div>':'')+
+    '<div style="margin-top:14px"><button class="bs" onclick="marcarPersonaHecha('+i+')">'+(pp.hecho?'✓ Trabajada':'Marcar como trabajada')+'</button></div>'+
+    '</div>';
+  ed.innerHTML=html;
+}
+function togglePersonaChk(i,ci){
+  var idx=personas[i].marcados.indexOf(ci);
+  if(idx>=0) personas[i].marcados.splice(idx,1); else personas[i].marcados.push(ci);
+  editarPersona(i);
+}
+function guardarPersonaReto(i,val){ personas[i].reto=val; }
+function guardarPersonaPerdon(i,val){ personas[i].perdon=val; }
+function marcarPersonaHecha(i){ personas[i].hecho=!personas[i].hecho; renderPersonas(); editarPersona(i); }
+
+function continuar(){
+  var data={
+    miNV:miNV,
+    madre:{fecha:madre.fecha,nv:madre.nv,perdon:perdonPadres.madre},
+    padre:{fecha:padre.fecha,nv:padre.nv,perdon:perdonPadres.padre},
+    personas:personas,
+    fecha:new Date().toLocaleDateString('es-CO')
+  };
+  localStorage.setItem('anormal_transgeneracional', JSON.stringify(data));
+  try{
+    var proc=JSON.parse(sessionStorage.getItem('anormal_proceso')||'{}');
+    proc.transgeneracional=data;
+    if(!proc.progreso)proc.progreso={};
+    proc.progreso.transgeneracional={completado:true, fecha:new Date().toLocaleDateString('es-CO')};
+    sessionStorage.setItem('anormal_proceso',JSON.stringify(proc));
+  }catch(e){}
+  window.location.href='resumen-conciencia.html';
+}
+(function(){ init0(); })();
+</script>
+</body>
+</html>
