@@ -190,6 +190,11 @@ textarea:focus{outline:none;border-color:var(--gold)}
 .edad-input-row input:focus{outline:none;border-color:var(--gold)}
 .edad-input-row label{font-size:13px;color:var(--dim)}
 @media(max-width:560px){.celda-nom{display:none}.columna-titulo{font-size:10px}}
+.video-opcional{background:var(--bg3);border:1px dashed var(--faint);border-radius:14px;padding:20px 22px;margin-bottom:18px;display:flex;align-items:center;gap:16px}
+.video-opcional .vo-play{font-size:24px;color:var(--gold);flex-shrink:0}
+.video-opcional .vo-txt{flex:1}
+.video-opcional .vo-tit{font-size:13px;color:var(--text)}
+.video-opcional .vo-sub{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--faint);margin-top:3px}
 </style>
 </head>
 <body>
@@ -205,6 +210,11 @@ textarea:focus{outline:none;border-color:var(--gold)}
     <div class="label">Antes de empezar — entiende esto</div>
     <h1 class="titulo">Tu vida no es una línea. Es una espiral que se repite.</h1>
     <p class="subtitulo">Tómate un momento. Lo que vas a entender ahora es la base de toda esta sesión. Si lo comprendes, todo lo demás va a tener sentido.</p>
+
+    <div class="video-opcional">
+      <div class="vo-play">▶</div>
+      <div class="vo-txt"><div class="vo-tit">Video — Los ciclos de vida</div><div class="vo-sub">Opcional · próximamente</div></div>
+    </div>
 
     <div class="card">
       <div class="paso"><div class="paso-n">1</div><div class="paso-txt">La vida humana avanza en <b>ciclos de siete años</b>. Cada siete años cierras una etapa y abres otra. Son nueve ciclos en total, del nacimiento hasta los 63 años, y luego un tiempo de integración.</div></div>
