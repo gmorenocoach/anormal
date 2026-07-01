@@ -75,9 +75,9 @@ body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font
 
   <!-- P0: INTRO + FECHA -->
   <div class="pantalla visible" id="p0">
-    <div class="label">Numerología · El primer número</div>
-    <h1 class="titulo">Tu Camino de Vida.</h1>
-    <p class="subtitulo">De todos los números que te acompañan, este es el más importante. Tu Camino de Vida nace del día exacto en que llegaste al mundo, y revela la lección central que viniste a aprender — el hilo que conecta toda tu existencia.</p>
+    <div class="label">Sesión 3 · ¿Quién soy?</div>
+    <h1 class="titulo">Ahora que soltaste, mira quién eres.</h1>
+    <p class="subtitulo">Vienes de un trabajo profundo: entendiste lo que pasó en tus ciclos y perdonaste lo que pesaba. Llegas aquí más liviano, renovado. Y desde ese lugar limpio, esta sesión te ayuda a responder una pregunta nueva: ¿quién soy yo, y hacia dónde me proyecto?</p>
 
     <div class="video-opcional">
       <div class="vo-play">▶</div>
@@ -85,8 +85,20 @@ body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font
     </div>
 
     <div class="card gold">
-      <div class="label">Cómo se calcula</div>
-      <p class="ct">Se suman todos los dígitos de tu fecha de nacimiento, y se reducen hasta llegar a un solo número, del 1 al 9. Salvo que aparezca un <b>número maestro</b> (11, 22 o 33), que por su fuerza no se reduce. Ese número es tu Camino.</p>
+      <div class="label">Antes de empezar, con honestidad</div>
+      <p class="ct">Esto no es esoterismo ni adivinación. Es una <b>herramienta de autoconocimiento</b>, como lo fueron la rueda o los ciclos. No te dice tu destino ni pretende ser una verdad absoluta: te ofrece un espejo y un lenguaje para mirarte distinto. Toma lo que te resuene, y deja lo que no. Tú tienes la última palabra sobre ti.</p>
+    </div>
+
+    <div class="card">
+      <p class="ct dim">Te lo digo desde mi propia experiencia: a mí, como mentor, la numerología me ayudó a comprender mejor lo que viví y a proyectarme con más claridad y en positivo hacia el futuro. No porque sea magia — sino porque me dio palabras para reconocer patrones que ya estaban ahí. Eso es lo que quiero para ti en esta sesión.</p>
+    </div>
+
+    <h2 class="titulo" style="font-size:24px;margin-top:26px">Empecemos por tu número más importante.</h2>
+    <p class="subtitulo" style="margin-bottom:18px">La numerología parte de una idea simple: los números que rodean tu nacimiento —tu fecha, tu nombre— guardan patrones que hablan de tu forma de ser. El primero y más importante es tu <b style="color:var(--gold2)">Camino de Vida</b>: nace del día en que llegaste al mundo, y describe la gran lección que viniste a vivir. Es como el título del libro de tu vida.</p>
+
+    <div class="card gold">
+      <div class="label">Cómo se calcula (es simple)</div>
+      <p class="ct">Se suman todos los números de tu fecha de nacimiento, y esa suma se va reduciendo hasta quedar en un solo número, del 1 al 9. Cada número tiene un significado. Solo hay tres excepciones —el 11, el 22 y el 33—, llamados <b>números maestros</b>, que por su fuerza especial no se reducen. Ya vas a ver el tuyo.</p>
     </div>
 
     <div id="fecha-wrap"></div>
@@ -112,7 +124,7 @@ body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font
     <div id="significado"></div>
     <div class="nav">
       <button class="bs" onclick="irA(1)">← Anterior</button>
-      <button class="bp" onclick="continuar()">Continuar con mis Sub-números →</button>
+      <button class="bp" onclick="continuar()">Guardar mi Camino de Vida →</button>
     </div>
   </div>
 </div>
@@ -404,6 +416,7 @@ function renderSignificado(){
   var html=
     '<div class="label">Tu Camino de Vida es el '+miNV+'</div>'+
     '<div class="num-hero"><div class="num-big">'+miNV+'</div><div class="num-arq">'+d.n+'</div><div class="num-arqsub">'+(d.arquetipo||'')+'</div></div>'+
+    '<div class="card"><p class="ct dim">Lee lo que sigue con calma, como quien se prueba un espejo. Algunas cosas te van a resonar de inmediato; otras quizás no. Quédate con lo que te haga sentido para tu vida y tu propósito.</p></div>'+
     (d.mision?'<div class="card gold"><div class="label">Tu misión</div><p class="ct">'+d.mision+'</p></div>':'')+
     (d.d1?'<div class="card"><p class="ct">'+d.d1+'</p></div>':'')+
     (d.d2?'<div class="card"><p class="ct">'+d.d2+'</p></div>':'')+
@@ -413,9 +426,15 @@ function renderSignificado(){
   if(d.sombra) html+='<div class="bloque"><div class="bloque-lbl">Tu sombra a integrar</div><div class="card"><p class="ct">'+d.sombra+'</p></div></div>';
   if(d.karma) html+='<div class="bloque"><div class="bloque-lbl">Tu aprendizaje kármico</div><div class="card"><p class="ct">'+d.karma+'</p></div></div>';
   if(d.talentos && Array.isArray(d.talentos)){
-    html+='<div class="bloque"><div class="bloque-lbl">Tus talentos</div><div class="chip-row">';
-    d.talentos.forEach(function(t){ html+='<span class="chip">'+t+'</span>'; });
-    html+='</div></div>';
+    html+='<div class="bloque"><div class="bloque-lbl">Tus talentos</div>';
+    d.talentos.forEach(function(t){
+      if(typeof t==='object' && t.n){
+        html+='<div class="card"><p class="ct"><b>'+t.n+'.</b> '+(t.d||'')+'</p></div>';
+      } else {
+        html+='<div class="card"><p class="ct">'+t+'</p></div>';
+      }
+    });
+    html+='</div>';
   }
   document.getElementById('significado').innerHTML=html;
 }
@@ -427,7 +446,7 @@ function continuar(){
     data.progreso.camino_vida={completado:true, fecha:new Date().toLocaleDateString('es-CO')};
     sessionStorage.setItem('anormal_proceso',JSON.stringify(data));
   }catch(e){}
-  window.location.href='1b-sub-numeros.html';
+  window.location.href='resumen-conciencia.html';
 }
 (function(){ init0(); })();
 </script>
