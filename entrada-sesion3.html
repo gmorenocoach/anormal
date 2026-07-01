@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>∀normal — Sesión 3 · ¿Quién soy?</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Barlow:wght@300;400;500&family=Barlow+Condensed:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#060A14;--bg2:#0A0F1E;--bg3:#0E1525;--bg4:#131D30;
+  --gold:#C9A84C;--gold2:#E8C96A;--gold3:#F5E0A0;
+  --gd:rgba(201,168,76,.13);--gb:rgba(201,168,76,.28);
+  --text:#EAE6DC;--dim:#8A95A8;--faint:#3A4558;--ffaint:#1E2A3A;
+  --grn:#4ABF7A;--rose:#D4537E;
+  --r:4px;--rm:8px;--rl:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font-weight:300;font-size:15px;line-height:1.65;min-height:100vh}
+.wrap{max-width:680px;margin:0 auto;padding:24px 20px 60px}
+
+.hdr{display:flex;align-items:center;justify-content:space-between;padding:16px 0 24px;border-bottom:1px solid var(--faint);margin-bottom:28px}
+.hdr-logo{font-family:"Cormorant Garamond",serif;font-size:22px;color:var(--gold2)}
+.hdr-info{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim)}
+
+.sesion-marca{text-align:center;margin-bottom:24px}
+.sesion-num{font-family:"Cormorant Garamond",serif;font-size:13px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold)}
+.sesion-line{width:40px;height:1px;background:var(--gb);margin:10px auto}
+
+.label{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:10px}
+.titulo{font-family:"Cormorant Garamond",serif;font-size:clamp(24px,5.5vw,34px);font-weight:300;color:var(--gold2);line-height:1.18;margin-bottom:14px}
+.subtitulo{font-size:14px;color:var(--dim);line-height:1.8;margin-bottom:26px}
+
+.card{background:var(--bg2);border:1px solid rgba(255,255,255,.055);border-radius:var(--rl);padding:22px 24px;margin-bottom:14px}
+.card.gold{border-color:var(--gb);background:linear-gradient(135deg,var(--bg2),var(--bg3))}
+.ct{font-size:14px;color:var(--text);line-height:1.85}
+.ct.dim{color:var(--dim);font-size:13px}
+
+.video-box{background:var(--bg3);border:1px dashed var(--faint);border-radius:var(--rl);padding:34px 24px;text-align:center;margin-bottom:18px}
+.video-play{font-size:30px;color:var(--gold);margin-bottom:8px}
+.video-txt{font-size:13px;color:var(--dim)}
+.video-soon{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--faint);margin-top:8px}
+
+.quote{font-family:"Cormorant Garamond",serif;font-style:italic;font-size:19px;color:var(--gold3);line-height:1.5;border-left:2px solid var(--gb);padding-left:18px;margin:22px 0}
+.quote-autor{display:block;font-size:11px;font-style:normal;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);margin-top:8px}
+
+.principio{display:flex;gap:13px;align-items:flex-start;background:var(--bg2);border:1px solid var(--ffaint);border-radius:var(--rl);padding:15px 17px;margin-bottom:9px}
+.principio-num{min-width:42px;height:42px;border-radius:50%;background:var(--gd);border:1px solid var(--gb);display:flex;align-items:center;justify-content:center;font-family:"Cormorant Garamond",serif;font-size:16px;color:var(--gold2);flex-shrink:0}
+.principio-info-tit{font-size:15px;font-weight:500;color:var(--gold2);margin-bottom:3px}
+.principio-info-txt{font-size:13.5px;color:var(--dim);line-height:1.65}
+
+.recorrido-mini{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:18px 0 4px}
+.paso-mini{display:flex;align-items:center;gap:8px}
+.paso-dot{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:"Barlow Condensed",sans-serif;font-size:12px;border:1px solid var(--gb);color:var(--gold)}
+.paso-dot.done{background:var(--gd);border-color:var(--gold)}
+.paso-label{font-size:11px;color:var(--dim)}
+.paso-sep{color:var(--faint);font-size:12px}
+
+.bp{background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--bg);border:none;border-radius:var(--r);font-family:"Barlow Condensed",sans-serif;font-size:12px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;padding:14px 32px;cursor:pointer;transition:opacity .2s,transform .15s}
+.bp:hover{opacity:.9;transform:translateY(-1px)}
+.bs{background:transparent;color:var(--gold);border:1px solid var(--gb);border-radius:var(--r);font-family:"Barlow Condensed",sans-serif;font-size:11px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;padding:12px 24px;cursor:pointer}
+.nav{display:flex;gap:10px;justify-content:space-between;align-items:center;margin-top:30px;flex-wrap:wrap}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hdr">
+    <div class="hdr-logo">∀normal</div>
+    <div class="hdr-info">Sesión 3</div>
+  </div>
+
+  <div class="sesion-marca">
+    <div class="sesion-num">Sesión Tres</div>
+    <div class="sesion-line"></div>
+    <div class="hdr-info" style="color:var(--dim)">¿Quién soy?</div>
+  </div>
+
+  <h1 class="titulo">Ahora que soltaste, descubre quién eres.</h1>
+  <p class="subtitulo">Vienes de un trabajo profundo: entendiste tus ciclos y perdonaste lo que pesaba. Llegas más liviano. Ahora, desde ese lugar limpio, vas a mirar quién eres en esencia — tus dones, tu misión, tu forma única de estar en el mundo — para enrutarte hacia tu propósito.</p>
+
+  <div class="video-box">
+    <div class="video-play">▶</div>
+    <div class="video-txt">Video de apertura — Sesión 3</div>
+    <div class="video-soon">Próximamente disponible</div>
+  </div>
+
+  <div class="card gold">
+    <div class="label">Lo que vas a vivir en esta sesión</div>
+    <p class="ct">Vas a usar una herramienta de autoconocimiento: la numerología. <b style="color:var(--gold2)">No es esoterismo ni adivinación</b> — es un espejo y un lenguaje para reconocer patrones que ya están en ti. A mí, como mentor, me ayudó a comprender mi historia y a proyectarme en positivo. Toma lo que te resuene, y deja lo que no. Tú tienes la última palabra sobre ti.</p>
+  </div>
+
+  <div class="label" style="margin:22px 0 12px">Los cuatro principios que sostienen esta sesión</div>
+  <div class="principio"><div class="principio-num">∀7</div><div><div class="principio-info-tit">Aprende cero excusas</div><div class="principio-info-txt">Conocerte es dejar de excusarte. Cuando sabes quién eres, ya no tienes dónde esconderte: asumes tu potencial y tus sombras sin pretextos.</div></div></div>
+  <div class="principio"><div class="principio-num">∀8</div><div><div class="principio-info-tit">Asume responsabilidad total</div><div class="principio-info-txt">Tu número no es tu destino — es tu punto de partida. Lo que hagas con él es tu responsabilidad, y ahí está tu poder.</div></div></div>
+  <div class="principio"><div class="principio-num">∀9</div><div><div class="principio-info-tit">Apalancamiento: la verdad contigo mismo</div><div class="principio-info-txt">Verte con honestidad —dones y sombras— es la palanca de tu crecimiento. La verdad sobre ti no te limita: te libera.</div></div></div>
+  <div class="principio"><div class="principio-num">∀10</div><div><div class="principio-info-tit">Apoyo emocional como combustible</div><div class="principio-info-txt">Conocer tu esencia te da un ancla en los días difíciles. Saber quién eres es el apoyo que te sostiene y te impulsa.</div></div></div>
+
+  <p class="quote">Conócete a ti mismo.
+    <span class="quote-autor">Inscripción del templo de Delfos</span></p>
+
+  <div class="card">
+    <div class="label">El recorrido de esta sesión</div>
+    <p class="ct dim">Siete miradas sobre quién eres, de lo esencial a la síntesis. Cada una usa tu fecha o tu nombre para revelarte algo distinto.</p>
+
+    <div class="recorrido-mini">
+      <div class="paso-mini"><div class="paso-dot">1</div><div class="paso-label">Camino de Vida</div></div>
+      <span class="paso-sep">→</span>
+      <div class="paso-mini"><div class="paso-dot">2</div><div class="paso-label">Sub-números</div></div>
+      <span class="paso-sep">→</span>
+      <div class="paso-mini"><div class="paso-dot">3</div><div class="paso-label">Mapa energético</div></div>
+      <span class="paso-sep">→</span>
+      <div class="paso-mini"><div class="paso-dot">4</div><div class="paso-label">Flechas</div></div>
+      <span class="paso-sep">→</span>
+      <div class="paso-mini"><div class="paso-dot">5</div><div class="paso-label">Tu nombre</div></div>
+      <span class="paso-sep">→</span>
+      <div class="paso-mini"><div class="paso-dot">6</div><div class="paso-label">Linaje</div></div>
+      <span class="paso-sep">→</span>
+      <div class="paso-mini"><div class="paso-dot">7</div><div class="paso-label">Tu perfil</div></div>
+    </div>
+  </div>
+
+  <p class="ct" style="margin-top:8px">Tómate tu tiempo. Esta sesión no se hace con prisa: se hace con honestidad.</p>
+
+  <div class="nav">
+    <button class="bs" onclick="volverResumen()">← Volver al resumen</button>
+    <button class="bp" onclick="comenzar()">Comenzar la Sesión 3 →</button>
+  </div>
+</div>
+
+<script>
+function leer(k,def){var v=localStorage.getItem(k);return (v===null||v===undefined)?def:v;}
+
+// Personalizar saludo con el nombre si existe
+(function(){
+  var nombre=leer('anormal_nombre','');
+  if(nombre){
+    var primer=nombre.split(' ')[0];
+    document.querySelector('.titulo').textContent = primer+', ahora que soltaste, descubre quién eres.';
+  }
+})();
+
+function comenzar(){
+  // Marcar la sesión 2 como iniciada y entregar al primer módulo
+  try{
+    var data=JSON.parse(sessionStorage.getItem('anormal_proceso')||'{}');
+    if(!data.progreso) data.progreso={};
+    data.progreso.sesion3_entrada={completado:true,fecha:new Date().toLocaleDateString('es-CO')};
+    sessionStorage.setItem('anormal_proceso',JSON.stringify(data));
+  }catch(e){}
+  localStorage.setItem('anormal_sesion3_iniciada','1');
+  window.location.href='camino-de-vida.html';
+}
+
+function volverResumen(){
+  window.location.href='resumen-conciencia.html';
+}
+</script>
+</body>
+</html>
