@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>∀normal — Mi Mapa Energético</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Barlow:wght@300;400;500&family=Barlow+Condensed:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#060A14;--bg2:#0A0F1E;--bg3:#0E1525;--bg4:#131D30;--gold:#C9A84C;--gold2:#E8C96A;--gold3:#F5E0A0;--gd:rgba(201,168,76,.13);--gb:rgba(201,168,76,.28);--text:#EAE6DC;--dim:#9AA5B8;--faint:#3A4558;--ffaint:#1E2A3A;--grn:#4ABF7A;--rose:#D4537E;--azul:#5A8CC0;--r:4px;--rm:8px;--rl:14px;}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font-weight:300;font-size:17.5px;line-height:1.75;min-height:100vh}
+.wrap{max-width:720px;margin:0 auto;padding:24px 20px 60px}
+.hdr{display:flex;align-items:center;justify-content:space-between;padding:16px 0 24px;border-bottom:1px solid var(--faint);margin-bottom:24px}
+.hdr-logo{font-family:"Cormorant Garamond",serif;font-size:23px;color:var(--gold2)}
+.hdr-info{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim)}
+.progress-bar{height:2px;background:var(--ffaint);border-radius:2px;overflow:hidden;margin-bottom:10px}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));transition:width .5s ease}
+.progress-txt{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);text-align:center;margin-bottom:24px}
+.pantalla{display:none;animation:fadeIn .4s ease}
+.pantalla.visible{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.label{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:10px}
+.titulo{font-family:"Cormorant Garamond",serif;font-size:clamp(24px,5.5vw,33px);font-weight:300;color:var(--gold2);line-height:1.2;margin-bottom:12px}
+.subtitulo{font-size:16px;color:var(--dim);line-height:1.85;margin-bottom:24px}
+.card{background:var(--bg2);border:1px solid rgba(255,255,255,.06);border-radius:var(--rl);padding:22px 26px;margin-bottom:14px}
+.card.gold{border-color:var(--gb);background:linear-gradient(135deg,var(--bg2),var(--bg3))}
+.ct{font-size:16px;color:var(--text);line-height:1.95}
+.ct.dim{color:var(--dim);font-size:15px}
+.ct b,.ct strong{color:var(--gold2);font-weight:500}
+.video-opcional{background:var(--bg3);border:1px dashed var(--faint);border-radius:14px;padding:20px 22px;margin-bottom:18px;display:flex;align-items:center;gap:16px}
+.video-opcional .vo-play{font-size:24px;color:var(--gold);flex-shrink:0}
+.video-opcional .vo-tit{font-size:13px;color:var(--text)}
+.video-opcional .vo-sub{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--faint);margin-top:3px}
+.grid-nums{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:16px 0}
+.gn{aspect-ratio:1;border-radius:var(--rl);display:flex;flex-direction:column;align-items:center;justify-content:center;border:1px solid var(--ffaint);background:var(--bg3);cursor:pointer;transition:all .2s}
+.gn.pres{border-color:var(--gold);background:var(--gd)}
+.gn.aus{border-color:var(--ffaint);opacity:.5}
+.gn-num{font-family:"Cormorant Garamond",serif;font-size:32px;color:var(--gold2)}
+.gn.aus .gn-num{color:var(--faint)}
+.gn-estado{font-size:9px;letter-spacing:.1em;text-transform:uppercase;margin-top:2px;color:var(--dim)}
+.leyenda{display:flex;gap:18px;justify-content:center;margin-bottom:16px;font-size:12px;color:var(--dim)}
+.leyenda span{display:flex;align-items:center;gap:6px}
+.dot{width:12px;height:12px;border-radius:3px}
+.dot.p{background:var(--gd);border:1px solid var(--gold)}
+.dot.a{background:var(--bg3);border:1px solid var(--ffaint)}
+.detalle-num{background:var(--bg2);border:1px solid var(--gb);border-radius:var(--rl);padding:20px 22px;margin-bottom:12px}
+.dn-head{display:flex;align-items:center;gap:14px;margin-bottom:12px}
+.dn-circ{width:52px;height:52px;border-radius:50%;background:var(--gd);border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;font-family:"Cormorant Garamond",serif;font-size:26px;color:var(--gold2);flex-shrink:0}
+.dn-tit{font-size:16px;color:var(--gold2);font-weight:500}
+.dn-badge{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
+.bp{background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--bg);border:none;border-radius:var(--r);font-family:"Barlow Condensed",sans-serif;font-size:13px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;padding:14px 32px;cursor:pointer;transition:opacity .2s,transform .15s}
+.bp:hover{opacity:.9;transform:translateY(-1px)}
+.bs{background:transparent;color:var(--gold);border:1px solid var(--gb);border-radius:var(--r);font-family:"Barlow Condensed",sans-serif;font-size:12px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;padding:12px 24px;cursor:pointer}
+.nav{display:flex;gap:10px;justify-content:space-between;align-items:center;margin-top:26px;flex-wrap:wrap}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hdr"><div class="hdr-logo">∀normal</div><div class="hdr-info">Sesión 3 · Mapa Energético</div></div>
+  <div class="progress-bar"><div class="progress-fill" id="prog" style="width:20%"></div></div>
+  <div class="progress-txt" id="prog-txt">Tu energía</div>
+
+  <div class="pantalla visible" id="p0">
+    <div class="label">Numerología · Tu mapa</div>
+    <h1 class="titulo">El mapa de tu energía.</h1>
+    <p class="subtitulo">Tu fecha de nacimiento contiene ciertos números — y le faltan otros. Los que <b style="color:var(--gold2)">tienes</b> son las energías con las que naciste, tus dones de base. Los que te <b style="color:var(--gold2)">faltan</b> no son carencias: son justo lo que viniste a desarrollar en esta vida.</p>
+    <div class="video-opcional"><div class="vo-play">▶</div><div class="vo-txt"><div class="vo-tit">Video — Tu mapa energético</div><div class="vo-sub">Opcional · próximamente</div></div></div>
+    <div class="card gold"><div class="label">Cómo leerlo</div><p class="ct">Del 1 al 9, marcaremos cuáles aparecen en tu fecha (presentes) y cuáles no (ausentes). Ninguno es mejor que otro: juntos dibujan tu mapa único de aprendizaje.</p></div>
+    <div id="fecha-info"></div>
+    <div class="nav"><span></span><button class="bp" onclick="calcular()">Ver mi mapa →</button></div>
+  </div>
+
+  <div class="pantalla" id="p1">
+    <div class="label">Tu mapa energético</div>
+    <h1 class="titulo">Esto tienes, esto vienes a desarrollar.</h1>
+    <div class="leyenda"><span><span class="dot p"></span>Presente (lo que traes)</span><span><span class="dot a"></span>Ausente (lo que desarrollas)</span></div>
+    <div class="grid-nums" id="grid"></div>
+    <div id="mapa-detalle"></div>
+    <div class="nav"><button class="bs" onclick="irA(0)">← Anterior</button><button class="bp" onclick="continuar()">Continuar con mis Flechas →</button></div>
+  </div>
+</div>
+
+<script>
+function leer(k,def){var v=localStorage.getItem(k);return (v===null||v===undefined)?def:v;}
+var NV_MAPA={
+  1:{n:"El Pionero",m:"Liderar, crear e iniciar con autenticidad y coraje.",
+    pres:{
+      que:"El 1 en tu fecha significa que traes la energía del inicio — tienes una capacidad natural para arrancar proyectos, tomar decisiones y dar el primer paso cuando otros dudan.",
+      como:"Esta energía se manifiesta en tu facilidad para liderar, en tu tendencia a proponer y en tu incomodidad cuando debes esperar a que otros decidan por ti.",
+      potencia:"Para potenciar este recurso: úsalo conscientemente en situaciones que necesitan iniciativa. Cuando el grupo duda, tú propón. Cuando algo necesita empezar, tú empieza."
+    },
+    aus:{
+      que:"El 1 ausente en tu fecha significa que la energía del liderazgo independiente y la iniciativa propia son aprendizajes centrales de esta vida.",
+      como:"Esto puede manifestarse como tendencia a esperar que otros tomen la delantera, dificultad para confiar en el propio criterio, o incomodidad al tomar decisiones sin consenso.",
+      aprende:"Lo que viniste a desarrollar: la confianza en tu propia voz. Que tu perspectiva tiene valor aunque nadie la haya validado antes.",
+      personas:"Las personas con NV 1 en tu vida probablemente te muestran esa capacidad de iniciativa que estás aprendiendo a desarrollar.",
+      reto:"Esta semana toma una decisión sin consultar a nadie. Solo una. Observa qué ocurre cuando actúas desde tu propio criterio.",
+      talentos:["Trabajo en equipo genuino","Humildad para recibir","Escuchar antes de proponer"]
+    },
+    talentos:[
+      {n:"Liderazgo natural",d:"Diriges sin imposición — las personas te siguen porque confían genuinamente en ti."},
+      {n:"Creatividad e innovación",d:"Ves soluciones donde otros solo ven obstáculos."},
+      {n:"Determinación",d:"Cuando decides algo, encuentras la forma de lograrlo. Los obstáculos te fortalecen."},
+      {n:"Originalidad de pensamiento",d:"Piensas de formas que otros no han explorado."},
+      {n:"Resiliencia interior",d:"Caes y te levantas con más fuerza. La adversidad te templa en lugar de romperte."},
+      {n:"Visión estratégica",d:"Ves el panorama completo cuando otros están perdidos en los detalles."}
+    ]},
+  2:{n:"El Mediador",m:"Crear armonía, cooperar y conectar con sensibilidad.",
+    pres:{
+      que:"El 2 en tu fecha significa que traes la energía de la conexión emocional — tienes una capacidad natural para leer a las personas, crear armonía y construir puentes.",
+      como:"Esta energía se manifiesta en tu intuición para detectar lo que no se dice, en tu facilidad para hacer que otros se sientan cómodos y en tu habilidad para mediar conflictos.",
+      potencia:"Para potenciar este recurso: úsalo en situaciones que requieren escucha profunda, negociación o acompañamiento emocional. Tu don de conexión es uno de los más valiosos."
+    },
+    aus:{
+      que:"El 2 ausente indica que la inteligencia emocional, la cooperación y la conexión interpersonal son aprendizajes importantes en esta vida.",
+      como:"Puede manifestarse como dificultad para leer las emociones de otros, tendencia a racionalizar lo que se siente, o incomodidad en situaciones de alta carga emocional.",
+      aprende:"Lo que viniste a desarrollar: el lenguaje de las emociones. Que sentir no es un obstáculo — es información.",
+      personas:"Las personas con NV 2 en tu vida te muestran la inteligencia emocional que estás aprendiendo a integrar.",
+      reto:"Al final de esta semana, escribe qué sentiste cada día. No qué pensaste — qué sentiste. Usa palabras específicas.",
+      talentos:["Apertura emocional","Escucha sin agenda","Cooperación genuina"]
+    },
+    talentos:[
+      {n:"Inteligencia emocional profunda",d:"Sientes lo que otros sienten antes de que lo expresen."},
+      {n:"Intuición altamente desarrollada",d:"Tu corazonada casi siempre tiene razón."},
+      {n:"Diplomacia natural",d:"Sabes cómo decir verdades difíciles sin herir."},
+      {n:"Escucha genuina",d:"Cuando escuchas, las personas se abren como con nadie más."},
+      {n:"Paciencia sostenida",d:"Puedes sostener el proceso cuando otros quieren correr."}
+    ]},
+  3:{n:"El Creador",m:"Comunicar, crear e inspirar a través de la alegría y el arte.",
+    pres:{
+      que:"El 3 en tu fecha significa que traes la energía de la expresión y la creatividad — tienes un don natural para comunicar, crear y transformar lo ordinario en extraordinario.",
+      como:"Esta energía se manifiesta en tu facilidad para la comunicación, en tu sentido del humor, en tu capacidad de ver el lado luminoso de las cosas y en tu don artístico.",
+      potencia:"Para potenciar este recurso: úsalo conscientemente en la enseñanza, la comunicación de ideas difíciles o la creación de experiencias. Tu expresión tiene el poder de transformar espacios."
+    },
+    aus:{
+      que:"El 3 ausente indica que la expresión creativa, la comunicación fluida y la alegría como recurso son aprendizajes importantes.",
+      como:"Puede manifestarse como dificultad para expresar lo que se siente o piensa, tendencia a la seriedad excesiva, o creatividad reprimida.",
+      aprende:"Lo que viniste a desarrollar: tu voz. Que lo que creas y expresas tiene valor aunque no sea perfecto.",
+      personas:"Las personas con NV 3 en tu vida te muestran la expresión y la alegría que estás aprendiendo a liberar.",
+      reto:"Esta semana expresa algo de una forma inusual para ti. Escríbelo, dibújalo, cuéntalo. Lo que importa es que salga.",
+      talentos:["Expresión creativa","Comunicación auténtica","Alegría consciente"]
+    },
+    talentos:[
+      {n:"Creatividad desbordante",d:"Tu mente produce ideas que sorprenden incluso a ti mismo."},
+      {n:"Comunicación carismática",d:"Cuando hablas, la gente escucha y recuerda."},
+      {n:"Sentido del humor e ingenio",d:"Aligeras los espacios más tensos con naturalidad."},
+      {n:"Capacidad artística",d:"La expresión creativa te fluye en múltiples formas."},
+      {n:"Optimismo contagioso",d:"Las personas se van de tu lado sintiéndose mejor."}
+    ]},
+  4:{n:"El Constructor",m:"Construir fundamentos duraderos a través del orden y la perseverancia.",
+    pres:{
+      que:"El 4 en tu fecha significa que traes la energía de la construcción y la solidez — tienes una capacidad natural para el trabajo metódico, la disciplina y crear estructuras que duran.",
+      como:"Esta energía se manifiesta en tu fiabilidad, en tu capacidad de planificar y ejecutar, y en la confianza que generas en quienes dependen de ti.",
+      potencia:"Para potenciar este recurso: úsalo en proyectos que requieren constancia y rigor. Tu capacidad de construir con solidez es un don extraordinariamente valioso."
+    },
+    aus:{
+      que:"El 4 ausente indica que la disciplina sostenida, el orden y la constancia son aprendizajes importantes en esta vida.",
+      como:"Puede manifestarse como dificultad para mantener rutinas, tendencia a dejar proyectos a medias o resistencia a las tareas que requieren persistencia.",
+      aprende:"Lo que viniste a desarrollar: la confianza en el proceso. Que los grandes resultados se construyen con pequeños pasos diarios.",
+      personas:"Las personas con NV 4 en tu vida te muestran la constancia y la solidez que estás aprendiendo a desarrollar.",
+      reto:"Elige una práctica pequeña esta semana y hazla 7 días seguidos. No importa cuán pequeña — lo que importa es no saltarla.",
+      talentos:["Constancia elegida","Disciplina con propósito","Fiabilidad consciente"]
+    },
+    talentos:[
+      {n:"Disciplina y constancia",d:"Sostienes el esfuerzo cuando otros ya se cansaron."},
+      {n:"Organización y planificación",d:"Creas sistemas donde otros ven caos."},
+      {n:"Fiabilidad absoluta",d:"Cumples lo que prometes."},
+      {n:"Sentido práctico",d:"Conviertes ideas en planes ejecutables."},
+      {n:"Lealtad profunda",d:"Tus compromisos son para largo plazo."}
+    ]},
+  5:{n:"El Explorador",m:"Vivir el cambio con sabiduría y ser puente de transformación.",
+    pres:{
+      que:"El 5 en tu fecha significa que traes la energía de la libertad y la adaptabilidad — tienes una capacidad natural para moverte en entornos cambiantes, explorar nuevas ideas y conectar mundos diferentes.",
+      como:"Esta energía se manifiesta en tu versatilidad, en tu curiosidad intelectual y en tu capacidad de adaptarte cuando otros se paralizan.",
+      potencia:"Para potenciar este recurso: úsalo en situaciones que requieren flexibilidad, innovación o comunicación con personas muy diversas."
+    },
+    aus:{
+      que:"El 5 ausente indica que la adaptabilidad, la versatilidad y la apertura al cambio son aprendizajes importantes.",
+      como:"Puede manifestarse como resistencia a los cambios imprevistos, tendencia a la rigidez en los planes o dificultad para ver múltiples perspectivas.",
+      aprende:"Lo que viniste a desarrollar: la confianza en que puedes adaptarte. Que lo que cambia no siempre te destruye — a veces te libera.",
+      personas:"Las personas con NV 5 en tu vida te muestran la adaptabilidad y la libertad que estás aprendiendo a integrar.",
+      reto:"Esta semana haz algo diferente a tu rutina habitual. Una ruta nueva, una conversación inesperada. Observa cómo te sientes.",
+      talentos:["Apertura al cambio","Versatilidad consciente","Exploración con raíces"]
+    },
+    talentos:[
+      {n:"Adaptabilidad extraordinaria",d:"Te reinventas con una facilidad que asombra."},
+      {n:"Comunicación fluida",d:"Conectas con personas muy diversas sin esfuerzo."},
+      {n:"Curiosidad intelectual",d:"Tu mente nunca se cansa de explorar."},
+      {n:"Apertura al cambio",d:"Lo que asusta a otros a ti te emociona."},
+      {n:"Creatividad en la crisis",d:"Bajo presión encuentras soluciones que nadie más vio."}
+    ]},
+  6:{n:"El Sanador",m:"Sanar, cuidar y crear belleza y armonía en el mundo.",
+    pres:{
+      que:"El 6 en tu fecha significa que traes la energía del amor y el cuidado — tienes una capacidad natural para crear ambientes armónicos, cuidar a otros y sanar con tu presencia.",
+      como:"Esta energía se manifiesta en tu calidez, en la confianza que generas rápidamente y en tu preocupación genuina por el bienestar de los demás.",
+      potencia:"Para potenciar este recurso: úsalo conscientemente en el liderazgo, la enseñanza o cualquier rol donde el corazón sea la herramienta principal."
+    },
+    aus:{
+      que:"El 6 ausente indica que el amor incondicional, el cuidado genuino y la responsabilidad afectiva son aprendizajes importantes.",
+      como:"Puede manifestarse como dificultad para expresar afecto, tendencia a poner el trabajo antes que las relaciones, o incomodidad ante las necesidades emocionales propias y ajenas.",
+      aprende:"Lo que viniste a desarrollar: la capacidad de cuidar sin condiciones. Que la vulnerabilidad y el cuidado no son debilidades — son puentes.",
+      personas:"Las personas con NV 6 en tu vida te muestran el amor y el cuidado que estás aprendiendo a integrar.",
+      reto:"Esta semana haz algo por alguien sin que te lo hayan pedido. Sin esperar reconocimiento. Observa cómo te sientes.",
+      talentos:["Amor consciente","Cuidado con límites","Responsabilidad desde el amor"]
+    },
+    talentos:[
+      {n:"Amor profundo e incondicional",d:"Amas con una intensidad que transforma a quienes reciben ese amor."},
+      {n:"Responsabilidad genuina",d:"Asumes compromisos que otros evitan."},
+      {n:"Crear ambientes armónicos",d:"Los espacios que habitas se vuelven más cálidos y seguros."},
+      {n:"Don para la sanación",d:"Tu presencia tiene un efecto sanador."},
+      {n:"Lealtad absoluta",d:"Quien tiene tu amor, lo tiene para siempre."}
+    ]},
+  7:{n:"El Sabio",m:"Buscar la verdad, conectar con lo espiritual y compartir sabiduría.",
+    pres:{
+      que:"El 7 en tu fecha significa que traes la energía del conocimiento y la búsqueda de sentido — tienes una capacidad natural para el análisis profundo, la intuición espiritual y la conexión con lo que va más allá de lo visible.",
+      como:"Esta energía se manifiesta en tu necesidad de entender a fondo, en tu intuición refinada y en tu conexión con lo espiritual o lo filosófico.",
+      potencia:"Para potenciar este recurso: úsalo en investigación, análisis, enseñanza o cualquier espacio donde la profundidad y la contemplación sean valiosas."
+    },
+    aus:{
+      que:"El 7 ausente indica que la profundidad analítica, la conexión espiritual y la confianza en la intuición son aprendizajes importantes.",
+      como:"Puede manifestarse como tendencia al pensamiento superficial o rápido, desconexión de la dimensión espiritual o dificultad para confiar en lo que no se puede verificar.",
+      aprende:"Lo que viniste a desarrollar: la confianza en lo que no se ve pero se siente. Que hay una dimensión de la realidad que la razón sola no alcanza.",
+      personas:"Las personas con NV 7 en tu vida te muestran la profundidad y la espiritualidad que estás aprendiendo a integrar.",
+      reto:"Esta semana dedica 10 minutos diarios al silencio. Sin pantallas, sin música. Solo estar. Observa qué emerge.",
+      talentos:["Reflexión antes de actuar","Confianza en la intuición","Apertura a lo espiritual"]
+    },
+    talentos:[
+      {n:"Análisis profundo",d:"Llegas al fondo de las cosas cuando otros se quedan en la superficie."},
+      {n:"Intuición espiritual",d:"Sabes cosas sin saber cómo las sabes."},
+      {n:"Capacidad de contemplación",d:"Puedes estar contigo mismo con una paz que pocos conocen."},
+      {n:"Perfeccionismo al servicio de la excelencia",d:"Tu estándar de calidad eleva todo lo que tocas."},
+      {n:"Conexión con lo sagrado",d:"Ves lo divino donde otros solo ven lo ordinario."}
+    ]},
+  8:{n:"El Ejecutivo",m:"Crear abundancia, ejercer el poder con responsabilidad y dejar legado.",
+    pres:{
+      que:"El 8 en tu fecha significa que traes la energía de la manifestación y el poder consciente — tienes una capacidad natural para los negocios, el liderazgo ejecutivo y la concreción de proyectos de gran escala.",
+      como:"Esta energía se manifiesta en tu visión para los recursos, en tu autoridad natural y en tu capacidad de organizar sistemas para lograr grandes cosas.",
+      potencia:"Para potenciar este recurso: úsalo en proyectos que requieran visión estratégica, gestión de recursos o liderazgo de alto impacto."
+    },
+    aus:{
+      que:"El 8 ausente indica que la relación con el poder, la abundancia y el liderazgo ejecutivo son aprendizajes importantes.",
+      como:"Puede manifestarse como bloqueos frente al éxito o la abundancia, dificultad para ejercer autoridad, o una relación incómoda con el dinero y los recursos.",
+      aprende:"Lo que viniste a desarrollar: una relación sana con el poder. Que el éxito y la integridad no son opuestos — se necesitan.",
+      personas:"Las personas con NV 8 en tu vida te muestran el liderazgo ejecutivo y la relación con la abundancia que estás aprendiendo a integrar.",
+      reto:"Esta semana identifica un área donde estás evitando ejercer tu autoridad o reclamar lo que te corresponde. Da un paso en esa dirección.",
+      talentos:["Poder con integridad","Abundancia consciente","Liderazgo al servicio"]
+    },
+    talentos:[
+      {n:"Liderazgo ejecutivo",d:"Sabes cómo organizar personas y recursos para lograr grandes cosas."},
+      {n:"Visión para los negocios",d:"Ves el valor donde otros no lo ven."},
+      {n:"Determinación para materializar",d:"Conviertes visiones en realidades concretas."},
+      {n:"Autoridad natural",d:"Las personas confían en tu liderazgo de forma instintiva."},
+      {n:"Pensamiento estratégico",d:"Juegas en el largo plazo cuando otros solo ven el inmediato."}
+    ]},
+  9:{n:"El Humanista",m:"Servir, transformar y elevar la conciencia colectiva desde el amor universal.",
+    pres:{
+      que:"El 9 en tu fecha significa que traes la energía de la compasión universal — tienes una capacidad natural para la empatía profunda, el servicio genuino y la comprensión de la condición humana.",
+      como:"Esta energía se manifiesta en tu perspectiva amplia, en tu preocupación genuina por el bien colectivo y en tu capacidad de ver el sufrimiento ajeno con comprensión.",
+      potencia:"Para potenciar este recurso: úsalo en el servicio, la enseñanza o cualquier espacio donde la compasión y la sabiduría sean la herramienta principal."
+    },
+    aus:{
+      que:"El 9 ausente indica que la compasión universal, el servicio desinteresado y la capacidad de soltar son aprendizajes importantes.",
+      como:"Puede manifestarse como dificultad para ver más allá del propio interés, tendencia al apego o incomodidad con la idea del servicio sin retribución.",
+      aprende:"Lo que viniste a desarrollar: el amor que no pide nada a cambio. Que dar sin calcular no te vacía — te completa.",
+      personas:"Las personas con NV 9 en tu vida te muestran la compasión y el servicio que estás aprendiendo a integrar.",
+      reto:"Esta semana realiza un acto de generosidad anónima. Que nadie sepa que fuiste tú. Observa cómo te sientes.",
+      talentos:["Servicio sin condiciones","Compasión con discernimiento","Soltar con gracia"]
+    },
+    talentos:[
+      {n:"Compasión universal",d:"Sientes el dolor del mundo como propio y eso te mueve a actuar."},
+      {n:"Sabiduría intuitiva",d:"Tu comprensión de la condición humana es extraordinaria."},
+      {n:"Enseñanza transformacional",d:"Cuando compartes lo que sabes, algo en la persona cambia."},
+      {n:"Arte y expresión profunda",d:"Tu creatividad tiene una dimensión espiritual."},
+      {n:"Cerrar ciclos con gracia",d:"Sabes soltar lo que ya cumplió su propósito."}
+    ]}
+}
+
+function digsFecha(dd,mm,aa){return[...`${dd}`.padStart(2,'0'),`${mm}`.padStart(2,'0'),`${aa}`].join('').split('').map(Number).filter(n=>n>0).map(n=>redS(n));}
+function fmtFecha(iso){var p=iso.split('-');if(p.length!==3)return iso;var m=['','enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];return parseInt(p[2])+' de '+m[parseInt(p[1])]+' de '+p[0];}
+var presentes=[], ausentes=[], seleccionado=null;
+
+function init0(){
+  var f=leer('anormal_fecha_nac','');
+  var info=document.getElementById('fecha-info');
+  if(f){ info.innerHTML='<div class="card"><p class="ct dim">Usaremos tu fecha: <b style="color:var(--gold2)">'+fmtFecha(f)+'</b></p></div>'; }
+  else { info.innerHTML='<div class="card"><div class="label">Tu fecha de nacimiento</div><input type="date" id="input-fecha" style="background:var(--bg3);border:1px solid var(--faint);border-radius:var(--rm);color:var(--text);font-size:16px;padding:11px 14px"></div>'; }
+}
+function calcular(){
+  var f=leer('anormal_fecha_nac','');
+  if(!f){ var inp=document.getElementById('input-fecha'); f=inp?inp.value:''; }
+  if(!f){ alert('Ingresa tu fecha de nacimiento.'); return; }
+  localStorage.setItem('anormal_fecha_nac',f);
+  var digs=f.replace(/[^0-9]/g,'').split('').map(Number).filter(function(n){return n>=1&&n<=9;});
+  presentes=[]; ausentes=[];
+  for(var i=1;i<=9;i++){ if(digs.indexOf(i)>=0) presentes.push(i); else ausentes.push(i); }
+  localStorage.setItem('anormal_mapa', JSON.stringify({presentes:presentes,ausentes:ausentes}));
+  irA(1);
+}
+function irA(n){
+  document.querySelectorAll('.pantalla').forEach(function(p){p.classList.remove('visible');});
+  document.getElementById('p'+n).classList.add('visible');
+  document.getElementById('prog').style.width=(n===0?20:100)+'%';
+  document.getElementById('prog-txt').textContent=(n===0?'Tu energía':'Tu mapa');
+  if(n===1){ renderGrid(); seleccionado=presentes[0]||ausentes[0]; renderDetalle(); }
+  window.scrollTo(0,0);
+}
+function renderGrid(){
+  var g=document.getElementById('grid'); g.innerHTML='';
+  for(var i=1;i<=9;i++){
+    var pres=presentes.indexOf(i)>=0;
+    g.innerHTML+='<div class="gn '+(pres?'pres':'aus')+'" onclick="seleccionado='+i+';renderGrid();renderDetalle();document.getElementById(\'mapa-detalle\').scrollIntoView({behavior:\'smooth\',block:\'nearest\'})"><div class="gn-num">'+i+'</div><div class="gn-estado">'+(pres?'presente':'ausente')+'</div></div>';
+  }
+}
+function renderDetalle(){
+  var d=NV_MAPA[seleccionado]; if(!d){ document.getElementById('mapa-detalle').innerHTML=''; return; }
+  var pres=presentes.indexOf(seleccionado)>=0;
+  var info=pres?d.pres:d.aus;
+  var cont=document.getElementById('mapa-detalle');
+  cont.innerHTML='<div class="detalle-num">'+
+    '<div class="dn-head"><div class="dn-circ">'+seleccionado+'</div><div><div class="dn-tit">'+(d.n||'')+'</div><div class="dn-badge">'+(pres?'Energía presente · lo que traes':'Energía ausente · lo que desarrollas')+'</div></div></div>'+
+    (info&&info.que?'<p class="ct">'+info.que+'</p>':'')+
+    (info&&info.como?'<p class="ct" style="margin-top:8px">'+info.como+'</p>':'')+
+    (info&&info.potencia?'<p class="ct" style="margin-top:8px"><b>'+(pres?'Tu potencia: ':'Tu camino: ')+'</b>'+info.potencia+'</p>':'')+
+    (info&&info.recurso?'<p class="ct dim" style="margin-top:8px">'+info.recurso+'</p>':'')+
+    '</div>';
+}
+function continuar(){
+  try{ var data=JSON.parse(sessionStorage.getItem('anormal_proceso')||'{}');
+    data.mapa={presentes:presentes,ausentes:ausentes}; if(!data.progreso)data.progreso={};
+    data.progreso.mapa={completado:true,fecha:new Date().toLocaleDateString('es-CO')};
+    sessionStorage.setItem('anormal_proceso',JSON.stringify(data)); }catch(e){}
+  window.location.href='flechas.html';
+}
+(function(){ init0(); })();
+</script>
+</body>
+</html>
