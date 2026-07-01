@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>∀normal — Mi Camino de Vida</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Barlow:wght@300;400;500&family=Barlow+Condensed:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#060A14;--bg2:#0A0F1E;--bg3:#0E1525;--bg4:#131D30;
+  --gold:#C9A84C;--gold2:#E8C96A;--gold3:#F5E0A0;
+  --gd:rgba(201,168,76,.13);--gb:rgba(201,168,76,.28);
+  --text:#EAE6DC;--dim:#9AA5B8;--faint:#3A4558;--ffaint:#1E2A3A;
+  --grn:#4ABF7A;--rose:#D4537E;--azul:#5A8CC0;
+  --r:4px;--rm:8px;--rl:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font-weight:300;font-size:17.5px;line-height:1.75;min-height:100vh}
+.wrap{max-width:720px;margin:0 auto;padding:24px 20px 60px}
+.hdr{display:flex;align-items:center;justify-content:space-between;padding:16px 0 24px;border-bottom:1px solid var(--faint);margin-bottom:24px}
+.hdr-logo{font-family:"Cormorant Garamond",serif;font-size:23px;color:var(--gold2)}
+.hdr-info{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim)}
+.progress-bar{height:2px;background:var(--ffaint);border-radius:2px;overflow:hidden;margin-bottom:10px}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));transition:width .5s ease}
+.progress-txt{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);text-align:center;margin-bottom:24px}
+.pantalla{display:none;animation:fadeIn .4s ease}
+.pantalla.visible{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.label{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:10px}
+.titulo{font-family:"Cormorant Garamond",serif;font-size:clamp(24px,5.5vw,33px);font-weight:300;color:var(--gold2);line-height:1.2;margin-bottom:12px}
+.subtitulo{font-size:16px;color:var(--dim);line-height:1.85;margin-bottom:24px}
+.card{background:var(--bg2);border:1px solid rgba(255,255,255,.06);border-radius:var(--rl);padding:22px 26px;margin-bottom:14px}
+.card.gold{border-color:var(--gb);background:linear-gradient(135deg,var(--bg2),var(--bg3))}
+.ct{font-size:16px;color:var(--text);line-height:1.95}
+.ct.dim{color:var(--dim);font-size:15px}
+.ct b,.ct strong{color:var(--gold2);font-weight:500}
+.quote{font-family:"Cormorant Garamond",serif;font-style:italic;font-size:20px;color:var(--gold3);line-height:1.55;border-left:2px solid var(--gb);padding-left:18px;margin:20px 0}
+.video-opcional{background:var(--bg3);border:1px dashed var(--faint);border-radius:14px;padding:20px 22px;margin-bottom:18px;display:flex;align-items:center;gap:16px}
+.video-opcional .vo-play{font-size:24px;color:var(--gold);flex-shrink:0}
+.video-opcional .vo-tit{font-size:13px;color:var(--text)}
+.video-opcional .vo-sub{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--faint);margin-top:3px}
+/* CALCULO VISUAL */
+.calc-box{background:linear-gradient(135deg,var(--bg2),var(--bg3));border:1px solid var(--gb);border-radius:var(--rl);padding:24px;margin-bottom:16px;text-align:center}
+.calc-fecha{font-size:15px;color:var(--dim);letter-spacing:.1em;margin-bottom:14px}
+.calc-suma{font-family:"Barlow Condensed",sans-serif;font-size:20px;color:var(--text);letter-spacing:.06em;margin-bottom:8px}
+.calc-flecha{color:var(--gold);font-size:22px;margin:6px 0}
+.calc-resultado{width:96px;height:96px;margin:14px auto 0;border-radius:50%;background:var(--gd);border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;font-family:"Cormorant Garamond",serif;font-size:44px;color:var(--gold2)}
+/* NUMERO GRANDE HERO */
+.num-hero{text-align:center;margin:10px 0 20px}
+.num-big{font-family:"Cormorant Garamond",serif;font-size:96px;line-height:1;color:var(--gold2);margin-bottom:4px}
+.num-arq{font-family:"Cormorant Garamond",serif;font-style:italic;font-size:26px;color:var(--gold3)}
+.num-arqsub{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-top:6px}
+.bloque{margin-bottom:14px}
+.bloque-lbl{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+.chip-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+.chip{background:var(--bg3);border:1px solid var(--ffaint);border-radius:20px;padding:7px 14px;font-size:14px;color:var(--text)}
+.dato-fecha{display:flex;gap:10px;align-items:center;justify-content:center;margin:16px 0}
+.dato-fecha input{background:var(--bg3);border:1px solid var(--faint);border-radius:var(--rm);color:var(--text);font-family:"Barlow",sans-serif;font-size:16px;padding:11px 14px}
+.dato-fecha input:focus{outline:none;border-color:var(--gold)}
+.bp{background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--bg);border:none;border-radius:var(--r);font-family:"Barlow Condensed",sans-serif;font-size:13px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;padding:14px 32px;cursor:pointer;transition:opacity .2s,transform .15s}
+.bp:hover{opacity:.9;transform:translateY(-1px)}
+.bs{background:transparent;color:var(--gold);border:1px solid var(--gb);border-radius:var(--r);font-family:"Barlow Condensed",sans-serif;font-size:12px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;padding:12px 24px;cursor:pointer}
+.nav{display:flex;gap:10px;justify-content:space-between;align-items:center;margin-top:26px;flex-wrap:wrap}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hdr">
+    <div class="hdr-logo">∀normal</div>
+    <div class="hdr-info">Sesión 3 · Camino de Vida</div>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" id="prog" style="width:25%"></div></div>
+  <div class="progress-txt" id="prog-txt">Tu número raíz</div>
+
+  <!-- P0: INTRO + FECHA -->
+  <div class="pantalla visible" id="p0">
+    <div class="label">Numerología · El primer número</div>
+    <h1 class="titulo">Tu Camino de Vida.</h1>
+    <p class="subtitulo">De todos los números que te acompañan, este es el más importante. Tu Camino de Vida nace del día exacto en que llegaste al mundo, y revela la lección central que viniste a aprender — el hilo que conecta toda tu existencia.</p>
+
+    <div class="video-opcional">
+      <div class="vo-play">▶</div>
+      <div class="vo-txt"><div class="vo-tit">Video — Tu Camino de Vida</div><div class="vo-sub">Opcional · próximamente</div></div>
+    </div>
+
+    <div class="card gold">
+      <div class="label">Cómo se calcula</div>
+      <p class="ct">Se suman todos los dígitos de tu fecha de nacimiento, y se reducen hasta llegar a un solo número, del 1 al 9. Salvo que aparezca un <b>número maestro</b> (11, 22 o 33), que por su fuerza no se reduce. Ese número es tu Camino.</p>
+    </div>
+
+    <div id="fecha-wrap"></div>
+    <div class="nav">
+      <span></span>
+      <button class="bp" id="btn-calcular" onclick="calcular()">Descubrir mi número →</button>
+    </div>
+  </div>
+
+  <!-- P1: CÁLCULO ANIMADO -->
+  <div class="pantalla" id="p1">
+    <div class="label">Tu cálculo</div>
+    <h1 class="titulo">De tu fecha, tu número.</h1>
+    <div class="calc-box" id="calc-visual"></div>
+    <div class="nav">
+      <button class="bs" onclick="irA(0)">← Anterior</button>
+      <button class="bp" onclick="irA(2)">Ver qué significa →</button>
+    </div>
+  </div>
+
+  <!-- P2: SIGNIFICADO -->
+  <div class="pantalla" id="p2">
+    <div id="significado"></div>
+    <div class="nav">
+      <button class="bs" onclick="irA(1)">← Anterior</button>
+      <button class="bp" onclick="continuar()">Continuar con mis Sub-números →</button>
+    </div>
+  </div>
+</div>
+
+<script>
+function leer(k,def){var v=localStorage.getItem(k);return (v===null||v===undefined)?def:v;}
+
+// ====== CONTENIDO NUMEROLÓGICO (rescatado) ======
+const NV = {
+  1:{
+    n:"El Pionero",
+    arquetipo:"El que abre caminos",
+    mision:"Liderar, crear e iniciar con autenticidad y coraje.",
+    d1:"Nacer con el número 1 es traer al mundo la energía más pura de la creación y el liderazgo. En numerología pitagórica, el 1 es el origen de todo — el punto desde donde empieza la existencia misma. No es casual que sea el primer número: representa la chispa inicial, la voluntad de ser.",
+    d2:"Eres una persona con una fuerza interior extraordinaria, una voluntad que pocos poseen y una capacidad natural para ver lo que aún no existe y convertirlo en realidad. No sigues corrientes — las creas. No esperas permiso — actúas. Y aunque ese camino a veces se siente solitario, esa soledad es el precio de ir adelante.",
+    d3:"Cuando estás alineado con tu propósito, tu energía es magnética. Las personas sienten tu presencia, confían en tu dirección y buscan tu opinión en momentos cruciales. Eres de los que nacieron para liderar, no porque lo busques, sino porque la vida naturalmente te pone al frente.",
+    karma:"Tu karma es aprender que el verdadero liderazgo no impone — inspira. Que la fuerza más grande no es la que domina, sino la que eleva. Cada vez que la vida te pone en situaciones donde debes ceder el protagonismo o pedir ayuda, te está entrenando en la forma más elevada del número 1: el liderazgo consciente.",
+    sombra:"Cuando el número 1 no está integrado, aparece como arrogancia, terquedad y dificultad para reconocer los errores. Puede manifestarse como aislamiento emocional — convenciéndose de que no necesita a nadie. También como el miedo disfrazado de fortaleza: controlar porque en el fondo teme el fracaso.",
+    talentos:[
+      {n:"Liderazgo natural",d:"Diriges sin imposición — las personas te siguen porque confían genuinamente en ti. No necesitas títulos para que otros reconozcan tu autoridad."},
+      {n:"Creatividad e innovación",d:"Ves soluciones donde otros solo ven obstáculos. Tu mente tiene la capacidad de conectar ideas que parecen distantes y crear lo que aún no existe."},
+      {n:"Determinación inquebrantable",d:"Cuando decides algo, encuentras la forma de lograrlo. Los obstáculos no te detienen — te fortalecen y te enseñan."},
+      {n:"Originalidad de pensamiento",d:"Piensas de formas que otros no han explorado. Esa perspectiva única es uno de tus mayores activos y el mundo la necesita."},
+      {n:"Resiliencia interior",d:"Caes y te levantas con más fuerza que antes. La adversidad te templa en lugar de romperte — esa es una fortaleza extraordinaria."},
+      {n:"Visión estratégica",d:"Ves el panorama completo cuando otros están perdidos en los detalles. Sabes a dónde va el camino antes de que sea evidente para los demás."}
+    ],
+    rp:"Esta semana identifica un momento donde tu liderazgo benefició genuinamente a alguien. Escribe qué hiciste, cómo lo hiciste y qué aprendiste de esa experiencia. Eso es el número 1 en su versión más luminosa.",
+    ra:"Durante los próximos 7 días practica pedir ayuda en algo donde normalmente lo harías solo. Observa qué resiste en ti cuando lo haces. Esa resistencia es exactamente lo que el número 1 ha venido a transformar."
+  },
+  2:{
+    n:"El Mediador",arquetipo:"El que construye puentes",mision:"Crear armonía, cooperar y conectar con sensibilidad.",
+    d1:"El número 2 trae al mundo la energía más refinada de la cooperación y la inteligencia emocional. En numerología, el 2 es el primer número par — representa la dualidad, el encuentro entre dos fuerzas, la capacidad de contener opuestos sin que se destruyan.",
+    d2:"Tienes una capacidad para sentir lo que los demás sienten que pocas personas en el mundo poseen. Tu intuición es extraordinaria: percibes lo que no se dice, sientes lo que no se expresa. Tu don más grande es la capacidad de hacer que los demás se sientan vistos, escuchados y comprendidos.",
+    d3:"Eres el pegamento invisible de los grupos, la persona que equilibra cuando hay tensión, que traduce cuando hay malentendidos y que cuida cuando nadie más lo hace. Tu misión no es brillar solo — es hacer brillar el conjunto. Eso, lejos de ser una limitación, es uno de los dones más escasos.",
+    karma:"Tu karma es aprender que cooperar no significa anularse. Que ser empático no obliga a absorber el dolor ajeno. Que puedes cuidar profundamente a otros y al mismo tiempo proteger tu propio centro.",
+    sombra:"La sombra del 2 es la codependencia y la invisibilidad elegida. Puede manifestarse como necesidad excesiva de aprobación, o resentimiento silencioso que se acumula hasta que explota de formas que nadie esperaba.",
+    talentos:[
+      {n:"Inteligencia emocional profunda",d:"Sientes lo que otros sienten antes de que lo expresen. Esta capacidad es uno de los talentos más valiosos en el liderazgo y las relaciones."},
+      {n:"Intuición altamente desarrollada",d:"Tu corazonada casi siempre tiene razón. Aprender a confiar en ella sin buscar validación constante es parte de tu camino."},
+      {n:"Diplomacia natural",d:"Sabes cómo decir verdades difíciles sin herir. Medias conflictos con una habilidad que otros no comprenden."},
+      {n:"Capacidad de escucha genuina",d:"Cuando escuchas, las personas se abren como con nadie más. Ese don crea confianza que otros tardan años en construir."},
+      {n:"Paciencia sostenida",d:"Puedes sostener el proceso cuando otros quieren correr. En un mundo que todo lo quiere inmediato, esa paciencia es un regalo."}
+    ],
+    rp:"Identifica tres situaciones esta semana donde tu empatía fue un regalo para alguien. Escribe cómo te sentiste siendo ese puente. Eso es el número 2 en su versión más poderosa.",
+    ra:"Esta semana practica decir no a una solicitud sin justificarte. Solo: 'en este momento no puedo'. Observa la incomodidad — ahí está el aprendizaje más profundo de tu número."
+  },
+  3:{
+    n:"El Creador",arquetipo:"El que ilumina con su expresión",mision:"Comunicar, crear e inspirar a través de la alegría y el arte.",
+    d1:"El número 3 trae al mundo la energía más viva de la creatividad y la expresión. En numerología, el 3 es la síntesis entre el 1 (la fuerza individual) y el 2 (la conexión con el otro) — de esa unión nace algo nuevo: la creación misma.",
+    d2:"Tienes una imaginación que no tiene límites y una facilidad para la comunicación que hace que las ideas más complejas suenen simples y apasionantes cuando las explicas tú. Tu presencia es un regalo: iluminas las reuniones, inspiras a los que dudan y conviertes lo ordinario en extraordinario.",
+    d3:"La vida te pide que uses tu creatividad al servicio de algo más grande que el entretenimiento. Que tus palabras, tu arte o tu comunicación sirvan para despertar conciencias, sanar heridas o abrir posibilidades que otros no pueden ver.",
+    karma:"Tu karma es aprender que la creatividad sin compromiso es fuego que ilumina un instante y se apaga. Cada vez que te quedas a medias, la vida te invita a descubrir cuánto más puede lograr tu número 3 cuando la brillantez se une a la constancia.",
+    sombra:"La sombra del 3 es la superficialidad y la dispersión crónica. Puede manifestarse como hablar mucho y decir poco, o usar el humor y el entretenimiento como escudo frente al dolor.",
+    talentos:[
+      {n:"Creatividad desbordante",d:"Tu mente produce ideas que sorprenden incluso a ti mismo. La creatividad no es algo que buscas — simplemente ocurre."},
+      {n:"Comunicación carismática",d:"Cuando hablas, la gente escucha y recuerda. Tienes el don de hacer que las palabras lleguen al corazón."},
+      {n:"Sentido del humor e ingenio",d:"Encuentras lo gracioso donde otros solo ven seriedad. Ese don aligera los espacios más tensos."},
+      {n:"Capacidad artística",d:"La expresión creativa te fluye en múltiples formas. El mundo necesita esa expresión."},
+      {n:"Optimismo contagioso",d:"Tu energía eleva la de los demás. Las personas se van de tu lado sintiéndose mejor que cuando llegaron."}
+    ],
+    rp:"Identifica un proyecto creativo que hayas llevado hasta el final. Escribe qué aprendiste de ese proceso de completar. Eso es el número 3 maduro.",
+    ra:"Esta semana comprométete a terminar algo pequeño que tienes pendiente. Una sola cosa. El músculo de la constancia se desarrolla con victorias pequeñas."
+  },
+  4:{
+    n:"El Constructor",arquetipo:"El que edifica con paciencia",mision:"Construir fundamentos duraderos a través del orden y la perseverancia.",
+    d1:"El número 4 trae al mundo la energía más sólida de la construcción y la estabilidad. En numerología, el 4 representa los cuatro pilares — los puntos cardinales, las cuatro estaciones, las dimensiones del espacio. Todo lo que dura está construido sobre cuatro apoyos.",
+    d2:"Tienes una capacidad para el trabajo sostenido que pocas personas poseen, una mente organizada que ve sistemas donde otros ven caos, y una confiabilidad que hace que las personas depositen en ti sus proyectos más importantes. Mientras otros buscan atajos, tú sabes que los cimientos importan.",
+    d3:"Eres la persona en quien todos confían cuando algo tiene que salir bien. No el más llamativo en la sala, pero sí el más confiable. No el que más promete, pero sí el que más cumple. Y en el largo plazo, eso siempre vale más.",
+    karma:"Tu karma es aprender que la estructura es un medio, no un fin. Que la vida no siempre cabe en tus planes — y eso no es un error del universo, es una invitación a crecer.",
+    sombra:"La sombra del 4 es la rigidez y el perfeccionismo paralizante. Puede manifestarse como incapacidad de adaptarse cuando los planes cambian, o el trabajo usado como escudo frente a la vida emocional.",
+    talentos:[
+      {n:"Disciplina y constancia excepcionales",d:"Sostienes el esfuerzo cuando otros ya se cansaron. Esa constancia es rarísima y extraordinariamente valiosa en cualquier empresa."},
+      {n:"Organización y planificación",d:"Creas sistemas y procesos donde otros ven caos. Tu mente estructura la realidad de forma que otros puedan seguirla."},
+      {n:"Fiabilidad absoluta",d:"Cumples lo que prometes. En un mundo lleno de promesas vacías, eso tiene un valor incalculable."},
+      {n:"Sentido práctico",d:"Conviertes las ideas en planes ejecutables. Eres el puente entre la visión y la realidad concreta."},
+      {n:"Lealtad profunda",d:"Tus compromisos son para largo plazo. Quien tiene tu confianza, la tiene de verdad y para siempre."}
+    ],
+    rp:"Identifica algo que construiste con paciencia y que hoy da frutos. Reconoce el valor de tu constancia. Escribe qué hizo posible ese resultado.",
+    ra:"Haz algo espontáneo esta semana sin planearlo. Observa cómo responde tu sistema interno ante lo no planeado. Ahí está el aprendizaje del 4."
+  },
+  5:{
+    n:"El Explorador",arquetipo:"El mensajero de la libertad",mision:"Vivir el cambio con sabiduría y ser puente de transformación.",
+    d1:"El número 5 trae al mundo la energía más vibrante de la libertad y el movimiento. En numerología, el 5 es el número central del 1 al 9 — el punto de equilibrio entre lo que ha sido y lo que puede ser. Por eso quienes nacen con este número tienen una perspectiva extraordinaria del cambio.",
+    d2:"Tienes una mente ágil que procesa múltiples perspectivas simultáneamente, una curiosidad que no se apaga jamás y una adaptabilidad que te permite sobrevivir y florecer en entornos donde otros se pierden. Tu don más poderoso es tu capacidad de cambio.",
+    d3:"Eres de los pocos que realmente entienden que la vida es movimiento — que aferrarse detiene el flujo y que soltar es la forma más valiente de vivir. Esa comprensión, cuando se madura, se convierte en una sabiduría que pocos seres humanos alcanzan.",
+    karma:"Tu karma es aprender que la verdadera libertad no está en moverse constantemente — está en poder estar plenamente en cualquier lugar. Que el compromiso no es una jaula sino la condición para que algo florezca.",
+    sombra:"La sombra del 5 es la huida y la inconstancia crónica. Una vida llena de experiencias pero vacía de profundidad. Usar la búsqueda como forma de evitar el trabajo emocional de quedarse.",
+    talentos:[
+      {n:"Adaptabilidad extraordinaria",d:"Te reinventas con una facilidad que asombra. Lo que cambia a otros te libera a ti."},
+      {n:"Comunicación fluida",d:"Conectas con personas muy diversas sin esfuerzo. Tu versatilidad social es un don de liderazgo."},
+      {n:"Curiosidad intelectual",d:"Tu mente nunca se cansa de explorar. Esa energía de búsqueda atrae conocimiento y oportunidades."},
+      {n:"Apertura genuina al cambio",d:"Lo que asusta a otros a ti te emociona. Esa actitud es una ventaja enorme en tiempos de transformación."},
+      {n:"Creatividad en la crisis",d:"Bajo presión encuentras soluciones que nadie más vio. El caos activa tu mejor versión."}
+    ],
+    rp:"Identifica algo a lo que te has comprometido plenamente y que ha florecido gracias a esa constancia. Escribe qué te enseñó ese proceso.",
+    ra:"Esta semana permanece en una situación incómoda sin escapar. Observa qué emerge cuando no huyes. Ese es el regalo que el número 5 tiene pendiente de recibir."
+  },
+  6:{
+    n:"El Sanador",arquetipo:"El guardián del amor y la armonía",mision:"Sanar, cuidar y crear belleza y armonía en el mundo.",
+    d1:"El número 6 trae al mundo la energía más profunda del amor, el cuidado y la responsabilidad. En numerología, el 6 es considerado el número del hogar y la familia — la energía que sostiene, que nutre, que crea el espacio seguro donde otros pueden crecer.",
+    d2:"Tienes un corazón que ama con una intensidad que pocas personas comprenden y una capacidad de cuidado que va más allá de lo que se puede exigir. Tu presencia tiene un efecto sanador que tú mismo no siempre notas: los ambientes que cuidas se vuelven más cálidos, las personas que acompañas se sienten más seguras.",
+    d3:"Tu misión no es solo cuidar — es crear los espacios donde otros pueden convertirse en su mejor versión. Eso es mucho más poderoso que cualquier título o logro externo.",
+    karma:"Tu karma es aprender que no puedes salvar a quien no quiere salvarse. Que el amor más profundo a veces dice no. Que cuidarte no es egoísmo — es la condición para poder seguir cuidando a otros.",
+    sombra:"La sombra del 6 es el sacrificio excesivo y la sobreprotección. Puede manifestarse como controlar a través del cuidado, o acumular resentimiento silencioso porque siente que da más de lo que recibe.",
+    talentos:[
+      {n:"Amor profundo e incondicional",d:"Amas con una intensidad que transforma a quienes reciben ese amor. No pones condiciones — amas porque es tu naturaleza."},
+      {n:"Responsabilidad genuina",d:"Asumes compromisos que otros evitan. Las personas saben que lo que pones en tus manos, lo cuidas con dedicación."},
+      {n:"Crear ambientes armónicos",d:"Los espacios que habitas se vuelven más cálidos y seguros. Ese don tiene un valor que no siempre se mide."},
+      {n:"Don para la sanación",d:"Tu presencia tiene un efecto sanador. Las personas sanan solo con estar cerca de ti cuando estás en tu centro."},
+      {n:"Lealtad absoluta",d:"Quien tiene tu amor, lo tiene para siempre. En un mundo de relaciones temporales, eso es un regalo extraordinario."}
+    ],
+    rp:"Identifica tres formas en que cuidas a otros de manera genuina esta semana. Reconoce ese don. Escribe cómo te sentiste en cada una.",
+    ra:"Date algo que normalmente le darías a otro: tiempo, atención, un descanso. Observa la incomodidad de recibir tú mismo. Ese es el aprendizaje más profundo del 6."
+  },
+  7:{
+    n:"El Sabio",arquetipo:"El buscador de la verdad profunda",mision:"Buscar la verdad, conectar con lo espiritual y compartir sabiduría.",
+    d1:"El número 7 trae al mundo la energía más profunda del conocimiento y la búsqueda de sentido. En numerología, el 7 es el número de la espiritualidad y la reflexión — los 7 días de la semana, las 7 notas musicales, los 7 chakras. El 7 representa los ciclos completos, la totalidad.",
+    d2:"Tienes una mente que no se conforma con la superficie — necesitas entender el por qué detrás del por qué. Tienes una conexión con algo más grande que lo ordinario que puede manifestarse como intuición extraordinaria, interés profundo en lo espiritual, o una percepción de la realidad que a veces se siente como una soledad: la soledad de ver lo que otros no ven.",
+    d3:"En un mundo de respuestas rápidas, eres de los pocos que saben que las preguntas verdaderas merecen tiempo. Tu mente es un instrumento extraordinario cuando está al servicio de la búsqueda genuina.",
+    karma:"Tu karma es aprender que la verdad más profunda no se encuentra en el análisis solitario — se encuentra en la conexión. Que el conocimiento que no se comparte se convierte en aislamiento.",
+    sombra:"La sombra del 7 es el aislamiento y la desconfianza crónica. Puede manifestarse como usar el conocimiento como superioridad defensiva, o como cinismo cuando la realidad no coincide con sus análisis.",
+    talentos:[
+      {n:"Análisis profundo",d:"Llegas al fondo de las cosas cuando otros se quedan en la superficie. Tu mente es una herramienta de precisión extraordinaria."},
+      {n:"Intuición espiritual",d:"Sabes cosas sin saber cómo las sabes. Esa capacidad, cuando se confía, es una brújula que pocas personas tienen."},
+      {n:"Capacidad de contemplación",d:"Puedes estar contigo mismo con una paz que pocos conocen. Eso es un regalo en un mundo que huye del silencio."},
+      {n:"Perfeccionismo al servicio de la excelencia",d:"Tu estándar de calidad eleva todo lo que tocas. Cuando trabajas algo, queda bien hecho."},
+      {n:"Conexión con lo sagrado",d:"Ves lo divino donde otros solo ven lo ordinario. Esa perspectiva transforma todo lo que abordes."}
+    ],
+    rp:"Esta semana comparte una comprensión profunda con alguien que pueda beneficiarse. Observa qué pasa cuando tu conocimiento sirve a otro.",
+    ra:"Ten una conversación donde solo escuches y te dejes afectar por lo que el otro dice. Sin analizar, sin concluir. Solo recibir. Ese es el mayor desafío y el mayor regalo para el número 7."
+  },
+  8:{
+    n:"El Ejecutivo",arquetipo:"El manifestador de abundancia",mision:"Crear abundancia, ejercer el poder con responsabilidad y dejar legado.",
+    d1:"El número 8 trae al mundo la energía más poderosa de la manifestación y el liderazgo ejecutivo. En numerología, el 8 es el único número que tiene perfecta simetría al dividirse — refleja el principio 'como es arriba es abajo'. Por eso quienes nacen con este número tienen una comprensión intuitiva de cómo funcionan los sistemas y el poder.",
+    d2:"Tienes una visión para los recursos y oportunidades que pocas personas poseen. Tienes el don de ver el valor donde otros no lo ven, de organizar recursos de formas que generan resultados extraordinarios.",
+    d3:"Tu misión no es solo prosperar — es ser el canal a través del cual la prosperidad llega a muchos. El 8 más evolucionado no acumula para sí mismo: construye sistemas que generan abundancia para todos los que están a su alrededor.",
+    karma:"Tu karma es aprender que el verdadero poder no se impone — se otorga. Que la riqueza material sin riqueza interior es un laberinto sin salida. Que el poder real viene del servicio.",
+    sombra:"La sombra del 8 es el materialismo y el abuso de poder. Puede oscilar entre extremos: de la riqueza a la ruina, del control absoluto a la impotencia.",
+    talentos:[
+      {n:"Liderazgo ejecutivo",d:"Sabes cómo organizar personas y recursos para lograr grandes cosas. Ese talento vale oro en cualquier entorno."},
+      {n:"Visión para los negocios",d:"Ves el valor donde otros no lo ven. Tu capacidad de identificar oportunidades es casi instintiva."},
+      {n:"Determinación para materializar",d:"Conviertes las visiones en realidades concretas. No te quedas en el sueño — construyes el camino."},
+      {n:"Autoridad natural",d:"Las personas confían en tu liderazgo de forma instintiva. Esa autoridad no se impone — se reconoce."},
+      {n:"Pensamiento estratégico",d:"Juegas en el largo plazo cuando otros solo ven el inmediato. Esa perspectiva es una ventaja enorme."}
+    ],
+    rp:"Identifica cómo tu liderazgo benefició genuinamente a alguien más esta semana. Escribe cómo usaste tu poder al servicio de otro.",
+    ra:"Regala algo de valor — tiempo, dinero, conocimiento — sin esperar ningún retorno. Observa lo que sientes al dar sin calcular. Ahí está el camino de transformación del número 8."
+  },
+  9:{
+    n:"El Humanista",arquetipo:"El sanador universal",mision:"Servir, transformar y elevar la conciencia colectiva desde el amor universal.",
+    d1:"El número 9 trae al mundo la energía más expansiva de la compasión y el servicio. En numerología, el 9 es el último número simple — contiene en sí todos los demás, porque 9 multiplicado por cualquier número siempre regresa al 9 (9×2=18, 1+8=9). Por eso quienes nacen con este número tienen un corazón que no conoce fronteras.",
+    d2:"Llegas con un alma antigua. Hay en ti una sabiduría que no aprendiste en libros — la trajiste. Una compasión que no cultivaste a través del esfuerzo — nació contigo. Tu misión es de las más grandes y exigentes: elevar la conciencia.",
+    d3:"No desde la superioridad, sino desde el amor. No desde el conocimiento, sino desde la experiencia vivida. El número 9 no enseña teorías — encarna transformaciones.",
+    karma:"Tu karma es aprender a soltar. Soltar personas que ya cumplieron su ciclo en tu vida. Soltar roles que ya no te corresponden. Soltar el dolor ajeno que cargaste como propio durante demasiado tiempo.",
+    sombra:"La sombra del 9 es la dispersión y el martirio. Puede manifestarse como perderse en las causas del mundo antes de atender las propias, o dar hasta vaciarse sin poder parar.",
+    talentos:[
+      {n:"Compasión universal",d:"Sientes el dolor del mundo como propio y eso te mueve a actuar. Es uno de los dones más escasos del ser humano."},
+      {n:"Sabiduría intuitiva",d:"Tu comprensión de la condición humana es extraordinaria. Las personas sienten que las entiendes como nadie."},
+      {n:"Enseñanza transformacional",d:"Cuando compartes lo que sabes, algo en la persona cambia. No informas — transformas."},
+      {n:"Arte y expresión profunda",d:"Tu creatividad tiene una dimensión espiritual que toca el alma en un nivel que pocas personas alcanzan."},
+      {n:"Cerrar ciclos con gracia",d:"Sabes soltar lo que ya cumplió su propósito. Esa capacidad es un regalo escasísimo."}
+    ],
+    rp:"Identifica una situación donde tu compasión genuinamente transformó algo o a alguien. Escribe cómo te sentiste siendo ese canal.",
+    ra:"Esta semana cierra conscientemente algo que tengas pendiente — una conversación, un perdón, un capítulo. Escribe lo que aprendiste de ese ciclo."
+  },
+  11:{
+    n:"El Iluminado",arquetipo:"El canal de la inspiración elevada",mision:"Inspirar, iluminar y elevar la conciencia con sensibilidad espiritual extraordinaria.",
+    d1:"El 11 es un número maestro — una de las energías más intensas y elevadas. No se reduce porque su potencia es demasiado alta para condensarse en un solo dígito. Quienes nacen con este número tienen una antena espiritual extraordinariamente sensible.",
+    d2:"Tu intuición no es una habilidad cultivada — es tu forma natural de procesar la realidad. Sabes cosas sin saber cómo las sabes. Sientes la energía de los espacios y personas antes de que haya evidencia visible.",
+    d3:"Tu presencia, cuando estás alineado, tiene el poder de elevar los espacios y las personas solo con la calidad de tu energía. No estás aquí para convencer — estás aquí para ser.",
+    karma:"Tu karma es aprender a vivir en la tierra sin perder el cielo. A traducir tus visiones elevadas en acciones concretas que transformen la realidad.",
+    sombra:"El idealismo paralizante. Oscilar entre momentos de claridad extraordinaria y períodos de colapso emocional cuando la realidad no alcanza el ideal.",
+    talentos:[
+      {n:"Intuición espiritual elevada",d:"Percibes lo que otros no perciben antes de que haya evidencia visible."},
+      {n:"Capacidad inspiracional única",d:"Tu presencia despierta algo dormido en los demás."},
+      {n:"Sensibilidad extraordinaria",d:"Sientes la energía de los espacios y personas con una precisión asombrosa."},
+      {n:"Acceso a comprensiones profundas",d:"Las revelaciones llegan a ti como regalos que no buscaste."}
+    ],
+    rp:"Esta semana actúa a partir de una intuición fuerte que tengas. Sin analizarla, sin justificarla. Solo confía y actúa. Observa qué ocurre.",
+    ra:"Escoge una visión que tengas y crea un plan concreto de tres pasos para materializarla. El desafío del 11 no es inspirarse — es aterrizar."
+  },
+  22:{
+    n:"El Maestro Constructor",arquetipo:"El arquitecto de sueños colectivos",mision:"Materializar visiones transformadoras al servicio de la humanidad.",
+    d1:"El 22 es el número maestro de mayor poder de manifestación. Combinas la capacidad visionaria del 11 y la capacidad constructora del 4, integradas en una sola energía. Puedes soñar en grande Y construir en grande.",
+    d2:"Tu misión trasciende lo personal. No estás aquí para construir solo tu vida — estás aquí para construir estructuras, sistemas u organizaciones que sirvan a muchos.",
+    d3:"El número 22 tiene el potencial de dejar huella en la historia, no por ambición personal sino porque sus visiones naturalmente tienen ese alcance.",
+    karma:"Aprender que la grandeza real no es la que más se ve — es la que más sirve. Construir para el ego no es la misión del 22.",
+    sombra:"La megalomanía o el abandono total por abrumamiento. Oscilar entre sentirse destinado a cambiar el mundo y sentirse completamente incapaz.",
+    talentos:[
+      {n:"Visión grandiosa con concreción",d:"Sueñas en grande y sabes cómo construirlo paso a paso."},
+      {n:"Liderazgo transformador",d:"Cambias sistemas, no solo personas."},
+      {n:"Construir para el bien colectivo",d:"Lo que creas sirve a muchos más allá de ti mismo."},
+      {n:"Integración espiritual-práctica",d:"Unes lo elevado con lo concreto de forma extraordinaria."}
+    ],
+    rp:"Identifica un proyecto que hayas construido que sirva a más personas que tú mismo. Escribe su impacto real.",
+    ra:"Esta semana delega una responsabilidad importante a alguien de tu confianza. Sin controlar el resultado. Observa lo que ocurre."
+  },
+  33:{
+    n:"El Maestro Sanador",arquetipo:"El amor universal hecho persona",mision:"Sanar y elevar la conciencia con amor incondicional.",
+    d1:"El 33 es el número maestro del amor más elevado. Tienes una capacidad de amor y compasión que trasciende la comprensión ordinaria. Una presencia que sana solo con estar.",
+    d2:"Llevas una combinación extraordinaria: la creatividad y la expresión del 3, duplicada y elevada hasta convertirse en amor universal. Tu voz, presencia, arte o enseñanza tiene el potencial de tocar las almas en un nivel que muy pocos alcanzan.",
+    d3:"Tu misión de servicio solo puede sostenerse desde la plenitud propia. Que el amor que no incluye al que ama no es amor — es sacrificio.",
+    karma:"Aprender que el amor que no incluye al que ama no es amor — es sacrificio. Tu misión de servicio solo puede sostenerse desde la plenitud propia.",
+    sombra:"El martirio sagrado. Sacrificarse constantemente convencido de que ese es el destino — sin reconocer que sanar a otros empieza por sanarse a uno mismo.",
+    talentos:[
+      {n:"Amor universal sin condiciones",d:"Amas sin límites y sin importar si es correspondido."},
+      {n:"Enseñanza que transforma almas",d:"Lo que compartes cambia a las personas de adentro hacia afuera."},
+      {n:"Presencia sanadora extraordinaria",d:"Los espacios y personas se transforman solo por tu presencia."},
+      {n:"Compasión sin fronteras",d:"Tu corazón no pone límites a quien merece amor."}
+    ],
+    rp:"Identifica cómo tu presencia o tus palabras contribuyeron a la sanación de alguien hoy. No lo que hiciste — lo que fuiste.",
+    ra:"Esta semana recibe: un cumplido sin minimizarlo, ayuda sin rechazarla, amor sin ponerte en deuda. Ese es el trabajo más profundo del 33."
+  }
+}
+
+// ====== CÁLCULO ======
+function red(n, m){ if(m===undefined)m=true;
+  if (m && [11,22,33].includes(n)) return n;
+  if (n < 10) return n;
+  return red(String(n).split('').reduce(function(a,c){return a+parseInt(c);},0), m);
+}
+function calcNV(dd, mm, aaaa){
+  var digStr = String(dd).padStart(2,'0')+String(mm).padStart(2,'0')+String(aaaa);
+  var digs = digStr.split('').map(Number);
+  var suma = digs.reduce(function(a,c){return a+c;}, 0);
+  var nv = red(suma, true);
+  return { digs:digs, digStr:digStr, suma:suma, nv:nv };
+}
+
+var miNV=null, miCalc=null;
+
+function init0(){
+  var f=leer('anormal_fecha_nac','');
+  var wrap=document.getElementById('fecha-wrap');
+  if(f){
+    // ya tenemos la fecha del contrato
+    wrap.innerHTML='<div class="card"><p class="ct dim">Usaremos tu fecha de nacimiento registrada: <b style="color:var(--gold2)">'+formatoFecha(f)+'</b></p></div>';
+  } else {
+    wrap.innerHTML='<div class="card"><div class="label">Tu fecha de nacimiento</div><div class="dato-fecha"><input type="date" id="input-fecha"></div></div>';
+  }
+}
+function formatoFecha(iso){
+  var p=iso.split('-'); if(p.length!==3) return iso;
+  var meses=['','enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+  return parseInt(p[2])+' de '+meses[parseInt(p[1])]+' de '+p[0];
+}
+function obtenerFecha(){
+  var f=leer('anormal_fecha_nac','');
+  if(!f){ var inp=document.getElementById('input-fecha'); f=inp?inp.value:''; }
+  return f;
+}
+function calcular(){
+  var f=obtenerFecha();
+  if(!f){ alert('Por favor ingresa tu fecha de nacimiento.'); return; }
+  localStorage.setItem('anormal_fecha_nac', f);
+  var p=f.split('-'); // YYYY-MM-DD
+  miCalc=calcNV(parseInt(p[2]), parseInt(p[1]), parseInt(p[0]));
+  miNV=miCalc.nv;
+  localStorage.setItem('anormal_camino_vida', miNV);
+  irA(1);
+}
+function irA(n){
+  document.querySelectorAll('.pantalla').forEach(function(p){p.classList.remove('visible');});
+  document.getElementById('p'+n).classList.add('visible');
+  var pcts=[25,50,100]; var txts=['Tu número raíz','Tu cálculo','Tu significado'];
+  document.getElementById('prog').style.width=(pcts[n]||25)+'%';
+  document.getElementById('prog-txt').textContent=txts[n]||'';
+  if(n===1) renderCalculo();
+  if(n===2) renderSignificado();
+  window.scrollTo(0,0);
+}
+function renderCalculo(){
+  if(!miCalc) return;
+  var f=leer('anormal_fecha_nac','');
+  var box=document.getElementById('calc-visual');
+  var esMaestro=[11,22,33].includes(miNV);
+  box.innerHTML=
+    '<div class="calc-fecha">'+formatoFecha(f)+'</div>'+
+    '<div class="calc-suma">'+miCalc.digStr.split('').join(' + ')+'</div>'+
+    '<div class="calc-flecha">↓</div>'+
+    '<div class="calc-suma">suma = '+miCalc.suma+'</div>'+
+    '<div class="calc-flecha">↓</div>'+
+    (esMaestro?'<div class="ct dim" style="font-size:13px">Número maestro — no se reduce</div>':'')+
+    '<div class="calc-resultado">'+miNV+'</div>';
+}
+function renderSignificado(){
+  var d=NV[miNV];
+  if(!d){ document.getElementById('significado').innerHTML='<p class="ct">No se encontró información para el número '+miNV+'.</p>'; return; }
+  var html=
+    '<div class="label">Tu Camino de Vida es el '+miNV+'</div>'+
+    '<div class="num-hero"><div class="num-big">'+miNV+'</div><div class="num-arq">'+d.n+'</div><div class="num-arqsub">'+(d.arquetipo||'')+'</div></div>'+
+    (d.mision?'<div class="card gold"><div class="label">Tu misión</div><p class="ct">'+d.mision+'</p></div>':'')+
+    (d.d1?'<div class="card"><p class="ct">'+d.d1+'</p></div>':'')+
+    (d.d2?'<div class="card"><p class="ct">'+d.d2+'</p></div>':'')+
+    (d.d3?'<div class="card"><p class="ct">'+d.d3+'</p></div>':'');
+  // fortaleza, sombra, talentos, karma
+  if(d.fortaleza) html+='<div class="bloque"><div class="bloque-lbl">Tu fortaleza</div><div class="card"><p class="ct">'+d.fortaleza+'</p></div></div>';
+  if(d.sombra) html+='<div class="bloque"><div class="bloque-lbl">Tu sombra a integrar</div><div class="card"><p class="ct">'+d.sombra+'</p></div></div>';
+  if(d.karma) html+='<div class="bloque"><div class="bloque-lbl">Tu aprendizaje kármico</div><div class="card"><p class="ct">'+d.karma+'</p></div></div>';
+  if(d.talentos && Array.isArray(d.talentos)){
+    html+='<div class="bloque"><div class="bloque-lbl">Tus talentos</div><div class="chip-row">';
+    d.talentos.forEach(function(t){ html+='<span class="chip">'+t+'</span>'; });
+    html+='</div></div>';
+  }
+  document.getElementById('significado').innerHTML=html;
+}
+function continuar(){
+  try{
+    var data=JSON.parse(sessionStorage.getItem('anormal_proceso')||'{}');
+    data.camino_vida={numero:miNV, arquetipo:NV[miNV]?NV[miNV].n:''};
+    if(!data.progreso)data.progreso={};
+    data.progreso.camino_vida={completado:true, fecha:new Date().toLocaleDateString('es-CO')};
+    sessionStorage.setItem('anormal_proceso',JSON.stringify(data));
+  }catch(e){}
+  window.location.href='1b-sub-numeros.html';
+}
+(function(){ init0(); })();
+</script>
+</body>
+</html>
