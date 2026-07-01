@@ -71,6 +71,22 @@ textarea:focus{outline:none;border-color:var(--gold)}
 .bp:hover{opacity:.9;transform:translateY(-1px)}
 .bs{background:transparent;color:var(--gold);border:1px solid var(--gb);border-radius:var(--r);font-family:"Barlow Condensed",sans-serif;font-size:12px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;padding:12px 24px;cursor:pointer}
 .nav{display:flex;gap:10px;justify-content:space-between;align-items:center;margin-top:26px;flex-wrap:wrap}
+
+.cifras-grid{display:flex;gap:12px;margin-bottom:18px}
+.cifras-col{flex:1;background:var(--bg3);border:1px solid var(--ffaint);border-radius:var(--rl);padding:14px}
+.cifras-tit{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold2);text-align:center;margin-bottom:10px}
+.cifra-chip{display:flex;justify-content:space-between;align-items:center;padding:6px 10px;margin-bottom:5px;background:var(--bg2);border-radius:var(--rm)}
+.cifra-chip.destac{border:1px solid var(--gb)}
+.cifra-rol{font-size:12px;color:var(--dim);letter-spacing:.06em;text-transform:uppercase}
+.cifra-num{font-family:"Cormorant Garamond",serif;font-size:22px;color:var(--gold2)}
+.cap{margin-bottom:16px}
+.cap-lbl{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--ffaint)}
+.cap .ct{margin-bottom:10px}
+.cap-cruce{background:linear-gradient(135deg,rgba(201,168,76,.06),var(--bg3));border:1px solid var(--gb);border-radius:var(--rl);padding:18px 20px}
+.cruce-item{display:flex;gap:14px;align-items:flex-start;margin-bottom:14px}
+.cruce-item:last-child{margin-bottom:0}
+.cruce-num{min-width:44px;height:44px;border-radius:50%;background:var(--gd);border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;font-family:"Cormorant Garamond",serif;font-size:22px;color:var(--gold2);flex-shrink:0}
+.lectura-bloque{margin-bottom:10px}
 </style>
 </head>
 <body>
@@ -112,25 +128,36 @@ textarea:focus{outline:none;border-color:var(--gold)}
     </div>
   </div>
 
-  <!-- P1: TRANSGENERACIONAL (madre/padre) -->
+  <!-- P1: MADRE -->
   <div class="pantalla" id="p1">
-    <div class="label">Tu linaje directo</div>
-    <h1 class="titulo">Tú y quienes te dieron la vida.</h1>
-    <div id="transg-contenido"></div>
+    <div class="label">Primero, tu madre</div>
+    <h1 class="titulo">Tú y tu madre, en los números.</h1>
+    <div id="madre-contenido"></div>
     <div class="nav">
       <button class="bs" onclick="irA(0)">← Anterior</button>
-      <button class="bp" onclick="irA(2)">Continuar con otras personas →</button>
+      <button class="bp" id="btn-tras-madre" onclick="irA(2)">Continuar con mi padre →</button>
     </div>
   </div>
 
-  <!-- P2: LAS PERSONAS (hasta 8) -->
+  <!-- P2: PADRE -->
   <div class="pantalla" id="p2">
+    <div class="label">Ahora, tu padre</div>
+    <h1 class="titulo">Tú y tu padre, en los números.</h1>
+    <div id="padre-contenido"></div>
+    <div class="nav">
+      <button class="bs" onclick="irA(1)">← Volver a mi madre</button>
+      <button class="bp" onclick="irA(3)">Continuar con otras personas →</button>
+    </div>
+  </div>
+
+  <!-- P3: LAS PERSONAS (hasta 8) -->
+  <div class="pantalla" id="p3">
     <div class="label">Las personas en tu vida</div>
     <h1 class="titulo">Los otros vínculos que te marcan.</h1>
     <p class="subtitulo">Abuelos, hermanos, hijos, pareja, un amigo o un jefe. Agrega hasta 8 personas y descubre qué tipo de relación numerológica tienen — y qué vinieron a enseñarse.</p>
     <div id="personas-contenido"></div>
     <div class="nav">
-      <button class="bs" onclick="irA(1)">← Anterior</button>
+      <button class="bs" onclick="irA(2)">← Anterior</button>
       <button class="bp" onclick="continuar()">Guardar y continuar →</button>
     </div>
   </div>
@@ -221,6 +248,206 @@ function relacion(nvPropio,nvOtro,presPropio,ausPropio){
 }
 
 // helpers de cálculo
+
+// ===== CONTENIDO Y MOTOR PROFUNDO (transgeneracional) =====
+// ============ CONTENIDO DE LAS CAPAS (redactado, revisar y ajustar) ============
+
+// Significado de cada número según su ROL en la fecha, en luz y sombra.
+// dia = cómo se muestra la persona / su herramienta; mes = su entorno emocional/raíz; anio = la herencia generacional/estructura
+var CIFRA = {
+  1:{ arq:"El Uno · Liderazgo e independencia",
+      dia:{luz:"se muestra como alguien autónomo, iniciador, con voluntad propia", som:"puede blindarse en el 'yo solo contra el mundo', frío o distante, con dificultad para mostrar vulnerabilidad"},
+      mes:{luz:"creció necesitando aprender a valerse por sí mismo desde temprano", som:"su entorno raíz lo obligó a ser fuerte y a no depender, muchas veces sintiéndose solo"},
+      anio:{luz:"trae una herencia de pioneros, gente que abrió camino", som:"hereda una línea donde el afecto se sacrificó por la supervivencia individual"} },
+  2:{ arq:"El Dos · Sensibilidad y vínculo",
+      dia:{luz:"se muestra sensible, conciliador, atento al otro", som:"puede diluirse en los demás, depender emocionalmente, callar para no incomodar"},
+      mes:{luz:"creció en un entorno donde el vínculo y la emoción pesaban mucho", som:"su raíz cargó tensiones no dichas, ambientes donde había que 'leer' el clima emocional"},
+      anio:{luz:"hereda una línea de cuidadores y mediadores", som:"hereda el patrón de postergarse por mantener la paz familiar"} },
+  3:{ arq:"El Tres · Expresión y alegría",
+      dia:{luz:"se muestra expresivo, creativo, con chispa", som:"puede dispersarse, usar el humor para evadir, esconder el dolor tras la sonrisa"},
+      mes:{luz:"creció en un entorno donde la expresión tenía lugar", som:"su raíz pudo silenciar su voz, o exigir que 'todo se viera bien' por fuera"},
+      anio:{luz:"hereda una línea de comunicadores y creativos", som:"hereda el mandato de aparentar y no mostrar la herida"} },
+  4:{ arq:"El Cuatro · Estructura y esfuerzo",
+      dia:{luz:"se muestra confiable, trabajador, con los pies en la tierra", som:"puede volverse rígido, controlador, esclavo del deber"},
+      mes:{luz:"creció aprendiendo el valor del orden y el trabajo", som:"su raíz estuvo marcada por la rigidez, la escasez o el 'deber ser', con poca calidez"},
+      anio:{luz:"hereda una línea de constructores, gente de esfuerzo", som:"hereda estructuras rígidas, escasez material o emocional, el mandato de aguantar"} },
+  5:{ arq:"El Cinco · Libertad y cambio",
+      dia:{luz:"se muestra libre, versátil, curioso", som:"puede huir del compromiso, ser inestable, escapar cuando algo aprieta"},
+      mes:{luz:"creció entre cambios que lo hicieron adaptable", som:"su raíz tuvo inestabilidad, mudanzas, rupturas o ausencias que marcaron"},
+      anio:{luz:"hereda una línea de viajeros y transformadores", som:"hereda el patrón de la huida, de no echar raíces, de la libertad como escape"} },
+  6:{ arq:"El Seis · Amor y responsabilidad",
+      dia:{luz:"se muestra protector, entregado, capaz de sostener a otros", som:"puede sobre-responsabilizarse, cargar lo que no le toca, controlar desde el 'cuidado'"},
+      mes:{luz:"creció en un entorno donde cuidar y ser cuidado importaba", som:"su raíz lo cargó de responsabilidades tempranas, fue el que sostenía a la familia"},
+      anio:{luz:"hereda una línea de sanadores y cuidadores del clan", som:"hereda el mandato de cargar a todos, el sacrificio como forma de amor"} },
+  7:{ arq:"El Siete · Interioridad y verdad",
+      dia:{luz:"se muestra reflexivo, profundo, buscador", som:"puede aislarse, desconfiar, refugiarse en la mente para no sentir"},
+      mes:{luz:"creció en un entorno que lo empujó hacia adentro", som:"su raíz tuvo soledad, silencio o secretos que lo volvieron reservado"},
+      anio:{luz:"hereda una línea de sabios y buscadores espirituales", som:"hereda secretos familiares, silencios, temas de los que 'no se habla'"} },
+  8:{ arq:"El Ocho · Poder y abundancia",
+      dia:{luz:"se muestra con fuerza, capacidad de logro, autoridad natural", som:"puede asociar valor con dinero/logro, temer perder el control, cargar dureza"},
+      mes:{luz:"creció aprendiendo sobre poder, dinero y justicia", som:"su raíz vivió pruebas fuertes con el dinero o el poder: abuso, escasez o desprecio"},
+      anio:{luz:"hereda una línea de gente poderosa y transformadora", som:"hereda heridas de dinero, poder o abandono que hay que transmutar en esta generación"} },
+  9:{ arq:"El Nueve · Compasión y cierre",
+      dia:{luz:"se muestra comprensivo, generoso, con mirada amplia", som:"puede cargar el dolor del mundo, no poner límites, quedarse en duelos"},
+      mes:{luz:"creció con una sensibilidad hacia el sufrimiento ajeno", som:"su raíz cargó pérdidas, duelos o abandonos que dejaron una nostalgia de fondo"},
+      anio:{luz:"hereda una línea de servidores y humanistas", som:"hereda duelos no cerrados, pérdidas del clan que piden ser sanadas"} },
+  11:{ arq:"El Once · Inspiración (maestro)",
+      dia:{luz:"se muestra intuitivo, inspirador, sensible a lo sutil", som:"puede vivir con ansiedad, hipersensibilidad, sentirse 'demasiado' para el mundo"},
+      mes:{luz:"creció en un entorno que despertó su sensibilidad espiritual", som:"su raíz lo sobreexpuso emocionalmente, cargó una tensión difícil de nombrar"},
+      anio:{luz:"hereda una línea de iluminadores", som:"hereda una carga espiritual intensa, el desafío de sostener tanta sensibilidad"} },
+  22:{ arq:"El Veintidós · Construcción mayor (maestro)",
+      dia:{luz:"se muestra capaz de grandes obras, visionario y práctico a la vez", som:"puede aplastarse bajo la presión de su propio potencial, o volverse tirano del deber"},
+      mes:{luz:"creció con la sensación de estar destinado a algo grande", som:"su raíz le puso un peso enorme sobre los hombros desde temprano"},
+      anio:{luz:"hereda una línea de grandes constructores", som:"hereda un mandato generacional de 'lograr en grande' que puede asfixiar"} },
+  33:{ arq:"El Treintaitrés · Amor incondicional (maestro)",
+      dia:{luz:"se muestra entregado al servicio y al amor que sana", som:"puede sacrificarse hasta anularse, cargar el dolor de todos"},
+      mes:{luz:"creció en un entorno que lo llamó a sanar a otros", som:"su raíz le pidió ser el sanador de la familia antes de tiempo"},
+      anio:{luz:"hereda una línea de maestros del amor", som:"hereda el mandato del sacrificio total, de dar hasta no quedar nada"} }
+};
+
+// Tipos de coincidencia cruzada entre una cifra tuya y una del progenitor
+var CRUCE = {
+  dia_dia:"Tu forma de mostrarte al mundo es la misma que la de {quien}. Repites su manera de pararte ante la vida — para bien y para mal. Lo que te choca de esa forma en {quien}, obsérvalo en ti.",
+  dia_mes:"Tu forma de mostrarte hoy nació del entorno emocional de {quien}. Lo que eres en tu superficie se moldeó en el clima en que {quien} creció.",
+  dia_anio:"Tu manera de estar en el mundo carga la herencia generacional de {quien}. Lo que muestras es, en el fondo, la estructura que viene de su linaje.",
+  mes_dia:"El entorno emocional en que creciste es idéntico a la forma en que {quien} se muestra. Mamaste como raíz lo que {quien} es en su superficie.",
+  mes_mes:"Creciste en el mismo tipo de entorno emocional que {quien}. El clima de tu infancia repite el clima de la suya: la herida se copió de una generación a otra.",
+  mes_anio:"El clima de tu infancia es la herencia estructural del linaje de {quien}. Lo que viviste de niño no empezó contigo: es el patrón que {quien} también recibió de atrás. Aquí está una de las herencias más claras.",
+  anio_dia:"La herencia de tu generación coincide con la forma en que {quien} se muestra. Lo que traes de tu línea se refleja en cómo {quien} se para ante la vida.",
+  anio_mes:"Tu herencia generacional es el mismo clima emocional en que {quien} creció. El patrón de tu línea repite la raíz de {quien}.",
+  anio_anio:"Tú y {quien} comparten la misma herencia generacional. Vienen de la misma estructura profunda: un patrón que atraviesa varias generaciones y que a ti te toca ver y, si quieres, cerrar.",
+  camino_camino:"Tú y {quien} comparten el mismo Camino de Vida. Son el espejo más directo del linaje: la misma lección, heredada. Lo que {quien} no pudo resolver, tú viniste a mirarlo de nuevo."
+};
+
+
+// ============ MOTOR DE LECTURA TRANSGENERACIONAL ============
+function cifrasDeFecha(iso){
+  // devuelve {dia, mes, anio, camino} reducidos
+  var p=iso.split('-'); // YYYY-MM-DD
+  var yyyy=parseInt(p[0]), mm=parseInt(p[1]), dd=parseInt(p[2]);
+  return {
+    dia: red(dd, false),
+    mes: red(mm, false),
+    anio: red(yyyy, false),
+    camino: calcNV(dd, mm, yyyy).nv
+  };
+}
+function rolTexto(rol, num){
+  var c=CIFRA[num]; if(!c) return null;
+  return c[rol]; // {luz, som}
+}
+function detectarCruces(mias, suyas){
+  // busca coincidencias entre mis 4 cifras y las 4 del progenitor
+  var roles=['dia','mes','anio'];
+  var cruces=[];
+  roles.forEach(function(rMio){
+    roles.forEach(function(rSuyo){
+      if(mias[rMio]===suyas[rSuyo] && mias[rMio]){
+        var key=rMio+'_'+rSuyo;
+        if(CRUCE[key]) cruces.push({key:key, num:mias[rMio], rolMio:rMio, rolSuyo:rSuyo});
+      }
+    });
+  });
+  // camino compartido
+  if(mias.camino===suyas.camino) cruces.push({key:'camino_camino', num:mias.camino, rolMio:'camino', rolSuyo:'camino'});
+  return cruces;
+}
+function nombreRol(rol){
+  return {dia:'tu día de nacimiento', mes:'tu mes', anio:'tu año', camino:'tu Camino de Vida'}[rol]||rol;
+}
+function nombreRolProg(rol, quien){
+  return {dia:'el día de '+quien, mes:'el mes de '+quien, anio:'el año de '+quien, camino:'el Camino de '+quien}[rol]||rol;
+}
+
+function lecturaProgenitor(quien, miFecha, suFecha){
+  // quien: 'tu madre' / 'tu padre'
+  var mias=cifrasDeFecha(miFecha);
+  var suyas=cifrasDeFecha(suFecha);
+  var out={mias:mias, suyas:suyas, quien:quien, bloques:[]};
+
+  // Capa 1: las cuatro cifras de cada quien
+  out.miCifras=mias; out.suCifras=suyas;
+
+  // Capa 2: cruces
+  out.cruces=detectarCruces(mias, suyas);
+
+  // Capa 3: vínculo del alma (relación entre caminos)
+  var pa=presAusDeFecha(miFecha);
+  out.vinculo=relacion(mias.camino, suyas.camino, pa.pres, pa.aus);
+
+  return out;
+}
+
+
+// ============ RENDER DE LA LECTURA PROFUNDA ============
+function renderLecturaProgenitor(quien, miFecha, suFecha){
+  if(!suFecha) return '';
+  var L=lecturaProgenitor(quien, miFecha, suFecha);
+  var m=L.mias, s=L.suyas;
+  var qCap=quien.charAt(0).toUpperCase()+quien.slice(1); // Tu madre
+
+  var html='<div class="lectura-bloque">';
+  // Encabezado con las cifras
+  html+='<div class="cifras-grid">'+
+    '<div class="cifras-col"><div class="cifras-tit">Tú</div>'+
+      cifraChip('Día',m.dia)+cifraChip('Mes',m.mes)+cifraChip('Año',m.anio)+cifraChip('Camino',m.camino,true)+
+    '</div>'+
+    '<div class="cifras-col"><div class="cifras-tit">'+qCap+'</div>'+
+      cifraChip('Día',s.dia)+cifraChip('Mes',s.mes)+cifraChip('Año',s.anio)+cifraChip('Camino',s.camino,true)+
+    '</div>'+
+  '</div>';
+
+  // Capa 1: quién es cada quien (foco en día = cómo se muestra, mes = raíz emocional)
+  html+='<div class="cap"><div class="cap-lbl">Quién es '+quien+'</div>';
+  var sDia=rolTexto('dia',s.dia), sMes=rolTexto('mes',s.mes), sAnio=rolTexto('anio',s.anio);
+  if(sDia) html+='<p class="ct"><b>Su día ('+s.dia+').</b> Ante la vida, '+quien+' '+sDia.luz+'. En su sombra, '+sDia.som+'.</p>';
+  if(sMes) html+='<p class="ct"><b>Su mes ('+s.mes+').</b> '+cap(sMes.som)+'.</p>';
+  if(sAnio) html+='<p class="ct"><b>Su año ('+s.anio+').</b> '+cap(sAnio.som)+'.</p>';
+  html+='</div>';
+
+  // Capa 1 (tú)
+  html+='<div class="cap"><div class="cap-lbl">Quién eres tú</div>';
+  var mDia=rolTexto('dia',m.dia), mMes=rolTexto('mes',m.mes);
+  if(mDia) html+='<p class="ct"><b>Tu día ('+m.dia+').</b> Tú, ante la vida, '+mDia.luz+'. Y a veces, '+mDia.som+'.</p>';
+  if(mMes) html+='<p class="ct"><b>Tu mes ('+m.mes+').</b> '+cap(mMes.som).replace(/^Su raíz/,'Tu raíz').replace(/^Su entorno/,'Tu entorno').replace(/^Creció/,'Creciste').replace(/^creció/,'creciste')+'.</p>';
+  html+='</div>';
+
+  // Capa 2: las coincidencias (el corazón)
+  if(L.cruces.length){
+    html+='<div class="cap cap-cruce"><div class="cap-lbl">Lo que se heredó · las coincidencias</div>';
+    L.cruces.forEach(function(cr){
+      var txt=CRUCE[cr.key].replace(/\{quien\}/g, quien);
+      var cif=CIFRA[cr.num];
+      html+='<div class="cruce-item"><div class="cruce-num">'+cr.num+'</div><div class="cruce-txt"><p class="ct">'+txt+'</p>'+
+        (cif?'<p class="ct dim" style="font-size:14px;margin-top:6px">La energía del '+cr.num+' que comparten: '+cif.arq.split('·')[1]+'.</p>':'')+'</div></div>';
+    });
+    html+='</div>';
+  } else {
+    html+='<div class="cap"><div class="cap-lbl">Lo que se heredó</div><p class="ct">No hay coincidencias directas de cifras entre ustedes — sus energías son distintas. Eso también dice algo: '+quien+' y tú vinieron con estructuras diferentes, y el aprendizaje está justo en esa diferencia.</p></div>';
+  }
+
+  // Capa 3: el vínculo del alma
+  if(L.vinculo && L.vinculo.titulo){
+    html+='<div class="cap"><div class="cap-lbl">El vínculo de sus almas</div>'+
+      '<p class="ct"><b>'+L.vinculo.titulo.replace(/[Ee]sta persona/,quien)+'.</b> '+
+      (L.vinculo.desc?L.vinculo.desc.replace(/esta persona/g,quien).replace(/Esta persona/g,qCap):'')+'</p>'+
+      (L.vinculo.ens?'<p class="ct" style="margin-top:8px">'+L.vinculo.ens+'</p>':'')+'</div>';
+  }
+
+  // Capa 4 + puente al perdón
+  html+='<div class="perdon-box"><div class="perdon-lbl">✦ El puente al perdón</div>'+
+    '<p class="ct" style="font-size:15px">Nada de esto empezó contigo. El patrón que ves venía de atrás, y '+quien+' también lo recibió sin elegirlo. En la Sesión 2 ya perdonaste; aquí, al ver el número, entiendes que aquello nunca fue contra ti — era el linaje hablando. Y lo que se comprende, se puede soltar del todo.</p>'+
+    '<textarea placeholder="Lo que hoy comprendo y suelto de '+quien+'..." oninput="guardarPerdonPadre(\''+quien+'\',this.value)"></textarea></div>';
+
+  html+='</div>';
+  return html;
+}
+function cifraChip(rol,num,destac){
+  return '<div class="cifra-chip'+(destac?' destac':'')+'"><span class="cifra-rol">'+rol+'</span><span class="cifra-num">'+num+'</span></div>';
+}
+function cap(s){ return s?s.charAt(0).toUpperCase()+s.slice(1):s; }
+
+
 function calcNVfromISO(iso){
   if(!iso) return null;
   var p=iso.split('-'); if(p.length!==3) return null;
@@ -251,11 +478,12 @@ function init0(){
 function irA(n){
   document.querySelectorAll('.pantalla').forEach(function(p){p.classList.remove('visible');});
   document.getElementById('p'+n).classList.add('visible');
-  var pcts=[16,60,100]; var txts=['Tu linaje','Madre y padre','Otras personas'];
-  document.getElementById('prog').style.width=(pcts[n]||16)+'%';
+  var pcts=[14,45,72,100]; var txts=['Tu linaje','Tu madre','Tu padre','Otras personas'];
+  document.getElementById('prog').style.width=(pcts[n]||14)+'%';
   document.getElementById('prog-txt').textContent=txts[n]||'';
-  if(n===1) renderTransg();
-  if(n===2) renderPersonas();
+  if(n===1) renderMadre();
+  if(n===2) renderPadre();
+  if(n===3) renderPersonas();
   window.scrollTo(0,0);
 }
 
@@ -268,37 +496,20 @@ function procesarPadres(){
   irA(1);
 }
 
-function tarjetaVinculo(quien, datos, idx){
-  if(!datos.fecha || !datos.nv) return '';
-  var rel=relacion(miNV, datos.nv, miPres, miAus);
-  var html='<div class="card gold">'+
-    '<div class="par-nums">'+
-      '<div class="par-col"><div class="par-col-lbl">Tú</div><div class="par-circ">'+miNV+'</div><div class="par-nom">'+nvNom(miNV)+'</div></div>'+
-      '<div class="par-vs">✦</div>'+
-      '<div class="par-col"><div class="par-col-lbl">'+quien+'</div><div class="par-circ">'+datos.nv+'</div><div class="par-nom">'+nvNom(datos.nv)+'</div></div>'+
-    '</div>'+
-    '<div style="text-align:center"><span class="rel-badge">'+rel.titulo+'</span></div>'+
-    '<p class="ct">'+rel.desc.replace(/esta persona/g,'tu '+quien.toLowerCase()).replace(/Esta persona/g,'Tu '+quien.toLowerCase())+'</p>'+
-    '<p class="ct" style="margin-top:10px">'+rel.ens+'</p>';
-  // perdón (siempre presente para madre/padre por el vínculo transgeneracional)
-  var textoP=rel.perdon || 'Este vínculo con tu '+quien.toLowerCase()+' ya lo trabajaste en el perdón. Aquí, viendo el patrón que comparten, ¿hay algo más que quieras soltar o comprender?';
-  html+='<div class="perdon-box"><div class="perdon-lbl">✦ El puente al perdón</div>'+
-    '<p class="ct" style="font-size:15px;margin-bottom:10px">'+textoP+'</p>'+
-    '<textarea placeholder="Lo que hoy comprendo y suelto de mi '+quien.toLowerCase()+'..." oninput="guardarPerdonPadre(\''+quien+'\',this.value)"></textarea></div>';
-  html+='</div>';
-  return html;
-}
 var perdonPadres={madre:'',padre:''};
 function guardarPerdonPadre(quien,val){ perdonPadres[quien.toLowerCase()]=val; }
 
-function renderTransg(){
-  var cont=document.getElementById('transg-contenido');
-  var html='';
-  if(!miNV){ html='<div class="card"><p class="ct">Necesitamos tu Camino de Vida. Vuelve al módulo anterior para calcularlo.</p></div>'; cont.innerHTML=html; return; }
-  html+=tarjetaVinculo('Madre', madre);
-  html+=tarjetaVinculo('Padre', padre);
-  if(!html) html='<div class="card"><p class="ct">No ingresaste fechas. Puedes volver atrás para hacerlo.</p></div>';
-  cont.innerHTML=html;
+function renderMadre(){
+  var cont=document.getElementById('madre-contenido');
+  if(!miNV){ cont.innerHTML='<div class="card"><p class="ct">Necesitamos tu Camino de Vida. Vuelve al primer módulo de la sesión para calcularlo.</p></div>'; return; }
+  if(!madre.fecha){ cont.innerHTML='<div class="card"><p class="ct">No ingresaste la fecha de tu madre. Puedes volver atrás para hacerlo, o continuar con tu padre.</p></div>'; return; }
+  cont.innerHTML=renderLecturaProgenitor('tu madre', leer('anormal_fecha_nac',''), madre.fecha);
+}
+function renderPadre(){
+  var cont=document.getElementById('padre-contenido');
+  if(!miNV){ cont.innerHTML='<div class="card"><p class="ct">Necesitamos tu Camino de Vida.</p></div>'; return; }
+  if(!padre.fecha){ cont.innerHTML='<div class="card"><p class="ct">No ingresaste la fecha de tu padre. Puedes volver atrás para hacerlo, o continuar con las demás personas.</p></div>'; return; }
+  cont.innerHTML=renderLecturaProgenitor('tu padre', leer('anormal_fecha_nac',''), padre.fecha);
 }
 
 // ── LAS PERSONAS ──
