@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>∀normal — Mi Perfil Numerológico</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Barlow:wght@300;400;500&family=Barlow+Condensed:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#060A14;--bg2:#0A0F1E;--bg3:#0E1525;--bg4:#131D30;--gold:#C9A84C;--gold2:#E8C96A;--gold3:#F5E0A0;--gd:rgba(201,168,76,.13);--gb:rgba(201,168,76,.28);--text:#EAE6DC;--dim:#9AA5B8;--faint:#3A4558;--ffaint:#1E2A3A;--grn:#4ABF7A;--rose:#D4537E;--azul:#5A8CC0;--r:4px;--rm:8px;--rl:14px;}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font-weight:300;font-size:17.5px;line-height:1.75;min-height:100vh}
+.wrap{max-width:720px;margin:0 auto;padding:24px 20px 60px}
+.hdr{display:flex;align-items:center;justify-content:space-between;padding:16px 0 24px;border-bottom:1px solid var(--faint);margin-bottom:24px}
+.hdr-logo{font-family:"Cormorant Garamond",serif;font-size:23px;color:var(--gold2)}
+.hdr-info{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim)}
+.progress-bar{height:2px;background:var(--ffaint);border-radius:2px;overflow:hidden;margin-bottom:10px}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2))}
+.progress-txt{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);text-align:center;margin-bottom:24px}
+.pantalla{display:none;animation:fadeIn .4s ease}
+.pantalla.visible{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.label{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:10px}
+.titulo{font-family:"Cormorant Garamond",serif;font-size:clamp(24px,5.5vw,33px);font-weight:300;color:var(--gold2);line-height:1.2;margin-bottom:12px}
+.subtitulo{font-size:16px;color:var(--dim);line-height:1.85;margin-bottom:24px}
+.card{background:var(--bg2);border:1px solid rgba(255,255,255,.06);border-radius:var(--rl);padding:22px 26px;margin-bottom:14px}
+.card.gold{border-color:var(--gb);background:linear-gradient(135deg,var(--bg2),var(--bg3))}
+.ct{font-size:16px;color:var(--text);line-height:1.95}
+.ct.dim{color:var(--dim);font-size:15px}
+.ct b,.ct strong{color:var(--gold2);font-weight:500}
+.quote{font-family:"Cormorant Garamond",serif;font-style:italic;font-size:20px;color:var(--gold3);line-height:1.55;border-left:2px solid var(--gb);padding-left:18px;margin:20px 0}
+.video-box{background:var(--bg3);border:1px dashed var(--faint);border-radius:var(--rl);padding:36px 24px;text-align:center;margin-bottom:18px}
+.video-play{font-size:34px;color:var(--gold);margin-bottom:8px}
+.video-txt{font-size:14px;color:var(--dim)}
+.video-soon{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--faint);margin-top:8px}
+.perfil-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin:16px 0}
+.pg-item{background:var(--bg3);border:1px solid var(--ffaint);border-radius:var(--rl);padding:16px;text-align:center}
+.pg-num{font-family:"Cormorant Garamond",serif;font-size:38px;color:var(--gold2);line-height:1}
+.pg-lbl{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);margin-top:6px}
+.pg-nom{font-size:13px;color:var(--gold3);margin-top:2px}
+.principio{display:flex;gap:13px;align-items:flex-start;background:var(--bg2);border:1px solid var(--ffaint);border-radius:var(--rl);padding:15px 17px;margin-bottom:9px}
+.principio-num{min-width:42px;height:42px;border-radius:50%;background:var(--gd);border:1px solid var(--gb);display:flex;align-items:center;justify-content:center;font-family:"Cormorant Garamond",serif;font-size:16px;color:var(--gold2);flex-shrink:0}
+.principio.activo .principio-num{background:rgba(74,191,122,.15);border-color:var(--grn);color:var(--grn)}
+.principio-info-tit{font-size:15px;font-weight:500;color:var(--gold2);margin-bottom:3px}
+.principio-info-txt{font-size:13.5px;color:var(--dim);line-height:1.65}
+textarea{width:100%;background:var(--bg3);border:1px solid var(--faint);border-radius:var(--rm);color:var(--text);font-family:"Barlow",sans-serif;font-size:15.5px;line-height:1.75;padding:13px 15px;resize:vertical;min-height:90px}
+textarea:focus{outline:none;border-color:var(--gold)}
+.compromisos-box{background:rgba(90,140,192,.06);border:1px solid rgba(90,140,192,.3);border-radius:var(--rl);padding:18px 22px;margin-bottom:16px}
+.compromisos-label{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--azul);margin-bottom:12px}
+.compromiso-item{display:flex;gap:10px;align-items:flex-start;padding:8px 0;border-bottom:1px solid var(--ffaint);font-size:14.5px;color:var(--text);line-height:1.6}
+.compromiso-item:last-child{border-bottom:none}
+.bp{background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--bg);border:none;border-radius:var(--r);font-family:"Barlow Condensed",sans-serif;font-size:13px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;padding:14px 32px;cursor:pointer;transition:opacity .2s,transform .15s}
+.bp:hover{opacity:.9;transform:translateY(-1px)}
+.bs{background:transparent;color:var(--gold);border:1px solid var(--gb);border-radius:var(--r);font-family:"Barlow Condensed",sans-serif;font-size:12px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;padding:12px 24px;cursor:pointer}
+.nav{display:flex;gap:10px;justify-content:space-between;align-items:center;margin-top:26px;flex-wrap:wrap}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hdr"><div class="hdr-logo">∀normal</div><div class="hdr-info">Sesión 3 · Mi Perfil</div></div>
+  <div class="progress-bar"><div class="progress-fill" id="prog" style="width:50%"></div></div>
+  <div class="progress-txt" id="prog-txt">Tu perfil integrado</div>
+
+  <!-- P0: SÍNTESIS -->
+  <div class="pantalla visible" id="p0">
+    <div class="label">Numerología · Tu perfil</div>
+    <h1 class="titulo">Todo lo que eres, en una mirada.</h1>
+    <p class="subtitulo">Recorriste tu Camino de Vida, tus matices, tu mapa energético, tus flechas, tu nombre y tu linaje. Aquí está todo reunido — el retrato numérico de quién eres.</p>
+    <div id="perfil-sintesis"></div>
+    <div class="nav"><span></span><button class="bp" onclick="irA(1)">Cerrar la Sesión 3 →</button></div>
+  </div>
+
+  <!-- P1: CIERRE ESTÁNDAR -->
+  <div class="pantalla" id="p1">
+    <div class="label">Cierre · Sesión 3</div>
+    <h1 class="titulo">Ya sabes quién eres. Ahora, vívelo.</h1>
+    <p class="subtitulo">Conocer tu esencia no es el final: es el punto de partida. Estos son los principios que activaste, y tu compromiso de llevarlos a la vida.</p>
+
+    <div class="label" style="margin:20px 0 12px">Los principios que activaste en esta sesión</div>
+    <div class="principio activo"><div class="principio-num">∀7</div><div><div class="principio-info-tit">Aprende cero excusas · activado</div><div class="principio-info-txt">Ya te conoces. No hay dónde esconderse: asumes tu potencial sin pretextos.</div></div></div>
+    <div class="principio activo"><div class="principio-num">∀8</div><div><div class="principio-info-tit">Asume responsabilidad total · activado</div><div class="principio-info-txt">Tu número es tu punto de partida. Lo que hagas con él es tu poder.</div></div></div>
+    <div class="principio activo"><div class="principio-num">∀9</div><div><div class="principio-info-tit">Apalancamiento: la verdad contigo · activado</div><div class="principio-info-txt">Te viste con honestidad, dones y sombras. Esa verdad es tu palanca.</div></div></div>
+    <div class="principio activo"><div class="principio-num">∀10</div><div><div class="principio-info-tit">Apoyo emocional como combustible · activado</div><div class="principio-info-txt">Saber quién eres es el ancla que te sostiene en los días difíciles.</div></div></div>
+
+    <div class="card gold">
+      <div class="label">Tu compromiso con estos principios</div>
+      <p class="ct" style="margin-bottom:12px">Ahora que conoces tu esencia, ¿cómo te comprometes a vivir desde ella? Escribe cómo vas a honrar quién eres —tus dones y tu misión— en tu día a día.</p>
+      <textarea id="compromiso-principios" placeholder="Me comprometo a..."></textarea>
+    </div>
+
+    <div id="compromisos-wrap"></div>
+
+    <p class="quote">Conocerte fue el trabajo. Vivir desde ese conocimiento es el arte.</p>
+
+    <div class="video-box">
+      <div class="video-play">▶</div>
+      <div class="video-txt">Video de cierre — Sesión 3</div>
+      <div class="video-soon">Próximamente disponible</div>
+    </div>
+
+    <div class="nav">
+      <button class="bs" onclick="irA(0)">← Anterior</button>
+      <button class="bp" onclick="cerrarSesion()">Cerrar la Sesión 3 →</button>
+    </div>
+  </div>
+</div>
+
+<script>
+function leer(k,def){var v=localStorage.getItem(k);return (v===null||v===undefined)?def:v;}
+function leerJSON(k,def){try{var v=localStorage.getItem(k);return v?JSON.parse(v):def;}catch(e){return def;}}
+var NOMS={1:"El Pionero",2:"El Mediador",3:"El Creador",4:"El Constructor",5:"El Explorador",6:"El Sanador",7:"El Sabio",8:"El Ejecutivo",9:"El Humanista",11:"El Iluminado",22:"El Maestro Constructor",33:"El Maestro Sanador"};
+
+function irA(n){
+  document.querySelectorAll('.pantalla').forEach(function(p){p.classList.remove('visible');});
+  document.getElementById('p'+n).classList.add('visible');
+  document.getElementById('prog').style.width=(n===0?50:100)+'%';
+  if(n===0) renderSintesis();
+  if(n===1) renderCierre();
+  window.scrollTo(0,0);
+}
+function renderSintesis(){
+  var camino=parseInt(leer('anormal_camino_vida','0'));
+  var sub=leerJSON('anormal_subnumeros',null);
+  var nombre=leerJSON('anormal_nombre_num',null);
+  var flechas=leerJSON('anormal_flechas',null);
+  var cont=document.getElementById('perfil-sintesis');
+  var html='';
+  // números clave en grid
+  html+='<div class="perfil-grid">';
+  if(camino) html+='<div class="pg-item"><div class="pg-num">'+camino+'</div><div class="pg-lbl">Camino de Vida</div><div class="pg-nom">'+(NOMS[camino]||'')+'</div></div>';
+  if(nombre&&nombre.exp) html+='<div class="pg-item"><div class="pg-num">'+nombre.exp+'</div><div class="pg-lbl">Expresión</div><div class="pg-nom">'+(NOMS[nombre.exp]||'')+'</div></div>';
+  if(nombre&&nombre.alma) html+='<div class="pg-item"><div class="pg-num">'+nombre.alma+'</div><div class="pg-lbl">Alma</div><div class="pg-nom">'+(NOMS[nombre.alma]||'')+'</div></div>';
+  if(sub&&sub.dia) html+='<div class="pg-item"><div class="pg-num">'+sub.dia+'</div><div class="pg-lbl">Día de nacimiento</div></div>';
+  html+='</div>';
+  // narrativa integradora
+  html+='<div class="card gold"><div class="label">Tu retrato</div><p class="ct">';
+  if(camino){ html+='Tu esencia es la del <b>'+(NOMS[camino]||'')+'</b> (Camino de Vida '+camino+'): esa es la gran lección y el hilo de tu historia. '; }
+  if(nombre&&nombre.exp){ html+='Al mostrarte al mundo, lo haces desde la energía del <b>'+nombre.exp+'</b>. '; }
+  if(nombre&&nombre.alma){ html+='Y en lo más profundo, tu alma anhela lo que representa el <b>'+nombre.alma+'</b>. '; }
+  html+='</p></div>';
+  // flechas resumen
+  if(flechas&&(flechas.fuertes&&flechas.fuertes.length||flechas.vacias&&flechas.vacias.length)){
+    html+='<div class="card"><div class="label">Tus fuerzas y aprendizajes</div><p class="ct dim">';
+    if(flechas.fuertes&&flechas.fuertes.length) html+='Tus flechas de fortaleza marcan tus dones más claros. ';
+    if(flechas.vacias&&flechas.vacias.length) html+='Tus flechas de aprendizaje señalan lo que viniste a desarrollar. ';
+    html+='Juntas te dan un mapa de en qué apoyarte y qué cultivar.</p></div>';
+  }
+  html+='<div class="card"><p class="ct dim">Recuerda: esto es un espejo, no una sentencia. Toma lo que te resuene y ponlo al servicio de tu propósito.</p></div>';
+  cont.innerHTML=html;
+}
+function renderCierre(){
+  // consolidado de compromisos (mismo repositorio del sistema)
+  var cw=document.getElementById('compromisos-wrap');
+  var ch='';
+  try{
+    var repo=JSON.parse(localStorage.getItem('anormal_compromisos_areas')||'{}');
+    var keys=Object.keys(repo);
+    if(keys.length){
+      ch='<div class="compromisos-box"><div class="compromisos-label">✦ Tu repositorio de compromisos</div>';
+      keys.forEach(function(k){ var c=repo[k]; ch+='<div class="compromiso-item"><span style="color:var(--gold)">·</span><span>'+(c.nombre||k)+'</span></div>'; });
+      ch+='<p class="ct dim" style="font-size:13.5px;margin-top:10px">Todos tus compromisos se siguen consolidando aquí y en tu Resumen de Conciencia.</p></div>';
+    }
+  }catch(e){}
+  cw.innerHTML=ch;
+}
+function cerrarSesion(){
+  var compPrincipiosEl=document.getElementById('compromiso-principios');
+  var compPrincipios=compPrincipiosEl?compPrincipiosEl.value.trim():'';
+  if(compPrincipios){
+    try{
+      var repo=JSON.parse(localStorage.getItem('anormal_compromisos_areas')||'{}');
+      repo['principios_sesion3']={nombre:'Vivir los principios ∀7·∀8·∀9·∀10', texto:compPrincipios};
+      localStorage.setItem('anormal_compromisos_areas', JSON.stringify(repo));
+    }catch(e){}
+  }
+  localStorage.setItem('anormal_perfil_numerologico', JSON.stringify({
+    camino:leer('anormal_camino_vida',''), nombre:leerJSON('anormal_nombre_num',null),
+    compromiso_principios:compPrincipios, fecha:new Date().toLocaleDateString('es-CO')
+  }));
+  try{
+    var data=JSON.parse(sessionStorage.getItem('anormal_proceso')||'{}');
+    if(!data.progreso)data.progreso={};
+    data.progreso.perfil={completado:true,fecha:new Date().toLocaleDateString('es-CO')};
+    data.progreso.sesion3_completa={completado:true,fecha:new Date().toLocaleDateString('es-CO')};
+    sessionStorage.setItem('anormal_proceso',JSON.stringify(data));
+  }catch(e){}
+  window.location.href='resumen-conciencia.html';
+}
+(function(){ renderSintesis(); })();
+</script>
+</body>
+</html>
