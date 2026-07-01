@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>∀normal — Mis Flechas</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Barlow:wght@300;400;500&family=Barlow+Condensed:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#060A14;--bg2:#0A0F1E;--bg3:#0E1525;--bg4:#131D30;--gold:#C9A84C;--gold2:#E8C96A;--gold3:#F5E0A0;--gd:rgba(201,168,76,.13);--gb:rgba(201,168,76,.28);--text:#EAE6DC;--dim:#9AA5B8;--faint:#3A4558;--ffaint:#1E2A3A;--grn:#4ABF7A;--rose:#D4537E;--azul:#5A8CC0;--r:4px;--rm:8px;--rl:14px;}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font-weight:300;font-size:17.5px;line-height:1.75;min-height:100vh}
+.wrap{max-width:720px;margin:0 auto;padding:24px 20px 60px}
+.hdr{display:flex;align-items:center;justify-content:space-between;padding:16px 0 24px;border-bottom:1px solid var(--faint);margin-bottom:24px}
+.hdr-logo{font-family:"Cormorant Garamond",serif;font-size:23px;color:var(--gold2)}
+.hdr-info{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim)}
+.progress-bar{height:2px;background:var(--ffaint);border-radius:2px;overflow:hidden;margin-bottom:10px}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));transition:width .5s ease}
+.progress-txt{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);text-align:center;margin-bottom:24px}
+.pantalla{display:none;animation:fadeIn .4s ease}
+.pantalla.visible{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.label{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:10px}
+.titulo{font-family:"Cormorant Garamond",serif;font-size:clamp(24px,5.5vw,33px);font-weight:300;color:var(--gold2);line-height:1.2;margin-bottom:12px}
+.subtitulo{font-size:16px;color:var(--dim);line-height:1.85;margin-bottom:24px}
+.card{background:var(--bg2);border:1px solid rgba(255,255,255,.06);border-radius:var(--rl);padding:22px 26px;margin-bottom:14px}
+.card.gold{border-color:var(--gb);background:linear-gradient(135deg,var(--bg2),var(--bg3))}
+.ct{font-size:16px;color:var(--text);line-height:1.95}
+.ct.dim{color:var(--dim);font-size:15px}
+.ct b,.ct strong{color:var(--gold2);font-weight:500}
+.video-opcional{background:var(--bg3);border:1px dashed var(--faint);border-radius:14px;padding:20px 22px;margin-bottom:18px;display:flex;align-items:center;gap:16px}
+.video-opcional .vo-play{font-size:24px;color:var(--gold);flex-shrink:0}
+.video-opcional .vo-tit{font-size:13px;color:var(--text)}
+.video-opcional .vo-sub{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--faint);margin-top:3px}
+.seccion-lbl{font-size:12px;letter-spacing:.14em;text-transform:uppercase;margin:22px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--ffaint)}
+.seccion-lbl.fort{color:var(--grn)}
+.seccion-lbl.vac{color:var(--azul)}
+.flecha-card{background:var(--bg2);border:1px solid var(--ffaint);border-radius:var(--rl);padding:18px 20px;margin-bottom:12px}
+.flecha-card.fort{border-color:rgba(74,191,122,.3)}
+.flecha-card.vac{border-color:rgba(90,140,192,.3)}
+.fc-head{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.fc-nums{display:flex;gap:5px}
+.fc-num{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:"Cormorant Garamond",serif;font-size:16px;flex-shrink:0}
+.fc-num.on{background:var(--gd);border:1px solid var(--gold);color:var(--gold2)}
+.fc-num.off{border:1px dashed var(--faint);color:var(--faint)}
+.fc-tit{font-size:16px;font-weight:500;color:var(--gold2)}
+.fc-badge{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
+.bp{background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--bg);border:none;border-radius:var(--r);font-family:"Barlow Condensed",sans-serif;font-size:13px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;padding:14px 32px;cursor:pointer;transition:opacity .2s,transform .15s}
+.bp:hover{opacity:.9;transform:translateY(-1px)}
+.bs{background:transparent;color:var(--gold);border:1px solid var(--gb);border-radius:var(--r);font-family:"Barlow Condensed",sans-serif;font-size:12px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;padding:12px 24px;cursor:pointer}
+.nav{display:flex;gap:10px;justify-content:space-between;align-items:center;margin-top:26px;flex-wrap:wrap}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hdr"><div class="hdr-logo">∀normal</div><div class="hdr-info">Sesión 3 · Flechas</div></div>
+  <div class="progress-bar"><div class="progress-fill" id="prog" style="width:20%"></div></div>
+  <div class="progress-txt" id="prog-txt">Tus flechas</div>
+
+  <div class="pantalla visible" id="p0">
+    <div class="label">Numerología · Tus flechas</div>
+    <h1 class="titulo">Tus fortalezas y tus vacíos.</h1>
+    <p class="subtitulo">Cuando tres números en línea están todos <b style="color:var(--gold2)">presentes</b> en tu fecha, forman una <b style="color:var(--gold2)">flecha de fortaleza</b>: un talento marcado. Cuando los tres están <b style="color:var(--gold2)">ausentes</b>, forman una <b style="color:var(--gold2)">flecha de vacío</b>: un aprendizaje que viniste a desarrollar. Ambas te definen.</p>
+    <div class="video-opcional"><div class="vo-play">▶</div><div class="vo-txt"><div class="vo-tit">Video — Tus flechas</div><div class="vo-sub">Opcional · próximamente</div></div></div>
+    <div class="card gold"><div class="label">Cómo funcionan</div><p class="ct">Sobre el cuadro numerológico hay ocho líneas posibles. Las que tienes completas son tus dones más fuertes; las que tienes vacías, tus grandes lecciones. Nadie tiene todas: por eso cada mapa es único.</p></div>
+    <div id="fecha-info"></div>
+    <div class="nav"><span></span><button class="bp" onclick="calcular()">Ver mis flechas →</button></div>
+  </div>
+
+  <div class="pantalla" id="p1">
+    <div class="label">Tus flechas</div>
+    <h1 class="titulo">Esto te fortalece, esto te reta.</h1>
+    <div id="flechas-contenido"></div>
+    <div class="nav"><button class="bs" onclick="irA(0)">← Anterior</button><button class="bp" onclick="continuar()">Continuar con mi Nombre →</button></div>
+  </div>
+</div>
+
+<script>
+function leer(k,def){var v=localStorage.getItem(k);return (v===null||v===undefined)?def:v;}
+var FD={
+  "1-2-3":{n:"Flecha del Intelecto",nums:[1,2,3],
+    qes:"Las flechas se forman cuando tres números que comparten una línea en el cuadro de nacimiento (horizontal, vertical o diagonal) están todos presentes. La Flecha del Intelecto une el 1 (iniciativa), el 2 (intuición) y el 3 (expresión) en una línea horizontal en la fila inferior del cuadro.",
+    c:{
+      desc:"Posees una mente analítica, lógica y creativa de gran potencia. Esta flecha une la iniciativa del 1, la intuición del 2 y la creatividad del 3. Procesas información con rapidez, ves conexiones que otros no ven y puedes comunicar ideas complejas de forma clara y carismática.",
+      como:"Esta flecha se manifiesta en tu facilidad para aprender, en tu capacidad de resolver problemas desde múltiples ángulos y en tu habilidad para comunicar ideas de forma que lleguen a distintos tipos de personas.",
+      usa:"Úsala en situaciones que requieren planificación, análisis profundo o comunicación estratégica. Tu mente es una herramienta de precisión — ponla al servicio de tu propósito.",
+      desafio:"El conocimiento que no se aplica no transforma. Esta flecha puede llevarte a sobre-analizar y sub-actuar. El desafío es pasar del análisis a la acción.",
+      fortalece:"Para seguir fortaleciendo esta flecha: lee sobre temas fuera de tu zona de confort, practica enseñar lo que sabes (enseñar es la mejor forma de integrar), y desafía tus propias conclusiones con regularidad.",
+      reto:"Esta semana toma una decisión importante confiando en tu análisis sin buscar más información. Tu mente ya tiene lo que necesita."
+    },
+    p:{
+      desc:"Tienes parte de la energía analítica e intelectual de esta flecha. Los números que tienes te dan acceso a algunas de estas capacidades — pero le falta al menos un eslabón para que la flecha opere en su potencia máxima.",
+      eslabones:{
+        1:"El 1 faltante indica que la <strong style='color:var(--gold3)'>iniciativa mental</strong> es el área a desarrollar. Tu capacidad analítica existe pero puede faltarle el impulso de actuar desde ella. Practica esta semana: propón una idea tuya sin esperar que alguien te la pida.",
+        2:"El 2 faltante indica que la <strong style='color:var(--gold3)'>intuición integrada</strong> es el eslabón que completa tu intelecto. Antes de analizar, pregúntate: ¿qué siento sobre esto? Esa respuesta también es información válida.",
+        3:"El 3 faltante indica que la <strong style='color:var(--gold3)'>expresión de tus ideas</strong> es el área a potenciar. Piensas bien pero la comunicación de ese pensamiento es el puente que falta. Practica escribir o hablar tus ideas en voz alta."
+      },
+      reto:"Esta semana trabaja conscientemente la energía del número faltante de esta flecha."
+    },
+    e:{
+      desc:"La Flecha del Intelecto está completamente ausente en tu cuadro. Esto no significa que seas menos inteligente — significa que tu forma de procesar la realidad es más intuitiva, experiencial y corporal que analítica. Aprendes mejor haciendo que estudiando. Sientes antes de pensar.",
+      aprender:"Lo que viniste a desarrollar: la confianza en tu propio proceso mental, que es diferente al estándar académico pero igualmente válido. Tu inteligencia es más holística — ve el todo antes que las partes.",
+      compensa:"Como esta flecha nunca estará completa en tu cuadro, tu estrategia es: 1) Rodéate de personas analíticas que complementen tu forma de procesar. 2) Usa herramientas externas (tomar notas, mapas mentales, listas) para estructurar lo que percibes. 3) Confía en que tu forma de aprender — experiencial, intuitiva — tiene un valor que el pensamiento puramente analítico no puede reemplazar.",
+      reto:"Esta semana, ante un desafío, escribe tres perspectivas diferentes antes de actuar. Ese ejercicio entrena el músculo analítico sin alejarte de tu intuición."
+    }
+  },
+  "4-5-6":{n:"Flecha de la Voluntad",nums:[4,5,6],
+    qes:"La Flecha de la Voluntad une el 4 (disciplina), el 5 (adaptabilidad) y el 6 (responsabilidad) en la fila central horizontal del cuadro. Es la flecha del hacer sostenido.",
+    c:{
+      desc:"Tienes una determinación y capacidad de trabajo sostenido extraordinarias. Esta flecha une la disciplina del 4, la versatilidad del 5 y la responsabilidad del 6. Una vez que decides, llevas a término — y puedes mantener ese esfuerzo incluso cuando las condiciones cambian.",
+      como:"Esta flecha se manifiesta en tu capacidad de mantener compromisos bajo presión, en tu fiabilidad y en tu habilidad para adaptarte sin perder el rumbo.",
+      usa:"Úsala en proyectos de largo aliento que requieran constancia. Tu voluntad puede sostener sueños que otros abandonarían.",
+      desafio:"Tu voluntad puede tornarse terquedad. A veces persistes en un camino que ya no sirve. Aprende a distinguir entre perseverancia genuina y resistencia al cambio disfrazada de fortaleza.",
+      fortalece:"Para seguir fortaleciendo esta flecha: elige proyectos que te importen genuinamente (la voluntad florece con propósito), practica soltar cuando algo ya no sirve (la voluntad madura sabe cuándo avanzar y cuándo soltar), y celebra los procesos no solo los resultados.",
+      reto:"Identifica algo importante que requiera más constancia. Comprométete con una acción diaria pequeña durante los próximos 21 días."
+    },
+    p:{
+      desc:"Tienes la semilla de la voluntad sostenida pero le falta al menos un eslabón para que opere en su máxima potencia.",
+      eslabones:{
+        4:"El 4 faltante indica que la <strong style='color:var(--gold3)'>disciplina metódica</strong> es el área a desarrollar. Tu voluntad existe pero puede ser intermitente. Practica: establece una rutina diaria de 5 minutos — tan pequeña que sea imposible no hacerla.",
+        5:"El 5 faltante indica que la <strong style='color:var(--gold3)'>adaptabilidad de la voluntad</strong> es el eslabón faltante. Tu constancia existe pero se quiebra ante los cambios imprevistos. Practica: mantén tu compromiso aunque cambien las condiciones externas.",
+        6:"El 6 faltante indica que la <strong style='color:var(--gold3)'>responsabilidad ante otros</strong> es lo que completaría tu voluntad. Hacer públicos tus compromisos los fortalece. Dile a alguien lo que vas a hacer."
+      },
+      reto:"Esta semana trabaja el número faltante de tu flecha de la voluntad."
+    },
+    e:{
+      desc:"La Flecha de la Voluntad está completamente ausente. Esto no significa que no tengas fuerza — significa que la disciplina sostenida y la constancia son aprendizajes centrales de esta vida. Aún estás descubriendo qué te motiva lo suficiente como para persistir.",
+      aprender:"La disciplina elegida desde el propósito es radicalmente diferente a la disciplina impuesta desde la obligación. Cuando encuentres tu por qué genuino, la constancia aparece naturalmente.",
+      compensa:"Tu estrategia: 1) Busca tu propósito antes que la disciplina — cuando algo importa de verdad, el compromiso surge solo. 2) Usa compromisos públicos y accountability con personas de confianza. 3) Divide los proyectos en pasos tan pequeños que iniciar sea casi inevitable.",
+      reto:"Elige una sola práctica esta semana. Hazla 7 días consecutivos. No importa cuán pequeña. El músculo de la constancia se construye con victorias pequeñas."
+    }
+  },
+  "7-8-9":{n:"Flecha de la Acción",nums:[7,8,9],
+    qes:"La Flecha de la Acción une el 7 (sabiduría), el 8 (poder ejecutivo) y el 9 (compasión) en la fila superior horizontal del cuadro. Es la flecha de la materialización consciente.",
+    c:{
+      desc:"Eres extraordinariamente efectivo en llevar ideas a la realidad. Esta flecha une la sabiduría del 7, el poder ejecutivo del 8 y la visión humanista del 9. Sabes cómo hacer que las cosas sucedan en el mundo concreto — y lo haces con una perspectiva que va más allá del beneficio personal.",
+      como:"Esta flecha se manifiesta en tu capacidad de ejecutar proyectos, de tomar decisiones de alto impacto y de convertir visiones en realidades tangibles.",
+      usa:"Úsala para ejecutar proyectos complejos, liderar equipos hacia resultados y transformar visiones en realidades.",
+      desafio:"Tu velocidad de acción puede llevarte a decisiones impulsivas. No toda situación requiere acción inmediata — algunas requieren espera, contemplación o simplemente presencia.",
+      fortalece:"Para seguir fortaleciendo esta flecha: conecta siempre tus acciones con un propósito mayor, practica la pausa reflexiva antes de ejecutar decisiones importantes, y celebra los resultados que benefician a otros más allá de ti.",
+      reto:"Esta semana antes de ejecutar una decisión importante, date 24 horas. Observa si la acción fue mejor que la que habrías tomado impulsivamente."
+    },
+    p:{
+      desc:"Tienes parte de la capacidad de acción y materialización. Los números presentes te dan acceso a algunas de estas energías — pero le falta al menos un eslabón para que la flecha opere en su máxima potencia.",
+      eslabones:{
+        7:"El 7 faltante indica que la <strong style='color:var(--gold3)'>reflexión estratégica</strong> es el eslabón que necesitas. Tu capacidad de acción existe pero puede actuar antes de entender completamente la situación. Practica: antes de ejecutar, pregúntate qué no estás viendo.",
+        8:"El 8 faltante indica que la <strong style='color:var(--gold3)'>relación con el poder y la autoridad</strong> es el área a desarrollar. Tienes visión y compasión pero puede faltarte la decisión ejecutiva. Practica: toma una decisión de liderazgo que llevas postergando.",
+        9:"El 9 faltante indica que <strong style='color:var(--gold3)'>conectar tu acción con un propósito mayor</strong> es lo que completaría esta flecha. Tu capacidad ejecutora existe pero puede faltarle la dimensión del servicio. Practica: antes de actuar, pregúntate cómo esto beneficia a alguien más."
+      },
+      reto:"Esta semana trabaja el número faltante de tu flecha de la acción."
+    },
+    e:{
+      desc:"La Flecha de la Acción está completamente ausente. Esto no significa que no puedas actuar — significa que la materialización concreta, la relación con el poder y la capacidad de impactar el mundo de forma tangible son aprendizajes importantes.",
+      aprender:"La acción imperfecta transforma más que la idea perfecta que nunca se ejecuta. Eso es lo que viniste a descubrir.",
+      compensa:"Tu estrategia: 1) Trabaja con personas de acción que te ayuden a materializar tus visiones. 2) Usa marcos de gestión de proyectos para estructurar la ejecución. 3) Celebra cada paso completado — no solo el resultado final. 4) Da el primer paso concreto aunque sea imperfecto.",
+      reto:"Esta semana toma una idea que tienes sin ejecutar y da el primer paso concreto, por pequeño que sea. Solo el primero."
+    }
+  },
+  "3-6-9":{n:"Flecha de la Compasión",nums:[3,6,9],
+    qes:"La Flecha de la Compasión une el 3 (expresión), el 6 (amor) y el 9 (servicio universal) en la columna derecha vertical del cuadro. Es la flecha del corazón.",
+    c:{
+      desc:"Tienes un corazón que ama con profundidad y una capacidad de empatía que transforma los espacios que habitas. Esta flecha une la expresión del 3, el amor del 6 y la compasión universal del 9. Haces que las personas se sientan profundamente comprendidas, cuidadas y vistas.",
+      como:"Esta flecha se manifiesta en tu calidez natural, en tu facilidad para crear vínculos genuinos y en tu capacidad de sanar con tu presencia.",
+      usa:"Úsala en liderazgo desde el servicio, enseñanza, coaching, acompañamiento — cualquier rol donde el corazón sea la herramienta principal.",
+      desafio:"Sin límites claros, tu compasión puede convertirse en absorción del dolor ajeno que te vacía. El corazón que no se cuida a sí mismo termina sin poder cuidar a nadie.",
+      fortalece:"Para seguir fortaleciendo esta flecha: practica poner límites desde el amor (decir no también es una forma de cuidar), desarrolla rituales de recarga emocional y aprende a recibir tan bien como das.",
+      reto:"Identifica a tres personas a quienes cuidas profundamente. Ahora escribe qué necesitas tú de cada una. ¿Lo has pedido?"
+    },
+    p:{
+      desc:"Tienes apertura al amor y al cuidado, pero la flecha incompleta muestra que hay dimensiones del dar o del recibir que aún estás integrando.",
+      eslabones:{
+        3:"El 3 faltante indica que la <strong style='color:var(--gold3)'>expresión del amor</strong> es el área a desarrollar. Puedes sentir mucho pero cuesta exteriorizarlo. Practica esta semana: di o escribe algo amoroso que normalmente te quedarías guardado.",
+        6:"El 6 faltante indica que el <strong style='color:var(--gold3)'>compromiso sostenido en el amor</strong> es el eslabón faltante. Sientes compasión pero puede ser difícil mantenerla en relaciones cotidianas y comprometidas. Practica: elige una relación y profundiza en ella con constancia esta semana.",
+        9:"El 9 faltante indica que el <strong style='color:var(--gold3)'>amor universal — más allá de los vínculos cercanos</strong> — es tu área de crecimiento. Sientes amor por los tuyos pero la compasión hacia lo que no conoces aún estás desarrollándola. Practica: haz un acto de bondad con alguien que no conozcas."
+      },
+      reto:"Esta semana expresa amor de una forma en que normalmente no lo harías."
+    },
+    e:{
+      desc:"La Flecha de la Compasión está completamente ausente. Esto no significa que no seas capaz de amar — significa que el amor empático, el cuidado genuino de otros y la conexión emocional profunda son aprendizajes importantes en esta vida.",
+      aprender:"Conectar con el otro no te hace perder — te completa. La compasión genuina transforma al que la recibe y al que la da. Tu mayor crecimiento ocurre cuando permites que algo externo te mueva.",
+      compensa:"Tu estrategia: 1) Cultiva relaciones con personas compasivas que te enseñen el lenguaje del cuidado. 2) Practica actos pequeños de servicio consciente — no grandes gestos, sino presencia genuina. 3) Pregúntate con regularidad: ¿cómo está esta persona? — y escucha de verdad la respuesta.",
+      reto:"Esta semana haz algo por alguien sin que te lo hayan pedido y sin esperar reconocimiento. Observa cómo te sientes."
+    }
+  },
+  "1-4-7":{n:"Flecha de la Determinación",nums:[1,4,7],
+    qes:"La Flecha de la Determinación une el 1 (voluntad), el 4 (disciplina) y el 7 (sabiduría) en la columna izquierda vertical del cuadro. Es la flecha de la fortaleza interior.",
+    c:{
+      desc:"Posees una columna vertebral emocional y mental extraordinaria. Esta flecha une la fuerza del 1, la solidez del 4 y la profundidad del 7. Frente a los obstáculos no te doblas — te fortaleces. Tu resiliencia inspira a quienes te rodean.",
+      como:"Esta flecha se manifiesta en tu capacidad de mantenerte firme bajo presión, en tu habilidad para recuperarte de los golpes y en la confianza que tu fortaleza genera en los demás.",
+      usa:"Úsala en los momentos de mayor dificultad. Cuando otros quieran rendirse, tú encuentras la manera. Esta flecha es tu ancla cuando el camino se complica.",
+      desafio:"Tu fortaleza puede convertirse en inflexibilidad. La determinación que no sabe doblar termina rompiéndose. Aprende a distinguir entre resiliencia genuina y resistencia al cambio.",
+      fortalece:"Para seguir fortaleciendo esta flecha: practica el descanso consciente (la determinación sostenible necesita recuperación), cultiva la flexibilidad como complemento de la fortaleza, y recuerda que pedir ayuda no reduce tu determinación — la amplifica.",
+      reto:"Esta semana identifica un desafío actual y escribe tres formas alternativas de abordarlo que no hayas considerado. Tu determinación es más poderosa cuando tiene opciones."
+    },
+    p:{
+      desc:"Tienes parte de la columna vertebral de la determinación. Los números presentes te dan resistencia en ciertas dimensiones — pero le falta al menos un eslabón para que la fortaleza sea consistente en todas las áreas.",
+      eslabones:{
+        1:"El 1 faltante indica que la <strong style='color:var(--gold3)'>iniciativa y la voluntad propia</strong> son el área a fortalecer. Tienes profundidad y disciplina pero puede faltarte el impulso de arrancar desde tu propio criterio. Practica: decide algo solo esta semana, sin consultar a nadie.",
+        4:"El 4 faltante indica que la <strong style='color:var(--gold3)'>disciplina sostenida</strong> es el eslabón faltante. Tienes voluntad y profundidad pero la constancia diaria es el área a desarrollar. Practica: comprométete con una práctica pequeña durante 7 días consecutivos.",
+        7:"El 7 faltante indica que la <strong style='color:var(--gold3)'>reflexión profunda antes de actuar</strong> es lo que completa tu determinación. Tienes fuerza y disciplina pero la sabiduría estratégica la hará más efectiva. Practica: antes de enfrentar un obstáculo, dedica 10 minutos a contemplar qué está realmente en juego."
+      },
+      reto:"Esta semana trabaja conscientemente el número faltante de tu flecha de la determinación."
+    },
+    e:{
+      desc:"La Flecha de la Determinación está completamente ausente. Esto no significa que no tengas fortaleza — significa que la resiliencia sostenida ante los obstáculos y la persistencia son aprendizajes centrales de esta vida.",
+      aprender:"La determinación más poderosa no nace de la dureza — nace de saber claramente por qué algo importa. Cuando encuentras tu propósito genuino, la resiliencia aparece de formas que nunca habías imaginado.",
+      compensa:"Tu estrategia: 1) Rodéate de personas determinadas y resilientes que te inspiren y sostengan. 2) Estudia historias de personas que superaron grandes obstáculos — esas narrativas construyen musculatura mental. 3) Crea sistemas externos (compromisos públicos, rutinas estructuradas) que soporten tu constancia cuando la motivación baje.",
+      reto:"Identifica una situación donde hayas querido rendirte pero no lo hiciste. Escribe qué te sostuvo. Esa es la fuente de tu determinación — conócela y nutrela."
+    }
+  },
+  "2-5-8":{n:"Flecha de la Sensibilidad",nums:[2,5,8],
+    qes:"La Flecha de la Sensibilidad une el 2 (intuición emocional), el 5 (versatilidad) y el 8 (poder) en la columna central vertical del cuadro. Es la flecha de la inteligencia emocional.",
+    c:{
+      desc:"Tienes una vida emocional profunda y una intuición extraordinariamente desarrollada. Esta flecha une la empatía del 2, la versatilidad del 5 y la visión ejecutiva del 8. Sientes lo que otros no sienten, lees dinámicas interpersonales con precisión y creas vínculos genuinos.",
+      como:"Esta flecha se manifiesta en tu capacidad de leer ambientes, en tu habilidad para navegar situaciones socialmente complejas y en la confianza que tu sensibilidad genera en los demás.",
+      usa:"Úsala en todos los contextos donde la inteligencia emocional marca la diferencia — liderazgo, relaciones, negociación, coaching.",
+      desafio:"Tu profundidad emocional puede convertirse en hipersensibilidad que te agota. Aprende a sentir sin absorber, a empatizar sin fusionarte con el dolor ajeno.",
+      fortalece:"Para seguir fortaleciendo esta flecha: practica rituales de cierre emocional al final de cada día, aprende a nombrar con precisión lo que sientes (el vocabulario emocional es poder), y cultiva la diferencia entre empatizar y absorber.",
+      reto:"Esta semana, después de una interacción emocionalmente intensa, practica un ritual de cierre: respira profundo y distingue conscientemente qué es tuyo y qué es de la otra persona."
+    },
+    p:{
+      desc:"Tienes parte de la sensibilidad emocional e interpersonal. Los números presentes te dan acceso a algunas de estas dimensiones — pero le falta al menos un eslabón.",
+      eslabones:{
+        2:"El 2 faltante indica que la <strong style='color:var(--gold3)'>empatía profunda y la escucha genuina</strong> son el área a desarrollar. Tu sensibilidad existe en otras formas pero el lenguaje emocional puro es tu aprendizaje. Practica: ten una conversación donde solo escuches, sin dar consejos.",
+        5:"El 5 faltante indica que la <strong style='color:var(--gold3)'>adaptabilidad emocional</strong> es el eslabón faltante. Tu sensibilidad puede ser profunda pero le falta la capacidad de fluir con los cambios emocionales. Practica: cuando algo te afecte fuertemente, espera 24 horas antes de responder.",
+        8:"El 8 faltante indica que la <strong style='color:var(--gold3)'>relación con el poder desde la sensibilidad</strong> es el área a desarrollar. Sientes mucho pero puede ser difícil convertir esa sensibilidad en liderazgo efectivo. Practica: toma una decisión de liderazgo guiada por tu intuición emocional."
+      },
+      reto:"Esta semana trabaja el número faltante de tu flecha de la sensibilidad."
+    },
+    e:{
+      desc:"La Flecha de la Sensibilidad está completamente ausente (faltan el 2, el 5 y el 8). Esto indica que el mundo emocional, la versatilidad y la relación con el poder son tres áreas importantes de aprendizaje en esta vida.",
+      aprender:"Tu mayor crecimiento ocurre en los vínculos íntimos, en las situaciones que requieren adaptación y en los contextos donde el poder y los recursos son parte de la ecuación.",
+      compensa:"Tu estrategia: 1) Lleva un diario emocional breve — nombrar lo que sientes lo hace manejable. 2) Cultiva relaciones con personas emocionalmente inteligentes que te muestren ese lenguaje. 3) Practica la pausa antes de responder en situaciones de carga emocional alta. 4) Toma un curso o proceso de desarrollo emocional — para ti es un recurso estratégico, no un lujo.",
+      reto:"Al final de cada día esta semana, escribe en una sola línea qué sentiste. No qué pensaste — qué sentiste. Ese vocabulario emocional es el primer paso."
+    }
+  },
+  "1-5-9":{n:"Flecha de la Ambición Espiritual",nums:[1,5,9],
+    qes:"La Flecha de la Ambición Espiritual une el 1 (voluntad personal), el 5 (transformación) y el 9 (amor universal) en la diagonal principal del cuadro. Es la flecha del propósito de gran escala.",
+    c:{
+      desc:"Combinas la voluntad personal más poderosa con la visión espiritual más expansiva. Esta flecha une la fuerza del 1, la versatilidad transformadora del 5 y la compasión universal del 9. Tienes la rara capacidad de querer algo grande Y conectarlo con un propósito que trasciende tu beneficio personal.",
+      como:"Esta flecha se manifiesta en tu capacidad de liderar transformaciones colectivas, en tu habilidad para inspirar a otros hacia algo más grande y en tu sentido natural de misión.",
+      usa:"Úsala para liderar proyectos de transformación, para inspirar a comunidades y para trabajar en misiones que impacten más vidas que la tuya.",
+      desafio:"Tu visión puede ser tan grande que intimide, tanto a ti como a otros. Aprende a comunicarla en pequeñas dosis y a avanzar un paso a la vez sin perder de vista el horizonte.",
+      fortalece:"Para seguir fortaleciendo esta flecha: conecta cada acción concreta con tu visión mayor (el mapa y el territorio juntos), practica simplificar tu visión hasta que pueda comunicarse en una sola frase y cultiva la paciencia con los tiempos del universo.",
+      reto:"Esta semana escribe en una frase tu visión más grande. Luego escribe cuál es el próximo paso concreto. El puente entre lo espiritual y lo práctico se construye así."
+    },
+    p:{
+      desc:"Tienes el inicio del hilo entre la voluntad personal y el propósito espiritual. Los números presentes te conectan con parte de esta energía — pero le falta el nudo que une el querer personal con el servicio al mundo.",
+      eslabones:{
+        1:"El 1 faltante indica que <strong style='color:var(--gold3)'>fortalecer la voluntad propia</strong> es lo que conectaría tu espiritualidad con la acción. Tienes visión y compasión pero puede faltarte el impulso de liderar desde tu propio criterio. Practica: actúa esta semana desde tu visión sin pedir permiso.",
+        5:"El 5 faltante indica que la <strong style='color:var(--gold3)'>apertura al cambio y la transformación</strong> son el eslabón faltante. Tienes voluntad y visión espiritual pero la capacidad de adaptarte en el camino es lo que completa la flecha. Practica: cuando algo no salga como planeaste, busca activamente la oportunidad que hay en el cambio.",
+        9:"El 9 faltante indica que <strong style='color:var(--gold3)'>conectar tu ambición con el servicio universal</strong> es lo que completaría esta flecha. Tienes fuerza y capacidad de transformación pero la dimensión del amor universal amplifica todo. Practica: esta semana toma una acción motivada exclusivamente por el beneficio de otros."
+      },
+      reto:"Esta semana conecta algo que quieres lograr con el impacto que tendría en otros. Esa conexión es la energía de esta flecha."
+    },
+    e:{
+      desc:"La Flecha de la Ambición Espiritual está completamente ausente. Esto indica que la integración entre la voluntad personal y el propósito espiritual es un aprendizaje de vida. Puede haber objetivos claros pero desconectados de un sentido mayor, o una espiritualidad elevada sin anclaje en la acción.",
+      aprender:"Cuando conectas lo que quieres con lo que el mundo necesita, tu voluntad se multiplica. Esa integración es lo que viniste a descubrir.",
+      compensa:"Tu estrategia: 1) Trabaja con un coach o mentor que te ayude a articular tu propósito. 2) Practica la meditación o la contemplación para conectar tus deseos con un sentido mayor. 3) Estudia las vidas de personas que unieron voluntad y espiritualidad — hay modelos de integración que pueden guiarte.",
+      reto:"Esta semana escribe cuál es tu deseo más importante ahora mismo. Luego escribe cómo ese deseo, si se cumpliera, podría beneficiar a alguien más allá de ti."
+    }
+  },
+  "3-5-7":{n:"Flecha de la Mente Espiritual",nums:[3,5,7],
+    qes:"La Flecha de la Mente Espiritual une el 3 (expresión), el 5 (versatilidad) y el 7 (sabiduría) en la diagonal secundaria del cuadro. Es la flecha del puente entre mundos.",
+    c:{
+      desc:"Tienes el don extraordinariamente raro de integrar el pensamiento racional y la intuición espiritual. Esta flecha une la expresión del 3, la versatilidad del 5 y la sabiduría del 7. Puedes entender lo profundo y explicarlo de forma accesible — eres un puente entre lo visible y lo invisible.",
+      como:"Esta flecha se manifiesta en tu capacidad de traducir ideas complejas o espirituales a un lenguaje que otros puedan entender, en tu creatividad para comunicar y en tu apertura a múltiples dimensiones de la realidad.",
+      usa:"Úsala para enseñar, escribir, facilitar y comunicar verdades complejas de forma simple. Tu don es hacer que lo invisible se vuelva visible.",
+      desafio:"Tu comprensión integrada puede generar frustración cuando otros no siguen tu ritmo. No todos tienen la misma síntesis — tu rol es guiar, no imponerte.",
+      fortalece:"Para seguir fortaleciendo esta flecha: practica simplificar tus comprensiones más profundas hasta que puedan comunicarse con palabras sencillas, cultiva la paciencia con quienes procesan diferente y comparte lo que sabes regularmente.",
+      reto:"Esta semana toma una comprensión espiritual profunda que tengas y escríbela de la forma más simple posible, como si se la explicaras a alguien que nunca ha pensado en eso."
+    },
+    p:{
+      desc:"Tienes parte del puente construido entre el pensamiento y la espiritualidad. Los números presentes te conectan con algunas de estas dimensiones — pero le faltan pilares para que el puente sea completo.",
+      eslabones:{
+        3:"El 3 faltante indica que la <strong style='color:var(--gold3)'>expresión y comunicación</strong> de tus comprensiones espirituales es el área a desarrollar. Entiendes en profundidad pero cuesta exteriorizarlo de forma accesible. Practica: comparte esta semana una comprensión tuya con alguien que pueda beneficiarse.",
+        5:"El 5 faltante indica que la <strong style='color:var(--gold3)'>apertura y adaptabilidad del pensamiento</strong> es el eslabón faltante. Tienes profundidad y expresión pero puede faltarte la flexibilidad para ver múltiples perspectivas igualmente válidas. Practica: esta semana, ante una idea que rechaces instintivamente, busca activamente qué hay de válido en ella.",
+        7:"El 7 faltante indica que la <strong style='color:var(--gold3)'>profundidad analítica y la conexión espiritual</strong> son lo que completaría esta flecha. Tienes expresión y versatilidad pero la dimensión contemplativa es el pilar que falta. Practica: 10 minutos de silencio diarios esta semana."
+      },
+      reto:"Esta semana comparte con alguien una comprensión que tengas — no la guardes. El acto de compartir activa el eslabón faltante."
+    },
+    e:{
+      desc:"La Flecha de la Mente Espiritual está completamente ausente. Esto indica que la integración entre el pensamiento racional, la versatilidad y la sabiduría espiritual es un aprendizaje de vida.",
+      aprender:"La mente y el alma no son opuestos — son dos instrumentos del mismo ser. Integrarlos es una de las tareas más profundas y más liberadoras que existen.",
+      compensa:"Tu estrategia: 1) Crea el hábito de preguntarte tanto ¿qué pienso sobre esto? como ¿qué siento sobre esto? — las dos respuestas juntas son más completas que cada una por separado. 2) Lee autores que integren el pensamiento riguroso con la apertura espiritual. 3) Practica compartir lo que piensas y sientes — no solo uno u otro.",
+      reto:"Esta semana toma un tema que entiendas muy bien intelectualmente y busca su dimensión espiritual. ¿Qué significa en términos de valores? ¿Cómo se siente cuando te detenes a vivirlo, no solo a pensarlo?"
+    }
+  }
+}
+function fmtFecha(iso){var p=iso.split('-');if(p.length!==3)return iso;var m=['','enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];return parseInt(p[2])+' de '+m[parseInt(p[1])]+' de '+p[0];}
+var presentes=[], fuertes=[], vacias=[];
+
+function init0(){
+  var f=leer('anormal_fecha_nac','');
+  var info=document.getElementById('fecha-info');
+  if(f){ info.innerHTML='<div class="card"><p class="ct dim">Usaremos tu fecha: <b style="color:var(--gold2)">'+fmtFecha(f)+'</b></p></div>'; }
+  else { info.innerHTML='<div class="card"><div class="label">Tu fecha de nacimiento</div><input type="date" id="input-fecha" style="background:var(--bg3);border:1px solid var(--faint);border-radius:var(--rm);color:var(--text);font-size:16px;padding:11px 14px"></div>'; }
+}
+function calcular(){
+  var f=leer('anormal_fecha_nac','');
+  if(!f){ var inp=document.getElementById('input-fecha'); f=inp?inp.value:''; }
+  if(!f){ alert('Ingresa tu fecha de nacimiento.'); return; }
+  localStorage.setItem('anormal_fecha_nac',f);
+  var digs=f.replace(/[^0-9]/g,'').split('').map(Number).filter(function(n){return n>=1&&n<=9;});
+  presentes=[]; for(var i=1;i<=9;i++){ if(digs.indexOf(i)>=0) presentes.push(i); }
+  fuertes=[]; vacias=[];
+  Object.keys(FD).forEach(function(k){
+    var nums=FD[k].nums;
+    var todosPres=nums.every(function(n){return presentes.indexOf(n)>=0;});
+    var todosAus=nums.every(function(n){return presentes.indexOf(n)<0;});
+    if(todosPres) fuertes.push(k);
+    else if(todosAus) vacias.push(k);
+  });
+  localStorage.setItem('anormal_flechas', JSON.stringify({fuertes:fuertes,vacias:vacias}));
+  irA(1);
+}
+function irA(n){
+  document.querySelectorAll('.pantalla').forEach(function(p){p.classList.remove('visible');});
+  document.getElementById('p'+n).classList.add('visible');
+  document.getElementById('prog').style.width=(n===0?20:100)+'%';
+  if(n===1) renderFlechas();
+  window.scrollTo(0,0);
+}
+function chipNums(nums, pres){
+  return '<div class="fc-nums">'+nums.map(function(n){var on=pres.indexOf(n)>=0;return '<div class="fc-num '+(on?'on':'off')+'">'+n+'</div>';}).join('')+'</div>';
+}
+function renderFlechas(){
+  var cont=document.getElementById('flechas-contenido');
+  var html='';
+  if(fuertes.length){
+    html+='<div class="seccion-lbl fort">▲ Tus flechas de fortaleza</div>';
+    fuertes.forEach(function(k){ var f=FD[k]; var c=f.c||{};
+      html+='<div class="flecha-card fort"><div class="fc-head">'+chipNums(f.nums,presentes)+'<div><div class="fc-tit">'+f.n+'</div><div class="fc-badge">Fortaleza · completa</div></div></div>'+
+        (c.desc?'<p class="ct">'+c.desc+'</p>':'')+
+        (c.como?'<p class="ct" style="margin-top:8px">'+c.como+'</p>':'')+
+        (c.usa?'<p class="ct dim" style="margin-top:8px"><b style="color:var(--grn)">Úsala: </b>'+c.usa+'</p>':'')+'</div>';
+    });
+  }
+  if(vacias.length){
+    html+='<div class="seccion-lbl vac">△ Tus flechas de aprendizaje</div>';
+    vacias.forEach(function(k){ var f=FD[k]; var e=f.e||{};
+      html+='<div class="flecha-card vac"><div class="fc-head">'+chipNums(f.nums,presentes)+'<div><div class="fc-tit">'+f.n+'</div><div class="fc-badge">Aprendizaje · por desarrollar</div></div></div>'+
+        (e.desc?'<p class="ct">'+e.desc+'</p>':'')+
+        (e.aprender?'<p class="ct" style="margin-top:8px">'+e.aprender+'</p>':'')+
+        (e.compensa?'<p class="ct dim" style="margin-top:8px"><b style="color:var(--azul)">Cómo compensarla: </b>'+e.compensa+'</p>':'')+'</div>';
+    });
+  }
+  if(!fuertes.length && !vacias.length){
+    html='<div class="card"><p class="ct">Tu fecha no forma flechas completas ni totalmente vacías — tienes una distribución equilibrada de energías. Eso también es una lectura: ninguna línea te domina, tienes acceso balanceado a varias fuerzas.</p></div>';
+  }
+  cont.innerHTML=html;
+}
+function continuar(){
+  try{ var data=JSON.parse(sessionStorage.getItem('anormal_proceso')||'{}');
+    data.flechas={fuertes:fuertes,vacias:vacias}; if(!data.progreso)data.progreso={};
+    data.progreso.flechas={completado:true,fecha:new Date().toLocaleDateString('es-CO')};
+    sessionStorage.setItem('anormal_proceso',JSON.stringify(data)); }catch(e){}
+  window.location.href='tu-nombre.html';
+}
+(function(){ init0(); })();
+</script>
+</body>
+</html>
