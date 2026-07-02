@@ -60,6 +60,19 @@ body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font
 .bp:hover{opacity:.9;transform:translateY(-1px)}
 .bs{background:transparent;color:var(--gold);border:1px solid var(--gb);border-radius:var(--r);font-family:"Barlow Condensed",sans-serif;font-size:11px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;padding:12px 24px;cursor:pointer}
 .nav{display:flex;gap:10px;justify-content:space-between;align-items:center;margin-top:30px;flex-wrap:wrap}
+.pantalla{display:none}
+.pantalla.visible{display:block;animation:fadeIn .4s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.p-dots{display:flex;gap:8px;justify-content:center;margin-bottom:24px}
+.p-dot{width:28px;height:4px;border-radius:2px;background:var(--ffaint);transition:background .3s}
+.p-dot.done{background:var(--grn)}
+.p-dot.active{background:var(--gold)}
+.principio-grande{background:linear-gradient(135deg,var(--bg2),var(--bg3));border:1px solid var(--gb);border-radius:var(--rl);padding:28px 26px;margin-bottom:16px;text-align:center}
+.pg-num{font-family:"Cormorant Garamond",serif;font-size:44px;color:var(--gold2);margin-bottom:8px}
+.pg-tit{font-size:20px;font-weight:500;color:var(--gold2);margin-bottom:12px}
+.pg-txt{font-size:15px;color:var(--text);line-height:1.85}
+.principio-comprometido{display:none;text-align:center;color:var(--grn);font-size:14px;margin-top:12px}
+.principio-comprometido.visible{display:block;animation:fadeIn .3s ease}
 </style>
 </head>
 <body>
@@ -69,6 +82,8 @@ body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font
     <div class="hdr-info">Sesión 3</div>
   </div>
 
+  <!-- P0: ENCUADRE -->
+  <div class="pantalla visible" id="p0">
   <div class="sesion-marca">
     <div class="sesion-num">Sesión Tres</div>
     <div class="sesion-line"></div>
@@ -88,12 +103,6 @@ body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font
     <div class="label">Lo que vas a vivir en esta sesión</div>
     <p class="ct">Vas a usar una herramienta de autoconocimiento: la numerología. <b style="color:var(--gold2)">No es esoterismo ni adivinación</b> — es un espejo y un lenguaje para reconocer patrones que ya están en ti. A mí, como mentor, me ayudó a comprender mi historia y a proyectarme en positivo. Toma lo que te resuene, y deja lo que no. Tú tienes la última palabra sobre ti.</p>
   </div>
-
-  <div class="label" style="margin:22px 0 12px">Los cuatro principios que sostienen esta sesión</div>
-  <div class="principio"><div class="principio-num">∀7</div><div><div class="principio-info-tit">Aprende cero excusas</div><div class="principio-info-txt">Conocerte es dejar de excusarte. Cuando sabes quién eres, ya no tienes dónde esconderte: asumes tu potencial y tus sombras sin pretextos.</div></div></div>
-  <div class="principio"><div class="principio-num">∀8</div><div><div class="principio-info-tit">Asume responsabilidad total</div><div class="principio-info-txt">Tu número no es tu destino — es tu punto de partida. Lo que hagas con él es tu responsabilidad, y ahí está tu poder.</div></div></div>
-  <div class="principio"><div class="principio-num">∀9</div><div><div class="principio-info-tit">Apalancamiento: la verdad contigo mismo</div><div class="principio-info-txt">Verte con honestidad —dones y sombras— es la palanca de tu crecimiento. La verdad sobre ti no te limita: te libera.</div></div></div>
-  <div class="principio"><div class="principio-num">∀10</div><div><div class="principio-info-tit">Apoyo emocional como combustible</div><div class="principio-info-txt">Conocer tu esencia te da un ancla en los días difíciles. Saber quién eres es el apoyo que te sostiene y te impulsa.</div></div></div>
 
   <p class="quote">Conócete a ti mismo.
     <span class="quote-autor">Inscripción del templo de Delfos</span></p>
@@ -119,11 +128,34 @@ body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font
     </div>
   </div>
 
-  <p class="ct" style="margin-top:8px">Tómate tu tiempo. Esta sesión no se hace con prisa: se hace con honestidad.</p>
+  <p class="ct" style="margin-top:8px">Antes de empezar, vas a hacer tuyos los cuatro principios que sostienen esta sesión — uno por uno.</p>
 
   <div class="nav">
     <button class="bs" onclick="volverResumen()">← Volver al resumen</button>
-    <button class="bp" onclick="comenzar()">Comenzar la Sesión 3 →</button>
+    <button class="bp" onclick="irPrincipios()">Aceptar los principios →</button>
+  </div>
+  </div>
+
+  <!-- P1: ACEPTACIÓN DE PRINCIPIOS -->
+  <div class="pantalla" id="p1">
+    <div class="label" style="text-align:center;margin-bottom:16px">Los cuatro principios de esta sesión</div>
+    <div class="p-dots" id="p-dots">
+      <div class="p-dot active" id="dot-0"></div>
+      <div class="p-dot" id="dot-1"></div>
+      <div class="p-dot" id="dot-2"></div>
+      <div class="p-dot" id="dot-3"></div>
+    </div>
+    <div class="principio-grande">
+      <div class="pg-num" id="pg-num">∀7</div>
+      <div class="pg-tit" id="pg-tit">Aprende cero excusas</div>
+      <div class="pg-txt" id="pg-txt">Conocerte es dejar de excusarte.</div>
+    </div>
+    <div class="nav" style="justify-content:center">
+      <button class="bp" id="btn-principio" onclick="aceptarPrincipio()">Me comprometo con este principio →</button>
+    </div>
+    <div class="principio-comprometido" id="p-comprometido">
+      ✓ <span id="p-comprometido-texto">Comprometido</span>
+    </div>
   </div>
 </div>
 
@@ -139,12 +171,56 @@ function leer(k,def){var v=localStorage.getItem(k);return (v===null||v===undefin
   }
 })();
 
+var PRINCIPIOS=[
+  {num:7, titulo:"Aprende cero excusas", txt:"Conocerte es dejar de excusarte. Cuando sabes quién eres, ya no tienes dónde esconderte: asumes tu potencial y tus sombras sin pretextos."},
+  {num:8, titulo:"Asume responsabilidad total", txt:"Tu número no es tu destino — es tu punto de partida. Lo que hagas con él es tu responsabilidad, y ahí está tu poder."},
+  {num:9, titulo:"Apalancamiento: la verdad contigo mismo", txt:"Verte con honestidad —dones y sombras— es la palanca de tu crecimiento. La verdad sobre ti no te limita: te libera."},
+  {num:10, titulo:"Apoyo emocional como combustible", txt:"Conocer tu esencia te da un ancla en los días difíciles. Saber quién eres es el apoyo que te sostiene y te impulsa."}
+];
+var estado={principioActual:0, principiosAceptados:[]};
+
+function irPrincipios(){
+  document.getElementById('p0').classList.remove('visible');
+  document.getElementById('p1').classList.add('visible');
+  estado.principioActual=0; estado.principiosAceptados=[];
+  for(var i=0;i<PRINCIPIOS.length;i++){ var d=document.getElementById('dot-'+i); if(d) d.className='p-dot'+(i===0?' active':''); }
+  mostrarPrincipio(0);
+  window.scrollTo(0,0);
+}
+function mostrarPrincipio(idx){
+  var p=PRINCIPIOS[idx];
+  document.getElementById('pg-num').textContent='∀'+p.num;
+  document.getElementById('pg-tit').textContent=p.titulo;
+  document.getElementById('pg-txt').textContent=p.txt;
+  document.getElementById('btn-principio').style.display='inline-block';
+  document.getElementById('p-comprometido').classList.remove('visible');
+}
+function aceptarPrincipio(){
+  var idx=estado.principioActual;
+  estado.principiosAceptados.push(idx);
+  var dot=document.getElementById('dot-'+idx); if(dot) dot.className='p-dot done';
+  var comp=document.getElementById('p-comprometido');
+  comp.classList.add('visible');
+  document.getElementById('p-comprometido-texto').textContent='Comprometido con ∀'+PRINCIPIOS[idx].num+' — '+PRINCIPIOS[idx].titulo;
+  document.getElementById('btn-principio').style.display='none';
+  setTimeout(function(){
+    if(idx<PRINCIPIOS.length-1){
+      estado.principioActual++;
+      var sig=document.getElementById('dot-'+estado.principioActual); if(sig) sig.className='p-dot active';
+      mostrarPrincipio(estado.principioActual);
+      window.scrollTo(0,0);
+    } else {
+      comenzar();
+    }
+  }, 850);
+}
+
 function comenzar(){
-  // Marcar la sesión 2 como iniciada y entregar al primer módulo
   try{
     var data=JSON.parse(sessionStorage.getItem('anormal_proceso')||'{}');
     if(!data.progreso) data.progreso={};
     data.progreso.sesion3_entrada={completado:true,fecha:new Date().toLocaleDateString('es-CO')};
+    data.progreso.sesion3_principios_aceptados=true;
     sessionStorage.setItem('anormal_proceso',JSON.stringify(data));
   }catch(e){}
   localStorage.setItem('anormal_sesion3_iniciada','1');
