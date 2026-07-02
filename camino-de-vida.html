@@ -62,6 +62,13 @@ body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font
 .bp:hover{opacity:.9;transform:translateY(-1px)}
 .bs{background:transparent;color:var(--gold);border:1px solid var(--gb);border-radius:var(--r);font-family:"Barlow Condensed",sans-serif;font-size:12px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;padding:12px 24px;cursor:pointer}
 .nav{display:flex;gap:10px;justify-content:space-between;align-items:center;margin-top:26px;flex-wrap:wrap}
+.talento-card{background:var(--bg2);border:1px solid var(--ffaint);border-radius:var(--rl);padding:16px 18px;margin-bottom:10px;transition:border-color .2s}
+.talento-card.marcado{border-color:var(--gb)}
+.talento-opts{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.tal-btn{flex:1;min-width:150px;background:var(--bg3);border:1px solid var(--ffaint);border-radius:var(--rm);color:var(--dim);font-family:"Barlow",sans-serif;font-size:13.5px;padding:10px 12px;cursor:pointer;transition:all .2s}
+.tal-btn:hover{border-color:var(--faint)}
+.tal-btn.on-si{background:rgba(74,191,122,.15);border-color:var(--grn);color:var(--grn)}
+.tal-btn.on-no{background:rgba(90,140,192,.12);border-color:var(--azul);color:var(--azul)}
 </style>
 </head>
 <body>
@@ -426,22 +433,41 @@ function renderSignificado(){
   if(d.sombra) html+='<div class="bloque"><div class="bloque-lbl">Tu sombra a integrar</div><div class="card"><p class="ct">'+d.sombra+'</p></div></div>';
   if(d.karma) html+='<div class="bloque"><div class="bloque-lbl">Tu aprendizaje kármico</div><div class="card"><p class="ct">'+d.karma+'</p></div></div>';
   if(d.talentos && Array.isArray(d.talentos)){
-    html+='<div class="bloque"><div class="bloque-lbl">Tus talentos</div>';
-    d.talentos.forEach(function(t){
-      if(typeof t==='object' && t.n){
-        html+='<div class="card"><p class="ct"><b>'+t.n+'.</b> '+(t.d||'')+'</p></div>';
-      } else {
-        html+='<div class="card"><p class="ct">'+t+'</p></div>';
-      }
+    html+='<div class="bloque"><div class="bloque-lbl">Tus talentos · autoevaluación</div>';
+    html+='<div class="card"><p class="ct dim">Estos son los talentos de tu número. Para cada uno, marca con honestidad: ¿ya lo reconoces activo en ti, o sientes que te falta desarrollarlo? No hay respuesta correcta — es tu espejo.</p></div>';
+    d.talentos.forEach(function(t,i){
+      var nom = (typeof t==='object'&&t.n)?t.n:t;
+      var desc = (typeof t==='object'&&t.d)?t.d:'';
+      html+='<div class="talento-card" id="tal-'+i+'">'+
+        '<p class="ct"><b>'+nom+'.</b> '+desc+'</p>'+
+        '<div class="talento-opts">'+
+          '<button class="tal-btn tal-si" onclick="marcarTalento('+i+',\'consciente\')">✓ Ya lo reconozco en mí</button>'+
+          '<button class="tal-btn tal-no" onclick="marcarTalento('+i+',\'desarrollar\')">○ Me falta desarrollarlo</button>'+
+        '</div></div>';
     });
     html+='</div>';
   }
   document.getElementById('significado').innerHTML=html;
+  talentosEval={};
 }
+var talentosEval={};
+function marcarTalento(i, tipo){
+  talentosEval[i]=tipo;
+  var card=document.getElementById('tal-'+i);
+  if(!card) return;
+  var botones=card.querySelectorAll('.tal-btn');
+  botones.forEach(function(b){ b.classList.remove('on-si','on-no'); });
+  card.querySelector('.tal-si').classList.toggle('on-si', tipo==='consciente');
+  card.querySelector('.tal-no').classList.toggle('on-no', tipo==='desarrollar');
+  card.classList.add('marcado');
 function continuar(){
   try{
+    var conscientes=[], porDesarrollar=[];
+    var d=NV[miNV];
+    if(d&&d.talentos){ d.talentos.forEach(function(t,i){ var nom=(typeof t==='object'&&t.n)?t.n:t; if(talentosEval[i]==='consciente')conscientes.push(nom); else if(talentosEval[i]==='desarrollar')porDesarrollar.push(nom); }); }
+    localStorage.setItem('anormal_talentos_eval', JSON.stringify({conscientes:conscientes, porDesarrollar:porDesarrollar}));
     var data=JSON.parse(sessionStorage.getItem('anormal_proceso')||'{}');
-    data.camino_vida={numero:miNV, arquetipo:NV[miNV]?NV[miNV].n:''};
+    data.camino_vida={numero:miNV, arquetipo:NV[miNV]?NV[miNV].n:'', talentosConscientes:conscientes, talentosPorDesarrollar:porDesarrollar};
     if(!data.progreso)data.progreso={};
     data.progreso.camino_vida={completado:true, fecha:new Date().toLocaleDateString('es-CO')};
     sessionStorage.setItem('anormal_proceso',JSON.stringify(data));
