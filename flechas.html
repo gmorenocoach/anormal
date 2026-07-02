@@ -33,6 +33,10 @@ body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font
 .video-opcional .vo-tit{font-size:13px;color:var(--text)}
 .video-opcional .vo-sub{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--faint);margin-top:3px}
 .seccion-lbl{font-size:12px;letter-spacing:.14em;text-transform:uppercase;margin:22px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--ffaint)}
+.cuadro-demo{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;max-width:180px;margin:0 auto 14px}
+.cd-cell{aspect-ratio:1;display:flex;align-items:center;justify-content:center;border:1px solid var(--ffaint);border-radius:var(--rm);font-family:"Cormorant Garamond",serif;font-size:22px;color:var(--dim);background:var(--bg3)}
+.cd-cell.on{border-color:var(--gold);background:var(--gd);color:var(--gold2)}
+.cuadro-res{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;max-width:200px;margin:0 auto 20px}
 .seccion-lbl.fort{color:var(--grn)}
 .seccion-lbl.vac{color:var(--azul)}
 .flecha-card{background:var(--bg2);border:1px solid var(--ffaint);border-radius:var(--rl);padding:18px 20px;margin-bottom:12px}
@@ -60,9 +64,25 @@ body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font
   <div class="pantalla visible" id="p0">
     <div class="label">Numerología · Tus flechas</div>
     <h1 class="titulo">Tus fortalezas y tus vacíos.</h1>
-    <p class="subtitulo">Cuando tres números en línea están todos <b style="color:var(--gold2)">presentes</b> en tu fecha, forman una <b style="color:var(--gold2)">flecha de fortaleza</b>: un talento marcado. Cuando los tres están <b style="color:var(--gold2)">ausentes</b>, forman una <b style="color:var(--gold2)">flecha de vacío</b>: un aprendizaje que viniste a desarrollar. Ambas te definen.</p>
+    <p class="subtitulo">Los números de tu fecha de nacimiento se ordenan en un <b style="color:var(--gold2)">cuadro de 3×3</b> — el cuadro numerológico. Cuando tres números que forman una línea (horizontal, vertical o diagonal) se comportan de la misma manera, dibujan una <b style="color:var(--gold2)">flecha</b>: una tendencia marcada de tu carácter.</p>
+
+    <div class="card gold"><div class="label">El cuadro numerológico</div>
+      <p class="ct" style="margin-bottom:14px">Cada número tiene una posición fija. Los que están en tu fecha se "encienden"; los que faltan quedan apagados. Las líneas que se forman son tus flechas.</p>
+      <div class="cuadro-demo">
+        <div class="cd-cell">3</div><div class="cd-cell">6</div><div class="cd-cell">9</div>
+        <div class="cd-cell">2</div><div class="cd-cell">5</div><div class="cd-cell">8</div>
+        <div class="cd-cell">1</div><div class="cd-cell">4</div><div class="cd-cell">7</div>
+      </div>
+      <p class="ct dim" style="font-size:14px">Ejemplo: si tienes el 1, el 4 y el 7 (la columna izquierda), formas la Flecha de la Determinación.</p>
+    </div>
+
+    <div class="card"><div class="label">Los tres tipos de flecha</div>
+      <p class="ct"><b style="color:var(--grn)">Completas (3 de 3):</b> los tres números están presentes. Son tus <b>fortalezas</b> más marcadas.</p>
+      <p class="ct" style="margin-top:10px"><b style="color:var(--gold2)">De refuerzo (2 de 3):</b> tienes dos de los tres. Son tendencias que puedes <b>usar de apoyo</b> — con un pequeño desarrollo se activan del todo.</p>
+      <p class="ct" style="margin-top:10px"><b style="color:var(--azul)">Vacías (0 de 3):</b> ninguno está presente. Son tus grandes <b>aprendizajes</b> de vida.</p>
+    </div>
+
     <div class="video-opcional"><div class="vo-play">▶</div><div class="vo-txt"><div class="vo-tit">Video — Tus flechas</div><div class="vo-sub">Opcional · próximamente</div></div></div>
-    <div class="card gold"><div class="label">Cómo funcionan</div><p class="ct">Sobre el cuadro numerológico hay ocho líneas posibles. Las que tienes completas son tus dones más fuertes; las que tienes vacías, tus grandes lecciones. Nadie tiene todas: por eso cada mapa es único.</p></div>
     <div id="fecha-info"></div>
     <div class="nav"><span></span><button class="bp" onclick="calcular()">Ver mis flechas →</button></div>
   </div>
@@ -288,7 +308,7 @@ var FD={
   }
 }
 function fmtFecha(iso){var p=iso.split('-');if(p.length!==3)return iso;var m=['','enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];return parseInt(p[2])+' de '+m[parseInt(p[1])]+' de '+p[0];}
-var presentes=[], fuertes=[], vacias=[];
+var presentes=[], fuertes=[], vacias=[], refuerzo=[];
 
 function init0(){
   var f=leer('anormal_fecha_nac','');
@@ -303,15 +323,15 @@ function calcular(){
   localStorage.setItem('anormal_fecha_nac',f);
   var digs=f.replace(/[^0-9]/g,'').split('').map(Number).filter(function(n){return n>=1&&n<=9;});
   presentes=[]; for(var i=1;i<=9;i++){ if(digs.indexOf(i)>=0) presentes.push(i); }
-  fuertes=[]; vacias=[];
+  fuertes=[]; vacias=[]; refuerzo=[];
   Object.keys(FD).forEach(function(k){
     var nums=FD[k].nums;
-    var todosPres=nums.every(function(n){return presentes.indexOf(n)>=0;});
-    var todosAus=nums.every(function(n){return presentes.indexOf(n)<0;});
-    if(todosPres) fuertes.push(k);
-    else if(todosAus) vacias.push(k);
+    var cuantos=nums.filter(function(n){return presentes.indexOf(n)>=0;}).length;
+    if(cuantos===3) fuertes.push(k);
+    else if(cuantos===0) vacias.push(k);
+    else if(cuantos===2) refuerzo.push(k);
   });
-  localStorage.setItem('anormal_flechas', JSON.stringify({fuertes:fuertes,vacias:vacias}));
+  localStorage.setItem('anormal_flechas', JSON.stringify({fuertes:fuertes,vacias:vacias,refuerzo:refuerzo}));
   irA(1);
 }
 function irA(n){
@@ -324,35 +344,54 @@ function irA(n){
 function chipNums(nums, pres){
   return '<div class="fc-nums">'+nums.map(function(n){var on=pres.indexOf(n)>=0;return '<div class="fc-num '+(on?'on':'off')+'">'+n+'</div>';}).join('')+'</div>';
 }
+function cuadroUsuario(){
+  var orden=[3,6,9,2,5,8,1,4,7];
+  return '<div class="cuadro-res">'+orden.map(function(n){var on=presentes.indexOf(n)>=0;return '<div class="cd-cell'+(on?' on':'')+'">'+n+'</div>';}).join('')+'</div>';
+}
 function renderFlechas(){
   var cont=document.getElementById('flechas-contenido');
   var html='';
+  // cuadro del usuario
+  html+='<div class="card"><div class="label" style="text-align:center">Tu cuadro numerológico</div>'+cuadroUsuario()+'<p class="ct dim" style="text-align:center;font-size:14px">Los números dorados son los que tienes en tu fecha. Las líneas que forman son tus flechas.</p></div>';
   if(fuertes.length){
-    html+='<div class="seccion-lbl fort">▲ Tus flechas de fortaleza</div>';
+    html+='<div class="seccion-lbl fort">▲ Tus flechas completas · fortalezas (3 de 3)</div>';
     fuertes.forEach(function(k){ var f=FD[k]; var c=f.c||{};
-      html+='<div class="flecha-card fort"><div class="fc-head">'+chipNums(f.nums,presentes)+'<div><div class="fc-tit">'+f.n+'</div><div class="fc-badge">Fortaleza · completa</div></div></div>'+
+      html+='<div class="flecha-card fort"><div class="fc-head">'+chipNums(f.nums,presentes)+'<div><div class="fc-tit">'+f.n+'</div><div class="fc-badge">Fortaleza · 3 de 3</div></div></div>'+
         (c.desc?'<p class="ct">'+c.desc+'</p>':'')+
         (c.como?'<p class="ct" style="margin-top:8px">'+c.como+'</p>':'')+
         (c.usa?'<p class="ct dim" style="margin-top:8px"><b style="color:var(--grn)">Úsala: </b>'+c.usa+'</p>':'')+'</div>';
     });
   }
+  if(refuerzo.length){
+    html+='<div class="seccion-lbl" style="color:var(--gold2)">◆ Tus flechas de refuerzo · apoyo (2 de 3)</div>';
+    html+='<div class="card"><p class="ct dim">Tienes dos de los tres números. No son flechas completas, pero están casi ahí: con desarrollar el número que falta, se activan del todo. Úsalas como apoyo.</p></div>';
+    refuerzo.forEach(function(k){ var f=FD[k]; var p=f.p||{};
+      var falta=f.nums.filter(function(n){return presentes.indexOf(n)<0;});
+      var eslabonTxt='';
+      if(p.eslabones){ falta.forEach(function(nf){ if(p.eslabones[nf]) eslabonTxt+='<p class="ct" style="margin-top:8px">'+p.eslabones[nf]+'</p>'; }); }
+      html+='<div class="flecha-card" style="border-color:var(--gb)"><div class="fc-head">'+chipNums(f.nums,presentes)+'<div><div class="fc-tit">'+f.n+'</div><div class="fc-badge">Refuerzo · 2 de 3 · falta el '+falta.join(', ')+'</div></div></div>'+
+        (p.desc?'<p class="ct">'+p.desc+'</p>':'')+
+        eslabonTxt+
+        (p.reto?'<p class="ct dim" style="margin-top:8px"><b style="color:var(--gold2)">Para activarla: </b>'+p.reto+'</p>':'')+'</div>';
+    });
+  }
   if(vacias.length){
-    html+='<div class="seccion-lbl vac">△ Tus flechas de aprendizaje</div>';
+    html+='<div class="seccion-lbl vac">△ Tus flechas vacías · aprendizajes (0 de 3)</div>';
     vacias.forEach(function(k){ var f=FD[k]; var e=f.e||{};
-      html+='<div class="flecha-card vac"><div class="fc-head">'+chipNums(f.nums,presentes)+'<div><div class="fc-tit">'+f.n+'</div><div class="fc-badge">Aprendizaje · por desarrollar</div></div></div>'+
+      html+='<div class="flecha-card vac"><div class="fc-head">'+chipNums(f.nums,presentes)+'<div><div class="fc-tit">'+f.n+'</div><div class="fc-badge">Aprendizaje · 0 de 3</div></div></div>'+
         (e.desc?'<p class="ct">'+e.desc+'</p>':'')+
         (e.aprender?'<p class="ct" style="margin-top:8px">'+e.aprender+'</p>':'')+
         (e.compensa?'<p class="ct dim" style="margin-top:8px"><b style="color:var(--azul)">Cómo compensarla: </b>'+e.compensa+'</p>':'')+'</div>';
     });
   }
-  if(!fuertes.length && !vacias.length){
-    html='<div class="card"><p class="ct">Tu fecha no forma flechas completas ni totalmente vacías — tienes una distribución equilibrada de energías. Eso también es una lectura: ninguna línea te domina, tienes acceso balanceado a varias fuerzas.</p></div>';
+  if(!fuertes.length && !vacias.length && !refuerzo.length){
+    html+='<div class="card"><p class="ct">Tu fecha no forma flechas marcadas — tienes una distribución equilibrada de energías. Eso también es una lectura: ninguna línea te domina, tienes acceso balanceado a varias fuerzas.</p></div>';
   }
   cont.innerHTML=html;
 }
 function continuar(){
   try{ var data=JSON.parse(sessionStorage.getItem('anormal_proceso')||'{}');
-    data.flechas={fuertes:fuertes,vacias:vacias}; if(!data.progreso)data.progreso={};
+    data.flechas={fuertes:fuertes,vacias:vacias,refuerzo:refuerzo}; if(!data.progreso)data.progreso={};
     data.progreso.flechas={completado:true,fecha:new Date().toLocaleDateString('es-CO')};
     sessionStorage.setItem('anormal_proceso',JSON.stringify(data)); }catch(e){}
   window.location.href='tu-nombre.html';
