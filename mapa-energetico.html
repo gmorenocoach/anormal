@@ -32,13 +32,13 @@ body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font
 .video-opcional .vo-play{font-size:24px;color:var(--gold);flex-shrink:0}
 .video-opcional .vo-tit{font-size:13px;color:var(--text)}
 .video-opcional .vo-sub{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--faint);margin-top:3px}
-.grid-nums{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:16px 0}
-.gn{aspect-ratio:1;border-radius:var(--rl);display:flex;flex-direction:column;align-items:center;justify-content:center;border:1px solid var(--ffaint);background:var(--bg3);cursor:pointer;transition:all .2s}
+.grid-nums{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:16px 0;max-width:260px;margin-left:auto;margin-right:auto}
+.gn{aspect-ratio:1;border-radius:var(--rm);display:flex;flex-direction:column;align-items:center;justify-content:center;border:1px solid var(--ffaint);background:var(--bg3);cursor:pointer;transition:all .2s}
 .gn.pres{border-color:var(--gold);background:var(--gd)}
 .gn.aus{border-color:var(--ffaint);opacity:.5}
-.gn-num{font-family:"Cormorant Garamond",serif;font-size:32px;color:var(--gold2)}
+.gn-num{font-family:"Cormorant Garamond",serif;font-size:22px;color:var(--gold2)}
 .gn.aus .gn-num{color:var(--faint)}
-.gn-estado{font-size:9px;letter-spacing:.1em;text-transform:uppercase;margin-top:2px;color:var(--dim)}
+.gn-estado{font-size:8px;letter-spacing:.08em;text-transform:uppercase;margin-top:1px;color:var(--dim)}
 .leyenda{display:flex;gap:18px;justify-content:center;margin-bottom:16px;font-size:12px;color:var(--dim)}
 .leyenda span{display:flex;align-items:center;gap:6px}
 .dot{width:12px;height:12px;border-radius:3px}
@@ -64,9 +64,10 @@ body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font
   <div class="pantalla visible" id="p0">
     <div class="label">Numerología · Tu mapa</div>
     <h1 class="titulo">El mapa de tu energía.</h1>
-    <p class="subtitulo">Tu fecha de nacimiento contiene ciertos números — y le faltan otros. Los que <b style="color:var(--gold2)">tienes</b> son las energías con las que naciste, tus dones de base. Los que te <b style="color:var(--gold2)">faltan</b> no son carencias: son justo lo que viniste a desarrollar en esta vida.</p>
+    <p class="subtitulo">Los números de tu <b style="color:var(--gold2)">fecha de nacimiento</b> dibujan un mapa. Del 1 al 9, algunos <b style="color:var(--gold2)">aparecen</b> en tu fecha y otros <b style="color:var(--gold2)">faltan</b>. No es casualidad: es tu configuración energética de origen.</p>
     <div class="video-opcional"><div class="vo-play">▶</div><div class="vo-txt"><div class="vo-tit">Video — Tu mapa energético</div><div class="vo-sub">Opcional · próximamente</div></div></div>
-    <div class="card gold"><div class="label">Cómo leerlo</div><p class="ct">Del 1 al 9, marcaremos cuáles aparecen en tu fecha (presentes) y cuáles no (ausentes). Ninguno es mejor que otro: juntos dibujan tu mapa único de aprendizaje.</p></div>
+    <div class="card gold"><div class="label">Cómo leer tu mapa</div>
+      <p class="ct">Los números que <b>tienes</b> en tu fecha son tus <b>habilidades de nacimiento</b> — dones que ya traes y que puedes potenciar. Los que te <b>faltan</b> son tus <b>karmas o aprendizajes</b>: lo que tu alma vino a desarrollar en esta vida. Ninguno es mejor: juntos son tu mapa único.</p></div>
     <div id="fecha-info"></div>
     <div class="nav"><span></span><button class="bp" onclick="calcular()">Ver mi mapa →</button></div>
   </div>
@@ -74,7 +75,8 @@ body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font
   <div class="pantalla" id="p1">
     <div class="label">Tu mapa energético</div>
     <h1 class="titulo">Esto tienes, esto vienes a desarrollar.</h1>
-    <div class="leyenda"><span><span class="dot p"></span>Presente (lo que traes)</span><span><span class="dot a"></span>Ausente (lo que desarrollas)</span></div>
+    <p class="subtitulo" style="margin-bottom:14px">Estos son los números del 1 al 9 según tu fecha. Toca cada uno para ver qué significa — los dorados son tus habilidades, los apagados tus aprendizajes.</p>
+    <div class="leyenda"><span><span class="dot p"></span>Presente (habilidad)</span><span><span class="dot a"></span>Ausente (aprendizaje)</span></div>
     <div class="grid-nums" id="grid"></div>
     <div id="mapa-detalle"></div>
     <div class="nav"><button class="bs" onclick="irA(0)">← Anterior</button><button class="bp" onclick="continuar()">Continuar con mis Flechas →</button></div>
@@ -317,13 +319,21 @@ function renderDetalle(){
   var pres=presentes.indexOf(seleccionado)>=0;
   var info=pres?d.pres:d.aus;
   var cont=document.getElementById('mapa-detalle');
-  cont.innerHTML='<div class="detalle-num">'+
-    '<div class="dn-head"><div class="dn-circ">'+seleccionado+'</div><div><div class="dn-tit">'+(d.n||'')+'</div><div class="dn-badge">'+(pres?'Energía presente · lo que traes':'Energía ausente · lo que desarrollas')+'</div></div></div>'+
-    (info&&info.que?'<p class="ct">'+info.que+'</p>':'')+
-    (info&&info.como?'<p class="ct" style="margin-top:8px">'+info.como+'</p>':'')+
-    (info&&info.potencia?'<p class="ct" style="margin-top:8px"><b>'+(pres?'Tu potencia: ':'Tu camino: ')+'</b>'+info.potencia+'</p>':'')+
-    (info&&info.recurso?'<p class="ct dim" style="margin-top:8px">'+info.recurso+'</p>':'')+
-    '</div>';
+  var html='<div class="detalle-num">'+
+    '<div class="dn-head"><div class="dn-circ">'+seleccionado+'</div><div><div class="dn-tit">'+(d.n||'')+'</div><div class="dn-badge">'+(pres?'Presente · una de tus habilidades':'Ausente · un aprendizaje que viniste a desarrollar')+'</div></div></div>';
+  if(pres){
+    html+=(info&&info.que?'<p class="ct">'+info.que+'</p>':'')+
+      (info&&info.como?'<p class="ct" style="margin-top:10px"><b>Cómo se manifiesta: </b>'+info.como+'</p>':'')+
+      (info&&info.potencia?'<p class="ct" style="margin-top:10px"><b style="color:var(--grn)">Cómo potenciarlo: </b>'+info.potencia+'</p>':'')+
+      (info&&info.recurso?'<p class="ct dim" style="margin-top:10px">'+info.recurso+'</p>':'');
+  } else {
+    html+=(info&&info.que?'<p class="ct">'+info.que+'</p>':'')+
+      (info&&info.como?'<p class="ct" style="margin-top:10px"><b>Cómo se nota su ausencia: </b>'+info.como+'</p>':'')+
+      (info&&info.aprende?'<p class="ct" style="margin-top:10px"><b style="color:var(--azul)">Lo que viniste a aprender: </b>'+info.aprende+'</p>':'')+
+      (info&&info.compensa?'<p class="ct dim" style="margin-top:10px"><b>Cómo desarrollarlo: </b>'+info.compensa+'</p>':'');
+  }
+  html+='</div>';
+  cont.innerHTML=html;
 }
 function continuar(){
   try{ var data=JSON.parse(sessionStorage.getItem('anormal_proceso')||'{}');
