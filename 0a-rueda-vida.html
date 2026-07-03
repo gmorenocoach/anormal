@@ -457,10 +457,24 @@ function buildWidgetPrincipios(moduloId, contenedor, onComplete) {
   var hlogo = document.createElement("div");
   hlogo.style.cssText = "font-family:Cormorant Garamond,serif;font-size:20px;color:#E8C96A;font-weight:300;letter-spacing:.02em";
   hlogo.textContent = "∀normal";
+  // Botón volver al resumen (visible si la rueda ya fue completada antes)
+  var ruedaHecha = false;
+  try{ ruedaHecha = !!localStorage.getItem('anormal_rueda_areas') || !!localStorage.getItem('anormal_rueda_completa'); }catch(e){}
+  if(ruedaHecha){
+    var hvolver = document.createElement("a");
+    hvolver.href = "resumen-conciencia.html";
+    hvolver.textContent = "← Volver al resumen";
+    hvolver.style.cssText = "font-family:Barlow Condensed,sans-serif;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#C9A84C;text-decoration:none;border:1px solid rgba(201,168,76,.28);border-radius:4px;padding:5px 10px";
+    hlogo.style.flex = "1";
+    htop.appendChild(hlogo); htop.appendChild(hvolver);
+  } else {
+    htop.appendChild(hlogo);
+  }
   var hstep = document.createElement("div");
   hstep.id = "wp-step";
   hstep.style.cssText = "font-size:10px;color:#3A4558;letter-spacing:.12em;text-transform:uppercase;font-family:Barlow Condensed,sans-serif";
-  htop.appendChild(hlogo); htop.appendChild(hstep);
+  if(ruedaHecha){ hstep.style.display='none'; }
+  htop.appendChild(hstep);
   var hbar = document.createElement("div");
   hbar.style.cssText = "height:2px;background:#1A2640;border-radius:1px;overflow:hidden";
   var hfill = document.createElement("div");
