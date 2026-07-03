@@ -64,6 +64,11 @@ body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font
 .princ-comp-lbl{font-size:11px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:6px}
 .princ-comp-txt{font-size:14.5px;color:var(--text);line-height:1.7}
 .princ-comp-vacio{border-left-color:var(--faint)}
+.ac-col{margin-bottom:16px}
+.ac-lbl{font-size:11px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:8px}
+.ac-item{font-size:14.5px;color:var(--text);padding:8px 12px;border-radius:var(--rm);margin-bottom:6px;border-left:3px solid}
+.ac-bueno{background:rgba(74,191,122,.07);border-left-color:var(--grn)}
+.ac-des{background:rgba(90,140,192,.07);border-left-color:var(--azul)}
 .princ-badge{font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);background:var(--gd);padding:3px 8px;border-radius:10px}
 
 /* ESCRITO */
@@ -185,6 +190,18 @@ function guardarCumplido(key){
   var pts=parseInt(leer('anormal_puntos_conciencia','0'))||0;
   pts+=cumplidasComp[key]?10:-10; if(pts<0)pts=0;
   localStorage.setItem('anormal_puntos_conciencia',pts);
+  render();
+}
+
+function toggleActivarRepo(i){
+  var ac=leerJSON('anormal_autoconocimiento',{});
+  if(ac.activar && ac.activar[i]){
+    ac.activar[i].hecho=!ac.activar[i].hecho;
+    localStorage.setItem('anormal_autoconocimiento',JSON.stringify(ac));
+    var pts=parseInt(leer('anormal_puntos_conciencia','0'))||0;
+    pts+=ac.activar[i].hecho?10:-10; if(pts<0)pts=0;
+    localStorage.setItem('anormal_puntos_conciencia',pts);
+  }
   render();
 }
 
@@ -322,6 +339,37 @@ function render(){
       html += '<p class="ct" style="font-size:14px;margin-top:8px;color:var(--dim)">Ya trabajaste '+trabajadas.length+' de '+transg.personas.length+'. '+(pendientes.length>0?'Te faltan '+pendientes.length+' por trabajar con calma.':'Las trabajaste todas — puedes profundizar con las cartas cuando quieras.')+'</p>';
     }
     html += '</div>';
+    html += '</div>';
+  }
+
+  // MI AUTOCONOCIMIENTO (alimenta el ikigai) — soy bueno / por desarrollar / por activar
+  var ac = leerJSON('anormal_autoconocimiento', {});
+  var acBueno = ac.soy_bueno||[], acDes = ac.por_desarrollar||[], acAct = ac.activar||[];
+  if(acBueno.length || acDes.length || acAct.length){
+    html += '<div class="card"><div class="cl">Mi autoconocimiento</div>';
+    html += '<p class="ct" style="margin-bottom:14px">Todo lo que reconociste sobre ti a lo largo de la Sesión 3 se reúne aquí. Esta será la base de tu <b style="color:var(--gold2)">ikigai</b> en la próxima sesión: saber en qué eres bueno, qué viniste a desarrollar y qué eliges activar.</p>';
+    if(acBueno.length){
+      html += '<div class="ac-col"><div class="ac-lbl" style="color:var(--grn)">✦ En lo que soy bueno</div>';
+      acBueno.forEach(function(it){ html += '<div class="ac-item ac-bueno">'+it.texto+'</div>'; });
+      html += '</div>';
+    }
+    if(acDes.length){
+      html += '<div class="ac-col"><div class="ac-lbl" style="color:var(--azul)">△ Lo que vine a desarrollar</div>';
+      acDes.forEach(function(it){ html += '<div class="ac-item ac-des">'+it.texto+'</div>'; });
+      html += '</div>';
+    }
+    if(acAct.length){
+      html += '<div class="ac-col"><div class="ac-lbl" style="color:var(--gold2)">◆ Lo que elegí activar</div>';
+      html += '<p class="ct" style="font-size:13.5px;color:var(--dim);margin-bottom:8px">Marca cada uno cuando empieces a trabajarlo — sube tu nivel de conciencia.</p>';
+      acAct.forEach(function(it, i){
+        var hecho = !!it.hecho;
+        html += '<div class="comp-item'+(hecho?' cumplido':'')+'" onclick="toggleActivarRepo('+i+')">';
+        html += '<div class="comp-check'+(hecho?' on':'')+'">✓</div>';
+        html += '<div class="comp-body"><div class="comp-texto">Activar '+it.texto+'</div></div>';
+        html += '</div>';
+      });
+      html += '</div>';
+    }
     html += '</div>';
   }
 
