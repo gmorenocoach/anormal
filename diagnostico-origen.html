@@ -140,6 +140,14 @@ body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font
       <div class="mensaje-origen-conexion" id="mensaje-conexion"></div>
     </div>
 
+    <div class="reflexion-personal" id="reflexion-wrap" style="display:none">
+      <div class="mensaje-origen-label" style="color:var(--gold)">Tu reflexión · esto te acompañará todo el proceso</div>
+      <p class="ct" id="reflexion-pregunta-personal" style="margin-bottom:12px"></p>
+      <textarea id="reflexion-texto" placeholder="Escribe con honestidad de dónde crees que viene tu relación con esto..." oninput="guardarReflexion()"
+        style="width:100%;background:var(--bg3);border:1px solid var(--faint);border-radius:var(--rm);color:var(--text);font-family:'Barlow',sans-serif;font-size:15px;line-height:1.7;padding:13px 15px;resize:vertical;min-height:90px;outline:none"></textarea>
+      <p class="ct" style="font-size:12px;color:var(--dim);margin-top:8px;font-style:italic">Esta reflexión es la raíz de tu trabajo. La recordaremos en cada sesión para mantenerte centrado en lo que viniste a transformar.</p>
+    </div>
+
     <div class="nav">
       <button class="bs" onclick="irA(1)">← Anterior</button>
       <button class="bp" id="btn-p2" disabled onclick="completar()">Entendido — continuar con mi proceso →</button>
@@ -443,6 +451,14 @@ datos.reflexion.opciones.forEach(function(op) {
     document.getElementById('mensaje-conexion').textContent = msg.conexion;
     wrap.classList.add('visible');
     document.getElementById('btn-p2').disabled = false;
+    // Mostrar el campo de reflexión personal, con pregunta según la línea
+    var lineaLbl = {salud:'la salud', dinero:'el dinero', amor:'el amor'}[linea] || 'esta área';
+    var refWrap = document.getElementById('reflexion-wrap');
+    document.getElementById('reflexion-pregunta-personal').innerHTML = '<b style="color:var(--gold2)">¿De dónde viene tu relación con '+lineaLbl+'?</b> Piensa en tu historia, tu familia, tus primeras experiencias. ¿Cuándo empezó a ser como es hoy?';
+    refWrap.style.display = 'block';
+    // Precargar si ya había escrito antes
+    var previa = localStorage.getItem('anormal_linea_reflexion');
+    if(previa){ document.getElementById('reflexion-texto').value = previa; }
     // Scroll al mensaje
     setTimeout(function(){ wrap.scrollIntoView({behavior:'smooth',block:'nearest'}); }, 100);
   };
@@ -458,8 +474,16 @@ function irA(n) {
   window.scrollTo(0,0);
 }
 
+function guardarReflexion(){
+  var val = (document.getElementById('reflexion-texto').value||'').trim();
+  localStorage.setItem('anormal_linea_reflexion', val);
+}
+
 // ── COMPLETAR ────────────────────────────────────────────────────────────
 function completar() {
+  // Guardar la reflexión final por si acaso
+  var refEl = document.getElementById('reflexion-texto');
+  if(refEl){ localStorage.setItem('anormal_linea_reflexion', (refEl.value||'').trim()); }
   // Guardar diagnóstico en localStorage y sessionStorage
   localStorage.setItem('anormal_diagnostico', JSON.stringify({
     linea: linea, nivel: nivelElegido, origen: origenElegido,
