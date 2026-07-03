@@ -152,6 +152,45 @@ body::before{content:"";position:fixed;inset:0;background:radial-gradient(ellips
 </div>
 <div class="app" id="app"></div>
 <script>
+/* ── Asociación principio ↔ acción (mapa rico por tipo) ── */
+var PRINCIPIO_INFO={
+  1:{n:'Agradecer',c:'#C9A84C'},
+  2:{n:'Apúntale al compromiso',c:'#C9A84C'},
+  3:{n:'Normaliza lo extraordinario',c:'#C9A84C'},
+  4:{n:'Avanza en el perdón',c:'#D4537E'},
+  5:{n:'Aprovecha el dolor',c:'#D4537E'},
+  6:{n:'Ataca el miedo',c:'#D4537E'},
+  8:{n:'Asume responsabilidad total',c:'#5A8CC0'}
+};
+function principioParaAccion(texto){
+  var t=(texto||'').toLowerCase();
+  var reglas=[
+    {kw:['perdon','perdón','soltar','dejar ir','reconcili','cerrar ciclo','rencor'], p:4, como:'Soltar es liberarte. No cargues lo que ya no te sirve — el perdón es para ti, no para el otro.'},
+    {kw:['miedo','enfrentar','atrever','confront','exponer','pedir ayuda','hablar con','decir lo que','arriesg'], p:6, como:'Lo que te da miedo es justo donde está tu crecimiento. Da el paso pequeño, a pesar del miedo.'},
+    {kw:['emoci','sentir','dolor','sanar','terapia','nombrar','duelo','herida'], p:5, como:'El dolor es maestro cuando lo escuchas. Pregúntate qué te enseña, en vez de evitarlo.'},
+    {kw:['agradec','valorar','reconoc','celebrar','apreciar','gratitud'], p:1, como:'Agradecer cambia tu enfoque: de lo que falta a lo que ya tienes. Empieza por ahí.'},
+    {kw:['rutina','hábito','habito','diario','21 día','7 día','21 dias','7 dias','registrar','cada día','cada dia','practicar','constan','todos los días','todos los dias'], p:3, como:'La constancia vuelve extraordinario lo cotidiano. Repítelo hasta que sea parte de ti, no un esfuerzo.'},
+    {kw:['decidir','asumir','hacerme cargo','responsab','dejar de excus','depende de mí','depende de mi','tomar control'], p:8, como:'Nada cambia hasta que asumes que depende de ti. Deja las excusas y toma el control.'},
+    {kw:['iniciar','empezar','crear','comenzar','pedir cita','buscar','definir','establecer','primer paso'], p:2, como:'Empezar es el acto de compromiso. Ponle fecha y da el primer paso — sin fecha, es solo un deseo.'}
+  ];
+  for(var i=0;i<reglas.length;i++){
+    for(var j=0;j<reglas[i].kw.length;j++){
+      if(t.indexOf(reglas[i].kw[j])>=0) return {p:reglas[i].p, como:reglas[i].como};
+    }
+  }
+  return {p:2, como:'Todo compromiso se sostiene en ∀2: ponle fecha y cúmplelo. Sin compromiso, la intención se diluye.'};
+}
+function principioAccionHTML(texto){
+  var r=principioParaAccion(texto);
+  var info=PRINCIPIO_INFO[r.p]||{n:'',c:'#C9A84C'};
+  var html='<div style="margin-top:8px;padding:9px 12px;background:rgba(201,168,76,.07);border-left:2px solid '+info.c+';border-radius:0 6px 6px 0">';
+  html+='<div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:'+info.c+';margin-bottom:3px">✦ El principio que refuerza esta acción</div>';
+  html+='<div style="font-size:13.5px;color:#EAE6DC"><b style="color:'+info.c+'">∀'+r.p+' · '+info.n+'</b> — '+r.como+'</div>';
+  html+='</div>';
+  return html;
+}
+
+
 // ============================================================
 // ANORMAL - Módulo de datos compartidos entre módulos
 // Usa sessionStorage para pasar datos entre páginas HTML
@@ -1130,9 +1169,13 @@ function bRueda(){
     ta.style.cssText="width:100%;background:var(--bg2);border:1px solid var(--faint);border-radius:var(--rm);padding:11px 13px;font-size:14.5px;color:var(--text);font-family:Barlow,sans-serif;font-weight:300;resize:none;min-height:58px;line-height:1.6;outline:none";
     var cg = compromisos[a.id];
     ta.value = (cg && cg.texto) ? cg.texto : (typeof cg==='string'?cg:"");
+    // Contenedor del principio que refuerza la acción
+    var princBox=mk("div");princBox.id="princ-"+a.id;princBox.style.cssText="margin-top:6px";
+    function actualizarPrinc(valor){ princBox.innerHTML = (valor&&valor.trim().length>2) ? principioAccionHTML(valor) : ''; }
     (function(areaId, areaNom){
       ta.oninput=function(){
         this.style.height="auto";this.style.height=this.scrollHeight+"px";
+        actualizarPrinc(this.value);
         try{
           var cc={};
           try{cc=JSON.parse(localStorage.getItem('anormal_compromisos_areas')||'{}');}catch(e){}
@@ -1143,6 +1186,8 @@ function bRueda(){
       };
     })(a.id, a.nombre);
     areaWrap.appendChild(ta);
+    areaWrap.appendChild(princBox);
+    actualizarPrinc(ta.value);
 
     // Sugerencias clickeables (de las pautas del área)
     if(extra.pautas&&extra.pautas.length){
