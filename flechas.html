@@ -33,6 +33,13 @@ body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font
 .video-opcional .vo-tit{font-size:13px;color:var(--text)}
 .video-opcional .vo-sub{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--faint);margin-top:3px}
 .seccion-lbl{font-size:12px;letter-spacing:.14em;text-transform:uppercase;margin:22px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--ffaint)}
+.princ-conexion{margin-top:12px;padding:12px 14px;background:rgba(201,168,76,.08);border:1px solid var(--gb);border-radius:var(--rm)}
+.pc-lbl{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:5px}
+.pc-princ{font-family:"Cormorant Garamond",serif;font-size:17px;color:var(--gold2)}
+.activar-btn{width:100%;background:var(--bg3);border:1px solid var(--ffaint);border-radius:var(--rm);color:var(--dim);font-family:"Barlow",sans-serif;font-size:14px;padding:10px 14px;cursor:pointer;transition:all .2s}
+.activar-btn:hover{border-color:var(--faint)}
+.activar-btn.on{background:rgba(74,191,122,.15);border-color:var(--grn);color:var(--grn)}
+.flecha-card.activar-on{background:rgba(74,191,122,.05)}
 .cuadro-demo{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;max-width:180px;margin:0 auto 14px}
 .cd-cell{aspect-ratio:1;display:flex;align-items:center;justify-content:center;border:1px solid var(--ffaint);border-radius:var(--rm);font-family:"Cormorant Garamond",serif;font-size:22px;color:var(--dim);background:var(--bg3)}
 .cd-cell.on{border-color:var(--gold);background:var(--gd);color:var(--gold2)}
@@ -96,6 +103,22 @@ body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font
 </div>
 
 <script>
+/* ── Repositorio de autoconocimiento (compartido, alimenta ikigai) ── */
+function acLeer(){ try{ return JSON.parse(localStorage.getItem('anormal_autoconocimiento')||'{}'); }catch(e){ return {}; } }
+function acGuardar(r){ try{ localStorage.setItem('anormal_autoconocimiento', JSON.stringify(r)); }catch(e){} }
+function acAportar(columna, items, fuente){
+  // columna: 'soy_bueno' | 'por_desarrollar' | 'activar' ; items: [{texto,num}]
+  var r=acLeer(); if(!r[columna]) r[columna]=[];
+  // eliminar los previos de esta misma fuente (para no duplicar al reingresar)
+  r[columna]=r[columna].filter(function(x){ return x.fuente!==fuente; });
+  items.forEach(function(it){
+    var nuevo={fuente:fuente, texto:it.texto, num:(it.num!==undefined?it.num:null)};
+    if(columna==='activar') nuevo.hecho=false;
+    r[columna].push(nuevo);
+  });
+  acGuardar(r);
+}
+
 function leer(k,def){var v=localStorage.getItem(k);return (v===null||v===undefined)?def:v;}
 var FD={
   "1-2-3":{n:"Flecha del Intelecto",nums:[1,2,3],
@@ -308,6 +331,16 @@ var FD={
   }
 }
 function fmtFecha(iso){var p=iso.split('-');if(p.length!==3)return iso;var m=['','enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];return parseInt(p[2])+' de '+m[parseInt(p[1])]+' de '+p[0];}
+var FLECHA_PRINCIPIO={
+  "1-2-3":{p:9, nombre:"Apalancamiento: la verdad contigo mismo", como:"Una mente clara empieza por ser honesto contigo. Aplica \u22009: cada vez que quieras pensar mejor una situaci\u00f3n, primero dite la verdad sobre lo que sientes y quieres. La claridad mental nace de la claridad interior."},
+  "4-5-6":{p:2, nombre:"Ap\u00fantale al compromiso", como:"La voluntad no se tiene, se entrena. Aplica \u22002: elige un compromiso peque\u00f1o y sostenlo pase lo que pase. Cada vez que cumples lo que te prometiste, tu voluntad se fortalece un grado m\u00e1s."},
+  "7-8-9":{p:8, nombre:"Asume responsabilidad total", como:"Pasar a la acci\u00f3n es dejar de esperar y hacerte cargo. Aplica \u22008: ante lo que quieres cambiar, preg\u00fantate '\u00bfqu\u00e9 depende de m\u00ed aqu\u00ed?' y act\u00faa sobre eso hoy, sin excusas."},
+  "3-6-9":{p:4, nombre:"Avanza en el perd\u00f3n", como:"La compasi\u00f3n nace de soltar. Aplica \u22004: perdona algo \u2014a alguien o a ti mismo\u2014 y notar\u00e1s c\u00f3mo se abre tu capacidad de comprender y acompa\u00f1ar a otros sin juzgar."},
+  "1-4-7":{p:6, nombre:"Ataca el miedo", como:"La determinaci\u00f3n es avanzar a pesar del miedo. Aplica \u22006: identifica qu\u00e9 temes y da un paso concreto hacia ello esta semana. Cada miedo enfrentado te vuelve m\u00e1s firme."},
+  "2-5-8":{p:5, nombre:"Aprovecha el dolor", como:"Tu sensibilidad se vuelve fuerza cuando transformas el dolor. Aplica \u22005: en vez de evitar lo que te duele, preg\u00fantate qu\u00e9 te est\u00e1 ense\u00f1ando. El dolor consciente es tu basti\u00f3n, no tu debilidad."},
+  "1-5-9":{p:10, nombre:"Apoyo emocional como combustible", como:"Unir tu voluntad con tu prop\u00f3sito necesita un ancla. Aplica \u220010: ap\u00f3yate en tus v\u00ednculos y en lo que te sostiene emocionalmente para no soltar tu visi\u00f3n cuando el camino se complique."},
+  "3-5-7":{p:7, nombre:"Aprende cero excusas", como:"Integrar mente y alma exige honestidad radical. Aplica \u22007: deja de justificar por qu\u00e9 no profundizas o no te expresas. Sin excusas, el puente entre lo que piensas y lo que sientes se construye solo."}
+};
 var ACTIVAR={
   1:{n:'El 1 · Iniciativa y liderazgo',que:'Activar el 1 es aprender a decidir por ti mismo, arrancar sin esperar permiso y afirmar tu criterio.',accion:'Esta semana toma una decisión tú solo, sin consultarla con nadie, y sostenla.'},
   2:{n:'El 2 · Sensibilidad y cooperación',que:'Activar el 2 es desarrollar la escucha, la paciencia y la capacidad de trabajar con otros sin competir.',accion:'Esta semana, en un desacuerdo, propón ceder algo primero y observa qué pasa con el vínculo.'},
@@ -343,6 +376,8 @@ function calcular(){
     else if(cuantos===2) refuerzo.push(k);
   });
   localStorage.setItem('anormal_flechas', JSON.stringify({fuertes:fuertes,vacias:vacias,refuerzo:refuerzo}));
+  // restaurar marcas previas de 'activar' desde el repositorio
+  try{ var r=acLeer(); if(r.activar){ activarMarcados=r.activar.filter(function(x){return x.fuente==='flechas_activar';}).map(function(x){return x.num;}); } }catch(e){}
   irA(1);
 }
 function irA(n){
@@ -383,7 +418,8 @@ function renderFlechas(){
       html+='<div class="flecha-card" style="border-color:var(--gb)"><div class="fc-head">'+chipNums(f.nums,presentes)+'<div><div class="fc-tit">'+f.n+'</div><div class="fc-badge">Refuerzo · 2 de 3 · falta el '+falta.join(', ')+'</div></div></div>'+
         (p.desc?'<p class="ct">'+p.desc+'</p>':'')+
         eslabonTxt+
-        (p.reto?'<p class="ct dim" style="margin-top:8px"><b style="color:var(--gold2)">Para activarla: </b>'+p.reto+'</p>':'')+'</div>';
+        (p.reto?'<p class="ct dim" style="margin-top:8px"><b style="color:var(--gold2)">Para activarla: </b>'+p.reto+'</p>':'')+
+        princBox(k)+'</div>';
     });
   }
   if(vacias.length){
@@ -392,7 +428,8 @@ function renderFlechas(){
       html+='<div class="flecha-card vac"><div class="fc-head">'+chipNums(f.nums,presentes)+'<div><div class="fc-tit">'+f.n+'</div><div class="fc-badge">Aprendizaje · 0 de 3</div></div></div>'+
         (e.desc?'<p class="ct">'+e.desc+'</p>':'')+
         (e.aprender?'<p class="ct" style="margin-top:8px">'+e.aprender+'</p>':'')+
-        (e.compensa?'<p class="ct dim" style="margin-top:8px"><b style="color:var(--azul)">Cómo compensarla: </b>'+e.compensa+'</p>':'')+'</div>';
+        (e.compensa?'<p class="ct dim" style="margin-top:8px"><b style="color:var(--azul)">Cómo compensarla: </b>'+e.compensa+'</p>':'')+
+        princBox(k)+'</div>';
     });
   }
   if(!fuertes.length && !vacias.length && !refuerzo.length){
@@ -406,15 +443,33 @@ function renderFlechas(){
   var faltantes=Object.keys(faltantesSet).map(Number).sort();
   if(faltantes.length){
     html+='<div class="seccion-lbl" style="color:var(--gold2)">✦ Tu plan: cómo activar lo que falta</div>';
-    html+='<div class="card gold"><p class="ct">Estos son los números que completarían tus flechas. Trabajar cualquiera de ellos fortalece varias líneas a la vez. Empieza por el que más te resuene:</p></div>';
+    html+='<div class="card gold"><p class="ct">Estos son los números que completarían tus flechas. Trabajar cualquiera de ellos fortalece varias líneas a la vez. <b>Marca los que quieres activar</b> — pasarán a tu conciencia como propósitos.</p></div>';
     faltantes.forEach(function(n){
       var a=ACTIVAR[n]||{};
-      html+='<div class="flecha-card" style="border-color:var(--gb)"><div class="fc-head"><div class="fc-num off" style="width:38px;height:38px;font-size:20px">'+n+'</div><div><div class="fc-tit">'+(a.n||('Número '+n))+'</div><div class="fc-badge">Por activar</div></div></div>'+
+      var mk=activarMarcados.indexOf(n)>=0;
+      html+='<div class="flecha-card'+(mk?' activar-on':'')+'" style="border-color:'+(mk?'var(--grn)':'var(--gb)')+'" id="activar-'+n+'"><div class="fc-head"><div class="fc-num off" style="width:38px;height:38px;font-size:20px">'+n+'</div><div style="flex:1"><div class="fc-tit">'+(a.n||('Número '+n))+'</div><div class="fc-badge">'+(mk?'✓ En mi conciencia':'Por activar')+'</div></div></div>'+
         (a.que?'<p class="ct">'+a.que+'</p>':'')+
-        (a.accion?'<p class="ct" style="margin-top:8px"><b style="color:var(--gold2)">Práctica concreta: </b>'+a.accion+'</p>':'')+'</div>';
+        (a.accion?'<p class="ct" style="margin-top:8px"><b style="color:var(--gold2)">Práctica concreta: </b>'+a.accion+'</p>':'')+
+        '<div style="margin-top:12px"><button class="activar-btn'+(mk?' on':'')+'" onclick="toggleActivar('+n+',\''+(a.n||('Número '+n)).replace(/'/g,"")+'\')">'+(mk?'✓ Lo llevo a mi conciencia':'○ Marcar para activar')+'</button></div>'+
+        '</div>';
     });
   }
   cont.innerHTML=html;
+}
+function princBox(k){
+  var fp=FLECHA_PRINCIPIO[k]; if(!fp) return '';
+  return '<div class="princ-conexion"><div class="pc-lbl">✦ El principio que te fortalece aquí</div>'+
+    '<div class="pc-princ">∀'+fp.p+' · '+fp.nombre+'</div>'+
+    '<p class="ct" style="font-size:14.5px;margin-top:6px">'+fp.como+'</p></div>';
+}
+var activarMarcados=[];
+function toggleActivar(n, nombre){
+  var idx=activarMarcados.indexOf(n);
+  if(idx>=0) activarMarcados.splice(idx,1); else activarMarcados.push(n);
+  // aportar a la columna 'activar' del repositorio
+  var items=activarMarcados.map(function(m){ var a=ACTIVAR[m]||{}; return {texto:(a.n||('Número '+m)), num:m}; });
+  acAportar('activar', items, 'flechas_activar');
+  renderFlechas();
 }
 function continuar(){
   try{ var data=JSON.parse(sessionStorage.getItem('anormal_proceso')||'{}');
