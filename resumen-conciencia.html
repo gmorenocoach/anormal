@@ -60,6 +60,10 @@ body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font
 .princ-item{display:flex;align-items:center;gap:12px;padding:11px 14px;background:var(--bg3);border-radius:var(--rm);margin-bottom:7px;border-left:3px solid}
 .princ-num{font-family:"Cormorant Garamond",serif;font-size:20px;min-width:34px}
 .princ-nombre{font-size:14.5px;color:var(--text);flex:1}
+.princ-compromiso{background:var(--bg2);border-left:3px solid var(--gold);border-radius:0 var(--rm) var(--rm) 0;padding:12px 16px;margin:-2px 0 12px 0}
+.princ-comp-lbl{font-size:11px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:6px}
+.princ-comp-txt{font-size:14.5px;color:var(--text);line-height:1.7}
+.princ-comp-vacio{border-left-color:var(--faint)}
 .princ-badge{font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);background:var(--gd);padding:3px 8px;border-radius:10px}
 
 /* ESCRITO */
@@ -294,19 +298,65 @@ function render(){
     html += '</div>';
   }
 
-  // PRINCIPIOS INQUEBRANTABLES (acumulados)
-  html += '<div class="card"><div class="cl">Mis principios inquebrantables</div>';
-  html += '<p class="ct" style="margin-bottom:14px">Estos son los principios que ya activaste. Cada uno es no negociable — son la ruta para subir tu conciencia. Se irán sumando a medida que avances en las sesiones.</p>';
+  // PERSONAS DEL LINAJE (trabajadas en la Sesión 3) + ejercicio de cartas
+  var transg = leerJSON('anormal_transgeneracional', null);
+  if(transg && transg.personas && transg.personas.length>0){
+    var trabajadas = transg.personas.filter(function(pp){ return pp.hecho; });
+    var pendientes = transg.personas.filter(function(pp){ return !pp.hecho; });
+    html += '<div class="card"><div class="cl">Las personas de mi linaje</div>';
+    html += '<p class="ct" style="margin-bottom:12px">Estas son las relaciones que analizaste en tu linaje. Cada una llegó a tu vida como un refuerzo o como un maestro kármico — con algo que enseñarte.</p>';
+    transg.personas.forEach(function(pp){
+      var esKarma = pp.tipoRel==='karma' || (pp.relTitulo && pp.relTitulo.indexOf('Kármico')>=0);
+      var colorP = pp.hecho ? 'var(--grn)' : 'var(--gold)';
+      html += '<div class="comp-item'+(pp.hecho?' cumplido':'')+'" style="cursor:default">';
+      html += '<div class="comp-check'+(pp.hecho?' on':'')+'" style="cursor:default">'+(pp.hecho?'✓':'○')+'</div>';
+      html += '<div class="comp-body"><div class="comp-area" style="color:'+colorP+'">'+(pp.nombre||'(sin nombre)')+(pp.nv?' · '+pp.nv:'')+'</div>';
+      html += '<div class="comp-texto">'+(pp.hecho?'Relación trabajada':'Pendiente de trabajar')+(pp.reto?' — '+pp.reto.substring(0,80)+(pp.reto.length>80?'…':''):'')+'</div></div>';
+      html += '</div>';
+    });
+    // Sugerencia del ejercicio de cartas
+    html += '<div style="margin-top:14px;padding:14px 16px;background:var(--gd);border-radius:8px;border-left:3px solid var(--gold)">';
+    html += '<div style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold2);margin-bottom:8px">✦ Un ejercicio para seguir soltando</div>';
+    html += '<p class="ct" style="font-size:14.5px">Con las personas kármicas de tu linaje puedes hacer el mismo ejercicio de las cartas que hiciste en el perdón: <b>escríbele una carta</b> a cada una — no para enviarla, sino para ti. Dile lo que entendiste que vino a enseñarte, lo que le sueltas y cómo eliges cambiar tu actitud hacia ella. Es una de las formas más poderosas de cerrar un ciclo.</p>';
+    if(trabajadas.length>0){
+      html += '<p class="ct" style="font-size:14px;margin-top:8px;color:var(--dim)">Ya trabajaste '+trabajadas.length+' de '+transg.personas.length+'. '+(pendientes.length>0?'Te faltan '+pendientes.length+' por trabajar con calma.':'Las trabajaste todas — puedes profundizar con las cartas cuando quieras.')+'</p>';
+    }
+    html += '</div>';
+    html += '</div>';
+  }
+
+  // PRINCIPIOS INQUEBRANTABLES (acumulados) + cómo me comprometo con ellos
+  html += '<div class="card"><div class="cl">Mis principios y cómo los vivo</div>';
+  html += '<p class="ct" style="margin-bottom:14px">Estos son los principios que ya activaste, agrupados por sesión. Bajo cada grupo verás el compromiso que escribiste para vivirlos. Cada uno es no negociable — son tu ruta para subir la conciencia.</p>';
+  var compromisoPorSesion = {2:'principios_sesion2', 3:'principios_sesion3', 4:'principios_sesion4', 5:'principios_sesion5'};
+  var sesionesVistas = {};
   principiosActivos.forEach(function(p){
+    // Encabezado de sesión (una vez por sesión)
+    if(!sesionesVistas[p.sesion]){
+      sesionesVistas[p.sesion]=true;
+      if(p.sesion>1) html += '<div style="height:10px"></div>';
+    }
     html += '<div class="princ-item princ-click" style="border-left-color:'+p.color+';cursor:pointer" onclick="abrirPrincipio('+p.n+')">';
     html += '<div class="princ-num" style="color:'+p.color+'">∀'+p.n+'</div>';
     html += '<div class="princ-nombre">'+p.nombre+'</div>';
     html += '<div class="princ-flecha" style="color:'+p.color+';font-size:18px">›</div>';
     html += '</div>';
+    // Después del último principio de cada sesión, mostrar el compromiso de esa sesión
+    var esUltimoDeSesion = principiosActivos.filter(function(q){return q.sesion===p.sesion;}).slice(-1)[0].n === p.n;
+    if(esUltimoDeSesion){
+      var claveComp = compromisoPorSesion[p.sesion];
+      var compSesion = claveComp ? compromisosAreas[claveComp] : null;
+      if(compSesion && (compSesion.texto||compSesion)){
+        var txtComp = compSesion.texto || compSesion;
+        html += '<div class="princ-compromiso" style="border-left-color:'+p.color+'"><div class="princ-comp-lbl" style="color:'+p.color+'">✦ Mi compromiso con estos principios</div><p class="princ-comp-txt">'+txtComp+'</p></div>';
+      } else if(p.sesion>1) {
+        html += '<div class="princ-compromiso princ-comp-vacio"><p class="princ-comp-txt" style="color:var(--dim);font-style:italic">Aún no has escrito tu compromiso con estos principios. Vuelve a hacer el cierre de la sesión '+p.sesion+' para definirlo.</p></div>';
+      }
+    }
   });
   var faltan = PRINCIPIOS_18.length - principiosActivos.length;
   if(faltan>0){
-    html += '<p style="font-size:13px;color:var(--dim);text-align:center;margin-top:10px">Te faltan '+faltan+' principios por descubrir en las próximas sesiones</p>';
+    html += '<p style="font-size:13px;color:var(--dim);text-align:center;margin-top:12px">Te faltan '+faltan+' principios por descubrir en las próximas sesiones</p>';
   }
   html += '<p style="font-size:12px;color:var(--dim);text-align:center;margin-top:6px;font-style:italic">Toca cualquier principio para releerlo</p>';
   html += '</div>';
