@@ -58,6 +58,12 @@ body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font
 .comp-fecha-row{display:flex;align-items:center;gap:8px;margin-top:8px;flex-wrap:wrap}
 .comp-fecha-lbl{font-size:12px;color:var(--dim)}
 .comp-fecha-input{background:var(--bg2);border:1px solid var(--faint);border-radius:6px;color:var(--text);font-size:13px;padding:4px 8px;font-family:"Barlow",sans-serif}
+.comp-dias-input{width:56px;background:var(--bg2);border:1px solid var(--faint);border-radius:6px;color:var(--gold2);font-size:15px;text-align:center;padding:4px 6px;font-family:"Barlow",sans-serif}
+.comp-dias-input:focus{outline:none;border-color:var(--gold)}
+.comp-sesion-hdr{display:flex;align-items:center;justify-content:space-between;margin:18px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--ffaint)}
+.comp-sesion-hdr:first-of-type{margin-top:4px}
+.comp-sesion-nom{font-family:"Barlow Condensed",sans-serif;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold2)}
+.comp-sesion-cont{font-size:12px;color:var(--dim);background:var(--bg3);padding:2px 10px;border-radius:10px}
 .comp-fecha-input:focus{outline:none;border-color:var(--gold)}
 .comp-dias{font-size:11px;padding:2px 8px;border-radius:10px;letter-spacing:.04em}
 .cf-ok{background:rgba(74,191,122,.15);color:var(--grn)}
@@ -142,21 +148,33 @@ function calcFechaLimite75(){
   return base.toISOString().slice(0,10);
 }
 var fechaLimite75 = calcFechaLimite75();
-function guardarFechaCompromiso(key, val){
-  fechasCompromisos[key]=val;
+function guardarDiasCompromiso(key, dias){
+  dias=parseInt(dias);
+  if(!dias || dias<1){ delete fechasCompromisos[key]; localStorage.setItem('anormal_fechas_compromisos', JSON.stringify(fechasCompromisos)); render(); return; }
+  if(dias>75) dias=75;
+  var f=new Date(); f.setHours(0,0,0,0); f.setDate(f.getDate()+dias);
+  fechasCompromisos[key]=f.toISOString().slice(0,10);
   localStorage.setItem('anormal_fechas_compromisos', JSON.stringify(fechasCompromisos));
   render();
+}
+function diasDesdeHoy(fechaISO){
+  var hoy=new Date(); hoy.setHours(0,0,0,0);
+  var f=new Date(fechaISO); f.setHours(0,0,0,0);
+  return Math.round((f-hoy)/86400000);
+}
+function formatoFechaCorta(fechaISO){
+  var m=['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+  var p=fechaISO.split('-'); if(p.length!==3) return fechaISO;
+  return parseInt(p[2])+' '+m[parseInt(p[1])-1];
 }
 function calcInfoFecha(fechaISO, cumplido){
   if(!fechaISO) return {txt:'sin fecha', clase:'cf-sin'};
   if(cumplido) return {txt:'cumplido ✓', clase:'cf-ok'};
-  var hoy=new Date(); hoy.setHours(0,0,0,0);
-  var f=new Date(fechaISO); f.setHours(0,0,0,0);
-  var dias=Math.round((f-hoy)/86400000);
+  var dias=diasDesdeHoy(fechaISO);
   if(dias<0) return {txt:'vencido hace '+Math.abs(dias)+'d', clase:'cf-venc'};
   if(dias===0) return {txt:'¡es hoy!', clase:'cf-hoy'};
-  if(dias<=3) return {txt:'en '+dias+'d', clase:'cf-prox'};
-  return {txt:'en '+dias+'d', clase:'cf-ok'};
+  if(dias<=3) return {txt:'faltan '+dias+'d', clase:'cf-prox'};
+  return {txt:'faltan '+dias+'d', clase:'cf-ok'};
 }
 var compromisoInicial = leer('anormal_compromiso_inicial','');
 var principiosNuevos = leerJSON('anormal_principios_nuevos',{});
@@ -245,9 +263,8 @@ function toggleActivarRepo(i){
   if(ac.activar && ac.activar[i]){
     ac.activar[i].hecho=!ac.activar[i].hecho;
     localStorage.setItem('anormal_autoconocimiento',JSON.stringify(ac));
-    var pts=parseInt(leer('anormal_puntos_conciencia','0'))||0;
-    pts+=ac.activar[i].hecho?10:-10; if(pts<0)pts=0;
-    localStorage.setItem('anormal_puntos_conciencia',pts);
+    // Nota: identificar/elegir activar NO sube el nivel de conciencia.
+    // El nivel sube solo cuando una decisión se convierte en acción cumplida.
   }
   render();
 }
@@ -319,19 +336,24 @@ function render(){
   html += '<div class="dato"><div class="dato-val">'+(diagnostico.nivel||nivelBase)+'</div><div class="dato-lbl">Nivel inicial</div></div>';
   html += '</div></div>';
 
-  // COMPROMISOS REGISTRABLES — áreas críticas + 5 acciones prioritarias unificadas
+  // COMPROMISOS REGISTRABLES — agrupados por sesión
   var listaCompromisos = [];
-  // Compromisos de áreas (los escritos en la rueda)
+  // Compromisos de áreas (los escritos en la rueda · Sesión 1)
   Object.keys(compromisosAreas).forEach(function(areaId){
     var comp = compromisosAreas[areaId];
+    // Detectar sesión: los principios_sesionN pertenecen a esa sesión; el resto es S1 (rueda)
+    var ses = 1;
+    var m = /principios_sesion(\d)/.exec(areaId);
+    if(m) ses = parseInt(m[1]);
     listaCompromisos.push({
       key:'comp_'+areaId,
       etiqueta: comp.nombre,
       texto: (comp.texto||comp),
-      tipo:'area'
+      tipo: m?'principio':'area',
+      sesion: ses
     });
   });
-  // Las 5 acciones prioritarias
+  // Las 5 acciones prioritarias (Sesión 1 · rueda)
   if(prioridades.length>0 && acciones.length>0){
     prioridades.forEach(function(num,i){
       var acc = acciones.find(function(a){return String(a.num)===String(num);});
@@ -340,30 +362,46 @@ function render(){
         key:'accion_'+num,
         etiqueta:'Acción prioritaria '+(i+1),
         texto: acc.texto,
-        tipo:'accion'
+        tipo:'accion',
+        sesion: 1
       });
     });
   }
 
   if(listaCompromisos.length>0){
     html += '<div class="card"><div class="cl">Mis compromisos y acciones — ponles fecha y cúmplelos</div>';
-    html += '<p class="ct" style="margin-bottom:8px">Un compromiso sin fecha es un deseo. Ponle a cada uno una <b style="color:var(--gold2)">fecha máxima de ejecución</b> dentro de tu proceso, y márcalo cuando lo cumplas. Cada uno que completas sube tu nivel de conciencia.</p>';
-    html += '<div style="font-size:13px;color:var(--gold2);line-height:1.7;margin-bottom:14px;padding:10px 14px;background:var(--gd);border-radius:8px;border-left:3px solid var(--gold)">Tu mentoría dura 75 días. La idea no es dejar todo para el final: ponle fecha a cada compromiso, cúmplelo a tiempo, y mantén el entusiasmo vivo día a día. La constancia es lo que te vuelve ∀normal.</div>';
-    listaCompromisos.forEach(function(item){
-      var cumplido = !!cumplidasComp[item.key];
-      var colorTipo = item.tipo==='area' ? 'var(--gold)' : 'var(--rose)';
-      var fechaComp = fechasCompromisos[item.key] || '';
-      var infoFecha = calcInfoFecha(fechaComp, cumplido);
-      html += '<div class="comp-item'+(cumplido?' cumplido':'')+'">';
-      html += '<div class="comp-check'+(cumplido?' on':'')+'" onclick="guardarCumplido(\''+item.key+'\')">✓</div>';
-      html += '<div class="comp-body"><div class="comp-area" style="color:'+colorTipo+'">'+item.etiqueta+'</div><div class="comp-texto">'+item.texto+'</div>';
-      html += '<div class="comp-fecha-row">';
-      html += '<span class="comp-fecha-lbl">Fecha máxima:</span>';
-      html += '<input type="date" class="comp-fecha-input" value="'+fechaComp+'" max="'+fechaLimite75+'" onclick="event.stopPropagation()" onchange="guardarFechaCompromiso(\''+item.key+'\',this.value)">';
-      if(infoFecha.txt) html += '<span class="comp-dias '+infoFecha.clase+'">'+infoFecha.txt+'</span>';
-      html += '</div>';
-      html += '</div>';
-      html += '</div>';
+    html += '<p class="ct" style="margin-bottom:8px">Un compromiso sin fecha es un deseo. Para cada uno, define <b style="color:var(--gold2)">en cuántos días te comprometes a cumplirlo</b>, y márcalo cuando lo logres. Solo las acciones cumplidas suben tu nivel de conciencia.</p>';
+    html += '<div style="font-size:13px;color:var(--gold2);line-height:1.7;margin-bottom:14px;padding:10px 14px;background:var(--gd);border-radius:8px;border-left:3px solid var(--gold)">Tu mentoría dura 75 días. No dejes todo para el final: ponle plazo a cada compromiso, cúmplelo a tiempo, y mantén el entusiasmo vivo día a día. La constancia es lo que te vuelve ∀normal.</div>';
+    // Agrupar por sesión
+    var nombresSesion = {1:'Sesión 1 · Consciencia',2:'Sesión 2 · Perdón',3:'Sesión 3 · ¿Quién soy?',4:'Sesión 4 · Ikigai',5:'Sesión 5 · Resultado'};
+    var porSesion = {};
+    listaCompromisos.forEach(function(it){ if(!porSesion[it.sesion]) porSesion[it.sesion]=[]; porSesion[it.sesion].push(it); });
+    Object.keys(porSesion).sort().forEach(function(ses){
+      var items = porSesion[ses];
+      var cumpS = items.filter(function(it){return cumplidasComp[it.key];}).length;
+      html += '<div class="comp-sesion-hdr"><span class="comp-sesion-nom">'+(nombresSesion[ses]||'Sesión '+ses)+'</span><span class="comp-sesion-cont">'+cumpS+'/'+items.length+'</span></div>';
+      items.forEach(function(item){
+        var cumplido = !!cumplidasComp[item.key];
+        var colorTipo = item.tipo==='area' ? 'var(--gold)' : (item.tipo==='principio'?'var(--gold2)':'var(--rose)');
+        var fechaComp = fechasCompromisos[item.key] || '';
+        var diasComp = fechaComp ? diasDesdeHoy(fechaComp) : '';
+        var infoFecha = calcInfoFecha(fechaComp, cumplido);
+        html += '<div class="comp-item'+(cumplido?' cumplido':'')+'">';
+        html += '<div class="comp-check'+(cumplido?' on':'')+'" onclick="guardarCumplido(\''+item.key+'\')" title="Marcar como cumplido">✓</div>';
+        html += '<div class="comp-body"><div class="comp-area" style="color:'+colorTipo+'">'+item.etiqueta+'</div><div class="comp-texto">'+item.texto+'</div>';
+        if(!cumplido){
+          html += '<div class="comp-fecha-row">';
+          html += '<span class="comp-fecha-lbl">¿En cuántos días te comprometes?</span>';
+          html += '<input type="number" min="1" max="75" class="comp-dias-input" value="'+diasComp+'" placeholder="—" onchange="guardarDiasCompromiso(\''+item.key+'\',this.value)">';
+          html += '<span class="comp-fecha-lbl">días</span>';
+          if(fechaComp) html += '<span class="comp-dias '+infoFecha.clase+'">'+formatoFechaCorta(fechaComp)+' · '+infoFecha.txt+'</span>';
+          html += '</div>';
+        } else {
+          html += '<div class="comp-fecha-row"><span class="comp-dias cf-ok">✓ Cumplido'+(fechaComp?' · comprometido para '+formatoFechaCorta(fechaComp):'')+'</span></div>';
+        }
+        html += '</div>';
+        html += '</div>';
+      });
     });
     var totalCump = listaCompromisos.filter(function(it){return cumplidasComp[it.key];}).length;
     html += '<p style="font-size:13px;color:var(--dim);text-align:right;margin-top:8px">'+totalCump+' de '+listaCompromisos.length+' cumplidos</p>';
