@@ -791,15 +791,49 @@ function bInicio(){
 
   var cexp=mk("div","card pur");cexp.appendChild(mk("div","cl p","C\u00f3mo funciona este m\u00f3dulo"));
   var ct=mk("div","ct");
-  ct.textContent="Calificar\u00e1s 12 \u00e1reas de tu vida del 1 al 10. No hay respuestas correctas \u2014 solo honestidad. Este diagn\u00f3stico es el punto de partida. Luego tendr\u00e1s un check-in a los 30 d\u00edas para medir tu progreso real, y un plan de metas trimestrales para proyectar el siguiente ciclo.";
+  ct.textContent="Calificar\u00e1s 12 \u00e1reas de tu vida del 1 al 10. No hay respuestas correctas \u2014 solo honestidad. Este diagn\u00f3stico es el punto de partida de un camino de 5 sesiones a lo largo de 75 d\u00edas. Aqu\u00ed tienes las fechas proyectadas de tu proceso:";
   cexp.appendChild(ct);
-  var pasos=mk("div");pasos.style.cssText="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:12px";
-  [{n:"Hoy",d:"Diagn\u00f3stico inicial + acciones inmediatas",c:"var(--gold2)"},{n:"30 d\u00edas",d:"Check-in de progreso + acciones cumplidas",c:"var(--acc)"},{n:"90 d\u00edas",d:"Metas trimestrales + proyecci\u00f3n de crecimiento",c:"var(--grn)"}].forEach(function(item){
-    var blk=mk("div");blk.style.cssText="background:var(--bg4);border-radius:var(--r);padding:10px 12px;text-align:center";
-    var t=mk("div");t.style.cssText="font-family:Cormorant Garamond,serif;font-size:18px;font-weight:300;color:"+item.c+";margin-bottom:4px";t.textContent=item.n;
-    blk.appendChild(t);blk.appendChild(mk("div","ct",item.d));pasos.appendChild(blk);
-  });
-  cexp.appendChild(pasos);p.appendChild(cexp);
+
+  // Línea de tiempo de las 5 sesiones con fechas proyectadas
+  (function(){
+    // Fecha de inicio del proceso (se fija hoy si no existe)
+    var ini = localStorage.getItem('anormal_fecha_inicio_proceso');
+    if(!ini){ ini = new Date().toISOString().slice(0,10); localStorage.setItem('anormal_fecha_inicio_proceso', ini); }
+    var base = new Date(ini); if(isNaN(base.getTime())) base = new Date();
+    var meses=['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+    function fechaEn(dias){ var f=new Date(base); f.setDate(f.getDate()+dias); return f.getDate()+' '+meses[f.getMonth()]; }
+    var sesiones=[
+      {n:"Sesión 1",t:"Consciencia",dias:0,c:"var(--gold2)"},
+      {n:"Sesión 2",t:"Perdón",dias:15,c:"var(--acc)"},
+      {n:"Sesión 3",t:"¿Quién soy?",dias:30,c:"var(--acc)"},
+      {n:"Sesión 4",t:"Ikigai",dias:45,c:"var(--acc)"},
+      {n:"Sesión 5",t:"Resultado",dias:60,c:"var(--grn)"}
+    ];
+    var tl=mk("div");tl.style.cssText="margin-top:14px;display:flex;flex-direction:column;gap:0";
+    sesiones.forEach(function(s,i){
+      var row=mk("div");row.style.cssText="display:flex;align-items:flex-start;gap:12px;position:relative;padding-bottom:"+(i<sesiones.length-1?"14px":"0")+"";
+      // columna izquierda: punto + línea
+      var col=mk("div");col.style.cssText="display:flex;flex-direction:column;align-items:center;flex-shrink:0";
+      var dot=mk("div");dot.style.cssText="width:12px;height:12px;border-radius:50%;background:"+s.c+";margin-top:3px";
+      col.appendChild(dot);
+      if(i<sesiones.length-1){ var lin=mk("div");lin.style.cssText="width:2px;flex:1;background:var(--ffaint);margin-top:2px;min-height:24px";col.appendChild(lin); }
+      row.appendChild(col);
+      // columna derecha: contenido
+      var cont=mk("div");cont.style.cssText="flex:1;padding-bottom:2px";
+      var top=mk("div");top.style.cssText="display:flex;align-items:baseline;justify-content:space-between;gap:8px;flex-wrap:wrap";
+      var nom=mk("div");nom.style.cssText="font-family:Cormorant Garamond,serif;font-size:16px;color:"+s.c+"";nom.textContent=s.n+" · "+s.t;
+      var fch=mk("div");fch.style.cssText="font-size:12px;color:#8A95A8;font-family:Barlow Condensed,sans-serif;letter-spacing:.05em";fch.textContent=(s.dias===0?"desde ":"aprox. ")+fechaEn(s.dias);
+      top.appendChild(nom);top.appendChild(fch);
+      cont.appendChild(top);
+      row.appendChild(cont);
+      tl.appendChild(row);
+    });
+    cexp.appendChild(tl);
+    var nota=mk("div","ct");nota.style.cssText="font-size:12px;color:#8A95A8;margin-top:12px;font-style:italic";nota.textContent="Las fechas se proyectan desde que activaste la plataforma. Tu mentoría completa dura 75 días.";
+    cexp.appendChild(nota);
+  })();
+
+  p.appendChild(cexp);
 
   // Leer nombre y fecha guardados
   var nombreGuardado = localStorage.getItem('anormal_nombre') || '';
