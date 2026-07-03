@@ -76,6 +76,8 @@ textarea:focus{outline:none;border-color:var(--gold)}
     <h1 class="titulo">Ya sabes quién eres. Ahora, vívelo.</h1>
     <p class="subtitulo">Conocer tu esencia no es el final: es el punto de partida. Estos son los principios que activaste, y tu compromiso de llevarlos a la vida.</p>
 
+    <div id="hilo-linea-cierre"></div>
+
     <div class="label" style="margin:20px 0 12px">Los principios que activaste en esta sesión</div>
     <div class="principio activo"><div class="principio-num">∀7</div><div><div class="principio-info-tit">Aprende cero excusas · activado</div><div class="principio-info-txt">Ya te conoces. No hay dónde esconderse: asumes tu potencial sin pretextos.</div></div></div>
     <div class="principio activo"><div class="principio-num">∀8</div><div><div class="principio-info-tit">Asume responsabilidad total · activado</div><div class="principio-info-txt">Tu número es tu punto de partida. Lo que hagas con él es tu poder.</div></div></div>
@@ -106,6 +108,34 @@ textarea:focus{outline:none;border-color:var(--gold)}
 </div>
 
 <script>
+/* ── Hilo conductor de la línea escogida (recordatorio reutilizable) ── */
+function hiloLineaHTML(momento){
+  var linea = localStorage.getItem('anormal_linea') || '';
+  if(!linea) return '';
+  var reflexion = (localStorage.getItem('anormal_linea_reflexion')||'').trim();
+  var cfg = {
+    salud:  {lbl:'la salud',  color:'#4ABF7A', emoji:'✦'},
+    dinero: {lbl:'el dinero', color:'#C9A84C', emoji:'✦'},
+    amor:   {lbl:'el amor',   color:'#D4537E', emoji:'✦'}
+  }[linea] || {lbl:'tu área elegida', color:'#C9A84C', emoji:'✦'};
+  var intro = {
+    apertura: 'Recuerda por qué estás aquí. Elegiste transformar tu relación con <b style="color:'+cfg.color+'">'+cfg.lbl+'</b>. Todo lo que trabajes en esta sesión, llévalo a ese propósito.',
+    cierre: 'Antes de cerrar: ¿cómo lo que descubriste hoy te acerca a transformar <b style="color:'+cfg.color+'">'+cfg.lbl+'</b>? Esa es tu brújula.'
+  }[momento] || 'Tu foco en este proceso es <b style="color:'+cfg.color+'">'+cfg.lbl+'</b>.';
+  var html = '<div style="background:rgba(255,255,255,.02);border-left:3px solid '+cfg.color+';border-radius:0 10px 10px 0;padding:16px 18px;margin-bottom:18px">';
+  html += '<div style="font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:'+cfg.color+';margin-bottom:8px">'+cfg.emoji+' Tu hilo conductor</div>';
+  html += '<p style="font-size:14.5px;line-height:1.7;color:#EAE6DC;margin:0">'+intro+'</p>';
+  if(reflexion){
+    html += '<div style="margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,.06)">';
+    html += '<div style="font-size:11px;color:#9AA5B8;margin-bottom:5px;font-style:italic">Tus propias palabras, sobre de dónde viene:</div>';
+    html += '<p style="font-size:14px;line-height:1.65;color:#C9A84C;margin:0;font-style:italic">"'+reflexion.replace(/</g,'&lt;')+'"</p>';
+    html += '</div>';
+  }
+  html += '</div>';
+  return html;
+}
+
+
 function leer(k,def){var v=localStorage.getItem(k);return (v===null||v===undefined)?def:v;}
 function leerJSON(k,def){try{var v=localStorage.getItem(k);return v?JSON.parse(v):def;}catch(e){return def;}}
 var NOMS={1:"El Pionero",2:"El Mediador",3:"El Creador",4:"El Constructor",5:"El Explorador",6:"El Sanador",7:"El Sabio",8:"El Ejecutivo",9:"El Humanista",11:"El Iluminado",22:"El Maestro Constructor",33:"El Maestro Sanador"};
@@ -149,6 +179,9 @@ function renderSintesis(){
   cont.innerHTML=html;
 }
 function renderCierre(){
+  // hilo conductor de la línea (cierre)
+  var hlc=document.getElementById('hilo-linea-cierre');
+  if(hlc){ hlc.innerHTML = hiloLineaHTML('cierre'); }
   // consolidado de compromisos (mismo repositorio del sistema)
   var cw=document.getElementById('compromisos-wrap');
   var ch='';
