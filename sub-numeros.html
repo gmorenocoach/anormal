@@ -38,6 +38,11 @@ body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font
 .calc-chain{font-family:"Barlow Condensed",sans-serif;font-size:16px;color:var(--dim);letter-spacing:.05em;text-align:center;margin-bottom:6px}
 .tabs{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap;justify-content:center}
 .tab{padding:9px 16px;border-radius:20px;font-size:13px;border:1px solid var(--ffaint);color:var(--dim);cursor:pointer;font-family:"Barlow Condensed",sans-serif;letter-spacing:.06em;text-transform:uppercase}
+.sn-opts{display:flex;gap:8px;flex-wrap:wrap}
+.sn-btn{flex:1;min-width:150px;background:var(--bg3);border:1px solid var(--ffaint);border-radius:var(--rm);color:var(--dim);font-family:"Barlow",sans-serif;font-size:13.5px;padding:10px 12px;cursor:pointer;transition:all .2s}
+.sn-btn:hover{border-color:var(--faint)}
+.sn-btn.on-si{background:rgba(74,191,122,.15);border-color:var(--grn);color:var(--grn)}
+.sn-btn.on-no{background:rgba(90,140,192,.12);border-color:var(--azul);color:var(--azul)}
 .tab.on{border-color:var(--gold);color:var(--gold2);background:var(--gd)}
 .tab.done{border-color:var(--grn);color:var(--grn)}
 .bp{background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--bg);border:none;border-radius:var(--r);font-family:"Barlow Condensed",sans-serif;font-size:13px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;padding:14px 32px;cursor:pointer;transition:opacity .2s,transform .15s}
@@ -80,6 +85,22 @@ body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font
 </div>
 
 <script>
+/* ── Repositorio de autoconocimiento (compartido, alimenta ikigai) ── */
+function acLeer(){ try{ return JSON.parse(localStorage.getItem('anormal_autoconocimiento')||'{}'); }catch(e){ return {}; } }
+function acGuardar(r){ try{ localStorage.setItem('anormal_autoconocimiento', JSON.stringify(r)); }catch(e){} }
+function acAportar(columna, items, fuente){
+  // columna: 'soy_bueno' | 'por_desarrollar' | 'activar' ; items: [{texto,num}]
+  var r=acLeer(); if(!r[columna]) r[columna]=[];
+  // eliminar los previos de esta misma fuente (para no duplicar al reingresar)
+  r[columna]=r[columna].filter(function(x){ return x.fuente!==fuente; });
+  items.forEach(function(it){
+    var nuevo={fuente:fuente, texto:it.texto, num:(it.num!==undefined?it.num:null)};
+    if(columna==='activar') nuevo.hecho=false;
+    r[columna].push(nuevo);
+  });
+  acGuardar(r);
+}
+
 function leer(k,def){var v=localStorage.getItem(k);return (v===null||v===undefined)?def:v;}
 var ACTITUD = {
   1:{n:"El Iniciador",col:"gold",
@@ -293,10 +314,34 @@ function renderTab(){
     '<div class="card"><p class="ct dim">'+explica[tb.key]+'</p></div>'+
     (d.d?'<div class="card"><p class="ct">'+d.d+'</p></div>':'')+
     (d.sig?'<div class="card"><p class="ct">'+d.sig+'</p></div>':'')+
-    (d.conex?'<div class="card gold"><div class="label">Cómo se conecta</div><p class="ct">'+d.conex+'</p></div>':'');
+    (d.conex?'<div class="card gold"><div class="label">Cómo se conecta</div><p class="ct">'+d.conex+'</p></div>':'')+
+    '<div class="card gold"><div class="label">Hazlo consciente y potén­cialo</div>'+
+      '<p class="ct" style="margin-bottom:12px">Saber esto no basta: el poder está en usarlo. ¿Reconoces este rasgo de tu '+tb.lbl.toLowerCase()+' como una fortaleza que ya usas, o como algo que quieres potenciar? Lo que marques se suma a tu autoconocimiento — el insumo de tu ikigai.</p>'+
+      '<div class="sn-opts">'+
+        '<button class="sn-btn" id="snb-si-'+tb.key+'" onclick="marcarSub(\''+tb.key+'\',\'fortaleza\',\''+(d.n||'')+'\','+val+')">✓ Es una fortaleza que uso</button>'+
+        '<button class="sn-btn" id="snb-no-'+tb.key+'" onclick="marcarSub(\''+tb.key+'\',\'potenciar\',\''+(d.n||'')+'\','+val+')">○ Quiero potenciarlo</button>'+
+      '</div></div>';
+  // restaurar marca previa si existe
+  if(subMarcas[tb.key]){
+    var bid = subMarcas[tb.key]==='fortaleza'?'snb-si-'+tb.key:'snb-no-'+tb.key;
+    var el=document.getElementById(bid); if(el) el.classList.add(subMarcas[tb.key]==='fortaleza'?'on-si':'on-no');
+  }
   // botón
   var bn=document.getElementById('btn-next');
   bn.textContent = (tabActual===TABS.length-1) ? 'Continuar con mi Mapa Energético →' : 'Siguiente matiz →';
+}
+var subMarcas={};
+function marcarSub(key, tipo, nom, val){
+  subMarcas[key]=tipo;
+  var si=document.getElementById('snb-si-'+key), no=document.getElementById('snb-no-'+key);
+  if(si) si.classList.remove('on-si'); if(no) no.classList.remove('on-no');
+  if(tipo==='fortaleza' && si) si.classList.add('on-si');
+  if(tipo==='potenciar' && no) no.classList.add('on-no');
+  // aportar al repositorio (soy_bueno si es fortaleza, por_desarrollar si quiere potenciar)
+  var etiqueta={actitud:'Actitud',generacion:'Generación',dia:'Día'}[key]||key;
+  var texto=etiqueta+' · '+nom+' (nº '+val+')';
+  if(tipo==='fortaleza') acAportar('soy_bueno', [{texto:texto, num:val}], 'sub_'+key);
+  else acAportar('por_desarrollar', [{texto:texto, num:val}], 'sub_'+key);
 }
 function siguienteTab(){
   if(tabActual<TABS.length-1){ tabActual++; renderTabs(); renderTab(); window.scrollTo(0,0); }
