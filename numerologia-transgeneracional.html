@@ -571,6 +571,7 @@ function agregarPersona(){
 function editarPersona(i){
   var pp=personas[i];
   var rel=relacion(miNV, pp.nv, miPres, miAus);
+  pp.tipoRel=rel.tipo; pp.relTitulo=rel.titulo;
   var ed=document.getElementById('persona-editor');
   var chk='';
   (rel.checklist||[]).forEach(function(c,ci){
