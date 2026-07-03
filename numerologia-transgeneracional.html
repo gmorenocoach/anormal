@@ -154,7 +154,11 @@ textarea:focus{outline:none;border-color:var(--gold)}
   <div class="pantalla" id="p3">
     <div class="label">Las personas en tu vida</div>
     <h1 class="titulo">Los otros vínculos que te marcan.</h1>
-    <p class="subtitulo">Abuelos, hermanos, hijos, pareja, un amigo o un jefe. Agrega hasta 8 personas y descubre qué tipo de relación numerológica tienen — y qué vinieron a enseñarse.</p>
+    <p class="subtitulo">Abuelos, hermanos, hijos, pareja, un amigo o un jefe. Cada relación importante también tiene una lectura numerológica — y algo que enseñarte.</p>
+    <div class="card gold">
+      <div class="label">Antes de empezar · un alto</div>
+      <p class="ct">Aquí puedes analizar <b>hasta 8 personas cercanas</b>, además de tu madre y tu padre. Elígelas con calma: piensa en quiénes de verdad han marcado tu vida — para bien o con fricción. <b>Una vez completes las 8, no podrás agregar más en esta sesión</b>, así que empieza por quienes más te remuevan hoy.</p>
+    </div>
     <div id="personas-contenido"></div>
     <div class="nav">
       <button class="bs" onclick="irA(2)">← Anterior</button>
@@ -186,21 +190,34 @@ const NV_CUAL={
   9:["Comprende el sufrimiento ajeno sin juzgar","Sirve sin calcular lo que recibe a cambio","Tiene perspectiva amplia en situaciones difíciles","Cierra ciclos con gracia y sin resentimiento","Ve lo mejor en las personas aunque fallen","Transforma el dolor en sabiduría"]
 }
 
+var LECCION_KARMICA={
+  1:'Esta persona vino a enseñarte a tomar tu lugar: a decidir por ti mismo, a iniciar sin pedir permiso, a sostener tu criterio aunque incomode. Si te confronta o te pasa por encima, mira si en el fondo te cuesta poner límites o afirmarte. Tu aprendizaje: reclamar tu propia autoridad sin necesitar que otro te la dé.',
+  2:'Esta persona vino a enseñarte la sensibilidad y la paciencia: a escuchar, a ceder sin sentir que pierdes, a cuidar el vínculo tanto como el resultado. Si te parece demasiado blanda o dependiente, quizá a ti te cuesta la ternura y la cooperación. Tu aprendizaje: que la fuerza también vive en la suavidad.',
+  3:'Esta persona vino a enseñarte a expresarte y a disfrutar: a soltar el control, a comunicar lo que sientes, a permitirte el juego y la alegría. Si te parece superficial o dispersa, mira si tú te tomas todo demasiado en serio. Tu aprendizaje: que expresar y celebrar también es un acto profundo.',
+  4:'Esta persona vino a enseñarte la estructura y la constancia: a construir con paciencia, a sostener el compromiso, a poner cimientos donde tú improvisas. Si te parece rígida o controladora, quizá a ti te cuesta la disciplina y el orden. Tu aprendizaje: que la libertad se sostiene sobre bases firmes.',
+  5:'Esta persona vino a enseñarte la libertad y la adaptación: a soltar lo que aprisiona, a abrirte al cambio, a probar lo nuevo sin miedo. Si te parece inconstante o irresponsable, mira si tú te aferras al control y a lo seguro. Tu aprendizaje: fluir con la vida en vez de resistirte a ella.',
+  6:'Esta persona vino a enseñarte el amor responsable y el cuidado: a entregarte a otros, a asumir el peso de una familia o un vínculo, a servir sin cálculo. Si te parece sacrificada o entrometida, quizá a ti te cuesta comprometerte con el cuidado. Tu aprendizaje: amar haciéndote cargo, sin perderte en ello.',
+  7:'Esta persona vino a enseñarte la introspección y la profundidad: a buscar el sentido, a hacer silencio, a confiar en lo que no se ve. Si te parece distante o rara, mira si tú evitas mirar hacia adentro. Tu aprendizaje: que las respuestas más importantes están en tu propio interior.',
+  8:'Esta persona vino a enseñarte el poder y la abundancia: a manejar el dinero y la autoridad sin culpa, a cobrar lo que vales, a dirigir. Si te genera admiración o rechazo su ambición, mira tu propia relación con el poder y el merecimiento. Tu aprendizaje: sostener tu poder sin miedo a él.',
+  9:'Esta persona vino a enseñarte a soltar y a servir en grande: a cerrar ciclos, a perdonar, a dar sin esperar retorno, a mirar más allá de ti. Si te parece idealista o desapegada, quizá a ti te cuesta soltar y ver el conjunto. Tu aprendizaje: entregar y desprenderte para poder crecer.'
+};
 function relacion(nvPropio,nvOtro,presPropio,ausPropio){
   const pS=redS(nvPropio), oS=redS(nvOtro);
   // Escenario 1: NV del otro es uno de mis ausentes → Kármica
   if(ausPropio.includes(oS)){
     const cual=NV_CUAL[oS]||[];
+    const leccion=LECCION_KARMICA[oS]||'';
     return{tipo:'karma',tag:'tr',
       titulo:'Esta persona es tu Maestro Kármico',
       col:'#E09070',bgCard:'rel-karma',
       desc:`Su número de vida es el <strong style="color:var(--gold3)">${nvOtro} — ${nvNom(nvOtro)}</strong>, exactamente uno de tus números ausentes. No es casualidad: su alma y la tuya acordaron este encuentro. Lo que más te genera admiración, fricción o incomodidad en esta persona es exactamente la energía que tu alma eligió aprender en esta vida.`,
       ens:`Cada momento de tensión con esta persona es una clase. Cada momento de admiración también. La energía del ${nvOtro} que encarna te muestra el camino de tu propio desarrollo.`,
+      aprendizaje:leccion,
       checklist:cual,
       chkLabel:`¿Qué de esto reconoces en esta persona?`,
       chkGuia:`Marca las cualidades que ves en esta persona. Las que marques son exactamente las que tú estás aprendiendo a desarrollar. El karma no es un castigo — es un regalo disfrazado de fricción.`,
-      reto:`¿Qué cualidad de esta persona te genera más admiración? ¿Qué te genera más fricción? Las dos respuestas son espejos del número ${nvOtro} que viniste a integrar. Escribe ambas.`,
-      perdon:`Este es el espacio del perdón: si esta persona te ha causado dolor, ese dolor es parte de la lección. Lo que vino a enseñarte no siempre llega de forma gentil. ¿Hay algo que perdonar aquí — no para justificar lo que hizo, sino para liberarte tú?`
+      reto:`Piénsalo con honestidad: ¿qué te ha hecho sentir esta persona que te ha costado aceptar? Detrás de esa incomodidad está tu lección. Escribe qué crees que vino a enseñarte, y qué cambiaría en tu forma de tratarla si de verdad lo aceptaras como un aprendizaje y no como un ataque.`,
+      perdon:`Este es el espacio del perdón: si esta persona te ha causado dolor, ese dolor es parte de la lección. Lo que vino a enseñarte no siempre llega de forma gentil. Cuando entiendes qué venía a mostrarte, la relación deja de pesar igual. ¿Hay algo que perdonar aquí — no para justificar lo que hizo, sino para liberarte tú y completar el aprendizaje?`
     };
   }
   // Escenario 2: mismo NV reducido → Espejo
@@ -473,6 +490,10 @@ function init0(){
   miNV=parseInt(leer('anormal_camino_vida','0'))||calcNVfromISO(f);
   var pa=presAusDeFecha(f);
   miPres=pa.pres; miAus=pa.aus;
+  // Recuperar fechas de padres si ya se ingresaron antes
+  var fm=leer('anormal_fecha_madre',''), fp=leer('anormal_fecha_padre','');
+  if(fm){ madre.fecha=fm; madre.nv=calcNVfromISO(fm); }
+  if(fp){ padre.fecha=fp; padre.nv=calcNVfromISO(fp); }
 }
 
 function irA(n){
@@ -481,6 +502,11 @@ function irA(n){
   var pcts=[14,45,72,100]; var txts=['Tu linaje','Tu madre','Tu padre','Otras personas'];
   document.getElementById('prog').style.width=(pcts[n]||14)+'%';
   document.getElementById('prog-txt').textContent=txts[n]||'';
+  if(n===0){
+    // Repoblar las fechas ya ingresadas para no perderlas al retroceder
+    var fm=document.getElementById('fecha-madre'); if(fm && madre.fecha) fm.value=madre.fecha;
+    var fp=document.getElementById('fecha-padre'); if(fp && padre.fecha) fp.value=padre.fecha;
+  }
   if(n===1) renderMadre();
   if(n===2) renderPadre();
   if(n===3) renderPersonas();
@@ -493,6 +519,7 @@ function procesarPadres(){
   if(!madre.fecha && !padre.fecha){ alert('Ingresa al menos una fecha (madre o padre).'); return; }
   madre.nv=calcNVfromISO(madre.fecha);
   padre.nv=calcNVfromISO(padre.fecha);
+  try{ localStorage.setItem('anormal_fecha_madre',madre.fecha); localStorage.setItem('anormal_fecha_padre',padre.fecha); }catch(e){}
   irA(1);
 }
 
@@ -559,6 +586,7 @@ function editarPersona(i){
     '<div style="text-align:center"><span class="rel-badge">'+rel.titulo+'</span></div>'+
     '<p class="ct">'+rel.desc+'</p>'+
     '<p class="ct" style="margin-top:10px">'+rel.ens+'</p>'+
+    (rel.aprendizaje?'<div class="perdon-box" style="border-color:rgba(224,144,112,.3);background:rgba(224,144,112,.06)"><div class="perdon-lbl" style="color:#E09070">✦ Lo que vino a enseñarte</div><p class="ct" style="font-size:15px">'+rel.aprendizaje+'</p></div>':'')+
     (chk?'<div style="margin-top:14px"><div class="label">'+(rel.chkLabel||'')+'</div><p class="ct dim" style="font-size:13.5px;margin-bottom:8px">'+(rel.chkGuia||'')+'</p>'+chk+'</div>':'')+
     '<div style="margin-top:14px"><div class="label">Tu reflexión</div><p class="ct dim" style="font-size:13.5px;margin-bottom:8px">'+(rel.reto||'')+'</p>'+
       '<textarea placeholder="Escribe aquí..." oninput="guardarPersonaReto('+i+',this.value)">'+(pp.reto||'')+'</textarea></div>'+
