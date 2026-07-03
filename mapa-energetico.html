@@ -32,13 +32,15 @@ body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font
 .video-opcional .vo-play{font-size:24px;color:var(--gold);flex-shrink:0}
 .video-opcional .vo-tit{font-size:13px;color:var(--text)}
 .video-opcional .vo-sub{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--faint);margin-top:3px}
-.grid-nums{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:16px 0;max-width:260px;margin-left:auto;margin-right:auto}
-.gn{aspect-ratio:1;border-radius:var(--rm);display:flex;flex-direction:column;align-items:center;justify-content:center;border:1px solid var(--ffaint);background:var(--bg3);cursor:pointer;transition:all .2s}
-.gn.pres{border-color:var(--gold);background:var(--gd)}
-.gn.aus{border-color:var(--ffaint);opacity:.5}
-.gn-num{font-family:"Cormorant Garamond",serif;font-size:22px;color:var(--gold2)}
+.grid-nums{display:flex;gap:5px;margin:16px 0;justify-content:center;flex-wrap:nowrap}
+.gn{flex:1;max-width:52px;min-width:28px;aspect-ratio:1;border-radius:var(--rm);display:flex;flex-direction:column;align-items:center;justify-content:center;border:1px solid var(--ffaint);background:var(--bg3);cursor:pointer;transition:all .25s}
+.gn.pres{border-color:var(--gold);background:var(--gd);box-shadow:0 0 0 1px var(--gb)}
+.gn.aus{border-color:var(--ffaint);opacity:.45}
+.gn-num{font-family:"Cormorant Garamond",serif;font-size:20px;color:var(--gold2)}
 .gn.aus .gn-num{color:var(--faint)}
-.gn-estado{font-size:8px;letter-spacing:.08em;text-transform:uppercase;margin-top:1px;color:var(--dim)}
+.gn-estado{display:none}
+@keyframes resaltar{0%{transform:scale(1)}50%{transform:scale(1.15)}100%{transform:scale(1)}}
+.gn.pres.animar{animation:resaltar .5s ease}
 .leyenda{display:flex;gap:18px;justify-content:center;margin-bottom:16px;font-size:12px;color:var(--dim)}
 .leyenda span{display:flex;align-items:center;gap:6px}
 .dot{width:12px;height:12px;border-radius:3px}
@@ -75,7 +77,7 @@ body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font
   <div class="pantalla" id="p1">
     <div class="label">Tu mapa energético</div>
     <h1 class="titulo">Esto tienes, esto vienes a desarrollar.</h1>
-    <p class="subtitulo" style="margin-bottom:14px">Estos son los números del 1 al 9 según tu fecha. Toca cada uno para ver qué significa — los dorados son tus habilidades, los apagados tus aprendizajes.</p>
+    <p class="subtitulo" style="margin-bottom:14px">Aquí están los números del 1 al 9. Los <b style="color:var(--gold2)">dorados</b> son los que tienes en tu fecha: tus <b>habilidades</b>. Los <b>apagados</b> son los que te faltan: lo que <b>viniste a aprender</b> — y que la vida, o alguien que llegará a ella, te ayudará a desarrollar. Toca cada uno para ver su significado.</p>
     <div class="leyenda"><span><span class="dot p"></span>Presente (habilidad)</span><span><span class="dot a"></span>Ausente (aprendizaje)</span></div>
     <div class="grid-nums" id="grid"></div>
     <div id="mapa-detalle"></div>
@@ -84,6 +86,22 @@ body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font
 </div>
 
 <script>
+/* ── Repositorio de autoconocimiento (compartido, alimenta ikigai) ── */
+function acLeer(){ try{ return JSON.parse(localStorage.getItem('anormal_autoconocimiento')||'{}'); }catch(e){ return {}; } }
+function acGuardar(r){ try{ localStorage.setItem('anormal_autoconocimiento', JSON.stringify(r)); }catch(e){} }
+function acAportar(columna, items, fuente){
+  // columna: 'soy_bueno' | 'por_desarrollar' | 'activar' ; items: [{texto,num}]
+  var r=acLeer(); if(!r[columna]) r[columna]=[];
+  // eliminar los previos de esta misma fuente (para no duplicar al reingresar)
+  r[columna]=r[columna].filter(function(x){ return x.fuente!==fuente; });
+  items.forEach(function(it){
+    var nuevo={fuente:fuente, texto:it.texto, num:(it.num!==undefined?it.num:null)};
+    if(columna==='activar') nuevo.hecho=false;
+    r[columna].push(nuevo);
+  });
+  acGuardar(r);
+}
+
 function leer(k,def){var v=localStorage.getItem(k);return (v===null||v===undefined)?def:v;}
 var NV_MAPA={
   1:{n:"El Pionero",m:"Liderar, crear e iniciar con autenticidad y coraje.",
@@ -297,6 +315,9 @@ function calcular(){
   presentes=[]; ausentes=[];
   for(var i=1;i<=9;i++){ if(digs.indexOf(i)>=0) presentes.push(i); else ausentes.push(i); }
   localStorage.setItem('anormal_mapa', JSON.stringify({presentes:presentes,ausentes:ausentes}));
+  // Aportar al repositorio de autoconocimiento
+  acAportar('soy_bueno', presentes.map(function(n){return {texto:'El '+n+(NV_MAPA[n]?' · '+NV_MAPA[n].n:''), num:n};}), 'mapa_presentes');
+  acAportar('por_desarrollar', ausentes.map(function(n){return {texto:'El '+n+(NV_MAPA[n]?' · '+NV_MAPA[n].n:''), num:n};}), 'mapa_ausentes');
   irA(1);
 }
 function irA(n){
@@ -304,14 +325,23 @@ function irA(n){
   document.getElementById('p'+n).classList.add('visible');
   document.getElementById('prog').style.width=(n===0?20:100)+'%';
   document.getElementById('prog-txt').textContent=(n===0?'Tu energía':'Tu mapa');
-  if(n===1){ renderGrid(); seleccionado=presentes[0]||ausentes[0]; renderDetalle(); }
+  if(n===1){ renderGrid(true); seleccionado=presentes[0]||ausentes[0]; renderDetalle(); }
   window.scrollTo(0,0);
 }
-function renderGrid(){
+function renderGrid(animar){
   var g=document.getElementById('grid'); g.innerHTML='';
   for(var i=1;i<=9;i++){
     var pres=presentes.indexOf(i)>=0;
-    g.innerHTML+='<div class="gn '+(pres?'pres':'aus')+'" onclick="seleccionado='+i+';renderGrid();renderDetalle();document.getElementById(\'mapa-detalle\').scrollIntoView({behavior:\'smooth\',block:\'nearest\'})"><div class="gn-num">'+i+'</div><div class="gn-estado">'+(pres?'presente':'ausente')+'</div></div>';
+    g.innerHTML+='<div class="gn '+(pres?'pres':'aus')+'" data-n="'+i+'" onclick="seleccionado='+i+';renderGrid();renderDetalle();document.getElementById(\'mapa-detalle\').scrollIntoView({behavior:\'smooth\',block:\'nearest\'})"><div class="gn-num">'+i+'</div></div>';
+  }
+  // animación escalonada de los presentes al calcular por primera vez
+  if(animar){
+    presentes.forEach(function(n, idx){
+      setTimeout(function(){
+        var el=g.querySelector('.gn[data-n="'+n+'"]');
+        if(el){ el.classList.add('animar'); setTimeout(function(){el.classList.remove('animar');},500); }
+      }, 180*(idx+1));
+    });
   }
 }
 function renderDetalle(){
