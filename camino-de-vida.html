@@ -137,6 +137,22 @@ body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font
 </div>
 
 <script>
+/* ── Repositorio de autoconocimiento (compartido, alimenta ikigai) ── */
+function acLeer(){ try{ return JSON.parse(localStorage.getItem('anormal_autoconocimiento')||'{}'); }catch(e){ return {}; } }
+function acGuardar(r){ try{ localStorage.setItem('anormal_autoconocimiento', JSON.stringify(r)); }catch(e){} }
+function acAportar(columna, items, fuente){
+  // columna: 'soy_bueno' | 'por_desarrollar' | 'activar' ; items: [{texto,num}]
+  var r=acLeer(); if(!r[columna]) r[columna]=[];
+  // eliminar los previos de esta misma fuente (para no duplicar al reingresar)
+  r[columna]=r[columna].filter(function(x){ return x.fuente!==fuente; });
+  items.forEach(function(it){
+    var nuevo={fuente:fuente, texto:it.texto, num:(it.num!==undefined?it.num:null)};
+    if(columna==='activar') nuevo.hecho=false;
+    r[columna].push(nuevo);
+  });
+  acGuardar(r);
+}
+
 function leer(k,def){var v=localStorage.getItem(k);return (v===null||v===undefined)?def:v;}
 
 // ====== CONTENIDO NUMEROLÓGICO (rescatado) ======
@@ -434,7 +450,7 @@ function renderSignificado(){
   if(d.karma) html+='<div class="bloque"><div class="bloque-lbl">Tu aprendizaje kármico</div><div class="card"><p class="ct">'+d.karma+'</p></div></div>';
   if(d.talentos && Array.isArray(d.talentos)){
     html+='<div class="bloque"><div class="bloque-lbl">Tus talentos · autoevaluación</div>';
-    html+='<div class="card"><p class="ct dim">Estos son los talentos de tu número. Para cada uno, marca con honestidad: ¿ya lo reconoces activo en ti, o sientes que te falta desarrollarlo? No hay respuesta correcta — es tu espejo.</p></div>';
+    html+='<div class="card"><p class="ct dim">Estos son los talentos de tu número. Para cada uno, marca con honestidad: ¿ya lo reconoces activo en ti, o sientes que te falta desarrollarlo? Los que reconoces se sumarán a <b style="color:var(--gold2)">lo que eres bueno</b>, y los que te faltan a <b style="color:var(--gold2)">lo que viniste a desarrollar</b> — dos listas que te acompañarán hasta tu ikigai. No hay respuesta correcta: es tu espejo.</p></div>';
     d.talentos.forEach(function(t,i){
       var nom = (typeof t==='object'&&t.n)?t.n:t;
       var desc = (typeof t==='object'&&t.d)?t.d:'';
@@ -467,6 +483,9 @@ function continuar(){
     var d=NV[miNV];
     if(d&&d.talentos){ d.talentos.forEach(function(t,i){ var nom=(typeof t==='object'&&t.n)?t.n:t; if(talentosEval[i]==='consciente')conscientes.push(nom); else if(talentosEval[i]==='desarrollar')porDesarrollar.push(nom); }); }
     localStorage.setItem('anormal_talentos_eval', JSON.stringify({conscientes:conscientes, porDesarrollar:porDesarrollar}));
+    // Aportar al repositorio de autoconocimiento (para el Resumen y el ikigai)
+    acAportar('soy_bueno', conscientes.map(function(t){return {texto:t, num:miNV};}), 'camino_talentos');
+    acAportar('por_desarrollar', porDesarrollar.map(function(t){return {texto:t, num:miNV};}), 'camino_talentos');
     var data=JSON.parse(sessionStorage.getItem('anormal_proceso')||'{}');
     data.camino_vida={numero:miNV, arquetipo:NV[miNV]?NV[miNV].n:'', talentosConscientes:conscientes, talentosPorDesarrollar:porDesarrollar};
     if(!data.progreso)data.progreso={};
