@@ -308,6 +308,17 @@ var FD={
   }
 }
 function fmtFecha(iso){var p=iso.split('-');if(p.length!==3)return iso;var m=['','enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];return parseInt(p[2])+' de '+m[parseInt(p[1])]+' de '+p[0];}
+var ACTIVAR={
+  1:{n:'El 1 · Iniciativa y liderazgo',que:'Activar el 1 es aprender a decidir por ti mismo, arrancar sin esperar permiso y afirmar tu criterio.',accion:'Esta semana toma una decisión tú solo, sin consultarla con nadie, y sostenla.'},
+  2:{n:'El 2 · Sensibilidad y cooperación',que:'Activar el 2 es desarrollar la escucha, la paciencia y la capacidad de trabajar con otros sin competir.',accion:'Esta semana, en un desacuerdo, propón ceder algo primero y observa qué pasa con el vínculo.'},
+  3:{n:'El 3 · Expresión y alegría',que:'Activar el 3 es soltar el control, comunicar lo que sientes y permitirte el juego y la creatividad.',accion:'Esta semana comparte con alguien algo que normalmente te guardarías — una idea, una emoción, algo creativo.'},
+  4:{n:'El 4 · Disciplina y estructura',que:'Activar el 4 es construir con constancia, sostener el compromiso y poner cimientos firmes.',accion:'Elige una práctica pequeña y hazla 7 días seguidos, sin fallar. El músculo de la constancia se entrena así.'},
+  5:{n:'El 5 · Libertad y adaptación',que:'Activar el 5 es abrirte al cambio, probar lo nuevo y soltar la rigidez de los planes.',accion:'Esta semana rompe una rutina a propósito: cambia un camino, un horario, una costumbre. Observa qué se abre.'},
+  6:{n:'El 6 · Amor y responsabilidad',que:'Activar el 6 es entregarte al cuidado de otros y asumir el peso de los vínculos con madurez.',accion:'Esta semana hazte cargo activamente del bienestar de alguien cercano, sin que te lo pidan.'},
+  7:{n:'El 7 · Introspección y profundidad',que:'Activar el 7 es hacer silencio, buscar el sentido y confiar en tu mundo interior.',accion:'Dedica 10 minutos diarios esta semana al silencio o la contemplación, sin pantallas ni distracciones.'},
+  8:{n:'El 8 · Poder y abundancia',que:'Activar el 8 es manejar el dinero y la autoridad sin culpa, cobrar lo que vales y dirigir con firmeza.',accion:'Esta semana pon un precio o un límite que normalmente rebajarías por miedo, y sostenlo.'},
+  9:{n:'El 9 · Entrega y cierre',que:'Activar el 9 es soltar, perdonar, cerrar ciclos y servir mirando más allá de ti mismo.',accion:'Esta semana cierra conscientemente algo pendiente: una conversación, un perdón, un capítulo.'}
+};
 var presentes=[], fuertes=[], vacias=[], refuerzo=[];
 
 function init0(){
@@ -386,6 +397,22 @@ function renderFlechas(){
   }
   if(!fuertes.length && !vacias.length && !refuerzo.length){
     html+='<div class="card"><p class="ct">Tu fecha no forma flechas marcadas — tienes una distribución equilibrada de energías. Eso también es una lectura: ninguna línea te domina, tienes acceso balanceado a varias fuerzas.</p></div>';
+  }
+  // CONSOLIDADO de números faltantes por activar
+  var faltantesSet={};
+  refuerzo.concat(vacias).forEach(function(k){
+    FD[k].nums.forEach(function(n){ if(presentes.indexOf(n)<0) faltantesSet[n]=true; });
+  });
+  var faltantes=Object.keys(faltantesSet).map(Number).sort();
+  if(faltantes.length){
+    html+='<div class="seccion-lbl" style="color:var(--gold2)">✦ Tu plan: cómo activar lo que falta</div>';
+    html+='<div class="card gold"><p class="ct">Estos son los números que completarían tus flechas. Trabajar cualquiera de ellos fortalece varias líneas a la vez. Empieza por el que más te resuene:</p></div>';
+    faltantes.forEach(function(n){
+      var a=ACTIVAR[n]||{};
+      html+='<div class="flecha-card" style="border-color:var(--gb)"><div class="fc-head"><div class="fc-num off" style="width:38px;height:38px;font-size:20px">'+n+'</div><div><div class="fc-tit">'+(a.n||('Número '+n))+'</div><div class="fc-badge">Por activar</div></div></div>'+
+        (a.que?'<p class="ct">'+a.que+'</p>':'')+
+        (a.accion?'<p class="ct" style="margin-top:8px"><b style="color:var(--gold2)">Práctica concreta: </b>'+a.accion+'</p>':'')+'</div>';
+    });
   }
   cont.innerHTML=html;
 }
