@@ -55,6 +55,16 @@ body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font
 .comp-body{flex:1}
 .comp-area{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:3px}
 .comp-texto{font-size:14.5px;color:var(--text);line-height:1.5}
+.comp-fecha-row{display:flex;align-items:center;gap:8px;margin-top:8px;flex-wrap:wrap}
+.comp-fecha-lbl{font-size:12px;color:var(--dim)}
+.comp-fecha-input{background:var(--bg2);border:1px solid var(--faint);border-radius:6px;color:var(--text);font-size:13px;padding:4px 8px;font-family:"Barlow",sans-serif}
+.comp-fecha-input:focus{outline:none;border-color:var(--gold)}
+.comp-dias{font-size:11px;padding:2px 8px;border-radius:10px;letter-spacing:.04em}
+.cf-ok{background:rgba(74,191,122,.15);color:var(--grn)}
+.cf-prox{background:rgba(232,201,106,.18);color:var(--gold2)}
+.cf-hoy{background:rgba(232,201,106,.25);color:var(--gold3);font-weight:500}
+.cf-venc{background:rgba(212,83,126,.18);color:var(--rose)}
+.cf-sin{background:var(--ffaint);color:var(--dim)}
 
 /* PRINCIPIOS INQUEBRANTABLES */
 .princ-item{display:flex;align-items:center;gap:12px;padding:11px 14px;background:var(--bg3);border-radius:var(--rm);margin-bottom:7px;border-left:3px solid}
@@ -122,6 +132,32 @@ var diagnostico = leerJSON('anormal_diagnostico',{});
 var acciones = leerJSON('anormal_acciones',[]);
 var prioridades = leerJSON('anormal_prioridades',[]);
 var compromisosAreas = leerJSON('anormal_compromisos_areas',{});
+var fechasCompromisos = leerJSON('anormal_fechas_compromisos',{});
+// Fecha límite = inicio del proceso + 75 días (los 5 sesiones)
+function calcFechaLimite75(){
+  var ini = leer('anormal_fecha_inicio_proceso','');
+  var base = ini ? new Date(ini) : new Date();
+  if(isNaN(base.getTime())) base = new Date();
+  base.setDate(base.getDate()+75);
+  return base.toISOString().slice(0,10);
+}
+var fechaLimite75 = calcFechaLimite75();
+function guardarFechaCompromiso(key, val){
+  fechasCompromisos[key]=val;
+  localStorage.setItem('anormal_fechas_compromisos', JSON.stringify(fechasCompromisos));
+  render();
+}
+function calcInfoFecha(fechaISO, cumplido){
+  if(!fechaISO) return {txt:'sin fecha', clase:'cf-sin'};
+  if(cumplido) return {txt:'cumplido ✓', clase:'cf-ok'};
+  var hoy=new Date(); hoy.setHours(0,0,0,0);
+  var f=new Date(fechaISO); f.setHours(0,0,0,0);
+  var dias=Math.round((f-hoy)/86400000);
+  if(dias<0) return {txt:'vencido hace '+Math.abs(dias)+'d', clase:'cf-venc'};
+  if(dias===0) return {txt:'¡es hoy!', clase:'cf-hoy'};
+  if(dias<=3) return {txt:'en '+dias+'d', clase:'cf-prox'};
+  return {txt:'en '+dias+'d', clase:'cf-ok'};
+}
 var compromisoInicial = leer('anormal_compromiso_inicial','');
 var principiosNuevos = leerJSON('anormal_principios_nuevos',{});
 var puntosConciencia = parseInt(leer('anormal_puntos_conciencia','0'))||0;
@@ -193,6 +229,17 @@ function guardarCumplido(key){
   render();
 }
 
+function reconstruirAutoconocimiento(){
+  var NOMS={1:"El Pionero",2:"El Mediador",3:"El Creador",4:"El Constructor",5:"El Explorador",6:"El Sanador",7:"El Sabio",8:"El Ejecutivo",9:"El Humanista",11:"El Iluminado",22:"El Maestro Constructor",33:"El Maestro Sanador"};
+  var out={soy_bueno:[], por_desarrollar:[], activar:[]};
+  // Talentos del camino
+  var te=leerJSON('anormal_talentos_eval',null);
+  if(te){ (te.conscientes||[]).forEach(function(t){ out.soy_bueno.push({texto:t}); }); (te.porDesarrollar||[]).forEach(function(t){ out.por_desarrollar.push({texto:t}); }); }
+  // Números del mapa
+  var mapa=leerJSON('anormal_mapa',null);
+  if(mapa){ (mapa.presentes||[]).forEach(function(n){ out.soy_bueno.push({texto:'El '+n+(NOMS[n]?' · '+NOMS[n]:''), num:n}); }); (mapa.ausentes||[]).forEach(function(n){ out.por_desarrollar.push({texto:'El '+n+(NOMS[n]?' · '+NOMS[n]:''), num:n}); }); }
+  return out;
+}
 function toggleActivarRepo(i){
   var ac=leerJSON('anormal_autoconocimiento',{});
   if(ac.activar && ac.activar[i]){
@@ -299,15 +346,23 @@ function render(){
   }
 
   if(listaCompromisos.length>0){
-    html += '<div class="card"><div class="cl">Mis compromisos y acciones — registra lo que vas cumpliendo</div>';
-    html += '<p class="ct" style="margin-bottom:8px">Marca cada compromiso y cada acción cuando los cumplas. Cada uno que completas sube tu nivel de conciencia.</p>';
-    html += '<div style="font-size:13px;color:var(--gold2);line-height:1.7;margin-bottom:14px;padding:10px 14px;background:var(--gd);border-radius:8px;border-left:3px solid var(--gold)">Vuelve aquí cada día y registra lo que vas cumpliendo. La idea es que cuando lleguen los 15 días, ya tengas tus compromisos realizados — no que los dejes para el final. La constancia diaria es lo que te vuelve ∀normal.</div>';
+    html += '<div class="card"><div class="cl">Mis compromisos y acciones — ponles fecha y cúmplelos</div>';
+    html += '<p class="ct" style="margin-bottom:8px">Un compromiso sin fecha es un deseo. Ponle a cada uno una <b style="color:var(--gold2)">fecha máxima de ejecución</b> dentro de tu proceso, y márcalo cuando lo cumplas. Cada uno que completas sube tu nivel de conciencia.</p>';
+    html += '<div style="font-size:13px;color:var(--gold2);line-height:1.7;margin-bottom:14px;padding:10px 14px;background:var(--gd);border-radius:8px;border-left:3px solid var(--gold)">Tu mentoría dura 75 días. La idea no es dejar todo para el final: ponle fecha a cada compromiso, cúmplelo a tiempo, y mantén el entusiasmo vivo día a día. La constancia es lo que te vuelve ∀normal.</div>';
     listaCompromisos.forEach(function(item){
       var cumplido = !!cumplidasComp[item.key];
       var colorTipo = item.tipo==='area' ? 'var(--gold)' : 'var(--rose)';
-      html += '<div class="comp-item'+(cumplido?' cumplido':'')+'" onclick="guardarCumplido(\''+item.key+'\')">';
-      html += '<div class="comp-check'+(cumplido?' on':'')+'">✓</div>';
-      html += '<div class="comp-body"><div class="comp-area" style="color:'+colorTipo+'">'+item.etiqueta+'</div><div class="comp-texto">'+item.texto+'</div></div>';
+      var fechaComp = fechasCompromisos[item.key] || '';
+      var infoFecha = calcInfoFecha(fechaComp, cumplido);
+      html += '<div class="comp-item'+(cumplido?' cumplido':'')+'">';
+      html += '<div class="comp-check'+(cumplido?' on':'')+'" onclick="guardarCumplido(\''+item.key+'\')">✓</div>';
+      html += '<div class="comp-body"><div class="comp-area" style="color:'+colorTipo+'">'+item.etiqueta+'</div><div class="comp-texto">'+item.texto+'</div>';
+      html += '<div class="comp-fecha-row">';
+      html += '<span class="comp-fecha-lbl">Fecha máxima:</span>';
+      html += '<input type="date" class="comp-fecha-input" value="'+fechaComp+'" max="'+fechaLimite75+'" onclick="event.stopPropagation()" onchange="guardarFechaCompromiso(\''+item.key+'\',this.value)">';
+      if(infoFecha.txt) html += '<span class="comp-dias '+infoFecha.clase+'">'+infoFecha.txt+'</span>';
+      html += '</div>';
+      html += '</div>';
       html += '</div>';
     });
     var totalCump = listaCompromisos.filter(function(it){return cumplidasComp[it.key];}).length;
@@ -345,6 +400,11 @@ function render(){
   // MI AUTOCONOCIMIENTO (alimenta el ikigai) — soy bueno / por desarrollar / por activar
   var ac = leerJSON('anormal_autoconocimiento', {});
   var acBueno = ac.soy_bueno||[], acDes = ac.por_desarrollar||[], acAct = ac.activar||[];
+  // Respaldo: si el repositorio está vacío pero hay datos en las claves individuales, reconstruir
+  if(!acBueno.length && !acDes.length && !acAct.length){
+    var recon = reconstruirAutoconocimiento();
+    acBueno = recon.soy_bueno; acDes = recon.por_desarrollar; acAct = recon.activar;
+  }
   if(acBueno.length || acDes.length || acAct.length){
     html += '<div class="card"><div class="cl">Mi autoconocimiento</div>';
     html += '<p class="ct" style="margin-bottom:14px">Todo lo que reconociste sobre ti a lo largo de la Sesión 3 se reúne aquí. Esta será la base de tu <b style="color:var(--gold2)">ikigai</b> en la próxima sesión: saber en qué eres bueno, qué viniste a desarrollar y qué eliges activar.</p>';
