@@ -82,9 +82,10 @@ function hiloLineaHTML(momento){
   return html;
 }
 
-var PV = leerJSON('anormal_plan_vida', {ser:'', hacer:'', tener:'', declaracion:'', compromiso:'', ruedaFinal:{}});
+var PV = leerJSON('anormal_plan_vida', {ser:'', hacer:'', tener:'', declaracion:'', compromiso:'', ruedaFinal:{}, habitos:{cuerpo:[],mente:[],espiritu:[]}});
 function guardarPV(){ localStorage.setItem('anormal_plan_vida', JSON.stringify(PV)); }
 if(!PV.ruedaFinal) PV.ruedaFinal={};
+if(!PV.habitos) PV.habitos={cuerpo:[],mente:[],espiritu:[]};
 
 var PASOS=['intro','ser','hacer','tener','crecimiento','declaracion','cierre'];
 var pasoActual=0;
@@ -105,34 +106,63 @@ function renderIntro(){
   c.insertAdjacentHTML('beforeend','<div class="card gold"><p class="ct">El ser humano es uno solo, pero se expresa en tres: el <b>cuerpo</b> que habitas, la <b>mente</b> que piensa, y el <b>espíritu</b> que da sentido. Una vida plena cuida las tres — cuando una se descuida, las otras lo resienten.</p></div>');
   navBotones(c,'Empezar por el cuerpo →');
 }
+/* ═══════ CONSTRUCTOR DE CHECKLIST DE HÁBITOS ═══════ */
+function construirChecklist(cont, dimKey, sugeridos, colorTag){
+  // sugeridos: marcables. La persona también agrega los suyos. Todo se guarda en PV.habitos[dimKey]
+  var box=mk('div','card');
+  box.appendChild(mk('div','label','Marca los que te comprometes a hacer'));
+  var lista=mk('div');
+  function pintar(){
+    lista.innerHTML='';
+    // unir sugeridos + propios (propios = los que están en PV.habitos y no en sugeridos)
+    var marcados=PV.habitos[dimKey]||[];
+    var propios=marcados.filter(function(h){ return sugeridos.indexOf(h)<0; });
+    var todos=sugeridos.concat(propios);
+    todos.forEach(function(h){
+      var on=marcados.indexOf(h)>=0;
+      var row=mk('div'); row.style.cssText='display:flex;align-items:center;gap:10px;padding:9px 12px;background:var(--bg3);border-radius:8px;margin-bottom:7px;cursor:pointer;border:1px solid '+(on?colorTag:'transparent');
+      var chk=mk('div'); chk.style.cssText='width:20px;height:20px;border-radius:5px;border:1px solid '+(on?colorTag:'var(--faint)')+';display:flex;align-items:center;justify-content:center;font-size:13px;color:'+colorTag+';flex-shrink:0'; chk.textContent=on?'✓':'';
+      row.appendChild(chk);
+      var txt=mk('span',null,h); txt.style.cssText='font-size:14.5px;color:'+(on?'var(--text)':'var(--dim)'); row.appendChild(txt);
+      row.onclick=function(){ var i=PV.habitos[dimKey].indexOf(h); if(i>=0)PV.habitos[dimKey].splice(i,1); else PV.habitos[dimKey].push(h); guardarPV(); pintar(); };
+      lista.appendChild(row);
+    });
+  }
+  box.appendChild(lista);
+  // agregar propio
+  var row=mk('div'); row.style.cssText='display:flex;gap:8px;margin-top:10px';
+  var inp=mk('input'); inp.type='text'; inp.placeholder='Agregar el mío...'; inp.style.cssText='flex:1;background:var(--bg3);border:1px solid var(--faint);border-radius:8px;color:var(--text);font-family:Barlow,sans-serif;font-size:14px;padding:10px 12px;outline:none';
+  var btn=mk('button',null,'+'); btn.style.cssText='background:var(--gd);border:1px solid var(--gb);border-radius:8px;color:var(--gold2);font-size:20px;width:44px;cursor:pointer';
+  function agregar(v){ v=(v||'').trim(); if(v && (PV.habitos[dimKey].indexOf(v)<0)){ PV.habitos[dimKey].push(v); guardarPV(); pintar(); } }
+  btn.onclick=function(){ agregar(inp.value); inp.value=''; inp.focus(); };
+  inp.onkeydown=function(e){ if(e.key==='Enter'){ e.preventDefault(); agregar(inp.value); inp.value=''; } };
+  row.appendChild(inp); row.appendChild(btn); box.appendChild(row);
+  pintar();
+  cont.appendChild(box);
+}
+
 function renderSer(){
   var c=document.getElementById('contenido'); c.innerHTML='';
   c.insertAdjacentHTML('beforeend','<span class="dim-tag tag-ser">Dimensión 1 · Cuerpo</span>');
   c.insertAdjacentHTML('beforeend','<h1 class="titulo">Tu cuerpo: el templo.</h1>');
-  c.insertAdjacentHTML('beforeend','<p class="subtitulo">Una vida plena empieza por el cuerpo: tu salud, tu energía, tu vitalidad. Es la casa donde vives. ¿Cómo vas a cuidarlo y honrarlo en este ciclo? Hábitos, movimiento, descanso, alimentación.</p>');
-  var box=mk('div','card'); box.appendChild(mk('div','label','Mi cuerpo — cómo lo cuido'));
-  box.appendChild(ta('ser','En mi cuerpo, me comprometo a...', '110px'));
-  c.appendChild(box);
+  c.insertAdjacentHTML('beforeend','<p class="subtitulo">Una vida plena empieza por el cuerpo: tu salud, tu energía, tu vitalidad. Es la casa donde vives. Elige los hábitos concretos con los que vas a cuidarlo — y agrega los tuyos.</p>');
+  construirChecklist(c,'cuerpo',['Caminar cada día','Tomar suficiente agua','Establecer horarios de comida','Dieta baja en carbohidratos','Dormir bien','Hacer ejercicio','Reducir el azúcar','Estirar o moverme'],'var(--azul)');
   navBotones(c,'Continuar a la Mente →');
 }
 function renderHacer(){
   var c=document.getElementById('contenido'); c.innerHTML='';
   c.insertAdjacentHTML('beforeend','<span class="dim-tag tag-hacer">Dimensión 2 · Mente</span>');
   c.insertAdjacentHTML('beforeend','<h1 class="titulo">Tu mente: la claridad.</h1>');
-  c.insertAdjacentHTML('beforeend','<p class="subtitulo">La mente es donde vive tu propósito, tus pensamientos, tu aprendizaje. ¿Cómo vas a nutrirla y cuidarla? Qué aprendes, qué piensas de ti, cómo gestionas tus emociones y tu enfoque.</p>');
-  var box=mk('div','card'); box.appendChild(mk('div','label','Mi mente — cómo la nutro'));
-  box.appendChild(ta('hacer','En mi mente, me comprometo a...', '110px'));
-  c.appendChild(box);
+  c.insertAdjacentHTML('beforeend','<p class="subtitulo">La mente es donde vive tu propósito, tus pensamientos, tu aprendizaje. Elige los hábitos con los que vas a nutrirla — y agrega los tuyos.</p>');
+  construirChecklist(c,'mente',['Meditar','Leer cada día','Agradecer','Escribir un diario','Aprender algo nuevo','Cuidar mi diálogo interno','Reducir pantallas','Practicar el silencio'],'var(--gold2)');
   navBotones(c,'Continuar al Espíritu →');
 }
 function renderTener(){
   var c=document.getElementById('contenido'); c.innerHTML='';
   c.insertAdjacentHTML('beforeend','<span class="dim-tag tag-tener">Dimensión 3 · Espíritu</span>');
   c.insertAdjacentHTML('beforeend','<h1 class="titulo">Tu espíritu: el sentido.</h1>');
-  c.insertAdjacentHTML('beforeend','<p class="subtitulo">El espíritu es tu conexión con algo más grande: tu sentido, tu trascendencia, tus vínculos profundos, tu paz interior. Es lo que le da alma a todo. ¿Cómo vas a alimentarlo?</p>');
-  var box=mk('div','card'); box.appendChild(mk('div','label','Mi espíritu — cómo lo alimento'));
-  box.appendChild(ta('tener','En mi espíritu, me comprometo a...', '110px'));
-  c.appendChild(box);
+  c.insertAdjacentHTML('beforeend','<p class="subtitulo">El espíritu es tu conexión con algo más grande: tu sentido, tu paz, tus vínculos profundos. Elige los hábitos con los que vas a alimentarlo — y agrega los tuyos.</p>');
+  construirChecklist(c,'espiritu',['Orar o conectar en silencio','Estar en la naturaleza','Servir a otros','Perdonar y soltar','Cultivar vínculos profundos','Practicar la gratitud','Contemplar','Vivir con propósito'],'var(--rose)');
   navBotones(c,'Ver mi crecimiento →');
 }
 
@@ -193,9 +223,35 @@ function resumenCrecimientoHTML(){
   s+='<div><div style="font-size:12px;color:var(--dim)">Rueda ahora</div><div style="font-family:Cormorant Garamond,serif;font-size:30px;color:var(--gold3)">'+pFin.toFixed(1)+'</div></div>';
   if(delta>0){ s+='<div style="align-self:center"><div style="font-size:12px;color:var(--grn)">creciste</div><div style="font-family:Cormorant Garamond,serif;font-size:26px;color:var(--grn)">+'+delta.toFixed(1)+'</div></div>'; }
   s+='</div>';
-  if(pts>0){ s+='<p class="ct" style="text-align:center;margin-top:8px">Y tu <b>nivel de conciencia</b> subió a <b style="color:var(--gold2)">'+pts+' puntos</b> — cada uno ganado con acciones que cumpliste, no solo con intenciones.</p>'; }
-  s+='<p class="ct dim" style="margin-top:10px;text-align:center;font-style:italic">Este número no es el final. Es la prueba de que cuando trabajas en ti, tu vida cambia. Y esto apenas comienza.</p>';
+  // comparación área por área
+  s+='<div style="margin-top:14px;padding-top:14px;border-top:1px solid rgba(201,168,76,.2)"><div style="font-size:12px;color:var(--dim);margin-bottom:10px">Área por área:</div>';
+  AREAS_RUEDA.forEach(function(a){
+    var vi=ini[a.id]||0, vf=fin[a.id]||0;
+    if(!vi && !vf) return;
+    var col=colorLinea(a.linea);
+    var d=vf-vi;
+    s+='<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;font-size:12.5px">';
+    s+='<span style="flex:1;color:var(--dim)">'+a.nombre+'</span>';
+    s+='<span style="color:var(--faint)">'+vi+'</span>';
+    s+='<div style="flex:1.5;height:6px;background:var(--ffaint);border-radius:3px;overflow:hidden;max-width:120px"><div style="height:100%;width:'+(vf*10)+'%;background:'+col+'"></div></div>';
+    s+='<span style="color:'+col+';font-weight:500">'+vf+'</span>';
+    if(d>0) s+='<span style="color:var(--grn);font-size:11px;min-width:26px">+'+d+'</span>'; else s+='<span style="min-width:26px"></span>';
+    s+='</div>';
+  });
   s+='</div>';
+  s+='</div>';
+  // NIVEL DE CONCIENCIA respecto a 200
+  var meta=200;
+  var pct=Math.min(100,Math.round(pts/meta*100));
+  var falta=Math.max(0,meta-pts);
+  s+='<div class="card"><div class="label">Tu nivel de conciencia</div>';
+  s+='<p class="ct" style="margin-bottom:10px">En la escala de los niveles de conciencia, <b>200 es el umbral del Coraje</b> — el punto donde tu energía deja de restarte y empieza a impulsarte. Es la meta mínima, y se alcanza viviendo los principios día a día.</p>';
+  s+='<div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:6px"><span style="font-family:Cormorant Garamond,serif;font-size:34px;color:var(--gold3)">'+pts+'</span><span style="font-size:13px;color:var(--dim)">meta: '+meta+'</span></div>';
+  s+='<div style="height:10px;background:var(--ffaint);border-radius:5px;overflow:hidden"><div style="height:100%;width:'+pct+'%;background:linear-gradient(90deg,var(--gold),var(--gold2))"></div></div>';
+  if(pts>=meta){ s+='<p class="ct" style="margin-top:10px;color:var(--grn)">✦ ¡Superaste el umbral de 200! Tu energía ya juega a tu favor. Ahora el camino es sostenerlo y seguir subiendo.</p>'; }
+  else { s+='<p class="ct" style="margin-top:10px">Te faltan <b style="color:var(--gold2)">'+falta+' puntos</b> para llegar a 200. Cada acción que cumples de tus compromisos suma. El proceso no termina aquí: sigue cumpliendo lo que te propusiste, y verás cómo subes.</p>'; }
+  s+='</div>';
+  s+='<p class="ct dim" style="margin-top:4px;text-align:center;font-style:italic">Este número no es el final. Es la prueba de que cuando trabajas en ti, tu vida cambia. Y esto apenas comienza.</p>';
   return s;
 }
 
@@ -232,6 +288,11 @@ function cerrarProceso(){
     var repo=leerJSON('anormal_compromisos_areas',{});
     if(PV.compromiso && PV.compromiso.trim()){ repo['principios_sesion5']={nombre:'Sesión 5 · Vivir mi plan (∀15-∀18)',texto:PV.compromiso.trim()}; }
     if(PV.declaracion && PV.declaracion.trim()){ repo['declaracion_vida']={nombre:'Mi declaración de vida plena',texto:PV.declaracion.trim()}; }
+    // hábitos de cuerpo/mente/espíritu como compromisos
+    var H=PV.habitos||{};
+    if(H.cuerpo && H.cuerpo.length){ repo['habitos_cuerpo']={nombre:'Cuerpo · mis hábitos',texto:H.cuerpo.join(', ')}; }
+    if(H.mente && H.mente.length){ repo['habitos_mente']={nombre:'Mente · mis hábitos',texto:H.mente.join(', ')}; }
+    if(H.espiritu && H.espiritu.length){ repo['habitos_espiritu']={nombre:'Espíritu · mis hábitos',texto:H.espiritu.join(', ')}; }
     localStorage.setItem('anormal_compromisos_areas',JSON.stringify(repo));
   }catch(e){}
   try{ var d=JSON.parse(sessionStorage.getItem('anormal_proceso')||'{}'); if(!d.progreso)d.progreso={}; d.progreso.sesion5_completa=true; sessionStorage.setItem('anormal_proceso',JSON.stringify(d)); }catch(e){}
