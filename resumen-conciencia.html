@@ -557,6 +557,25 @@ function render(){
     html += '</div>';
   }
 
+  // ¿MODO PILOTO ACTIVO? — desbloquea todas las sesiones sin esperar fechas
+  var modoPiloto = leer('anormal_modo_piloto','') === '1';
+
+  if(modoPiloto){
+    html += '<div class="sesion-card" style="border-color:var(--gold)">';
+    html += '<div class="label" style="text-align:center;color:var(--gold2)">✦ Modo piloto activo</div>';
+    html += '<p style="font-size:13.5px;color:var(--text);margin-top:10px;line-height:1.7;text-align:center">Todas las sesiones están desbloqueadas para que recorras la experiencia completa, sin esperar los plazos.</p>';
+    html += '</div>';
+    var sesionesPiloto = [
+      {n:2, url:'entrada-sesion2.html', nom:'Ciclos de vida'},
+      {n:3, url:'entrada-sesion3.html', nom:'¿Quién soy?'},
+      {n:4, url:'entrada-sesion4.html', nom:'Ikigai'},
+      {n:5, url:'entrada-sesion5.html', nom:'Resultado'}
+    ];
+    sesionesPiloto.forEach(function(s){
+      html += '<a href="'+s.url+'" class="bp" style="display:block;text-align:center;text-decoration:none;margin-top:14px">Entrar a la Sesión '+s.n+' · '+s.nom+' →</a>';
+    });
+  } else {
+
   // PRÓXIMA SESIÓN
   var fechaProxima = leer('anormal_fecha_sesion_'+(sesionActual+1),'');
   var diasRestantes = 15; // default
@@ -597,6 +616,8 @@ function render(){
     html += '<a href="entrada-sesion3.html" class="bp" style="display:block;text-align:center;text-decoration:none;margin-top:14px">Entrar a la Sesión 3 · ¿Quién soy? →</a>';
   }
 
+  } // fin else (no modo piloto)
+
   // BOTONES DE ACCIÓN
   html += '<div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:8px">';
   if(contrato.firma || contrato.intencion){
@@ -619,6 +640,7 @@ function render(){
     html += '<button class="bs" onclick="pruebaVolverSesion1()" style="text-align:center;border-color:var(--gold);color:var(--gold)">↩ Volver a Sesión 1</button>';
   }
   html += '<button class="bs" onclick="pruebaAvanzarSesion()" style="text-align:center">Simular: desbloquear siguiente sesión →</button>';
+  html += '<button class="bs" onclick="togglePiloto()" style="text-align:center;border-color:var(--gold);color:var(--gold2)">'+(modoPiloto?'✓ Modo piloto ACTIVO — desactivar':'Activar modo piloto (desbloquea las 5 sesiones)')+'</button>';
   html += '<button class="bs" onclick="pruebaReiniciar()" style="text-align:center;border-color:var(--rose);color:var(--rose)">Reiniciar todo el proceso</button>';
   html += '</div></div>';
 
@@ -629,6 +651,17 @@ function render(){
 function togglePrueba(){
   var panel = document.getElementById('panel-prueba');
   panel.style.display = panel.style.display==='none'?'block':'none';
+}
+function togglePiloto(){
+  var activo = leer('anormal_modo_piloto','')==='1';
+  if(activo){
+    localStorage.removeItem('anormal_modo_piloto');
+    alert('Modo piloto desactivado. Las sesiones vuelven a respetar los plazos.');
+  } else {
+    localStorage.setItem('anormal_modo_piloto','1');
+    alert('Modo piloto activado. Las 5 sesiones están desbloqueadas para recorrer la experiencia completa.');
+  }
+  location.reload();
 }
 function pruebaAvanzarSesion(){
   var actual = parseInt(leer('anormal_sesion_actual','1'))||1;
