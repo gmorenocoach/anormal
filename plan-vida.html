@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>∀normal — Mi Plan de Vida Plena</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Barlow:wght@300;400;500;600&family=Barlow+Condensed:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#060A14; --bg2:#0A0F1E; --bg3:#0E1525;
+  --gold:#C9A84C; --gold2:#E8C96A; --gold3:#F5E0A0;
+  --gd:rgba(201,168,76,.13); --gb:rgba(201,168,76,.28);
+  --text:#EAE6DC; --dim:#9AA5B8; --faint:#3A4558; --ffaint:#1E2A3A;
+  --grn:#4ABF7A; --rose:#D4537E; --azul:#5A8CC0;
+  --rm:12px; --rl:16px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:'Barlow',sans-serif;font-weight:300;font-size:17.5px;line-height:1.7;-webkit-font-smoothing:antialiased}
+.wrap{max-width:720px;margin:0 auto;padding:32px 22px 80px}
+.hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:30px;padding-bottom:16px;border-bottom:1px solid var(--ffaint)}
+.hdr-logo{font-family:'Cormorant Garamond',serif;font-size:24px;color:var(--gold);letter-spacing:.02em}
+.hdr-info{font-family:'Barlow Condensed',sans-serif;font-size:13px;letter-spacing:.15em;text-transform:uppercase;color:var(--dim)}
+.label{font-family:'Barlow Condensed',sans-serif;font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:12px}
+.titulo{font-family:'Cormorant Garamond',serif;font-size:33px;font-weight:400;line-height:1.25;color:var(--gold3);margin-bottom:14px;letter-spacing:.01em}
+.subtitulo{font-size:15px;color:var(--dim);line-height:1.8;margin-bottom:24px}
+.card{background:var(--bg2);border:1px solid var(--ffaint);border-radius:var(--rl);padding:22px 24px;margin-bottom:18px}
+.card.gold{background:var(--gd);border-color:var(--gb)}
+.ct{font-size:15px;color:var(--text);line-height:1.75}
+.ct.dim{color:var(--dim)}
+.quote{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:20px;color:var(--gold2);text-align:center;line-height:1.5;margin:24px 0;padding:0 20px}
+.quote-autor{display:block;font-family:'Barlow Condensed',sans-serif;font-style:normal;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);margin-top:8px}
+.video-box{background:var(--bg3);border:1px dashed var(--faint);border-radius:var(--rl);padding:30px 24px;text-align:center;margin-bottom:18px}
+.video-play{width:52px;height:52px;border-radius:50%;background:var(--gd);border:1px solid var(--gb);display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-size:18px;color:var(--gold2)}
+.video-txt{font-size:14px;color:var(--dim)}
+.video-soon{font-family:'Barlow Condensed',sans-serif;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);margin-top:4px}
+.nav{display:flex;gap:12px;margin-top:24px;flex-wrap:wrap}
+.bp{flex:1;min-width:180px;background:var(--gold);color:#0A0A0A;border:none;border-radius:var(--rm);padding:15px 20px;font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:all .2s;text-align:center}
+.bp:hover{background:var(--gold2)}
+.bs{background:transparent;color:var(--dim);border:1px solid var(--faint);border-radius:var(--rm);padding:15px 20px;font-family:'Barlow Condensed',sans-serif;font-size:14px;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:all .2s;text-align:center}
+.bs:hover{border-color:var(--gold);color:var(--gold2)}
+.prog{display:flex;align-items:center;gap:6px;margin-bottom:24px}
+.prog-seg{flex:1;height:3px;border-radius:2px;background:var(--ffaint);transition:background .4s}
+.prog-seg.done{background:var(--gold)}
+.prog-seg.now{background:var(--gold2)}
+.textarea-ref{width:100%;background:var(--bg3);border:1px solid var(--faint);border-radius:var(--rm);color:var(--text);font-family:'Barlow',sans-serif;font-size:15px;line-height:1.7;padding:13px 15px;resize:vertical;min-height:80px;outline:none;margin-top:6px}
+.textarea-ref:focus{border-color:var(--gold)}
+.hint{font-size:13px;color:var(--dim);line-height:1.6;margin-top:8px}
+.dim-tag{display:inline-block;font-family:'Barlow Condensed',sans-serif;font-size:12px;letter-spacing:.1em;text-transform:uppercase;padding:3px 12px;border-radius:20px;margin-bottom:10px}
+.tag-ser{background:rgba(90,140,192,.15);color:var(--azul)}
+.tag-hacer{background:var(--gd);color:var(--gold2)}
+.tag-tener{background:rgba(74,191,122,.15);color:var(--grn)}
+.declaracion{background:var(--gd);border:1px solid var(--gb);border-radius:var(--rl);padding:24px;margin:18px 0;text-align:center}
+.declaracion-txt{font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--gold3);line-height:1.5;font-style:italic}
+b,strong{font-weight:500;color:var(--gold2)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hdr">
+    <div class="hdr-logo">∀normal</div>
+    <div class="hdr-info">Sesión 5 · Plan de vida</div>
+  </div>
+  <div class="prog" id="prog"></div>
+  <div id="contenido"></div>
+</div>
+<script>
+function leer(c,d){ try{ var v=localStorage.getItem(c); return v===null?d:v; }catch(e){ return d; } }
+function leerJSON(c,d){ try{ var v=localStorage.getItem(c); return v?JSON.parse(v):d; }catch(e){ return d; } }
+function mk(tag,cls,txt){ var e=document.createElement(tag); if(cls)e.className=cls; if(txt!==undefined)e.textContent=txt; return e; }
+
+function hiloLineaHTML(momento){
+  var linea = leer('anormal_linea','');
+  if(!linea) return '';
+  var reflexion = (leer('anormal_linea_reflexion','')||'').trim();
+  var cfg = {salud:{lbl:'la salud',color:'#4ABF7A'},dinero:{lbl:'el dinero',color:'#C9A84C'},amor:{lbl:'el amor',color:'#D4537E'}}[linea]||{lbl:'tu área elegida',color:'#C9A84C'};
+  var intro = 'Cierras tu proceso donde lo empezaste: tu relación con <b style="color:'+cfg.color+'">'+cfg.lbl+'</b>. Todo este plan debe servir a esa transformación que elegiste al inicio.';
+  var html='<div style="background:rgba(255,255,255,.02);border-left:3px solid '+cfg.color+';border-radius:0 10px 10px 0;padding:16px 18px;margin-bottom:18px">';
+  html+='<div style="font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:'+cfg.color+';margin-bottom:8px">✦ Tu hilo conductor</div>';
+  html+='<p style="font-size:14.5px;line-height:1.7;color:#EAE6DC;margin:0">'+intro+'</p>';
+  if(reflexion){ html+='<div style="margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,.06)"><div style="font-size:11px;color:#9AA5B8;margin-bottom:5px;font-style:italic">Donde empezó todo:</div><p style="font-size:14px;line-height:1.65;color:#C9A84C;margin:0;font-style:italic">"'+reflexion.replace(/</g,'&lt;')+'"</p></div>'; }
+  html+='</div>';
+  return html;
+}
+
+var PV = leerJSON('anormal_plan_vida', {ser:'', hacer:'', tener:'', declaracion:'', compromiso:''});
+function guardarPV(){ localStorage.setItem('anormal_plan_vida', JSON.stringify(PV)); }
+
+var PASOS=['intro','ser','hacer','tener','declaracion','cierre'];
+var pasoActual=0;
+function renderProg(){ var p=document.getElementById('prog'); p.innerHTML=''; for(var i=0;i<PASOS.length;i++){ p.appendChild(mk('div','prog-seg'+(i<pasoActual?' done':i===pasoActual?' now':''))); } }
+function irPaso(n){ if(n<0||n>=PASOS.length)return; pasoActual=n; renderProg();
+  ({intro:renderIntro,ser:renderSer,hacer:renderHacer,tener:renderTener,declaracion:renderDeclaracion,cierre:renderCierre})[PASOS[n]](); window.scrollTo(0,0); }
+function siguiente(){ guardarPV(); irPaso(pasoActual+1); }
+function anterior(){ guardarPV(); irPaso(pasoActual-1); }
+function navBotones(c,txt,fn){ var nav=mk('div','nav'); var bs=mk('button','bs','← Anterior'); bs.onclick=anterior; var bp=mk('button','bp',txt||'Continuar →'); bp.onclick=fn||siguiente; if(pasoActual>0)nav.appendChild(bs); nav.appendChild(bp); c.appendChild(nav); }
+function ta(refKey, ph, minH){ var t=mk('textarea','textarea-ref'); if(minH)t.style.minHeight=minH; t.value=PV[refKey]||''; t.placeholder=ph; t.oninput=function(){ PV[refKey]=this.value; guardarPV(); }; return t; }
+
+function renderIntro(){
+  var c=document.getElementById('contenido'); c.innerHTML='';
+  c.insertAdjacentHTML('beforeend','<div class="label">Sesión 5 · Segundo trabajo</div>');
+  c.insertAdjacentHTML('beforeend','<h1 class="titulo">Tu Plan de Vida Plena.</h1>');
+  c.insertAdjacentHTML('beforeend','<p class="subtitulo">Una vida plena no es una vida sin problemas — es una vida donde tienes los recursos internos para enfrentarlos. Vas a construir tu plan en tres dimensiones: quién <b>Ser</b>, qué <b>Hacer</b> y qué <b>Tener</b>.</p>');
+  c.insertAdjacentHTML('beforeend','<div class="video-box"><div class="video-play">▶</div><div class="video-txt">Video — Mi plan de vida plena</div><div class="video-soon">Próximamente disponible</div></div>');
+  c.insertAdjacentHTML('beforeend','<div class="card gold"><p class="ct"><b>El tener no es el objetivo — es la consecuencia.</b> Cuando eres quien debes ser y haces lo que está alineado con tu propósito, el tener llega naturalmente.</p></div>');
+  navBotones(c,'Empezar por el Ser →');
+}
+function renderSer(){
+  var c=document.getElementById('contenido'); c.innerHTML='';
+  c.insertAdjacentHTML('beforeend','<span class="dim-tag tag-ser">Dimensión 1 · Ser</span>');
+  c.insertAdjacentHTML('beforeend','<h1 class="titulo">Quién quieres ser.</h1>');
+  c.insertAdjacentHTML('beforeend','<p class="subtitulo">La base de todo. ¿Qué clase de persona eliges ser? Tus valores, tu carácter, tu forma de estar en el mundo.</p>');
+  var box=mk('div','card'); box.appendChild(mk('div','label','Mi dimensión del Ser'));
+  box.appendChild(ta('ser','Elijo ser una persona que...', '110px'));
+  c.appendChild(box);
+  navBotones(c,'Continuar al Hacer →');
+}
+function renderHacer(){
+  var c=document.getElementById('contenido'); c.innerHTML='';
+  c.insertAdjacentHTML('beforeend','<span class="dim-tag tag-hacer">Dimensión 2 · Hacer</span>');
+  c.insertAdjacentHTML('beforeend','<h1 class="titulo">Qué vas a hacer.</h1>');
+  c.insertAdjacentHTML('beforeend','<p class="subtitulo">Las acciones, hábitos y proyectos que reflejan quién eres. El Ser se demuestra en el Hacer.</p>');
+  var box=mk('div','card'); box.appendChild(mk('div','label','Mi dimensión del Hacer'));
+  box.appendChild(ta('hacer','Voy a hacer...', '110px'));
+  c.appendChild(box);
+  navBotones(c,'Continuar al Tener →');
+}
+function renderTener(){
+  var c=document.getElementById('contenido'); c.innerHTML='';
+  c.insertAdjacentHTML('beforeend','<span class="dim-tag tag-tener">Dimensión 3 · Tener</span>');
+  c.insertAdjacentHTML('beforeend','<h1 class="titulo">Qué vas a tener.</h1>');
+  c.insertAdjacentHTML('beforeend','<p class="subtitulo">La consecuencia natural de ser quien eliges y hacer lo alineado con tu propósito. No es el punto de partida — es el fruto.</p>');
+  var box=mk('div','card'); box.appendChild(mk('div','label','Mi dimensión del Tener'));
+  box.appendChild(ta('tener','Como consecuencia, tendré...', '110px'));
+  c.appendChild(box);
+  navBotones(c,'Escribir mi declaración →');
+}
+function renderDeclaracion(){
+  var c=document.getElementById('contenido'); c.innerHTML='';
+  c.insertAdjacentHTML('beforeend','<div class="label">Tu declaración de vida plena</div>');
+  c.insertAdjacentHTML('beforeend','<h1 class="titulo">Integra todo en una sola visión.</h1>');
+  c.insertAdjacentHTML('beforeend','<p class="subtitulo">La declaración de vida plena integra las tres dimensiones en una sola visión coherente. Empieza por el Ser — quién eres. Continúa con el Hacer — cómo vives. Cierra con el Tener — lo que florece de ahí.</p>');
+  var box=mk('div','card'); box.appendChild(mk('div','label','Mi declaración de vida plena'));
+  box.appendChild(ta('declaracion','Yo soy... Yo hago... Y por eso tengo...', '140px'));
+  c.appendChild(box);
+  c.insertAdjacentHTML('beforeend','<p class="hint">Léela en voz alta cuando termines. Lo que se declara con convicción, se vuelve realidad.</p>');
+  navBotones(c,'Mi compromiso final →');
+}
+function renderCierre(){
+  var c=document.getElementById('contenido'); c.innerHTML='';
+  c.insertAdjacentHTML('beforeend','<div class="label">Cierre del proceso</div>');
+  c.insertAdjacentHTML('beforeend','<h1 class="titulo">Alcanzaste tu anormalidad.</h1>');
+  if(PV.declaracion){ c.insertAdjacentHTML('beforeend','<div class="declaracion"><div class="label" style="text-align:center">Tu declaración de vida plena</div><div class="declaracion-txt">"'+PV.declaracion.replace(/</g,'&lt;')+'"</div></div>'); }
+  c.insertAdjacentHTML('beforeend', hiloLineaHTML('cierre'));
+  c.insertAdjacentHTML('beforeend','<div class="card"><div class="label">Los principios que activaste</div><p class="ct dim">∀15 Alcanza el resultado, luego mejora · ∀16 Acelera el proceso · ∀17 Atención y enfoque constante · ∀18 Alcanzas la anormalidad</p></div>');
+  var comp=mk('div','card gold'); comp.appendChild(mk('div','label','Mi compromiso final'));
+  comp.insertAdjacentHTML('beforeend','<p class="ct dim">¿Cuál es la primera acción concreta con la que empiezas a vivir tu plan, esta semana?</p>');
+  comp.appendChild(ta('compromiso','Me comprometo a...'));
+  c.appendChild(comp);
+  c.insertAdjacentHTML('beforeend','<p class="quote">Terminaste el camino. Pero el camino apenas empieza — ahora se llama tu vida.<span class="quote-autor">∀normal</span></p>');
+  var nav=mk('div','nav'); var bs=mk('button','bs','← Anterior'); bs.onclick=anterior;
+  var bp=mk('button','bp','Cerrar mi proceso ∀normal →'); bp.onclick=cerrarProceso; nav.appendChild(bs); nav.appendChild(bp); c.appendChild(nav);
+}
+function cerrarProceso(){
+  guardarPV();
+  try{
+    var repo=leerJSON('anormal_compromisos_areas',{});
+    if(PV.compromiso && PV.compromiso.trim()){ repo['principios_sesion5']={nombre:'Sesión 5 · Vivir mi plan (∀15-∀18)',texto:PV.compromiso.trim()}; }
+    if(PV.declaracion && PV.declaracion.trim()){ repo['declaracion_vida']={nombre:'Mi declaración de vida plena',texto:PV.declaracion.trim()}; }
+    localStorage.setItem('anormal_compromisos_areas',JSON.stringify(repo));
+  }catch(e){}
+  try{ var d=JSON.parse(sessionStorage.getItem('anormal_proceso')||'{}'); if(!d.progreso)d.progreso={}; d.progreso.sesion5_completa=true; sessionStorage.setItem('anormal_proceso',JSON.stringify(d)); }catch(e){}
+  localStorage.setItem('anormal_sesion5_completa','1');
+  localStorage.setItem('anormal_proceso_completo','1');
+  window.location.href='resumen-conciencia.html';
+}
+irPaso(0);
+</script>
+</body>
+</html>
