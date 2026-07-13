@@ -129,6 +129,7 @@ function renderCiclos(){
     if(prox.n!==actual.n){
       c.insertAdjacentHTML('beforeend','<div class="card"><div class="label" style="color:var(--azul)">Tu próximo ciclo · Ciclo '+prox.n+'</div><div style="font-family:Cormorant Garamond,serif;font-size:22px;color:var(--text);margin-bottom:4px">'+prox.nombre+'</div><div style="font-size:13px;color:var(--dim)">De los '+prox.ini+' a los '+prox.fin+' años · emoción: '+prox.emo+'</div></div>');
     }
+    c.insertAdjacentHTML('beforeend','<div class="card gold"><div class="label">Lo más importante de este momento</div><p class="ct" style="margin-bottom:10px">Cada ciclo trae una lección. <b>Lo que no sanas en un ciclo, no desaparece: regresa en el siguiente, y con más intensidad.</b></p><p class="ct">Por eso este es el momento de cerrar bien lo que estás viviendo — perdonar, soltar, agradecer lo aprendido — para entrar liviano al ciclo que viene, sin arrastrar lo que ya cumplió su propósito. Un ciclo bien cerrado es la mejor preparación para el que sigue.</p></div>');
   }
   // meta del ciclo, alimentada por el propósito
   var box=mk('div','card');
