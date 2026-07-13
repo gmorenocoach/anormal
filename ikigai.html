@@ -12,71 +12,91 @@
   --gd:rgba(201,168,76,.13); --gb:rgba(201,168,76,.28);
   --text:#EAE6DC; --dim:#9AA5B8; --faint:#3A4558; --ffaint:#1E2A3A;
   --grn:#4ABF7A; --rose:#D4537E; --azul:#5A8CC0;
+  --c-azul:#5A8CC0; --c-oro:#C9A84C; --c-verde:#4ABF7A; --c-rosa:#D4537E;
   --rm:12px; --rl:16px;
 }
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:var(--bg);color:var(--text);font-family:'Barlow',sans-serif;font-weight:300;font-size:17.5px;line-height:1.7;-webkit-font-smoothing:antialiased}
-.wrap{max-width:720px;margin:0 auto;padding:32px 22px 80px}
-.hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:30px;padding-bottom:16px;border-bottom:1px solid var(--ffaint)}
+.wrap{max-width:760px;margin:0 auto;padding:32px 22px 80px}
+.hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:26px;padding-bottom:16px;border-bottom:1px solid var(--ffaint)}
 .hdr-logo{font-family:'Cormorant Garamond',serif;font-size:24px;color:var(--gold);letter-spacing:.02em}
 .hdr-info{font-family:'Barlow Condensed',sans-serif;font-size:13px;letter-spacing:.15em;text-transform:uppercase;color:var(--dim)}
-.pantalla{display:none;animation:fade .5s ease}
-.pantalla.visible{display:block}
-@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 .label{font-family:'Barlow Condensed',sans-serif;font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:12px}
-.titulo{font-family:'Cormorant Garamond',serif;font-size:33px;font-weight:400;line-height:1.25;color:var(--gold3);margin-bottom:14px;letter-spacing:.01em}
-.subtitulo{font-size:15px;color:var(--dim);line-height:1.8;margin-bottom:24px}
-.card{background:var(--bg2);border:1px solid var(--ffaint);border-radius:var(--rl);padding:22px 24px;margin-bottom:18px}
+.titulo{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:400;line-height:1.25;color:var(--gold3);margin-bottom:14px;letter-spacing:.01em}
+.subtitulo{font-size:15px;color:var(--dim);line-height:1.8;margin-bottom:22px}
+.card{background:var(--bg2);border:1px solid var(--ffaint);border-radius:var(--rl);padding:20px 22px;margin-bottom:16px}
 .card.gold{background:var(--gd);border-color:var(--gb)}
 .ct{font-size:15px;color:var(--text);line-height:1.75}
 .ct.dim{color:var(--dim)}
-.quote{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:20px;color:var(--gold2);text-align:center;line-height:1.5;margin:24px 0;padding:0 20px}
+.quote{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:20px;color:var(--gold2);text-align:center;line-height:1.5;margin:22px 0;padding:0 20px}
 .quote-autor{display:block;font-family:'Barlow Condensed',sans-serif;font-style:normal;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);margin-top:8px}
-.video-box{background:var(--bg3);border:1px dashed var(--faint);border-radius:var(--rl);padding:30px 24px;text-align:center;margin-bottom:18px}
+.video-box{background:var(--bg3);border:1px dashed var(--faint);border-radius:var(--rl);padding:28px 24px;text-align:center;margin-bottom:16px}
 .video-play{width:52px;height:52px;border-radius:50%;background:var(--gd);border:1px solid var(--gb);display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-size:18px;color:var(--gold2)}
 .video-txt{font-size:14px;color:var(--dim)}
 .video-soon{font-family:'Barlow Condensed',sans-serif;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);margin-top:4px}
-.nav{display:flex;gap:12px;margin-top:24px;flex-wrap:wrap}
+.nav{display:flex;gap:12px;margin-top:22px;flex-wrap:wrap}
 .bp{flex:1;min-width:180px;background:var(--gold);color:#0A0A0A;border:none;border-radius:var(--rm);padding:15px 20px;font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:all .2s;text-align:center}
 .bp:hover{background:var(--gold2)}
 .bs{background:transparent;color:var(--dim);border:1px solid var(--faint);border-radius:var(--rm);padding:15px 20px;font-family:'Barlow Condensed',sans-serif;font-size:14px;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:all .2s;text-align:center}
 .bs:hover{border-color:var(--gold);color:var(--gold2)}
-
-.prog{display:flex;align-items:center;gap:6px;margin-bottom:24px}
+.prog{display:flex;align-items:center;gap:5px;margin-bottom:22px}
 .prog-seg{flex:1;height:3px;border-radius:2px;background:var(--ffaint);transition:background .4s}
 .prog-seg.done{background:var(--gold)}
 .prog-seg.now{background:var(--gold2)}
 
-.lista-input-row{display:flex;gap:8px;margin-bottom:14px}
-.lista-input{flex:1;background:var(--bg3);border:1px solid var(--faint);border-radius:var(--rm);color:var(--text);font-family:'Barlow',sans-serif;font-size:15px;padding:12px 14px;outline:none}
-.lista-input:focus{border-color:var(--gold)}
-.lista-add{background:var(--gd);border:1px solid var(--gb);border-radius:var(--rm);color:var(--gold2);font-size:22px;width:48px;cursor:pointer;transition:all .2s;flex-shrink:0}
-.lista-add:hover{background:var(--gb)}
-.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
-.chip{background:var(--bg3);border:1px solid var(--faint);border-radius:20px;padding:8px 14px;font-size:14px;color:var(--text);display:flex;align-items:center;gap:8px;transition:all .2s}
-.chip .x{cursor:pointer;color:var(--dim);font-size:16px;line-height:1}
-.chip .x:hover{color:var(--rose)}
-.chip.sug{cursor:pointer;border-style:dashed;color:var(--dim);background:transparent}
-.chip.sug:hover{border-color:var(--gold);color:var(--gold2)}
-.chip.azul{border-color:rgba(90,140,192,.4)}
-.chip.oro{border-color:var(--gb)}
-.chip.verde{border-color:rgba(74,191,122,.4)}
-.chip.rosa{border-color:rgba(212,83,126,.4)}
+/* Columnas personal/familiar/profesional */
+.cols3{display:grid;grid-template-columns:1fr;gap:14px;margin-top:14px}
+@media(min-width:640px){.cols3{grid-template-columns:1fr 1fr 1fr}}
+.col-est{background:var(--bg3);border:1px solid var(--faint);border-radius:var(--rm);padding:14px}
+.col-est-lbl{font-family:'Barlow Condensed',sans-serif;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold2);margin-bottom:10px;text-align:center;padding-bottom:8px;border-bottom:1px solid var(--ffaint)}
+.col-input-row{display:flex;gap:6px;margin-bottom:10px}
+.col-input{flex:1;background:var(--bg2);border:1px solid var(--faint);border-radius:8px;color:var(--text);font-family:'Barlow',sans-serif;font-size:14px;padding:9px 10px;outline:none;min-width:0}
+.col-input:focus{border-color:var(--gold)}
+.col-add{background:var(--gd);border:1px solid var(--gb);border-radius:8px;color:var(--gold2);font-size:18px;width:38px;cursor:pointer;flex-shrink:0}
+.col-add:hover{background:var(--gb)}
+.papelitos{display:flex;flex-wrap:wrap;gap:6px}
+.papel{border-radius:16px;padding:6px 11px;font-size:13px;display:flex;align-items:center;gap:6px;line-height:1.3}
+.papel .x{cursor:pointer;opacity:.6;font-size:15px;line-height:1}
+.papel .x:hover{opacity:1;color:#fff}
+.papel.azul{background:rgba(90,140,192,.18);border:1px solid rgba(90,140,192,.4);color:#B8D0EA}
+.papel.oro{background:rgba(201,168,76,.15);border:1px solid var(--gb);color:var(--gold3)}
+.papel.verde{background:rgba(74,191,122,.15);border:1px solid rgba(74,191,122,.4);color:#A8E5C2}
+.papel.rosa{background:rgba(212,83,126,.15);border:1px solid rgba(212,83,126,.4);color:#F0B8CE}
+
+.contador-lista{font-size:12px;color:var(--dim);margin-top:12px;text-align:center;padding:8px;background:var(--bg3);border-radius:8px}
+.contador-num{color:var(--gold2);font-weight:500}
+.barra-prog{height:5px;background:var(--ffaint);border-radius:3px;margin-top:6px;overflow:hidden}
+.barra-fill{height:100%;background:var(--gold);border-radius:3px;transition:width .4s;width:0%}
 
 .sug-box{background:rgba(90,140,192,.06);border:1px solid rgba(90,140,192,.2);border-radius:var(--rm);padding:14px 16px;margin:14px 0}
 .sug-box.oro{background:var(--gd);border-color:var(--gb)}
+.sug-box.verde{background:rgba(74,191,122,.06);border-color:rgba(74,191,122,.2)}
 .sug-lbl{font-size:12px;color:var(--dim);margin-bottom:10px;font-style:italic}
+.chip-sug{display:inline-flex;align-items:center;background:transparent;border:1px dashed var(--faint);border-radius:16px;padding:6px 12px;font-size:13px;color:var(--dim);cursor:pointer;margin:0 6px 6px 0;transition:all .2s}
+.chip-sug:hover{border-color:var(--gold);color:var(--gold2)}
 
-.textarea-ref{width:100%;background:var(--bg3);border:1px solid var(--faint);border-radius:var(--rm);color:var(--text);font-family:'Barlow',sans-serif;font-size:15px;line-height:1.7;padding:13px 15px;resize:vertical;min-height:80px;outline:none;margin-top:6px}
+/* Cruce lista verde (repetidas + similares) */
+.cruce-item{display:flex;align-items:center;gap:10px;padding:9px 12px;background:var(--bg3);border-radius:8px;margin-bottom:7px;cursor:pointer;border:1px solid transparent;transition:all .2s}
+.cruce-item:hover{border-color:var(--gb)}
+.cruce-item.on{border-color:var(--grn);background:rgba(74,191,122,.08)}
+.cruce-check{width:20px;height:20px;border-radius:5px;border:1px solid var(--faint);display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--grn);flex-shrink:0}
+.cruce-item.on .cruce-check{border-color:var(--grn)}
+.cruce-tag{font-size:10px;padding:2px 7px;border-radius:10px;margin-left:auto;flex-shrink:0}
+.tag-igual{background:rgba(74,191,122,.2);color:var(--grn)}
+.tag-similar{background:rgba(201,168,76,.15);color:var(--gold2)}
+
+/* Definiciones pasión/profesión/vocación/misión */
+.def-card{border-left:3px solid;border-radius:0 10px 10px 0;padding:14px 16px;margin-bottom:12px;background:rgba(255,255,255,.02)}
+.def-titulo{font-family:'Cormorant Garamond',serif;font-size:20px;margin-bottom:4px}
+.def-cruce{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--dim);margin-bottom:8px}
+.def-txt{font-size:14px;color:var(--text);line-height:1.7}
+
+.textarea-ref{width:100%;background:var(--bg3);border:1px solid var(--faint);border-radius:var(--rm);color:var(--text);font-family:'Barlow',sans-serif;font-size:15px;line-height:1.7;padding:13px 15px;resize:vertical;min-height:80px;outline:none;margin-top:8px}
 .textarea-ref:focus{border-color:var(--gold)}
-
-.ikigai-diag{max-width:340px;margin:20px auto}
-.ikigai-center{text-align:center;padding:20px;background:var(--gd);border:1px solid var(--gb);border-radius:var(--rl);margin:18px 0}
+.ikigai-center{text-align:center;padding:22px;background:var(--gd);border:1px solid var(--gb);border-radius:var(--rl);margin:16px 0}
 .ikigai-center-lbl{font-family:'Barlow Condensed',sans-serif;font-size:12px;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
 .ikigai-center-txt{font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--gold3);line-height:1.4}
-
 .hint{font-size:13px;color:var(--dim);line-height:1.6;margin-top:8px}
-.contador{font-size:12px;color:var(--faint);margin-top:6px;text-align:right}
 b,strong{font-weight:500;color:var(--gold2)}
 </style>
 </head>
@@ -86,324 +106,318 @@ b,strong{font-weight:500;color:var(--gold2)}
     <div class="hdr-logo">∀normal</div>
     <div class="hdr-info">Sesión 4 · Ikigai</div>
   </div>
-
   <div class="prog" id="prog"></div>
-
-  <!-- Pantallas dinámicas -->
   <div id="contenido"></div>
-
 </div>
 <script>
-/* ═══════════ HELPERS BÁSICOS ═══════════ */
 function leer(c,d){ try{ var v=localStorage.getItem(c); return v===null?d:v; }catch(e){ return d; } }
 function leerJSON(c,d){ try{ var v=localStorage.getItem(c); return v?JSON.parse(v):d; }catch(e){ return d; } }
 function mk(tag,cls,txt){ var e=document.createElement(tag); if(cls)e.className=cls; if(txt!==undefined)e.textContent=txt; return e; }
+function esc(s){ return (s||'').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
-/* ═══════════ REPOSITORIO DE AUTOCONOCIMIENTO ═══════════ */
+/* ═══════ AUTOCONOCIMIENTO E HILO ═══════ */
 function acLeer(){ return leerJSON('anormal_autoconocimiento',{}); }
-function sugerenciasBueno(){
-  var ac=acLeer(); var out=[];
-  (ac.soy_bueno||[]).forEach(function(it){ if(it.texto) out.push(it.texto); });
-  return out;
-}
+function sugerenciasBueno(){ var ac=acLeer(); var out=[]; (ac.soy_bueno||[]).forEach(function(it){ if(it.texto) out.push(it.texto); }); return out; }
 function hiloLineaHTML(momento){
-  var linea = leer('anormal_linea','');
-  if(!linea) return '';
-  var reflexion = (leer('anormal_linea_reflexion','')||'').trim();
-  var cfg = {salud:{lbl:'la salud',color:'#4ABF7A'},dinero:{lbl:'el dinero',color:'#C9A84C'},amor:{lbl:'el amor',color:'#D4537E'}}[linea]||{lbl:'tu área elegida',color:'#C9A84C'};
-  var intro = momento==='cierre'
-    ? 'Antes de cerrar: ¿cómo tu propósito se conecta con transformar <b style="color:'+cfg.color+'">'+cfg.lbl+'</b>? Ese es el hilo que sostiene todo tu proceso.'
-    : 'Recuerda por qué estás aquí. Elegiste transformar tu relación con <b style="color:'+cfg.color+'">'+cfg.lbl+'</b>. Tu Ikigai debe iluminar también ese camino.';
+  var linea=leer('anormal_linea',''); if(!linea) return '';
+  var reflexion=(leer('anormal_linea_reflexion','')||'').trim();
+  var cfg={salud:{lbl:'la salud',color:'#4ABF7A'},dinero:{lbl:'el dinero',color:'#C9A84C'},amor:{lbl:'el amor',color:'#D4537E'}}[linea]||{lbl:'tu área elegida',color:'#C9A84C'};
+  var intro=momento==='cierre'?'Antes de cerrar: ¿cómo tu propósito se conecta con transformar <b style="color:'+cfg.color+'">'+cfg.lbl+'</b>? Ese es el hilo que sostiene todo tu proceso.':'Recuerda por qué estás aquí. Elegiste transformar tu relación con <b style="color:'+cfg.color+'">'+cfg.lbl+'</b>. Tu Ikigai debe iluminar también ese camino.';
   var html='<div style="background:rgba(255,255,255,.02);border-left:3px solid '+cfg.color+';border-radius:0 10px 10px 0;padding:16px 18px;margin-bottom:18px">';
   html+='<div style="font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:'+cfg.color+';margin-bottom:8px">✦ Tu hilo conductor</div>';
   html+='<p style="font-size:14.5px;line-height:1.7;color:#EAE6DC;margin:0">'+intro+'</p>';
-  if(reflexion){ html+='<div style="margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,.06)"><div style="font-size:11px;color:#9AA5B8;margin-bottom:5px;font-style:italic">Tus propias palabras:</div><p style="font-size:14px;line-height:1.65;color:#C9A84C;margin:0;font-style:italic">"'+reflexion.replace(/</g,'&lt;')+'"</p></div>'; }
-  html+='</div>';
-  return html;
+  if(reflexion){ html+='<div style="margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,.06)"><div style="font-size:11px;color:#9AA5B8;margin-bottom:5px;font-style:italic">Tus propias palabras:</div><p style="font-size:14px;line-height:1.65;color:#C9A84C;margin:0;font-style:italic">"'+esc(reflexion)+'"</p></div>'; }
+  html+='</div>'; return html;
 }
 
-/* ═══════════ ESTADO ═══════════ */
-var IK = leerJSON('anormal_ikigai', {amas:[], bueno:[], pagan:[], necesita:[], refPagan:'', refNecesita:'', refCruce:'', proposito:'', compromiso:''});
+/* ═══════ ESTADO ═══════ */
+// Cada lista amas/bueno tiene 3 sub-columnas. pagan/necesita son listas simples.
+var IK = leerJSON('anormal_ikigai', {
+  amas:{personal:[],familiar:[],profesional:[]},
+  bueno:{personal:[],familiar:[],profesional:[]},
+  pagan:[], necesita:[],
+  pasion:'', profesion:'', vocacion:'', mision:'',
+  proposito:'', compromiso:''
+});
+// migración si viene de versión vieja (arrays planos)
+if(Array.isArray(IK.amas)){ IK.amas={personal:IK.amas,familiar:[],profesional:[]}; }
+if(Array.isArray(IK.bueno)){ IK.bueno={personal:IK.bueno,familiar:[],profesional:[]}; }
+if(!IK.pagan) IK.pagan=[]; if(!IK.necesita) IK.necesita=[];
 function guardarIK(){ localStorage.setItem('anormal_ikigai', JSON.stringify(IK)); }
+function todas(listaObj){ return [].concat(listaObj.personal||[],listaObj.familiar||[],listaObj.profesional||[]); }
 
-var PASOS = ['intro','amas','bueno','pagan','necesita','cruce','proposito','cierre'];
-var pasoActual = 0;
-
-function renderProg(){
-  var prog=document.getElementById('prog'); prog.innerHTML='';
-  for(var i=0;i<PASOS.length;i++){
-    var seg=mk('div','prog-seg'+(i<pasoActual?' done':i===pasoActual?' now':''));
-    prog.appendChild(seg);
-  }
-}
-function irPaso(n){
-  if(n<0||n>=PASOS.length) return;
-  pasoActual=n; renderProg();
-  var render = {
-    intro:renderIntro, amas:renderAmas, bueno:renderBueno, pagan:renderPagan,
-    necesita:renderNecesita, cruce:renderCruce, proposito:renderProposito, cierre:renderCierre
-  }[PASOS[n]];
-  render();
-  window.scrollTo(0,0);
-}
+var PASOS=['intro','amas','bueno','pagan','necesita','cruces','definiciones','proposito','cierre'];
+var pasoActual=0;
+function renderProg(){ var p=document.getElementById('prog'); p.innerHTML=''; for(var i=0;i<PASOS.length;i++){ p.appendChild(mk('div','prog-seg'+(i<pasoActual?' done':i===pasoActual?' now':''))); } }
+function irPaso(n){ if(n<0||n>=PASOS.length)return; pasoActual=n; renderProg();
+  ({intro:renderIntro,amas:renderAmas,bueno:renderBueno,pagan:renderPagan,necesita:renderNecesita,cruces:renderCruces,definiciones:renderDefiniciones,proposito:renderProposito,cierre:renderCierre})[PASOS[n]](); window.scrollTo(0,0); }
 function siguiente(){ guardarIK(); irPaso(pasoActual+1); }
 function anterior(){ guardarIK(); irPaso(pasoActual-1); }
+function navBotones(c,txt,fn){ var nav=mk('div','nav'); var bs=mk('button','bs','← Anterior'); bs.onclick=anterior; var bp=mk('button','bp',txt||'Continuar →'); bp.onclick=fn||siguiente; if(pasoActual>0)nav.appendChild(bs); nav.appendChild(bp); c.appendChild(nav); }
 
-/* ═══════════ CONSTRUCTOR DE LISTA REUTILIZABLE ═══════════ */
-function construirLista(cont, listaKey, claseChip, placeholder, sugerencias){
-  var wrap=mk('div');
-  var row=mk('div','lista-input-row');
-  var inp=mk('input','lista-input'); inp.type='text'; inp.placeholder=placeholder;
-  var btn=mk('button','lista-add','+');
-  row.appendChild(inp); row.appendChild(btn);
-  wrap.appendChild(row);
-  var chips=mk('div','chips');
-  wrap.appendChild(chips);
-  function pintar(){
-    chips.innerHTML='';
-    IK[listaKey].forEach(function(item,idx){
-      var chip=mk('div','chip '+claseChip);
-      chip.appendChild(mk('span',null,item));
-      var x=mk('span','x','×');
-      x.onclick=function(){ IK[listaKey].splice(idx,1); guardarIK(); pintar(); };
-      chip.appendChild(x);
-      chips.appendChild(chip);
+/* ═══════ CONSTRUCTOR DE 3 COLUMNAS ═══════ */
+var ESTADIOS=[{k:'personal',lbl:'Personal'},{k:'familiar',lbl:'Familiar / Social'},{k:'profesional',lbl:'Profesional'}];
+function construir3Columnas(cont, listaKey, claseChip, sugerencias){
+  var grid=mk('div','cols3');
+  function pintarCol(colDiv, estadio){
+    var chips=colDiv.querySelector('.papelitos'); chips.innerHTML='';
+    IK[listaKey][estadio].forEach(function(item,idx){
+      var p=mk('div','papel '+claseChip); p.appendChild(mk('span',null,item));
+      var x=mk('span','x','×'); x.onclick=function(){ IK[listaKey][estadio].splice(idx,1); guardarIK(); pintarCol(colDiv,estadio); actualizarContador(); };
+      p.appendChild(x); chips.appendChild(p);
     });
   }
-  function agregar(v){
-    v=(v||'').trim();
-    if(v && IK[listaKey].indexOf(v)<0){ IK[listaKey].push(v); guardarIK(); pintar(); }
-  }
-  btn.onclick=function(){ agregar(inp.value); inp.value=''; inp.focus(); };
-  inp.onkeydown=function(e){ if(e.key==='Enter'){ e.preventDefault(); agregar(inp.value); inp.value=''; } };
-  pintar();
-  // sugerencias (del autoconocimiento u otras listas)
+  ESTADIOS.forEach(function(est){
+    var col=mk('div','col-est');
+    col.appendChild(mk('div','col-est-lbl',est.lbl));
+    var row=mk('div','col-input-row');
+    var inp=mk('input','col-input'); inp.type='text'; inp.placeholder='Una palabra...';
+    var btn=mk('button','col-add','+');
+    row.appendChild(inp); row.appendChild(btn); col.appendChild(row);
+    col.appendChild(mk('div','papelitos'));
+    function agregar(v){ v=(v||'').trim(); if(v && IK[listaKey][est.k].indexOf(v)<0){ IK[listaKey][est.k].push(v); guardarIK(); pintarCol(col,est.k); actualizarContador(); } }
+    btn.onclick=function(){ agregar(inp.value); inp.value=''; inp.focus(); };
+    inp.onkeydown=function(e){ if(e.key==='Enter'){ e.preventDefault(); agregar(inp.value); inp.value=''; } };
+    grid.appendChild(col);
+    pintarCol(col,est.k);
+  });
+  cont.appendChild(grid);
+  // sugerencias del autoconocimiento (van a profesional por defecto)
   if(sugerencias && sugerencias.length){
     var sb=mk('div','sug-box'+(claseChip==='oro'?' oro':''));
-    sb.appendChild(mk('div','sug-lbl','Toca para agregar lo que resuene contigo:'));
-    var sc=mk('div','chips');
+    sb.appendChild(mk('div','sug-lbl','✦ Esto reconociste sobre ti antes. Toca para agregarlo (irá a Profesional, muévelo si quieres):'));
+    var yaTodas=todas(IK[listaKey]);
     sugerencias.forEach(function(s){
-      if(IK[listaKey].indexOf(s)>=0) return;
-      var chip=mk('div','chip sug'); chip.textContent='+ '+s;
-      chip.onclick=function(){ agregar(s); chip.remove(); };
-      sc.appendChild(chip);
+      if(yaTodas.indexOf(s)>=0) return;
+      var chip=mk('span','chip-sug','+ '+s);
+      chip.onclick=function(){ if(IK[listaKey].profesional.indexOf(s)<0){ IK[listaKey].profesional.push(s); guardarIK(); irPaso(pasoActual); } };
+      sb.appendChild(chip);
     });
-    if(sc.children.length){ sb.appendChild(sc); wrap.appendChild(sb); }
+    if(sb.querySelector('.chip-sug')) cont.appendChild(sb);
   }
-  cont.appendChild(wrap);
+  // contador con meta ~40
+  var cont40=mk('div','contador-lista'); cont40.id='contador-'+listaKey;
+  cont.appendChild(cont40);
+  function actualizarContador(){
+    var n=todas(IK[listaKey]).length;
+    var pct=Math.min(100,Math.round(n/40*100));
+    cont40.innerHTML='<span class="contador-num">'+n+'</span> palabras · meta sugerida: ~40 para llegar a lo profundo'+
+      '<div class="barra-prog"><div class="barra-fill" style="width:'+pct+'%"></div></div>';
+  }
+  actualizarContador();
 }
 
-function navBotones(cont, textoSig, sigFn){
-  var nav=mk('div','nav');
-  var bs=mk('button','bs','← Anterior'); bs.onclick=anterior;
-  var bp=mk('button','bp',textoSig||'Continuar →'); bp.onclick=sigFn||siguiente;
-  if(pasoActual>0) nav.appendChild(bs);
-  nav.appendChild(bp);
-  cont.appendChild(nav);
-}
-
-/* ═══════════ PANTALLA: INTRO ═══════════ */
+/* ═══════ INTRO ═══════ */
 function renderIntro(){
   var c=document.getElementById('contenido'); c.innerHTML='';
   c.insertAdjacentHTML('beforeend','<div class="label">Sesión 4 · Mi razón de ser</div>');
   c.insertAdjacentHTML('beforeend','<h1 class="titulo">Tu Ikigai: la razón de levantarte cada mañana.</h1>');
-  c.insertAdjacentHTML('beforeend','<p class="subtitulo">El Ikigai es el punto donde se cruzan cuatro dimensiones de tu vida. No es una lista que se llena rápido — es una intersección que se descubre con honestidad. Vas a construir cada dimensión, y al final verás dónde convergen.</p>');
+  c.insertAdjacentHTML('beforeend','<p class="subtitulo">El Ikigai —que en japonés significa "razón de ser"— es el punto donde se cruzan cuatro dimensiones de tu vida. No es una lista que se llena rápido: es una intersección que se descubre con honestidad y abundancia. Vas a construir cada dimensión, y al final verás dónde convergen.</p>');
   c.insertAdjacentHTML('beforeend', hiloLineaHTML('apertura'));
   c.insertAdjacentHTML('beforeend','<div class="video-box"><div class="video-play">▶</div><div class="video-txt">Video — El Ikigai</div><div class="video-soon">Próximamente disponible</div></div>');
-  c.insertAdjacentHTML('beforeend','<div class="card gold"><div class="label">Las cuatro dimensiones</div><p class="ct">1 · Lo que <b>amas</b><br>2 · En lo que eres <b>bueno</b><br>3 · Por lo que te pueden <b>pagar</b><br>4 · Lo que el <b>mundo necesita</b><br><br>Donde las cuatro se cruzan, ahí está tu Ikigai.</p></div>');
+  c.insertAdjacentHTML('beforeend','<div class="card gold"><div class="label">Las cuatro dimensiones</div><p class="ct"><span style="color:var(--c-azul)">● Lo que <b style="color:var(--c-azul)">amas</b></span><br><span style="color:var(--c-oro)">● En lo que eres <b>bueno</b></span><br><span style="color:var(--c-verde)">● Por lo que te pueden <b style="color:var(--c-verde)">pagar</b></span><br><span style="color:var(--c-rosa)">● Lo que el <b style="color:var(--c-rosa)">mundo necesita</b></span><br><br>Donde las cuatro se tocan, ahí está tu Ikigai.</p></div>');
+  c.insertAdjacentHTML('beforeend','<div class="card"><p class="ct dim"><b>Una sola regla antes de empezar: no tachar.</b> Lo que salga, sale. Tu juez interior va a querer tachar cosas diciendo "eso es muy pequeño" o "eso no cuenta". No le hagas caso — precisamente lo que quiere tachar suele ser lo más importante.</p></div>');
   c.insertAdjacentHTML('beforeend','<p class="quote">Solo hay una manera de hacer un gran trabajo: amar lo que haces.<span class="quote-autor">Steve Jobs</span></p>');
-  navBotones(c, 'Empezar por lo que amo →');
+  navBotones(c,'Empezar por lo que amo →');
 }
 
-/* ═══════════ PANTALLA 1: LO QUE AMAS ═══════════ */
+/* ═══════ LISTA 1: AMAS (3 columnas) ═══════ */
 function renderAmas(){
   var c=document.getElementById('contenido'); c.innerHTML='';
-  c.insertAdjacentHTML('beforeend','<div class="label">Dimensión 1 de 4</div>');
-  c.insertAdjacentHTML('beforeend','<h1 class="titulo">Lo que amas.</h1>');
-  c.insertAdjacentHTML('beforeend','<p class="subtitulo">¿Qué actividades te hacen perder la noción del tiempo? ¿Qué harías aunque no te pagaran? No te censures — esta lista debe ser generosa. Incluye lo grande y lo pequeño.</p>');
-  var box=mk('div','card');
-  box.appendChild(mk('div','label','Escribe lo que amas hacer'));
-  construirLista(box, 'amas', 'rosa', 'Ej: enseñar, escribir, escuchar a otros...', []);
-  c.appendChild(box);
-  c.insertAdjacentHTML('beforeend','<p class="hint">No pienses en si eres bueno o si te pagan. Solo: ¿qué amas? El amor por algo es el primer combustible del propósito.</p>');
-  navBotones(c, 'Ahora, en lo que soy bueno →');
+  c.insertAdjacentHTML('beforeend','<div class="label" style="color:var(--c-azul)">Dimensión 1 de 4 · Azul</div>');
+  c.insertAdjacentHTML('beforeend','<h1 class="titulo">Lo que amas hacer.</h1>');
+  c.insertAdjacentHTML('beforeend','<p class="subtitulo">¿Qué te llena cuando lo haces? No lo que deberías amar, no lo que llenaba a tus padres — lo tuyo. Lo que amamos <b>no es plano: tiene capas</b>. Por eso lo separamos en tres estadios de tu vida. Una palabra por papelito. Confía en lo primero que salga.</p>');
+  var box=mk('div','card'); construir3Columnas(box,'amas','azul',[]); c.appendChild(box);
+  c.insertAdjacentHTML('beforeend','<p class="hint">No pienses en si eres bueno o si te pagan. Solo: ¿qué amas? Mientras más grande la lista, más profundo llegas. La abundancia es lo que hace la magia posible.</p>');
+  navBotones(c,'Ahora, en lo que soy bueno →');
 }
 
-/* ═══════════ PANTALLA 2: EN LO QUE ERES BUENO ═══════════ */
+/* ═══════ LISTA 2: BUENO (3 columnas + autoconocimiento) ═══════ */
 function renderBueno(){
   var c=document.getElementById('contenido'); c.innerHTML='';
-  c.insertAdjacentHTML('beforeend','<div class="label">Dimensión 2 de 4</div>');
+  c.insertAdjacentHTML('beforeend','<div class="label" style="color:var(--c-oro)">Dimensión 2 de 4 · Oro</div>');
   c.insertAdjacentHTML('beforeend','<h1 class="titulo">En lo que eres bueno.</h1>');
-  c.insertAdjacentHTML('beforeend','<p class="subtitulo">Aquí la honestidad es clave. Hay diferencia entre <b>amar algo</b> y <b>ser bueno en ello</b> — y está bien. Esta lista pide honestidad real, no humildad falsa ni arrogancia.</p>');
-  c.insertAdjacentHTML('beforeend','<div class="card gold"><p class="ct"><b>Pide ayuda a quienes te conocen.</b> Muchas veces los demás ven con más claridad los talentos que tú das por sentado. Pregúntales: ¿para qué me buscas? ¿en qué crees que soy realmente bueno?</p></div>');
-  var box=mk('div','card');
-  box.appendChild(mk('div','label','Escribe en lo que eres bueno'));
-  var sug = sugerenciasBueno();
-  construirLista(box, 'bueno', 'oro', 'Ej: comunicar, resolver problemas, organizar...', sug);
-  c.appendChild(box);
-  if(sug.length){ c.insertAdjacentHTML('beforeend','<p class="hint">✦ El sistema trajo lo que reconociste sobre ti en las sesiones anteriores. Confirma lo que resuene — pasará a tu lista.</p>'); }
-  navBotones(c, 'Ahora, por lo que me pagan →');
+  c.insertAdjacentHTML('beforeend','<p class="subtitulo">Aquí la honestidad es clave — no arrogancia, no humildad falsa. ¿Qué haces con naturalidad, casi sin esfuerzo, lo que otros valoran aunque tú lo des por sentado? Sé <b>concreto</b>: si eres bueno "jugando", aclara jugando qué (fútbol y tenis son habilidades distintas).</p>');
+  c.insertAdjacentHTML('beforeend','<div class="card gold"><p class="ct"><b>Pide ayuda a quienes te conocen.</b> Muchas veces los demás ven con más claridad los talentos que tú das por sentado. Y recuerda: en tu numerología ya aparecieron pistas de tus dones — esta es la oportunidad de ratificarlos.</p></div>');
+  var box=mk('div','card'); construir3Columnas(box,'bueno','oro',sugerenciasBueno()); c.appendChild(box);
+  navBotones(c,'Ahora, por lo que me pagan →');
 }
 
-/* ═══════════ PANTALLA 3: POR LO QUE TE PAGAN ═══════════ */
+/* ═══════ LISTA 3: PAGAN (se arma sola del cruce azul+amarillo) ═══════ */
+function calcularCruceAzulOro(){
+  var amas=todas(IK.amas).map(function(s){return s.toLowerCase();});
+  var bueno=todas(IK.bueno);
+  var iguales=[], similares=[];
+  bueno.forEach(function(b){
+    var bl=b.toLowerCase();
+    if(amas.indexOf(bl)>=0){ iguales.push(b); }
+    else if(amas.some(function(a){ return a.length>3 && bl.length>3 && (a.indexOf(bl)>=0||bl.indexOf(a)>=0); })){ similares.push(b); }
+  });
+  return {iguales:iguales, similares:similares};
+}
 function renderPagan(){
   var c=document.getElementById('contenido'); c.innerHTML='';
-  c.insertAdjacentHTML('beforeend','<div class="label">Dimensión 3 de 4</div>');
+  c.insertAdjacentHTML('beforeend','<div class="label" style="color:var(--c-verde)">Dimensión 3 de 4 · Verde</div>');
   c.insertAdjacentHTML('beforeend','<h1 class="titulo">Por lo que te pueden pagar.</h1>');
-  c.insertAdjacentHTML('beforeend','<p class="subtitulo">Esta lista nace del cruce honesto entre lo que amas y en lo que eres bueno. <b>La honestidad aquí es crítica:</b> no es lo mismo que alguien te pague un par de pesos, a que te paguen bien. Busca actividades donde tu talento y tu pasión crean valor económico real.</p>');
-  // Cruce automático amas + bueno como sugerencia
-  var cruce = IK.amas.filter(function(a){ return IK.bueno.indexOf(a)>=0; });
+  c.insertAdjacentHTML('beforeend','<p class="subtitulo">Esta lista <b>se arma sola</b>: nace del cruce entre lo que amas y en lo que eres bueno. La honestidad aquí es crítica — no es lo mismo que te paguen un par de pesos, a que te paguen <b>muy bien</b>. Busca actividades donde tu talento y tu pasión creen valor económico real y significativo.</p>');
+  var cruce=calcularCruceAzulOro();
   var box=mk('div','card');
-  box.appendChild(mk('div','label','Escribe por lo que te pueden pagar'));
-  construirLista(box, 'pagan', 'verde', 'Ej: consultoría, formación, diseño...', cruce);
-  c.appendChild(box);
-  if(cruce.length){ c.insertAdjacentHTML('beforeend','<p class="hint">✦ Estas palabras aparecen en tus dos listas anteriores (amas + eres bueno). Son candidatas naturales a generar ingresos.</p>'); }
-  var ref=mk('div','card');
-  ref.appendChild(mk('div','label','Una reflexión'));
-  ref.insertAdjacentHTML('beforeend','<p class="ct dim">¿Qué te impide hoy cobrar lo justo por lo que sabes hacer?</p>');
-  var ta=mk('textarea','textarea-ref'); ta.value=IK.refPagan||''; ta.placeholder='Escribe con honestidad...';
-  ta.oninput=function(){ IK.refPagan=this.value; guardarIK(); };
-  ref.appendChild(ta);
-  c.appendChild(ref);
-  navBotones(c, 'Ahora, lo que el mundo necesita →');
-}
-
-/* ═══════════ PANTALLA 4: LO QUE EL MUNDO NECESITA ═══════════ */
-function renderNecesita(){
-  var c=document.getElementById('contenido'); c.innerHTML='';
-  c.insertAdjacentHTML('beforeend','<div class="label">Dimensión 4 de 4</div>');
-  c.insertAdjacentHTML('beforeend','<h1 class="titulo">Lo que el mundo necesita.</h1>');
-  c.insertAdjacentHTML('beforeend','<p class="subtitulo">Esta es la lista del corazón. La pregunta es: ¿qué tiene el mundo que no tiene suficiente, y que tú —con tu historia, tus heridas y tus dones— podrías darle?</p>');
-  c.insertAdjacentHTML('beforeend','<div class="card gold"><p class="ct"><b>Un punto clave:</b> si crees que el mundo necesita más respeto, entonces tú respetas a todos — no como discurso, sino como práctica de vida. Esta lista es lo que vives, no solo lo que predicas.</p></div>');
-  var box=mk('div','card');
-  box.appendChild(mk('div','label','Escribe lo que el mundo necesita de ti'));
-  construirLista(box, 'necesita', 'rosa', 'Ej: escucha, esperanza, honestidad...', []);
-  c.appendChild(box);
-  var ref=mk('div','card');
-  ref.appendChild(mk('div','label','Mi reflexión'));
-  ref.insertAdjacentHTML('beforeend','<p class="ct dim">¿Qué descubriste sobre lo que el mundo necesita de ti?</p>');
-  var ta=mk('textarea','textarea-ref'); ta.value=IK.refNecesita||''; ta.placeholder='Escribe lo que sientes...';
-  ta.oninput=function(){ IK.refNecesita=this.value; guardarIK(); };
-  ref.appendChild(ta);
-  c.appendChild(ref);
-  navBotones(c, 'Ver dónde se cruzan →');
-}
-
-/* ═══════════ PANTALLA 5: LOS CRUCES ═══════════ */
-function renderCruce(){
-  var c=document.getElementById('contenido'); c.innerHTML='';
-  c.insertAdjacentHTML('beforeend','<div class="label">La convergencia</div>');
-  c.insertAdjacentHTML('beforeend','<h1 class="titulo">Donde todo se encuentra.</h1>');
-  c.insertAdjacentHTML('beforeend','<p class="subtitulo">Estas son las palabras que aparecen en varias de tus listas. Cuanto más se repite algo, más cerca está de tu Ikigai.</p>');
-  // calcular convergencias
-  var todas={};
-  ['amas','bueno','pagan','necesita'].forEach(function(k){
-    IK[k].forEach(function(item){ if(!todas[item]) todas[item]=[]; todas[item].push(k); });
-  });
-  var nombresLista={amas:'amas',bueno:'eres bueno',pagan:'te pagan',necesita:'el mundo necesita'};
-  var convergentes=Object.keys(todas).filter(function(t){ return todas[t].length>=2; })
-    .sort(function(a,b){ return todas[b].length-todas[a].length; });
-  var box=mk('div','card');
-  if(convergentes.length){
-    box.appendChild(mk('div','label','Tus palabras que convergen'));
-    var ch=mk('div','chips');
-    convergentes.forEach(function(t){
-      var n=todas[t].length;
-      var clase = n>=4?'oro':n===3?'verde':'azul';
-      var chip=mk('div','chip '+clase);
-      chip.appendChild(mk('span',null,t));
-      var badge=mk('span',null,' ·'+n); badge.style.cssText='color:var(--gold2);font-size:12px';
-      chip.appendChild(badge);
-      ch.appendChild(chip);
-    });
-    box.appendChild(ch);
-    box.insertAdjacentHTML('beforeend','<p class="hint">El número indica en cuántas listas aparece. Las de 4 son el corazón de tu Ikigai.</p>');
+  if(cruce.iguales.length || cruce.similares.length){
+    box.appendChild(mk('div','label','Coincidencias entre "amo" y "soy bueno" — toca las que podrían pagarte bien'));
+    var lista=mk('div');
+    function pintarCruce(){
+      lista.innerHTML='';
+      cruce.iguales.forEach(function(item){ lista.appendChild(itemCruce(item,'igual')); });
+      cruce.similares.forEach(function(item){ lista.appendChild(itemCruce(item,'similar')); });
+    }
+    function itemCruce(item,tipo){
+      var sel=IK.pagan.indexOf(item)>=0;
+      var row=mk('div','cruce-item'+(sel?' on':''));
+      var chk=mk('div','cruce-check',sel?'✓':''); row.appendChild(chk);
+      row.appendChild(mk('span',null,item));
+      var tag=mk('span','cruce-tag '+(tipo==='igual'?'tag-igual':'tag-similar'),tipo==='igual'?'coincide':'similar');
+      row.appendChild(tag);
+      row.onclick=function(){ var i=IK.pagan.indexOf(item); if(i>=0)IK.pagan.splice(i,1); else IK.pagan.push(item); guardarIK(); pintarCruce(); };
+      return row;
+    }
+    pintarCruce();
+    box.appendChild(lista);
   } else {
-    box.insertAdjacentHTML('beforeend','<p class="ct dim">Aún no hay palabras que se repitan entre tus listas. Puedes volver atrás y revisar si algo que amas también es algo en lo que eres bueno, o que el mundo necesita. La repetición es la que revela tu propósito.</p>');
+    box.insertAdjacentHTML('beforeend','<p class="ct dim">Aún no hay coincidencias claras entre tus listas de "amo" y "soy bueno". Puedes volver atrás y enriquecerlas, o escribir directamente abajo por lo que crees que te pueden pagar bien.</p>');
   }
   c.appendChild(box);
-  var ref=mk('div','card');
-  ref.appendChild(mk('div','label','Mi reflexión sobre los cruces'));
-  ref.insertAdjacentHTML('beforeend','<p class="ct dim">¿Qué emerge cuando cruzas lo que amas, lo que sabes hacer, lo que te pagan y lo que el mundo necesita?</p>');
-  var ta=mk('textarea','textarea-ref'); ta.value=IK.refCruce||''; ta.placeholder='Lo que veo cuando junto todo...';
-  ta.oninput=function(){ IK.refCruce=this.value; guardarIK(); };
-  ref.appendChild(ta);
-  c.appendChild(ref);
-  navBotones(c, 'Escribir mi razón de ser →');
+  // añadir manual
+  var manual=mk('div','card');
+  manual.appendChild(mk('div','label','¿Algo más por lo que te pagarían muy bien? Agrégalo'));
+  var row=mk('div','col-input-row');
+  var inp=mk('input','col-input'); inp.type='text'; inp.placeholder='Ej: consultoría, formación, diseño...';
+  var btn=mk('button','col-add','+'); row.appendChild(inp); row.appendChild(btn);
+  manual.appendChild(row);
+  var chips=mk('div','papelitos');
+  function pintarManual(){ chips.innerHTML=''; IK.pagan.forEach(function(item,idx){ var p=mk('div','papel verde'); p.appendChild(mk('span',null,item)); var x=mk('span','x','×'); x.onclick=function(){ IK.pagan.splice(idx,1); guardarIK(); pintarManual(); }; p.appendChild(x); chips.appendChild(p); }); }
+  function agregar(v){ v=(v||'').trim(); if(v&&IK.pagan.indexOf(v)<0){ IK.pagan.push(v); guardarIK(); pintarManual(); } }
+  btn.onclick=function(){ agregar(inp.value); inp.value=''; };
+  inp.onkeydown=function(e){ if(e.key==='Enter'){e.preventDefault();agregar(inp.value);inp.value='';} };
+  manual.appendChild(chips); pintarManual();
+  c.appendChild(manual);
+  navBotones(c,'Ahora, lo que el mundo necesita →');
 }
 
-/* ═══════════ PANTALLA 6: TU PROPÓSITO ═══════════ */
+/* ═══════ LISTA 4: NECESITA ═══════ */
+function renderNecesita(){
+  var c=document.getElementById('contenido'); c.innerHTML='';
+  c.insertAdjacentHTML('beforeend','<div class="label" style="color:var(--c-rosa)">Dimensión 4 de 4 · Rosada</div>');
+  c.insertAdjacentHTML('beforeend','<h1 class="titulo">Lo que el mundo necesita de ti.</h1>');
+  c.insertAdjacentHTML('beforeend','<p class="subtitulo">Aquí no pones actividades, sino <b>valores y compromisos</b>: lo que estás dispuesto a dar sin calcular. Es la pregunta más profunda de las cuatro. Y algo clave: es lo que vives, no solo lo que predicas. Si crees que el mundo necesita más respeto, entonces tú respetas a todos.</p>');
+  var box=mk('div','card');
+  box.appendChild(mk('div','label','Escribe lo que el mundo necesita que tú puedes dar'));
+  var row=mk('div','col-input-row');
+  var inp=mk('input','col-input'); inp.type='text'; inp.placeholder='Ej: escucha, esperanza, honestidad, servicio...';
+  var btn=mk('button','col-add','+'); row.appendChild(inp); row.appendChild(btn); box.appendChild(row);
+  var chips=mk('div','papelitos');
+  function pintar(){ chips.innerHTML=''; IK.necesita.forEach(function(item,idx){ var p=mk('div','papel rosa'); p.appendChild(mk('span',null,item)); var x=mk('span','x','×'); x.onclick=function(){ IK.necesita.splice(idx,1); guardarIK(); pintar(); }; p.appendChild(x); chips.appendChild(p); }); }
+  function agregar(v){ v=(v||'').trim(); if(v&&IK.necesita.indexOf(v)<0){ IK.necesita.push(v); guardarIK(); pintar(); } }
+  btn.onclick=function(){ agregar(inp.value); inp.value=''; };
+  inp.onkeydown=function(e){ if(e.key==='Enter'){e.preventDefault();agregar(inp.value);inp.value='';} };
+  box.appendChild(chips); pintar();
+  c.appendChild(box);
+  c.insertAdjacentHTML('beforeend','<p class="hint">Para cada valor, pregúntate de quién lo heredaste — los valores más profundos suelen venir de alguien que te los mostró con su ejemplo.</p>');
+  navBotones(c,'Ver los cuatro cruces →');
+}
+
+/* ═══════ LOS 4 CRUCES (dominó) ═══════ */
+function renderCruces(){
+  var c=document.getElementById('contenido'); c.innerHTML='';
+  c.insertAdjacentHTML('beforeend','<div class="label">Los cuatro cruces</div>');
+  c.insertAdjacentHTML('beforeend','<h1 class="titulo">Del dominó al propósito.</h1>');
+  c.insertAdjacentHTML('beforeend','<p class="subtitulo">Ahora unes las listas de dos en dos, como fichas de dominó. En cada intersección aparece una dimensión de tu propósito. Busca las palabras que se repiten o se relacionan entre cada par.</p>');
+  var cruces=[
+    {t:'Pasión',cr:'Azul ∩ Oro · lo que amas + en lo que eres bueno',col:'var(--c-azul)',desc:'No como sentimiento — como capacidad. Lo que puedes hacer durante horas sin cansarte, y que además te sale bien.',a:todas(IK.amas),b:todas(IK.bueno)},
+    {t:'Profesión',cr:'Oro ∩ Verde · en lo que eres bueno + por lo que te pagan',col:'var(--c-verde)',desc:'Hacer lo que eres bueno y el mundo paga bien de forma sostenida. Una forma de honrar el dinero.',a:todas(IK.bueno),b:IK.pagan},
+    {t:'Vocación',cr:'Verde ∩ Rosada · por lo que te pagan + lo que el mundo necesita',col:'#8E7BC0',desc:'Del latín vocare — llamar. Lo que harías de corazón, un llamado a estar presente para otro. No tiene que ver con el dinero, sino con el sentido.',a:IK.pagan,b:IK.necesita},
+    {t:'Misión',cr:'Rosada ∩ Azul · lo que el mundo necesita + lo que amas',col:'var(--c-rosa)',desc:'Lo más profundo — lo que tienes escrito en el alma desde niño y que solo al hacer todo este recorrido logras entender con claridad.',a:IK.necesita,b:todas(IK.amas)}
+  ];
+  cruces.forEach(function(x){
+    var comunes=palabrasComunes(x.a,x.b);
+    var card=mk('div','def-card'); card.style.borderLeftColor=x.col;
+    card.innerHTML='<div class="def-titulo" style="color:'+x.col+'">'+x.t+'</div><div class="def-cruce">'+x.cr+'</div><div class="def-txt">'+x.desc+'</div>';
+    if(comunes.length){ card.innerHTML+='<div style="margin-top:10px;font-size:13px;color:var(--gold2)">✦ Coincidencias detectadas: '+comunes.map(esc).join(' · ')+'</div>'; }
+    c.appendChild(card);
+  });
+  c.insertAdjacentHTML('beforeend','<p class="hint">Estas coincidencias son pistas. En la siguiente pantalla les darás nombre y construirás tu frase para cada dimensión.</p>');
+  navBotones(c,'Nombrar mis dimensiones →');
+}
+function palabrasComunes(a,b){
+  var bl=b.map(function(s){return s.toLowerCase();});
+  return a.filter(function(x){ var xl=x.toLowerCase(); return bl.indexOf(xl)>=0 || bl.some(function(y){ return y.length>3&&xl.length>3&&(y.indexOf(xl)>=0||xl.indexOf(y)>=0); }); });
+}
+
+/* ═══════ DEFINICIONES (nombrar cada dimensión) ═══════ */
+function renderDefiniciones(){
+  var c=document.getElementById('contenido'); c.innerHTML='';
+  c.insertAdjacentHTML('beforeend','<div class="label">Nombra tus dimensiones</div>');
+  c.insertAdjacentHTML('beforeend','<h1 class="titulo">Escribe cada una en tus palabras.</h1>');
+  c.insertAdjacentHTML('beforeend','<p class="subtitulo">Con las coincidencias que descubriste, escribe una frase para cada dimensión. Estas cuatro frases son la antesala de tu propósito.</p>');
+  var defs=[
+    {k:'pasion',t:'Mi pasión',col:'var(--c-azul)',ph:'Mi pasión es...'},
+    {k:'profesion',t:'Mi profesión',col:'var(--c-verde)',ph:'Mi profesión es...'},
+    {k:'vocacion',t:'Mi vocación',col:'#8E7BC0',ph:'Mi vocación es...'},
+    {k:'mision',t:'Mi misión',col:'var(--c-rosa)',ph:'Mi misión es...'}
+  ];
+  defs.forEach(function(d){
+    var box=mk('div','card');
+    box.innerHTML='<div class="label" style="color:'+d.col+'">'+d.t+'</div>';
+    var ta=mk('textarea','textarea-ref'); ta.style.minHeight='60px'; ta.value=IK[d.k]||''; ta.placeholder=d.ph;
+    ta.oninput=function(){ IK[d.k]=this.value; guardarIK(); };
+    box.appendChild(ta); c.appendChild(box);
+  });
+  navBotones(c,'Construir mi razón de ser →');
+}
+
+/* ═══════ PROPÓSITO ═══════ */
 function renderProposito(){
   var c=document.getElementById('contenido'); c.innerHTML='';
   c.insertAdjacentHTML('beforeend','<div class="label">Tu Ikigai</div>');
   c.insertAdjacentHTML('beforeend','<h1 class="titulo">Tu razón de ser, en una frase.</h1>');
-  c.insertAdjacentHTML('beforeend','<p class="subtitulo">Con todo lo que descubriste, escribe tu Ikigai: una frase que reúna lo que amas, lo que sabes hacer, lo que el mundo necesita y aquello por lo que te pueden pagar.</p>');
+  c.insertAdjacentHTML('beforeend','<div class="card gold"><div class="label">Antes de escribir: propósito, intención y coherencia</div><p class="ct" style="margin-bottom:10px"><b>Propósito</b> es tu razón de ser — reúne lo que amas, lo que sabes hacer, lo que el mundo necesita y por lo que te pueden pagar. Es tuyo y solo tuyo.</p><p class="ct" style="margin-bottom:10px"><b>Intención</b> es lo que quieres lograr, y le apunta a tu propósito. Ojo: un propósito <b>no incluye a nadie más</b>. "Mi propósito es que mis hijos sean profesionales" no es un propósito — es una intención. El propósito habla de quién eres tú y para qué viniste.</p><p class="ct"><b>Coherencia</b> es vivir alineado con ese propósito, todos los días.</p></div>');
   var box=mk('div','ikigai-center');
   box.appendChild(mk('div','ikigai-center-lbl','Mi razón de ser'));
   var ta=mk('textarea','textarea-ref'); ta.style.minHeight='100px'; ta.style.textAlign='center';
   ta.value=IK.proposito||''; ta.placeholder='Mi propósito es...';
   ta.oninput=function(){ IK.proposito=this.value; guardarIK(); };
-  box.appendChild(ta);
-  c.appendChild(box);
+  box.appendChild(ta); c.appendChild(box);
   c.insertAdjacentHTML('beforeend','<p class="hint">No tiene que ser perfecta. Puede evolucionar. Lo importante es que hoy la nombres — porque lo que se nombra, se puede vivir.</p>');
-  navBotones(c, 'Mi compromiso final →');
+  navBotones(c,'Mi compromiso final →');
 }
 
-/* ═══════════ PANTALLA 7: CIERRE Y COMPROMISO ═══════════ */
+/* ═══════ CIERRE ═══════ */
 function renderCierre(){
   var c=document.getElementById('contenido'); c.innerHTML='';
   c.insertAdjacentHTML('beforeend','<div class="label">Cierre · Sesión 4</div>');
   c.insertAdjacentHTML('beforeend','<h1 class="titulo">Encontraste tu porqué. Ahora, vívelo.</h1>');
-  // mostrar el propósito escrito
-  if(IK.proposito){
-    var box=mk('div','ikigai-center');
-    box.appendChild(mk('div','ikigai-center-lbl','Tu razón de ser'));
-    box.appendChild(mk('div','ikigai-center-txt','"'+IK.proposito+'"'));
-    c.appendChild(box);
-  }
+  if(IK.proposito){ var box=mk('div','ikigai-center'); box.appendChild(mk('div','ikigai-center-lbl','Tu razón de ser')); box.appendChild(mk('div','ikigai-center-txt','"'+esc(IK.proposito)+'"')); c.appendChild(box); }
   c.insertAdjacentHTML('beforeend', hiloLineaHTML('cierre'));
-  // principios activados
   c.insertAdjacentHTML('beforeend','<div class="card"><div class="label">Los principios que activaste</div><p class="ct dim">∀11 Aprende a pagar el precio · ∀12 Adoptas lo que toleras · ∀13 Aprópiate la insatisfacción · ∀14 Adopta métodos probados</p></div>');
-  // compromiso
-  var comp=mk('div','card gold');
-  comp.appendChild(mk('div','label','Mi compromiso'));
+  var comp=mk('div','card gold'); comp.appendChild(mk('div','label','Mi compromiso'));
   comp.insertAdjacentHTML('beforeend','<p class="ct dim">¿Qué primer paso concreto vas a dar esta semana para vivir más desde tu propósito?</p>');
   var ta=mk('textarea','textarea-ref'); ta.value=IK.compromiso||''; ta.placeholder='Me comprometo a...';
   ta.oninput=function(){ IK.compromiso=this.value; guardarIK(); };
-  comp.appendChild(ta);
-  c.appendChild(comp);
-  var nav=mk('div','nav');
-  var bs=mk('button','bs','← Anterior'); bs.onclick=anterior;
-  var bp=mk('button','bp','Cerrar la Sesión 4 →'); bp.onclick=cerrarSesion;
-  nav.appendChild(bs); nav.appendChild(bp);
-  c.appendChild(nav);
+  comp.appendChild(ta); c.appendChild(comp);
+  var nav=mk('div','nav'); var bs=mk('button','bs','← Anterior'); bs.onclick=anterior;
+  var bp=mk('button','bp','Cerrar la Sesión 4 →'); bp.onclick=cerrarSesion; nav.appendChild(bs); nav.appendChild(bp); c.appendChild(nav);
 }
-
 function cerrarSesion(){
   guardarIK();
-  // guardar compromiso en el repositorio central de compromisos
   try{
     var repo=leerJSON('anormal_compromisos_areas',{});
-    if(IK.compromiso && IK.compromiso.trim()){
-      repo['principios_sesion4']={nombre:'Sesión 4 · Vivir mi propósito (∀11-∀14)',texto:IK.compromiso.trim()};
-    }
-    if(IK.proposito && IK.proposito.trim()){
-      repo['ikigai_proposito']={nombre:'Mi Ikigai · Razón de ser',texto:IK.proposito.trim()};
-    }
+    if(IK.compromiso&&IK.compromiso.trim()){ repo['principios_sesion4']={nombre:'Sesión 4 · Vivir mi propósito (∀11-∀14)',texto:IK.compromiso.trim()}; }
+    if(IK.proposito&&IK.proposito.trim()){ repo['ikigai_proposito']={nombre:'Mi Ikigai · Razón de ser',texto:IK.proposito.trim()}; }
     localStorage.setItem('anormal_compromisos_areas',JSON.stringify(repo));
   }catch(e){}
-  // marcar sesión completa
-  try{
-    var data=JSON.parse(sessionStorage.getItem('anormal_proceso')||'{}');
-    if(!data.progreso) data.progreso={};
-    data.progreso.sesion4_completa=true;
-    sessionStorage.setItem('anormal_proceso',JSON.stringify(data));
-  }catch(e){}
+  try{ var d=JSON.parse(sessionStorage.getItem('anormal_proceso')||'{}'); if(!d.progreso)d.progreso={}; d.progreso.sesion4_completa=true; sessionStorage.setItem('anormal_proceso',JSON.stringify(d)); }catch(e){}
   localStorage.setItem('anormal_sesion4_completa','1');
   window.location.href='resumen-conciencia.html';
 }
-
-/* ═══════════ ARRANQUE ═══════════ */
 irPaso(0);
 </script>
 </body>
