@@ -233,6 +233,35 @@ function construir3Columnas(cont, listaKey, claseChip, sugerencias){
   actualizarContador();
 }
 
+/* ═══════ MISIÓN NUMEROLÓGICA ═══════ */
+function misionNumerologicaHTML(){
+  var nv=leer('anormal_camino_vida','');
+  if(!nv) return '';
+  var MISIONES={
+    '1':{n:'El Pionero',m:'Liderar, crear e iniciar con autenticidad y coraje.'},
+    '2':{n:'El Mediador',m:'Crear armonía, cooperar y conectar con sensibilidad.'},
+    '3':{n:'El Creador',m:'Comunicar, crear e inspirar a través de la alegría y el arte.'},
+    '4':{n:'El Constructor',m:'Construir fundamentos duraderos a través del orden y la perseverancia.'},
+    '5':{n:'El Explorador',m:'Vivir el cambio con sabiduría y ser puente de transformación.'},
+    '6':{n:'El Sanador',m:'Sanar, cuidar y crear belleza y armonía en el mundo.'},
+    '7':{n:'El Sabio',m:'Buscar la verdad, conectar con lo espiritual y compartir sabiduría.'},
+    '8':{n:'El Ejecutivo',m:'Crear abundancia, ejercer el poder con responsabilidad y dejar legado.'},
+    '9':{n:'El Humanista',m:'Servir, transformar y elevar la conciencia colectiva desde el amor universal.'},
+    '11':{n:'El Iluminado',m:'Inspirar, iluminar y elevar la conciencia con sensibilidad espiritual extraordinaria.'},
+    '22':{n:'El Maestro Constructor',m:'Materializar visiones transformadoras al servicio de la humanidad.'},
+    '33':{n:'El Maestro Sanador',m:'Sanar y elevar la conciencia con amor incondicional.'}
+  };
+  var info=MISIONES[String(nv)];
+  if(!info) return '';
+  var s='<div class="card" style="border-color:var(--gb)">';
+  s+='<div class="label" style="color:var(--gold2)">✦ Lo que tus números ya revelaron</div>';
+  s+='<p class="ct" style="margin-bottom:8px">En tu numerología descubriste que tu Camino de Vida es el <b>'+esc(String(nv))+' · '+info.n+'</b>, y que tu misión de vida es:</p>';
+  s+='<p class="ct" style="font-style:italic;color:var(--gold3);font-size:16px;line-height:1.5">"'+info.m+'"</p>';
+  s+='<p class="ct dim" style="margin-top:10px;font-size:13px">Ten esta misión presente mientras construyes tu Ikigai — tus listas deberían resonar con ella. El Ikigai y tu número apuntan al mismo lugar: tu razón de ser.</p>';
+  s+='</div>';
+  return s;
+}
+
 /* ═══════ INTRO ═══════ */
 function renderIntro(){
   var c=document.getElementById('contenido'); c.innerHTML='';
@@ -240,6 +269,7 @@ function renderIntro(){
   c.insertAdjacentHTML('beforeend','<h1 class="titulo">Tu Ikigai: la razón de levantarte cada mañana.</h1>');
   c.insertAdjacentHTML('beforeend','<p class="subtitulo">El Ikigai —que en japonés significa "razón de ser"— es el punto donde se cruzan cuatro dimensiones de tu vida. No es una lista que se llena rápido: es una intersección que se descubre con honestidad y abundancia. Vas a construir cada dimensión, y al final verás dónde convergen.</p>');
   c.insertAdjacentHTML('beforeend', hiloLineaHTML('apertura'));
+  c.insertAdjacentHTML('beforeend', misionNumerologicaHTML());
   c.insertAdjacentHTML('beforeend','<div class="video-box"><div class="video-play">▶</div><div class="video-txt">Video — El Ikigai y sus cuatro listas</div><div class="video-soon">Próximamente disponible</div></div>');
   c.insertAdjacentHTML('beforeend','<div class="card gold"><div class="label">Así se forma tu Ikigai</div>'+figuraIkigaiSVG()+'<p class="ct" style="margin-top:14px;text-align:center">Cuatro dimensiones que, al cruzarse, revelan tu razón de ser en el centro.</p></div>');
   c.insertAdjacentHTML('beforeend','<div class="card"><div class="label">Pregúntate antes de empezar</div><p class="ct" style="margin-bottom:14px">Tu Ikigai vive en el centro, donde las cuatro listas se encuentran. Cuando alguna queda pobre o vacía, aparece una sensación que quizá reconozcas. Léelas como preguntas — y si te identificas con alguna, es una señal de que esa lista necesita que la nutras:</p>'+
