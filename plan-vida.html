@@ -82,14 +82,15 @@ function hiloLineaHTML(momento){
   return html;
 }
 
-var PV = leerJSON('anormal_plan_vida', {ser:'', hacer:'', tener:'', declaracion:'', compromiso:''});
+var PV = leerJSON('anormal_plan_vida', {ser:'', hacer:'', tener:'', declaracion:'', compromiso:'', ruedaFinal:{}});
 function guardarPV(){ localStorage.setItem('anormal_plan_vida', JSON.stringify(PV)); }
+if(!PV.ruedaFinal) PV.ruedaFinal={};
 
-var PASOS=['intro','ser','hacer','tener','declaracion','cierre'];
+var PASOS=['intro','ser','hacer','tener','crecimiento','declaracion','cierre'];
 var pasoActual=0;
 function renderProg(){ var p=document.getElementById('prog'); p.innerHTML=''; for(var i=0;i<PASOS.length;i++){ p.appendChild(mk('div','prog-seg'+(i<pasoActual?' done':i===pasoActual?' now':''))); } }
 function irPaso(n){ if(n<0||n>=PASOS.length)return; pasoActual=n; renderProg();
-  ({intro:renderIntro,ser:renderSer,hacer:renderHacer,tener:renderTener,declaracion:renderDeclaracion,cierre:renderCierre})[PASOS[n]](); window.scrollTo(0,0); }
+  ({intro:renderIntro,ser:renderSer,hacer:renderHacer,tener:renderTener,crecimiento:renderCrecimiento,declaracion:renderDeclaracion,cierre:renderCierre})[PASOS[n]](); window.scrollTo(0,0); }
 function siguiente(){ guardarPV(); irPaso(pasoActual+1); }
 function anterior(){ guardarPV(); irPaso(pasoActual-1); }
 function navBotones(c,txt,fn){ var nav=mk('div','nav'); var bs=mk('button','bs','← Anterior'); bs.onclick=anterior; var bp=mk('button','bp',txt||'Continuar →'); bp.onclick=fn||siguiente; if(pasoActual>0)nav.appendChild(bs); nav.appendChild(bp); c.appendChild(nav); }
@@ -132,10 +133,73 @@ function renderTener(){
   var box=mk('div','card'); box.appendChild(mk('div','label','Mi espíritu — cómo lo alimento'));
   box.appendChild(ta('tener','En mi espíritu, me comprometo a...', '110px'));
   c.appendChild(box);
+  navBotones(c,'Ver mi crecimiento →');
+}
+
+/* ═══════ CRECIMIENTO VISIBLE ═══════ */
+var AREAS_RUEDA=[
+  {id:"salud_fisica",nombre:"Salud física",linea:"salud"},
+  {id:"salud_emocional",nombre:"Salud emocional",linea:"salud"},
+  {id:"habitos",nombre:"Hábitos",linea:"salud"},
+  {id:"espiritualidad",nombre:"Espiritualidad y paz",linea:"salud"},
+  {id:"finanzas",nombre:"Finanzas",linea:"dinero"},
+  {id:"trabajo",nombre:"Trabajo y vocación",linea:"dinero"},
+  {id:"emprendimiento",nombre:"Emprendimiento",linea:"dinero"},
+  {id:"educacion",nombre:"Educación",linea:"dinero"},
+  {id:"pareja",nombre:"Pareja y amor",linea:"amor"},
+  {id:"familia",nombre:"Familia",linea:"amor"},
+  {id:"relaciones",nombre:"Relaciones",linea:"amor"},
+  {id:"autoamor",nombre:"Relación contigo mismo",linea:"amor"}
+];
+function colorLinea(l){ return {salud:'#4ABF7A',dinero:'#C9A84C',amor:'#D4537E'}[l]||'#C9A84C'; }
+function renderCrecimiento(){
+  var c=document.getElementById('contenido'); c.innerHTML='';
+  c.insertAdjacentHTML('beforeend','<div class="label">Tu crecimiento</div>');
+  c.insertAdjacentHTML('beforeend','<h1 class="titulo">Mira lo que lograste.</h1>');
+  c.insertAdjacentHTML('beforeend','<p class="subtitulo">Empezaste este proceso calificando tu rueda de la vida. Ahora, con todo lo trabajado, vuelve a calificar cada área con la misma honestidad — y compara con dónde empezaste.</p>');
+  var inicial=leerJSON('anormal_rueda_areas',{});
+  // re-calificación
+  AREAS_RUEDA.forEach(function(a){
+    var ini=inicial[a.id]||null;
+    var actual=PV.ruedaFinal[a.id]||ini||5;
+    var col=colorLinea(a.linea);
+    var box=mk('div','card'); box.style.padding='14px 18px';
+    var head=mk('div'); head.style.cssText='display:flex;justify-content:space-between;align-items:center;margin-bottom:8px';
+    head.innerHTML='<span style="font-size:14px;color:var(--text)">'+a.nombre+'</span><span style="font-size:13px;color:var(--dim)">inicial: <b style="color:'+col+'">'+(ini!==null?ini:'—')+'</b> → ahora: <b id="val-'+a.id+'" style="color:'+col+'">'+actual+'</b></span>';
+    box.appendChild(head);
+    var slider=mk('input'); slider.type='range'; slider.min='1'; slider.max='10'; slider.value=actual;
+    slider.style.cssText='width:100%;accent-color:'+col;
+    slider.oninput=function(){ PV.ruedaFinal[a.id]=parseInt(this.value); guardarPV(); document.getElementById('val-'+a.id).textContent=this.value; };
+    box.appendChild(slider);
+    c.appendChild(box);
+    if(!PV.ruedaFinal[a.id]) PV.ruedaFinal[a.id]=actual;
+  });
+  guardarPV();
   navBotones(c,'Escribir mi declaración →');
 }
-function renderDeclaracion(){
-  var c=document.getElementById('contenido'); c.innerHTML='';
+
+function promedioRueda(obj){ var t=0,n=0; AREAS_RUEDA.forEach(function(a){ if(obj[a.id]){ t+=obj[a.id]; n++; } }); return n?(t/n):0; }
+function resumenCrecimientoHTML(){
+  var ini=leerJSON('anormal_rueda_areas',{});
+  var fin=PV.ruedaFinal||{};
+  var pIni=promedioRueda(ini), pFin=promedioRueda(fin);
+  if(pIni===0 && pFin===0) return '';
+  var delta=pFin-pIni;
+  var pts=parseInt(leer('anormal_puntos_conciencia','0'))||0;
+  var s='<div class="card gold"><div class="label">Tu crecimiento en números</div>';
+  s+='<div style="display:flex;justify-content:space-around;text-align:center;margin:10px 0">';
+  s+='<div><div style="font-size:12px;color:var(--dim)">Rueda inicial</div><div style="font-family:Cormorant Garamond,serif;font-size:30px;color:var(--dim)">'+pIni.toFixed(1)+'</div></div>';
+  s+='<div style="align-self:center;font-size:20px;color:var(--gold2)">→</div>';
+  s+='<div><div style="font-size:12px;color:var(--dim)">Rueda ahora</div><div style="font-family:Cormorant Garamond,serif;font-size:30px;color:var(--gold3)">'+pFin.toFixed(1)+'</div></div>';
+  if(delta>0){ s+='<div style="align-self:center"><div style="font-size:12px;color:var(--grn)">creciste</div><div style="font-family:Cormorant Garamond,serif;font-size:26px;color:var(--grn)">+'+delta.toFixed(1)+'</div></div>'; }
+  s+='</div>';
+  if(pts>0){ s+='<p class="ct" style="text-align:center;margin-top:8px">Y tu <b>nivel de conciencia</b> subió a <b style="color:var(--gold2)">'+pts+' puntos</b> — cada uno ganado con acciones que cumpliste, no solo con intenciones.</p>'; }
+  s+='<p class="ct dim" style="margin-top:10px;text-align:center;font-style:italic">Este número no es el final. Es la prueba de que cuando trabajas en ti, tu vida cambia. Y esto apenas comienza.</p>';
+  s+='</div>';
+  return s;
+}
+
+function renderDeclaracion(){  var c=document.getElementById('contenido'); c.innerHTML='';
   c.insertAdjacentHTML('beforeend','<div class="label">Tu declaración de vida plena</div>');
   c.insertAdjacentHTML('beforeend','<h1 class="titulo">Integra todo en una sola visión.</h1>');
   c.insertAdjacentHTML('beforeend','<p class="subtitulo">La declaración de vida plena integra las tres dimensiones en una sola visión coherente: cómo cuidas tu <b>cuerpo</b>, cómo nutres tu <b>mente</b> y cómo alimentas tu <b>espíritu</b> — todo al servicio de disfrutar la vida.</p>');
@@ -149,6 +213,7 @@ function renderCierre(){
   var c=document.getElementById('contenido'); c.innerHTML='';
   c.insertAdjacentHTML('beforeend','<div class="label">Cierre del proceso</div>');
   c.insertAdjacentHTML('beforeend','<h1 class="titulo">Alcanzaste tu anormalidad.</h1>');
+  c.insertAdjacentHTML('beforeend', resumenCrecimientoHTML());
   if(PV.declaracion){ c.insertAdjacentHTML('beforeend','<div class="declaracion"><div class="label" style="text-align:center">Tu declaración de vida plena</div><div class="declaracion-txt">"'+PV.declaracion.replace(/</g,'&lt;')+'"</div></div>'); }
   c.insertAdjacentHTML('beforeend', hiloLineaHTML('cierre'));
   c.insertAdjacentHTML('beforeend','<div class="card"><div class="label">Los principios que activaste</div><p class="ct dim">∀15 Alcanza el resultado, luego mejora · ∀16 Acelera el proceso · ∀17 Atención y enfoque constante · ∀18 Alcanzas la anormalidad</p></div>');
@@ -162,6 +227,7 @@ function renderCierre(){
 }
 function cerrarProceso(){
   guardarPV();
+  try{ if(PV.ruedaFinal && Object.keys(PV.ruedaFinal).length){ localStorage.setItem('anormal_rueda_final', JSON.stringify(PV.ruedaFinal)); } }catch(e){}
   try{
     var repo=leerJSON('anormal_compromisos_areas',{});
     if(PV.compromiso && PV.compromiso.trim()){ repo['principios_sesion5']={nombre:'Sesión 5 · Vivir mi plan (∀15-∀18)',texto:PV.compromiso.trim()}; }
