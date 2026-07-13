@@ -62,28 +62,83 @@ function leer(c,d){ try{ var v=localStorage.getItem(c); return v===null?d:v; }ca
 function leerJSON(c,d){ try{ var v=localStorage.getItem(c); return v?JSON.parse(v):d; }catch(e){ return d; } }
 function mk(tag,cls,txt){ var e=document.createElement(tag); if(cls)e.className=cls; if(txt!==undefined)e.textContent=txt; return e; }
 
-var SC = leerJSON('anormal_siguiente_ciclo', {vision:'', queDejar:'', queLlevar:''});
+var SC = leerJSON('anormal_siguiente_ciclo', {vision:'', queDejar:'', queLlevar:'', metaCiclo:''});
 function guardarSC(){ localStorage.setItem('anormal_siguiente_ciclo', JSON.stringify(SC)); }
 
-var PASOS=['intro','vision','soltar','cierre'];
+var CICLOS = [
+  {n:1, ini:0,  fin:7,  nombre:"La base de todo",            emo:"Nostalgia"},
+  {n:2, ini:7,  fin:14, nombre:"El despertar del cuerpo",    emo:"Miedo"},
+  {n:3, ini:14, fin:21, nombre:"El despertar de la identidad", emo:"Enojo"},
+  {n:4, ini:21, fin:28, nombre:"La salida al mundo",         emo:"Sorpresa"},
+  {n:5, ini:28, fin:35, nombre:"La evaluación",              emo:"Alegría / Duda"},
+  {n:6, ini:35, fin:42, nombre:"La búsqueda de sentido",     emo:"Tristeza"},
+  {n:7, ini:42, fin:49, nombre:"Recoger lo sembrado",        emo:"Equilibrio"},
+  {n:8, ini:49, fin:56, nombre:"Desapego y sabiduría",       emo:"Nostalgia integrada"},
+  {n:9, ini:56, fin:200,nombre:"Legado y plenitud",          emo:"Amor"}
+];
+function edadActual(){
+  var f=leer('anormal_fecha_nac',''); if(!f) return null;
+  var d=new Date(f); if(isNaN(d.getTime())) return null;
+  var hoy=new Date(); var e=hoy.getFullYear()-d.getFullYear();
+  var m=hoy.getMonth()-d.getMonth(); if(m<0||(m===0&&hoy.getDate()<d.getDate())) e--;
+  return e;
+}
+function cicloDeEdad(e){ for(var i=0;i<CICLOS.length;i++){ if(e>=CICLOS[i].ini && e<CICLOS[i].fin) return CICLOS[i]; } return CICLOS[0]; }
+
+var PASOS=['intro','ciclos','vision','soltar','cierre'];
 var pasoActual=0;
 function renderProg(){ var p=document.getElementById('prog'); p.innerHTML=''; for(var i=0;i<PASOS.length;i++){ p.appendChild(mk('div','prog-seg'+(i<pasoActual?' done':i===pasoActual?' now':''))); } }
 function irPaso(n){ if(n<0||n>=PASOS.length)return; pasoActual=n; renderProg();
-  ({intro:renderIntro,vision:renderVision,soltar:renderSoltar,cierre:renderCierre})[PASOS[n]](); window.scrollTo(0,0); }
+  ({intro:renderIntro,ciclos:renderCiclos,vision:renderVision,soltar:renderSoltar,cierre:renderCierre})[PASOS[n]](); window.scrollTo(0,0); }
 function siguiente(){ guardarSC(); irPaso(pasoActual+1); }
 function anterior(){ guardarSC(); irPaso(pasoActual-1); }
 function navBotones(c,txt,fn){ var nav=mk('div','nav'); var bs=mk('button','bs','← Anterior'); bs.onclick=anterior; var bp=mk('button','bp',txt||'Continuar →'); bp.onclick=fn||siguiente; if(pasoActual>0)nav.appendChild(bs); nav.appendChild(bp); c.appendChild(nav); }
 function ta(refKey, ph, minH){ var t=mk('textarea','textarea-ref'); if(minH)t.style.minHeight=minH; t.value=SC[refKey]||''; t.placeholder=ph; t.oninput=function(){ SC[refKey]=this.value; guardarSC(); }; return t; }
+function propositoHTML(){
+  var ik=leerJSON('anormal_ikigai',{}); var prop=(ik.proposito||'').trim();
+  if(!prop) return '';
+  return '<div class="card gold"><div class="label">Tu razón de ser (de la sesión anterior)</div><p class="ct" style="font-style:italic;color:var(--gold3)">"'+prop.replace(/</g,'&lt;')+'"</p><p class="ct dim" style="margin-top:8px;font-size:13px">Todo lo que proyectes ahora debe servir a este propósito.</p></div>';
+}
 
 function renderIntro(){
   var c=document.getElementById('contenido'); c.innerHTML='';
   c.insertAdjacentHTML('beforeend','<div class="label">Sesión 5 · Primer trabajo</div>');
   c.insertAdjacentHTML('beforeend','<h1 class="titulo">Tu siguiente ciclo de vida.</h1>');
-  c.insertAdjacentHTML('beforeend','<p class="subtitulo">Cada final es un nuevo comienzo. Con todo lo que descubriste sobre ti y tu propósito, vas a proyectar hacia dónde vas ahora: la visión de la persona que estás construyendo.</p>');
+  c.insertAdjacentHTML('beforeend','<p class="subtitulo">Cada final es un nuevo comienzo. Con lo que descubriste sobre tu propósito, vas a mirar el ciclo de vida en el que estás y el que viene, para proyectar hacia dónde quieres llegar.</p>');
   c.insertAdjacentHTML('beforeend','<div class="video-box"><div class="video-play">▶</div><div class="video-txt">Video — Mi siguiente ciclo</div><div class="video-soon">Próximamente disponible</div></div>');
+  c.insertAdjacentHTML('beforeend', propositoHTML());
   c.insertAdjacentHTML('beforeend','<p class="quote">El futuro pertenece a quienes creen en la belleza de sus sueños.<span class="quote-autor">Eleanor Roosevelt</span></p>');
+  navBotones(c,'Ver mi ciclo actual →');
+}
+
+function renderCiclos(){
+  var c=document.getElementById('contenido'); c.innerHTML='';
+  c.insertAdjacentHTML('beforeend','<div class="label">Dónde estás y hacia dónde vas</div>');
+  c.insertAdjacentHTML('beforeend','<h1 class="titulo">Tu ciclo actual y el próximo.</h1>');
+  var e=edadActual();
+  if(e===null){
+    c.insertAdjacentHTML('beforeend','<div class="card"><p class="ct dim">No encontramos tu fecha de nacimiento para calcular tu ciclo. Puedes continuar igual — lo importante es proyectar hacia dónde vas.</p></div>');
+  } else {
+    var actual=cicloDeEdad(e);
+    var prox=CICLOS[Math.min(actual.n, CICLOS.length-1)]; // el siguiente en el array
+    if(prox.n===actual.n && actual.n<9) prox=CICLOS[actual.n];
+    c.insertAdjacentHTML('beforeend','<p class="subtitulo">Tienes <b>'+e+' años</b>. Según los ciclos de vida de siete años (septenios) que trabajaste en la Sesión 2, esto es lo que estás viviendo y lo que se aproxima.</p>');
+    // ciclo actual
+    c.insertAdjacentHTML('beforeend','<div class="card gold"><div class="label">Tu ciclo actual · Ciclo '+actual.n+'</div><div style="font-family:Cormorant Garamond,serif;font-size:24px;color:var(--gold3);margin-bottom:4px">'+actual.nombre+'</div><div style="font-size:13px;color:var(--dim)">De los '+actual.ini+' a los '+actual.fin+' años · emoción: '+actual.emo+'</div></div>');
+    // próximo ciclo
+    if(prox.n!==actual.n){
+      c.insertAdjacentHTML('beforeend','<div class="card"><div class="label" style="color:var(--azul)">Tu próximo ciclo · Ciclo '+prox.n+'</div><div style="font-family:Cormorant Garamond,serif;font-size:22px;color:var(--text);margin-bottom:4px">'+prox.nombre+'</div><div style="font-size:13px;color:var(--dim)">De los '+prox.ini+' a los '+prox.fin+' años · emoción: '+prox.emo+'</div></div>');
+    }
+  }
+  // meta del ciclo, alimentada por el propósito
+  var box=mk('div','card');
+  box.appendChild(mk('div','label','¿A dónde quieres llegar?'));
+  box.insertAdjacentHTML('beforeend','<p class="ct dim">Con tu propósito como brújula, ¿qué quieres lograr, sanar o construir en este ciclo y el que viene? ¿A dónde quieres llegar?</p>');
+  box.appendChild(ta('metaCiclo','En este ciclo quiero llegar a...', '100px'));
+  c.appendChild(box);
   navBotones(c,'Escribir mi visión →');
 }
+
 function renderVision(){
   var c=document.getElementById('contenido'); c.innerHTML='';
   c.insertAdjacentHTML('beforeend','<div class="label">Tu visión</div>');
@@ -115,7 +170,7 @@ function renderCierre(){
   c.insertAdjacentHTML('beforeend','<div class="label">Primer trabajo completo</div>');
   c.insertAdjacentHTML('beforeend','<h1 class="titulo">Tu siguiente ciclo está trazado.</h1>');
   if(SC.vision){ var box=mk('div','card gold'); box.appendChild(mk('div','label','Tu visión')); box.appendChild(mk('div','ct','"'+SC.vision+'"')); c.appendChild(box); }
-  c.insertAdjacentHTML('beforeend','<p class="ct dim" style="margin-bottom:8px">Ahora vamos a convertir esta visión en un plan concreto: tu Plan de Vida Plena.</p>');
+  c.insertAdjacentHTML('beforeend','<p class="ct dim" style="margin-bottom:8px">Ahora vamos a convertir esta visión en un plan concreto para una vida plena: cuerpo, mente y espíritu.</p>');
   var nav=mk('div','nav'); var bs=mk('button','bs','← Anterior'); bs.onclick=anterior;
   var bp=mk('button','bp','Ir a mi Plan de Vida →'); bp.onclick=irPlan; nav.appendChild(bs); nav.appendChild(bp); c.appendChild(nav);
 }
