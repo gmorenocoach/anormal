@@ -606,6 +606,13 @@ function render(){
   var sesion2Lista = (sesionActual >= 2) || (diasParaSesion === 0);
   if(sesion2Lista){
     html += '<a href="entrada-sesion2.html" class="bp" style="display:block;text-align:center;text-decoration:none;margin-top:14px">Entrar a la Sesión 2 · Ciclos de vida →</a>';
+  } else {
+    // La siguiente sesión está bloqueada por tiempo: ofrecer el modo piloto de forma visible
+    html += '<div style="margin-top:16px;padding:16px 18px;background:var(--gd);border:1px solid var(--gb);border-radius:var(--rm)">';
+    html += '<div style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold2);margin-bottom:8px">✦ ¿Estás en el piloto?</div>';
+    html += '<p style="font-size:14px;color:var(--text);line-height:1.7;margin-bottom:12px">Si estás recorriendo la experiencia como parte del piloto, activa el modo piloto para entrar a las 5 sesiones ahora, sin esperar los plazos.</p>';
+    html += '<button class="bp" onclick="togglePiloto()" style="display:block;width:100%;text-align:center">Activar modo piloto — desbloquear las 5 sesiones →</button>';
+    html += '</div>';
   }
 
   // ACCESO SESIÓN 3 (cuando la Sesión 2 está completa)
