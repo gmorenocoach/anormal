@@ -115,6 +115,18 @@ function leerJSON(c,d){ try{ var v=localStorage.getItem(c); return v?JSON.parse(
 function mk(tag,cls,txt){ var e=document.createElement(tag); if(cls)e.className=cls; if(txt!==undefined)e.textContent=txt; return e; }
 function esc(s){ return (s||'').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
+/* ═══════ FIGURA VISUAL DEL IKIGAI (4 círculos) ═══════ */
+function figuraIkigaiSVG(){
+  return '<div style="max-width:360px;margin:6px auto 0">'+
+  '<svg viewBox="0 0 360 360" width="100%" xmlns="http://www.w3.org/2000/svg" font-family="Barlow, sans-serif">'+
+
+  // centro
+  '<circle cx="180" cy="180" r="34" fill="rgba(201,168,76,.30)" stroke="#E8C96A" stroke-width="1.5"/>'+
+  '<text x="180" y="176" fill="#F5E0A0" font-size="14" text-anchor="middle" font-weight="600" font-family="Cormorant Garamond, serif">IKIGAI</text>'+
+  '<text x="180" y="190" fill="#F5E0A0" font-size="8.5" text-anchor="middle">razón de ser</text>'+
+  '</svg></div>';
+}
+
 /* ═══════ AUTOCONOCIMIENTO E HILO ═══════ */
 function acLeer(){ return leerJSON('anormal_autoconocimiento',{}); }
 function sugerenciasBueno(){ var ac=acLeer(); var out=[]; (ac.soy_bueno||[]).forEach(function(it){ if(it.texto) out.push(it.texto); }); return out; }
@@ -185,7 +197,10 @@ function construir3Columnas(cont, listaKey, claseChip, sugerencias){
   // sugerencias del autoconocimiento (van a profesional por defecto)
   if(sugerencias && sugerencias.length){
     var sb=mk('div','sug-box'+(claseChip==='oro'?' oro':''));
-    sb.appendChild(mk('div','sug-lbl','✦ Esto reconociste sobre ti antes. Toca para agregarlo (irá a Profesional, muévelo si quieres):'));
+    var msgSug = claseChip==='azul'
+      ? '✦ Tu numerología reveló estos dones. ¿Amas ejercerlos? Toca los que sí (irán a Profesional, muévelos si quieres):'
+      : '✦ Esto reconociste sobre ti en tu numerología y talentos. Ratifica los que resuenen (irán a Profesional, muévelos si quieres):';
+    sb.appendChild(mk('div','sug-lbl',msgSug));
     var yaTodas=todas(IK[listaKey]);
     sugerencias.forEach(function(s){
       if(yaTodas.indexOf(s)>=0) return;
@@ -214,8 +229,8 @@ function renderIntro(){
   c.insertAdjacentHTML('beforeend','<h1 class="titulo">Tu Ikigai: la razón de levantarte cada mañana.</h1>');
   c.insertAdjacentHTML('beforeend','<p class="subtitulo">El Ikigai —que en japonés significa "razón de ser"— es el punto donde se cruzan cuatro dimensiones de tu vida. No es una lista que se llena rápido: es una intersección que se descubre con honestidad y abundancia. Vas a construir cada dimensión, y al final verás dónde convergen.</p>');
   c.insertAdjacentHTML('beforeend', hiloLineaHTML('apertura'));
-  c.insertAdjacentHTML('beforeend','<div class="video-box"><div class="video-play">▶</div><div class="video-txt">Video — El Ikigai</div><div class="video-soon">Próximamente disponible</div></div>');
-  c.insertAdjacentHTML('beforeend','<div class="card gold"><div class="label">Las cuatro dimensiones</div><p class="ct"><span style="color:var(--c-azul)">● Lo que <b style="color:var(--c-azul)">amas</b></span><br><span style="color:var(--c-oro)">● En lo que eres <b>bueno</b></span><br><span style="color:var(--c-verde)">● Por lo que te pueden <b style="color:var(--c-verde)">pagar</b></span><br><span style="color:var(--c-rosa)">● Lo que el <b style="color:var(--c-rosa)">mundo necesita</b></span><br><br>Donde las cuatro se tocan, ahí está tu Ikigai.</p></div>');
+  c.insertAdjacentHTML('beforeend','<div class="video-box"><div class="video-play">▶</div><div class="video-txt">Video — El Ikigai y sus cuatro listas</div><div class="video-soon">Próximamente disponible</div></div>');
+  c.insertAdjacentHTML('beforeend','<div class="card gold"><div class="label">Así se forma tu Ikigai</div>'+figuraIkigaiSVG()+'<p class="ct" style="margin-top:14px;text-align:center">Cuatro dimensiones que, al cruzarse, revelan tu razón de ser en el centro.</p></div>');
   c.insertAdjacentHTML('beforeend','<div class="card"><p class="ct dim"><b>Una sola regla antes de empezar: no tachar.</b> Lo que salga, sale. Tu juez interior va a querer tachar cosas diciendo "eso es muy pequeño" o "eso no cuenta". No le hagas caso — precisamente lo que quiere tachar suele ser lo más importante.</p></div>');
   c.insertAdjacentHTML('beforeend','<p class="quote">Solo hay una manera de hacer un gran trabajo: amar lo que haces.<span class="quote-autor">Steve Jobs</span></p>');
   navBotones(c,'Empezar por lo que amo →');
@@ -226,8 +241,9 @@ function renderAmas(){
   var c=document.getElementById('contenido'); c.innerHTML='';
   c.insertAdjacentHTML('beforeend','<div class="label" style="color:var(--c-azul)">Dimensión 1 de 4 · Azul</div>');
   c.insertAdjacentHTML('beforeend','<h1 class="titulo">Lo que amas hacer.</h1>');
-  c.insertAdjacentHTML('beforeend','<p class="subtitulo">¿Qué te llena cuando lo haces? No lo que deberías amar, no lo que llenaba a tus padres — lo tuyo. Lo que amamos <b>no es plano: tiene capas</b>. Por eso lo separamos en tres estadios de tu vida. Una palabra por papelito. Confía en lo primero que salga.</p>');
-  var box=mk('div','card'); construir3Columnas(box,'amas','azul',[]); c.appendChild(box);
+  c.insertAdjacentHTML('beforeend','<p class="subtitulo">¿Qué te llena cuando lo haces? No lo que deberías amar, no lo que llenaba a tus padres — lo tuyo. Lo que amamos <b>no es plano: tiene capas</b>. Por eso lo separamos en tres estadios de tu vida. Confía en lo primero que salga.</p>');
+  c.insertAdjacentHTML('beforeend','<div class="card"><p class="ct dim"><b>Cómo escribir cada una:</b> usa <b>verbos</b> y máximo <b>dos palabras</b>. Y sé concreto: no escribas solo "jugar" — ¿jugar qué? "jugar tenis", "jugar fútbol". Cada actividad es distinta y lleva a lugares distintos.</p></div>');
+  var box=mk('div','card'); construir3Columnas(box,'amas','azul',sugerenciasBueno()); c.appendChild(box);
   c.insertAdjacentHTML('beforeend','<p class="hint">No pienses en si eres bueno o si te pagan. Solo: ¿qué amas? Mientras más grande la lista, más profundo llegas. La abundancia es lo que hace la magia posible.</p>');
   navBotones(c,'Ahora, en lo que soy bueno →');
 }
@@ -329,8 +345,9 @@ function renderNecesita(){
 function renderCruces(){
   var c=document.getElementById('contenido'); c.innerHTML='';
   c.insertAdjacentHTML('beforeend','<div class="label">Los cuatro cruces</div>');
-  c.insertAdjacentHTML('beforeend','<h1 class="titulo">Del dominó al propósito.</h1>');
-  c.insertAdjacentHTML('beforeend','<p class="subtitulo">Ahora unes las listas de dos en dos, como fichas de dominó. En cada intersección aparece una dimensión de tu propósito. Busca las palabras que se repiten o se relacionan entre cada par.</p>');
+  c.insertAdjacentHTML('beforeend','<h1 class="titulo">Donde las listas se cruzan.</h1>');
+  c.insertAdjacentHTML('beforeend','<p class="subtitulo">Ahora unes las listas de dos en dos. En cada cruce aparece una dimensión de tu propósito: pasión, profesión, vocación y misión. El sistema detecta las palabras que se repiten o se relacionan entre cada par.</p>');
+  c.insertAdjacentHTML('beforeend','<div class="video-box"><div class="video-play">▶</div><div class="video-txt">Video — Pasión, profesión, vocación y misión</div><div class="video-soon">Próximamente disponible</div></div>');
   var cruces=[
     {t:'Pasión',cr:'Azul ∩ Oro · lo que amas + en lo que eres bueno',col:'var(--c-azul)',desc:'No como sentimiento — como capacidad. Lo que puedes hacer durante horas sin cansarte, y que además te sale bien.',a:todas(IK.amas),b:todas(IK.bueno)},
     {t:'Profesión',cr:'Oro ∩ Verde · en lo que eres bueno + por lo que te pagan',col:'var(--c-verde)',desc:'Hacer lo que eres bueno y el mundo paga bien de forma sostenida. Una forma de honrar el dinero.',a:todas(IK.bueno),b:IK.pagan},
@@ -379,6 +396,8 @@ function renderProposito(){
   var c=document.getElementById('contenido'); c.innerHTML='';
   c.insertAdjacentHTML('beforeend','<div class="label">Tu Ikigai</div>');
   c.insertAdjacentHTML('beforeend','<h1 class="titulo">Tu razón de ser, en una frase.</h1>');
+  c.insertAdjacentHTML('beforeend','<div class="card">'+figuraIkigaiSVG()+'<p class="ct dim" style="text-align:center;margin-top:10px">Todo lo que construiste converge en el centro. Ahí está tu razón de ser.</p></div>');
+  c.insertAdjacentHTML('beforeend', hiloLineaHTML('cierre'));
   c.insertAdjacentHTML('beforeend','<div class="card gold"><div class="label">Antes de escribir: propósito, intención y coherencia</div><p class="ct" style="margin-bottom:10px"><b>Propósito</b> es tu razón de ser — reúne lo que amas, lo que sabes hacer, lo que el mundo necesita y por lo que te pueden pagar. Es tuyo y solo tuyo.</p><p class="ct" style="margin-bottom:10px"><b>Intención</b> es lo que quieres lograr, y le apunta a tu propósito. Ojo: un propósito <b>no incluye a nadie más</b>. "Mi propósito es que mis hijos sean profesionales" no es un propósito — es una intención. El propósito habla de quién eres tú y para qué viniste.</p><p class="ct"><b>Coherencia</b> es vivir alineado con ese propósito, todos los días.</p></div>');
   var box=mk('div','ikigai-center');
   box.appendChild(mk('div','ikigai-center-lbl','Mi razón de ser'));
