@@ -141,7 +141,7 @@ body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font
     <div class="progress-steps">
       <span class="progress-step active" id="ps0">Video</span>
       <span class="progress-step" id="ps1">Mi línea</span>
-      <span class="progress-step" id="ps2">Mis 21 acciones</span>
+      <span class="progress-step" id="ps2">Mis 15 acciones</span>
       <span class="progress-step" id="ps3">Mis principios</span>
     </div>
   </div>
@@ -162,8 +162,8 @@ body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font
 
     <div class="card gold" style="margin-bottom:20px">
       <div class="label">Lo que este proceso puede hacer por ti</div>
-      <p class="ct" style="margin-bottom:12px">He acompañado a miles de personas a descubrir que el origen de sus problemas — de salud, de dinero, de amor — no está donde creen que está. Está en algo que ocurrió antes. En algo que cargan sin saberlo. En algo que tiene nombre, y que tiene solución.</p>
-      <p class="ct">∀normal es el mapa que permite descubrirlo. Las herramientas que vas a usar no son el objetivo — son el espejo. Lo que ves en ese espejo es lo que cambia todo.</p>
+      <p class="ct">El origen de tus problemas —de salud, de dinero, de amor— casi nunca está donde crees. Está en algo anterior, que cargas sin saberlo. ∀normal es el mapa para descubrirlo: las herramientas son el espejo, y lo que ves en él es lo que cambia todo.</p>
+      <p class="ct" style="margin-top:10px;font-size:13px;color:var(--dim);font-style:italic">El video de arriba lo explica en profundidad.</p>
     </div>
 
     <div class="maquia-nota">
@@ -246,16 +246,16 @@ body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font
     </div>
   </div>
 
-  <!-- PANTALLA 2: 21 ACCIONES -->
+  <!-- PANTALLA 2: 15 ACCIONES -->
   <div class="pantalla" id="p2">
     <div class="label">Paso 2 de 3</div>
-    <h1 class="titulo" id="acciones-titulo">Escribe tus 21 acciones</h1>
-    <p class="subtitulo" id="acciones-subtitulo">Escribe 21 cosas concretas que podrías hacer para mejorar tu situación. No las ordenes todavía — solo escríbelas todas. Cuanto más específicas, mejor.</p>
+    <h1 class="titulo" id="acciones-titulo">Escribe tus acciones</h1>
+    <p class="subtitulo" id="acciones-subtitulo">Escribe hasta 15 cosas concretas que podrías hacer para mejorar tu situación. No las ordenes todavía — solo escríbelas. Cuanto más específicas, mejor.</p>
 
     <div class="maquia-nota" style="margin-bottom:16px">
       <p><strong>"No hay nada más difícil de ejecutar, ni de éxito más dudoso, ni más peligroso de manejar, que introducir un nuevo orden de cosas."</strong><br>
       
-      Escribir estas 21 acciones ya es un acto de valentía. Muchas personas saben qué deberían hacer y nunca lo escriben — porque escribirlo lo hace real, y lo real exige respuesta.</p>
+      Escribir estas acciones ya es un acto de valentía. Muchas personas saben qué deberían hacer y nunca lo escriben — porque escribirlo lo hace real, y lo real exige respuesta.</p>
     </div>
 
     <div class="acciones-intro">
@@ -267,7 +267,7 @@ body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font
     <div id="prioridad-wrap" class="prioridad-wrap">
       <div style="height:1px;background:var(--faint);margin:24px 0"></div>
       <div class="label">Ahora elige tus 5 más importantes</div>
-      <p class="prioridad-instruccion" id="prioridad-instruccion">Aplicando la regla 80/20: si haces estas 5 cosas con consistencia, las otras 16 se impactan naturalmente. Elige con honestidad, no con lo que suena bien.</p>
+      <p class="prioridad-instruccion" id="prioridad-instruccion">Aplicando la regla 80/20: si haces estas 5 cosas con consistencia, las demás se impactan naturalmente. Elige con honestidad, no con lo que suena bien.</p>
       <div class="prioridad-lista" id="prioridad-lista"></div>
       <p class="prioridad-contador" id="prioridad-contador">0 de 5 seleccionadas</p>
     </div>
@@ -311,7 +311,7 @@ body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font
     <div class="completado-wrap">
       <div class="completado-icon">∀</div>
       <h1 class="completado-titulo">El proceso ha comenzado.</h1>
-      <p class="completado-texto" id="completado-texto">Has elegido tu línea de trabajo, definido tus 5 acciones prioritarias, y aceptado los 3 principios iniciales que van a sostenerte. Lo que viene ahora no es información — es transformación.</p>
+      <p class="completado-texto" id="completado-texto">Has elegido tu línea de trabajo, definido tus 5 acciones prioritarias (con hasta 10 de apoyo), y aceptado los 3 principios iniciales que van a sostenerte. Lo que viene ahora no es información — es transformación.</p>
       <div class="maquia-nota" style="text-align:left;margin-bottom:28px">
         <p><strong>"Lo que estás a punto de descubrir sobre ti mismo no lo puede darte nadie más. Ningún título, ningún logro externo, ninguna validación ajena. Solo el trabajo honesto con tu propia historia."</strong></p>
         <p style="margin-top:12px;font-size:13px;color:var(--dim);line-height:1.8;">No llegaste hasta aquí porque alguien te empujó. Llegaste porque algo dentro de ti sabe que ya es tiempo. Eso ya te hace ∀normal.</p>
@@ -444,12 +444,12 @@ function actualizarProgreso() {
   var pcts = [0, 25, 50, 75];
   var n = estado.pantalla;
   document.getElementById('prog-fill').style.width = (n >= 4 ? 100 : pcts[n] || 0) + '%';
-  ['Video','Mi línea','Mis 21 acciones','Mis principios'].forEach(function(label, i) {
+  ['Video','Mi línea','Mis 15 acciones','Mis principios'].forEach(function(label, i) {
     var el = document.getElementById('ps' + i);
     if (!el) return;
     el.className = 'progress-step' + (i === n ? ' active' : i < n ? ' done' : '');
   });
-  var pasos = ['Inicio del proceso','Paso 1 — Tu línea de trabajo','Paso 2 — Tus 21 acciones','Paso 3 — Los principios','Proceso iniciado'];
+  var pasos = ['Inicio del proceso','Paso 1 — Tu línea de trabajo','Paso 2 — Tus acciones','Paso 3 — Los principios','Proceso iniciado'];
   document.getElementById('hdr-paso').textContent = pasos[n] || '';
 }
 
@@ -483,15 +483,15 @@ function elegirLinea(linea, el) {
 // ── ACCIONES ──────────────────────────────────────────────────────────────
 function iniciarAcciones() {
   var linea = LINEAS[estado.linea];
-  document.getElementById('acciones-titulo').textContent = 'Tus 21 acciones para mejorar tu ' + linea.nombre.toLowerCase();
-  document.getElementById('acciones-subtitulo').textContent = 'Escribe 21 cosas concretas que podrías hacer para mejorar tu ' + linea.nombre.toLowerCase() + '. No las ordenes todavía — solo escríbelas todas. Cuanto más específicas, mejor.';
-  document.getElementById('prioridad-instruccion').textContent = 'De estas 21 acciones, ¿cuáles 5 tienen el mayor impacto en tu ' + linea.nombre.toLowerCase() + '? Aplica la regla 80/20: hacer estas 5 con consistencia mueve las otras 16.';
+  document.getElementById('acciones-titulo').textContent = 'Tus acciones para mejorar tu ' + linea.nombre.toLowerCase();
+  document.getElementById('acciones-subtitulo').textContent = 'Escribe hasta 15 cosas concretas que podrías hacer para mejorar tu ' + linea.nombre.toLowerCase() + '. No las ordenes todavía — solo escríbelas. Cuanto más específicas, mejor.';
+  document.getElementById('prioridad-instruccion').textContent = 'De tus acciones, ¿cuáles 5 tienen el mayor impacto en tu ' + linea.nombre.toLowerCase() + '? Aplica la regla 80/20: hacer estas 5 con consistencia mueve a las demás. Estas 5 son tu foco; el resto queda de apoyo.';
   // Actualizar el ejemplo según la línea
   var introEl = document.querySelector('.acciones-intro .ct');
   if (introEl) introEl.textContent = linea.ejemplo || '';
   var grid = document.getElementById('acciones-grid');
   grid.innerHTML = '';
-  for (var i = 1; i <= 21; i++) {
+  for (var i = 1; i <= 15; i++) {
     var div = document.createElement('div');
     div.className = 'accion-item';
     div.innerHTML = '<span class="accion-num">' + i + '</span><input class="accion-input" type="text" placeholder="Acción ' + i + '..." data-num="' + i + '" oninput="verificarAcciones()">';
@@ -506,8 +506,10 @@ function verificarAcciones() {
     if (inp.value.trim()) llenas.push({num: inp.dataset.num, texto: inp.value.trim()});
   });
   estado.acciones = llenas;
-  if (llenas.length >= 21) {
+  if (llenas.length >= 5) {
     mostrarPrioridad(llenas);
+  } else {
+    document.getElementById("prioridad-wrap").style.display = "none";
   }
 }
 
