@@ -1007,30 +1007,38 @@ function bRueda(){
   // ── NIVEL DE CONCIENCIA ──────────────────────────────────────────────
   var nivelMap=[
     {min:0,  max:2.5, nivel:20,  nombre:"Vergüenza",      zona:"Zona crítica",         color:"#4A0A0A"},
-    {min:2.5,max:3.5, nivel:50,  nombre:"Apatía / Culpa", zona:"Zona crítica",         color:"#6A1010"},
-    {min:3.5,max:4.5, nivel:75,  nombre:"Tristeza",       zona:"Zona de dolor",        color:"#8A1515"},
-    {min:4.5,max:5.5, nivel:100, nombre:"Miedo",          zona:"Zona de dolor",        color:"#A03520"},
-    {min:5.5,max:6.2, nivel:150, nombre:"Ira / Rabia",    zona:"Zona de alerta",       color:"#A05A20"},
-    {min:6.2,max:6.8, nivel:175, nombre:"Orgullo",        zona:"Zona de alerta",       color:"#7A6B29"},
-    {min:6.8,max:7.5, nivel:200, nombre:"Coraje",         zona:"Zona de inflexión",    color:"#3A7A30"},
-    {min:7.5,max:8.2, nivel:250, nombre:"Neutralidad",    zona:"Zona de crecimiento",  color:"#297A4A"},
-    {min:8.2,max:8.8, nivel:310, nombre:"Disposición",    zona:"Zona de crecimiento",  color:"#2979A0"},
-    {min:8.8,max:9.3, nivel:350, nombre:"Aceptación",     zona:"Zona de éxito",        color:"#5C2FA0"},
-    {min:9.3,max:10,  nivel:400, nombre:"Razón / Amor",   zona:"Todo llega por añadidura", color:"#C9A84C"}
+    {min:2.5,max:3.3, nivel:50,  nombre:"Apatía / Culpa", zona:"Zona crítica",         color:"#6A1010"},
+    {min:3.3,max:4.0, nivel:75,  nombre:"Tristeza",       zona:"Zona de dolor",        color:"#8A1515"},
+    {min:4.0,max:4.7, nivel:100, nombre:"Miedo",          zona:"Zona de dolor",        color:"#A03520"},
+    {min:4.7,max:5.2, nivel:125, nombre:"Deseo",          zona:"Zona de alerta",       color:"#A0491F"},
+    {min:5.2,max:5.8, nivel:150, nombre:"Ira / Rabia",    zona:"Zona de alerta",       color:"#A05A20"},
+    {min:5.8,max:6.3, nivel:175, nombre:"Orgullo",        zona:"Zona de alerta",       color:"#7A6B29"},
+    {min:6.3,max:7.0, nivel:200, nombre:"Coraje",         zona:"El umbral",            color:"#3A7A30"},
+    {min:7.0,max:7.6, nivel:250, nombre:"Neutralidad",    zona:"Zona de crecimiento",  color:"#297A4A"},
+    {min:7.6,max:8.1, nivel:310, nombre:"Voluntad",       zona:"Zona de crecimiento",  color:"#2979A0"},
+    {min:8.1,max:8.6, nivel:350, nombre:"Aceptación",     zona:"Zona de crecimiento",  color:"#2F6FA0"},
+    {min:8.6,max:9.1, nivel:400, nombre:"Razón",          zona:"Zona de maestría",     color:"#5C2FA0"},
+    {min:9.1,max:9.6, nivel:500, nombre:"Amor",           zona:"La meta",              color:"#C9A84C"},
+    {min:9.6,max:10,  nivel:540, nombre:"Alegría",        zona:"Zona luminosa",        color:"#E8C96A"}
   ];
   var nivelActual=nivelMap[0];
   for(var ni=0;ni<nivelMap.length;ni++){
     if(prom>=nivelMap[ni].min&&prom<nivelMap[ni].max){nivelActual=nivelMap[ni];break;}
-    if(prom>=9.3){nivelActual=nivelMap[nivelMap.length-1];}
+    if(prom>=9.6){nivelActual=nivelMap[nivelMap.length-1];}
   }
   var nivelIdx=nivelMap.indexOf(nivelActual);
-  var nivelCoraje = nivelMap.find(function(n){return n.nivel===200;});
-  var nivelProyectado = nivelActual.nivel < 200 ? nivelCoraje : nivelMap[Math.min(nivelIdx+1,nivelMap.length-1)];
+  // Guardar el NIVEL REAL (lo que revela la vida de la persona en sus 12 áreas)
+  try{ localStorage.setItem('anormal_nivel_real', String(nivelActual.nivel)); }catch(e){}
+  // La META la elige la persona (o se sugiere Amor 500). El objetivo NO es fijo en 200.
+  var metaElegidaR = parseInt(localStorage.getItem('anormal_nivel_meta')||'0')||0;
+  var nivelProyectado;
+  if(metaElegidaR){ nivelProyectado = nivelMap.find(function(n){return n.nivel===metaElegidaR;}) || nivelMap.find(function(n){return n.nivel===500;}); }
+  else { var nivelAmorR=nivelMap.find(function(n){return n.nivel===500;}); nivelProyectado = nivelActual.nivel < 500 ? nivelAmorR : nivelMap[Math.min(nivelIdx+1,nivelMap.length-1)]; }
 
   // ── STATS HEADER ────────────────────────────────────────────────────
   var cstat=mk("div","card gold");cstat.style.padding="14px 16px";
   var statrow=mk("div");statrow.style.cssText="display:flex;gap:9px;flex-wrap:wrap;margin-bottom:12px";
-  [{l:"PROMEDIO GENERAL",v:prom+"/10"},{l:"NIVEL DE CONCIENCIA",v:nivelActual.nivel+" — "+nivelActual.nombre},{l:"OBJETIVO 75 DÍAS",v:nivelProyectado.nivel+" — "+nivelProyectado.nombre}].forEach(function(item){
+  [{l:"PROMEDIO GENERAL",v:prom+"/10"},{l:"NIVEL DE CONCIENCIA",v:nivelActual.nivel+" — "+nivelActual.nombre},{l:"TU META",v:nivelProyectado.nivel+" — "+nivelProyectado.nombre}].forEach(function(item){
     var s=mk("div");s.style.cssText="flex:1;min-width:90px;text-align:center;background:var(--bg3);border-radius:var(--rm);padding:8px 6px";
     var sv=mk("div");sv.style.cssText="font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:400;color:var(--gold2);line-height:1.1;margin-bottom:3px";sv.textContent=item.v;
     var sl=mk("div");sl.style.cssText="font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)";sl.textContent=item.l;
