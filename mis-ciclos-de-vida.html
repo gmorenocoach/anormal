@@ -327,6 +327,8 @@ textarea:focus{outline:none;border-color:var(--gold)}
 
     <div id="diagnostico-origen-wrap"></div>
 
+    <div id="resignificacion-wrap"></div>
+
     <div id="proximos-ciclos-wrap"></div>
 
     <p class="quote">Entre lo que te pasó y lo que decides hacer con eso, hay un espacio. En ese espacio vive tu libertad. Y hoy estás empezando a habitarlo.</p>
@@ -686,8 +688,40 @@ function renderCierre(){
   // ── DIAGNÓSTICO DE ORIGEN (interpreta: raíz en primeros ciclos → bloqueo en tu línea) ──
   renderDiagnosticoOrigen(ciclosDolor, pesoPorCiclo, dolorMasFuerte);
 
+  // ── RESIGNIFICACIÓN DE PADRE/MADRE (sembrar el perdón: verlos como el niño que fueron) ──
+  renderResignificacion();
+
   // ── PRÓXIMOS CICLOS (para todos: lo que viene según la edad) ──
   renderProximosCiclos();
+}
+
+function renderResignificacion(){
+  var wrap=document.getElementById('resignificacion-wrap');
+  if(!wrap) return;
+  var guardado={}; try{ guardado=JSON.parse(localStorage.getItem('anormal_resignificacion')||'{}'); }catch(e){}
+  var html='<div class="cierre-resumen" style="border-color:rgba(212,83,126,.3)">';
+  html+='<div class="espejo-label" style="color:var(--rose)">◑ Antes de seguir: mira hacia atrás con otros ojos</div>';
+  html+='<div class="espejo-texto" style="margin-bottom:16px">Muchas de las heridas que rastreaste vienen de tu padre y tu madre. Pero ellos también fueron niños — niños que vivieron sus propios ciclos, con sus propias heridas que nadie sanó. <em style="color:var(--gold3)">"Antes de juzgar a tu padre, velo como el niño que fue. Pregúntate qué le pasó a él. Ahí está la respuesta a todo."</em></div>';
+  html+='<div class="espejo-texto" style="margin-bottom:18px">Este es el primer paso del perdón que profundizarás más adelante. No se trata de justificar — se trata de <b>entender</b>. Cierra los ojos un momento e imagínalos con cinco, seis, siete años. Luego escribe lo que veas.</div>';
+
+  [{k:'padre',lbl:'Tu padre, cuando era niño',col:'#5A8CC0'},{k:'madre',lbl:'Tu madre, cuando era niña',col:'#D4537E'}].forEach(function(p){
+    html+='<div style="margin-bottom:16px">';
+    html+='<div style="font-size:13px;color:'+p.col+';margin-bottom:6px;font-weight:500">'+p.lbl+'</div>';
+    html+='<div style="font-size:12.5px;color:var(--dim);line-height:1.6;margin-bottom:8px">¿Qué le pudo haber pasado a ese niño? ¿Cómo lo trataron? ¿Qué le faltó? ¿Qué heridas cargaba que nunca sanaron — y que quizás te heredó sin querer?</div>';
+    html+='<textarea id="resig-'+p.k+'" placeholder="Cuando imagino a '+(p.k==='padre'?'mi padre':'mi madre')+' como el niño que fue, veo..." style="width:100%;min-height:80px;background:var(--bg3);border:1px solid var(--faint);border-radius:8px;color:var(--text);font-family:Barlow,sans-serif;font-size:14px;padding:10px 12px;outline:none;resize:vertical">'+((guardado[p.k]||'').replace(/</g,'&lt;'))+'</textarea>';
+    html+='</div>';
+  });
+  html+='<div style="font-size:12.5px;color:var(--dim);font-style:italic;text-align:center;margin-top:6px">Perdonar no es olvidar. Es recordar sin dolor. Es soltar la piedra.</div>';
+  html+='</div>';
+  wrap.innerHTML=html;
+  // guardar al escribir
+  ['padre','madre'].forEach(function(k){
+    var ta=document.getElementById('resig-'+k);
+    if(ta) ta.addEventListener('input',function(){
+      var g={}; try{ g=JSON.parse(localStorage.getItem('anormal_resignificacion')||'{}'); }catch(e){}
+      g[k]=this.value; localStorage.setItem('anormal_resignificacion',JSON.stringify(g));
+    });
+  });
 }
 
 function renderDiagnosticoOrigen(ciclosDolor, pesoPorCiclo, dolorMasFuerte){
