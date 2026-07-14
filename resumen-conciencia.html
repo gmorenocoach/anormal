@@ -250,8 +250,13 @@ var nivelMap=[
   {nivel:700,nombre:"Iluminación",zona:"Zona trascendente",color:"#FFFFFF"}
 ];
 
-// Nivel base del diagnóstico + puntos acumulados
-var nivelBase = diagnostico.nivel || 100;
+// FUENTE DE VERDAD DEL NIVEL DE CONCIENCIA (brecha consciente vs real)
+// Consciente = lo que la persona reconoce de sí misma (diagnóstico)
+// Real = lo que revela su rueda de la vida (sus 12 áreas)
+var nivelConsciente = parseInt(leer('anormal_nivel_consciente', String(diagnostico.nivel||100)))||100;
+var nivelReal = parseInt(leer('anormal_nivel_real','0'))||0;
+// El punto de partida es el nivel real (lo que la vida muestra); si no hay rueda aún, el consciente
+var nivelBase = nivelReal || nivelConsciente;
 var nivelTotal = nivelBase + puntosConciencia;
 // Encontrar el nivel actual según el total
 var nivelActual = nivelMap[0];
@@ -378,9 +383,20 @@ function render(){
   html += '<div class="nivel-num" style="color:'+nivelActual.color+'">'+nivelActual.nivel+'</div>';
   html += '<div class="nivel-nombre">'+nivelActual.nombre+'</div>';
   html += '<div class="nivel-zona">'+nivelActual.zona+'</div>';
-  // Explicación calificado vs real (si hay diferencia por las respuestas del diagnóstico)
-  if(diagnostico.nivelCalificado && diagnostico.nivelCalificado !== nivelActual.nivel){
-    html += '<div style="font-size:13px;color:var(--dim);line-height:1.7;margin-bottom:14px;padding:0 10px">En tu rueda calificaste un promedio que da <strong style="color:var(--gold2)">'+diagnostico.nivelCalificado+'</strong>, pero al cruzarlo con tus respuestas sobre tu origen, tu nivel de conciencia real hoy es <strong style="color:'+nivelActual.color+'">'+nivelActual.nivel+'</strong>. Eso es honestidad — y la honestidad es el punto de partida.</div>';
+  // LA BRECHA: lo que la persona reconoce (consciente) vs lo que su vida revela (real)
+  if(nivelReal && nivelConsciente && nivelReal !== nivelConsciente){
+    var nC = nivelMap.reduce(function(a,n){ return Math.abs(n.nivel-nivelConsciente)<Math.abs(a.nivel-nivelConsciente)?n:a; }, nivelMap[0]);
+    var nR = nivelMap.reduce(function(a,n){ return Math.abs(n.nivel-nivelReal)<Math.abs(a.nivel-nivelReal)?n:a; }, nivelMap[0]);
+    html += '<div style="margin:14px 0;padding:14px 16px;background:var(--bg3);border-radius:var(--rm);border-left:3px solid var(--gold)">';
+    html += '<div style="font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold2);margin-bottom:10px">Tu punto de partida honesto</div>';
+    html += '<div style="display:flex;justify-content:space-around;text-align:center;margin-bottom:12px">';
+    html += '<div><div style="font-size:11px;color:var(--dim);margin-bottom:3px">Donde te reconoces</div><div style="font-family:Cormorant Garamond,serif;font-size:22px;color:'+nC.color+'">'+nC.nivel+'</div><div style="font-size:12px;color:var(--dim)">'+nC.nombre+'</div></div>';
+    html += '<div style="align-self:center;font-size:16px;color:var(--faint)">vs</div>';
+    html += '<div><div style="font-size:11px;color:var(--dim);margin-bottom:3px">Lo que tu vida refleja</div><div style="font-family:Cormorant Garamond,serif;font-size:22px;color:'+nR.color+'">'+nR.nivel+'</div><div style="font-size:12px;color:var(--dim)">'+nR.nombre+'</div></div>';
+    html += '</div>';
+    var mayorMenor = nivelReal < nivelConsciente ? 'más abajo de lo que crees' : 'más arriba de lo que crees';
+    html += '<p style="font-size:13.5px;color:var(--text);line-height:1.7;margin:0">Te reconoces en <strong style="color:'+nC.color+'">'+nC.nombre+'</strong>, pero cómo vives hoy tus doce áreas refleja <strong style="color:'+nR.color+'">'+nR.nombre+'</strong> — '+mayorMenor+'. Esa distancia entre lo que crees y lo que vives no es un error: <strong style="color:var(--gold2)">es tu material de trabajo</strong>. Todo el proceso existe para cerrarla, con honestidad.</p>';
+    html += '</div>';
   }
   var pct = Math.round((nivelActual.nivel-20)/(500-20)*100);
   html += '<div class="nivel-barra"><div class="nivel-relleno" style="width:'+pct+'%;background:'+nivelActual.color+'"></div></div>';
@@ -393,6 +409,15 @@ function render(){
   } else {
     msgNivel = 'Vives desde el <strong style="color:var(--gold2)">Amor (500+)</strong> — el nivel donde tu sola presencia transforma. Este es un proceso de por vida: sostenerlo y seguir elevándote hacia la Alegría, la Paz y más allá.';
   }
+  // Indicador verdad/falsedad (fuerza vs poder) — del mapa de conciencia
+  var enVerdad = nivelActual.nivel >= 200;
+  html += '<div style="margin-top:14px;padding:12px 16px;border-radius:var(--rm);background:'+(enVerdad?'rgba(74,191,122,.08)':'rgba(212,83,126,.08)')+';border:1px solid '+(enVerdad?'rgba(74,191,122,.25)':'rgba(212,83,126,.25)')+'">';
+  if(enVerdad){
+    html += '<div style="font-size:13px;color:var(--text);line-height:1.7"><strong style="color:var(--grn)">Estás en los niveles de verdad (200+).</strong> Aquí vives desde el <strong>poder</strong> — la energía que sostiene, construye y no se agota. Cada peldaño que subes multiplica tu fuerza interior.</div>';
+  } else {
+    html += '<div style="font-size:13px;color:var(--text);line-height:1.7"><strong style="color:var(--rose)">Estás en los niveles de falsedad (por debajo de 200).</strong> Aquí se vive desde la <strong>fuerza</strong> — la que empuja pero se agota, la que cansa. Cruzar el umbral del Coraje (200) es pasar de la fuerza al <strong>poder</strong>: el que sostiene sin desgastarte. Ese es tu primer gran salto.</div>';
+  }
+  html += '</div>';
   html += '<div class="nivel-proceso">'+msgNivel+' Subir tu nivel de conciencia no es tachar tareas — es volverte ∀normal de forma permanente. Es un proceso de por vida, no una meta que se alcanza y se olvida.</div>';
   html += '</div></div>';
 
