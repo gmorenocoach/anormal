@@ -90,9 +90,9 @@ body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font
   </div>
 
   <div class="label" style="margin:22px 0 12px">Los tres principios que sostienen esta sesión</div>
-  <div class="principio"><div class="principio-num">∀4</div><div><div class="principio-info-tit">Avanza en el perdón</div><div class="principio-info-txt">El perdón no es un regalo para el otro — es tu liberación. El resentimiento es un veneno que tomas tú. Perdonar es soltar la piedra.</div></div></div>
-  <div class="principio"><div class="principio-num">∀5</div><div><div class="principio-info-tit">Aprovecha el dolor</div><div class="principio-info-txt">El dolor no llegó para destruirte, sino para enseñarte. Cada herida trae un aprendizaje escondido. Aprovecharlo es volver la herida sabiduría.</div></div></div>
-  <div class="principio"><div class="principio-num">∀6</div><div><div class="principio-info-tit">Ataca el miedo</div><div class="principio-info-txt">El miedo cuida lo que más necesitas sanar. Atravesarlo —no evitarlo— es lo que te devuelve la libertad. Del otro lado está tu paz.</div></div></div>
+  <div class="principio"><div class="principio-num">∀4</div><div><div class="principio-info-tit">Avanza en el perdón</div><div class="principio-info-txt">El perdón no es un regalo para el otro — es tu liberación. El resentimiento es un veneno que tomas tú. Perdonar es soltar la piedra.</div><div style="font-family:'Cormorant Garamond',serif;font-size:17px;font-style:italic;color:var(--gold2);margin-top:8px;padding-left:12px;border-left:2px solid var(--gb)">"Perdono para liberarme. Suelto la piedra que solo a mí me pesa."</div></div></div>
+  <div class="principio"><div class="principio-num">∀5</div><div><div class="principio-info-tit">Aprovecha el dolor</div><div class="principio-info-txt">El dolor no llegó para destruirte, sino para enseñarte. Cada herida trae un aprendizaje escondido. Aprovecharlo es volver la herida sabiduría.</div><div style="font-family:'Cormorant Garamond',serif;font-size:17px;font-style:italic;color:var(--gold2);margin-top:8px;padding-left:12px;border-left:2px solid var(--gb)">"Mi dolor es mi maestro. Lo escucho, aprendo, y lo transformo en fuerza."</div></div></div>
+  <div class="principio"><div class="principio-num">∀6</div><div><div class="principio-info-tit">Ataca el miedo</div><div class="principio-info-txt">El miedo cuida lo que más necesitas sanar. Atravesarlo —no evitarlo— es lo que te devuelve la libertad. Del otro lado está tu paz.</div><div style="font-family:'Cormorant Garamond',serif;font-size:17px;font-style:italic;color:var(--gold2);margin-top:8px;padding-left:12px;border-left:2px solid var(--gb)">"Actúo a pesar del miedo. El miedo señala justo donde tengo que crecer."</div></div></div>
 
   <p class="quote">No es que tengamos poco tiempo, sino que perdemos mucho. La vida es lo bastante larga si sabes usarla.
     <span class="quote-autor">Séneca</span></p>
@@ -141,6 +141,14 @@ function comenzar(){
     sessionStorage.setItem('anormal_proceso',JSON.stringify(data));
   }catch(e){}
   localStorage.setItem('anormal_sesion2_iniciada','1');
+  // Guardar/fusionar las voces de los principios de la Sesión 2 (mantras)
+  try{
+    var voces={}; try{ voces=JSON.parse(localStorage.getItem('anormal_voces_principios')||'{}'); }catch(e){}
+    voces['∀4']={titulo:'Avanza en el perdón', voz:'Perdono para liberarme. Suelto la piedra que solo a mí me pesa.', color:'#D4537E'};
+    voces['∀5']={titulo:'Aprovecha el dolor', voz:'Mi dolor es mi maestro. Lo escucho, aprendo, y lo transformo en fuerza.', color:'#D4537E'};
+    voces['∀6']={titulo:'Ataca el miedo', voz:'Actúo a pesar del miedo. El miedo señala justo donde tengo que crecer.', color:'#D4537E'};
+    localStorage.setItem('anormal_voces_principios', JSON.stringify(voces));
+  }catch(e){}
   window.location.href='mis-ciclos-de-vida.html';
 }
 
