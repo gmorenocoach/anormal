@@ -484,6 +484,8 @@ function completar() {
   // Guardar la reflexión final por si acaso
   var refEl = document.getElementById('reflexion-texto');
   if(refEl){ localStorage.setItem('anormal_linea_reflexion', (refEl.value||'').trim()); }
+  // Guardar el NIVEL CONSCIENTE (lo que la persona reconoce de sí misma) — fuente de verdad
+  if(nivelElegido){ localStorage.setItem('anormal_nivel_consciente', String(nivelElegido)); }
   // Guardar diagnóstico en localStorage y sessionStorage
   localStorage.setItem('anormal_diagnostico', JSON.stringify({
     linea: linea, nivel: nivelElegido, origen: origenElegido,
