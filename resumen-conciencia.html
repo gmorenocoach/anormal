@@ -166,6 +166,14 @@ function leer(clave, def){
 function leerJSON(clave, def){
   try{ var v=localStorage.getItem(clave); return v?JSON.parse(v):def; }catch(e){ return def; }
 }
+function elegirMeta(nivel){
+  try{ localStorage.setItem('anormal_nivel_meta', String(nivel)); }catch(e){}
+  location.reload();
+}
+function cambiarMeta(){
+  try{ localStorage.removeItem('anormal_nivel_meta'); }catch(e){}
+  location.reload();
+}
 
 var nombre = leer('anormal_nombre','Participante');
 var linea = leer('anormal_linea','');
@@ -253,8 +261,11 @@ for(var i=0;i<nivelMap.length;i++){
 var nivelIdx = nivelMap.indexOf(nivelActual);
 var nivelCoraje = nivelMap.find(function(n){return n.nivel===200;});
 var nivelAmor = nivelMap.find(function(n){return n.nivel===500;});
-// La meta real es el Amor (500). El Coraje (200) es el primer umbral a cruzar.
-var nivelObjetivo = nivelActual.nivel < 200 ? nivelCoraje : (nivelActual.nivel < 500 ? nivelAmor : nivelMap[Math.min(nivelIdx+1,nivelMap.length-1)]);
+// La META la elige la persona (anormal_nivel_meta). Si no ha elegido, sugerimos Amor 500 (o Coraje si está muy abajo).
+var metaElegida = parseInt(leer('anormal_nivel_meta','0'))||0;
+var nivelObjetivo;
+if(metaElegida){ nivelObjetivo = nivelMap.find(function(n){return n.nivel===metaElegida;}) || nivelAmor; }
+else { nivelObjetivo = nivelActual.nivel < 200 ? nivelCoraje : (nivelActual.nivel < 500 ? nivelAmor : nivelMap[Math.min(nivelIdx+1,nivelMap.length-1)]); }
 
 // ── PRINCIPIOS POR SESIÓN (los 18 reordenados) ──────────────────────
 var PRINCIPIOS_18=[
@@ -324,7 +335,9 @@ function render(){
   nivelIdx = nivelMap.indexOf(nivelActual);
   var nivelCoraje = nivelMap.find(function(n){return n.nivel===200;});
   var nivelAmor = nivelMap.find(function(n){return n.nivel===500;});
-  nivelObjetivo = nivelActual.nivel < 200 ? nivelCoraje : (nivelActual.nivel < 500 ? nivelAmor : nivelMap[Math.min(nivelIdx+1,nivelMap.length-1)]);
+  var metaElegida2 = parseInt(leer('anormal_nivel_meta','0'))||0;
+  if(metaElegida2){ nivelObjetivo = nivelMap.find(function(n){return n.nivel===metaElegida2;}) || nivelAmor; }
+  else { nivelObjetivo = nivelActual.nivel < 200 ? nivelCoraje : (nivelActual.nivel < 500 ? nivelAmor : nivelMap[Math.min(nivelIdx+1,nivelMap.length-1)]); }
 
   var cont = document.getElementById('contenido');
 
@@ -382,6 +395,30 @@ function render(){
   }
   html += '<div class="nivel-proceso">'+msgNivel+' Subir tu nivel de conciencia no es tachar tareas — es volverte ∀normal de forma permanente. Es un proceso de por vida, no una meta que se alcanza y se olvida.</div>';
   html += '</div></div>';
+
+  // SELECTOR DE META (la persona elige a dónde quiere llegar)
+  var metaGuardada = parseInt(leer('anormal_nivel_meta','0'))||0;
+  if(!metaGuardada){
+    html += '<div class="card" style="border-color:var(--gb)"><div class="cl" style="color:var(--gold2)">¿Hasta dónde quieres llegar?</div>';
+    html += '<div style="font-size:14px;color:var(--text);line-height:1.75;margin-bottom:14px">Este es tu momento de decidir. No es la herramienta quien define tu meta — eres tú. ¿A qué nivel de conciencia te comprometes a llegar? Elígelo, y ese será tu norte durante todo el proceso.</div>';
+    html += '<div id="opciones-meta">';
+    nivelMap.forEach(function(n){
+      if(n.nivel<=nivelActual.nivel) return; // solo niveles por encima del actual
+      if(n.nivel<200) return; // mínimo digno: Coraje
+      html += '<div class="opcion-meta" onclick="elegirMeta('+n.nivel+')" style="display:flex;justify-content:space-between;align-items:center;padding:12px 16px;background:var(--bg3);border:1px solid var(--faint);border-radius:var(--rm);margin-bottom:8px;cursor:pointer">'+
+        '<span style="color:'+n.color+';font-weight:500">'+n.nombre+'</span>'+
+        '<span style="color:var(--dim);font-size:13px">nivel '+n.nivel+(n.nivel===500?' · el Amor':n.nivel===200?' · el umbral':'')+'</span>'+
+      '</div>';
+    });
+    html += '</div></div>';
+  } else {
+    var nm = nivelMap.find(function(n){return n.nivel===metaGuardada;})||nivelObjetivo;
+    html += '<div class="card gold"><div class="cl">Tu meta elegida</div>';
+    html += '<div style="text-align:center;margin:6px 0 12px"><div style="font-family:Cormorant Garamond,serif;font-size:28px;color:'+nm.color+'">'+nm.nombre+'</div><div style="font-size:13px;color:var(--dim)">nivel '+nm.nivel+'</div></div>';
+    html += '<div style="font-size:14px;color:var(--text);line-height:1.8;padding:14px 16px;background:var(--bg3);border-radius:var(--rm);border-left:3px solid '+nm.color+'">Elegiste llegar al nivel de <strong style="color:'+nm.color+'">'+nm.nombre+'</strong>. Para llegar ahí debes atravesar cada ciclo del proceso con <strong>absoluta disciplina</strong>. No hay atajos. Y ahí es donde los <strong style="color:var(--gold2)">principios</strong> se vuelven tu camino: cada uno que vives te acerca a tu meta. Los principios no son teoría — son los peldaños de tu ascenso.</div>';
+    html += '<div style="text-align:center;margin-top:10px"><span onclick="cambiarMeta()" style="font-size:12px;color:var(--dim);cursor:pointer;text-decoration:underline">Cambiar mi meta</span></div>';
+    html += '</div>';
+  }
 
   // CÓMO SUBIR EL NIVEL (el motor del proceso)
   html += '<div class="card"><div class="cl">Cómo subes tu nivel de conciencia</div>';
