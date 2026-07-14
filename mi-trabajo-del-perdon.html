@@ -453,6 +453,19 @@ function renderFamiliar(quien){
     '<div class="viz-paso"><span class="viz-dot">·</span><span>Respira. Imagina a '+rol+' como '+nin+', a la edad que elegiste.</span></div>'+
     '<div class="viz-paso"><span class="viz-dot">·</span><span>Pregúntate: ¿qué le pasó a '+(quien==='madre'?'esa niña':'ese niño')+'? ¿Qué heridas cargaba que nunca sanó?</span></div>'+
     '<div class="viz-paso"><span class="viz-dot">·</span><span>Mira cómo dio lo que recibió. No para justificar — para entender, y soltar el juicio.</span></div></div>';
+  // Traer lo que la persona escribió en los ciclos (resignificación) para dar continuidad
+  var resigPrevia='';
+  try{
+    var resig=JSON.parse(localStorage.getItem('anormal_resignificacion')||'{}');
+    if(resig[quien] && resig[quien].trim()){
+      resigPrevia='<div class="card" style="border-color:var(--gb);background:rgba(201,168,76,.05)">'+
+        '<div class="label" style="color:var(--gold2)">✦ Lo que ya viste en '+rol+'</div>'+
+        '<p class="ct" style="margin-bottom:6px">Cuando recorriste tus ciclos, imaginaste a '+rol+' como '+nin+' y escribiste esto:</p>'+
+        '<p class="ct" style="font-style:italic;color:var(--gold3);padding-left:12px;border-left:2px solid var(--gb)">"'+resig[quien].trim().replace(/</g,'&lt;')+'"</p>'+
+        '<p class="ct dim" style="margin-top:8px;font-size:13px">Desde esa comprensión, ahora vas a soltar el juicio. Ya empezaste — este es el paso que lo completa.</p>'+
+      '</div>';
+    }
+  }catch(e){}
   var partes=
     '<div class="parte parte-frente"><div class="parte-cab"><div class="parte-icono">1</div><div class="parte-tit">El frente: lo que sentiste</div></div>'+
       '<div class="parte-guia">Dile lo que sentiste por lo que vivió. No como juicio, sino como verdad. Por ejemplo: «me abandonaste, y me dolió».</div>'+
@@ -465,7 +478,7 @@ function renderFamiliar(quien){
       '<textarea placeholder="Gracias, porque de esto aprendí..." oninput="guardarFam(\''+quien+'\',\'gracias\',this.value)">'+ct.gracias+'</textarea></div>'+
     '<div class="sello'+(ct.estado==='hecho'?' on':'')+'" id="sello-'+quien+'" onclick="marcarFamHecho(\''+quien+'\')"><div class="sello-check">✓</div><div class="sello-texto">Completé el ritual: escribí la carta, la leí mirando su imagen, la rompí y la solté. Suelto el juicio y recuerdo sin dolor.</div></div>'+
     '<div class="estado-linea"><span class="ct dim" style="font-size:13.5px">¿Aún no estás listo?</span><button class="btn-compromiso'+(ct.estado==='compromiso'?' on':'')+'" onclick="marcarFamCompromiso(\''+quien+'\')">Dejarlo como compromiso</button></div>';
-  cont.innerHTML=sel+energia+guia+recordatorioRitual()+partes;
+  cont.innerHTML=sel+energia+guia+resigPrevia+recordatorioRitual()+partes;
   var sc=document.getElementById('sel-'+quien); sc.innerHTML='';
   for(var i=1;i<=9;i++){
     var on=(cicloElegido[quien]===i)?' on':'';
