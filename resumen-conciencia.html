@@ -153,9 +153,15 @@ function principioParaAccion(texto){
 function principioAccionHTML(texto){
   var r=principioParaAccion(texto);
   var info=PRINCIPIO_INFO[r.p]||{n:'',c:'#C9A84C'};
+  // Si el principio tiene VOZ guardada (mantra), la mostramos como recordatorio
+  var voces={}; try{ voces=JSON.parse(localStorage.getItem('anormal_voces_principios')||'{}'); }catch(e){}
+  var vozP = voces['∀'+r.p];
   var html='<div style="margin-top:8px;padding:9px 12px;background:rgba(201,168,76,.07);border-left:2px solid '+info.c+';border-radius:0 6px 6px 0">';
   html+='<div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:'+info.c+';margin-bottom:3px">✦ El principio que refuerza esta acción</div>';
   html+='<div style="font-size:13.5px;color:#EAE6DC"><b style="color:'+info.c+'">∀'+r.p+' · '+info.n+'</b> — '+r.como+'</div>';
+  if(vozP && vozP.voz){
+    html+='<div style="font-size:13px;font-style:italic;color:'+info.c+';margin-top:6px;font-family:\'Cormorant Garamond\',serif">"'+vozP.voz+'"</div>';
+  }
   html+='</div>';
   return html;
 }
