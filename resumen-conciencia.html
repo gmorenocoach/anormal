@@ -228,13 +228,18 @@ var nivelMap=[
   {nivel:50,nombre:"Apatía / Culpa",zona:"Zona crítica",color:"#6A1010"},
   {nivel:75,nombre:"Tristeza",zona:"Zona de dolor",color:"#8A1515"},
   {nivel:100,nombre:"Miedo",zona:"Zona de dolor",color:"#A03520"},
+  {nivel:125,nombre:"Deseo",zona:"Zona de alerta",color:"#A0491F"},
   {nivel:150,nombre:"Ira / Rabia",zona:"Zona de alerta",color:"#A05A20"},
   {nivel:175,nombre:"Orgullo",zona:"Zona de alerta",color:"#7A6B29"},
-  {nivel:200,nombre:"Coraje",zona:"Zona de inflexión",color:"#3A7A30"},
+  {nivel:200,nombre:"Coraje",zona:"El umbral: aquí empieza el ascenso",color:"#3A7A30"},
   {nivel:250,nombre:"Neutralidad",zona:"Zona de crecimiento",color:"#297A4A"},
-  {nivel:310,nombre:"Disposición",zona:"Zona de crecimiento",color:"#2979A0"},
-  {nivel:350,nombre:"Aceptación",zona:"Zona de éxito",color:"#5C2FA0"},
-  {nivel:400,nombre:"Razón / Amor",zona:"Todo llega por añadidura",color:"#C9A84C"}
+  {nivel:310,nombre:"Voluntad",zona:"Zona de crecimiento",color:"#2979A0"},
+  {nivel:350,nombre:"Aceptación",zona:"Zona de crecimiento",color:"#2F6FA0"},
+  {nivel:400,nombre:"Razón",zona:"Zona de maestría",color:"#5C2FA0"},
+  {nivel:500,nombre:"Amor",zona:"La meta: vivir desde el amor",color:"#C9A84C"},
+  {nivel:540,nombre:"Alegría",zona:"Zona luminosa",color:"#E8C96A"},
+  {nivel:600,nombre:"Paz",zona:"Zona luminosa",color:"#F5E0A0"},
+  {nivel:700,nombre:"Iluminación",zona:"Zona trascendente",color:"#FFFFFF"}
 ];
 
 // Nivel base del diagnóstico + puntos acumulados
@@ -247,7 +252,9 @@ for(var i=0;i<nivelMap.length;i++){
 }
 var nivelIdx = nivelMap.indexOf(nivelActual);
 var nivelCoraje = nivelMap.find(function(n){return n.nivel===200;});
-var nivelObjetivo = nivelActual.nivel < 200 ? nivelCoraje : nivelMap[Math.min(nivelIdx+1,nivelMap.length-1)];
+var nivelAmor = nivelMap.find(function(n){return n.nivel===500;});
+// La meta real es el Amor (500). El Coraje (200) es el primer umbral a cruzar.
+var nivelObjetivo = nivelActual.nivel < 200 ? nivelCoraje : (nivelActual.nivel < 500 ? nivelAmor : nivelMap[Math.min(nivelIdx+1,nivelMap.length-1)]);
 
 // ── PRINCIPIOS POR SESIÓN (los 18 reordenados) ──────────────────────
 var PRINCIPIOS_18=[
@@ -316,7 +323,8 @@ function render(){
   for(var i=0;i<nivelMap.length;i++){ if(nivelTotal>=nivelMap[i].nivel) nivelActual=nivelMap[i]; }
   nivelIdx = nivelMap.indexOf(nivelActual);
   var nivelCoraje = nivelMap.find(function(n){return n.nivel===200;});
-  nivelObjetivo = nivelActual.nivel < 200 ? nivelCoraje : nivelMap[Math.min(nivelIdx+1,nivelMap.length-1)];
+  var nivelAmor = nivelMap.find(function(n){return n.nivel===500;});
+  nivelObjetivo = nivelActual.nivel < 200 ? nivelCoraje : (nivelActual.nivel < 500 ? nivelAmor : nivelMap[Math.min(nivelIdx+1,nivelMap.length-1)]);
 
   var cont = document.getElementById('contenido');
 
@@ -361,11 +369,31 @@ function render(){
   if(diagnostico.nivelCalificado && diagnostico.nivelCalificado !== nivelActual.nivel){
     html += '<div style="font-size:13px;color:var(--dim);line-height:1.7;margin-bottom:14px;padding:0 10px">En tu rueda calificaste un promedio que da <strong style="color:var(--gold2)">'+diagnostico.nivelCalificado+'</strong>, pero al cruzarlo con tus respuestas sobre tu origen, tu nivel de conciencia real hoy es <strong style="color:'+nivelActual.color+'">'+nivelActual.nivel+'</strong>. Eso es honestidad — y la honestidad es el punto de partida.</div>';
   }
-  var pct = Math.round((nivelActual.nivel-20)/(400-20)*100);
+  var pct = Math.round((nivelActual.nivel-20)/(500-20)*100);
   html += '<div class="nivel-barra"><div class="nivel-relleno" style="width:'+pct+'%;background:'+nivelActual.color+'"></div></div>';
-  html += '<div class="nivel-meta"><span>Nivel '+nivelActual.nivel+'</span><span>Objetivo: '+nivelObjetivo.nivel+' — '+nivelObjetivo.nombre+'</span></div>';
-  html += '<div class="nivel-proceso">Subir tu nivel de conciencia no es tachar tareas — es volverte ∀normal de forma permanente. Cada acción cumplida, cada principio que vives, te transforma un poco más. Esto es un proceso de por vida, no una meta que se alcanza y se olvida.</div>';
+  html += '<div class="nivel-meta"><span>Nivel '+nivelActual.nivel+'</span><span>Meta: '+nivelObjetivo.nivel+' — '+nivelObjetivo.nombre+'</span></div>';
+  var msgNivel;
+  if(nivelActual.nivel < 200){
+    msgNivel = 'Tu primer umbral es el <strong style="color:#3A7A30">Coraje (200)</strong> — el punto donde tu energía deja de restarte y empieza a impulsarte. Pero la meta no termina ahí: el destino es el <strong style="color:var(--gold2)">Amor (500)</strong>. Cada acción que cumples, cada perdón que das, cada principio que vives, te sube un peldaño.';
+  } else if(nivelActual.nivel < 500){
+    msgNivel = 'Ya cruzaste el umbral del Coraje — tu energía juega a tu favor. Ahora vas hacia la meta: el <strong style="color:var(--gold2)">Amor (500)</strong>, donde todo llega por añadidura. Cada nivel trabaja algo propio, y subes viviendo los principios y cumpliendo tus acciones en la línea que elegiste.';
+  } else {
+    msgNivel = 'Vives desde el <strong style="color:var(--gold2)">Amor (500+)</strong> — el nivel donde tu sola presencia transforma. Este es un proceso de por vida: sostenerlo y seguir elevándote hacia la Alegría, la Paz y más allá.';
+  }
+  html += '<div class="nivel-proceso">'+msgNivel+' Subir tu nivel de conciencia no es tachar tareas — es volverte ∀normal de forma permanente. Es un proceso de por vida, no una meta que se alcanza y se olvida.</div>';
   html += '</div></div>';
+
+  // CÓMO SUBIR EL NIVEL (el motor del proceso)
+  html += '<div class="card"><div class="cl">Cómo subes tu nivel de conciencia</div>';
+  html += '<div style="font-size:14px;color:var(--text);line-height:1.75;margin-bottom:12px">Todo lo que haces en ∀normal tiene un propósito: elevarte. Cada herramienta te da fuerza para subir un peldaño más — siempre en la línea que elegiste.</div>';
+  html += '<div style="line-height:1.9;font-size:14px">'+
+    '<div style="margin-bottom:8px"><span style="color:var(--grn)">↑</span> <strong>Perdonar y soltar</strong> — libera la energía atrapada en el pasado (sube del Orgullo y la Ira hacia el Coraje).</div>'+
+    '<div style="margin-bottom:8px"><span style="color:var(--grn)">↑</span> <strong>Cumplir tus acciones</strong> — cada compromiso que honras es voluntad en movimiento (te acerca a la Aceptación y la Razón).</div>'+
+    '<div style="margin-bottom:8px"><span style="color:var(--grn)">↑</span> <strong>Entender tus septenios</strong> — al ver tus ciclos dejas de repetir patrones (sales del Miedo hacia el Coraje).</div>'+
+    '<div style="margin-bottom:8px"><span style="color:var(--grn)">↑</span> <strong>Reconocer tus números y flechas</strong> — aceptar tus dones y trabajar tus vacíos es honestidad radical (sube hacia la Aceptación).</div>'+
+    '<div style="margin-bottom:8px"><span style="color:var(--grn)">↑</span> <strong>Descubrir tu Ikigai</strong> — vivir tu propósito te instala en la Razón y te abre la puerta al Amor.</div>'+
+    '<div><span style="color:var(--grn)">↑</span> <strong>Vivir los principios</strong> — son el camino diario que sostiene todo el ascenso.</div>'+
+  '</div></div>';
 
   // DATOS CLAVE
   html += '<div class="card"><div class="cl">Tu punto de partida</div><div class="datos-grid">';
