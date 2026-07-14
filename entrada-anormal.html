@@ -357,6 +357,7 @@ var PRINCIPIOS = [
     num: 1,
     titulo: "\u2200gradecer",
     color: "#C9A84C",
+    voz: "Agradezco lo que tengo y lo que soy. La gratitud es la puerta de mi abundancia.",
     exige: "Mientras avanzas en este proceso, la gratitud no es opcional. Es el lente desde el que lees cada resultado, cada ejercicio, cada descubrimiento sobre ti mismo. Un resultado que te incomoda, visto con gratitud, se convierte en información. Visto sin gratitud, se convierte en excusa.",
     maquia: "\"Den gracias en toda circunstancia.\"\n\nLa gratitud no es una emoción pasajera — es una decisión consciente de ver cada experiencia como parte de un proceso mayor. Quien no reconoce lo que ya tiene, no puede construir nada sólido sobre esa base. Yo lo aprendí cuando menos quería ser agradecido."
   },
@@ -364,6 +365,7 @@ var PRINCIPIOS = [
     num: 2,
     titulo: "\u2200p\u00fantale al compromiso",
     color: "#C9A84C",
+    voz: "Mi palabra es sagrada. Lo que me comprometo, lo cumplo — pase lo que pase.",
     exige: "Ya te comprometiste al entrar. Ese compromiso no vence. Cada vez que sientas que quieres pausar, recuerda: te comprometiste antes de saber el cómo. Eso es exactamente lo que distingue a quien transforma de quien solo aprende.",
     maquia: "\"Nadie que pone la mano en el arado y mira hacia atrás es apto para lo que viene.\"\n\nLa parálisis ante la incertidumbre es la derrota más costosa. El compromiso que tomaste hoy es más inteligente que cualquier excusa que vayas a construir mañana. Apúntale — y no mires hacia atrás."
   },
@@ -371,6 +373,7 @@ var PRINCIPIOS = [
     num: 3,
     titulo: "\u2200prende a normalizar lo extraordinario",
     color: "#9B7FD4",
+    voz: "Lo que para otros es imposible, para mí es mi nuevo normal.",
     exige: "Lo que descubras sobre ti en este proceso debe convertirse en tu nueva normalidad, no en un dato interesante que olvidas en una semana. Cada herramienta, cada insight, cada momento de claridad — no son revelaciones temporales. Son tu nueva forma de verte.",
     maquia: "\"Quien cree en lo que está haciendo hará obras mayores de las que imagina.\"\n\nVer algo extraordinario en ti mismo es fácil. Normalizarlo — vivirlo, aplicarlo, habitarlo — eso es lo extraordinario. \u2200normal no busca que te sorprendas. Busca que te reconozcas."
   }
@@ -560,6 +563,21 @@ function mostrarPrincipio(idx) {
   document.getElementById('p-num').textContent = '∀' + p.num;
   document.getElementById('p-num').style.color = p.color;
   document.getElementById('p-titulo').textContent = p.titulo;
+  // La VOZ del principio: el mantra que la persona se lleva
+  var vozEl = document.getElementById('p-voz');
+  if(!vozEl){
+    vozEl = document.createElement('div');
+    vozEl.id = 'p-voz';
+    vozEl.style.cssText = 'font-family:"Cormorant Garamond",serif;font-size:21px;font-style:italic;line-height:1.5;margin-bottom:20px;padding-left:16px;border-left:2px solid';
+    var tit = document.getElementById('p-titulo');
+    tit.parentNode.insertBefore(vozEl, tit.nextSibling);
+  }
+  if(p.voz){
+    vozEl.textContent = '"' + p.voz + '"';
+    vozEl.style.color = p.color;
+    vozEl.style.borderLeftColor = p.color;
+    vozEl.style.display = 'block';
+  } else { vozEl.style.display = 'none'; }
   document.getElementById('p-exige').textContent = p.exige;
   document.getElementById('p-maquia').innerText = p.maquia;
   var comprometido = document.getElementById('p-comprometido');
@@ -596,6 +614,12 @@ function guardarYCompletar() {
   localStorage.setItem('anormal_acciones', JSON.stringify(estado.acciones));
   localStorage.setItem('anormal_prioridades', JSON.stringify(estado.prioridades));
   localStorage.setItem('anormal_entrada_completa', '1');
+  // Guardar las VOCES de los principios (mantras) para recordarlas al actuar
+  try{
+    var voces = {};
+    PRINCIPIOS.forEach(function(p){ if(p.voz) voces['∀'+p.num] = {titulo:p.titulo, voz:p.voz, color:p.color}; });
+    localStorage.setItem('anormal_voces_principios', JSON.stringify(voces));
+  }catch(e){}
   // Guardar también en sessionStorage para compatibilidad con el resto de la plataforma
   try {
     var data = JSON.parse(sessionStorage.getItem('anormal_proceso') || '{}');
