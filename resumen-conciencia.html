@@ -174,6 +174,14 @@ function cambiarMeta(){
   try{ localStorage.removeItem('anormal_nivel_meta'); }catch(e){}
   location.reload();
 }
+function toggleNivelGuia(head){
+  var cuerpo = head.parentNode.querySelector('.nivel-guia-cuerpo');
+  if(!cuerpo) return;
+  var abierto = cuerpo.style.display !== 'none';
+  cuerpo.style.display = abierto ? 'none' : 'block';
+  var flecha = head.querySelector('span span[style*="faint"]');
+  if(flecha) flecha.textContent = abierto ? '▾' : '▴';
+}
 
 var nombre = leer('anormal_nombre','Participante');
 var linea = leer('anormal_linea','');
@@ -249,6 +257,27 @@ var nivelMap=[
   {nivel:600,nombre:"Paz",zona:"Zona luminosa",color:"#F5E0A0"},
   {nivel:700,nombre:"Iluminación",zona:"Zona trascendente",color:"#FFFFFF"}
 ];
+
+// GUÍA DE CADA NIVEL: qué significa, cómo se supera, y acciones (universal + por línea)
+var guiaNiveles = {
+  20:{sig:"Te vives sin valor, como si no merecieras. La vergüenza es la identidad de 'yo no sirvo'.", sup:"El primer paso es dejar de esconderte: nombrar lo que sientes ante alguien de confianza.", uni:"Cuéntale a una persona segura algo que ocultas por vergüenza.", salud:"Reconoce en voz alta que necesitas cuidar tu salud, sin castigarte.", dinero:"Escribe sin juzgarte tu situación real con el dinero.", amor:"Permítete recibir un gesto de afecto sin sentir que no lo mereces."},
+  30:{sig:"La culpa te ancla al pasado: cargas un peso por lo que hiciste o dejaste de hacer.", sup:"Se supera con reparación y autoperdón: hacer lo posible hoy y soltar lo que ya no.", uni:"Repara algo que esté en tus manos, y perdónate por lo que no.", salud:"Deja de castigar tu cuerpo por descuidos pasados; empieza hoy.", dinero:"Perdónate una decisión financiera del pasado y aprende de ella.", amor:"Pide perdón donde haga falta, y perdónate a ti mismo."},
+  50:{sig:"La apatía es el 'no puedo', la desesperanza. Sientes que nada cambiará.", sup:"Se supera con un mínimo movimiento: una sola acción rompe la parálisis.", uni:"Haz una sola cosa pequeña hoy, aunque no tengas ganas.", salud:"Da una caminata corta, aunque sea de cinco minutos.", dinero:"Revisa un solo número de tus finanzas hoy.", amor:"Envía un mensaje a alguien que quieres."},
+  75:{sig:"La tristeza es duelo: algo se perdió y el cuerpo lo procesa. No es debilidad, es paso.", sup:"Se supera permitiéndola fluir — llorar lo que se debe llorar — y buscando apoyo.", uni:"Date permiso de sentir sin bloquearte; comparte tu tristeza con alguien.", salud:"Descansa lo que tu cuerpo pide sin culpa.", dinero:"Acepta una pérdida sin quedarte atrapado en ella.", amor:"Honra una relación que terminó y ábrete a lo nuevo."},
+  100:{sig:"El miedo te pone en alerta y te paraliza: evitas riesgos, te proteges de más.", sup:"Se supera con coraje: un paso hacia lo que temes, por pequeño que sea.", uni:"Da un paso concreto hacia eso que vienes evitando.", salud:"Agenda esa cita médica que pospones.", dinero:"Mira de frente ese número o deuda que evitas.", amor:"Ten esa conversación que temes tener."},
+  125:{sig:"El deseo compulsivo es querer sin fin: llenar un vacío con cosas, control o placer.", sup:"Se supera distinguiendo lo que necesitas de lo que ansías, y soltando el exceso.", uni:"Renuncia hoy a un impulso que sabes que no te suma.", salud:"Elige una comida por nutrición, no por ansiedad.", dinero:"Evita una compra impulsiva y obsérvate.", amor:"No busques aprobación externa por un día; date la tuya."},
+  150:{sig:"La ira señala un límite cruzado. Es información, pero atrapado en ella hay resentimiento.", sup:"Se supera con el perdón: soltar el resentimiento no libera al otro, te libera a ti.", uni:"Perdona a alguien — no por él, por tu propia paz.", salud:"Canaliza la rabia en ejercicio, no en tu cuerpo.", dinero:"Suelta el resentimiento hacia quien tiene más.", amor:"Expresa lo que te molestó sin atacar, y luego suelta."},
+  175:{sig:"El orgullo protege una imagen. Te cuesta pedir ayuda o reconocer que te equivocaste.", sup:"Se supera con humildad: reconocer errores y pedir ayuda es fuerza, no debilidad.", uni:"Reconoce ante alguien que te equivocaste en algo.", salud:"Pide ayuda en vez de 'poder solo' con todo.", dinero:"Admite si gastas para aparentar, y ajústalo.", amor:"Da tú el primer paso para reconciliarte."},
+  200:{sig:"El Coraje es el umbral: aquí tu energía deja de restarte y empieza a impulsarte. Pasas de la fuerza al poder.", sup:"Se sostiene tomando responsabilidad total de tu vida y actuando con valentía constante.", uni:"Asume una responsabilidad que venías evadiendo.", salud:"Comprométete con un hábito y cúmplelo esta semana.", dinero:"Toma una decisión financiera valiente y sana.", amor:"Sé honesto en una relación donde callabas."},
+  250:{sig:"La Neutralidad es flexibilidad: dejas de aferrarte, fluyes con lo que hay sin resistencia.", sup:"Se supera comprometiéndote con algo mayor que tú, dando el siguiente paso con disposición.", uni:"Comprométete con una meta que te trascienda.", salud:"Convierte un buen hábito en rutina estable.", dinero:"Pasa de sobrevivir a planear con calma.", amor:"Ofrece tu presencia sin esperar nada a cambio."},
+  310:{sig:"La Voluntad es entrega y disposición: dices sí a la vida, trabajas con entusiasmo.", sup:"Se supera aceptando lo que es, dejando de pelear con la realidad.", uni:"Acepta algo que no puedes cambiar y enfoca tu energía en lo que sí.", salud:"Acepta tu punto de partida y avanza desde ahí.", dinero:"Acepta tu realidad económica y trabaja tu plan.", amor:"Acepta a alguien como es, sin querer cambiarlo."},
+  350:{sig:"La Aceptación es paz con lo que es: asumes tu poder de responder, dejas de ser víctima.", sup:"Se supera usando la razón: comprender, aprender, ver el panorama completo.", uni:"Estudia o comprende algo que te ayude a crecer.", salud:"Aprende cómo funciona tu cuerpo y decide con criterio.", dinero:"Edúcate financieramente y aplica lo que aprendes.", amor:"Comprende al otro desde su historia, no desde tu juicio."},
+  400:{sig:"La Razón es claridad y comprensión: piensas con lucidez, tomas decisiones sabias.", sup:"Se supera abriendo el corazón: dejar que el amor, no solo la lógica, guíe tus actos.", uni:"Haz algo por otro sin cálculo, solo por amor.", salud:"Cuida tu cuerpo como un acto de amor propio.", dinero:"Usa tus recursos para generar bien, no solo para ti.", amor:"Ama sin condiciones ni expectativas."},
+  500:{sig:"El Amor es incondicional: no se gana ni se pierde, se irradia. Aquí todo llega por añadidura.", sup:"Se sostiene y se expande sirviendo, perdonando y agradeciendo cada día.", uni:"Sirve a alguien sin esperar nada.", salud:"Vive tu salud como gratitud, no como obligación.", dinero:"Sé fuente de abundancia para otros.", amor:"Ama incluso a quien no te corresponde."},
+  540:{sig:"La Alegría es serenidad y compasión: una dicha interna que no depende de lo externo.", sup:"Se sostiene en la gratitud constante y la conexión con algo mayor.", uni:"Agradece diez cosas al despertar.", salud:"Celebra lo que tu cuerpo te permite hacer.", dinero:"Disfruta lo que tienes sin ansiar más.", amor:"Irradia alegría a quienes te rodean."},
+  600:{sig:"La Paz es trascendencia: quietud perfecta, unidad con todo lo que es.", sup:"Es un estado de entrega total; se vive en presencia y contemplación.", uni:"Dedica un tiempo diario al silencio y la presencia.", salud:"Habita tu cuerpo en calma total.", dinero:"Vive sin apego a lo material.", amor:"Ama desde la unidad, sin separación."},
+  700:{sig:"La Iluminación es conciencia pura: el nivel de los grandes maestros de la humanidad.", sup:"Es el horizonte del camino. No se persigue: se vive un instante a la vez.", uni:"Vive el presente como el único momento que existe.", salud:"Tu ser trasciende el cuerpo.", dinero:"Lo material pierde todo peso.", amor:"Eres amor, ya no solo lo das."}
+};
 
 // FUENTE DE VERDAD DEL NIVEL DE CONCIENCIA (brecha consciente vs real)
 // Consciente = lo que la persona reconoce de sí misma (diagnóstico)
@@ -456,6 +485,31 @@ function render(){
     '<div style="margin-bottom:8px"><span style="color:var(--grn)">↑</span> <strong>Descubrir tu Ikigai</strong> — vivir tu propósito te instala en la Razón y te abre la puerta al Amor.</div>'+
     '<div><span style="color:var(--grn)">↑</span> <strong>Vivir los principios</strong> — son el camino diario que sostiene todo el ascenso.</div>'+
   '</div></div>';
+
+  // MAPA DE NIVELES DESPLEGABLE (definición + cómo superarlo + acciones por línea)
+  html += '<div class="card"><div class="cl">El mapa de la conciencia</div>';
+  html += '<div style="font-size:13.5px;color:var(--dim);line-height:1.7;margin-bottom:14px">Toca cualquier nivel para ver qué significa, cómo se supera, y qué acciones te ayudan a subir — en general y en tu línea. Tu nivel actual está marcado.</div>';
+  var ordenDesc = nivelMap.slice().reverse();
+  ordenDesc.forEach(function(n){
+    var g = guiaNiveles[n.nivel]; if(!g) return;
+    var esActual = (n.nivel===nivelActual.nivel);
+    var accLinea = linea && g[linea] ? g[linea] : '';
+    var lblLinea = linea==='salud'?'En tu salud':linea==='dinero'?'En tu dinero':linea==='amor'?'En tu amor':'En tu línea';
+    html += '<div class="nivel-acordeon" style="border:1px solid '+(esActual?n.color:'var(--ffaint)')+';border-radius:var(--rm);margin-bottom:8px;overflow:hidden">';
+    html += '<div onclick="toggleNivelGuia(this)" style="display:flex;justify-content:space-between;align-items:center;padding:12px 14px;cursor:pointer;background:'+(esActual?'rgba(201,168,76,.06)':'transparent')+'">';
+    html += '<span style="display:flex;align-items:center;gap:9px"><span style="width:10px;height:10px;border-radius:50%;background:'+n.color+';display:inline-block;flex-shrink:0"></span><span style="font-size:15px;color:var(--text)">'+n.nombre+'</span>'+(esActual?'<span style="font-size:11px;color:var(--gold2);border:1px solid var(--gb);border-radius:10px;padding:1px 8px">estás aquí</span>':'')+'</span>';
+    html += '<span style="font-size:13px;color:var(--dim)">'+n.nivel+' <span style="color:var(--faint)">▾</span></span>';
+    html += '</div>';
+    html += '<div class="nivel-guia-cuerpo" style="display:none;padding:0 14px 14px;font-size:13.5px;line-height:1.7">';
+    html += '<div style="margin-bottom:10px"><span style="color:var(--gold2);font-size:12px">QUÉ SIGNIFICA</span><br>'+g.sig+'</div>';
+    html += '<div style="margin-bottom:10px"><span style="color:var(--gold2);font-size:12px">CÓMO SE SUPERA</span><br>'+g.sup+'</div>';
+    html += '<div style="padding:10px 12px;background:var(--bg3);border-radius:var(--rm)">';
+    html += '<div style="margin-bottom:6px"><span style="color:var(--grn)">→</span> <strong>Acción:</strong> '+g.uni+'</div>';
+    if(accLinea) html += '<div><span style="color:'+(lineaColores[linea]||'var(--gold2)')+'">→</span> <strong>'+lblLinea+':</strong> '+accLinea+'</div>';
+    html += '</div>';
+    html += '</div></div>';
+  });
+  html += '</div>';
 
   // DATOS CLAVE
   html += '<div class="card"><div class="cl">Tu punto de partida</div><div class="datos-grid">';
