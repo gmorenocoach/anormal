@@ -329,6 +329,8 @@ textarea:focus{outline:none;border-color:var(--gold)}
 
     <div id="resignificacion-wrap"></div>
 
+    <div id="ascenso-conciencia-wrap"></div>
+
     <div id="proximos-ciclos-wrap"></div>
 
     <p class="quote">Entre lo que te pasó y lo que decides hacer con eso, hay un espacio. En ese espacio vive tu libertad. Y hoy estás empezando a habitarlo.</p>
@@ -691,8 +693,42 @@ function renderCierre(){
   // ── RESIGNIFICACIÓN DE PADRE/MADRE (sembrar el perdón: verlos como el niño que fueron) ──
   renderResignificacion();
 
+  // ── CÓMO ESTO ELEVA TU CONCIENCIA (conexión septenios → nivel + acción por línea) ──
+  renderAscensoConciencia();
+
   // ── PRÓXIMOS CICLOS (para todos: lo que viene según la edad) ──
   renderProximosCiclos();
+}
+
+function renderAscensoConciencia(){
+  var wrap=document.getElementById('ascenso-conciencia-wrap');
+  if(!wrap) return;
+  var linea=leer('anormal_linea','');
+  // Acciones por nivel y línea (consistente con la guía del resumen)
+  var ACC={
+    100:{u:'Da un paso concreto hacia eso que vienes evitando.', salud:'Agenda esa cita médica que pospones.', dinero:'Mira de frente ese número o deuda que evitas.', amor:'Ten esa conversación que temes tener.'},
+    125:{u:'Renuncia hoy a un impulso que no te suma.', salud:'Elige una comida por nutrición, no por ansiedad.', dinero:'Evita una compra impulsiva y obsérvate.', amor:'No busques aprobación externa por un día.'},
+    150:{u:'Perdona a alguien — no por él, por tu paz.', salud:'Canaliza la rabia en ejercicio, no en tu cuerpo.', dinero:'Suelta el resentimiento hacia quien tiene más.', amor:'Expresa lo que te molestó sin atacar, y suelta.'},
+    175:{u:'Reconoce ante alguien que te equivocaste.', salud:'Pide ayuda en vez de poder solo con todo.', dinero:'Admite si gastas para aparentar, y ajústalo.', amor:'Da tú el primer paso para reconciliarte.'},
+    200:{u:'Asume una responsabilidad que evadías.', salud:'Comprométete con un hábito y cúmplelo esta semana.', dinero:'Toma una decisión financiera valiente y sana.', amor:'Sé honesto en una relación donde callabas.'}
+  };
+  // buscar la acción del nivel actual (o el más cercano por debajo)
+  var nv = nivel || 100;
+  var claves=[100,125,150,175,200]; var usar=100;
+  for(var i=0;i<claves.length;i++){ if(nv>=claves[i]) usar=claves[i]; }
+  var a=ACC[usar]||ACC[100];
+  var accLinea = linea && a[linea] ? a[linea] : a.u;
+  var nombreNivel = (nivel&&HAWKINS[nivel])?HAWKINS[nivel].nombre:'tu punto de partida';
+  var html='<div class="cierre-resumen" style="border-color:rgba(74,191,122,.3)">';
+  html+='<div class="espejo-label" style="color:var(--grn)">↑ Cómo esto eleva tu conciencia</div>';
+  html+='<div class="espejo-texto" style="margin-bottom:14px">Al reconocer en qué ciclos se instaló tu dolor, dejaste de repetirlo sin darte cuenta. <b>Lo que era inconsciente ahora es consciente — y solo lo consciente se puede transformar.</b> Ese paso te mueve desde donde estás ('+nombreNivel+') hacia el Coraje: de la parálisis a la acción.</div>';
+  html+='<div style="padding:12px 14px;background:var(--bg3);border-radius:10px;border-left:3px solid var(--grn)">';
+  html+='<div style="font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--grn);margin-bottom:6px">Tu paso concreto ahora'+(linea?' · en tu '+linea:'')+'</div>';
+  html+='<div style="font-size:14.5px;color:var(--text);line-height:1.6">'+accLinea+'</div>';
+  html+='</div>';
+  html+='<div class="espejo-texto" style="margin-top:12px;font-size:13px;font-style:italic">Cada acción que cumples suma puntos a tu nivel de conciencia. No es teoría: es el camino real hacia arriba.</div>';
+  html+='</div>';
+  wrap.innerHTML=html;
 }
 
 function renderResignificacion(){
