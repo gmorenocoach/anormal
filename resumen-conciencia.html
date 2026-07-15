@@ -265,6 +265,88 @@ var nivelMap=[
 ];
 
 // GUÍA DE CADA NIVEL: qué significa, cómo se supera, y acciones (universal + por línea)
+
+// ── FRASES DE REFLEXIÓN POR NIVEL (universales, sin origen; rotan cada visita) ──
+var REFLEXIONES = {
+  20:["Nadie que reconoce su verdad se queda peque\u00f1o para siempre.",
+      "El que se atreve a mostrarse tal cual es, ya empez\u00f3 a levantarse.",
+      "Tu valor no depende de lo que hiciste, sino de lo que decides ser desde hoy.",
+      "La luz entra justo por la grieta que intentas esconder."],
+  30:["Cargar culpa no repara nada. Repara lo que puedas, y suelta el resto.",
+      "El pasado no se cambia, pero deja de gobernarte cuando te perdonas.",
+      "Lo que hiciste no es lo que eres. Lo que haces ahora, s\u00ed.",
+      "Perdonarte no borra el ayer: te devuelve el ma\u00f1ana."],
+  50:["Un solo paso, por peque\u00f1o que sea, rompe cualquier par\u00e1lisis.",
+      "No necesitas ver toda la escalera: solo subir el primer escal\u00f3n.",
+      "El desierto tambi\u00e9n florece cuando llega su tiempo. Sigue.",
+      "Lo imposible suele ser lo que a\u00fan no has intentado."],
+  75:["Las l\u00e1grimas riegan lo que despu\u00e9s florece.",
+      "El duelo no es debilidad: es amor que busca d\u00f3nde posarse.",
+      "Todo lo que se llora con verdad, tarde o temprano se transforma.",
+      "Despu\u00e9s de la noche m\u00e1s larga, siempre amanece."],
+  100:["El miedo grita fuerte, pero nunca dice la verdad completa.",
+       "Del otro lado de lo que temes est\u00e1 justo lo que necesitas.",
+       "El valor no es ausencia de miedo: es dar el paso con \u00e9l a cuestas.",
+       "No temas: lo que viene a ti, viene a ense\u00f1arte."],
+  125:["Lo que persigues sin descanso rara vez es lo que te falta.",
+       "Quien no llena su vac\u00edo por dentro, no lo llena con nada de afuera.",
+       "La paz no est\u00e1 en tener m\u00e1s, sino en necesitar menos.",
+       "Suelta lo que aprietas: las manos abiertas reciben m\u00e1s."],
+  150:["El resentimiento es un veneno que tomas t\u00fa esperando que le duela al otro.",
+       "Perdonar no es liberar al otro: es soltar la cadena que te ataba a \u00e9l.",
+       "La ira te muestra tu l\u00edmite. El perd\u00f3n te devuelve tu paz.",
+       "Antes de juzgar, pregunta qu\u00e9 herida carga el que te hiri\u00f3."],
+  175:["El que se cree lleno no puede recibir nada nuevo.",
+       "Reconocer un error no te hace peque\u00f1o: te hace libre.",
+       "Pedir ayuda es la valent\u00eda que el orgullo no conoce.",
+       "El que se humilla se levanta m\u00e1s alto de lo que estaba."],
+  200:["El coraje no siempre ruge: a veces es la voz peque\u00f1a que dice 'ma\u00f1ana lo intento otra vez'.",
+       "Aqu\u00ed empieza tu verdadero camino: ya no empujas, ahora avanzas.",
+       "Quien asume su vida, deja de cargarla y empieza a conducirla.",
+       "El primer paso ya lo diste. El resto es sostenerlo."],
+  250:["La paz no es que no haya tormenta: es no ser arrastrado por ella.",
+       "Fluir no es rendirse: es dejar de pelear con lo que no depende de ti.",
+       "Cuando sueltas el control, aparece el poder.",
+       "S\u00e9 como el agua: se adapta a todo y termina abriendo la roca."],
+  310:["La voluntad convierte los d\u00edas comunes en obras extraordinarias.",
+       "Decir s\u00ed a la vida es empezar a construir lo que sue\u00f1as.",
+       "El entusiasmo es el fuego que hace liviano el trabajo.",
+       "Quien quiere, encuentra el camino. Quien no, encuentra la excusa."],
+  350:["Aceptar no es resignarse: es dejar de gastar fuerza en lo que no cambia.",
+       "La paz llega cuando dejas de exigirle al mundo que sea distinto.",
+       "Todo lo que aceptas, deja de tener poder sobre ti.",
+       "El que se reconcilia con lo que es, encuentra la puerta a lo que puede ser."],
+  400:["Comprender es el principio de amar.",
+       "La verdad no te limita: te libera.",
+       "La sabidur\u00eda no es saber m\u00e1s: es ver con m\u00e1s claridad.",
+       "Quien entiende su historia, deja de repetirla."],
+  500:["Ama, y todo lo dem\u00e1s llega por a\u00f1adidura.",
+       "El amor no se gasta al darlo: se multiplica.",
+       "Donde hay amor, no queda espacio para el miedo.",
+       "Da sin esperar, y recibir\u00e1s sin medida."],
+  540:["La alegr\u00eda no depende de lo que tienes, sino de lo que agradeces.",
+       "Quien agradece, siempre tiene suficiente.",
+       "La gratitud convierte lo que hay en m\u00e1s que suficiente.",
+       "Tu alegr\u00eda no es una recompensa: es una decisi\u00f3n diaria."],
+  600:["En el silencio se escucha lo que el ruido esconde.",
+       "La paz no se busca afuera: se reconoce adentro.",
+       "Todo lo que necesitas ya est\u00e1 aqu\u00ed, en este instante.",
+       "Cuando dejas de correr, llegas."],
+  700:["Vive este instante: es lo \u00fanico que realmente existe.",
+       "Ser es m\u00e1s que hacer.",
+       "Cuando ya no buscas nada, lo has encontrado todo.",
+       "S\u00e9 la luz que quisieras ver en el mundo."]
+};
+function reflexionParaNivel(nv){
+  var claves = Object.keys(REFLEXIONES).map(Number).sort(function(a,b){return a-b;});
+  var usar = claves[0];
+  for(var i=0;i<claves.length;i++){ if(nv>=claves[i]) usar=claves[i]; }
+  var lista = REFLEXIONES[usar] || REFLEXIONES[200];
+  // Rota: cambia seg\u00fan el d\u00eda y la visita
+  var seed = new Date().getDate() + Math.floor(Math.random()*lista.length);
+  return lista[seed % lista.length];
+}
+
 var guiaNiveles = {
   20:{sig:"Te vives sin valor, como si no merecieras. La vergüenza es la identidad de 'yo no sirvo'.", sup:"El primer paso es dejar de esconderte: nombrar lo que sientes ante alguien de confianza.", uni:"Cuéntale a una persona segura algo que ocultas por vergüenza.", salud:"Reconoce en voz alta que necesitas cuidar tu salud, sin castigarte.", dinero:"Escribe sin juzgarte tu situación real con el dinero.", amor:"Permítete recibir un gesto de afecto sin sentir que no lo mereces."},
   30:{sig:"La culpa te ancla al pasado: cargas un peso por lo que hiciste o dejaste de hacer.", sup:"Se supera con reparación y autoperdón: hacer lo posible hoy y soltar lo que ya no.", uni:"Repara algo que esté en tus manos, y perdónate por lo que no.", salud:"Deja de castigar tu cuerpo por descuidos pasados; empieza hoy.", dinero:"Perdónate una decisión financiera del pasado y aprende de ella.", amor:"Pide perdón donde haga falta, y perdónate a ti mismo."},
@@ -396,6 +478,13 @@ function render(){
   html += '<div class="label">Tu proceso, '+nombre+'</div>';
   html += '<h1 class="titulo">Resumen de tu conciencia</h1>';
   html += '<p class="subtitulo">Todo lo que has descubierto y a lo que te has comprometido vive aquí. Este es el centro de tu transformación.</p>';
+
+  // REFLEXIÓN (según el nivel de la persona; rota en cada visita)
+  var fraseHoy = reflexionParaNivel(nivelActual ? nivelActual.nivel : 200);
+  html += '<div style="margin:18px 0 22px;padding:18px 20px;background:var(--bg2);border:1px solid var(--gb);border-radius:var(--rl);text-align:center">'+
+    '<div style="font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold2);margin-bottom:10px">Reflexión de hoy</div>'+
+    '<div style="font-family:\'Cormorant Garamond\',serif;font-size:20px;font-style:italic;line-height:1.55;color:var(--gold3)">'+fraseHoy+'</div>'+
+  '</div>';
 
   // VIDEO DE CIERRE DE SESIÓN
   var VIDEO_CIERRE_URL = ''; // Se activa cuando German grabe el video de cierre
