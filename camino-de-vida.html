@@ -433,6 +433,47 @@ function renderCalculo(){
     (esMaestro?'<div class="ct dim" style="font-size:13px">Número maestro — no se reduce</div>':'')+
     '<div class="calc-resultado">'+miNV+'</div>';
 }
+
+// ── ACCIONES POR NÚMERO Y LÍNEA: tu don puesto a trabajar ──────────────────
+var ACCIONES_NV = {
+  1:{salud:"Tu liderazgo aplicado a ti: decide hoy un cambio de salud y ejecútalo sin consultarlo con nadie. Tú marcas el paso.",
+     dinero:"Eres pionero: en vez de esperar la oportunidad, créala. Inicia ese proyecto o negocio propio que vienes posponiendo — tu don es abrir caminos, no seguirlos.",
+     amor:"Lidera con vulnerabilidad, no con control. Da tú el primer paso para reconciliarte o para expresar lo que sientes."},
+  2:{salud:"Tu sensibilidad al servicio propio: escucha lo que tu cuerpo te viene diciendo y atiéndelo, como atenderías a otro.",
+     dinero:"Tu don es conectar: haz una alianza, negocia, o consigue ese cliente por relación, no por presión. Los puentes que construyes son tu capital.",
+     amor:"Tu talento natural. Úsalo sin perderte: pon un límite claro esta semana sin dejar de ser el puente."},
+  3:{salud:"Tu alegría es medicina: mueve el cuerpo en algo que disfrutes de verdad, no en lo que 'deberías' hacer.",
+     dinero:"Comunica lo que haces. Tu don es expresar — muéstrate, publica, vende con tu voz. El que no se muestra, no vende.",
+     amor:"Expresa lo que sientes sin escudarte en el humor. Di algo verdadero a alguien importante."},
+  4:{salud:"Tu don es la constancia: elige un solo hábito de salud y sostenlo 30 días. Tu superpoder es no rendirte.",
+     dinero:"Construye el sistema: haz tu presupuesto, ordena tus números, crea la estructura. Nadie edifica bases como tú.",
+     amor:"Aporta lo que sabes dar: estabilidad. Pero flexibiliza — pregunta antes de asumir que tu forma es la correcta."},
+  5:{salud:"Tu don es la adaptación: prueba algo nuevo con tu cuerpo esta semana. La variedad te sostiene donde la rutina te aburre.",
+     dinero:"Tu talento es ver oportunidades donde otros ven caos. Explora una nueva fuente de ingreso — pero termina lo que empiezas.",
+     amor:"Comprométete sin sentir que pierdes libertad. Elige quedarte una vez más de lo que tu instinto pide."},
+  6:{salud:"Cuidas a todos menos a ti. Invierte el orden: hoy tu cuerpo va primero. Eso no es egoísmo, es sostenibilidad.",
+     dinero:"Tu don sana: monetiza el cuidado, la enseñanza o la belleza que creas. Lo que das gratis por amor, también puede sostenerte.",
+     amor:"Ama sin cargar. Deja que alguien te cuide a ti esta semana."},
+  7:{salud:"Tu mente necesita silencio para sanar el cuerpo: medita, camina solo, desconecta. Tu salud empieza en tu paz.",
+     dinero:"Tu don es la profundidad: conviértete en el que más sabe. Especialízate, y cobra por ese conocimiento.",
+     amor:"Sal de tu mundo interno: comparte con alguien lo que piensas, no solo lo que haces."},
+  8:{salud:"Aplica tu poder de gestión a tu cuerpo: trátalo como el activo más valioso que administras. Porque lo es.",
+     dinero:"Tu don natural. Piensa en grande: negocia mejor, cobra lo que vales, invierte. Naciste para generar abundancia con responsabilidad.",
+     amor:"Deja el control en la puerta. En el amor no se administra: se entrega."},
+  9:{salud:"Sanas a otros y te olvidas: pon el mismo amor universal que das, en tu propio cuerpo.",
+     dinero:"Tu don es servir a muchos: crea algo que impacte a escala, y permite que te sostenga. Servir y prosperar no se oponen.",
+     amor:"Ama sin sacrificarte. Perdona y suelta lo que ya cumplió su ciclo."},
+  11:{salud:"Tu sensibilidad es alta: protege tu energía. Descansa, aíslate cuando lo necesites, cuida tu sistema nervioso.",
+      dinero:"Tu don inspira: enseña, guía, ilumina — y cobra por ello. Tu visión tiene valor.",
+      amor:"Aterriza tu intuición: dile a esa persona lo que percibes, con palabras simples."},
+  22:{salud:"Construyes en grande: aplica esa capacidad a tu cuerpo con un plan estructurado y sostenido.",
+      dinero:"Tu don es materializar visiones: convierte esa idea grande en un proyecto concreto con fechas y pasos.",
+      amor:"Baja de la visión a lo cotidiano: un gesto pequeño hoy vale más que un gran plan futuro."},
+  33:{salud:"Sanas con tu presencia: pero primero llénate tú. Tu cuerpo es el instrumento de tu servicio.",
+      dinero:"Tu don es el amor incondicional: crea algo que sane a otros y permite recibir por ello.",
+      amor:"Tu talento natural. Ámate con la misma incondicionalidad con la que amas."}
+};
+
 function renderSignificado(){
   var d=NV[miNV];
   if(!d){ document.getElementById('significado').innerHTML='<p class="ct">No se encontró información para el número '+miNV+'.</p>'; return; }
@@ -462,6 +503,19 @@ function renderSignificado(){
         '</div></div>';
     });
     html+='</div>';
+  }
+  // ACCIÓN LIGADA A LA LÍNEA: tu don puesto a trabajar
+  var lineaEl = (function(){ try{ return localStorage.getItem('anormal_linea')||''; }catch(e){ return ''; } })();
+  var accNV = ACCIONES_NV[miNV];
+  if(accNV && lineaEl && accNV[lineaEl]){
+    var colL = {salud:'#4ABF7A', dinero:'#C9A84C', amor:'#D4537E'}[lineaEl] || '#C9A84C';
+    var lblL = {salud:'tu salud', dinero:'tu dinero', amor:'tu amor'}[lineaEl] || 'tu l\u00ednea';
+    html += '<div class="card" style="border-color:'+colL+';background:rgba(201,168,76,.04)">'+
+      '<div class="label" style="color:'+colL+'">\u2192 Tu n\u00famero puesto a trabajar en '+lblL+'</div>'+
+      '<p class="ct" style="margin-bottom:10px">Saber qui\u00e9n eres no basta. Esto es lo que tu n\u00famero te pide <b>hacer</b> ahora, en la l\u00ednea que elegiste:</p>'+
+      '<div style="padding:12px 14px;background:var(--bg3);border-radius:10px;border-left:3px solid '+colL+';font-size:14.5px;line-height:1.65;color:var(--text)">'+accNV[lineaEl]+'</div>'+
+      '<p class="ct dim" style="margin-top:10px;font-size:13px;font-style:italic">Tus dones no son adornos: son herramientas. Y cada acci\u00f3n que tomas con ellos sube tu nivel de conciencia.</p>'+
+    '</div>';
   }
   document.getElementById('significado').innerHTML=html;
   talentosEval={};
