@@ -200,10 +200,10 @@ function leer(k,def){var v=localStorage.getItem(k);return (v===null||v===undefin
 })();
 
 var PRINCIPIOS=[
-  {num:11, titulo:"Aprende a pagar el precio", txt:"Todo propósito tiene un costo: tiempo, esfuerzo, renuncias. Descubrir tu razón de ser también es aceptar lo que estás dispuesto a pagar por vivirla. Nada valioso es gratis."},
-  {num:12, titulo:"Adoptas lo que toleras", txt:"Tu vida es el reflejo de lo que permites. Si toleras la mediocridad, se vuelve tu estándar. Tu Ikigai te muestra qué dejar de tolerar para vivir en tu propósito."},
-  {num:13, titulo:"Aprópiate la insatisfacción", txt:"La insatisfacción no es tu enemiga: es la señal de que naciste para más. No la calles — úsala como combustible para buscar tu razón de ser y no conformarte."},
-  {num:14, titulo:"Adopta métodos probados", txt:"No tienes que inventar el camino. El Ikigai es un método probado por miles de años. Confía en el proceso, síguelo con honestidad, y déjate sorprender por lo que revela."}
+  {num:11, titulo:"Aprende a pagar el precio", voz:"Todo lo que vale cuesta. Pago el precio sin quejarme, porque sé lo que gano.", txt:"Todo propósito tiene un costo: tiempo, esfuerzo, renuncias. Descubrir tu razón de ser también es aceptar lo que estás dispuesto a pagar por vivirla. Nada valioso es gratis."},
+  {num:12, titulo:"Adoptas lo que toleras", voz:"Mi vida es lo que permito. Dejo de tolerar lo que no quiero vivir.", txt:"Tu vida es el reflejo de lo que permites. Si toleras la mediocridad, se vuelve tu estándar. Tu Ikigai te muestra qué dejar de tolerar para vivir en tu propósito."},
+  {num:13, titulo:"Aprópiate la insatisfacción", voz:"Mi insatisfacción no es queja: es la señal de que nací para más.", txt:"La insatisfacción no es tu enemiga: es la señal de que naciste para más. No la calles — úsala como combustible para buscar tu razón de ser y no conformarte."},
+  {num:14, titulo:"Adopta métodos probados", voz:"No invento el camino: sigo el que ya funciona, con humildad y disciplina.", txt:"No tienes que inventar el camino. El Ikigai es un método probado por miles de años. Confía en el proceso, síguelo con honestidad, y déjate sorprender por lo que revela."}
 ];
 var estado={principioActual:0, principiosAceptados:[]};
 
@@ -219,6 +219,17 @@ function mostrarPrincipio(idx){
   var p=PRINCIPIOS[idx];
   document.getElementById('pg-num').textContent='∀'+p.num;
   document.getElementById('pg-tit').textContent=p.titulo;
+  // La VOZ del principio: el mantra que la persona se lleva
+  var vozEl=document.getElementById('pg-voz');
+  if(!vozEl){
+    vozEl=document.createElement('div');
+    vozEl.id='pg-voz';
+    vozEl.style.cssText='font-family:"Cormorant Garamond",serif;font-size:19px;font-style:italic;line-height:1.5;color:var(--gold2);margin:10px 0 14px;padding-left:14px;border-left:2px solid var(--gb)';
+    var tit=document.getElementById('pg-tit');
+    tit.parentNode.insertBefore(vozEl, tit.nextSibling);
+  }
+  if(p.voz){ vozEl.textContent='"'+p.voz+'"'; vozEl.style.display='block'; }
+  else { vozEl.style.display='none'; }
   document.getElementById('pg-txt').textContent=p.txt;
   document.getElementById('btn-principio').style.display='inline-block';
   document.getElementById('p-comprometido').classList.remove('visible');
@@ -252,6 +263,12 @@ function comenzar(){
     sessionStorage.setItem('anormal_proceso',JSON.stringify(data));
   }catch(e){}
   localStorage.setItem('anormal_sesion4_iniciada','1');
+  // Guardar/fusionar las voces de los principios de la Sesión 4 (mantras)
+  try{
+    var voces={}; try{ voces=JSON.parse(localStorage.getItem('anormal_voces_principios')||'{}'); }catch(e){}
+    PRINCIPIOS.forEach(function(p){ if(p.voz) voces['∀'+p.num]={titulo:p.titulo, voz:p.voz, color:'#9B7FD4'}; });
+    localStorage.setItem('anormal_voces_principios', JSON.stringify(voces));
+  }catch(e){}
   window.location.href='ikigai.html';
 }
 
