@@ -194,10 +194,10 @@ function leer(k,def){var v=localStorage.getItem(k);return (v===null||v===undefin
 })();
 
 var PRINCIPIOS=[
-  {num:15, titulo:"Alcanza el resultado, luego mejora", txt:"No esperes a estar listo o a que sea perfecto. Primero alcanza el resultado, aunque sea imperfecto — y después lo mejoras. La acción vence a la parálisis del perfeccionismo."},
-  {num:16, titulo:"Acelera el proceso", txt:"Lo que decidiste hacer, hazlo ya. Cada día que pospones tu propósito es un día menos viviéndolo. La velocidad, con dirección, es una ventaja anormal."},
-  {num:17, titulo:"Atención y enfoque constante", txt:"El enfoque crea ganadores. Concéntrate en lo que quieres lograr y en lo que puedes controlar — no te disperses, no te distraigas. La justificación te desenfoca."},
-  {num:18, titulo:"Alcanzas la anormalidad", txt:"Este es el último principio, y también el destino. Cuando normalizas el esfuerzo, la disciplina y el enfoque, dejas de ser ordinario. Alcanzas tu anormalidad — vives desde tu máximo potencial."}
+  {num:15, titulo:"Alcanza el resultado, luego mejora", voz:"Primero lo hago, después lo perfecciono. La acción vence a la espera.", txt:"No esperes a estar listo o a que sea perfecto. Primero alcanza el resultado, aunque sea imperfecto — y después lo mejoras. La acción vence a la parálisis del perfeccionismo."},
+  {num:16, titulo:"Acelera el proceso", voz:"Lo que decidí hacer, lo hago ya. Cada día que pospongo es un día que no vivo.", txt:"Lo que decidiste hacer, hazlo ya. Cada día que pospones tu propósito es un día menos viviéndolo. La velocidad, con dirección, es una ventaja anormal."},
+  {num:17, titulo:"Atención y enfoque constante", voz:"Mi enfoque es mi poder. Lo que no me acerca a mi meta, no me ocupa.", txt:"El enfoque crea ganadores. Concéntrate en lo que quieres lograr y en lo que puedes controlar — no te disperses, no te distraigas. La justificación te desenfoca."},
+  {num:18, titulo:"Alcanzas la anormalidad", voz:"Normalizo lo que otros creen imposible. Esta es mi anormalidad — y es mi vida.", txt:"Este es el último principio, y también el destino. Cuando normalizas el esfuerzo, la disciplina y el enfoque, dejas de ser ordinario. Alcanzas tu anormalidad — vives desde tu máximo potencial."}
 ];
 var estado={principioActual:0, principiosAceptados:[]};
 
@@ -213,6 +213,17 @@ function mostrarPrincipio(idx){
   var p=PRINCIPIOS[idx];
   document.getElementById('pg-num').textContent='∀'+p.num;
   document.getElementById('pg-tit').textContent=p.titulo;
+  // La VOZ del principio: el mantra que la persona se lleva
+  var vozEl=document.getElementById('pg-voz');
+  if(!vozEl){
+    vozEl=document.createElement('div');
+    vozEl.id='pg-voz';
+    vozEl.style.cssText='font-family:"Cormorant Garamond",serif;font-size:19px;font-style:italic;line-height:1.5;color:var(--gold2);margin:10px 0 14px;padding-left:14px;border-left:2px solid var(--gb)';
+    var tit=document.getElementById('pg-tit');
+    tit.parentNode.insertBefore(vozEl, tit.nextSibling);
+  }
+  if(p.voz){ vozEl.textContent='"'+p.voz+'"'; vozEl.style.display='block'; }
+  else { vozEl.style.display='none'; }
   document.getElementById('pg-txt').textContent=p.txt;
   document.getElementById('btn-principio').style.display='inline-block';
   document.getElementById('p-comprometido').classList.remove('visible');
@@ -246,6 +257,12 @@ function comenzar(){
     sessionStorage.setItem('anormal_proceso',JSON.stringify(data));
   }catch(e){}
   localStorage.setItem('anormal_sesion5_iniciada','1');
+  // Guardar/fusionar las voces de los principios de la Sesión 5 (mantras) - completa los 18
+  try{
+    var voces={}; try{ voces=JSON.parse(localStorage.getItem('anormal_voces_principios')||'{}'); }catch(e){}
+    PRINCIPIOS.forEach(function(p){ if(p.voz) voces['∀'+p.num]={titulo:p.titulo, voz:p.voz, color:'#C9A84C'}; });
+    localStorage.setItem('anormal_voces_principios', JSON.stringify(voces));
+  }catch(e){}
   window.location.href='siguiente-ciclo.html';
 }
 
