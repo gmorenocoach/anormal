@@ -236,6 +236,71 @@ function renderTres(){
   var items=[{k:'alma',lbl:'Alma',v:resultado.alma},{k:'pers',lbl:'Personalidad',v:resultado.pers},{k:'exp',lbl:'Expresión',v:resultado.exp}];
   t.innerHTML=items.map(function(it){return '<div class="tn'+(tabSel===it.k?' on':'')+'" onclick="tabSel=\''+it.k+'\';renderTres();renderDetalle()"><div class="tn-circ">'+it.v+'</div><div class="tn-lbl">'+it.lbl+'</div></div>';}).join('');
 }
+
+// ── QUÉ HACER CON TU NOMBRE: acción por línea, cómo sube el nivel, y qué hacer si te limita ──
+var USO_NOMBRE = {
+  1:{sube:"Cuando actúas con iniciativa propia sales del Miedo y entras en Coraje. Liderar tu vida es el primer acto de responsabilidad total.",
+     limita:"Cuando el 1 se vuelve terquedad o aislamiento: te niegas a pedir ayuda y cargas solo. Ahí el 1 te baja al Orgullo. <b>Antídoto:</b> pide ayuda una vez esta semana, sin justificarte.",
+     salud:"Decide tú un cambio de salud y ejecútalo sin esperar permiso ni acompañamiento.",
+     dinero:"Inicia algo propio: una propuesta, un cobro, un proyecto. Tu don es abrir camino, no seguirlo.",
+     amor:"Da tú el primer paso en esa conversación pendiente. Liderar también es atreverse a ser vulnerable."},
+  2:{sube:"Cuando conectas de verdad sales de la Ira y entras en Neutralidad. La armonía que creas afuera te ordena por dentro.",
+     limita:"Cuando el 2 se vuelve dependencia o miedo al conflicto: dices sí cuando quieres decir no. Ahí el 2 te baja al Miedo. <b>Antídoto:</b> pon un límite claro esta semana sin pedir perdón por ello.",
+     salud:"Escucha a tu cuerpo como escucharías a alguien que amas, y atiende lo que te pide.",
+     dinero:"Construye una alianza o negocia desde el vínculo. Tu red es tu capital.",
+     amor:"Escucha sin responder ni defenderte. Solo comprender ya transforma el vínculo."},
+  3:{sube:"Cuando expresas lo que sientes sales de la Tristeza y entras en Voluntad. Lo que se nombra deja de pesar.",
+     limita:"Cuando el 3 se vuelve dispersión o humor que esconde: te ríes para no sentir. Ahí el 3 te baja al Deseo. <b>Antídoto:</b> di una verdad sin adornarla con un chiste.",
+     salud:"Mueve tu cuerpo en algo que disfrutes de verdad, no en lo que 'deberías'.",
+     dinero:"Muestra lo que haces: publica, comunica, cuenta tu trabajo con tu voz. El que no se muestra, no vende.",
+     amor:"Expresa algo verdadero a alguien importante, sin escudarte en el humor."},
+  4:{sube:"Cuando sostienes lo que empiezas subes hacia Aceptación. La disciplina es voluntad hecha rutina.",
+     limita:"Cuando el 4 se vuelve rigidez o control: no toleras que las cosas salgan distinto. Ahí el 4 te baja a la Ira. <b>Antídoto:</b> deja que algo salga a la manera de otro, sin corregirlo.",
+     salud:"Elige un solo hábito y sostenlo 30 días. Tu superpoder es no rendirte.",
+     dinero:"Ordena tus números: presupuesto, cuentas, estructura. Nadie edifica bases como tú.",
+     amor:"Cumple una promesa pequeña. La estabilidad que das vale más que cualquier discurso."},
+  5:{sube:"Cuando abrazas el cambio sin huir sales del Deseo y entras en Neutralidad. Fluir es poder.",
+     limita:"Cuando el 5 se vuelve fuga o inconstancia: empiezas mucho, terminas poco. Ahí el 5 te baja al Deseo compulsivo. <b>Antídoto:</b> termina una sola cosa que dejaste a medias.",
+     salud:"Prueba algo nuevo con tu cuerpo. La variedad te sostiene donde la rutina te aburre.",
+     dinero:"Explora una fuente de ingreso distinta — pero termina lo que empieces.",
+     amor:"Comprométete sin sentir que pierdes libertad. Quédate una vez más de lo que tu instinto pide."},
+  6:{sube:"Cuando cuidas desde el amor y no desde la culpa entras en el Amor real (500). Servir sin vaciarte es maestría.",
+     limita:"Cuando el 6 se vuelve sacrificio o control disfrazado de cuidado: das para que te necesiten. Ahí el 6 te baja al Orgullo. <b>Antídoto:</b> deja que alguien te cuide a ti esta semana.",
+     salud:"Cuidas a todos menos a ti. Invierte el orden: hoy tu cuerpo va primero.",
+     dinero:"Cobra por eso que das gratis por amor. Tu cuidado también tiene valor.",
+     amor:"Ama sin cargar. El amor que agota no es amor: es deuda."},
+  7:{sube:"Cuando buscas la verdad con honestidad entras en Razón (400). Comprender es el principio de amar.",
+     limita:"Cuando el 7 se vuelve aislamiento o frialdad: analizas para no sentir. Ahí el 7 te baja a la Apatía. <b>Antídoto:</b> comparte con alguien lo que piensas, no solo lo que haces.",
+     salud:"Tu paz mental sana tu cuerpo: diez minutos de silencio al día.",
+     dinero:"Profundiza hasta dominar un tema, y cobra por ese conocimiento.",
+     amor:"Sal de tu mundo interno. Di lo que sientes, no lo que concluiste."},
+  8:{sube:"Cuando ejerces poder con responsabilidad subes hacia Voluntad y Razón. El poder que sirve, sostiene.",
+     limita:"Cuando el 8 se vuelve control o ambición vacía: mides todo por resultado. Ahí el 8 te baja al Orgullo. <b>Antídoto:</b> suelta el control en un vínculo, sin administrarlo.",
+     salud:"Trata tu cuerpo como el activo más valioso que administras. Porque lo es.",
+     dinero:"Pon el precio que vales y sostenlo. Naciste para generar abundancia.",
+     amor:"En el amor no se administra: se entrega. Deja el control en la puerta."},
+  9:{sube:"Cuando sirves desde el amor universal tocas el Amor (500) y la Alegría. Dar sin esperar es el nivel más alto.",
+     limita:"Cuando el 9 se vuelve martirio o rencor por no ser reconocido: das y luego cobras. Ahí el 9 te baja a la Ira. <b>Antídoto:</b> cierra un ciclo y suelta sin esperar reconocimiento.",
+     salud:"Sanas a otros y te olvidas: pon el mismo amor en tu propio cuerpo.",
+     dinero:"Crea algo que impacte a escala, y permite que te sostenga. Servir y prosperar no se oponen.",
+     amor:"Perdona y suelta lo que ya cumplió su ciclo. Amar no es sacrificarse."},
+  11:{sube:"Cuando aterrizas tu intuición en algo concreto subes hacia Amor y Alegría. Tu sensibilidad es un canal, no una carga.",
+      limita:"Cuando el 11 se vuelve ansiedad o hipersensibilidad: sientes tanto que te paralizas. Ahí el 11 te baja al Miedo. <b>Antídoto:</b> protege tu energía — descansa, aíslate cuando lo necesites.",
+      salud:"Cuida tu sistema nervioso. Tu sensibilidad es alta: el descanso no es lujo, es medicina.",
+      dinero:"Enseña, guía, ilumina — y cobra por ello. Tu visión tiene valor.",
+      amor:"Dile a esa persona lo que percibes, con palabras simples."},
+  22:{sube:"Cuando materializas una visión al servicio de otros tocas el Amor y la Alegría. Construir para muchos es maestría.",
+      limita:"Cuando el 22 se vuelve parálisis por la magnitud: la visión es tan grande que no empiezas. Ahí te baja a la Apatía. <b>Antídoto:</b> da el primer paso pequeño, hoy.",
+      salud:"Aplica tu capacidad de construir a tu cuerpo, con un plan estructurado.",
+      dinero:"Convierte esa idea grande en un proyecto con fechas y pasos.",
+      amor:"Baja de la visión a lo cotidiano: un gesto pequeño hoy vale más que un gran plan."},
+  33:{sube:"Cuando amas incondicionalmente vives en 500+. Este número es amor hecho servicio.",
+      limita:"Cuando el 33 se vuelve entrega sin límite: te vacías por otros. Ahí te baja a la Tristeza. <b>Antídoto:</b> llénate tú primero, sin culpa.",
+      salud:"Tu cuerpo es el instrumento de tu servicio. Cuídalo como tal.",
+      dinero:"Crea algo que sane a otros y permite recibir por ello.",
+      amor:"Ámate con la misma incondicionalidad con la que amas a otros."}
+};
+
 function renderDetalle(){
   var val={alma:resultado.alma,pers:resultado.pers,exp:resultado.exp}[tabSel];
   var d=ND[val]; if(!d){ document.getElementById('nombre-detalle').innerHTML=''; return; }
@@ -243,10 +308,31 @@ function renderDetalle(){
   var explica={alma:'Tu número del Alma nace de las <b>vocales</b> de tu nombre. Es tu deseo más profundo, lo que te mueve por dentro.',
     pers:'Tu número de Personalidad nace de las <b>consonantes</b>. Es la primera impresión, cómo te percibe el mundo antes de conocerte.',
     exp:'Tu número de Expresión nace de <b>todas las letras</b>. Es quién eres cuando te muestras, tu forma natural de estar en el mundo.'};
+  // ── Cómo usar este número a tu favor ──
+  var uso = USO_NOMBRE[val];
+  var linea = (function(){ try{ return localStorage.getItem('anormal_linea')||''; }catch(e){ return ''; } })();
+  var bloqueUso = '';
+  if(uso){
+    var colL = {salud:'#4ABF7A', dinero:'#C9A84C', amor:'#D4537E'}[linea] || '#C9A84C';
+    var lblL = {salud:'tu salud', dinero:'tu dinero', amor:'tu amor'}[linea] || 'tu línea';
+    bloqueUso += '<div class="card" style="border-color:'+colL+'">';
+    bloqueUso += '<div class="label" style="color:'+colL+'">→ Cómo usarlo a tu favor'+(linea?' en '+lblL:'')+'</div>';
+    if(linea && uso[linea]){
+      bloqueUso += '<div style="padding:12px 14px;background:var(--bg3);border-radius:10px;border-left:3px solid '+colL+';font-size:15px;line-height:1.65;color:var(--text);margin-bottom:12px">'+uso[linea]+'</div>';
+    }
+    bloqueUso += '<div style="padding:11px 14px;background:rgba(74,191,122,.07);border-radius:10px;border-left:3px solid var(--grn);margin-bottom:12px">'+
+      '<div style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--grn);margin-bottom:4px">↑ Cómo te sube de nivel</div>'+
+      '<div style="font-size:14.5px;line-height:1.6;color:var(--text)">'+uso.sube+'</div></div>';
+    bloqueUso += '<div style="padding:11px 14px;background:rgba(212,83,126,.07);border-radius:10px;border-left:3px solid var(--rose)">'+
+      '<div style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--rose);margin-bottom:4px">⚠ Cuando este número te limita</div>'+
+      '<div style="font-size:14.5px;line-height:1.6;color:var(--text)">'+uso.limita+'</div></div>';
+    bloqueUso += '</div>';
+  }
   document.getElementById('nombre-detalle').innerHTML=
     '<div class="label">'+({alma:'Tu Alma',pers:'Tu Personalidad',exp:'Tu Expresión'}[tabSel])+' · el número '+val+' · '+(d.n||'')+'</div>'+
     '<div class="card"><p class="ct dim">'+explica[tabSel]+'</p></div>'+
-    (d[campo]?'<div class="card"><p class="ct">'+d[campo]+'</p></div>':'');
+    (d[campo]?'<div class="card"><p class="ct">'+d[campo]+'</p></div>':'')+
+    bloqueUso;
 }
 function continuar(){
   try{ var data=JSON.parse(sessionStorage.getItem('anormal_proceso')||'{}');
