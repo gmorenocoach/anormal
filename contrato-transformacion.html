@@ -15,6 +15,10 @@ body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font
 .hdr{display:flex;align-items:center;justify-content:space-between;padding:16px 0 24px;border-bottom:1px solid var(--faint);margin-bottom:32px}
 .logo{font-family:"Cormorant Garamond",serif;font-size:22px;color:var(--gold2)}
 .label{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:10px}
+.video-placeholder{background:var(--bg2);border:1px solid var(--faint);border-radius:var(--rl);aspect-ratio:16/9;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;margin-bottom:24px}
+.vp-icono{width:52px;height:52px;border-radius:50%;border:1px solid var(--gb);display:flex;align-items:center;justify-content:center;color:var(--gold2);font-size:17px}
+.vp-txt{font-size:14px;color:var(--dim);text-align:center;line-height:1.5}
+.vp-sub{font-size:11px;opacity:.6}
 .video-wrap{position:relative;width:100%;padding-bottom:56.25%;height:0;margin-bottom:24px;border-radius:var(--rl);overflow:hidden;border:1px solid var(--gb);background:var(--bg2)}
 .video-wrap iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0}
 .titulo{font-family:"Cormorant Garamond",serif;font-size:clamp(28px,5.5vw,40px);font-weight:300;color:var(--gold2);line-height:1.2;margin-bottom:16px}
@@ -57,15 +61,12 @@ body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font
   <!-- PA: VIDEO DE BIENVENIDA -->
   <div class="pantalla visible" id="pA">
     <div class="label">Antes de aceptar el reto</div>
-    <h1 class="titulo">Necesito contarte algo.</h1>
-    <p class="subtitulo">Antes de decidir si aceptas este reto, quiero que me escuches. Son unos minutos que pueden cambiar cómo ves todo lo que viene.</p>
+    <h1 class="titulo">Antes de empezar, déjame presentarme.</h1>
+    <p class="subtitulo">Antes de decidir si aceptas este reto, necesito que sepas quién te va a acompañar — y por qué llegué yo a esto.</p>
 
-    <div class="video-wrap">
-      <iframe src="https://www.youtube.com/embed/vzUcWJX_czE?rel=0"
-              title="Bienvenida — ∀normal"
-              frameborder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowfullscreen></iframe>
+    <div class="video-placeholder">
+      <div class="vp-icono">▶</div>
+      <div class="vp-txt">Video de presentación<br><span class="vp-sub">Próximamente</span></div>
     </div>
 
     <div class="nav">
