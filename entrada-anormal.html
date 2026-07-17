@@ -55,6 +55,18 @@ body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font
 .ct{font-size:13px;color:var(--dim);line-height:1.8}
 
 /* VIDEO */
+.video-wrap{position:relative;width:100%;padding-bottom:56.25%;height:0;margin-bottom:14px;border-radius:var(--rl);overflow:hidden;border:1px solid var(--gb);background:var(--bg2)}
+.video-wrap iframe,.video-wrap>div{position:absolute;top:0;left:0;width:100%;height:100%;border:0}
+.video-aviso{display:flex;align-items:center;gap:10px;padding:11px 15px;background:rgba(201,168,76,.07);border:1px solid var(--gb);border-radius:var(--rm);margin-bottom:20px;transition:opacity .4s}
+.video-aviso.oculto{display:none}
+.va-icono{color:var(--gold2);font-size:13px}
+.va-txt{font-size:13.5px;color:var(--dim);line-height:1.5}
+.video-aviso.listo{background:rgba(74,191,122,.08);border-color:rgba(74,191,122,.3)}
+.video-aviso.listo .va-icono{color:var(--grn)}
+.video-aviso.listo .va-txt{color:var(--text)}
+.btn-escape{display:block;margin:0 auto 18px;background:none;border:none;color:var(--faint);font-size:12px;text-decoration:underline;cursor:pointer;font-family:"Barlow",sans-serif}
+.btn-escape:hover{color:var(--dim)}
+button:disabled{opacity:.35;cursor:not-allowed}
 .video-placeholder{background:var(--bg3);border:1px solid var(--faint);border-radius:var(--rl);aspect-ratio:16/9;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;margin-bottom:20px}
 .video-icon{font-size:48px;opacity:.3}
 .video-text{font-size:13px;color:var(--dim);text-align:center}
@@ -154,12 +166,12 @@ body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font
     <h1 class="titulo">Antes de comenzar, necesito contarte algo.</h1>
     <p class="subtitulo">Lo que estás a punto de vivir no es un curso. Es un proceso de transformación real — el mismo que yo recorrí, y que cambió mi salud, mi situación económica y mis relaciones de formas que no hubiera podido predecir.</p>
 
-    <div id="video-container">
-      <!-- Si hay URL de video, se muestra el iframe; si no, el placeholder -->
-      <div class="video-placeholder" id="video-placeholder">
-        <div class="video-icon">▶</div>
-        <p class="video-text">Video de bienvenida<br><span style="font-size:11px;opacity:.6">Próximamente disponible</span></p>
-      </div>
+    <div class="video-wrap">
+      <div id="player-bienvenida"></div>
+    </div>
+    <div id="video-aviso" class="video-aviso">
+      <span class="va-icono">▶</span>
+      <span class="va-txt">Míralo completo para continuar. Son unos minutos que cambian todo lo que viene.</span>
     </div>
 
     <div class="card gold" style="margin-bottom:20px">
@@ -411,9 +423,10 @@ function verificarRegistro() {
   var fecha = (document.getElementById('reg-fecha').value || '').trim();
   var btn = document.getElementById('btn-registro');
   var conf = document.getElementById('reg-confirmacion');
-  var ok = nombre.length > 2 && fecha.length > 0;
-  if (btn) btn.disabled = !ok;
-  if (conf) conf.style.display = ok ? 'block' : 'none';
+  var datosOk = nombre.length > 2 && fecha.length > 0;
+  // El botón exige AMBAS cosas: datos completos Y video visto
+  if (btn) btn.disabled = !(datosOk && window.videoVisto === true);
+  if (conf) conf.style.display = datosOk ? 'block' : 'none';
 }
 
 function guardarRegistroYContinuar() {
@@ -674,6 +687,50 @@ function irAlProceso() {
     estado.linea = localStorage.getItem('anormal_linea') || 'salud';
   }
 })();
+</script>
+
+<script src="https://www.youtube.com/iframe_api"></script>
+<script>
+// ── BLOQUEO DE VIDEO: no avanza hasta verlo completo (con escape a los 3 min) ──
+var playerBienvenida;
+window.videoVisto = false;
+function onYouTubeIframeAPIReady(){
+  playerBienvenida = new YT.Player('player-bienvenida', {
+    videoId: 'vzUcWJX_czE',
+    playerVars: { rel:0, modestbranding:1, playsinline:1 },
+    events: {
+      'onStateChange': function(e){
+        if(e.data === YT.PlayerState.ENDED){ desbloquearVideo(); }
+      }
+    }
+  });
+}
+function desbloquearVideo(){
+  if(window.videoVisto) return;
+  window.videoVisto = true;
+  // Re-verificar: el botón se habilita si además los datos están completos
+  if(typeof verificarRegistro === 'function') verificarRegistro();
+  var aviso = document.getElementById('video-aviso');
+  if(aviso){
+    aviso.classList.add('listo');
+    aviso.querySelector('.va-icono').textContent = '✓';
+    aviso.querySelector('.va-txt').textContent = 'Listo. Ahora sí, empecemos.';
+  }
+  var esc = document.getElementById('btn-escape');
+  if(esc) esc.style.display = 'none';
+}
+// Escape discreto tras 3 minutos (por si el video no carga)
+setTimeout(function(){
+  if(window.videoVisto) return;
+  var aviso = document.getElementById('video-aviso');
+  if(!aviso) return;
+  var esc = document.createElement('button');
+  esc.id = 'btn-escape';
+  esc.className = 'btn-escape';
+  esc.textContent = '¿Problemas con el video? Continuar de todas formas';
+  esc.onclick = desbloquearVideo;
+  aviso.parentNode.insertBefore(esc, aviso.nextSibling);
+}, 180000);
 </script>
 </body>
 </html>
