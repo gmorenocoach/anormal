@@ -275,8 +275,8 @@ textarea:focus{outline:none;border-color:var(--gold)}
   <!-- PANTALLA 6: CIERRE -->
   <div class="pantalla" id="p6">
     <div class="label">Cierre · Tu transformación</div>
-    <h1 class="titulo">Soltaste la piedra. Mira tu luz.</h1>
-    <p class="subtitulo">Cada perdón que diste encendió algo en ti. Esto es lo que cambió en tu aura al soltar lo que cargabas.</p>
+    <h1 class="titulo">Soltaste la piedra. Mira cómo subes.</h1>
+    <p class="subtitulo">Cada perdón que das te eleva. El perdón es una de las formas más rápidas de subir tu nivel de conciencia — porque libera la energía que estaba atrapada en el pasado.</p>
 
     <div id="aura-compara-wrap"></div>
 
@@ -576,22 +576,89 @@ function gradoPerdon(){
   if(cartas.padre.estado==='hecho') hechosFijos++;
   return Math.min(1, hechosFijos/totalFijos);
 }
+
+// ── BARRA HORIZONTAL DE NIVELES DE CONCIENCIA ────────────────────────────
+var NIVELES_ESCALA=[
+  {n:20,t:'Vergüenza',c:'#4A0A0A'},{n:50,t:'Apatía',c:'#6A1010'},{n:75,t:'Tristeza',c:'#8A1515'},
+  {n:100,t:'Miedo',c:'#A03520'},{n:125,t:'Deseo',c:'#A0491F'},{n:150,t:'Ira',c:'#A05A20'},
+  {n:175,t:'Orgullo',c:'#7A6B29'},{n:200,t:'Coraje',c:'#3A7A30'},{n:250,t:'Neutralidad',c:'#297A4A'},
+  {n:310,t:'Voluntad',c:'#2979A0'},{n:350,t:'Aceptación',c:'#2F6FA0'},{n:400,t:'Razón',c:'#5C2FA0'},
+  {n:500,t:'Amor',c:'#C9A84C'},{n:540,t:'Alegría',c:'#E8C96A'},{n:600,t:'Paz',c:'#F5E0A0'},{n:700,t:'Iluminación',c:'#FFFFFF'}
+];
+function nivelInfo(v){
+  var r=NIVELES_ESCALA[0];
+  for(var i=0;i<NIVELES_ESCALA.length;i++){ if(v>=NIVELES_ESCALA[i].n) r=NIVELES_ESCALA[i]; }
+  return r;
+}
+function posEnBarra(v){
+  // posición 0-100% en escala logarítmica suavizada (20 a 700)
+  var min=20, max=700;
+  var p=(Math.log(Math.max(v,min))-Math.log(min))/(Math.log(max)-Math.log(min));
+  return Math.max(0,Math.min(100,p*100));
+}
+function barraNivelesHTML(grado){
+  var nivelBase = parseInt(leer('anormal_nivel_real','0')) || parseInt(leer('anormal_nivel_consciente','0')) || 100;
+  var pts = parseInt(leer('anormal_puntos_conciencia','0')) || 0;
+  var actual = nivelBase + pts;
+  // Lo que el perdón completado suma (proporcional a las cartas hechas)
+  var cartasHechas = cuentaHechos();
+  var totalCartas = 4;
+  var proyectado = actual;
+  if(grado>0){
+    var idx = NIVELES_ESCALA.findIndex(function(x){ return x.n===nivelInfo(actual).n; });
+    var saltos = Math.round(grado * 2); // hasta 2 niveles por perdón completo
+    proyectado = NIVELES_ESCALA[Math.min(idx+saltos, NIVELES_ESCALA.length-1)].n;
+  }
+  var iA=nivelInfo(actual), iP=nivelInfo(proyectado);
+  var pA=posEnBarra(actual), pP=posEnBarra(proyectado);
+  var meta = parseInt(leer('anormal_nivel_meta','0')) || 500;
+  var pM = posEnBarra(meta);
+
+  var s='<div class="card gold" style="padding:22px 20px">';
+  s+='<div class="label" style="margin-bottom:16px">Tu nivel de conciencia</div>';
+
+  // barra
+  s+='<div style="position:relative;height:14px;border-radius:7px;overflow:hidden;background:linear-gradient(90deg,#4A0A0A,#A03520,#A05A20,#7A6B29,#3A7A30,#297A4A,#2979A0,#5C2FA0,#C9A84C,#F5E0A0);margin:26px 0 6px">';
+  s+='<div style="position:absolute;left:'+posEnBarra(200)+'%;top:0;bottom:0;width:2px;background:rgba(255,255,255,.55)"></div>';
+  s+='</div>';
+
+  // marcadores
+  s+='<div style="position:relative;height:52px;font-size:11px">';
+  s+='<div style="position:absolute;left:'+posEnBarra(200)+'%;transform:translateX(-50%);text-align:center;color:var(--dim);white-space:nowrap"><div style="font-size:9px;letter-spacing:.1em">UMBRAL</div><div style="color:#4ABF7A">200</div></div>';
+  if(Math.abs(pM-posEnBarra(200))>8){
+    s+='<div style="position:absolute;left:'+pM+'%;transform:translateX(-50%);text-align:center;white-space:nowrap"><div style="font-size:9px;letter-spacing:.1em;color:var(--dim)">TU META</div><div style="color:var(--gold2)">'+meta+'</div></div>';
+  }
+  s+='</div>';
+
+  // antes → después
+  s+='<div style="display:flex;justify-content:space-around;align-items:center;text-align:center;margin-top:6px">';
+  s+='<div><div style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);margin-bottom:3px">Antes</div>'+
+     '<div style="font-family:\'Cormorant Garamond\',serif;font-size:26px;color:'+iA.c+'">'+actual+'</div>'+
+     '<div style="font-size:12px;color:var(--dim)">'+iA.t+'</div></div>';
+  s+='<div style="font-size:22px;color:var(--gold)">→</div>';
+  s+='<div><div style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);margin-bottom:3px">Con tu perdón</div>'+
+     '<div style="font-family:\'Cormorant Garamond\',serif;font-size:26px;color:'+iP.c+'">'+proyectado+'</div>'+
+     '<div style="font-size:12px;color:var(--gold3)">'+iP.t+'</div></div>';
+  s+='</div>';
+
+  // mensaje según el estado de las cartas
+  s+='<div style="margin-top:18px;padding-top:16px;border-top:1px solid rgba(201,168,76,.2)">';
+  if(grado>=1){
+    s+='<p class="ct">Completaste tus cuatro perdones. Cada uno liberó energía que estaba atrapada en el pasado — y esa energía es exactamente lo que te sube de nivel. <b>Esto no es magia: es lo que pasa cuando dejas de cargar lo que no era tuyo.</b></p>';
+  } else if(grado>0){
+    var faltan = totalCartas - cartasHechas;
+    s+='<p class="ct">Vas en camino: <b style="color:var(--gold2)">'+cartasHechas+' de 4</b> perdones. Te '+(faltan===1?'falta 1 carta':'faltan '+faltan+' cartas')+' — y cada una te sube un poco más. <b>El nivel que ves proyectado es el que alcanzas cuando las completes todas.</b></p>';
+  } else {
+    s+='<p class="ct">Todavía no has escrito ninguna carta. <b>Ese número de la derecha es hasta dónde puedes llegar</b> cuando completes tus cuatro perdones. No hay prisa — pero ahí está esperándote.</p>';
+  }
+  s+='<p class="ct dim" style="margin-top:10px;font-size:13.5px;font-style:italic">Y mientras más perdones en la vida real, más se sostiene este nivel.</p>';
+  s+='</div></div>';
+  return s;
+}
+
 function renderCierre(){
-  var emo=leerJSON('anormal_emocional',null);
-  var luzIni={};
-  if(emo&&emo.luz_inicial){ Object.keys(emo.luz_inicial).forEach(function(k){ luzIni[k]=emo.luz_inicial[k]/100; }); }
-  else if(emo&&emo.chakras){ emo.chakras.forEach(function(c){ luzIni[c.id]=c.suma/c.max; }); }
-  else { ['raiz','sacro','plexo','corazon','garganta','tercer','corona'].forEach(function(k){ luzIni[k]=0.4; }); }
   var g=gradoPerdon();
-  var luzDespues={};
-  Object.keys(luzIni).forEach(function(k){ var l=luzIni[k]; luzDespues[k]=Math.min(1, l+(1-l)*g*0.6); });
-  document.getElementById('aura-compara-wrap').innerHTML=
-    '<div class="aura-compara">'+
-      '<div class="aura-col"><div class="aura-col-label">Antes</div>'+renderAura(luzIni,150)+'</div>'+
-      '<div class="aura-flecha">→</div>'+
-      '<div class="aura-col"><div class="aura-col-label">Después del perdón</div>'+renderAura(luzDespues,150)+'</div>'+
-    '</div>'+
-    '<div class="card"><p class="ct">Cada carta que completaste encendió tu aura. Esto no es magia — es lo que pasa cuando dejas de cargar lo que no era tuyo. Y mientras más perdones en la vida real, más se sostendrá esta luz.</p></div>';
+  document.getElementById('aura-compara-wrap').innerHTML = barraNivelesHTML(g);
 
   // compromisos pendientes del perdón (de esta sesión)
   var comp=cuentaCompromisos();
