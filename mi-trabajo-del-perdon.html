@@ -446,11 +446,11 @@ function renderFamiliar(quien){
   var rol=(quien==='madre')?'tu madre':'tu padre';
   var nin=(quien==='madre')?'niña':'niño';
   var ct=cartas[quien];
-  var sel='<div class="card"><div class="label">¿En qué momento quieres ver a '+rol+'?</div>'+
-    '<p class="ct dim" style="margin-bottom:4px">El dolor pudo originarse en cualquier etapa. Quizás tú estás en tu ciclo 9, pero el dolor está en tu ciclo 1. Elige el ciclo en el que quieres mirar'+(quien==='madre'?'la':'lo')+'.</p>'+
-    '<div class="selector-ciclo" id="sel-'+quien+'"></div></div>';
-  var energia='<div class="energia-nota"><div class="energia-label">✦ Aunque ya no esté presente</div>'+
-    '<div class="energia-texto">El perdón a '+rol+' se hace <b>aunque ya haya partido</b>. Porque somos <b>energía</b>, y la energía no desaparece — se transforma. Tu perdón viaja, llega, y libera el vínculo entre ustedes, estén donde estén.</div></div>';
+  var sel='<div class="card gold"><div class="label">Lo único que importa ahora</div>'+
+    '<p class="ct" style="margin-bottom:10px">No importa en qué etapa se originó el dolor. No importa si fue hace cuarenta años o el mes pasado. <b>Lo único que importa es que escribas la carta.</b></p>'+
+    '<p class="ct">Escríbela a mano si puedes. Sin filtro, sin corregir, sin pensar en cómo suena. Nadie la va a leer. Es entre '+rol+' y tú.</p></div>';
+  var energia='<div class="energia-nota"><div class="energia-label">✦ Esté en este plano o ya haya trascendido</div>'+
+    '<div class="energia-texto">Esta carta se escribe <b>igual</b>: si '+rol+' está vivo, y si ya partió. Porque somos <b>energía</b>, y la energía no desaparece — se transforma. Tu perdón viaja, llega, y libera el vínculo entre ustedes, estén donde estén.<br><br>Y escúchame bien: <b>no necesitas entregársela.</b> El perdón no se hace para el otro. Se hace para ti.</div></div>';
   var guia='<div class="viz"><div class="viz-label">◑ Visualiza antes de escribir</div>'+
     '<div class="viz-paso"><span class="viz-dot">·</span><span>Respira. Imagina a '+rol+' como '+nin+', a la edad que elegiste.</span></div>'+
     '<div class="viz-paso"><span class="viz-dot">·</span><span>Pregúntate: ¿qué le pasó a '+(quien==='madre'?'esa niña':'ese niño')+'? ¿Qué heridas cargaba que nunca sanó?</span></div>'+
