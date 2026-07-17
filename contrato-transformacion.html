@@ -10,16 +10,18 @@
 <style>
 :root{--bg:#060A14;--bg2:#0A0F1E;--bg3:#0E1525;--gold:#C9A84C;--gold2:#E8C96A;--gb:rgba(201,168,76,.28);--gd:rgba(201,168,76,.13);--text:#EAE6DC;--dim:#8A95A8;--faint:#3A4558;--ffaint:#1E2A3A;--r:4px;--rm:8px;--rl:14px}
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font-weight:300;font-size:15px;line-height:1.65;min-height:100vh}
+body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font-weight:300;font-size:17px;line-height:1.7;min-height:100vh}
 .wrap{max-width:680px;margin:0 auto;padding:24px 20px 60px}
 .hdr{display:flex;align-items:center;justify-content:space-between;padding:16px 0 24px;border-bottom:1px solid var(--faint);margin-bottom:32px}
 .logo{font-family:"Cormorant Garamond",serif;font-size:22px;color:var(--gold2)}
 .label{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:10px}
-.titulo{font-family:"Cormorant Garamond",serif;font-size:clamp(24px,5vw,36px);font-weight:300;color:var(--gold2);line-height:1.2;margin-bottom:16px}
-.subtitulo{font-size:13px;color:var(--dim);line-height:1.8;margin-bottom:24px}
+.video-wrap{position:relative;width:100%;padding-bottom:56.25%;height:0;margin-bottom:24px;border-radius:var(--rl);overflow:hidden;border:1px solid var(--gb);background:var(--bg2)}
+.video-wrap iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0}
+.titulo{font-family:"Cormorant Garamond",serif;font-size:clamp(28px,5.5vw,40px);font-weight:300;color:var(--gold2);line-height:1.2;margin-bottom:16px}
+.subtitulo{font-size:15.5px;color:var(--dim);line-height:1.8;margin-bottom:24px}
 .card{background:var(--bg2);border:1px solid rgba(255,255,255,.055);border-radius:var(--rl);padding:20px 24px;margin-bottom:16px}
 .card.gold{border-color:var(--gb);background:linear-gradient(135deg,var(--bg2),var(--bg3))}
-.ct{font-size:13px;color:var(--dim);line-height:1.8}
+.ct{font-size:15.5px;color:var(--text);line-height:1.8}
 .compromiso-item{display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--ffaint)}
 .compromiso-item:last-child{border-bottom:none}
 .check-box{min-width:20px;height:20px;border-radius:4px;border:2px solid var(--faint);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;margin-top:2px}
@@ -52,39 +54,21 @@ body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font
     <div class="label">Tu Reto de Transformación</div>
   </div>
 
-  <!-- PA: ¿QUÉ ES SER ANORMAL? -->
+  <!-- PA: VIDEO DE BIENVENIDA -->
   <div class="pantalla visible" id="pA">
     <div class="label">Antes de aceptar el reto</div>
-    <h1 class="titulo">¿Qué significa ser ∀normal?</h1>
-    <p class="subtitulo">Antes de decidir si aceptas este reto, necesitas entender a qué te estás sumando.</p>
+    <h1 class="titulo">Necesito contarte algo.</h1>
+    <p class="subtitulo">Antes de decidir si aceptas este reto, quiero que me escuches. Son unos minutos que pueden cambiar cómo ves todo lo que viene.</p>
 
-    <div class="card gold" style="margin-bottom:16px">
-      <p class="ct" style="margin-bottom:14px">La mayoría de las personas viven en piloto automático. Se levantan, cumplen, sobreviven, repiten. A eso le llamamos <b>normal</b>.</p>
-      <p class="ct" style="margin-bottom:14px">Ser <b style="color:var(--gold2)">∀normal</b> no es ser raro ni extravagante: es negarte a vivir dormido. Es tomar las riendas de tu vida con consciencia, propósito y coraje.</p>
-      <p class="ct" style="margin-bottom:14px">Es entender que lo extraordinario no le pertenece a unos pocos afortunados — es una decisión que se toma cada día.</p>
-      <p class="ct">El símbolo <b style="color:var(--gold2)">∀</b> significa "para todo": para toda área de tu vida, eliges despertar. Este proceso es tu entrenamiento para lograrlo.</p>
+    <div class="video-wrap">
+      <iframe src="https://www.youtube.com/embed/vzUcWJX_czE?rel=0"
+              title="Bienvenida — ∀normal"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen></iframe>
     </div>
 
     <div class="nav">
-      <button class="bp" onclick="irA('B')">Quiero saber más →</button>
-    </div>
-  </div>
-
-  <!-- PB: NECESITO CONTARTE ALGO (PERFIL) -->
-  <div class="pantalla" id="pB">
-    <div class="label">Necesito contarte algo</div>
-    <h1 class="titulo">Antes de empezar, déjame presentarme.</h1>
-
-    <div class="card" style="margin-bottom:16px">
-      <p class="ct" style="margin-bottom:14px">Soy <b style="color:var(--gold2)">Germán Alonso</b>, coach de vida y coach ejecutivo de alto nivel, conferencista y docente universitario con más de 27 años de experiencia. Fundé y lidero <b>Soy Integral</b>, y a lo largo de estos años he construido modelos propios de desarrollo humano orientados al ser. Soy autor de varios libros; el más reciente, <i>Café con Propósito</i>, es el corazón de lo que vas a vivir aquí.</p>
-      <p class="ct" style="margin-bottom:14px">Me dicen <b style="color:var(--gold2)">El Barista del Ser</b>, porque así como un buen café pasa por fuego y presión hasta revelar su mejor aroma, las personas revelamos nuestra mejor versión cuando atravesamos el proceso correcto.</p>
-      <p class="ct" style="margin-bottom:14px">Pero hay algo que quiero que sepas, porque cambia todo: lo que vas a aprender en esta mentoría <b style="color:var(--gold2)">no es teoría</b>. Yo mismo atravesé dos procesos profundos de sanación, y de ellos aprendí —viviéndolo en carne propia— cada cosa que aquí te voy a compartir. No te voy a enseñar nada que no haya recorrido primero.</p>
-      <p class="ct" style="margin-bottom:14px">Mi filosofía es simple y profunda: no solo desde los quirófanos se salvan vidas. También se salvan con la palabra, siempre con propósito. <b style="color:var(--gold2)">Salvar vidas. Muchas vidas. Todas las que se puedan.</b></p>
-      <p class="ct" style="font-style:italic">No estoy aquí para darte respuestas. Estoy aquí para hacerte las preguntas que te lleven a las tuyas.</p>
-    </div>
-
-    <div class="nav">
-      <button class="bs" onclick="irA('A')">← Anterior</button>
       <button class="bp" onclick="irA(0)">Estoy listo para el reto →</button>
     </div>
   </div>
@@ -181,7 +165,7 @@ body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font
   <!-- P4: COMPLETADO -->
   <div class="pantalla" id="p4">
     <div class="sello">
-      <span class="sello-icono">∀</span>
+      <img src="logo-anormal.jpg" alt="∀normal" style="width:110px;height:auto;display:block;margin:0 auto 10px">
       <h2 class="sello-titulo">Aceptaste el reto.</h2>
       <p class="sello-sub">Desde este momento, eres ∀normal. No porque seas perfecto — sino porque elegiste conscientemente dejar de ser ordinario. Ese es el único requisito.</p>
       <div style="padding:14px 18px;border-left:3px solid var(--gold);background:var(--bg3);border-radius:0 var(--rl) var(--rl) 0;text-align:left;margin-bottom:24px">
