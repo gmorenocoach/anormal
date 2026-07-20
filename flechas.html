@@ -6,44 +6,47 @@
 <title>∀normal — Mis Flechas</title>
 <link rel="icon" type="image/png" href="favicon.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Barlow:wght@300;400;500&family=Barlow+Condensed:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#060A14;--bg2:#0A0F1E;--bg3:#0E1525;--bg4:#131D30;--gold:#C9A84C;--gold2:#E8C96A;--gold3:#F5E0A0;--gd:rgba(201,168,76,.13);--gb:rgba(201,168,76,.28);--text:#EAE6DC;--dim:#9AA5B8;--faint:#3A4558;--ffaint:#1E2A3A;--grn:#4ABF7A;--rose:#D4537E;--azul:#5A8CC0;--r:4px;--rm:8px;--rl:14px;}
+:root{
+  --serif:'Fraunces',serif;--sans:'Inter',sans-serif;
+  --sesion:#7FA98A;
+  --t-display:44px;--t-h1:28px;--t-h2:20px;--t-h3:20px;--t-body:17px;--t-small:17px;--t-micro:20px;--bg:#0C1512;--bg2:#13201A;--bg3:#192B22;--bg4:#20372C;--gold:#C9A84C;--gold2:#E4C878;--gold3:#F5E0A0;--gd:rgba(201,168,76,.13);--gb:rgba(201,168,76,.28);--text:#EDE7D9;--dim:#A9B0C0;--faint:#3A4558;--ffaint:#26402F;--grn:#6FA382;--rose:#C77A8E;--azul:#5A8CC0;--r:4px;--rm:8px;--rl:14px;}
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font-weight:300;font-size:17.5px;line-height:1.75;min-height:100vh}
+body{background:var(--bg);color:var(--text);font-family:var(--serif);font-weight:300;font-size:var(--t-body);line-height:1.75;min-height:100vh;background-image:radial-gradient(ellipse 70% 45% at 50% -5%, rgba(127,169,138,.06), transparent)}
 .wrap{max-width:720px;margin:0 auto;padding:24px 20px 60px}
 .hdr{display:flex;align-items:center;justify-content:space-between;padding:16px 0 24px;border-bottom:1px solid var(--faint);margin-bottom:24px}
-.hdr-logo{font-family:"Cormorant Garamond",serif;font-size:23px;color:var(--gold2)}
-.hdr-info{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim)}
+.hdr-logo{font-family:var(--serif);font-size:var(--t-h2);color:var(--gold2)}
+.hdr-info{font-size:var(--t-h2);letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
 .progress-bar{height:2px;background:var(--ffaint);border-radius:2px;overflow:hidden;margin-bottom:10px}
 .progress-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));transition:width .5s ease}
-.progress-txt{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);text-align:center;margin-bottom:24px}
+.progress-txt{font-size:var(--t-h2);letter-spacing:.06em;text-transform:uppercase;color:var(--dim);text-align:center;margin-bottom:24px}
 .pantalla{display:none;animation:fadeIn .4s ease}
 .pantalla.visible{display:block}
 @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-.label{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:10px}
-.titulo{font-family:"Cormorant Garamond",serif;font-size:clamp(24px,5.5vw,33px);font-weight:300;color:var(--gold2);line-height:1.2;margin-bottom:12px}
-.subtitulo{font-size:16px;color:var(--dim);line-height:1.85;margin-bottom:24px}
+.label{font-size:var(--t-h2);letter-spacing:.08em;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:10px}
+.titulo{font-family:var(--serif);font-size:var(--t-h1);font-weight:300;color:var(--gold2);line-height:1.2;margin-bottom:12px}
+.subtitulo{font-size:var(--t-body);color:var(--dim);line-height:1.85;margin-bottom:24px}
 .card{background:var(--bg2);border:1px solid rgba(255,255,255,.06);border-radius:var(--rl);padding:22px 26px;margin-bottom:14px}
 .card.gold{border-color:var(--gb);background:linear-gradient(135deg,var(--bg2),var(--bg3))}
-.ct{font-size:16px;color:var(--text);line-height:1.95}
-.ct.dim{color:var(--dim);font-size:15px}
+.ct{font-size:var(--t-body);color:var(--text);line-height:1.95}
+.ct.dim{color:var(--dim);font-size:var(--t-body)}
 .ct b,.ct strong{color:var(--gold2);font-weight:500}
 .video-opcional{background:var(--bg3);border:1px dashed var(--faint);border-radius:14px;padding:20px 22px;margin-bottom:18px;display:flex;align-items:center;gap:16px}
-.video-opcional .vo-play{font-size:24px;color:var(--gold);flex-shrink:0}
-.video-opcional .vo-tit{font-size:13px;color:var(--text)}
-.video-opcional .vo-sub{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--faint);margin-top:3px}
-.seccion-lbl{font-size:12px;letter-spacing:.14em;text-transform:uppercase;margin:22px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--ffaint)}
+.video-opcional .vo-play{font-size:var(--t-h2);color:var(--gold);flex-shrink:0}
+.video-opcional .vo-tit{font-size:var(--t-body);color:var(--text)}
+.video-opcional .vo-sub{font-size:var(--t-h2);letter-spacing:.06em;text-transform:uppercase;color:var(--faint);margin-top:3px}
+.seccion-lbl{font-size:var(--t-h2);letter-spacing:.06em;text-transform:uppercase;margin:22px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--ffaint)}
 .princ-conexion{margin-top:12px;padding:12px 14px;background:rgba(201,168,76,.08);border:1px solid var(--gb);border-radius:var(--rm)}
-.pc-lbl{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:5px}
-.pc-princ{font-family:"Cormorant Garamond",serif;font-size:17px;color:var(--gold2)}
-.activar-btn{width:100%;background:var(--bg3);border:1px solid var(--ffaint);border-radius:var(--rm);color:var(--dim);font-family:"Barlow",sans-serif;font-size:14px;padding:10px 14px;cursor:pointer;transition:all .2s}
+.pc-lbl{font-size:var(--t-h2);letter-spacing:.06em;text-transform:uppercase;color:var(--gold);margin-bottom:5px}
+.pc-princ{font-family:var(--serif);font-size:var(--t-body);color:var(--gold2)}
+.activar-btn{width:100%;background:var(--bg3);border:1px solid var(--ffaint);border-radius:var(--rm);color:var(--dim);font-family:var(--sans);font-size:var(--t-body);padding:10px 14px;cursor:pointer;transition:all .2s}
 .activar-btn:hover{border-color:var(--faint)}
 .activar-btn.on{background:rgba(74,191,122,.15);border-color:var(--grn);color:var(--grn)}
 .flecha-card.activar-on{background:rgba(74,191,122,.05)}
 .cuadro-demo{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;max-width:180px;margin:0 auto 14px}
-.cd-cell{aspect-ratio:1;display:flex;align-items:center;justify-content:center;border:1px solid var(--ffaint);border-radius:var(--rm);font-family:"Cormorant Garamond",serif;font-size:22px;color:var(--dim);background:var(--bg3)}
+.cd-cell{aspect-ratio:1;display:flex;align-items:center;justify-content:center;border:1px solid var(--ffaint);border-radius:var(--rm);font-family:var(--serif);font-size:var(--t-h2);color:var(--dim);background:var(--bg3)}
 .cd-cell.on{border-color:var(--gold);background:var(--gd);color:var(--gold2)}
 .cuadro-res{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;max-width:200px;margin:0 auto 20px}
 .seccion-lbl.fort{color:var(--grn)}
@@ -53,14 +56,14 @@ body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font
 .flecha-card.vac{border-color:rgba(90,140,192,.3)}
 .fc-head{display:flex;align-items:center;gap:12px;margin-bottom:10px}
 .fc-nums{display:flex;gap:5px}
-.fc-num{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:"Cormorant Garamond",serif;font-size:16px;flex-shrink:0}
+.fc-num{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:var(--t-body);flex-shrink:0}
 .fc-num.on{background:var(--gd);border:1px solid var(--gold);color:var(--gold2)}
 .fc-num.off{border:1px dashed var(--faint);color:var(--faint)}
-.fc-tit{font-size:16px;font-weight:500;color:var(--gold2)}
-.fc-badge{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
-.bp{background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--bg);border:none;border-radius:var(--r);font-family:"Barlow Condensed",sans-serif;font-size:13px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;padding:14px 32px;cursor:pointer;transition:opacity .2s,transform .15s}
+.fc-tit{font-size:var(--t-body);font-weight:500;color:var(--gold2)}
+.fc-badge{font-size:var(--t-h2);letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
+.bp{background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--bg);border:none;border-radius:var(--r);font-family:var(--sans);font-size:var(--t-body);font-weight:500;letter-spacing:.06em;text-transform:uppercase;padding:14px 32px;cursor:pointer;transition:opacity .2s,transform .15s}
 .bp:hover{opacity:.9;transform:translateY(-1px)}
-.bs{background:transparent;color:var(--gold);border:1px solid var(--gb);border-radius:var(--r);font-family:"Barlow Condensed",sans-serif;font-size:12px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;padding:12px 24px;cursor:pointer}
+.bs{background:transparent;color:var(--gold);border:1px solid var(--gb);border-radius:var(--r);font-family:var(--sans);font-size:var(--t-h2);font-weight:500;letter-spacing:.06em;text-transform:uppercase;padding:12px 24px;cursor:pointer}
 .nav{display:flex;gap:10px;justify-content:space-between;align-items:center;margin-top:26px;flex-wrap:wrap}
 </style>
 </head>
@@ -82,7 +85,7 @@ body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font
         <div class="cd-cell">2</div><div class="cd-cell">5</div><div class="cd-cell">8</div>
         <div class="cd-cell">1</div><div class="cd-cell">4</div><div class="cd-cell">7</div>
       </div>
-      <p class="ct dim" style="font-size:14px">Ejemplo: si tienes el 1, el 4 y el 7 (la columna izquierda), formas la Flecha de la Determinación.</p>
+      <p class="ct dim" style="font-size:var(--t-body)">Ejemplo: si tienes el 1, el 4 y el 7 (la columna izquierda), formas la Flecha de la Determinación.</p>
     </div>
 
     <div class="card"><div class="label">Los tres tipos de flecha</div>
@@ -360,7 +363,7 @@ function init0(){
   var f=leer('anormal_fecha_nac','');
   var info=document.getElementById('fecha-info');
   if(f){ info.innerHTML='<div class="card"><p class="ct dim">Usaremos tu fecha: <b style="color:var(--gold2)">'+fmtFecha(f)+'</b></p></div>'; }
-  else { info.innerHTML='<div class="card"><div class="label">Tu fecha de nacimiento</div><input type="date" id="input-fecha" style="background:var(--bg3);border:1px solid var(--faint);border-radius:var(--rm);color:var(--text);font-size:16px;padding:11px 14px"></div>'; }
+  else { info.innerHTML='<div class="card"><div class="label">Tu fecha de nacimiento</div><input type="date" id="input-fecha" style="background:var(--bg3);border:1px solid var(--faint);border-radius:var(--rm);color:var(--text);font-size:var(--t-body);padding:11px 14px"></div>'; }
 }
 function calcular(){
   var f=leer('anormal_fecha_nac','');
@@ -400,7 +403,7 @@ function renderFlechas(){
   var cont=document.getElementById('flechas-contenido');
   var html='';
   // cuadro del usuario
-  html+='<div class="card"><div class="label" style="text-align:center">Tu cuadro numerológico</div>'+cuadroUsuario()+'<p class="ct dim" style="text-align:center;font-size:14px">Los números dorados son los que tienes en tu fecha. Las líneas que forman son tus flechas.</p></div>';
+  html+='<div class="card"><div class="label" style="text-align:center">Tu cuadro numerológico</div>'+cuadroUsuario()+'<p class="ct dim" style="text-align:center;font-size:var(--t-body)">Los números dorados son los que tienes en tu fecha. Las líneas que forman son tus flechas.</p></div>';
   if(fuertes.length){
     html+='<div class="seccion-lbl fort">▲ Tus flechas completas · fortalezas (3 de 3)</div>';
     fuertes.forEach(function(k){ var f=FD[k]; var c=f.c||{};
@@ -449,7 +452,7 @@ function renderFlechas(){
     faltantes.forEach(function(n){
       var a=ACTIVAR[n]||{};
       var mk=activarMarcados.indexOf(n)>=0;
-      html+='<div class="flecha-card'+(mk?' activar-on':'')+'" style="border-color:'+(mk?'var(--grn)':'var(--gb)')+'" id="activar-'+n+'"><div class="fc-head"><div class="fc-num off" style="width:38px;height:38px;font-size:20px">'+n+'</div><div style="flex:1"><div class="fc-tit">'+(a.n||('Número '+n))+'</div><div class="fc-badge">'+(mk?'✓ En mi conciencia':'Por activar')+'</div></div></div>'+
+      html+='<div class="flecha-card'+(mk?' activar-on':'')+'" style="border-color:'+(mk?'var(--grn)':'var(--gb)')+'" id="activar-'+n+'"><div class="fc-head"><div class="fc-num off" style="width:38px;height:38px;font-size:var(--t-h2)">'+n+'</div><div style="flex:1"><div class="fc-tit">'+(a.n||('Número '+n))+'</div><div class="fc-badge">'+(mk?'✓ En mi conciencia':'Por activar')+'</div></div></div>'+
         (a.que?'<p class="ct">'+a.que+'</p>':'')+
         (a.accion?'<p class="ct" style="margin-top:8px"><b style="color:var(--gold2)">Práctica concreta: </b>'+a.accion+'</p>':'')+
         (function(){
@@ -458,8 +461,8 @@ function renderFlechas(){
           var colL={salud:'#4ABF7A',dinero:'#C9A84C',amor:'#D4537E'}[lin]||'#C9A84C';
           var lblL={salud:'tu salud',dinero:'tu dinero',amor:'tu amor'}[lin]||'tu línea';
           return '<div style="margin-top:10px;padding:10px 12px;background:var(--bg3);border-radius:8px;border-left:3px solid '+colL+'">'+
-            '<div style="font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:'+colL+';margin-bottom:4px">→ En '+lblL+'</div>'+
-            '<div style="font-size:14px;color:var(--text);line-height:1.6">'+a[lin]+'</div>'+
+            '<div style="font-size:var(--t-h2);letter-spacing:.08em;text-transform:uppercase;color:'+colL+';margin-bottom:4px">→ En '+lblL+'</div>'+
+            '<div style="font-size:var(--t-body);color:var(--text);line-height:1.6">'+a[lin]+'</div>'+
           '</div>';
         })()+
         '<div style="margin-top:12px"><button class="activar-btn'+(mk?' on':'')+'" onclick="toggleActivar('+n+',\''+(a.n||('Número '+n)).replace(/'/g,"")+'\')">'+(mk?'✓ Lo llevo a mi conciencia':'○ Marcar para activar')+'</button></div>'+
@@ -472,7 +475,7 @@ function princBox(k){
   var fp=FLECHA_PRINCIPIO[k]; if(!fp) return '';
   return '<div class="princ-conexion"><div class="pc-lbl">✦ El principio que te fortalece aquí</div>'+
     '<div class="pc-princ">∀'+fp.p+' · '+fp.nombre+'</div>'+
-    '<p class="ct" style="font-size:14.5px;margin-top:6px">'+fp.como+'</p></div>';
+    '<p class="ct" style="font-size:var(--t-body);margin-top:6px">'+fp.como+'</p></div>';
 }
 var activarMarcados=[];
 function toggleActivar(n, nombre){
