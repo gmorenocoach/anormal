@@ -17,59 +17,67 @@
   --grn:#6FA382;--rose:#C77A8E;
   --r:4px;--rm:10px;--rl:16px;
   --serif:'Fraunces',serif;--sans:'Inter',sans-serif;
+  /* ESCALA TIPOGRÁFICA — 7 tamaños con propósito, para homogeneidad total */
+  --t-display:46px;  /* número hero del nivel, ∀ de principios */
+  --t-h1:33px;       /* título principal de página */
+  --t-h2:25px;       /* títulos de sección, nombres de nivel */
+  --t-h3:20px;       /* subtítulos, reflexión, voces */
+  --t-body:16.5px;   /* texto de lectura */
+  --t-small:13.5px;  /* datos secundarios, notas */
+  --t-micro:11.5px;  /* etiquetas, eyebrows, metadatos */
 }
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--bg);color:var(--text);font-family:var(--serif);font-weight:300;font-size:17px;line-height:1.7;min-height:100vh;background-image:radial-gradient(ellipse 70% 45% at 50% -5%, rgba(201,168,76,.06), transparent)}
+body{background:var(--bg);color:var(--text);font-family:var(--serif);font-weight:300;font-size:var(--t-body);line-height:1.7;min-height:100vh;background-image:radial-gradient(ellipse 70% 45% at 50% -5%, rgba(201,168,76,.06), transparent)}
 .wrap{max-width:720px;margin:0 auto;padding:24px 20px 60px}
 
 .hdr{display:flex;align-items:center;justify-content:space-between;padding:16px 0 22px;border-bottom:1px solid var(--faint);margin-bottom:24px}
-.hdr-logo{font-family:var(--serif);font-size:24px;color:var(--gold2)}
-.hdr-info{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--dim)}
+.hdr-logo{font-family:var(--serif);font-size:var(--t-h2);color:var(--gold2)}
+.hdr-info{font-size:var(--t-micro);letter-spacing:.18em;text-transform:uppercase;color:var(--dim)}
 
-.label{font-size:11.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:10px}
+.label{font-size:var(--t-micro);letter-spacing:.18em;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:10px}
 .titulo{font-family:var(--serif);font-size:clamp(26px,5vw,34px);font-weight:300;color:var(--gold2);line-height:1.2;margin-bottom:8px}
-.subtitulo{font-size:14.5px;color:var(--dim);line-height:1.8;margin-bottom:24px}
+.subtitulo{font-size:var(--t-small);color:var(--dim);line-height:1.8;margin-bottom:24px}
 
 .card{background:var(--bg2);border:1px solid rgba(255,255,255,.055);border-radius:var(--rl);padding:22px 24px;margin-bottom:16px}
 .card.gold{border-color:var(--gb);background:linear-gradient(135deg,var(--bg2),var(--bg3))}
-.cl{font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:12px;font-weight:500}
-.ct{font-size:14.5px;color:var(--dim);line-height:1.85}
+.cl{font-size:var(--t-micro);letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:12px;font-weight:500}
+.ct{font-size:var(--t-small);color:var(--dim);line-height:1.85}
 
 /* NIVEL DE CONCIENCIA - HERO */
 .nivel-hero{text-align:center;padding:8px 0}
-.nivel-num{font-family:var(--serif);font-size:72px;font-weight:300;line-height:1;margin-bottom:4px}
-.nivel-nombre{font-size:18px;font-weight:500;color:var(--text);margin-bottom:2px}
-.nivel-zona{font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--dim);margin-bottom:18px}
+.nivel-num{font-family:var(--serif);font-size:var(--t-display);font-weight:300;line-height:1;margin-bottom:4px}
+.nivel-nombre{font-size:var(--t-h3);font-weight:500;color:var(--text);margin-bottom:2px}
+.nivel-zona{font-size:var(--t-micro);letter-spacing:.15em;text-transform:uppercase;color:var(--dim);margin-bottom:18px}
 .nivel-barra{height:8px;background:var(--ffaint);border-radius:4px;overflow:hidden;margin-bottom:8px}
 .nivel-relleno{height:100%;border-radius:4px;transition:width 1s ease}
-.nivel-meta{display:flex;justify-content:space-between;font-size:12px;color:var(--dim)}
-.nivel-proceso{font-size:13px;color:var(--dim);line-height:1.8;margin-top:16px;padding:14px 16px;background:var(--bg3);border-radius:var(--rm);border-left:3px solid var(--gold)}
+.nivel-meta{display:flex;justify-content:space-between;font-size:var(--t-micro);color:var(--dim)}
+.nivel-proceso{font-size:var(--t-small);color:var(--dim);line-height:1.8;margin-top:16px;padding:14px 16px;background:var(--bg3);border-radius:var(--rm);border-left:3px solid var(--gold)}
 
 /* DATOS CLAVE */
 .datos-grid{display:flex;gap:10px;flex-wrap:wrap}
 .dato{flex:1;min-width:90px;text-align:center;background:var(--bg3);border-radius:var(--rm);padding:14px 10px}
-.dato-val{font-family:var(--serif);font-size:22px;color:var(--gold2);line-height:1.1;margin-bottom:4px}
-.dato-lbl{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
+.dato-val{font-family:var(--serif);font-size:var(--t-h3);color:var(--gold2);line-height:1.1;margin-bottom:4px}
+.dato-lbl{font-size:var(--t-micro);letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
 
 /* COMPROMISOS REGISTRABLES */
 .comp-item{display:flex;align-items:flex-start;gap:12px;padding:12px 14px;background:var(--bg3);border-radius:var(--rm);margin-bottom:8px;border:1px solid var(--faint);transition:all .2s;cursor:pointer}
 .comp-item.cumplido{border-color:var(--grn);background:rgba(74,191,122,.06)}
-.comp-check{min-width:22px;height:22px;border-radius:50%;border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;margin-top:1px;transition:all .2s;flex-shrink:0}
+.comp-check{min-width:22px;height:22px;border-radius:50%;border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;font-size:var(--t-micro);font-weight:700;margin-top:1px;transition:all .2s;flex-shrink:0}
 .comp-check.on{background:var(--grn);border-color:var(--grn);color:var(--bg)}
 .comp-body{flex:1}
-.comp-area{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:3px}
-.comp-texto{font-size:14.5px;color:var(--text);line-height:1.5}
+.comp-area{font-size:var(--t-micro);letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:3px}
+.comp-texto{font-size:var(--t-small);color:var(--text);line-height:1.5}
 .comp-fecha-row{display:flex;align-items:center;gap:8px;margin-top:8px;flex-wrap:wrap}
-.comp-fecha-lbl{font-size:12px;color:var(--dim)}
-.comp-fecha-input{background:var(--bg2);border:1px solid var(--faint);border-radius:6px;color:var(--text);font-size:13px;padding:4px 8px;font-family:var(--sans)}
-.comp-dias-input{width:56px;background:var(--bg2);border:1px solid var(--faint);border-radius:6px;color:var(--gold2);font-size:15px;text-align:center;padding:4px 6px;font-family:var(--sans)}
+.comp-fecha-lbl{font-size:var(--t-micro);color:var(--dim)}
+.comp-fecha-input{background:var(--bg2);border:1px solid var(--faint);border-radius:6px;color:var(--text);font-size:var(--t-small);padding:4px 8px;font-family:var(--sans)}
+.comp-dias-input{width:56px;background:var(--bg2);border:1px solid var(--faint);border-radius:6px;color:var(--gold2);font-size:var(--t-body);text-align:center;padding:4px 6px;font-family:var(--sans)}
 .comp-dias-input:focus{outline:none;border-color:var(--gold)}
 .comp-sesion-hdr{display:flex;align-items:center;justify-content:space-between;margin:18px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--ffaint)}
 .comp-sesion-hdr:first-of-type{margin-top:4px}
-.comp-sesion-nom{font-family:var(--sans);font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold2)}
-.comp-sesion-cont{font-size:12px;color:var(--dim);background:var(--bg3);padding:2px 10px;border-radius:10px}
+.comp-sesion-nom{font-family:var(--sans);font-size:var(--t-small);letter-spacing:.12em;text-transform:uppercase;color:var(--gold2)}
+.comp-sesion-cont{font-size:var(--t-micro);color:var(--dim);background:var(--bg3);padding:2px 10px;border-radius:10px}
 .comp-fecha-input:focus{outline:none;border-color:var(--gold)}
-.comp-dias{font-size:11px;padding:2px 8px;border-radius:10px;letter-spacing:.04em}
+.comp-dias{font-size:var(--t-micro);padding:2px 8px;border-radius:10px;letter-spacing:.04em}
 .cf-ok{background:rgba(74,191,122,.15);color:var(--grn)}
 .cf-prox{background:rgba(232,201,106,.18);color:var(--gold2)}
 .cf-hoy{background:rgba(232,201,106,.25);color:var(--gold3);font-weight:500}
@@ -78,33 +86,33 @@ body{background:var(--bg);color:var(--text);font-family:var(--serif);font-weight
 
 /* PRINCIPIOS INQUEBRANTABLES */
 .princ-item{display:flex;align-items:center;gap:12px;padding:11px 14px;background:var(--bg3);border-radius:var(--rm);margin-bottom:7px;border-left:3px solid}
-.princ-num{font-family:var(--serif);font-size:20px;min-width:34px}
-.princ-nombre{font-size:14.5px;color:var(--text);flex:1}
+.princ-num{font-family:var(--serif);font-size:var(--t-h3);min-width:34px}
+.princ-nombre{font-size:var(--t-small);color:var(--text);flex:1}
 .princ-compromiso{background:var(--bg2);border-left:3px solid var(--gold);border-radius:0 var(--rm) var(--rm) 0;padding:12px 16px;margin:-2px 0 12px 0}
-.princ-comp-lbl{font-size:11px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:6px}
-.princ-comp-txt{font-size:14.5px;color:var(--text);line-height:1.7}
+.princ-comp-lbl{font-size:var(--t-micro);letter-spacing:.14em;text-transform:uppercase;margin-bottom:6px}
+.princ-comp-txt{font-size:var(--t-small);color:var(--text);line-height:1.7}
 .princ-comp-vacio{border-left-color:var(--faint)}
 .ac-col{margin-bottom:16px}
-.ac-lbl{font-size:11px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:8px}
-.ac-item{font-size:14.5px;color:var(--text);padding:8px 12px;border-radius:var(--rm);margin-bottom:6px;border-left:3px solid}
+.ac-lbl{font-size:var(--t-micro);letter-spacing:.14em;text-transform:uppercase;margin-bottom:8px}
+.ac-item{font-size:var(--t-small);color:var(--text);padding:8px 12px;border-radius:var(--rm);margin-bottom:6px;border-left:3px solid}
 .ac-bueno{background:rgba(74,191,122,.07);border-left-color:var(--grn)}
 .ac-des{background:rgba(90,140,192,.07);border-left-color:var(--azul)}
-.princ-badge{font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);background:var(--gd);padding:3px 8px;border-radius:10px}
+.princ-badge{font-size:var(--t-micro);letter-spacing:.12em;text-transform:uppercase;color:var(--gold);background:var(--gd);padding:3px 8px;border-radius:10px}
 
 /* ESCRITO */
 .escrito-item{padding:12px 14px;background:var(--bg3);border-radius:var(--rm);margin-bottom:8px;border-left:3px solid var(--faint)}
-.escrito-label{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);margin-bottom:5px}
-.escrito-texto{font-size:14px;color:var(--text);line-height:1.7}
+.escrito-label{font-size:var(--t-micro);letter-spacing:.1em;text-transform:uppercase;color:var(--dim);margin-bottom:5px}
+.escrito-texto{font-size:var(--t-small);color:var(--text);line-height:1.7}
 
 /* PRÓXIMA SESIÓN */
 .sesion-card{background:linear-gradient(135deg,var(--bg3),var(--bg4));border:1px solid var(--gb);border-radius:var(--rl);padding:20px 24px;text-align:center;margin-bottom:16px}
-.sesion-dias{font-family:var(--serif);font-size:42px;color:var(--gold2);line-height:1}
-.sesion-txt{font-size:14px;color:var(--dim);margin-top:6px}
+.sesion-dias{font-family:var(--serif);font-size:var(--t-display);color:var(--gold2);line-height:1}
+.sesion-txt{font-size:var(--t-small);color:var(--dim);margin-top:6px}
 
-.bp{background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--bg);border:none;border-radius:var(--r);font-family:var(--sans);font-size:12px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;padding:13px 30px;cursor:pointer;transition:opacity .2s}
-.bs{background:transparent;color:var(--gold);border:1px solid var(--gb);border-radius:var(--r);font-family:var(--sans);font-size:11px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;padding:11px 22px;cursor:pointer;text-decoration:none;display:inline-block}
+.bp{background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--bg);border:none;border-radius:var(--r);font-family:var(--sans);font-size:var(--t-micro);font-weight:500;letter-spacing:.16em;text-transform:uppercase;padding:13px 30px;cursor:pointer;transition:opacity .2s}
+.bs{background:transparent;color:var(--gold);border:1px solid var(--gb);border-radius:var(--r);font-family:var(--sans);font-size:var(--t-micro);font-weight:500;letter-spacing:.14em;text-transform:uppercase;padding:11px 22px;cursor:pointer;text-decoration:none;display:inline-block}
 .empty-state{text-align:center;padding:40px 20px;color:var(--dim)}
-.empty-icon{font-size:48px;color:var(--faint);margin-bottom:12px}
+.empty-icon{font-size:var(--t-display);color:var(--faint);margin-bottom:12px}
 </style>
 </head>
 <body>
@@ -119,7 +127,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--serif);font-weight
 
 <div id="modal" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(6,10,20,.88);z-index:100;align-items:center;justify-content:center;padding:20px" onclick="if(event.target===this)cerrarModal()">
   <div style="background:var(--bg2);border:1px solid var(--gb);border-radius:var(--rl);padding:26px 24px;max-width:560px;width:100%;max-height:85vh;overflow-y:auto;position:relative">
-    <button onclick="cerrarModal()" style="position:absolute;top:14px;right:16px;background:transparent;border:none;color:var(--dim);font-size:26px;cursor:pointer;line-height:1">×</button>
+    <button onclick="cerrarModal()" style="position:absolute;top:14px;right:16px;background:transparent;border:none;color:var(--dim);font-size:var(--t-h2);cursor:pointer;line-height:1">×</button>
     <div id="modal-body"></div>
   </div>
 </div>
@@ -161,10 +169,10 @@ function principioAccionHTML(texto){
   var voces={}; try{ voces=JSON.parse(localStorage.getItem('anormal_voces_principios')||'{}'); }catch(e){}
   var vozP = voces['∀'+r.p];
   var html='<div style="margin-top:8px;padding:9px 12px;background:rgba(201,168,76,.07);border-left:2px solid '+info.c+';border-radius:0 6px 6px 0">';
-  html+='<div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:'+info.c+';margin-bottom:3px">✦ El principio que refuerza esta acción</div>';
-  html+='<div style="font-size:13.5px;color:#EAE6DC"><b style="color:'+info.c+'">∀'+r.p+' · '+info.n+'</b> — '+r.como+'</div>';
+  html+='<div style="font-size:var(--t-micro);letter-spacing:.1em;text-transform:uppercase;color:'+info.c+';margin-bottom:3px">✦ El principio que refuerza esta acción</div>';
+  html+='<div style="font-size:var(--t-small);color:#EAE6DC"><b style="color:'+info.c+'">∀'+r.p+' · '+info.n+'</b> — '+r.como+'</div>';
   if(vozP && vozP.voz){
-    html+='<div style="font-size:13px;font-style:italic;color:'+info.c+';margin-top:6px;font-family:\'Fraunces\',serif">"'+vozP.voz+'"</div>';
+    html+='<div style="font-size:var(--t-small);font-style:italic;color:'+info.c+';margin-top:6px;font-family:\'Fraunces\',serif">"'+vozP.voz+'"</div>';
   }
   html+='</div>';
   return html;
@@ -470,8 +478,8 @@ function render(){
   // Si no ha hecho la rueda todavía, estado vacío
   if(!diagnostico.nivel && !linea){
     cont.innerHTML = '<div class="empty-state"><div class="empty-icon">∀</div>' +
-      '<p style="font-size:16px;margin-bottom:8px">Tu proceso aún no ha comenzado</p>' +
-      '<p style="font-size:14px;margin-bottom:20px">Completa tu Sesión 1 para ver aquí tu resumen de conciencia.</p>' +
+      '<p style="font-size:var(--t-body);margin-bottom:8px">Tu proceso aún no ha comenzado</p>' +
+      '<p style="font-size:var(--t-small);margin-bottom:20px">Completa tu Sesión 1 para ver aquí tu resumen de conciencia.</p>' +
       '<a href="contrato-transformacion.html" class="bs">Comenzar mi proceso</a></div>';
     return;
   }
@@ -486,18 +494,18 @@ function render(){
   // REFLEXIÓN (según el nivel de la persona; rota en cada visita)
   var fraseHoy = reflexionParaNivel(nivelActual ? nivelActual.nivel : 200);
   html += '<div style="margin:18px 0 22px;padding:18px 20px;background:var(--bg2);border:1px solid var(--gb);border-radius:var(--rl);text-align:center">'+
-    '<div style="font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold2);margin-bottom:10px">Reflexión de hoy</div>'+
-    '<div style="font-family:\'Fraunces\',serif;font-size:20px;font-style:italic;line-height:1.55;color:var(--gold3)">'+fraseHoy+'</div>'+
+    '<div style="font-size:var(--t-micro);letter-spacing:.16em;text-transform:uppercase;color:var(--gold2);margin-bottom:10px">Reflexión de hoy</div>'+
+    '<div style="font-family:\'Fraunces\',serif;font-size:var(--t-h3);font-style:italic;line-height:1.55;color:var(--gold3)">'+fraseHoy+'</div>'+
   '</div>';
 
   // MI LIBRO: acceso al repositorio de todo lo que ha escrito
   html += '<a href="mi-libro.html" style="display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:22px;padding:14px 18px;background:var(--bg2);border:1px solid var(--gb);border-radius:var(--rl);text-decoration:none;transition:all .2s">'+
     '<span style="display:flex;align-items:center;gap:12px">'+
-      '<span style="font-family:\'Fraunces\',serif;font-size:26px;color:var(--gold)">∀</span>'+
-      '<span><span style="display:block;font-size:15.5px;color:var(--text)">Mi Libro</span>'+
-      '<span style="display:block;font-size:12.5px;color:var(--dim)">Todo lo que has escrito en tu proceso, reunido</span></span>'+
+      '<span style="font-family:\'Fraunces\',serif;font-size:var(--t-h2);color:var(--gold)">∀</span>'+
+      '<span><span style="display:block;font-size:var(--t-body);color:var(--text)">Mi Libro</span>'+
+      '<span style="display:block;font-size:var(--t-small);color:var(--dim)">Todo lo que has escrito en tu proceso, reunido</span></span>'+
     '</span>'+
-    '<span style="color:var(--gold2);font-size:18px">→</span>'+
+    '<span style="color:var(--gold2);font-size:var(--t-h3)">→</span>'+
   '</a>';
 
   // VIDEO DE CIERRE DE SESIÓN
@@ -507,9 +515,9 @@ function render(){
     html += '<div style="position:relative;padding-bottom:56.25%;height:0"><iframe src="'+VIDEO_CIERRE_URL+'" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allowfullscreen></iframe></div>';
   } else {
     html += '<div style="padding:28px 24px;text-align:center">';
-    html += '<div style="font-family:\'Fraunces\',serif;font-size:40px;color:var(--gold2);margin-bottom:8px">▶</div>';
-    html += '<div style="font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:8px">Video de cierre — Sesión 1</div>';
-    html += '<p style="font-size:13.5px;color:var(--dim);line-height:1.8;max-width:440px;margin:0 auto">Aquí irá el mensaje de cierre: dónde estás, a dónde debes llegar, y el recordatorio de que los compromisos que adquiriste son contigo mismo y con el proceso que iniciaste — no con nadie más. Lo que hiciste hoy es el insumo del siguiente nivel de conciencia.</p>';
+    html += '<div style="font-family:\'Fraunces\',serif;font-size:var(--t-display);color:var(--gold2);margin-bottom:8px">▶</div>';
+    html += '<div style="font-size:var(--t-micro);letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:8px">Video de cierre — Sesión 1</div>';
+    html += '<p style="font-size:var(--t-small);color:var(--dim);line-height:1.8;max-width:440px;margin:0 auto">Aquí irá el mensaje de cierre: dónde estás, a dónde debes llegar, y el recordatorio de que los compromisos que adquiriste son contigo mismo y con el proceso que iniciaste — no con nadie más. Lo que hiciste hoy es el insumo del siguiente nivel de conciencia.</p>';
     html += '</div>';
   }
   html += '</div>';
@@ -531,14 +539,14 @@ function render(){
     var nC = nivelMap.reduce(function(a,n){ return Math.abs(n.nivel-nivelConsciente)<Math.abs(a.nivel-nivelConsciente)?n:a; }, nivelMap[0]);
     var nR = nivelMap.reduce(function(a,n){ return Math.abs(n.nivel-nivelReal)<Math.abs(a.nivel-nivelReal)?n:a; }, nivelMap[0]);
     html += '<div style="margin:14px 0;padding:14px 16px;background:var(--bg3);border-radius:var(--rm);border-left:3px solid var(--gold)">';
-    html += '<div style="font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold2);margin-bottom:10px">Tu punto de partida honesto</div>';
+    html += '<div style="font-size:var(--t-micro);letter-spacing:.1em;text-transform:uppercase;color:var(--gold2);margin-bottom:10px">Tu punto de partida honesto</div>';
     html += '<div style="display:flex;justify-content:space-around;text-align:center;margin-bottom:12px">';
-    html += '<div><div style="font-size:11px;color:var(--dim);margin-bottom:3px">Donde te reconoces</div><div style="font-family:\'Fraunces\',serif;font-size:22px;color:'+nC.color+'">'+nC.nivel+'</div><div style="font-size:12px;color:var(--dim)">'+nC.nombre+'</div></div>';
-    html += '<div style="align-self:center;font-size:16px;color:var(--faint)">vs</div>';
-    html += '<div><div style="font-size:11px;color:var(--dim);margin-bottom:3px">Lo que tu vida refleja</div><div style="font-family:\'Fraunces\',serif;font-size:22px;color:'+nR.color+'">'+nR.nivel+'</div><div style="font-size:12px;color:var(--dim)">'+nR.nombre+'</div></div>';
+    html += '<div><div style="font-size:var(--t-micro);color:var(--dim);margin-bottom:3px">Donde te reconoces</div><div style="font-family:\'Fraunces\',serif;font-size:var(--t-h3);color:'+nC.color+'">'+nC.nivel+'</div><div style="font-size:var(--t-micro);color:var(--dim)">'+nC.nombre+'</div></div>';
+    html += '<div style="align-self:center;font-size:var(--t-body);color:var(--faint)">vs</div>';
+    html += '<div><div style="font-size:var(--t-micro);color:var(--dim);margin-bottom:3px">Lo que tu vida refleja</div><div style="font-family:\'Fraunces\',serif;font-size:var(--t-h3);color:'+nR.color+'">'+nR.nivel+'</div><div style="font-size:var(--t-micro);color:var(--dim)">'+nR.nombre+'</div></div>';
     html += '</div>';
     var mayorMenor = nivelReal < nivelConsciente ? 'más abajo de lo que crees' : 'más arriba de lo que crees';
-    html += '<p style="font-size:13.5px;color:var(--text);line-height:1.7;margin:0">Te reconoces en <strong style="color:'+nC.color+'">'+nC.nombre+'</strong>, pero cómo vives hoy tus doce áreas refleja <strong style="color:'+nR.color+'">'+nR.nombre+'</strong> — '+mayorMenor+'. Esa distancia entre lo que crees y lo que vives no es un error: <strong style="color:var(--gold2)">es tu material de trabajo</strong>. Todo el proceso existe para cerrarla, con honestidad.</p>';
+    html += '<p style="font-size:var(--t-small);color:var(--text);line-height:1.7;margin:0">Te reconoces en <strong style="color:'+nC.color+'">'+nC.nombre+'</strong>, pero cómo vives hoy tus doce áreas refleja <strong style="color:'+nR.color+'">'+nR.nombre+'</strong> — '+mayorMenor+'. Esa distancia entre lo que crees y lo que vives no es un error: <strong style="color:var(--gold2)">es tu material de trabajo</strong>. Todo el proceso existe para cerrarla, con honestidad.</p>';
     html += '</div>';
   }
   var pct = Math.round((nivelActual.nivel-20)/(500-20)*100);
@@ -556,9 +564,9 @@ function render(){
   var enVerdad = nivelActual.nivel >= 200;
   html += '<div style="margin-top:14px;padding:12px 16px;border-radius:var(--rm);background:'+(enVerdad?'rgba(74,191,122,.08)':'rgba(212,83,126,.08)')+';border:1px solid '+(enVerdad?'rgba(74,191,122,.25)':'rgba(212,83,126,.25)')+'">';
   if(enVerdad){
-    html += '<div style="font-size:13px;color:var(--text);line-height:1.7"><strong style="color:var(--grn)">Estás en los niveles de verdad (200+).</strong> Aquí vives desde el <strong>poder</strong> — la energía que sostiene, construye y no se agota. Cada peldaño que subes multiplica tu fuerza interior.</div>';
+    html += '<div style="font-size:var(--t-small);color:var(--text);line-height:1.7"><strong style="color:var(--grn)">Estás en los niveles de verdad (200+).</strong> Aquí vives desde el <strong>poder</strong> — la energía que sostiene, construye y no se agota. Cada peldaño que subes multiplica tu fuerza interior.</div>';
   } else {
-    html += '<div style="font-size:13px;color:var(--text);line-height:1.7"><strong style="color:var(--rose)">Estás en los niveles de falsedad (por debajo de 200).</strong> Aquí se vive desde la <strong>fuerza</strong> — la que empuja pero se agota, la que cansa. Cruzar el umbral del Coraje (200) es pasar de la fuerza al <strong>poder</strong>: el que sostiene sin desgastarte. Ese es tu primer gran salto.</div>';
+    html += '<div style="font-size:var(--t-small);color:var(--text);line-height:1.7"><strong style="color:var(--rose)">Estás en los niveles de falsedad (por debajo de 200).</strong> Aquí se vive desde la <strong>fuerza</strong> — la que empuja pero se agota, la que cansa. Cruzar el umbral del Coraje (200) es pasar de la fuerza al <strong>poder</strong>: el que sostiene sin desgastarte. Ese es tu primer gran salto.</div>';
   }
   html += '</div>';
   html += '<div class="nivel-proceso">'+msgNivel+' Subir tu nivel de conciencia no es tachar tareas — es volverte ∀normal de forma permanente. Es un proceso de por vida, no una meta que se alcanza y se olvida.</div>';
@@ -568,30 +576,30 @@ function render(){
   var metaGuardada = parseInt(leer('anormal_nivel_meta','0'))||0;
   if(!metaGuardada){
     html += '<div class="card" style="border-color:var(--gb)"><div class="cl" style="color:var(--gold2)">¿Hasta dónde quieres llegar?</div>';
-    html += '<div style="font-size:14px;color:var(--text);line-height:1.75;margin-bottom:14px">Este es tu momento de decidir. No es la herramienta quien define tu meta — eres tú. ¿A qué nivel de conciencia te comprometes a llegar? Elígelo, y ese será tu norte durante todo el proceso.</div>';
+    html += '<div style="font-size:var(--t-small);color:var(--text);line-height:1.75;margin-bottom:14px">Este es tu momento de decidir. No es la herramienta quien define tu meta — eres tú. ¿A qué nivel de conciencia te comprometes a llegar? Elígelo, y ese será tu norte durante todo el proceso.</div>';
     html += '<div id="opciones-meta">';
     nivelMap.forEach(function(n){
       if(n.nivel<=nivelActual.nivel) return; // solo niveles por encima del actual
       if(n.nivel<200) return; // mínimo digno: Coraje
       html += '<div class="opcion-meta" onclick="elegirMeta('+n.nivel+')" style="display:flex;justify-content:space-between;align-items:center;padding:12px 16px;background:var(--bg3);border:1px solid var(--faint);border-radius:var(--rm);margin-bottom:8px;cursor:pointer">'+
         '<span style="color:'+n.color+';font-weight:500">'+n.nombre+'</span>'+
-        '<span style="color:var(--dim);font-size:13px">nivel '+n.nivel+(n.nivel===500?' · el Amor':n.nivel===200?' · el umbral':'')+'</span>'+
+        '<span style="color:var(--dim);font-size:var(--t-small)">nivel '+n.nivel+(n.nivel===500?' · el Amor':n.nivel===200?' · el umbral':'')+'</span>'+
       '</div>';
     });
     html += '</div></div>';
   } else {
     var nm = nivelMap.find(function(n){return n.nivel===metaGuardada;})||nivelObjetivo;
     html += '<div class="card gold"><div class="cl">Tu meta elegida</div>';
-    html += '<div style="text-align:center;margin:6px 0 12px"><div style="font-family:\'Fraunces\',serif;font-size:28px;color:'+nm.color+'">'+nm.nombre+'</div><div style="font-size:13px;color:var(--dim)">nivel '+nm.nivel+'</div></div>';
-    html += '<div style="font-size:14px;color:var(--text);line-height:1.8;padding:14px 16px;background:var(--bg3);border-radius:var(--rm);border-left:3px solid '+nm.color+'">Elegiste llegar al nivel de <strong style="color:'+nm.color+'">'+nm.nombre+'</strong>. Para llegar ahí debes atravesar cada ciclo del proceso con <strong>absoluta disciplina</strong>. No hay atajos. Y ahí es donde los <strong style="color:var(--gold2)">principios</strong> se vuelven tu camino: cada uno que vives te acerca a tu meta. Los principios no son teoría — son los peldaños de tu ascenso.</div>';
-    html += '<div style="text-align:center;margin-top:10px"><span onclick="cambiarMeta()" style="font-size:12px;color:var(--dim);cursor:pointer;text-decoration:underline">Cambiar mi meta</span></div>';
+    html += '<div style="text-align:center;margin:6px 0 12px"><div style="font-family:\'Fraunces\',serif;font-size:var(--t-h2);color:'+nm.color+'">'+nm.nombre+'</div><div style="font-size:var(--t-small);color:var(--dim)">nivel '+nm.nivel+'</div></div>';
+    html += '<div style="font-size:var(--t-small);color:var(--text);line-height:1.8;padding:14px 16px;background:var(--bg3);border-radius:var(--rm);border-left:3px solid '+nm.color+'">Elegiste llegar al nivel de <strong style="color:'+nm.color+'">'+nm.nombre+'</strong>. Para llegar ahí debes atravesar cada ciclo del proceso con <strong>absoluta disciplina</strong>. No hay atajos. Y ahí es donde los <strong style="color:var(--gold2)">principios</strong> se vuelven tu camino: cada uno que vives te acerca a tu meta. Los principios no son teoría — son los peldaños de tu ascenso.</div>';
+    html += '<div style="text-align:center;margin-top:10px"><span onclick="cambiarMeta()" style="font-size:var(--t-micro);color:var(--dim);cursor:pointer;text-decoration:underline">Cambiar mi meta</span></div>';
     html += '</div>';
   }
 
   // CÓMO SUBIR EL NIVEL (el motor del proceso)
   html += '<div class="card"><div class="cl">Cómo subes tu nivel de conciencia</div>';
-  html += '<div style="font-size:14px;color:var(--text);line-height:1.75;margin-bottom:12px">Todo lo que haces en ∀normal tiene un propósito: elevarte. Cada herramienta te da fuerza para subir un peldaño más — siempre en la línea que elegiste.</div>';
-  html += '<div style="line-height:1.9;font-size:14px">'+
+  html += '<div style="font-size:var(--t-small);color:var(--text);line-height:1.75;margin-bottom:12px">Todo lo que haces en ∀normal tiene un propósito: elevarte. Cada herramienta te da fuerza para subir un peldaño más — siempre en la línea que elegiste.</div>';
+  html += '<div style="line-height:1.9;font-size:var(--t-small)">'+
     '<div style="margin-bottom:8px"><span style="color:var(--grn)">↑</span> <strong>Perdonar y soltar</strong> — libera la energía atrapada en el pasado (sube del Orgullo y la Ira hacia el Coraje).</div>'+
     '<div style="margin-bottom:8px"><span style="color:var(--grn)">↑</span> <strong>Cumplir tus acciones</strong> — cada compromiso que honras es voluntad en movimiento (te acerca a la Aceptación y la Razón).</div>'+
     '<div style="margin-bottom:8px"><span style="color:var(--grn)">↑</span> <strong>Entender tus septenios</strong> — al ver tus ciclos dejas de repetir patrones (sales del Miedo hacia el Coraje).</div>'+
@@ -602,7 +610,7 @@ function render(){
 
   // MAPA DE NIVELES DESPLEGABLE (definición + cómo superarlo + acciones por línea)
   html += '<div class="card"><div class="cl">El mapa de la conciencia</div>';
-  html += '<div style="font-size:13.5px;color:var(--dim);line-height:1.7;margin-bottom:14px">Toca cualquier nivel para ver qué significa, cómo se supera, y qué acciones te ayudan a subir — en general y en tu línea. Tu nivel actual está marcado.</div>';
+  html += '<div style="font-size:var(--t-small);color:var(--dim);line-height:1.7;margin-bottom:14px">Toca cualquier nivel para ver qué significa, cómo se supera, y qué acciones te ayudan a subir — en general y en tu línea. Tu nivel actual está marcado.</div>';
   var ordenDesc = nivelMap.slice().reverse();
   ordenDesc.forEach(function(n){
     var g = guiaNiveles[n.nivel]; if(!g) return;
@@ -611,12 +619,12 @@ function render(){
     var lblLinea = linea==='salud'?'En tu salud':linea==='dinero'?'En tu dinero':linea==='amor'?'En tu amor':'En tu línea';
     html += '<div class="nivel-acordeon" style="border:1px solid '+(esActual?n.color:'var(--ffaint)')+';border-radius:var(--rm);margin-bottom:8px;overflow:hidden">';
     html += '<div onclick="toggleNivelGuia(this)" style="display:flex;justify-content:space-between;align-items:center;padding:12px 14px;cursor:pointer;background:'+(esActual?'rgba(201,168,76,.06)':'transparent')+'">';
-    html += '<span style="display:flex;align-items:center;gap:9px"><span style="width:10px;height:10px;border-radius:50%;background:'+n.color+';display:inline-block;flex-shrink:0"></span><span style="font-size:15px;color:var(--text)">'+n.nombre+'</span>'+(esActual?'<span style="font-size:11px;color:var(--gold2);border:1px solid var(--gb);border-radius:10px;padding:1px 8px">estás aquí</span>':'')+'</span>';
-    html += '<span style="font-size:13px;color:var(--dim)">'+n.nivel+' <span style="color:var(--faint)">▾</span></span>';
+    html += '<span style="display:flex;align-items:center;gap:9px"><span style="width:10px;height:10px;border-radius:50%;background:'+n.color+';display:inline-block;flex-shrink:0"></span><span style="font-size:var(--t-body);color:var(--text)">'+n.nombre+'</span>'+(esActual?'<span style="font-size:var(--t-micro);color:var(--gold2);border:1px solid var(--gb);border-radius:10px;padding:1px 8px">estás aquí</span>':'')+'</span>';
+    html += '<span style="font-size:var(--t-small);color:var(--dim)">'+n.nivel+' <span style="color:var(--faint)">▾</span></span>';
     html += '</div>';
-    html += '<div class="nivel-guia-cuerpo" style="display:none;padding:0 14px 14px;font-size:13.5px;line-height:1.7">';
-    html += '<div style="margin-bottom:10px"><span style="color:var(--gold2);font-size:12px">QUÉ SIGNIFICA</span><br>'+g.sig+'</div>';
-    html += '<div style="margin-bottom:10px"><span style="color:var(--gold2);font-size:12px">CÓMO SE SUPERA</span><br>'+g.sup+'</div>';
+    html += '<div class="nivel-guia-cuerpo" style="display:none;padding:0 14px 14px;font-size:var(--t-small);line-height:1.7">';
+    html += '<div style="margin-bottom:10px"><span style="color:var(--gold2);font-size:var(--t-micro)">QUÉ SIGNIFICA</span><br>'+g.sig+'</div>';
+    html += '<div style="margin-bottom:10px"><span style="color:var(--gold2);font-size:var(--t-micro)">CÓMO SE SUPERA</span><br>'+g.sup+'</div>';
     html += '<div style="padding:10px 12px;background:var(--bg3);border-radius:var(--rm)">';
     html += '<div style="margin-bottom:6px"><span style="color:var(--grn)">→</span> <strong>Acción:</strong> '+g.uni+'</div>';
     if(accLinea) html += '<div><span style="color:'+(lineaColores[linea]||'var(--gold2)')+'">→</span> <strong>'+lblLinea+':</strong> '+accLinea+'</div>';
@@ -667,7 +675,7 @@ function render(){
   if(listaCompromisos.length>0){
     html += '<div class="card"><div class="cl">Mis compromisos y acciones — ponles fecha y cúmplelos</div>';
     html += '<p class="ct" style="margin-bottom:8px">Un compromiso sin fecha es un deseo. Para cada uno, define <b style="color:var(--gold2)">en cuántos días te comprometes a cumplirlo</b>, y márcalo cuando lo logres. Solo las acciones cumplidas suben tu nivel de conciencia.</p>';
-    html += '<div style="font-size:13px;color:var(--gold2);line-height:1.7;margin-bottom:14px;padding:10px 14px;background:var(--gd);border-radius:8px;border-left:3px solid var(--gold)">Tu mentoría dura 75 días. No dejes todo para el final: ponle plazo a cada compromiso, cúmplelo a tiempo, y mantén el entusiasmo vivo día a día. La constancia es lo que te vuelve ∀normal.</div>';
+    html += '<div style="font-size:var(--t-small);color:var(--gold2);line-height:1.7;margin-bottom:14px;padding:10px 14px;background:var(--gd);border-radius:8px;border-left:3px solid var(--gold)">Tu mentoría dura 75 días. No dejes todo para el final: ponle plazo a cada compromiso, cúmplelo a tiempo, y mantén el entusiasmo vivo día a día. La constancia es lo que te vuelve ∀normal.</div>';
     // Agrupar por sesión
     var nombresSesion = {1:'Sesión 1 · Consciencia',2:'Sesión 2 · Perdón',3:'Sesión 3 · ¿Quién soy?',4:'Sesión 4 · Ikigai',5:'Sesión 5 · Resultado'};
     var porSesion = {};
@@ -702,7 +710,7 @@ function render(){
       });
     });
     var totalCump = listaCompromisos.filter(function(it){return cumplidasComp[it.key];}).length;
-    html += '<p style="font-size:13px;color:var(--dim);text-align:right;margin-top:8px">'+totalCump+' de '+listaCompromisos.length+' cumplidos</p>';
+    html += '<p style="font-size:var(--t-small);color:var(--dim);text-align:right;margin-top:8px">'+totalCump+' de '+listaCompromisos.length+' cumplidos</p>';
     html += '</div>';
   }
 
@@ -724,10 +732,10 @@ function render(){
     });
     // Sugerencia del ejercicio de cartas
     html += '<div style="margin-top:14px;padding:14px 16px;background:var(--gd);border-radius:8px;border-left:3px solid var(--gold)">';
-    html += '<div style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold2);margin-bottom:8px">✦ Un ejercicio para seguir soltando</div>';
-    html += '<p class="ct" style="font-size:14.5px">Con las personas kármicas de tu linaje puedes hacer el mismo ejercicio de las cartas que hiciste en el perdón: <b>escríbele una carta</b> a cada una — no para enviarla, sino para ti. Dile lo que entendiste que vino a enseñarte, lo que le sueltas y cómo eliges cambiar tu actitud hacia ella. Es una de las formas más poderosas de cerrar un ciclo.</p>';
+    html += '<div style="font-size:var(--t-micro);letter-spacing:.14em;text-transform:uppercase;color:var(--gold2);margin-bottom:8px">✦ Un ejercicio para seguir soltando</div>';
+    html += '<p class="ct" style="font-size:var(--t-small)">Con las personas kármicas de tu linaje puedes hacer el mismo ejercicio de las cartas que hiciste en el perdón: <b>escríbele una carta</b> a cada una — no para enviarla, sino para ti. Dile lo que entendiste que vino a enseñarte, lo que le sueltas y cómo eliges cambiar tu actitud hacia ella. Es una de las formas más poderosas de cerrar un ciclo.</p>';
     if(trabajadas.length>0){
-      html += '<p class="ct" style="font-size:14px;margin-top:8px;color:var(--dim)">Ya trabajaste '+trabajadas.length+' de '+transg.personas.length+'. '+(pendientes.length>0?'Te faltan '+pendientes.length+' por trabajar con calma.':'Las trabajaste todas — puedes profundizar con las cartas cuando quieras.')+'</p>';
+      html += '<p class="ct" style="font-size:var(--t-small);margin-top:8px;color:var(--dim)">Ya trabajaste '+trabajadas.length+' de '+transg.personas.length+'. '+(pendientes.length>0?'Te faltan '+pendientes.length+' por trabajar con calma.':'Las trabajaste todas — puedes profundizar con las cartas cuando quieras.')+'</p>';
     }
     html += '</div>';
     html += '</div>';
@@ -756,7 +764,7 @@ function render(){
     }
     if(acAct.length){
       html += '<div class="ac-col"><div class="ac-lbl" style="color:var(--gold2)">◆ Lo que elegí activar</div>';
-      html += '<p class="ct" style="font-size:13.5px;color:var(--dim);margin-bottom:8px">Marca cada uno cuando empieces a trabajarlo — sube tu nivel de conciencia.</p>';
+      html += '<p class="ct" style="font-size:var(--t-small);color:var(--dim);margin-bottom:8px">Marca cada uno cuando empieces a trabajarlo — sube tu nivel de conciencia.</p>';
       acAct.forEach(function(it, i){
         var hecho = !!it.hecho;
         html += '<div class="comp-item'+(hecho?' cumplido':'')+'" onclick="toggleActivarRepo('+i+')">';
@@ -783,7 +791,7 @@ function render(){
     html += '<div class="princ-item princ-click" style="border-left-color:'+p.color+';cursor:pointer" onclick="abrirPrincipio('+p.n+')">';
     html += '<div class="princ-num" style="color:'+p.color+'">∀'+p.n+'</div>';
     html += '<div class="princ-nombre">'+p.nombre+'</div>';
-    html += '<div class="princ-flecha" style="color:'+p.color+';font-size:18px">›</div>';
+    html += '<div class="princ-flecha" style="color:'+p.color+';font-size:var(--t-h3)">›</div>';
     html += '</div>';
     // Después del último principio de cada sesión, mostrar el compromiso de esa sesión
     var esUltimoDeSesion = principiosActivos.filter(function(q){return q.sesion===p.sesion;}).slice(-1)[0].n === p.n;
@@ -800,9 +808,9 @@ function render(){
   });
   var faltan = PRINCIPIOS_18.length - principiosActivos.length;
   if(faltan>0){
-    html += '<p style="font-size:13px;color:var(--dim);text-align:center;margin-top:12px">Te faltan '+faltan+' principios por descubrir en las próximas sesiones</p>';
+    html += '<p style="font-size:var(--t-small);color:var(--dim);text-align:center;margin-top:12px">Te faltan '+faltan+' principios por descubrir en las próximas sesiones</p>';
   }
-  html += '<p style="font-size:12px;color:var(--dim);text-align:center;margin-top:6px;font-style:italic">Toca cualquier principio para releerlo</p>';
+  html += '<p style="font-size:var(--t-micro);color:var(--dim);text-align:center;margin-top:6px;font-style:italic">Toca cualquier principio para releerlo</p>';
   html += '</div>';
 
   // LO QUE ESCRIBÍ (intención, visión, compromiso)
@@ -821,7 +829,7 @@ function render(){
   if(modoPiloto){
     html += '<div class="sesion-card" style="border-color:var(--gold)">';
     html += '<div class="label" style="text-align:center;color:var(--gold2)">✦ Modo piloto activo</div>';
-    html += '<p style="font-size:13.5px;color:var(--text);margin-top:10px;line-height:1.7;text-align:center">Todas las sesiones están desbloqueadas para que recorras la experiencia completa, sin esperar los plazos.</p>';
+    html += '<p style="font-size:var(--t-small);color:var(--text);margin-top:10px;line-height:1.7;text-align:center">Todas las sesiones están desbloqueadas para que recorras la experiencia completa, sin esperar los plazos.</p>';
     html += '</div>';
     var sesionesPiloto = [
       {n:2, url:'entrada-sesion2.html', nom:'Ciclos de vida'},
@@ -856,8 +864,8 @@ function render(){
   html += '<div class="label" style="text-align:center;color:var(--rose)">La cuenta ya inició</div>';
   html += '<div class="sesion-dias" style="color:var(--rose)">'+diasParaSesion+'</div>';
   html += '<div class="sesion-txt">días para tu Sesión '+(sesionActual+1)+'</div>';
-  html += '<p style="font-size:13.5px;color:var(--text);margin-top:14px;line-height:1.8;font-weight:400">Estos compromisos no son conmigo. Son contigo y con el proceso que iniciaste hoy. Cada día cuenta. Cada acción cumplida sube tu nivel de conciencia.</p>';
-  html += '<p style="font-size:13px;color:var(--dim);margin-top:10px;line-height:1.7">Cuando vuelvas en '+diasParaSesion+' días, vas a calificar lo que cumpliste — y ese es el insumo del siguiente nivel de tu transformación.</p>';
+  html += '<p style="font-size:var(--t-small);color:var(--text);margin-top:14px;line-height:1.8;font-weight:400">Estos compromisos no son conmigo. Son contigo y con el proceso que iniciaste hoy. Cada día cuenta. Cada acción cumplida sube tu nivel de conciencia.</p>';
+  html += '<p style="font-size:var(--t-small);color:var(--dim);margin-top:10px;line-height:1.7">Cuando vuelvas en '+diasParaSesion+' días, vas a calificar lo que cumpliste — y ese es el insumo del siguiente nivel de tu transformación.</p>';
   html += '</div>';
 
   // ACCESO SESIÓN 2 (cuando está desbloqueada)
@@ -867,8 +875,8 @@ function render(){
   } else {
     // La siguiente sesión está bloqueada por tiempo: ofrecer el modo piloto de forma visible
     html += '<div style="margin-top:16px;padding:16px 18px;background:var(--gd);border:1px solid var(--gb);border-radius:var(--rm)">';
-    html += '<div style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold2);margin-bottom:8px">✦ ¿Estás en el piloto?</div>';
-    html += '<p style="font-size:14px;color:var(--text);line-height:1.7;margin-bottom:12px">Si estás recorriendo la experiencia como parte del piloto, activa el modo piloto para entrar a las 5 sesiones ahora, sin esperar los plazos.</p>';
+    html += '<div style="font-size:var(--t-micro);letter-spacing:.12em;text-transform:uppercase;color:var(--gold2);margin-bottom:8px">✦ ¿Estás en el piloto?</div>';
+    html += '<p style="font-size:var(--t-small);color:var(--text);line-height:1.7;margin-bottom:12px">Si estás recorriendo la experiencia como parte del piloto, activa el modo piloto para entrar a las 5 sesiones ahora, sin esperar los plazos.</p>';
     html += '<button class="bp" onclick="togglePiloto()" style="display:block;width:100%;text-align:center">Activar modo piloto — desbloquear las 5 sesiones →</button>';
     html += '</div>';
   }
@@ -893,15 +901,15 @@ function render(){
 
   // ACCESO MODO DE PRUEBA (discreto - solo para evaluación)
   html += '<div style="text-align:center;margin-top:30px;opacity:.35">';
-  html += '<span style="font-size:11px;color:var(--dim);cursor:pointer;letter-spacing:.1em" onclick="togglePrueba()">· modo evaluación ·</span>';
+  html += '<span style="font-size:var(--t-micro);color:var(--dim);cursor:pointer;letter-spacing:.1em" onclick="togglePrueba()">· modo evaluación ·</span>';
   html += '</div>';
   html += '<div id="panel-prueba" style="display:none;margin-top:12px;padding:16px;background:var(--bg3);border:1px dashed var(--faint);border-radius:var(--rm)">';
-  html += '<div style="font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--rose);margin-bottom:10px">Modo evaluación — solo para pruebas</div>';
-  html += '<p style="font-size:13px;color:var(--dim);line-height:1.6;margin-bottom:12px">Este panel te deja simular el paso del tiempo y avanzar de sesión para evaluar la continuidad. En producción, las sesiones respetan los 15 días reales.</p>';
+  html += '<div style="font-size:var(--t-micro);letter-spacing:.15em;text-transform:uppercase;color:var(--rose);margin-bottom:10px">Modo evaluación — solo para pruebas</div>';
+  html += '<p style="font-size:var(--t-small);color:var(--dim);line-height:1.6;margin-bottom:12px">Este panel te deja simular el paso del tiempo y avanzar de sesión para evaluar la continuidad. En producción, las sesiones respetan los 15 días reales.</p>';
   html += '<div style="display:flex;flex-direction:column;gap:8px">';
-  html += '<div style="font-size:13px;color:var(--text)">Sesión actual: <strong style="color:var(--gold2)">'+sesionActual+'</strong></div>';
+  html += '<div style="font-size:var(--t-small);color:var(--text)">Sesión actual: <strong style="color:var(--gold2)">'+sesionActual+'</strong></div>';
   if(sesionActual>1){
-    html += '<div style="font-size:12px;color:var(--rose);line-height:1.6;padding:8px 10px;background:rgba(212,83,126,.08);border-radius:6px">Estás en modo prueba en la Sesión '+sesionActual+'. Por eso ves principios de sesiones avanzadas (∀'+((sesionActual-1)*3+1)+' en adelante). Los módulos de estas sesiones aún están en construcción.</div>';
+    html += '<div style="font-size:var(--t-micro);color:var(--rose);line-height:1.6;padding:8px 10px;background:rgba(212,83,126,.08);border-radius:6px">Estás en modo prueba en la Sesión '+sesionActual+'. Por eso ves principios de sesiones avanzadas (∀'+((sesionActual-1)*3+1)+' en adelante). Los módulos de estas sesiones aún están en construcción.</div>';
     html += '<button class="bs" onclick="pruebaVolverSesion1()" style="text-align:center;border-color:var(--gold);color:var(--gold)">↩ Volver a Sesión 1</button>';
   }
   html += '<button class="bs" onclick="pruebaAvanzarSesion()" style="text-align:center">Simular: desbloquear siguiente sesión →</button>';
@@ -971,17 +979,17 @@ function abrirPrincipio(n){
   var modal = document.getElementById('modal');
   var body = document.getElementById('modal-body');
   var h = '';
-  h += '<div style="font-family:\'Fraunces\',serif;font-size:48px;color:'+p.color+';line-height:1;margin-bottom:4px">∀'+p.n+'</div>';
-  h += '<div style="font-family:\'Fraunces\',serif;font-size:26px;color:'+p.color+';margin-bottom:16px">'+p.nombre+'</div>';
+  h += '<div style="font-family:\'Fraunces\',serif;font-size:var(--t-display);color:'+p.color+';line-height:1;margin-bottom:4px">∀'+p.n+'</div>';
+  h += '<div style="font-family:\'Fraunces\',serif;font-size:var(--t-h2);color:'+p.color+';margin-bottom:16px">'+p.nombre+'</div>';
   h += '<div style="height:1px;background:var(--faint);margin-bottom:14px"></div>';
   if(det.exige){
-    h += '<div style="font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:'+p.color+';margin-bottom:6px">No negociable</div>';
-    h += '<div style="font-size:14.5px;color:var(--text);line-height:1.8;margin-bottom:16px">'+det.exige+'</div>';
+    h += '<div style="font-size:var(--t-micro);letter-spacing:.18em;text-transform:uppercase;color:'+p.color+';margin-bottom:6px">No negociable</div>';
+    h += '<div style="font-size:var(--t-small);color:var(--text);line-height:1.8;margin-bottom:16px">'+det.exige+'</div>';
   }
   if(det.voz){
     h += '<div style="padding:14px 16px;background:var(--bg3);border-left:3px solid '+p.color+';border-radius:0 var(--rm) var(--rm) 0">';
-    h += '<div style="font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:8px">Una voz que me acompaña</div>';
-    h += '<div style="font-size:14px;color:var(--dim);line-height:1.8;font-style:italic">'+det.voz+'</div>';
+    h += '<div style="font-size:var(--t-micro);letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:8px">Una voz que me acompaña</div>';
+    h += '<div style="font-size:var(--t-small);color:var(--dim);line-height:1.8;font-style:italic">'+det.voz+'</div>';
     h += '</div>';
   }
   body.innerHTML = h;
@@ -992,22 +1000,22 @@ function abrirContrato(){
   var modal = document.getElementById('modal');
   var body = document.getElementById('modal-body');
   var h = '';
-  h += '<div style="font-family:\'Fraunces\',serif;font-size:28px;color:var(--gold2);margin-bottom:6px">Mi Contrato de Transformación</div>';
-  h += '<div style="font-size:12px;color:var(--dim);margin-bottom:16px">Firmado por '+nombre+'</div>';
+  h += '<div style="font-family:\'Fraunces\',serif;font-size:var(--t-h2);color:var(--gold2);margin-bottom:6px">Mi Contrato de Transformación</div>';
+  h += '<div style="font-size:var(--t-micro);color:var(--dim);margin-bottom:16px">Firmado por '+nombre+'</div>';
   h += '<div style="height:1px;background:var(--faint);margin-bottom:16px"></div>';
   if(contrato.intencion){
-    h += '<div style="font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);margin-bottom:6px">Mi intención trascendente</div>';
-    h += '<div style="font-size:14.5px;color:var(--text);line-height:1.8;margin-bottom:16px">'+contrato.intencion+'</div>';
+    h += '<div style="font-size:var(--t-micro);letter-spacing:.15em;text-transform:uppercase;color:var(--gold);margin-bottom:6px">Mi intención trascendente</div>';
+    h += '<div style="font-size:var(--t-small);color:var(--text);line-height:1.8;margin-bottom:16px">'+contrato.intencion+'</div>';
   }
   if(contrato.vision){
-    h += '<div style="font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);margin-bottom:6px">Mi visión ∀normal</div>';
-    h += '<div style="font-size:14.5px;color:var(--text);line-height:1.8;margin-bottom:16px">'+contrato.vision+'</div>';
+    h += '<div style="font-size:var(--t-micro);letter-spacing:.15em;text-transform:uppercase;color:var(--gold);margin-bottom:6px">Mi visión ∀normal</div>';
+    h += '<div style="font-size:var(--t-small);color:var(--text);line-height:1.8;margin-bottom:16px">'+contrato.vision+'</div>';
   }
   h += '<div style="padding:14px 16px;background:var(--bg3);border-left:3px solid var(--gold);border-radius:0 var(--rm) var(--rm) 0;margin-top:8px">';
-  h += '<div style="font-size:14px;color:var(--gold2);line-height:1.8;font-style:italic">"Con esta firma, declaro la guerra a mi mediocridad. Elijo conscientemente el camino menos transitado."</div>';
+  h += '<div style="font-size:var(--t-small);color:var(--gold2);line-height:1.8;font-style:italic">"Con esta firma, declaro la guerra a mi mediocridad. Elijo conscientemente el camino menos transitado."</div>';
   if(contrato.fecha){
     var f = new Date(contrato.fecha);
-    h += '<div style="font-size:12px;color:var(--dim);margin-top:10px">Firmado el '+f.toLocaleDateString('es-CO',{year:'numeric',month:'long',day:'numeric'})+'</div>';
+    h += '<div style="font-size:var(--t-micro);color:var(--dim);margin-top:10px">Firmado el '+f.toLocaleDateString('es-CO',{year:'numeric',month:'long',day:'numeric'})+'</div>';
   }
   h += '</div>';
   body.innerHTML = h;
