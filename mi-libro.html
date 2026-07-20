@@ -6,60 +6,63 @@
 <title>Mi Libro — ∀normal</title>
 <link rel="icon" type="image/png" href="favicon.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Barlow:wght@300;400;500&family=Barlow+Condensed:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#060A14; --bg2:#0A0F1E; --bg3:#0E1525;
-  --gold:#C9A84C; --gold2:#E8C96A; --gold3:#F5E0A0;
+  --serif:'Fraunces',serif;--sans:'Inter',sans-serif;
+  --sesion:#C9A84C;
+  --t-display:44px;--t-h1:28px;--t-h2:20px;--t-h3:20px;--t-body:17px;--t-small:17px;--t-micro:20px;
+  --bg:#0A101E; --bg2:#111A2C; --bg3:#16223A;
+  --gold:#C9A84C; --gold2:#E4C878; --gold3:#F5E0A0;
   --gd:rgba(201,168,76,.13); --gb:rgba(201,168,76,.28);
-  --text:#EAE6DC; --dim:#9AA5B8; --faint:#3A4558; --ffaint:#1E2A3A;
-  --grn:#4ABF7A; --rose:#D4537E; --azul:#5A8CC0;
+  --text:#EDE7D9; --dim:#A9B0C0; --faint:#3A4558; --ffaint:#22304A;
+  --grn:#6FA382; --rose:#C77A8E; --azul:#5A8CC0;
   --rm:10px; --rl:16px;
 }
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:var(--bg);color:var(--text);font-family:'Barlow',sans-serif;font-size:17.5px;line-height:1.7;padding:0 0 60px}
+body{background:var(--bg);color:var(--text);font-family:var(--serif);font-size:var(--t-body);line-height:1.7;padding:0 0 60px;background-image:radial-gradient(ellipse 70% 45% at 50% -5%, rgba(201,168,76,.05), transparent)}
 .wrap{max-width:760px;margin:0 auto;padding:28px 22px}
 .top{display:flex;justify-content:space-between;align-items:center;margin-bottom:30px}
-.volver{font-family:'Barlow Condensed',sans-serif;font-size:14px;letter-spacing:.08em;text-transform:uppercase;color:var(--dim);text-decoration:none;border:1px solid var(--faint);border-radius:20px;padding:6px 16px;transition:all .2s}
+.volver{font-family:var(--sans);font-size:var(--t-body);letter-spacing:.08em;text-transform:uppercase;color:var(--dim);text-decoration:none;border:1px solid var(--faint);border-radius:20px;padding:6px 16px;transition:all .2s}
 .volver:hover{border-color:var(--gb);color:var(--gold2)}
-.label{font-family:'Barlow Condensed',sans-serif;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold2);margin-bottom:8px}
+.label{font-family:var(--sans);font-size:var(--t-h2);letter-spacing:.07em;text-transform:uppercase;color:var(--gold2);margin-bottom:8px}
 
 /* PORTADA */
 .portada{text-align:center;padding:40px 20px 50px;border-bottom:1px solid var(--gb);margin-bottom:40px}
-.portada-simbolo{font-family:'Cormorant Garamond',serif;font-size:52px;color:var(--gold);margin-bottom:10px;line-height:1}
-.portada-tit{font-family:'Cormorant Garamond',serif;font-size:38px;font-weight:300;line-height:1.2;margin-bottom:8px}
-.portada-sub{font-size:15px;color:var(--dim);font-style:italic;margin-bottom:22px}
+.portada-simbolo{font-family:var(--serif);font-size:var(--t-display);color:var(--gold);margin-bottom:10px;line-height:1}
+.portada-tit{font-family:var(--serif);font-size:var(--t-display);font-weight:300;line-height:1.2;margin-bottom:8px}
+.portada-sub{font-size:var(--t-body);color:var(--dim);font-style:italic;margin-bottom:22px}
 .portada-datos{display:flex;justify-content:center;gap:26px;flex-wrap:wrap;margin-top:20px}
 .pd{text-align:center}
-.pd-v{font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--gold3)}
-.pd-l{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);margin-top:2px}
+.pd-v{font-family:var(--serif);font-size:var(--t-h2);color:var(--gold3)}
+.pd-l{font-size:var(--t-h2);letter-spacing:.1em;text-transform:uppercase;color:var(--dim);margin-top:2px}
 .proposito-portada{margin-top:26px;padding:18px 22px;background:var(--bg2);border:1px solid var(--gb);border-radius:var(--rl)}
-.proposito-portada .t{font-family:'Cormorant Garamond',serif;font-size:21px;font-style:italic;color:var(--gold3);line-height:1.5}
+.proposito-portada .t{font-family:var(--serif);font-size:var(--t-h2);font-style:italic;color:var(--gold3);line-height:1.5}
 
 /* CAPÍTULOS */
 .cap{margin-bottom:44px}
-.cap-num{font-family:'Barlow Condensed',sans-serif;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:4px}
-.cap-tit{font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:300;color:var(--text);margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid var(--ffaint)}
-.cap-intro{font-size:15px;color:var(--dim);font-style:italic;line-height:1.75;margin-bottom:22px}
+.cap-num{font-family:var(--sans);font-size:var(--t-h2);letter-spacing:.08em;text-transform:uppercase;color:var(--gold);margin-bottom:4px}
+.cap-tit{font-family:var(--serif);font-size:var(--t-h1);font-weight:300;color:var(--text);margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid var(--ffaint)}
+.cap-intro{font-size:var(--t-body);color:var(--dim);font-style:italic;line-height:1.75;margin-bottom:22px}
 .pieza{margin-bottom:20px}
-.pieza-lbl{font-family:'Barlow Condensed',sans-serif;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold2);margin-bottom:6px}
-.pieza-txt{background:var(--bg2);border-left:2px solid var(--gb);border-radius:0 var(--rm) var(--rm) 0;padding:14px 18px;font-size:15.5px;line-height:1.75;color:var(--text);white-space:pre-wrap}
-.pieza-txt.italic{font-family:'Cormorant Garamond',serif;font-size:18px;font-style:italic;color:var(--gold3)}
+.pieza-lbl{font-family:var(--sans);font-size:var(--t-h2);letter-spacing:.12em;text-transform:uppercase;color:var(--gold2);margin-bottom:6px}
+.pieza-txt{background:var(--bg2);border-left:2px solid var(--gb);border-radius:0 var(--rm) var(--rm) 0;padding:14px 18px;font-size:var(--t-body);line-height:1.75;color:var(--text);white-space:pre-wrap}
+.pieza-txt.italic{font-family:var(--serif);font-size:var(--t-h2);font-style:italic;color:var(--gold3)}
 .lista-items{display:flex;flex-wrap:wrap;gap:7px;margin-top:4px}
-.item-chip{background:var(--bg3);border:1px solid var(--faint);border-radius:14px;padding:5px 12px;font-size:13.5px;color:var(--text)}
-.vacio{font-size:14px;color:var(--faint);font-style:italic;padding:10px 0}
-.nota{font-size:13px;color:var(--dim);font-style:italic;margin-top:8px}
+.item-chip{background:var(--bg3);border:1px solid var(--faint);border-radius:14px;padding:5px 12px;font-size:var(--t-body);color:var(--text)}
+.vacio{font-size:var(--t-body);color:var(--faint);font-style:italic;padding:10px 0}
+.nota{font-size:var(--t-body);color:var(--dim);font-style:italic;margin-top:8px}
 
 /* EPÍLOGO */
 .epilogo{background:var(--bg2);border:1px solid var(--gb);border-radius:var(--rl);padding:26px 24px;text-align:center;margin-top:10px}
 .epi-crecimiento{display:flex;justify-content:center;align-items:center;gap:20px;margin:16px 0}
-.epi-n{font-family:'Cormorant Garamond',serif;font-size:32px}
-.epi-l{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
+.epi-n{font-family:var(--serif);font-size:var(--t-h1)}
+.epi-l{font-size:var(--t-h2);letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
 
 .cierre-libro{text-align:center;padding:34px 20px;margin-top:36px;border-top:1px solid var(--gb)}
-.cierre-libro .f{font-family:'Cormorant Garamond',serif;font-size:22px;font-style:italic;color:var(--gold3);line-height:1.5;margin-bottom:8px}
-.cierre-libro .a{font-size:13px;color:var(--dim)}
-.btn-imprimir{margin-top:20px;background:var(--gd);border:1px solid var(--gb);border-radius:22px;color:var(--gold2);font-family:'Barlow Condensed',sans-serif;font-size:14px;letter-spacing:.1em;text-transform:uppercase;padding:10px 26px;cursor:pointer;transition:all .2s}
+.cierre-libro .f{font-family:var(--serif);font-size:var(--t-h2);font-style:italic;color:var(--gold3);line-height:1.5;margin-bottom:8px}
+.cierre-libro .a{font-size:var(--t-body);color:var(--dim)}
+.btn-imprimir{margin-top:20px;background:var(--gd);border:1px solid var(--gb);border-radius:22px;color:var(--gold2);font-family:var(--sans);font-size:var(--t-body);letter-spacing:.1em;text-transform:uppercase;padding:10px 26px;cursor:pointer;transition:all .2s}
 .btn-imprimir:hover{background:rgba(201,168,76,.2)}
 
 @media print{
@@ -69,9 +72,9 @@ body{background:var(--bg);color:var(--text);font-family:'Barlow',sans-serif;font
   .cap-tit,.portada-tit{color:#111}
 }
 @media(max-width:600px){
-  .portada-tit{font-size:30px}
-  .cap-tit{font-size:25px}
-  body{font-size:16.5px}
+  .portada-tit{font-size:var(--t-h1)}
+  .cap-tit{font-size:var(--t-h2)}
+  body{font-size:var(--t-body)}
 }
 </style>
 </head>
@@ -255,12 +258,12 @@ function render(){
     if(pIni>0 && pFin>0){
       h+='<div class="epi-crecimiento">';
       h+='<div><div class="epi-n" style="color:var(--dim)">'+pIni.toFixed(1)+'</div><div class="epi-l">Rueda inicial</div></div>';
-      h+='<div style="color:var(--gold2);font-size:20px">→</div>';
+      h+='<div style="color:var(--gold2);font-size:var(--t-h2)">→</div>';
       h+='<div><div class="epi-n" style="color:var(--gold3)">'+pFin.toFixed(1)+'</div><div class="epi-l">Rueda final</div></div>';
       if(pFin>pIni) h+='<div><div class="epi-n" style="color:var(--grn)">+'+(pFin-pIni).toFixed(1)+'</div><div class="epi-l">Crecí</div></div>';
       h+='</div>';
     }
-    if(puntos>0) h+='<p style="font-size:15px;color:var(--text)">Mi nivel de conciencia subió <b style="color:var(--gold2)">'+puntos+' puntos</b> — cada uno ganado con acciones cumplidas, no con intenciones.</p>';
+    if(puntos>0) h+='<p style="font-size:var(--t-body);color:var(--text)">Mi nivel de conciencia subió <b style="color:var(--gold2)">'+puntos+' puntos</b> — cada uno ganado con acciones cumplidas, no con intenciones.</p>';
     h+='</div></div>';
   }
 
