@@ -6,24 +6,26 @@
 <title>∀normal — Mis Ciclos de Vida</title>
 <link rel="icon" type="image/png" href="favicon.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Barlow:wght@300;400;500&family=Barlow+Condensed:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#060A14;--bg2:#0A0F1E;--bg3:#0E1525;--bg4:#131D30;
-  --gold:#C9A84C;--gold2:#E8C96A;--gold3:#F5E0A0;
-  --gd:rgba(201,168,76,.13);--gb:rgba(201,168,76,.28);
-  --text:#EAE6DC;--dim:#8A95A8;--faint:#3A4558;--ffaint:#1E2A3A;
-  --grn:#4ABF7A;--rose:#D4537E;--azul:#5A8CC0;--viol:#9B7BC0;
+  --serif:'Fraunces',serif;--sans:'Inter',sans-serif;
+  --t-display:44px;--t-h1:28px;--t-h2:20px;--t-h3:20px;--t-body:17px;--t-small:17px;--t-micro:20px;
+  --bg:#100C1E;--bg2:#181430;--bg3:#201A3E;--bg4:#282050;
+  --gold:#9E86D4;--gold2:#BDA6E8;--gold3:#BDA6E8;
+  --gd:rgba(158,134,212,.13);--gb:rgba(158,134,212,.28);
+  --text:#EDE7D9;--dim:#A9B0C0;--faint:#3A4558;--ffaint:#2E2650;
+  --grn:#6FA382;--rose:#C77A8E;--azul:#5A8CC0;--viol:#9B7BC0;
   --r:4px;--rm:8px;--rl:14px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font-weight:300;font-size:16.5px;line-height:1.7;min-height:100vh}
+body{background:var(--bg);color:var(--text);font-family:var(--serif);font-weight:300;font-size:var(--t-body);line-height:1.7;min-height:100vh;background-image:radial-gradient(ellipse 70% 45% at 50% -5%, rgba(158,134,212,.07), transparent)}
 .wrap{max-width:700px;margin:0 auto;padding:24px 20px 60px}
 
 .hdr{display:flex;align-items:center;justify-content:space-between;padding:16px 0 24px;border-bottom:1px solid var(--faint);margin-bottom:28px}
-.hdr-logo{font-family:"Cormorant Garamond",serif;font-size:22px;color:var(--gold2)}
-.hdr-info{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim)}
+.hdr-logo{font-family:var(--serif);font-size:var(--t-h2);color:var(--gold2)}
+.hdr-info{font-size:var(--t-h2);letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
 
 .progress-bar{height:2px;background:var(--ffaint);border-radius:2px;overflow:hidden;margin-bottom:28px}
 .progress-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));transition:width .5s ease}
@@ -32,57 +34,57 @@ body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font
 .pantalla.visible{display:block}
 @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 
-.label{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:10px}
-.titulo{font-family:"Cormorant Garamond",serif;font-size:clamp(22px,5vw,30px);font-weight:300;color:var(--gold2);line-height:1.2;margin-bottom:10px}
-.subtitulo{font-size:14.5px;color:var(--dim);line-height:1.85;margin-bottom:24px}
+.label{font-size:var(--t-h2);letter-spacing:.08em;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:10px}
+.titulo{font-family:var(--serif);font-size:var(--t-h1);font-weight:300;color:var(--gold2);line-height:1.2;margin-bottom:10px}
+.subtitulo{font-size:var(--t-body);color:var(--dim);line-height:1.85;margin-bottom:24px}
 
 .card{background:var(--bg2);border:1px solid rgba(255,255,255,.055);border-radius:var(--rl);padding:20px 24px;margin-bottom:12px}
 .card.gold{border-color:var(--gb);background:linear-gradient(135deg,var(--bg2),var(--bg3))}
-.ct{font-size:15px;color:var(--text);line-height:1.9}
-.ct.dim{color:var(--dim);font-size:14px}
+.ct{font-size:var(--t-body);color:var(--text);line-height:1.9}
+.ct.dim{color:var(--dim);font-size:var(--t-body)}
 .ct b,.ct strong{color:var(--gold2);font-weight:500}
 
-.quote{font-family:"Cormorant Garamond",serif;font-style:italic;font-size:18px;color:var(--gold3);line-height:1.5;border-left:2px solid var(--gb);padding-left:16px;margin:18px 0}
-.quote-autor{display:block;font-size:11px;font-style:normal;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);margin-top:8px}
+.quote{font-family:var(--serif);font-style:italic;font-size:var(--t-h2);color:var(--gold3);line-height:1.5;border-left:2px solid var(--gb);padding-left:16px;margin:18px 0}
+.quote-autor{display:block;font-size:var(--t-h2);font-style:normal;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);margin-top:8px}
 
 /* PASO EXPLICATIVO (numerado) */
 .paso{display:flex;gap:14px;margin-bottom:16px;align-items:flex-start}
-.paso-n{min-width:30px;height:30px;border-radius:50%;background:var(--gd);border:1px solid var(--gb);display:flex;align-items:center;justify-content:center;font-family:"Cormorant Garamond",serif;font-size:16px;color:var(--gold2);flex-shrink:0}
-.paso-txt{font-size:15px;color:var(--text);line-height:1.85}
+.paso-n{min-width:30px;height:30px;border-radius:50%;background:var(--gd);border:1px solid var(--gb);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:var(--t-body);color:var(--gold2);flex-shrink:0}
+.paso-txt{font-size:var(--t-body);color:var(--text);line-height:1.85}
 
 /* CUADRO 3 COLUMNAS */
 .columnas{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin:18px 0}
 .columna{background:var(--bg2);border:1px solid var(--ffaint);border-radius:var(--rl);overflow:hidden}
 .columna.resaltada{border-color:var(--gold2);box-shadow:0 0 0 3px var(--gd)}
-.columna-titulo{padding:10px 8px;text-align:center;font-size:11px;letter-spacing:.06em;font-weight:500;border-bottom:1px solid var(--ffaint);line-height:1.35}
+.columna-titulo{padding:10px 8px;text-align:center;font-size:var(--t-h2);letter-spacing:.06em;font-weight:500;border-bottom:1px solid var(--ffaint);line-height:1.35}
 .col-a .columna-titulo{background:rgba(201,168,76,.12);color:var(--gold2)}
 .col-b .columna-titulo{background:rgba(90,140,192,.14);color:var(--azul)}
 .col-c .columna-titulo{background:rgba(155,123,192,.14);color:var(--viol)}
 .celda{padding:11px 9px;border-bottom:1px solid var(--ffaint);text-align:center}
 .celda:last-child{border-bottom:none}
 .celda.actual{background:var(--gd)}
-.celda-n{font-family:"Cormorant Garamond",serif;font-size:22px;color:var(--gold2);line-height:1}
-.celda-edad{font-size:9px;color:var(--dim);margin-top:2px}
-.celda-nom{font-size:10px;color:var(--text);margin-top:4px;line-height:1.3}
+.celda-n{font-family:var(--serif);font-size:var(--t-h2);color:var(--gold2);line-height:1}
+.celda-edad{font-size:var(--t-h2);color:var(--dim);margin-top:2px}
+.celda-nom{font-size:var(--t-h2);color:var(--text);margin-top:4px;line-height:1.3}
 .celda-here{font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-top:3px;display:block}
-.columnas-leyenda{font-size:11.5px;color:var(--dim);line-height:1.7;text-align:center;margin-top:4px}
+.columnas-leyenda{font-size:var(--t-h2);color:var(--dim);line-height:1.7;text-align:center;margin-top:4px}
 
 /* NIVEL DE CONCIENCIA */
 .nivel-card{border-radius:var(--rl);padding:22px 24px;margin-bottom:16px;border:1px solid var(--gb)}
-.nivel-num{font-family:"Cormorant Garamond",serif;font-size:40px;line-height:1}
-.nivel-nombre{font-size:15px;letter-spacing:.1em;text-transform:uppercase;margin:4px 0 12px}
+.nivel-num{font-family:var(--serif);font-size:var(--t-display);line-height:1}
+.nivel-nombre{font-size:var(--t-body);letter-spacing:.1em;text-transform:uppercase;margin:4px 0 12px}
 .nivel-emo-link{background:var(--bg3);border-left:3px solid var(--gold);padding:13px 16px;border-radius:0 var(--rm) var(--rm) 0;margin-top:14px}
-.nivel-emo-label{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:6px}
-.nivel-emo-texto{font-size:13.5px;color:var(--text);line-height:1.75}
+.nivel-emo-label{font-size:var(--t-h2);letter-spacing:.07em;text-transform:uppercase;color:var(--gold);margin-bottom:6px}
+.nivel-emo-texto{font-size:var(--t-body);color:var(--text);line-height:1.75}
 
 /* CICLO ACTUAL */
 .actual-card{background:linear-gradient(135deg,var(--bg2),var(--bg3));border:1px solid var(--gb);border-radius:var(--rl);padding:22px 24px;margin-bottom:16px}
-.actual-edad{font-family:"Cormorant Garamond",serif;font-size:32px;color:var(--gold2);line-height:1}
-.actual-rango{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin:6px 0 14px}
-.actual-tarea{font-size:14px;color:var(--text);line-height:1.7;margin-bottom:10px}
+.actual-edad{font-family:var(--serif);font-size:var(--t-h1);color:var(--gold2);line-height:1}
+.actual-rango{font-size:var(--t-h2);letter-spacing:.06em;text-transform:uppercase;color:var(--gold);margin:6px 0 14px}
+.actual-tarea{font-size:var(--t-body);color:var(--text);line-height:1.7;margin-bottom:10px}
 .espejo-box{background:rgba(90,140,192,.08);border-left:3px solid var(--azul);padding:14px 16px;border-radius:0 var(--rm) var(--rm) 0;margin-top:14px}
-.espejo-label{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--azul);margin-bottom:8px}
-.espejo-texto{font-size:14.5px;color:var(--text);line-height:1.8}
+.espejo-label{font-size:var(--t-h2);letter-spacing:.07em;text-transform:uppercase;color:var(--azul);margin-bottom:8px}
+.espejo-texto{font-size:var(--t-body);color:var(--text);line-height:1.8}
 
 /* RASTREO */
 .rastreo-intro{background:var(--bg3);border:1px solid var(--gb);border-radius:var(--rl);padding:18px 22px;margin-bottom:18px}
@@ -91,23 +93,23 @@ body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font
 .rastreo-ciclo.es-actual{border-color:var(--gb)}
 .rastreo-ciclo.marcado{border-color:var(--rose);box-shadow:0 0 0 2px rgba(212,83,126,.12)}
 .rastreo-head{display:flex;align-items:center;gap:12px;padding:13px 16px;background:var(--bg3)}
-.rastreo-n{min-width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:"Cormorant Garamond",serif;font-size:17px;color:var(--gold2);border:1px solid var(--gb)}
+.rastreo-n{min-width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:var(--t-body);color:var(--gold2);border:1px solid var(--gb)}
 .rastreo-info{flex:1}
-.rastreo-nom{font-family:"Cormorant Garamond",serif;font-size:22px;font-weight:400;color:var(--gold3);line-height:1.25}
-.rastreo-meta{font-size:13px;color:var(--dim);margin-top:3px;letter-spacing:.02em}
-.rastreo-toggle{display:flex;align-items:center;gap:7px;font-size:11px;color:var(--dim);cursor:pointer;user-select:none}
-.rastreo-check{width:20px;height:20px;border-radius:5px;border:1.5px solid var(--faint);display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--rose);transition:all .15s}
+.rastreo-nom{font-family:var(--serif);font-size:var(--t-h2);font-weight:400;color:var(--gold3);line-height:1.25}
+.rastreo-meta{font-size:var(--t-body);color:var(--dim);margin-top:3px;letter-spacing:.02em}
+.rastreo-toggle{display:flex;align-items:center;gap:7px;font-size:var(--t-h2);color:var(--dim);cursor:pointer;user-select:none}
+.rastreo-check{width:20px;height:20px;border-radius:5px;border:1.5px solid var(--faint);display:flex;align-items:center;justify-content:center;font-size:var(--t-h2);color:var(--rose);transition:all .15s}
 .rastreo-ciclo.marcado .rastreo-check{border-color:var(--rose);background:rgba(212,83,126,.15)}
 .rastreo-detalle{display:none;padding:14px 16px;background:var(--bg2);border-top:1px solid var(--ffaint)}
 .rastreo-ciclo.marcado .rastreo-detalle{display:block}
 .intensidad-row{display:flex;align-items:center;gap:8px;margin-bottom:14px}
-.intensidad-label{font-size:11px;color:var(--dim);min-width:74px}
+.intensidad-label{font-size:var(--t-h2);color:var(--dim);min-width:74px}
 .intensidad-dots{display:flex;gap:6px}
-.idot{width:26px;height:26px;border-radius:50%;border:1px solid var(--faint);display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--dim);cursor:pointer;transition:all .15s;font-family:"Barlow Condensed",sans-serif}
+.idot{width:26px;height:26px;border-radius:50%;border:1px solid var(--faint);display:flex;align-items:center;justify-content:center;font-size:var(--t-h2);color:var(--dim);cursor:pointer;transition:all .15s;font-family:var(--sans)}
 .idot.on{background:var(--rose);border-color:var(--rose);color:#fff}
-textarea{width:100%;background:var(--bg2);border:1px solid var(--faint);border-radius:var(--rm);color:var(--text);font-family:"Barlow",sans-serif;font-size:14.5px;line-height:1.7;padding:11px 13px;resize:vertical;min-height:58px}
+textarea{width:100%;background:var(--bg2);border:1px solid var(--faint);border-radius:var(--rm);color:var(--text);font-family:var(--sans);font-size:var(--t-body);line-height:1.7;padding:11px 13px;resize:vertical;min-height:58px}
 textarea:focus{outline:none;border-color:var(--gold)}
-.campo-mini-label{font-size:10.5px;letter-spacing:.04em;margin-bottom:6px;display:flex;align-items:center;gap:6px;color:var(--dim)}
+.campo-mini-label{font-size:var(--t-h2);letter-spacing:.04em;margin-bottom:6px;display:flex;align-items:center;gap:6px;color:var(--dim)}
 .campo-mini-label.dolor{color:var(--rose)}
 .campo-mini-label.alegria{color:var(--grn)}
 .mini-dot{width:6px;height:6px;border-radius:50%}
@@ -116,87 +118,87 @@ textarea:focus{outline:none;border-color:var(--gold)}
 
 /* PISTAS POR CICLO */
 .pistas-box{background:rgba(255,255,255,.02);border:1px solid var(--ffaint);border-radius:var(--rm);padding:12px 14px;margin-bottom:14px}
-.pistas-titulo{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-bottom:9px}
+.pistas-titulo{font-size:var(--t-h2);letter-spacing:.06em;text-transform:uppercase;color:var(--dim);margin-bottom:9px}
 
 /* ÍTEM MARCABLE */
 .item{border:1px solid var(--ffaint);border-radius:var(--rm);margin-bottom:7px;overflow:hidden;transition:all .15s}
 .item.on{border-color:var(--rose);background:rgba(212,83,126,.06)}
 .item.afin{border-color:rgba(212,83,126,.3)}
 .item-head{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;cursor:pointer;user-select:none}
-.item-check{width:19px;height:19px;border-radius:5px;border:1.5px solid var(--faint);display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff;flex-shrink:0;margin-top:1px;transition:all .15s}
+.item-check{width:19px;height:19px;border-radius:5px;border:1.5px solid var(--faint);display:flex;align-items:center;justify-content:center;font-size:var(--t-h2);color:#fff;flex-shrink:0;margin-top:1px;transition:all .15s}
 .item.on .item-check{background:var(--rose);border-color:var(--rose)}
-.item-texto{flex:1;font-size:14px;color:var(--dim);line-height:1.6}
+.item-texto{flex:1;font-size:var(--t-body);color:var(--dim);line-height:1.6}
 .item.on .item-texto{color:var(--text)}
 .item.afin .item-texto{color:var(--text)}
 .item-flag{font-size:8px;letter-spacing:.08em;text-transform:uppercase;color:var(--rose);background:rgba(212,83,126,.14);padding:1px 5px;border-radius:3px;margin-left:5px;white-space:nowrap}
 .item-peso{display:none;align-items:center;gap:7px;padding:0 12px 11px 41px}
 .item.on .item-peso{display:flex}
-.item-peso-label{font-size:10px;color:var(--dim);min-width:58px}
+.item-peso-label{font-size:var(--t-h2);color:var(--dim);min-width:58px}
 .peso-dots{display:flex;gap:5px}
-.pdot{width:22px;height:22px;border-radius:50%;border:1px solid var(--faint);display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--dim);cursor:pointer;transition:all .15s;font-family:"Barlow Condensed",sans-serif}
+.pdot{width:22px;height:22px;border-radius:50%;border:1px solid var(--faint);display:flex;align-items:center;justify-content:center;font-size:var(--t-h2);color:var(--dim);cursor:pointer;transition:all .15s;font-family:var(--sans)}
 .pdot.on{background:var(--rose);border-color:var(--rose);color:#fff}
 .item.recurso.on{border-color:var(--grn);background:rgba(74,191,122,.06)}
 .item.recurso.on .item-check{background:var(--grn);border-color:var(--grn)}
 .item.recurso .pdot.on{background:var(--grn);border-color:var(--grn)}
 .item-add{display:flex;gap:8px;margin-top:8px}
-.item-add input{flex:1;background:var(--bg2);border:1px solid var(--faint);border-radius:var(--rm);color:var(--text);font-family:"Barlow",sans-serif;font-size:12.5px;padding:9px 11px}
+.item-add input{flex:1;background:var(--bg2);border:1px solid var(--faint);border-radius:var(--rm);color:var(--text);font-family:var(--sans);font-size:var(--t-body);padding:9px 11px}
 .item-add input:focus{outline:none;border-color:var(--gold)}
-.item-add button{background:var(--gd);border:1px solid var(--gb);border-radius:var(--rm);color:var(--gold2);font-size:18px;width:38px;cursor:pointer}
-.bloque-label{font-size:10px;letter-spacing:.14em;text-transform:uppercase;margin:14px 0 8px}
+.item-add button{background:var(--gd);border:1px solid var(--gb);border-radius:var(--rm);color:var(--gold2);font-size:var(--t-h2);width:38px;cursor:pointer}
+.bloque-label{font-size:var(--t-h2);letter-spacing:.06em;text-transform:uppercase;margin:14px 0 8px}
 .bloque-label.dolor{color:var(--rose)}
 .bloque-label.recurso{color:var(--grn)}
 
 /* CONTENCIÓN */
 .contencion{background:rgba(74,191,122,.06);border:1px solid rgba(74,191,122,.25);border-radius:var(--rl);padding:16px 18px;margin-bottom:18px}
-.contencion-label{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--grn);margin-bottom:8px}
-.contencion-texto{font-size:14.5px;color:var(--text);line-height:1.85}
-.contencion-nota{font-size:11.5px;color:var(--dim);line-height:1.7;margin-top:10px;padding-top:10px;border-top:1px solid rgba(74,191,122,.15)}
+.contencion-label{font-size:var(--t-h2);letter-spacing:.07em;text-transform:uppercase;color:var(--grn);margin-bottom:8px}
+.contencion-texto{font-size:var(--t-body);color:var(--text);line-height:1.85}
+.contencion-nota{font-size:var(--t-h2);color:var(--dim);line-height:1.7;margin-top:10px;padding-top:10px;border-top:1px solid rgba(74,191,122,.15)}
 
 /* PATRÓN DETECTADO */
 .patron-box{background:linear-gradient(135deg,rgba(212,83,126,.08),var(--bg3));border:1px solid rgba(212,83,126,.3);border-radius:var(--rl);padding:18px 20px;margin:16px 0}
-.patron-label{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--rose);margin-bottom:8px}
-.patron-texto{font-size:15px;color:var(--text);line-height:1.85}
+.patron-label{font-size:var(--t-h2);letter-spacing:.08em;text-transform:uppercase;color:var(--rose);margin-bottom:8px}
+.patron-texto{font-size:var(--t-body);color:var(--text);line-height:1.85}
 
 /* DIAGNÓSTICO DE ORIGEN */
 .diag-origen{background:linear-gradient(135deg,rgba(201,168,76,.1),var(--bg3));border:1px solid var(--gb);border-radius:var(--rl);padding:20px 24px;margin-bottom:18px}
-.diag-origen-label{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
-.diag-origen-titulo{font-family:"Cormorant Garamond",serif;font-size:20px;color:var(--gold2);line-height:1.3;margin-bottom:12px}
-.diag-origen-texto{font-size:15px;color:var(--text);line-height:1.9}
+.diag-origen-label{font-size:var(--t-h2);letter-spacing:.08em;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
+.diag-origen-titulo{font-family:var(--serif);font-size:var(--t-h2);color:var(--gold2);line-height:1.3;margin-bottom:12px}
+.diag-origen-texto{font-size:var(--t-body);color:var(--text);line-height:1.9}
 .diag-origen-texto b{color:var(--gold2);font-weight:500}
 
 /* PRÓXIMOS CICLOS */
 .prox-box{background:var(--bg2);border:1px solid var(--ffaint);border-radius:var(--rl);padding:20px 24px;margin-bottom:18px}
-.prox-label{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--azul);margin-bottom:6px}
-.prox-intro{font-size:14px;color:var(--dim);line-height:1.8;margin-bottom:14px}
+.prox-label{font-size:var(--t-h2);letter-spacing:.08em;text-transform:uppercase;color:var(--azul);margin-bottom:6px}
+.prox-intro{font-size:var(--t-body);color:var(--dim);line-height:1.8;margin-bottom:14px}
 .prox-ciclo{display:flex;gap:12px;align-items:flex-start;padding:12px 0;border-bottom:1px solid var(--ffaint)}
 .prox-ciclo:last-child{border-bottom:none}
-.prox-n{min-width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:"Cormorant Garamond",serif;font-size:17px;color:var(--azul);border:1px solid rgba(90,140,192,.4);flex-shrink:0}
-.prox-info-nom{font-size:14.5px;font-weight:500;color:var(--text);margin-bottom:2px}
-.prox-info-edad{font-size:11px;color:var(--dim);margin-bottom:4px}
-.prox-info-trab{font-size:13.5px;color:var(--dim);line-height:1.65}
+.prox-n{min-width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:var(--t-body);color:var(--azul);border:1px solid rgba(90,140,192,.4);flex-shrink:0}
+.prox-info-nom{font-size:var(--t-body);font-weight:500;color:var(--text);margin-bottom:2px}
+.prox-info-edad{font-size:var(--t-h2);color:var(--dim);margin-bottom:4px}
+.prox-info-trab{font-size:var(--t-body);color:var(--dim);line-height:1.65}
 
 .cierre-resumen{background:var(--bg2);border:1px solid var(--gb);border-radius:var(--rl);padding:20px 24px;margin-bottom:18px}
 .cierre-fila{display:flex;justify-content:space-between;align-items:baseline;padding:8px 0;border-bottom:1px solid var(--ffaint)}
 .cierre-fila:last-child{border-bottom:none}
-.cierre-k{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
-.cierre-v{font-size:14px;color:var(--gold2);text-align:right;max-width:56%}
+.cierre-k{font-size:var(--t-h2);letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
+.cierre-v{font-size:var(--t-body);color:var(--gold2);text-align:right;max-width:56%}
 
-.bp{background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--bg);border:none;border-radius:var(--r);font-family:"Barlow Condensed",sans-serif;font-size:12px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;padding:13px 30px;cursor:pointer;transition:opacity .2s,transform .15s}
+.bp{background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--bg);border:none;border-radius:var(--r);font-family:var(--sans);font-size:var(--t-h2);font-weight:500;letter-spacing:.06em;text-transform:uppercase;padding:13px 30px;cursor:pointer;transition:opacity .2s,transform .15s}
 .bp:hover{opacity:.9;transform:translateY(-1px)}
 .bp:disabled{opacity:.4;cursor:not-allowed}
-.bs{background:transparent;color:var(--gold);border:1px solid var(--gb);border-radius:var(--r);font-family:"Barlow Condensed",sans-serif;font-size:11px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;padding:11px 22px;cursor:pointer}
+.bs{background:transparent;color:var(--gold);border:1px solid var(--gb);border-radius:var(--r);font-family:var(--sans);font-size:var(--t-h2);font-weight:500;letter-spacing:.06em;text-transform:uppercase;padding:11px 22px;cursor:pointer}
 .nav{display:flex;gap:10px;justify-content:flex-end;margin-top:28px;flex-wrap:wrap}
 
 .edad-input-row{display:flex;gap:10px;align-items:center;margin:16px 0 24px}
-.edad-input-row input{width:90px;background:var(--bg2);border:1px solid var(--faint);border-radius:var(--rm);color:var(--text);font-family:"Barlow Condensed",sans-serif;font-size:20px;text-align:center;padding:10px}
+.edad-input-row input{width:90px;background:var(--bg2);border:1px solid var(--faint);border-radius:var(--rm);color:var(--text);font-family:var(--sans);font-size:var(--t-h2);text-align:center;padding:10px}
 .edad-input-row input:focus{outline:none;border-color:var(--gold)}
-.edad-input-row label{font-size:13px;color:var(--dim)}
-@media(max-width:560px){.celda-nom{display:none}.columna-titulo{font-size:10px}}
+.edad-input-row label{font-size:var(--t-body);color:var(--dim)}
+@media(max-width:560px){.celda-nom{display:none}.columna-titulo{font-size:var(--t-h2)}}
 .video-opcional{background:var(--bg3);border:1px dashed var(--faint);border-radius:14px;padding:20px 22px;margin-bottom:18px;display:flex;align-items:center;gap:16px}
-.video-opcional .vo-play{font-size:24px;color:var(--gold);flex-shrink:0}
+.video-opcional .vo-play{font-size:var(--t-h2);color:var(--gold);flex-shrink:0}
 .video-opcional .vo-txt{flex:1}
-.video-opcional .vo-tit{font-size:13px;color:var(--text)}
-.video-opcional .vo-sub{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--faint);margin-top:3px}
+.video-opcional .vo-tit{font-size:var(--t-body);color:var(--text)}
+.video-opcional .vo-sub{font-size:var(--t-h2);letter-spacing:.06em;text-transform:uppercase;color:var(--faint);margin-top:3px}
 </style>
 </head>
 <body>
@@ -229,19 +231,19 @@ textarea:focus{outline:none;border-color:var(--gold)}
 
     <div class="columnas">
       <div class="columna col-a">
-        <div class="columna-titulo">Cuerpo y raíz<br><span style="font-size:9px;opacity:.8">1 · 4 · 7</span></div>
+        <div class="columna-titulo">Cuerpo y raíz<br><span style="font-size:var(--t-h2);opacity:.8">1 · 4 · 7</span></div>
         <div class="celda"><div class="celda-n">1</div><div class="celda-edad">0–7</div><div class="celda-nom">La base de todo</div></div>
         <div class="celda"><div class="celda-n">4</div><div class="celda-edad">21–28</div><div class="celda-nom">Salida al mundo</div></div>
         <div class="celda"><div class="celda-n">7</div><div class="celda-edad">42–49</div><div class="celda-nom">Recoger lo sembrado</div></div>
       </div>
       <div class="columna col-b">
-        <div class="columna-titulo">Sentir y valor<br><span style="font-size:9px;opacity:.8">2 · 5 · 8</span></div>
+        <div class="columna-titulo">Sentir y valor<br><span style="font-size:var(--t-h2);opacity:.8">2 · 5 · 8</span></div>
         <div class="celda"><div class="celda-n">2</div><div class="celda-edad">7–14</div><div class="celda-nom">Despertar del cuerpo</div></div>
         <div class="celda"><div class="celda-n">5</div><div class="celda-edad">28–35</div><div class="celda-nom">La evaluación</div></div>
         <div class="celda"><div class="celda-n">8</div><div class="celda-edad">49–56</div><div class="celda-nom">Desapego y sabiduría</div></div>
       </div>
       <div class="columna col-c">
-        <div class="columna-titulo">Identidad y propósito<br><span style="font-size:9px;opacity:.8">3 · 6 · 9</span></div>
+        <div class="columna-titulo">Identidad y propósito<br><span style="font-size:var(--t-h2);opacity:.8">3 · 6 · 9</span></div>
         <div class="celda"><div class="celda-n">3</div><div class="celda-edad">14–21</div><div class="celda-nom">Despertar identidad</div></div>
         <div class="celda"><div class="celda-n">6</div><div class="celda-edad">35–42</div><div class="celda-nom">Búsqueda de sentido</div></div>
         <div class="celda"><div class="celda-n">9</div><div class="celda-edad">56–63</div><div class="celda-nom">Legado y plenitud</div></div>
@@ -478,7 +480,7 @@ function renderColumnasResaltadas(contId, colResaltada){
   var html='<div class="columnas">';
   cols.forEach(function(grupo,ci){
     var res=(ci===colResaltada)?' resaltada':'';
-    html+='<div class="columna '+clasesCol[ci]+res+'"><div class="columna-titulo">'+COL_NOMBRES[ci].split(' (')[0]+'<br><span style="font-size:9px;opacity:.8">'+grupo.join(' · ')+'</span></div>';
+    html+='<div class="columna '+clasesCol[ci]+res+'"><div class="columna-titulo">'+COL_NOMBRES[ci].split(' (')[0]+'<br><span style="font-size:var(--t-h2);opacity:.8">'+grupo.join(' · ')+'</span></div>';
     grupo.forEach(function(num){
       var cc=CICLOS[num-1];
       var act=(idxActual!==null && CICLOS[idxActual].n===num)?' actual':'';
@@ -500,7 +502,7 @@ function renderActual(){
   c.espejos.forEach(function(en){var e=CICLOS[en-1];espTxt+='<p style="margin-bottom:8px"><strong style="color:var(--azul)">Ciclo '+e.n+' · '+e.nombre+'</strong> ('+e.ini+'–'+(e.fin>100?'+':e.fin)+' años): '+e.trab+'</p>';});
 
   var html='<div class="actual-card">'+
-    '<div class="actual-edad">'+edad+' <span style="font-size:14px;color:var(--dim)">años</span></div>'+
+    '<div class="actual-edad">'+edad+' <span style="font-size:var(--t-body);color:var(--dim)">años</span></div>'+
     '<div class="actual-rango">Ciclo '+c.n+' · '+c.nombre+' · columna '+COL_NOMBRES[c.col]+'</div>'+
     '<div class="actual-tarea"><strong>Tu tarea ahora:</strong> '+c.trab+'</div>'+
     '<div class="espejo-box"><div class="espejo-label">◑ Los ciclos de tu columna que ya viviste</div><div class="espejo-texto">'+espTxt+'Lo que quedó abierto en ellos, hoy te toca de nuevo. Por eso lo que sientes ahora no es nuevo: es un eco.</div></div></div>';
@@ -725,10 +727,10 @@ function renderAscensoConciencia(){
   html+='<div class="espejo-label" style="color:var(--grn)">↑ Cómo esto eleva tu conciencia</div>';
   html+='<div class="espejo-texto" style="margin-bottom:14px">Al reconocer en qué ciclos se instaló tu dolor, dejaste de repetirlo sin darte cuenta. <b>Lo que era inconsciente ahora es consciente — y solo lo consciente se puede transformar.</b> Ese paso te mueve desde donde estás ('+nombreNivel+') hacia el Coraje: de la parálisis a la acción.</div>';
   html+='<div style="padding:12px 14px;background:var(--bg3);border-radius:10px;border-left:3px solid var(--grn)">';
-  html+='<div style="font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--grn);margin-bottom:6px">Tu paso concreto ahora'+(linea?' · en tu '+linea:'')+'</div>';
-  html+='<div style="font-size:14.5px;color:var(--text);line-height:1.6">'+accLinea+'</div>';
+  html+='<div style="font-size:var(--t-h2);letter-spacing:.08em;text-transform:uppercase;color:var(--grn);margin-bottom:6px">Tu paso concreto ahora'+(linea?' · en tu '+linea:'')+'</div>';
+  html+='<div style="font-size:var(--t-body);color:var(--text);line-height:1.6">'+accLinea+'</div>';
   html+='</div>';
-  html+='<div class="espejo-texto" style="margin-top:12px;font-size:13px;font-style:italic">Cada acción que cumples suma puntos a tu nivel de conciencia. No es teoría: es el camino real hacia arriba.</div>';
+  html+='<div class="espejo-texto" style="margin-top:12px;font-size:var(--t-body);font-style:italic">Cada acción que cumples suma puntos a tu nivel de conciencia. No es teoría: es el camino real hacia arriba.</div>';
   html+='</div>';
   wrap.innerHTML=html;
 }
@@ -744,12 +746,12 @@ function renderResignificacion(){
 
   [{k:'padre',lbl:'Tu padre, cuando era niño',col:'#5A8CC0'},{k:'madre',lbl:'Tu madre, cuando era niña',col:'#D4537E'}].forEach(function(p){
     html+='<div style="margin-bottom:16px">';
-    html+='<div style="font-size:13px;color:'+p.col+';margin-bottom:6px;font-weight:500">'+p.lbl+'</div>';
-    html+='<div style="font-size:12.5px;color:var(--dim);line-height:1.6;margin-bottom:8px">¿Qué le pudo haber pasado a ese niño? ¿Cómo lo trataron? ¿Qué le faltó? ¿Qué heridas cargaba que nunca sanaron — y que quizás te heredó sin querer?</div>';
-    html+='<textarea id="resig-'+p.k+'" placeholder="Cuando imagino a '+(p.k==='padre'?'mi padre':'mi madre')+' como el niño que fue, veo..." style="width:100%;min-height:80px;background:var(--bg3);border:1px solid var(--faint);border-radius:8px;color:var(--text);font-family:Barlow,sans-serif;font-size:14px;padding:10px 12px;outline:none;resize:vertical">'+((guardado[p.k]||'').replace(/</g,'&lt;'))+'</textarea>';
+    html+='<div style="font-size:var(--t-body);color:'+p.col+';margin-bottom:6px;font-weight:500">'+p.lbl+'</div>';
+    html+='<div style="font-size:var(--t-body);color:var(--dim);line-height:1.6;margin-bottom:8px">¿Qué le pudo haber pasado a ese niño? ¿Cómo lo trataron? ¿Qué le faltó? ¿Qué heridas cargaba que nunca sanaron — y que quizás te heredó sin querer?</div>';
+    html+='<textarea id="resig-'+p.k+'" placeholder="Cuando imagino a '+(p.k==='padre'?'mi padre':'mi madre')+' como el niño que fue, veo..." style="width:100%;min-height:80px;background:var(--bg3);border:1px solid var(--faint);border-radius:8px;color:var(--text);font-family:var(--sans);font-size:var(--t-body);padding:10px 12px;outline:none;resize:vertical">'+((guardado[p.k]||'').replace(/</g,'&lt;'))+'</textarea>';
     html+='</div>';
   });
-  html+='<div style="font-size:12.5px;color:var(--dim);font-style:italic;text-align:center;margin-top:6px">Perdonar no es olvidar. Es recordar sin dolor. Es soltar la piedra.</div>';
+  html+='<div style="font-size:var(--t-body);color:var(--dim);font-style:italic;text-align:center;margin-top:6px">Perdonar no es olvidar. Es recordar sin dolor. Es soltar la piedra.</div>';
   html+='</div>';
   wrap.innerHTML=html;
   // guardar al escribir
