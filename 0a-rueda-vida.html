@@ -9,7 +9,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
-  --serif:'Fraunces',serif;--sans:'Inter',sans-serif;
+  --serif:'Fraunces',serif;--lienzo:#F4EFE3;--sans:'Inter',sans-serif;
   --t-display:44px;--t-h1:28px;--t-h2:20px;--t-h3:20px;--t-body:17px;--t-small:17px;--t-micro:20px;--bg:#0A101E;--bg2:#111A2C;--bg3:#16223A;--bg4:#1C2942;
 --gold:#C9A84C;--gold2:#E4C878;--gold3:#E4C878;
 --gd:rgba(201,168,76,.13);--gb:rgba(201,168,76,.28);
@@ -754,12 +754,13 @@ function dmsg(cont){var d=mk("div","dmsg");d.appendChild(mk("div","dm-l","Reflex
 function buildRuedaSVG(scores,size){
   size=size||320;
   var cx=size/2,cy=size/2,r=size*0.38,n=12;
-  var svg='<svg viewBox="0 0 '+size+' '+size+'" xmlns="http://www.w3.org/2000/svg" style="max-width:100%;height:auto">';
-  for(var ring=1;ring<=10;ring++){svg+='<circle cx="'+cx+'" cy="'+cy+'" r="'+(r*ring/10)+'" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>';}
-  for(var i=0;i<n;i++){var a=(i/n)*Math.PI*2-Math.PI/2;svg+='<line x1="'+cx+'" y1="'+cy+'" x2="'+(cx+Math.cos(a)*r)+'" y2="'+(cy+Math.sin(a)*r)+'" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>';}
+  var svg='<div style="background:var(--lienzo,#F4EFE3);border-radius:16px;padding:18px 12px"><div style="max-width:340px;margin:0 auto">';
+  svg+='<svg viewBox="0 0 '+size+' '+size+'" xmlns="http://www.w3.org/2000/svg" style="max-width:100%;height:auto">';
+  for(var ring=1;ring<=10;ring++){svg+='<circle cx="'+cx+'" cy="'+cy+'" r="'+(r*ring/10)+'" fill="none" stroke="rgba(60,40,20,0.10)" stroke-width="1"/>';}
+  for(var i=0;i<n;i++){var a=(i/n)*Math.PI*2-Math.PI/2;svg+='<line x1="'+cx+'" y1="'+cy+'" x2="'+(cx+Math.cos(a)*r)+'" y2="'+(cy+Math.sin(a)*r)+'" stroke="rgba(60,40,20,0.12)" stroke-width="1"/>';}
   var pts=[];
   for(var j=0;j<n;j++){var a2=(j/n)*Math.PI*2-Math.PI/2;var val=scores[AREAS[j].id]||1;var rad=r*val/10;pts.push((cx+Math.cos(a2)*rad)+","+(cy+Math.sin(a2)*rad));}
-  svg+='<polygon points="'+pts.join(" ")+'" fill="rgba(201,168,76,0.15)" stroke="rgba(201,168,76,0.7)" stroke-width="1.5"/>';
+  svg+='<polygon points="'+pts.join(" ")+'" fill="rgba(176,140,50,0.22)" stroke="rgba(160,120,40,0.85)" stroke-width="1.5"/>';
   for(var k=0;k<n;k++){
     var a3=(k/n)*Math.PI*2-Math.PI/2;var val2=scores[AREAS[k].id]||1;var rad2=r*val2/10;
     var px=cx+Math.cos(a3)*rad2;var py=cy+Math.sin(a3)*rad2;
@@ -767,10 +768,10 @@ function buildRuedaSVG(scores,size){
     var lx=cx+Math.cos(a3)*(r+22);var ly=cy+Math.sin(a3)*(r+22);
     var anch=(lx<cx-15)?"end":(lx>cx+15)?"start":"middle";
     var nom=AREAS[k].nombre.split(" ")[0];
-    svg+='<text x="'+lx+'" y="'+(ly+3)+'" text-anchor="'+anch+'" font-size="9" fill="'+AREAS[k].color+'" font-family="Inter,sans-serif">'+nom+'</text>';
-    svg+='<text x="'+lx+'" y="'+(ly+14)+'" text-anchor="'+anch+'" font-size="9" fill="rgba(255,255,255,0.45)" font-family="Inter,sans-serif">'+val2+'</text>';
+    svg+='<text x="'+lx+'" y="'+(ly+3)+'" text-anchor="'+anch+'" font-size="9" fill="#3A2A1A" font-weight="600" font-family="Inter,sans-serif">'+nom+'</text>';
+    svg+='<text x="'+lx+'" y="'+(ly+14)+'" text-anchor="'+anch+'" font-size="9" fill="rgba(60,40,20,0.55)" font-family="Inter,sans-serif">'+val2+'</text>';
   }
-  svg+='</svg>';return svg;
+  svg+='</svg></div></div>';return svg;
 }
 
 function buildSlider(area, storeObj, containerId){
