@@ -17,14 +17,14 @@
   --grn:#6FA382;--rose:#C77A8E;
   --r:4px;--rm:10px;--rl:16px;
   --serif:'Fraunces',serif;--sans:'Inter',sans-serif;
-  /* ESCALA TIPOGRÁFICA — piso 13.5px (mínimo legible), recalibrada */
-  --t-display:48px;  /* número hero del nivel, ∀ de principios */
-  --t-h1:34px;       /* título principal de página */
-  --t-h2:26px;       /* títulos de sección, nombres de nivel */
-  --t-h3:21px;       /* subtítulos, reflexión, voces */
-  --t-body:17px;     /* texto de lectura */
-  --t-small:15px;    /* datos secundarios, notas */
-  --t-micro:13.5px;  /* etiquetas, eyebrows, metadatos (mínimo legible) */
+  /* SISTEMA LIBRO — 3 de lectura + 1 display. Homogéneo y legible */
+  --t-display:44px;  /* números-imagen del nivel, ∀ (no se leen, se contemplan) */
+  --t-h1:28px;       /* TÍTULO — capítulo de página */
+  --t-h2:20px;       /* SUBTÍTULO — secciones, reflexión, nombres de nivel, etiquetas */
+  --t-h3:20px;       /* subtítulo (unificado con h2) */
+  --t-body:17px;     /* TEXTO — todo el cuerpo de lectura */
+  --t-small:17px;    /* sube a texto: nada más pequeño que el cuerpo */
+  --t-micro:20px;    /* etiquetas suben a subtítulo (REFLEXIÓN DE HOY, etc.) */
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:var(--bg);color:var(--text);font-family:var(--serif);font-weight:300;font-size:var(--t-body);line-height:1.7;min-height:100vh;background-image:radial-gradient(ellipse 70% 45% at 50% -5%, rgba(201,168,76,.06), transparent)}
@@ -32,22 +32,22 @@ body{background:var(--bg);color:var(--text);font-family:var(--serif);font-weight
 
 .hdr{display:flex;align-items:center;justify-content:space-between;padding:16px 0 22px;border-bottom:1px solid var(--faint);margin-bottom:24px}
 .hdr-logo{font-family:var(--serif);font-size:var(--t-h2);color:var(--gold2)}
-.hdr-info{font-size:var(--t-micro);letter-spacing:.18em;text-transform:uppercase;color:var(--dim)}
+.hdr-info{font-size:var(--t-micro);letter-spacing:.07em;text-transform:uppercase;color:var(--dim)}
 
-.label{font-size:var(--t-micro);letter-spacing:.18em;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:10px}
+.label{font-size:var(--t-micro);letter-spacing:.07em;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:10px}
 .titulo{font-family:var(--serif);font-size:clamp(26px,5vw,34px);font-weight:300;color:var(--gold2);line-height:1.2;margin-bottom:8px}
 .subtitulo{font-size:var(--t-small);color:var(--dim);line-height:1.8;margin-bottom:24px}
 
 .card{background:var(--bg2);border:1px solid rgba(255,255,255,.055);border-radius:var(--rl);padding:22px 24px;margin-bottom:16px}
 .card.gold{border-color:var(--gb);background:linear-gradient(135deg,var(--bg2),var(--bg3))}
-.cl{font-size:var(--t-micro);letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:12px;font-weight:500}
+.cl{font-size:var(--t-micro);letter-spacing:.06em;text-transform:uppercase;color:var(--gold);margin-bottom:12px;font-weight:500}
 .ct{font-size:var(--t-small);color:var(--dim);line-height:1.85}
 
 /* NIVEL DE CONCIENCIA - HERO */
 .nivel-hero{text-align:center;padding:8px 0}
 .nivel-num{font-family:var(--serif);font-size:var(--t-display);font-weight:300;line-height:1;margin-bottom:4px}
 .nivel-nombre{font-size:var(--t-h3);font-weight:500;color:var(--text);margin-bottom:2px}
-.nivel-zona{font-size:var(--t-micro);letter-spacing:.15em;text-transform:uppercase;color:var(--dim);margin-bottom:18px}
+.nivel-zona{font-size:var(--t-micro);letter-spacing:.06em;text-transform:uppercase;color:var(--dim);margin-bottom:18px}
 .nivel-barra{height:8px;background:var(--ffaint);border-radius:4px;overflow:hidden;margin-bottom:8px}
 .nivel-relleno{height:100%;border-radius:4px;transition:width 1s ease}
 .nivel-meta{display:flex;justify-content:space-between;font-size:var(--t-micro);color:var(--dim)}
@@ -89,11 +89,11 @@ body{background:var(--bg);color:var(--text);font-family:var(--serif);font-weight
 .princ-num{font-family:var(--serif);font-size:var(--t-h3);min-width:34px}
 .princ-nombre{font-size:var(--t-small);color:var(--text);flex:1}
 .princ-compromiso{background:var(--bg2);border-left:3px solid var(--gold);border-radius:0 var(--rm) var(--rm) 0;padding:12px 16px;margin:-2px 0 12px 0}
-.princ-comp-lbl{font-size:var(--t-micro);letter-spacing:.14em;text-transform:uppercase;margin-bottom:6px}
+.princ-comp-lbl{font-size:var(--t-micro);letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px}
 .princ-comp-txt{font-size:var(--t-small);color:var(--text);line-height:1.7}
 .princ-comp-vacio{border-left-color:var(--faint)}
 .ac-col{margin-bottom:16px}
-.ac-lbl{font-size:var(--t-micro);letter-spacing:.14em;text-transform:uppercase;margin-bottom:8px}
+.ac-lbl{font-size:var(--t-micro);letter-spacing:.06em;text-transform:uppercase;margin-bottom:8px}
 .ac-item{font-size:var(--t-small);color:var(--text);padding:8px 12px;border-radius:var(--rm);margin-bottom:6px;border-left:3px solid}
 .ac-bueno{background:rgba(74,191,122,.07);border-left-color:var(--grn)}
 .ac-des{background:rgba(90,140,192,.07);border-left-color:var(--azul)}
@@ -109,8 +109,8 @@ body{background:var(--bg);color:var(--text);font-family:var(--serif);font-weight
 .sesion-dias{font-family:var(--serif);font-size:var(--t-display);color:var(--gold2);line-height:1}
 .sesion-txt{font-size:var(--t-small);color:var(--dim);margin-top:6px}
 
-.bp{background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--bg);border:none;border-radius:var(--r);font-family:var(--sans);font-size:var(--t-micro);font-weight:500;letter-spacing:.16em;text-transform:uppercase;padding:13px 30px;cursor:pointer;transition:opacity .2s}
-.bs{background:transparent;color:var(--gold);border:1px solid var(--gb);border-radius:var(--r);font-family:var(--sans);font-size:var(--t-micro);font-weight:500;letter-spacing:.14em;text-transform:uppercase;padding:11px 22px;cursor:pointer;text-decoration:none;display:inline-block}
+.bp{background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--bg);border:none;border-radius:var(--r);font-family:var(--sans);font-size:var(--t-micro);font-weight:500;letter-spacing:.06em;text-transform:uppercase;padding:13px 30px;cursor:pointer;transition:opacity .2s}
+.bs{background:transparent;color:var(--gold);border:1px solid var(--gb);border-radius:var(--r);font-family:var(--sans);font-size:var(--t-micro);font-weight:500;letter-spacing:.06em;text-transform:uppercase;padding:11px 22px;cursor:pointer;text-decoration:none;display:inline-block}
 .empty-state{text-align:center;padding:40px 20px;color:var(--dim)}
 .empty-icon{font-size:var(--t-display);color:var(--faint);margin-bottom:12px}
 </style>
@@ -494,7 +494,7 @@ function render(){
   // REFLEXIÓN (según el nivel de la persona; rota en cada visita)
   var fraseHoy = reflexionParaNivel(nivelActual ? nivelActual.nivel : 200);
   html += '<div style="margin:18px 0 22px;padding:18px 20px;background:var(--bg2);border:1px solid var(--gb);border-radius:var(--rl);text-align:center">'+
-    '<div style="font-size:var(--t-micro);letter-spacing:.16em;text-transform:uppercase;color:var(--gold2);margin-bottom:10px">Reflexión de hoy</div>'+
+    '<div style="font-size:var(--t-micro);letter-spacing:.06em;text-transform:uppercase;color:var(--gold2);margin-bottom:10px">Reflexión de hoy</div>'+
     '<div style="font-family:\'Fraunces\',serif;font-size:var(--t-h3);font-style:italic;line-height:1.55;color:var(--gold3)">'+fraseHoy+'</div>'+
   '</div>';
 
@@ -516,7 +516,7 @@ function render(){
   } else {
     html += '<div style="padding:28px 24px;text-align:center">';
     html += '<div style="font-family:\'Fraunces\',serif;font-size:var(--t-display);color:var(--gold2);margin-bottom:8px">▶</div>';
-    html += '<div style="font-size:var(--t-micro);letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:8px">Video de cierre — Sesión 1</div>';
+    html += '<div style="font-size:var(--t-micro);letter-spacing:.07em;text-transform:uppercase;color:var(--gold);margin-bottom:8px">Video de cierre — Sesión 1</div>';
     html += '<p style="font-size:var(--t-small);color:var(--dim);line-height:1.8;max-width:440px;margin:0 auto">Aquí irá el mensaje de cierre: dónde estás, a dónde debes llegar, y el recordatorio de que los compromisos que adquiriste son contigo mismo y con el proceso que iniciaste — no con nadie más. Lo que hiciste hoy es el insumo del siguiente nivel de conciencia.</p>';
     html += '</div>';
   }
@@ -732,7 +732,7 @@ function render(){
     });
     // Sugerencia del ejercicio de cartas
     html += '<div style="margin-top:14px;padding:14px 16px;background:var(--gd);border-radius:8px;border-left:3px solid var(--gold)">';
-    html += '<div style="font-size:var(--t-micro);letter-spacing:.14em;text-transform:uppercase;color:var(--gold2);margin-bottom:8px">✦ Un ejercicio para seguir soltando</div>';
+    html += '<div style="font-size:var(--t-micro);letter-spacing:.06em;text-transform:uppercase;color:var(--gold2);margin-bottom:8px">✦ Un ejercicio para seguir soltando</div>';
     html += '<p class="ct" style="font-size:var(--t-small)">Con las personas kármicas de tu linaje puedes hacer el mismo ejercicio de las cartas que hiciste en el perdón: <b>escríbele una carta</b> a cada una — no para enviarla, sino para ti. Dile lo que entendiste que vino a enseñarte, lo que le sueltas y cómo eliges cambiar tu actitud hacia ella. Es una de las formas más poderosas de cerrar un ciclo.</p>';
     if(trabajadas.length>0){
       html += '<p class="ct" style="font-size:var(--t-small);margin-top:8px;color:var(--dim)">Ya trabajaste '+trabajadas.length+' de '+transg.personas.length+'. '+(pendientes.length>0?'Te faltan '+pendientes.length+' por trabajar con calma.':'Las trabajaste todas — puedes profundizar con las cartas cuando quieras.')+'</p>';
@@ -904,7 +904,7 @@ function render(){
   html += '<span style="font-size:var(--t-micro);color:var(--dim);cursor:pointer;letter-spacing:.1em" onclick="togglePrueba()">· modo evaluación ·</span>';
   html += '</div>';
   html += '<div id="panel-prueba" style="display:none;margin-top:12px;padding:16px;background:var(--bg3);border:1px dashed var(--faint);border-radius:var(--rm)">';
-  html += '<div style="font-size:var(--t-micro);letter-spacing:.15em;text-transform:uppercase;color:var(--rose);margin-bottom:10px">Modo evaluación — solo para pruebas</div>';
+  html += '<div style="font-size:var(--t-micro);letter-spacing:.06em;text-transform:uppercase;color:var(--rose);margin-bottom:10px">Modo evaluación — solo para pruebas</div>';
   html += '<p style="font-size:var(--t-small);color:var(--dim);line-height:1.6;margin-bottom:12px">Este panel te deja simular el paso del tiempo y avanzar de sesión para evaluar la continuidad. En producción, las sesiones respetan los 15 días reales.</p>';
   html += '<div style="display:flex;flex-direction:column;gap:8px">';
   html += '<div style="font-size:var(--t-small);color:var(--text)">Sesión actual: <strong style="color:var(--gold2)">'+sesionActual+'</strong></div>';
@@ -983,12 +983,12 @@ function abrirPrincipio(n){
   h += '<div style="font-family:\'Fraunces\',serif;font-size:var(--t-h2);color:'+p.color+';margin-bottom:16px">'+p.nombre+'</div>';
   h += '<div style="height:1px;background:var(--faint);margin-bottom:14px"></div>';
   if(det.exige){
-    h += '<div style="font-size:var(--t-micro);letter-spacing:.18em;text-transform:uppercase;color:'+p.color+';margin-bottom:6px">No negociable</div>';
+    h += '<div style="font-size:var(--t-micro);letter-spacing:.07em;text-transform:uppercase;color:'+p.color+';margin-bottom:6px">No negociable</div>';
     h += '<div style="font-size:var(--t-small);color:var(--text);line-height:1.8;margin-bottom:16px">'+det.exige+'</div>';
   }
   if(det.voz){
     h += '<div style="padding:14px 16px;background:var(--bg3);border-left:3px solid '+p.color+';border-radius:0 var(--rm) var(--rm) 0">';
-    h += '<div style="font-size:var(--t-micro);letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:8px">Una voz que me acompaña</div>';
+    h += '<div style="font-size:var(--t-micro);letter-spacing:.08em;text-transform:uppercase;color:var(--gold);margin-bottom:8px">Una voz que me acompaña</div>';
     h += '<div style="font-size:var(--t-small);color:var(--dim);line-height:1.8;font-style:italic">'+det.voz+'</div>';
     h += '</div>';
   }
@@ -1004,11 +1004,11 @@ function abrirContrato(){
   h += '<div style="font-size:var(--t-micro);color:var(--dim);margin-bottom:16px">Firmado por '+nombre+'</div>';
   h += '<div style="height:1px;background:var(--faint);margin-bottom:16px"></div>';
   if(contrato.intencion){
-    h += '<div style="font-size:var(--t-micro);letter-spacing:.15em;text-transform:uppercase;color:var(--gold);margin-bottom:6px">Mi intención trascendente</div>';
+    h += '<div style="font-size:var(--t-micro);letter-spacing:.06em;text-transform:uppercase;color:var(--gold);margin-bottom:6px">Mi intención trascendente</div>';
     h += '<div style="font-size:var(--t-small);color:var(--text);line-height:1.8;margin-bottom:16px">'+contrato.intencion+'</div>';
   }
   if(contrato.vision){
-    h += '<div style="font-size:var(--t-micro);letter-spacing:.15em;text-transform:uppercase;color:var(--gold);margin-bottom:6px">Mi visión ∀normal</div>';
+    h += '<div style="font-size:var(--t-micro);letter-spacing:.06em;text-transform:uppercase;color:var(--gold);margin-bottom:6px">Mi visión ∀normal</div>';
     h += '<div style="font-size:var(--t-small);color:var(--text);line-height:1.8;margin-bottom:16px">'+contrato.vision+'</div>';
   }
   h += '<div style="padding:14px 16px;background:var(--bg3);border-left:3px solid var(--gold);border-radius:0 var(--rm) var(--rm) 0;margin-top:8px">';
