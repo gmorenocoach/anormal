@@ -6,108 +6,110 @@
 <title>∀normal — Mi Trabajo Emocional</title>
 <link rel="icon" type="image/png" href="favicon.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Barlow:wght@300;400;500&family=Barlow+Condensed:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#060A14;--bg2:#0A0F1E;--bg3:#0E1525;--bg4:#131D30;
-  --gold:#C9A84C;--gold2:#E8C96A;--gold3:#F5E0A0;
-  --gd:rgba(201,168,76,.13);--gb:rgba(201,168,76,.28);
-  --text:#EAE6DC;--dim:#8A95A8;--faint:#3A4558;--ffaint:#1E2A3A;
-  --grn:#4ABF7A;--rose:#D4537E;--azul:#5A8CC0;
+  --serif:'Fraunces',serif;--sans:'Inter',sans-serif;
+  --t-display:44px;--t-h1:28px;--t-h2:20px;--t-h3:20px;--t-body:17px;--t-small:17px;--t-micro:20px;
+  --bg:#100C1E;--bg2:#181430;--bg3:#201A3E;--bg4:#282050;
+  --gold:#9E86D4;--gold2:#BDA6E8;--gold3:#BDA6E8;
+  --gd:rgba(158,134,212,.13);--gb:rgba(158,134,212,.28);
+  --text:#EDE7D9;--dim:#A9B0C0;--faint:#3A4558;--ffaint:#2E2650;
+  --grn:#6FA382;--rose:#C77A8E;--azul:#5A8CC0;
   --c-raiz:#C8413B;--c-sacro:#D87A2B;--c-plexo:#E8C24A;--c-corazon:#4ABF7A;
   --c-garganta:#4AA8C8;--c-tercer:#5A6BC0;--c-corona:#9B6BC0;
   --r:4px;--rm:8px;--rl:14px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font-weight:300;font-size:16.5px;line-height:1.7;min-height:100vh}
+body{background:var(--bg);color:var(--text);font-family:var(--serif);font-weight:300;font-size:var(--t-body);line-height:1.7;min-height:100vh;background-image:radial-gradient(ellipse 70% 45% at 50% -5%, rgba(158,134,212,.07), transparent)}
 .wrap{max-width:700px;margin:0 auto;padding:24px 20px 60px}
 
 .hdr{display:flex;align-items:center;justify-content:space-between;padding:16px 0 24px;border-bottom:1px solid var(--faint);margin-bottom:24px}
-.hdr-logo{font-family:"Cormorant Garamond",serif;font-size:22px;color:var(--gold2)}
-.hdr-info{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim)}
+.hdr-logo{font-family:var(--serif);font-size:var(--t-h2);color:var(--gold2)}
+.hdr-info{font-size:var(--t-h2);letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
 
 .progress-bar{height:2px;background:var(--ffaint);border-radius:2px;overflow:hidden;margin-bottom:10px}
 .progress-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));transition:width .5s ease}
-.progress-txt{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);text-align:center;margin-bottom:24px}
+.progress-txt{font-size:var(--t-h2);letter-spacing:.06em;text-transform:uppercase;color:var(--dim);text-align:center;margin-bottom:24px}
 
 .pantalla{display:none;animation:fadeIn .4s ease}
 .pantalla.visible{display:block}
 @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 
-.label{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:10px}
-.titulo{font-family:"Cormorant Garamond",serif;font-size:clamp(22px,5vw,30px);font-weight:300;color:var(--gold2);line-height:1.2;margin-bottom:10px}
-.subtitulo{font-size:14.5px;color:var(--dim);line-height:1.85;margin-bottom:24px}
+.label{font-size:var(--t-h2);letter-spacing:.08em;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:10px}
+.titulo{font-family:var(--serif);font-size:var(--t-h1);font-weight:300;color:var(--gold2);line-height:1.2;margin-bottom:10px}
+.subtitulo{font-size:var(--t-body);color:var(--dim);line-height:1.85;margin-bottom:24px}
 
 .card{background:var(--bg2);border:1px solid rgba(255,255,255,.055);border-radius:var(--rl);padding:20px 24px;margin-bottom:12px}
 .card.gold{border-color:var(--gb);background:linear-gradient(135deg,var(--bg2),var(--bg3))}
-.ct{font-size:15px;color:var(--text);line-height:1.9}
-.ct.dim{color:var(--dim);font-size:14px}
+.ct{font-size:var(--t-body);color:var(--text);line-height:1.9}
+.ct.dim{color:var(--dim);font-size:var(--t-body)}
 .ct b,.ct strong{color:var(--gold2);font-weight:500}
-.quote{font-family:"Cormorant Garamond",serif;font-style:italic;font-size:18px;color:var(--gold3);line-height:1.5;border-left:2px solid var(--gb);padding-left:16px;margin:18px 0}
+.quote{font-family:var(--serif);font-style:italic;font-size:var(--t-h2);color:var(--gold3);line-height:1.5;border-left:2px solid var(--gb);padding-left:16px;margin:18px 0}
 
 /* CABECERA DE CENTRO */
 .centro-cab{display:flex;align-items:center;gap:14px;margin-bottom:4px}
 .centro-punto{width:52px;height:52px;border-radius:50%;flex-shrink:0;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff}
-.centro-punto .cp-n{font-family:"Cormorant Garamond",serif;font-size:18px;line-height:1}
+.centro-punto .cp-n{font-family:var(--serif);font-size:var(--t-h2);line-height:1}
 .centro-punto .cp-yo{font-size:8px;letter-spacing:.04em;margin-top:1px;opacity:.95}
-.centro-tit{font-family:"Cormorant Garamond",serif;font-size:24px;color:var(--gold2);line-height:1.1}
-.centro-cuerpo{font-size:11.5px;color:var(--dim);margin-top:2px}
-.centro-tema{font-size:13.5px;color:var(--text);line-height:1.75;font-style:italic;margin:12px 0 18px;padding:12px 16px;background:var(--bg3);border-radius:var(--rm);border-left:3px solid var(--faint)}
-.centro-emos{font-size:11px;color:var(--dim);margin-top:6px;font-style:normal}
+.centro-tit{font-family:var(--serif);font-size:var(--t-h2);color:var(--gold2);line-height:1.1}
+.centro-cuerpo{font-size:var(--t-h2);color:var(--dim);margin-top:2px}
+.centro-tema{font-size:var(--t-body);color:var(--text);line-height:1.75;font-style:italic;margin:12px 0 18px;padding:12px 16px;background:var(--bg3);border-radius:var(--rm);border-left:3px solid var(--faint)}
+.centro-emos{font-size:var(--t-h2);color:var(--dim);margin-top:6px;font-style:normal}
 
 /* PREGUNTA con calificación al frente */
 .preg{background:var(--bg2);border:1px solid var(--ffaint);border-radius:var(--rl);padding:14px 16px;margin-bottom:9px}
-.preg-texto{font-size:14px;color:var(--text);line-height:1.55;margin-bottom:12px}
+.preg-texto{font-size:var(--t-body);color:var(--text);line-height:1.55;margin-bottom:12px}
 .preg-dots{display:flex;gap:6px;align-items:center}
-.preg-cal-label{font-size:10px;color:var(--faint);letter-spacing:.1em;text-transform:uppercase;margin-right:2px}
-.qdot{width:40px;height:38px;border-radius:var(--rm);border:1px solid var(--faint);display:flex;align-items:center;justify-content:center;font-size:14px;color:var(--dim);cursor:pointer;transition:all .15s;font-family:"Barlow Condensed",sans-serif}
+.preg-cal-label{font-size:var(--t-h2);color:var(--faint);letter-spacing:.1em;text-transform:uppercase;margin-right:2px}
+.qdot{width:40px;height:38px;border-radius:var(--rm);border:1px solid var(--faint);display:flex;align-items:center;justify-content:center;font-size:var(--t-body);color:var(--dim);cursor:pointer;transition:all .15s;font-family:var(--sans)}
 .qdot:hover{border-color:var(--gold)}
 .qdot.on{color:#fff;font-weight:500;transform:scale(1.06)}
-.preg-escala-hint{font-size:10px;color:var(--faint);margin-top:7px}
+.preg-escala-hint{font-size:var(--t-h2);color:var(--faint);margin-top:7px}
 
-.aviso-faltan{font-size:12px;color:var(--rose);text-align:center;margin-top:14px;display:none}
+.aviso-faltan{font-size:var(--t-h2);color:var(--rose);text-align:center;margin-top:14px;display:none}
 .aviso-faltan.visible{display:block}
 
 /* RESULTADO: 3 centros principales */
 .diag-top{background:linear-gradient(135deg,rgba(201,168,76,.1),var(--bg3));border:1px solid var(--gb);border-radius:var(--rl);padding:22px 24px;margin-bottom:18px}
-.diag-top-label{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
-.diag-top-titulo{font-family:"Cormorant Garamond",serif;font-size:20px;color:var(--gold2);line-height:1.3}
+.diag-top-label{font-size:var(--t-h2);letter-spacing:.08em;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+.diag-top-titulo{font-family:var(--serif);font-size:var(--t-h2);color:var(--gold2);line-height:1.3}
 
 .centro-diag{border:1px solid var(--ffaint);border-radius:var(--rl);padding:18px 20px;margin-bottom:14px;background:var(--bg2)}
 .cd-cab{display:flex;align-items:center;gap:12px;margin-bottom:12px}
-.cd-rank{font-family:"Cormorant Garamond",serif;font-size:26px;color:var(--gold);min-width:30px}
-.cd-punto{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-family:"Cormorant Garamond",serif;font-size:16px;flex-shrink:0}
-.cd-nombre{font-size:16px;font-weight:500;color:var(--text)}
-.cd-yo{font-size:11px;color:var(--dim);letter-spacing:.06em}
-.cd-fila{display:flex;gap:8px;margin-bottom:7px;font-size:13.5px;line-height:1.6}
-.cd-k{color:var(--gold);min-width:88px;font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding-top:2px}
+.cd-rank{font-family:var(--serif);font-size:var(--t-h2);color:var(--gold);min-width:30px}
+.cd-punto{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-family:var(--serif);font-size:var(--t-body);flex-shrink:0}
+.cd-nombre{font-size:var(--t-body);font-weight:500;color:var(--text)}
+.cd-yo{font-size:var(--t-h2);color:var(--dim);letter-spacing:.06em}
+.cd-fila{display:flex;gap:8px;margin-bottom:7px;font-size:var(--t-body);line-height:1.6}
+.cd-k{color:var(--gold);min-width:88px;font-size:var(--t-h2);letter-spacing:.08em;text-transform:uppercase;padding-top:2px}
 .cd-v{color:var(--text);flex:1}
-.cd-virtud{margin-top:12px;padding:12px 14px;background:var(--bg3);border-radius:var(--rm);border-left:3px solid var(--gold);font-size:13.5px;color:var(--text);line-height:1.7}
+.cd-virtud{margin-top:12px;padding:12px 14px;background:var(--bg3);border-radius:var(--rm);border-left:3px solid var(--gold);font-size:var(--t-body);color:var(--text);line-height:1.7}
 .cd-virtud b{color:var(--gold2)}
 
 .barra-chakra{display:flex;align-items:center;gap:12px;margin-bottom:9px}
-.barra-label{min-width:104px;font-size:12px;color:var(--text);text-align:right}
+.barra-label{min-width:104px;font-size:var(--t-h2);color:var(--text);text-align:right}
 .barra-track{flex:1;height:18px;background:var(--bg3);border-radius:9px;overflow:hidden}
 .barra-fill{height:100%;border-radius:9px;transition:width .8s ease}
-.barra-valor{min-width:42px;font-size:11px;color:var(--dim);font-family:"Barlow Condensed",sans-serif}
+.barra-valor{min-width:42px;font-size:var(--t-h2);color:var(--dim);font-family:var(--sans)}
 
 .cierre-resumen{background:var(--bg2);border:1px solid var(--gb);border-radius:var(--rl);padding:20px 24px;margin-bottom:18px}
 .cierre-fila{display:flex;justify-content:space-between;align-items:baseline;padding:8px 0;border-bottom:1px solid var(--ffaint)}
 .cierre-fila:last-child{border-bottom:none}
-.cierre-k{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
-.cierre-v{font-size:14px;color:var(--gold2);text-align:right;max-width:56%}
+.cierre-k{font-size:var(--t-h2);letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
+.cierre-v{font-size:var(--t-body);color:var(--gold2);text-align:right;max-width:56%}
 
-.bp{background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--bg);border:none;border-radius:var(--r);font-family:"Barlow Condensed",sans-serif;font-size:12px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;padding:13px 30px;cursor:pointer;transition:opacity .2s,transform .15s}
+.bp{background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--bg);border:none;border-radius:var(--r);font-family:var(--sans);font-size:var(--t-h2);font-weight:500;letter-spacing:.06em;text-transform:uppercase;padding:13px 30px;cursor:pointer;transition:opacity .2s,transform .15s}
 .bp:hover{opacity:.9;transform:translateY(-1px)}
 .bp:disabled{opacity:.4;cursor:not-allowed}
-.bs{background:transparent;color:var(--gold);border:1px solid var(--gb);border-radius:var(--r);font-family:"Barlow Condensed",sans-serif;font-size:11px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;padding:11px 22px;cursor:pointer}
+.bs{background:transparent;color:var(--gold);border:1px solid var(--gb);border-radius:var(--r);font-family:var(--sans);font-size:var(--t-h2);font-weight:500;letter-spacing:.06em;text-transform:uppercase;padding:11px 22px;cursor:pointer}
 .nav{display:flex;gap:10px;justify-content:space-between;align-items:center;margin-top:24px;flex-wrap:wrap}
 .video-opcional{background:var(--bg3);border:1px dashed var(--faint);border-radius:14px;padding:20px 22px;margin-bottom:18px;display:flex;align-items:center;gap:16px}
-.video-opcional .vo-play{font-size:24px;color:var(--gold);flex-shrink:0}
+.video-opcional .vo-play{font-size:var(--t-h2);color:var(--gold);flex-shrink:0}
 .video-opcional .vo-txt{flex:1}
-.video-opcional .vo-tit{font-size:13px;color:var(--text)}
-.video-opcional .vo-sub{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--faint);margin-top:3px}
+.video-opcional .vo-tit{font-size:var(--t-body);color:var(--text)}
+.video-opcional .vo-sub{font-size:var(--t-h2);letter-spacing:.06em;text-transform:uppercase;color:var(--faint);margin-top:3px}
 </style>
 </head>
 <body>
@@ -192,7 +194,7 @@ body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font
     <div class="card gold">
       <div class="label">Una intención para tu cuerpo</div>
       <p class="ct" style="margin-bottom:12px">¿Qué le quieres decir a esa parte de ti que ha estado cargando en silencio?</p>
-      <textarea id="intencion-cuerpo" style="width:100%;background:var(--bg2);border:1px solid var(--faint);border-radius:var(--rm);color:var(--text);font-family:'Barlow',sans-serif;font-size:14.5px;line-height:1.7;padding:12px 14px;resize:vertical;min-height:70px" placeholder="A mi cuerpo le digo..."></textarea>
+      <textarea id="intencion-cuerpo" style="width:100%;background:var(--bg2);border:1px solid var(--faint);border-radius:var(--rm);color:var(--text);font-family:var(--sans);font-size:var(--t-body);line-height:1.7;padding:12px 14px;resize:vertical;min-height:70px" placeholder="A mi cuerpo le digo..."></textarea>
     </div>
 
     <div class="nav">
@@ -411,7 +413,7 @@ function renderAura(cargas){
     '<g filter="blur(2px)">'+capas+'</g>'+
     '<rect width="'+W+'" height="'+H+'" fill="url(#vin)"/>'+
     '<circle cx="'+cx+'" cy="'+cy+'" r="44" fill="#0A0F1E" stroke="rgba(255,255,255,.2)" stroke-width="1"/>'+
-    '<text x="'+cx+'" y="'+(cy+8)+'" text-anchor="middle" font-family="Cormorant Garamond, serif" font-size="28" fill="#E8C96A">'+iniciales()+'</text>'+
+    '<text x="'+cx+'" y="'+(cy+8)+'" text-anchor="middle" font-family="Fraunces, serif" font-size="28" fill="#E8C96A">'+iniciales()+'</text>'+
     '</svg>';
   return svg;
 }
