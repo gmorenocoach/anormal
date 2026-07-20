@@ -6,50 +6,53 @@
 <title>∀normal — Mis Sub-números</title>
 <link rel="icon" type="image/png" href="favicon.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Barlow:wght@300;400;500&family=Barlow+Condensed:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#060A14;--bg2:#0A0F1E;--bg3:#0E1525;--bg4:#131D30;--gold:#C9A84C;--gold2:#E8C96A;--gold3:#F5E0A0;--gd:rgba(201,168,76,.13);--gb:rgba(201,168,76,.28);--text:#EAE6DC;--dim:#9AA5B8;--faint:#3A4558;--ffaint:#1E2A3A;--grn:#4ABF7A;--rose:#D4537E;--azul:#5A8CC0;--r:4px;--rm:8px;--rl:14px;}
+:root{
+  --serif:'Fraunces',serif;--sans:'Inter',sans-serif;
+  --sesion:#7FA98A;
+  --t-display:44px;--t-h1:28px;--t-h2:20px;--t-h3:20px;--t-body:17px;--t-small:17px;--t-micro:20px;--bg:#0C1512;--bg2:#13201A;--bg3:#192B22;--bg4:#20372C;--gold:#C9A84C;--gold2:#E4C878;--gold3:#F5E0A0;--gd:rgba(201,168,76,.13);--gb:rgba(201,168,76,.28);--text:#EDE7D9;--dim:#A9B0C0;--faint:#3A4558;--ffaint:#26402F;--grn:#6FA382;--rose:#C77A8E;--azul:#5A8CC0;--r:4px;--rm:8px;--rl:14px;}
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font-weight:300;font-size:17.5px;line-height:1.75;min-height:100vh}
+body{background:var(--bg);color:var(--text);font-family:var(--serif);font-weight:300;font-size:var(--t-body);line-height:1.75;min-height:100vh;background-image:radial-gradient(ellipse 70% 45% at 50% -5%, rgba(127,169,138,.06), transparent)}
 .wrap{max-width:720px;margin:0 auto;padding:24px 20px 60px}
 .hdr{display:flex;align-items:center;justify-content:space-between;padding:16px 0 24px;border-bottom:1px solid var(--faint);margin-bottom:24px}
-.hdr-logo{font-family:"Cormorant Garamond",serif;font-size:23px;color:var(--gold2)}
-.hdr-info{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim)}
+.hdr-logo{font-family:var(--serif);font-size:var(--t-h2);color:var(--gold2)}
+.hdr-info{font-size:var(--t-h2);letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
 .progress-bar{height:2px;background:var(--ffaint);border-radius:2px;overflow:hidden;margin-bottom:10px}
 .progress-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));transition:width .5s ease}
-.progress-txt{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);text-align:center;margin-bottom:24px}
+.progress-txt{font-size:var(--t-h2);letter-spacing:.06em;text-transform:uppercase;color:var(--dim);text-align:center;margin-bottom:24px}
 .pantalla{display:none;animation:fadeIn .4s ease}
 .pantalla.visible{display:block}
 @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-.label{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:10px}
-.titulo{font-family:"Cormorant Garamond",serif;font-size:clamp(24px,5.5vw,33px);font-weight:300;color:var(--gold2);line-height:1.2;margin-bottom:12px}
-.subtitulo{font-size:16px;color:var(--dim);line-height:1.85;margin-bottom:24px}
+.label{font-size:var(--t-h2);letter-spacing:.08em;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:10px}
+.titulo{font-family:var(--serif);font-size:var(--t-h1);font-weight:300;color:var(--gold2);line-height:1.2;margin-bottom:12px}
+.subtitulo{font-size:var(--t-body);color:var(--dim);line-height:1.85;margin-bottom:24px}
 .card{background:var(--bg2);border:1px solid rgba(255,255,255,.06);border-radius:var(--rl);padding:22px 26px;margin-bottom:14px}
 .card.gold{border-color:var(--gb);background:linear-gradient(135deg,var(--bg2),var(--bg3))}
-.ct{font-size:16px;color:var(--text);line-height:1.95}
-.ct.dim{color:var(--dim);font-size:15px}
+.ct{font-size:var(--t-body);color:var(--text);line-height:1.95}
+.ct.dim{color:var(--dim);font-size:var(--t-body)}
 .ct b,.ct strong{color:var(--gold2);font-weight:500}
 .video-opcional{background:var(--bg3);border:1px dashed var(--faint);border-radius:14px;padding:20px 22px;margin-bottom:18px;display:flex;align-items:center;gap:16px}
-.video-opcional .vo-play{font-size:24px;color:var(--gold);flex-shrink:0}
-.video-opcional .vo-tit{font-size:13px;color:var(--text)}
-.video-opcional .vo-sub{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--faint);margin-top:3px}
+.video-opcional .vo-play{font-size:var(--t-h2);color:var(--gold);flex-shrink:0}
+.video-opcional .vo-tit{font-size:var(--t-body);color:var(--text)}
+.video-opcional .vo-sub{font-size:var(--t-h2);letter-spacing:.06em;text-transform:uppercase;color:var(--faint);margin-top:3px}
 .subnum-hero{text-align:center;margin:12px 0 18px}
-.subnum-circ{width:88px;height:88px;margin:0 auto 8px;border-radius:50%;background:var(--gd);border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;font-family:"Cormorant Garamond",serif;font-size:42px;color:var(--gold2)}
-.subnum-nom{font-family:"Cormorant Garamond",serif;font-style:italic;font-size:22px;color:var(--gold3)}
-.calc-chain{font-family:"Barlow Condensed",sans-serif;font-size:16px;color:var(--dim);letter-spacing:.05em;text-align:center;margin-bottom:6px}
+.subnum-circ{width:88px;height:88px;margin:0 auto 8px;border-radius:50%;background:var(--gd);border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:var(--t-display);color:var(--gold2)}
+.subnum-nom{font-family:var(--serif);font-style:italic;font-size:var(--t-h2);color:var(--gold3)}
+.calc-chain{font-family:var(--sans);font-size:var(--t-body);color:var(--dim);letter-spacing:.05em;text-align:center;margin-bottom:6px}
 .tabs{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap;justify-content:center}
-.tab{padding:9px 16px;border-radius:20px;font-size:13px;border:1px solid var(--ffaint);color:var(--dim);cursor:pointer;font-family:"Barlow Condensed",sans-serif;letter-spacing:.06em;text-transform:uppercase}
+.tab{padding:9px 16px;border-radius:20px;font-size:var(--t-body);border:1px solid var(--ffaint);color:var(--dim);cursor:pointer;font-family:var(--sans);letter-spacing:.06em;text-transform:uppercase}
 .sn-opts{display:flex;gap:8px;flex-wrap:wrap}
-.sn-btn{flex:1;min-width:150px;background:var(--bg3);border:1px solid var(--ffaint);border-radius:var(--rm);color:var(--dim);font-family:"Barlow",sans-serif;font-size:13.5px;padding:10px 12px;cursor:pointer;transition:all .2s}
+.sn-btn{flex:1;min-width:150px;background:var(--bg3);border:1px solid var(--ffaint);border-radius:var(--rm);color:var(--dim);font-family:var(--sans);font-size:var(--t-body);padding:10px 12px;cursor:pointer;transition:all .2s}
 .sn-btn:hover{border-color:var(--faint)}
 .sn-btn.on-si{background:rgba(74,191,122,.15);border-color:var(--grn);color:var(--grn)}
 .sn-btn.on-no{background:rgba(90,140,192,.12);border-color:var(--azul);color:var(--azul)}
 .tab.on{border-color:var(--gold);color:var(--gold2);background:var(--gd)}
 .tab.done{border-color:var(--grn);color:var(--grn)}
-.bp{background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--bg);border:none;border-radius:var(--r);font-family:"Barlow Condensed",sans-serif;font-size:13px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;padding:14px 32px;cursor:pointer;transition:opacity .2s,transform .15s}
+.bp{background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--bg);border:none;border-radius:var(--r);font-family:var(--sans);font-size:var(--t-body);font-weight:500;letter-spacing:.06em;text-transform:uppercase;padding:14px 32px;cursor:pointer;transition:opacity .2s,transform .15s}
 .bp:hover{opacity:.9;transform:translateY(-1px)}
-.bs{background:transparent;color:var(--gold);border:1px solid var(--gb);border-radius:var(--r);font-family:"Barlow Condensed",sans-serif;font-size:12px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;padding:12px 24px;cursor:pointer}
+.bs{background:transparent;color:var(--gold);border:1px solid var(--gb);border-radius:var(--r);font-family:var(--sans);font-size:var(--t-h2);font-weight:500;letter-spacing:.06em;text-transform:uppercase;padding:12px 24px;cursor:pointer}
 .nav{display:flex;gap:10px;justify-content:space-between;align-items:center;margin-top:26px;flex-wrap:wrap}
 </style>
 </head>
@@ -271,7 +274,7 @@ function init0(){
   var f=leer('anormal_fecha_nac','');
   var info=document.getElementById('fecha-info');
   if(f){ info.innerHTML='<div class="card"><p class="ct dim">Usaremos tu fecha de nacimiento: <b style="color:var(--gold2)">'+fmtFecha(f)+'</b></p></div>'; }
-  else { info.innerHTML='<div class="card"><div class="label">Tu fecha de nacimiento</div><input type="date" id="input-fecha" style="background:var(--bg3);border:1px solid var(--faint);border-radius:var(--rm);color:var(--text);font-size:16px;padding:11px 14px"></div>'; }
+  else { info.innerHTML='<div class="card"><div class="label">Tu fecha de nacimiento</div><input type="date" id="input-fecha" style="background:var(--bg3);border:1px solid var(--faint);border-radius:var(--rm);color:var(--text);font-size:var(--t-body);padding:11px 14px"></div>'; }
 }
 function fmtFecha(iso){var p=iso.split('-');if(p.length!==3)return iso;var m=['','enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];return parseInt(p[2])+' de '+m[parseInt(p[1])]+' de '+p[0];}
 
