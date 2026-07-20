@@ -6,68 +6,71 @@
 <title>∀normal — Mi Camino de Vida</title>
 <link rel="icon" type="image/png" href="favicon.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Barlow:wght@300;400;500&family=Barlow+Condensed:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#060A14;--bg2:#0A0F1E;--bg3:#0E1525;--bg4:#131D30;
-  --gold:#C9A84C;--gold2:#E8C96A;--gold3:#F5E0A0;
+  --serif:'Fraunces',serif;--sans:'Inter',sans-serif;
+  --sesion:#7FA98A;
+  --t-display:44px;--t-h1:28px;--t-h2:20px;--t-h3:20px;--t-body:17px;--t-small:17px;--t-micro:20px;
+  --bg:#0C1512;--bg2:#13201A;--bg3:#192B22;--bg4:#20372C;
+  --gold:#C9A84C;--gold2:#E4C878;--gold3:#F5E0A0;
   --gd:rgba(201,168,76,.13);--gb:rgba(201,168,76,.28);
-  --text:#EAE6DC;--dim:#9AA5B8;--faint:#3A4558;--ffaint:#1E2A3A;
-  --grn:#4ABF7A;--rose:#D4537E;--azul:#5A8CC0;
+  --text:#EDE7D9;--dim:#A9B0C0;--faint:#3A4558;--ffaint:#26402F;
+  --grn:#6FA382;--rose:#C77A8E;--azul:#5A8CC0;
   --r:4px;--rm:8px;--rl:14px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font-weight:300;font-size:17.5px;line-height:1.75;min-height:100vh}
+body{background:var(--bg);color:var(--text);font-family:var(--serif);font-weight:300;font-size:var(--t-body);line-height:1.75;min-height:100vh;background-image:radial-gradient(ellipse 70% 45% at 50% -5%, rgba(127,169,138,.06), transparent)}
 .wrap{max-width:720px;margin:0 auto;padding:24px 20px 60px}
 .hdr{display:flex;align-items:center;justify-content:space-between;padding:16px 0 24px;border-bottom:1px solid var(--faint);margin-bottom:24px}
-.hdr-logo{font-family:"Cormorant Garamond",serif;font-size:23px;color:var(--gold2)}
-.hdr-info{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim)}
+.hdr-logo{font-family:var(--serif);font-size:var(--t-h2);color:var(--gold2)}
+.hdr-info{font-size:var(--t-h2);letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
 .progress-bar{height:2px;background:var(--ffaint);border-radius:2px;overflow:hidden;margin-bottom:10px}
 .progress-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));transition:width .5s ease}
-.progress-txt{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);text-align:center;margin-bottom:24px}
+.progress-txt{font-size:var(--t-h2);letter-spacing:.06em;text-transform:uppercase;color:var(--dim);text-align:center;margin-bottom:24px}
 .pantalla{display:none;animation:fadeIn .4s ease}
 .pantalla.visible{display:block}
 @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-.label{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:10px}
-.titulo{font-family:"Cormorant Garamond",serif;font-size:clamp(24px,5.5vw,33px);font-weight:300;color:var(--gold2);line-height:1.2;margin-bottom:12px}
-.subtitulo{font-size:16px;color:var(--dim);line-height:1.85;margin-bottom:24px}
+.label{font-size:var(--t-h2);letter-spacing:.08em;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:10px}
+.titulo{font-family:var(--serif);font-size:var(--t-h1);font-weight:300;color:var(--gold2);line-height:1.2;margin-bottom:12px}
+.subtitulo{font-size:var(--t-body);color:var(--dim);line-height:1.85;margin-bottom:24px}
 .card{background:var(--bg2);border:1px solid rgba(255,255,255,.06);border-radius:var(--rl);padding:22px 26px;margin-bottom:14px}
 .card.gold{border-color:var(--gb);background:linear-gradient(135deg,var(--bg2),var(--bg3))}
-.ct{font-size:16px;color:var(--text);line-height:1.95}
-.ct.dim{color:var(--dim);font-size:15px}
+.ct{font-size:var(--t-body);color:var(--text);line-height:1.95}
+.ct.dim{color:var(--dim);font-size:var(--t-body)}
 .ct b,.ct strong{color:var(--gold2);font-weight:500}
-.quote{font-family:"Cormorant Garamond",serif;font-style:italic;font-size:20px;color:var(--gold3);line-height:1.55;border-left:2px solid var(--gb);padding-left:18px;margin:20px 0}
+.quote{font-family:var(--serif);font-style:italic;font-size:var(--t-h2);color:var(--gold3);line-height:1.55;border-left:2px solid var(--gb);padding-left:18px;margin:20px 0}
 .video-opcional{background:var(--bg3);border:1px dashed var(--faint);border-radius:14px;padding:20px 22px;margin-bottom:18px;display:flex;align-items:center;gap:16px}
-.video-opcional .vo-play{font-size:24px;color:var(--gold);flex-shrink:0}
-.video-opcional .vo-tit{font-size:13px;color:var(--text)}
-.video-opcional .vo-sub{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--faint);margin-top:3px}
+.video-opcional .vo-play{font-size:var(--t-h2);color:var(--gold);flex-shrink:0}
+.video-opcional .vo-tit{font-size:var(--t-body);color:var(--text)}
+.video-opcional .vo-sub{font-size:var(--t-h2);letter-spacing:.06em;text-transform:uppercase;color:var(--faint);margin-top:3px}
 /* CALCULO VISUAL */
 .calc-box{background:linear-gradient(135deg,var(--bg2),var(--bg3));border:1px solid var(--gb);border-radius:var(--rl);padding:24px;margin-bottom:16px;text-align:center}
-.calc-fecha{font-size:15px;color:var(--dim);letter-spacing:.1em;margin-bottom:14px}
-.calc-suma{font-family:"Barlow Condensed",sans-serif;font-size:20px;color:var(--text);letter-spacing:.06em;margin-bottom:8px}
-.calc-flecha{color:var(--gold);font-size:22px;margin:6px 0}
-.calc-resultado{width:96px;height:96px;margin:14px auto 0;border-radius:50%;background:var(--gd);border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;font-family:"Cormorant Garamond",serif;font-size:44px;color:var(--gold2)}
+.calc-fecha{font-size:var(--t-body);color:var(--dim);letter-spacing:.1em;margin-bottom:14px}
+.calc-suma{font-family:var(--sans);font-size:var(--t-h2);color:var(--text);letter-spacing:.06em;margin-bottom:8px}
+.calc-flecha{color:var(--gold);font-size:var(--t-h2);margin:6px 0}
+.calc-resultado{width:96px;height:96px;margin:14px auto 0;border-radius:50%;background:var(--gd);border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:var(--t-display);color:var(--gold2)}
 /* NUMERO GRANDE HERO */
 .num-hero{text-align:center;margin:10px 0 20px}
-.num-big{font-family:"Cormorant Garamond",serif;font-size:96px;line-height:1;color:var(--gold2);margin-bottom:4px}
-.num-arq{font-family:"Cormorant Garamond",serif;font-style:italic;font-size:26px;color:var(--gold3)}
-.num-arqsub{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-top:6px}
+.num-big{font-family:var(--serif);font-size:var(--t-display);line-height:1;color:var(--gold2);margin-bottom:4px}
+.num-arq{font-family:var(--serif);font-style:italic;font-size:var(--t-h2);color:var(--gold3)}
+.num-arqsub{font-size:var(--t-body);letter-spacing:.06em;text-transform:uppercase;color:var(--dim);margin-top:6px}
 .bloque{margin-bottom:14px}
-.bloque-lbl{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+.bloque-lbl{font-size:var(--t-h2);letter-spacing:.06em;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
 .chip-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
-.chip{background:var(--bg3);border:1px solid var(--ffaint);border-radius:20px;padding:7px 14px;font-size:14px;color:var(--text)}
+.chip{background:var(--bg3);border:1px solid var(--ffaint);border-radius:20px;padding:7px 14px;font-size:var(--t-body);color:var(--text)}
 .dato-fecha{display:flex;gap:10px;align-items:center;justify-content:center;margin:16px 0}
-.dato-fecha input{background:var(--bg3);border:1px solid var(--faint);border-radius:var(--rm);color:var(--text);font-family:"Barlow",sans-serif;font-size:16px;padding:11px 14px}
+.dato-fecha input{background:var(--bg3);border:1px solid var(--faint);border-radius:var(--rm);color:var(--text);font-family:var(--sans);font-size:var(--t-body);padding:11px 14px}
 .dato-fecha input:focus{outline:none;border-color:var(--gold)}
-.bp{background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--bg);border:none;border-radius:var(--r);font-family:"Barlow Condensed",sans-serif;font-size:13px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;padding:14px 32px;cursor:pointer;transition:opacity .2s,transform .15s}
+.bp{background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--bg);border:none;border-radius:var(--r);font-family:var(--sans);font-size:var(--t-body);font-weight:500;letter-spacing:.06em;text-transform:uppercase;padding:14px 32px;cursor:pointer;transition:opacity .2s,transform .15s}
 .bp:hover{opacity:.9;transform:translateY(-1px)}
-.bs{background:transparent;color:var(--gold);border:1px solid var(--gb);border-radius:var(--r);font-family:"Barlow Condensed",sans-serif;font-size:12px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;padding:12px 24px;cursor:pointer}
+.bs{background:transparent;color:var(--gold);border:1px solid var(--gb);border-radius:var(--r);font-family:var(--sans);font-size:var(--t-h2);font-weight:500;letter-spacing:.06em;text-transform:uppercase;padding:12px 24px;cursor:pointer}
 .nav{display:flex;gap:10px;justify-content:space-between;align-items:center;margin-top:26px;flex-wrap:wrap}
 .talento-card{background:var(--bg2);border:1px solid var(--ffaint);border-radius:var(--rl);padding:16px 18px;margin-bottom:10px;transition:border-color .2s}
 .talento-card.marcado{border-color:var(--gb)}
 .talento-opts{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
-.tal-btn{flex:1;min-width:150px;background:var(--bg3);border:1px solid var(--ffaint);border-radius:var(--rm);color:var(--dim);font-family:"Barlow",sans-serif;font-size:13.5px;padding:10px 12px;cursor:pointer;transition:all .2s}
+.tal-btn{flex:1;min-width:150px;background:var(--bg3);border:1px solid var(--ffaint);border-radius:var(--rm);color:var(--dim);font-family:var(--sans);font-size:var(--t-body);padding:10px 12px;cursor:pointer;transition:all .2s}
 .tal-btn:hover{border-color:var(--faint)}
 .tal-btn.on-si{background:rgba(74,191,122,.15);border-color:var(--grn);color:var(--grn)}
 .tal-btn.on-no{background:rgba(90,140,192,.12);border-color:var(--azul);color:var(--azul)}
@@ -102,7 +105,7 @@ body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font
       <p class="ct dim">Te lo digo desde mi propia experiencia: a mí, como mentor, la numerología me ayudó a comprender mejor lo que viví y a proyectarme con más claridad y en positivo hacia el futuro. No porque sea magia — sino porque me dio palabras para reconocer patrones que ya estaban ahí. Eso es lo que quiero para ti en esta sesión.</p>
     </div>
 
-    <h2 class="titulo" style="font-size:24px;margin-top:26px">Empecemos por tu número más importante.</h2>
+    <h2 class="titulo" style="font-size:var(--t-h2);margin-top:26px">Empecemos por tu número más importante.</h2>
     <p class="subtitulo" style="margin-bottom:18px">La numerología parte de una idea simple: los números que rodean tu nacimiento —tu fecha, tu nombre— guardan patrones que hablan de tu forma de ser. El primero y más importante es tu <b style="color:var(--gold2)">Camino de Vida</b>: nace del día en que llegaste al mundo, y describe la gran lección que viniste a vivir. Es como el título del libro de tu vida.</p>
 
     <div class="card gold">
@@ -432,7 +435,7 @@ function renderCalculo(){
     '<div class="calc-flecha">↓</div>'+
     '<div class="calc-suma">suma = '+miCalc.suma+'</div>'+
     '<div class="calc-flecha">↓</div>'+
-    (esMaestro?'<div class="ct dim" style="font-size:13px">Número maestro — no se reduce</div>':'')+
+    (esMaestro?'<div class="ct dim" style="font-size:var(--t-body)">Número maestro — no se reduce</div>':'')+
     '<div class="calc-resultado">'+miNV+'</div>';
 }
 
@@ -515,8 +518,8 @@ function renderSignificado(){
     html += '<div class="card" style="border-color:'+colL+';background:rgba(201,168,76,.04)">'+
       '<div class="label" style="color:'+colL+'">\u2192 Tu n\u00famero puesto a trabajar en '+lblL+'</div>'+
       '<p class="ct" style="margin-bottom:10px">Saber qui\u00e9n eres no basta. Esto es lo que tu n\u00famero te pide <b>hacer</b> ahora, en la l\u00ednea que elegiste:</p>'+
-      '<div style="padding:12px 14px;background:var(--bg3);border-radius:10px;border-left:3px solid '+colL+';font-size:14.5px;line-height:1.65;color:var(--text)">'+accNV[lineaEl]+'</div>'+
-      '<p class="ct dim" style="margin-top:10px;font-size:13px;font-style:italic">Tus dones no son adornos: son herramientas. Y cada acci\u00f3n que tomas con ellos sube tu nivel de conciencia.</p>'+
+      '<div style="padding:12px 14px;background:var(--bg3);border-radius:10px;border-left:3px solid '+colL+';font-size:var(--t-body);line-height:1.65;color:var(--text)">'+accNV[lineaEl]+'</div>'+
+      '<p class="ct dim" style="margin-top:10px;font-size:var(--t-body);font-style:italic">Tus dones no son adornos: son herramientas. Y cada acci\u00f3n que tomas con ellos sube tu nivel de conciencia.</p>'+
     '</div>';
   }
   document.getElementById('significado').innerHTML=html;
