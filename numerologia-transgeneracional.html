@@ -6,88 +6,91 @@
 <title>∀normal — Numerología Transgeneracional</title>
 <link rel="icon" type="image/png" href="favicon.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Barlow:wght@300;400;500&family=Barlow+Condensed:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#060A14;--bg2:#0A0F1E;--bg3:#0E1525;--bg4:#131D30;
-  --gold:#C9A84C;--gold2:#E8C96A;--gold3:#F5E0A0;
+  --serif:'Fraunces',serif;--sans:'Inter',sans-serif;
+  --sesion:#7FA98A;
+  --t-display:44px;--t-h1:28px;--t-h2:20px;--t-h3:20px;--t-body:17px;--t-small:17px;--t-micro:20px;
+  --bg:#0C1512;--bg2:#13201A;--bg3:#192B22;--bg4:#20372C;
+  --gold:#C9A84C;--gold2:#E4C878;--gold3:#F5E0A0;
   --gd:rgba(201,168,76,.13);--gb:rgba(201,168,76,.28);
-  --text:#EAE6DC;--dim:#9AA5B8;--faint:#3A4558;--ffaint:#1E2A3A;
-  --grn:#4ABF7A;--rose:#D4537E;--azul:#5A8CC0;--acc:#8A7BD8;
+  --text:#EDE7D9;--dim:#A9B0C0;--faint:#3A4558;--ffaint:#26402F;
+  --grn:#6FA382;--rose:#C77A8E;--azul:#5A8CC0;--acc:#8A7BD8;
   --r:4px;--rm:8px;--rl:14px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font-weight:300;font-size:17.5px;line-height:1.75;min-height:100vh}
+body{background:var(--bg);color:var(--text);font-family:var(--serif);font-weight:300;font-size:var(--t-body);line-height:1.75;min-height:100vh;background-image:radial-gradient(ellipse 70% 45% at 50% -5%, rgba(127,169,138,.06), transparent)}
 .wrap{max-width:720px;margin:0 auto;padding:24px 20px 60px}
 .hdr{display:flex;align-items:center;justify-content:space-between;padding:16px 0 24px;border-bottom:1px solid var(--faint);margin-bottom:24px}
-.hdr-logo{font-family:"Cormorant Garamond",serif;font-size:23px;color:var(--gold2)}
-.hdr-info{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim)}
+.hdr-logo{font-family:var(--serif);font-size:var(--t-h2);color:var(--gold2)}
+.hdr-info{font-size:var(--t-h2);letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
 .progress-bar{height:2px;background:var(--ffaint);border-radius:2px;overflow:hidden;margin-bottom:10px}
 .progress-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));transition:width .5s ease}
-.progress-txt{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);text-align:center;margin-bottom:24px}
+.progress-txt{font-size:var(--t-h2);letter-spacing:.06em;text-transform:uppercase;color:var(--dim);text-align:center;margin-bottom:24px}
 .pantalla{display:none;animation:fadeIn .4s ease}
 .pantalla.visible{display:block}
 @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-.label{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:10px}
-.titulo{font-family:"Cormorant Garamond",serif;font-size:clamp(24px,5.5vw,33px);font-weight:300;color:var(--gold2);line-height:1.2;margin-bottom:12px}
-.subtitulo{font-size:16px;color:var(--dim);line-height:1.85;margin-bottom:24px}
+.label{font-size:var(--t-h2);letter-spacing:.08em;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:10px}
+.titulo{font-family:var(--serif);font-size:var(--t-h1);font-weight:300;color:var(--gold2);line-height:1.2;margin-bottom:12px}
+.subtitulo{font-size:var(--t-body);color:var(--dim);line-height:1.85;margin-bottom:24px}
 .card{background:var(--bg2);border:1px solid rgba(255,255,255,.06);border-radius:var(--rl);padding:22px 26px;margin-bottom:14px}
 .card.gold{border-color:var(--gb);background:linear-gradient(135deg,var(--bg2),var(--bg3))}
-.ct{font-size:16px;color:var(--text);line-height:1.95}
-.ct.dim{color:var(--dim);font-size:15px}
+.ct{font-size:var(--t-body);color:var(--text);line-height:1.95}
+.ct.dim{color:var(--dim);font-size:var(--t-body)}
 .ct b,.ct strong{color:var(--gold2);font-weight:500}
-.quote{font-family:"Cormorant Garamond",serif;font-style:italic;font-size:20px;color:var(--gold3);line-height:1.55;border-left:2px solid var(--gb);padding-left:18px;margin:20px 0}
+.quote{font-family:var(--serif);font-style:italic;font-size:var(--t-h2);color:var(--gold3);line-height:1.55;border-left:2px solid var(--gb);padding-left:18px;margin:20px 0}
 .video-opcional{background:var(--bg3);border:1px dashed var(--faint);border-radius:14px;padding:20px 22px;margin-bottom:18px;display:flex;align-items:center;gap:16px}
-.video-opcional .vo-play{font-size:24px;color:var(--gold);flex-shrink:0}
-.video-opcional .vo-tit{font-size:13px;color:var(--text)}
-.video-opcional .vo-sub{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--faint);margin-top:3px}
+.video-opcional .vo-play{font-size:var(--t-h2);color:var(--gold);flex-shrink:0}
+.video-opcional .vo-tit{font-size:var(--t-body);color:var(--text)}
+.video-opcional .vo-sub{font-size:var(--t-h2);letter-spacing:.06em;text-transform:uppercase;color:var(--faint);margin-top:3px}
 .dato-fecha{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:14px 0}
-.dato-fecha label{font-size:14px;color:var(--dim);min-width:130px}
-.dato-fecha input{background:var(--bg3);border:1px solid var(--faint);border-radius:var(--rm);color:var(--text);font-family:"Barlow",sans-serif;font-size:16px;padding:11px 14px;flex:1;min-width:150px}
+.dato-fecha label{font-size:var(--t-body);color:var(--dim);min-width:130px}
+.dato-fecha input{background:var(--bg3);border:1px solid var(--faint);border-radius:var(--rm);color:var(--text);font-family:var(--sans);font-size:var(--t-body);padding:11px 14px;flex:1;min-width:150px}
 .dato-fecha input:focus{outline:none;border-color:var(--gold)}
 .par-nums{display:flex;gap:14px;justify-content:center;align-items:center;margin:16px 0}
 .par-col{text-align:center}
-.par-col-lbl{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);margin-bottom:8px}
-.par-circ{width:82px;height:82px;border-radius:50%;background:var(--gd);border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;font-family:"Cormorant Garamond",serif;font-size:36px;color:var(--gold2)}
-.par-nom{font-size:12px;color:var(--gold3);margin-top:6px}
-.par-vs{font-size:22px;color:var(--faint)}
-.rel-titulo{font-family:"Cormorant Garamond",serif;font-size:24px;color:var(--gold2);margin-bottom:6px}
-.rel-badge{display:inline-block;font-size:11px;letter-spacing:.12em;text-transform:uppercase;padding:4px 12px;border-radius:20px;margin-bottom:12px;border:1px solid var(--gb);color:var(--gold2)}
-.chk-item{display:flex;gap:10px;align-items:flex-start;padding:9px 0;border-bottom:1px solid var(--ffaint);cursor:pointer;font-size:14.5px;color:var(--text)}
+.par-col-lbl{font-size:var(--t-h2);letter-spacing:.1em;text-transform:uppercase;color:var(--dim);margin-bottom:8px}
+.par-circ{width:82px;height:82px;border-radius:50%;background:var(--gd);border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:var(--t-display);color:var(--gold2)}
+.par-nom{font-size:var(--t-h2);color:var(--gold3);margin-top:6px}
+.par-vs{font-size:var(--t-h2);color:var(--faint)}
+.rel-titulo{font-family:var(--serif);font-size:var(--t-h2);color:var(--gold2);margin-bottom:6px}
+.rel-badge{display:inline-block;font-size:var(--t-h2);letter-spacing:.12em;text-transform:uppercase;padding:4px 12px;border-radius:20px;margin-bottom:12px;border:1px solid var(--gb);color:var(--gold2)}
+.chk-item{display:flex;gap:10px;align-items:flex-start;padding:9px 0;border-bottom:1px solid var(--ffaint);cursor:pointer;font-size:var(--t-body);color:var(--text)}
 .chk-item:last-child{border-bottom:none}
-.chk-box{width:22px;height:22px;border-radius:5px;border:1.5px solid var(--faint);display:flex;align-items:center;justify-content:center;font-size:12px;color:#fff;flex-shrink:0}
+.chk-box{width:22px;height:22px;border-radius:5px;border:1.5px solid var(--faint);display:flex;align-items:center;justify-content:center;font-size:var(--t-h2);color:#fff;flex-shrink:0}
 .chk-item.on .chk-box{background:var(--gold);border-color:var(--gold)}
 .chk-item.on{color:var(--gold3)}
-textarea{width:100%;background:var(--bg3);border:1px solid var(--faint);border-radius:var(--rm);color:var(--text);font-family:"Barlow",sans-serif;font-size:15.5px;line-height:1.75;padding:13px 15px;resize:vertical;min-height:90px}
+textarea{width:100%;background:var(--bg3);border:1px solid var(--faint);border-radius:var(--rm);color:var(--text);font-family:var(--sans);font-size:var(--t-body);line-height:1.75;padding:13px 15px;resize:vertical;min-height:90px}
 textarea:focus{outline:none;border-color:var(--gold)}
 .perdon-box{background:rgba(212,83,126,.06);border:1px solid rgba(212,83,126,.3);border-radius:var(--rl);padding:18px 22px;margin-top:14px}
-.perdon-lbl{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--rose);margin-bottom:10px}
-.persona-chip{display:inline-flex;align-items:center;gap:8px;background:var(--bg2);border:1px solid var(--ffaint);border-radius:20px;padding:7px 14px;margin:4px 6px 4px 0;font-size:14px;color:var(--text);cursor:pointer}
+.perdon-lbl{font-size:var(--t-h2);letter-spacing:.06em;text-transform:uppercase;color:var(--rose);margin-bottom:10px}
+.persona-chip{display:inline-flex;align-items:center;gap:8px;background:var(--bg2);border:1px solid var(--ffaint);border-radius:20px;padding:7px 14px;margin:4px 6px 4px 0;font-size:var(--t-body);color:var(--text);cursor:pointer}
 .persona-chip.hecho{border-color:var(--grn);color:var(--grn)}
 .add-persona{background:var(--bg3);border:1px dashed var(--gb);border-radius:var(--rl);padding:16px 20px;margin-bottom:14px}
-.add-persona input{width:100%;background:var(--bg2);border:1px solid var(--faint);border-radius:var(--rm);color:var(--text);font-family:"Barlow",sans-serif;font-size:15px;padding:11px 14px;margin-top:8px}
+.add-persona input{width:100%;background:var(--bg2);border:1px solid var(--faint);border-radius:var(--rm);color:var(--text);font-family:var(--sans);font-size:var(--t-body);padding:11px 14px;margin-top:8px}
 .add-persona input:focus{outline:none;border-color:var(--gold)}
-.tope-aviso{font-size:13px;color:var(--dim);text-align:center;margin:10px 0}
-.bp{background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--bg);border:none;border-radius:var(--r);font-family:"Barlow Condensed",sans-serif;font-size:13px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;padding:14px 32px;cursor:pointer;transition:opacity .2s,transform .15s}
+.tope-aviso{font-size:var(--t-body);color:var(--dim);text-align:center;margin:10px 0}
+.bp{background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--bg);border:none;border-radius:var(--r);font-family:var(--sans);font-size:var(--t-body);font-weight:500;letter-spacing:.06em;text-transform:uppercase;padding:14px 32px;cursor:pointer;transition:opacity .2s,transform .15s}
 .bp:hover{opacity:.9;transform:translateY(-1px)}
-.bs{background:transparent;color:var(--gold);border:1px solid var(--gb);border-radius:var(--r);font-family:"Barlow Condensed",sans-serif;font-size:12px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;padding:12px 24px;cursor:pointer}
+.bs{background:transparent;color:var(--gold);border:1px solid var(--gb);border-radius:var(--r);font-family:var(--sans);font-size:var(--t-h2);font-weight:500;letter-spacing:.06em;text-transform:uppercase;padding:12px 24px;cursor:pointer}
 .nav{display:flex;gap:10px;justify-content:space-between;align-items:center;margin-top:26px;flex-wrap:wrap}
 
 .cifras-grid{display:flex;gap:12px;margin-bottom:18px}
 .cifras-col{flex:1;background:var(--bg3);border:1px solid var(--ffaint);border-radius:var(--rl);padding:14px}
-.cifras-tit{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold2);text-align:center;margin-bottom:10px}
+.cifras-tit{font-size:var(--t-h2);letter-spacing:.12em;text-transform:uppercase;color:var(--gold2);text-align:center;margin-bottom:10px}
 .cifra-chip{display:flex;justify-content:space-between;align-items:center;padding:6px 10px;margin-bottom:5px;background:var(--bg2);border-radius:var(--rm)}
 .cifra-chip.destac{border:1px solid var(--gb)}
-.cifra-rol{font-size:12px;color:var(--dim);letter-spacing:.06em;text-transform:uppercase}
-.cifra-num{font-family:"Cormorant Garamond",serif;font-size:22px;color:var(--gold2)}
+.cifra-rol{font-size:var(--t-h2);color:var(--dim);letter-spacing:.06em;text-transform:uppercase}
+.cifra-num{font-family:var(--serif);font-size:var(--t-h2);color:var(--gold2)}
 .cap{margin-bottom:16px}
-.cap-lbl{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--ffaint)}
+.cap-lbl{font-size:var(--t-h2);letter-spacing:.06em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--ffaint)}
 .cap .ct{margin-bottom:10px}
 .cap-cruce{background:linear-gradient(135deg,rgba(201,168,76,.06),var(--bg3));border:1px solid var(--gb);border-radius:var(--rl);padding:18px 20px}
 .cruce-item{display:flex;gap:14px;align-items:flex-start;margin-bottom:14px}
 .cruce-item:last-child{margin-bottom:0}
-.cruce-num{min-width:44px;height:44px;border-radius:50%;background:var(--gd);border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;font-family:"Cormorant Garamond",serif;font-size:22px;color:var(--gold2);flex-shrink:0}
+.cruce-num{min-width:44px;height:44px;border-radius:50%;background:var(--gd);border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:var(--t-h2);color:var(--gold2);flex-shrink:0}
 .lectura-bloque{margin-bottom:10px}
 </style>
 </head>
@@ -121,7 +124,7 @@ textarea:focus{outline:none;border-color:var(--gold)}
     <div class="card">
       <div class="dato-fecha"><label>Tu madre nació el</label><input type="date" id="fecha-madre"></div>
       <div class="dato-fecha"><label>Tu padre nació el</label><input type="date" id="fecha-padre"></div>
-      <p class="ct dim" style="font-size:13px;margin-top:8px">Puedes hacer uno solo si prefieres. Con al menos una fecha, continuamos.</p>
+      <p class="ct dim" style="font-size:var(--t-body);margin-top:8px">Puedes hacer uno solo si prefieres. Con al menos una fecha, continuamos.</p>
     </div>
 
     <div class="nav">
@@ -438,7 +441,7 @@ function renderLecturaProgenitor(quien, miFecha, suFecha){
       var txt=CRUCE[cr.key].replace(/\{quien\}/g, quien);
       var cif=CIFRA[cr.num];
       html+='<div class="cruce-item"><div class="cruce-num">'+cr.num+'</div><div class="cruce-txt"><p class="ct">'+txt+'</p>'+
-        (cif?'<p class="ct dim" style="font-size:14px;margin-top:6px">La energía del '+cr.num+' que comparten: '+cif.arq.split('·')[1]+'.</p>':'')+'</div></div>';
+        (cif?'<p class="ct dim" style="font-size:var(--t-body);margin-top:6px">La energía del '+cr.num+' que comparten: '+cif.arq.split('·')[1]+'.</p>':'')+'</div></div>';
     });
     html+='</div>';
   } else {
@@ -455,7 +458,7 @@ function renderLecturaProgenitor(quien, miFecha, suFecha){
 
   // Capa 4 + puente al perdón
   html+='<div class="perdon-box"><div class="perdon-lbl">✦ El puente al perdón</div>'+
-    '<p class="ct" style="font-size:15px">Nada de esto empezó contigo. El patrón que ves venía de atrás, y '+quien+' también lo recibió sin elegirlo. En la Sesión 2 ya perdonaste; aquí, al ver el número, entiendes que aquello nunca fue contra ti — era el linaje hablando. Y lo que se comprende, se puede soltar del todo.</p>'+
+    '<p class="ct" style="font-size:var(--t-body)">Nada de esto empezó contigo. El patrón que ves venía de atrás, y '+quien+' también lo recibió sin elegirlo. En la Sesión 2 ya perdonaste; aquí, al ver el número, entiendes que aquello nunca fue contra ti — era el linaje hablando. Y lo que se comprende, se puede soltar del todo.</p>'+
     '<textarea placeholder="Lo que hoy comprendo y suelto de '+quien+'..." oninput="guardarPerdonPadre(\''+quien+'\',this.value)"></textarea></div>';
 
   html+='</div>';
@@ -551,7 +554,7 @@ function renderPersonas(){
   var tope=personas.length>=8;
   cont.innerHTML=
     (tope?'':'<div class="add-persona"><div class="label">Agregar una persona</div>'+
-      '<p class="ct dim" style="font-size:14px">Su nombre o relación (mi abuela, mi hijo, mi pareja...) y su fecha de nacimiento.</p>'+
+      '<p class="ct dim" style="font-size:var(--t-body)">Su nombre o relación (mi abuela, mi hijo, mi pareja...) y su fecha de nacimiento.</p>'+
       '<input type="text" id="nueva-persona-nom" placeholder="¿Quién es?">'+
       '<input type="date" id="nueva-persona-fecha" style="margin-top:8px">'+
       '<div style="margin-top:10px"><button class="bs" onclick="agregarPersona()">Agregar</button></div></div>')+
@@ -589,11 +592,11 @@ function editarPersona(i){
     '<div style="text-align:center"><span class="rel-badge">'+rel.titulo+'</span></div>'+
     '<p class="ct">'+rel.desc+'</p>'+
     '<p class="ct" style="margin-top:10px">'+rel.ens+'</p>'+
-    (rel.aprendizaje?'<div class="perdon-box" style="border-color:rgba(224,144,112,.3);background:rgba(224,144,112,.06)"><div class="perdon-lbl" style="color:#E09070">✦ Lo que vino a enseñarte</div><p class="ct" style="font-size:15px">'+rel.aprendizaje+'</p></div>':'')+
-    (chk?'<div style="margin-top:14px"><div class="label">'+(rel.chkLabel||'')+'</div><p class="ct dim" style="font-size:13.5px;margin-bottom:8px">'+(rel.chkGuia||'')+'</p>'+chk+'</div>':'')+
-    '<div style="margin-top:14px"><div class="label">Tu reflexión</div><p class="ct dim" style="font-size:13.5px;margin-bottom:8px">'+(rel.reto||'')+'</p>'+
+    (rel.aprendizaje?'<div class="perdon-box" style="border-color:rgba(224,144,112,.3);background:rgba(224,144,112,.06)"><div class="perdon-lbl" style="color:#E09070">✦ Lo que vino a enseñarte</div><p class="ct" style="font-size:var(--t-body)">'+rel.aprendizaje+'</p></div>':'')+
+    (chk?'<div style="margin-top:14px"><div class="label">'+(rel.chkLabel||'')+'</div><p class="ct dim" style="font-size:var(--t-body);margin-bottom:8px">'+(rel.chkGuia||'')+'</p>'+chk+'</div>':'')+
+    '<div style="margin-top:14px"><div class="label">Tu reflexión</div><p class="ct dim" style="font-size:var(--t-body);margin-bottom:8px">'+(rel.reto||'')+'</p>'+
       '<textarea placeholder="Escribe aquí..." oninput="guardarPersonaReto('+i+',this.value)">'+(pp.reto||'')+'</textarea></div>'+
-    (rel.perdon?'<div class="perdon-box"><div class="perdon-lbl">✦ El espacio del perdón</div><p class="ct" style="font-size:15px;margin-bottom:10px">'+rel.perdon+'</p>'+
+    (rel.perdon?'<div class="perdon-box"><div class="perdon-lbl">✦ El espacio del perdón</div><p class="ct" style="font-size:var(--t-body);margin-bottom:10px">'+rel.perdon+'</p>'+
       '<textarea placeholder="Lo que suelto de esta relación..." oninput="guardarPersonaPerdon('+i+',this.value)">'+(pp.perdon||'')+'</textarea></div>':'')+
     '<div style="margin-top:14px"><button class="bs" onclick="marcarPersonaHecha('+i+')">'+(pp.hecho?'✓ Trabajada':'Marcar como trabajada')+'</button></div>'+
     '</div>';
