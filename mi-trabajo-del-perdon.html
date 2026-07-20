@@ -6,136 +6,138 @@
 <title>∀normal — Mi Trabajo del Perdón</title>
 <link rel="icon" type="image/png" href="favicon.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Barlow:wght@300;400;500&family=Barlow+Condensed:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#060A14;--bg2:#0A0F1E;--bg3:#0E1525;--bg4:#131D30;
-  --gold:#C9A84C;--gold2:#E8C96A;--gold3:#F5E0A0;
-  --gd:rgba(201,168,76,.13);--gb:rgba(201,168,76,.28);
-  --text:#EAE6DC;--dim:#9AA5B8;--faint:#3A4558;--ffaint:#1E2A3A;
-  --grn:#4ABF7A;--rose:#D4537E;--azul:#5A8CC0;
+  --serif:'Fraunces',serif;--sans:'Inter',sans-serif;
+  --t-display:44px;--t-h1:28px;--t-h2:20px;--t-h3:20px;--t-body:17px;--t-small:17px;--t-micro:20px;
+  --bg:#100C1E;--bg2:#181430;--bg3:#201A3E;--bg4:#282050;
+  --gold:#9E86D4;--gold2:#BDA6E8;--gold3:#BDA6E8;
+  --gd:rgba(158,134,212,.13);--gb:rgba(158,134,212,.28);
+  --text:#EDE7D9;--dim:#A9B0C0;--faint:#3A4558;--ffaint:#2E2650;
+  --grn:#6FA382;--rose:#C77A8E;--azul:#5A8CC0;
   --r:4px;--rm:8px;--rl:14px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font-weight:300;font-size:17.5px;line-height:1.75;min-height:100vh}
+body{background:var(--bg);color:var(--text);font-family:var(--serif);font-weight:300;font-size:var(--t-body);line-height:1.75;min-height:100vh;background-image:radial-gradient(ellipse 70% 45% at 50% -5%, rgba(158,134,212,.07), transparent)}
 .wrap{max-width:720px;margin:0 auto;padding:24px 20px 60px}
 
 .hdr{display:flex;align-items:center;justify-content:space-between;padding:16px 0 24px;border-bottom:1px solid var(--faint);margin-bottom:24px}
-.hdr-logo{font-family:"Cormorant Garamond",serif;font-size:23px;color:var(--gold2)}
-.hdr-info{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim)}
+.hdr-logo{font-family:var(--serif);font-size:var(--t-h2);color:var(--gold2)}
+.hdr-info{font-size:var(--t-h2);letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
 
 .progress-bar{height:2px;background:var(--ffaint);border-radius:2px;overflow:hidden;margin-bottom:10px}
 .progress-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));transition:width .5s ease}
-.progress-txt{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);text-align:center;margin-bottom:24px}
+.progress-txt{font-size:var(--t-h2);letter-spacing:.06em;text-transform:uppercase;color:var(--dim);text-align:center;margin-bottom:24px}
 
 .pantalla{display:none;animation:fadeIn .4s ease}
 .pantalla.visible{display:block}
 @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 
-.label{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:10px}
-.titulo{font-family:"Cormorant Garamond",serif;font-size:clamp(24px,5.5vw,33px);font-weight:300;color:var(--gold2);line-height:1.2;margin-bottom:12px}
-.subtitulo{font-size:16px;color:var(--dim);line-height:1.85;margin-bottom:24px}
+.label{font-size:var(--t-h2);letter-spacing:.08em;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:10px}
+.titulo{font-family:var(--serif);font-size:var(--t-h1);font-weight:300;color:var(--gold2);line-height:1.2;margin-bottom:12px}
+.subtitulo{font-size:var(--t-body);color:var(--dim);line-height:1.85;margin-bottom:24px}
 
 .card{background:var(--bg2);border:1px solid rgba(255,255,255,.06);border-radius:var(--rl);padding:22px 26px;margin-bottom:14px}
 .card.gold{border-color:var(--gb);background:linear-gradient(135deg,var(--bg2),var(--bg3))}
-.ct{font-size:16px;color:var(--text);line-height:1.95}
-.ct.dim{color:var(--dim);font-size:15px}
+.ct{font-size:var(--t-body);color:var(--text);line-height:1.95}
+.ct.dim{color:var(--dim);font-size:var(--t-body)}
 .ct b,.ct strong{color:var(--gold2);font-weight:500}
-.quote{font-family:"Cormorant Garamond",serif;font-style:italic;font-size:20px;color:var(--gold3);line-height:1.55;border-left:2px solid var(--gb);padding-left:18px;margin:20px 0}
+.quote{font-family:var(--serif);font-style:italic;font-size:var(--t-h2);color:var(--gold3);line-height:1.55;border-left:2px solid var(--gb);padding-left:18px;margin:20px 0}
 
 /* VIDEO */
 .video-box{background:var(--bg3);border:1px dashed var(--faint);border-radius:var(--rl);padding:36px 24px;text-align:center;margin-bottom:18px}
-.video-play{font-size:34px;color:var(--gold);margin-bottom:8px}
-.video-txt{font-size:14px;color:var(--dim)}
-.video-soon{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--faint);margin-top:8px}
+.video-play{font-size:var(--t-h1);color:var(--gold);margin-bottom:8px}
+.video-txt{font-size:var(--t-body);color:var(--dim)}
+.video-soon{font-size:var(--t-h2);letter-spacing:.08em;text-transform:uppercase;color:var(--faint);margin-top:8px}
 
 /* PRINCIPIOS */
 .principio{display:flex;gap:14px;align-items:flex-start;background:var(--bg2);border:1px solid var(--ffaint);border-radius:var(--rl);padding:16px 18px;margin-bottom:10px}
-.principio-num{min-width:46px;height:46px;border-radius:50%;background:var(--gd);border:1px solid var(--gb);display:flex;align-items:center;justify-content:center;font-family:"Cormorant Garamond",serif;font-size:17px;color:var(--gold2);flex-shrink:0}
-.principio-info-tit{font-size:16px;font-weight:500;color:var(--gold2);margin-bottom:3px}
-.principio-info-txt{font-size:14.5px;color:var(--dim);line-height:1.7}
+.principio-num{min-width:46px;height:46px;border-radius:50%;background:var(--gd);border:1px solid var(--gb);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:var(--t-body);color:var(--gold2);flex-shrink:0}
+.principio-info-tit{font-size:var(--t-body);font-weight:500;color:var(--gold2);margin-bottom:3px}
+.principio-info-txt{font-size:var(--t-body);color:var(--dim);line-height:1.7}
 .principio.activo .principio-num{background:rgba(74,191,122,.15);border-color:var(--grn);color:var(--grn)}
 
 /* RITUAL página propia */
 .ritual-fase{background:var(--bg2);border:1px solid var(--ffaint);border-radius:var(--rl);padding:18px 22px;margin-bottom:12px}
-.ritual-fase-tit{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--gold2);margin-bottom:12px;display:flex;align-items:center;gap:10px}
-.ritual-fase-num{width:28px;height:28px;border-radius:50%;background:var(--gd);border:1px solid var(--gb);display:flex;align-items:center;justify-content:center;font-family:"Cormorant Garamond",serif;font-size:15px;color:var(--gold2)}
-.ritual-paso{display:flex;gap:11px;align-items:flex-start;margin-bottom:9px;font-size:15px;color:var(--text);line-height:1.7}
+.ritual-fase-tit{font-size:var(--t-body);letter-spacing:.08em;text-transform:uppercase;color:var(--gold2);margin-bottom:12px;display:flex;align-items:center;gap:10px}
+.ritual-fase-num{width:28px;height:28px;border-radius:50%;background:var(--gd);border:1px solid var(--gb);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:var(--t-body);color:var(--gold2)}
+.ritual-paso{display:flex;gap:11px;align-items:flex-start;margin-bottom:9px;font-size:var(--t-body);color:var(--text);line-height:1.7}
 .ritual-paso:last-child{margin-bottom:0}
 .ritual-bullet{color:var(--gold);flex-shrink:0;margin-top:1px}
-.recordatorio-ritual{background:rgba(201,168,76,.06);border:1px solid var(--gb);border-radius:var(--rm);padding:12px 16px;margin-bottom:14px;font-size:13.5px;color:var(--gold3);line-height:1.6}
+.recordatorio-ritual{background:rgba(201,168,76,.06);border:1px solid var(--gb);border-radius:var(--rm);padding:12px 16px;margin-bottom:14px;font-size:var(--t-body);color:var(--gold3);line-height:1.6}
 
 .viz{background:linear-gradient(135deg,rgba(90,140,192,.08),var(--bg3));border:1px solid rgba(90,140,192,.25);border-radius:var(--rl);padding:18px 22px;margin-bottom:16px}
-.viz-label{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--azul);margin-bottom:10px}
-.viz-paso{display:flex;gap:11px;align-items:flex-start;margin-bottom:9px;font-size:15px;color:var(--text);line-height:1.7}
+.viz-label{font-size:var(--t-h2);letter-spacing:.07em;text-transform:uppercase;color:var(--azul);margin-bottom:10px}
+.viz-paso{display:flex;gap:11px;align-items:flex-start;margin-bottom:9px;font-size:var(--t-body);color:var(--text);line-height:1.7}
 .viz-paso:last-child{margin-bottom:0}
 .viz-dot{color:var(--azul);flex-shrink:0;margin-top:1px}
 
 /* CARTA EN 3 PARTES */
 .parte{background:var(--bg2);border:1px solid var(--ffaint);border-radius:var(--rl);padding:18px 20px;margin-bottom:12px}
 .parte-cab{display:flex;align-items:center;gap:10px;margin-bottom:6px}
-.parte-icono{width:30px;height:30px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px;font-family:"Barlow Condensed",sans-serif;font-weight:500;flex-shrink:0}
+.parte-icono{width:30px;height:30px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:var(--t-body);font-family:var(--sans);font-weight:500;flex-shrink:0}
 .parte-frente .parte-icono{background:rgba(212,83,126,.15);color:var(--rose);border:1px solid rgba(212,83,126,.35)}
 .parte-aprend .parte-icono{background:rgba(201,168,76,.15);color:var(--gold2);border:1px solid var(--gb)}
 .parte-gracias .parte-icono{background:rgba(74,191,122,.15);color:var(--grn);border:1px solid rgba(74,191,122,.35)}
-.parte-tit{font-size:15px;font-weight:500;color:var(--text)}
-.parte-guia{font-size:13.5px;color:var(--dim);line-height:1.7;margin-bottom:10px;font-style:italic}
-textarea{width:100%;background:var(--bg3);border:1px solid var(--faint);border-radius:var(--rm);color:var(--text);font-family:"Barlow",sans-serif;font-size:15.5px;line-height:1.75;padding:13px 15px;resize:vertical;min-height:90px}
+.parte-tit{font-size:var(--t-body);font-weight:500;color:var(--text)}
+.parte-guia{font-size:var(--t-body);color:var(--dim);line-height:1.7;margin-bottom:10px;font-style:italic}
+textarea{width:100%;background:var(--bg3);border:1px solid var(--faint);border-radius:var(--rm);color:var(--text);font-family:var(--sans);font-size:var(--t-body);line-height:1.75;padding:13px 15px;resize:vertical;min-height:90px}
 textarea:focus{outline:none;border-color:var(--gold)}
 
 .sello{display:flex;align-items:center;gap:12px;background:var(--bg2);border:1px solid var(--ffaint);border-radius:var(--rm);padding:14px 16px;margin-top:6px;cursor:pointer;transition:all .2s}
 .sello.on{border-color:var(--grn);background:rgba(74,191,122,.07)}
-.sello-check{width:26px;height:26px;border-radius:50%;border:1.5px solid var(--faint);display:flex;align-items:center;justify-content:center;font-size:14px;color:#fff;flex-shrink:0}
+.sello-check{width:26px;height:26px;border-radius:50%;border:1.5px solid var(--faint);display:flex;align-items:center;justify-content:center;font-size:var(--t-body);color:#fff;flex-shrink:0}
 .sello.on .sello-check{background:var(--grn);border-color:var(--grn)}
-.sello-texto{font-size:14px;color:var(--text);line-height:1.55}
+.sello-texto{font-size:var(--t-body);color:var(--text);line-height:1.55}
 .sello.on .sello-texto{color:var(--grn)}
 
 .estado-linea{display:flex;gap:10px;align-items:center;margin-top:10px;flex-wrap:wrap}
-.btn-compromiso{background:transparent;color:var(--azul);border:1px solid rgba(90,140,192,.4);border-radius:var(--rm);font-size:12px;padding:8px 14px;cursor:pointer;font-family:"Barlow Condensed",sans-serif;letter-spacing:.06em;text-transform:uppercase}
+.btn-compromiso{background:transparent;color:var(--azul);border:1px solid rgba(90,140,192,.4);border-radius:var(--rm);font-size:var(--t-h2);padding:8px 14px;cursor:pointer;font-family:var(--sans);letter-spacing:.06em;text-transform:uppercase}
 .btn-compromiso.on{background:rgba(90,140,192,.12);color:var(--azul)}
 
 .subpasos{display:flex;gap:6px;justify-content:center;margin-bottom:18px;flex-wrap:wrap}
-.subpaso{padding:6px 12px;border-radius:20px;font-size:11px;letter-spacing:.04em;text-transform:uppercase;border:1px solid var(--ffaint);color:var(--dim);cursor:pointer}
+.subpaso{padding:6px 12px;border-radius:20px;font-size:var(--t-h2);letter-spacing:.04em;text-transform:uppercase;border:1px solid var(--ffaint);color:var(--dim);cursor:pointer}
 .subpaso.activo{border-color:var(--gold);color:var(--gold2);background:var(--gd)}
 .subpaso.hecho{border-color:var(--grn);color:var(--grn)}
 .subpaso.comprom{border-color:var(--azul);color:var(--azul)}
 
 .selector-ciclo{display:flex;gap:7px;flex-wrap:wrap;margin:10px 0 16px}
-.sc-btn{padding:8px 13px;border:1px solid var(--faint);border-radius:var(--rm);font-size:13px;color:var(--dim);cursor:pointer;font-family:"Barlow Condensed",sans-serif;letter-spacing:.04em}
+.sc-btn{padding:8px 13px;border:1px solid var(--faint);border-radius:var(--rm);font-size:var(--t-body);color:var(--dim);cursor:pointer;font-family:var(--sans);letter-spacing:.04em}
 .sc-btn.on{border-color:var(--gold);color:var(--gold2);background:var(--gd)}
 
 .energia-nota{background:rgba(155,107,192,.08);border:1px solid rgba(155,107,192,.25);border-radius:var(--rl);padding:16px 20px;margin-bottom:16px}
-.energia-label{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#B98BD8;margin-bottom:8px}
-.energia-texto{font-size:15px;color:var(--text);line-height:1.85}
+.energia-label{font-size:var(--t-h2);letter-spacing:.07em;text-transform:uppercase;color:#B98BD8;margin-bottom:8px}
+.energia-texto{font-size:var(--t-body);color:var(--text);line-height:1.85}
 .energia-texto b{color:#C9A8E0}
 
 .add-ser{background:var(--bg3);border:1px dashed var(--gb);border-radius:var(--rl);padding:16px 20px;margin-bottom:14px}
-.add-ser input{width:100%;background:var(--bg2);border:1px solid var(--faint);border-radius:var(--rm);color:var(--text);font-family:"Barlow",sans-serif;font-size:15px;padding:11px 14px;margin-top:8px}
+.add-ser input{width:100%;background:var(--bg2);border:1px solid var(--faint);border-radius:var(--rm);color:var(--text);font-family:var(--sans);font-size:var(--t-body);padding:11px 14px;margin-top:8px}
 .add-ser input:focus{outline:none;border-color:var(--gold)}
-.ser-chip{display:inline-flex;align-items:center;gap:8px;background:var(--bg2);border:1px solid var(--ffaint);border-radius:20px;padding:7px 14px;margin:4px 6px 4px 0;font-size:14px;color:var(--text);cursor:pointer}
+.ser-chip{display:inline-flex;align-items:center;gap:8px;background:var(--bg2);border:1px solid var(--ffaint);border-radius:20px;padding:7px 14px;margin:4px 6px 4px 0;font-size:var(--t-body);color:var(--text);cursor:pointer}
 .ser-chip.hecho{border-color:var(--grn);color:var(--grn)}
 .ser-chip.comprom{border-color:var(--azul);color:var(--azul)}
 
 .aura-compara{display:flex;gap:16px;justify-content:center;align-items:center;flex-wrap:wrap;margin:16px 0}
 .aura-col{text-align:center}
-.aura-col-label{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-bottom:8px}
-.aura-flecha{font-size:26px;color:var(--gold)}
+.aura-col-label{font-size:var(--t-h2);letter-spacing:.06em;text-transform:uppercase;color:var(--dim);margin-bottom:8px}
+.aura-flecha{font-size:var(--t-h2);color:var(--gold)}
 
 .compromisos-box{background:rgba(90,140,192,.06);border:1px solid rgba(90,140,192,.3);border-radius:var(--rl);padding:18px 22px;margin-bottom:16px}
-.compromisos-label{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--azul);margin-bottom:12px}
-.compromiso-item{display:flex;gap:10px;align-items:flex-start;padding:8px 0;border-bottom:1px solid var(--ffaint);font-size:14.5px;color:var(--text);line-height:1.6}
+.compromisos-label{font-size:var(--t-h2);letter-spacing:.07em;text-transform:uppercase;color:var(--azul);margin-bottom:12px}
+.compromiso-item{display:flex;gap:10px;align-items:flex-start;padding:8px 0;border-bottom:1px solid var(--ffaint);font-size:var(--t-body);color:var(--text);line-height:1.6}
 .compromiso-item:last-child{border-bottom:none}
 
 .cierre-resumen{background:var(--bg2);border:1px solid var(--gb);border-radius:var(--rl);padding:22px 26px;margin-bottom:18px}
 .cierre-fila{display:flex;justify-content:space-between;align-items:baseline;padding:9px 0;border-bottom:1px solid var(--ffaint)}
 .cierre-fila:last-child{border-bottom:none}
-.cierre-k{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
-.cierre-v{font-size:15px;color:var(--gold2);text-align:right;max-width:56%}
+.cierre-k{font-size:var(--t-h2);letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
+.cierre-v{font-size:var(--t-body);color:var(--gold2);text-align:right;max-width:56%}
 
-.bp{background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--bg);border:none;border-radius:var(--r);font-family:"Barlow Condensed",sans-serif;font-size:13px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;padding:14px 32px;cursor:pointer;transition:opacity .2s,transform .15s}
+.bp{background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--bg);border:none;border-radius:var(--r);font-family:var(--sans);font-size:var(--t-body);font-weight:500;letter-spacing:.06em;text-transform:uppercase;padding:14px 32px;cursor:pointer;transition:opacity .2s,transform .15s}
 .bp:hover{opacity:.9;transform:translateY(-1px)}
-.bs{background:transparent;color:var(--gold);border:1px solid var(--gb);border-radius:var(--r);font-family:"Barlow Condensed",sans-serif;font-size:12px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;padding:12px 24px;cursor:pointer}
+.bs{background:transparent;color:var(--gold);border:1px solid var(--gb);border-radius:var(--r);font-family:var(--sans);font-size:var(--t-h2);font-weight:500;letter-spacing:.06em;text-transform:uppercase;padding:12px 24px;cursor:pointer}
 .nav{display:flex;gap:10px;justify-content:space-between;align-items:center;margin-top:26px;flex-wrap:wrap}
 </style>
 </head>
@@ -392,7 +394,7 @@ function renderNino(){
     frenteHtml='<div class="parte-guia">En este ciclo marcaste en tu camino (tu ECG) estos dolores. Escríbele a quien fuiste sobre cada uno: qué pasó y cómo te hizo sentir.</div>';
     dolores.forEach(function(d,di){
       var val=ct.dolores[di]||'';
-      frenteHtml+='<div style="margin-bottom:12px"><div style="font-size:13.5px;color:var(--rose);margin-bottom:6px">◆ '+d.texto+(d.peso?' <span style="color:var(--faint)">(peso '+d.peso+')</span>':'')+'</div>'+
+      frenteHtml+='<div style="margin-bottom:12px"><div style="font-size:var(--t-body);color:var(--rose);margin-bottom:6px">◆ '+d.texto+(d.peso?' <span style="color:var(--faint)">(peso '+d.peso+')</span>':'')+'</div>'+
         '<textarea placeholder="Sobre esto que viví... yo sentí..." oninput="guardarNinoDolor('+ciclo+','+di+',this.value)">'+val+'</textarea></div>';
     });
   } else {
@@ -418,7 +420,7 @@ function renderNino(){
       '<textarea placeholder="Gracias por sostenerme. Hoy te abrazo y nos sanamos juntos..." oninput="guardarNino('+ciclo+',\'gracias\',this.value)">'+(ct.gracias||'')+'</textarea></div>'+
     '<div class="recordatorio-ritual" style="border-color:var(--rose);color:var(--gold3)">✍ Lo que escribes aquí es tu guía. La carta de verdad se escribe <b style="color:var(--gold2)">a mano, en la hoja en blanco</b> — el cuerpo necesita el gesto de escribir para soltar.</div>'+
     '<div class="sello'+(ct.estado==='hecho'?' on':'')+'" id="sello-nino" onclick="marcarNinoHecho('+ciclo+')"><div class="sello-check">✓</div><div class="sello-texto">Completé el ritual de esta carta: la escribí a mano, la leí mirando la imagen, la rompí y la solté.</div></div>'+
-    '<div class="estado-linea"><span class="ct dim" style="font-size:13.5px">¿Aún no estás listo?</span><button class="btn-compromiso'+(ct.estado==='compromiso'?' on':'')+'" onclick="marcarNinoCompromiso('+ciclo+')">Dejarlo como compromiso</button></div>';
+    '<div class="estado-linea"><span class="ct dim" style="font-size:var(--t-body)">¿Aún no estás listo?</span><button class="btn-compromiso'+(ct.estado==='compromiso'?' on':'')+'" onclick="marcarNinoCompromiso('+ciclo+')">Dejarlo como compromiso</button></div>';
   // textos de navegación según la carta
   var bn=document.getElementById('nino-next');
   if(bn) bn.textContent=(idxNino===ciclosNino.length-1)?'Continuar con mi madre →':'Siguiente carta ('+(idxNino+2)+' de 3) →';
@@ -464,7 +466,7 @@ function renderFamiliar(quien){
         '<div class="label" style="color:var(--gold2)">✦ Lo que ya viste en '+rol+'</div>'+
         '<p class="ct" style="margin-bottom:6px">Cuando recorriste tus ciclos, imaginaste a '+rol+' como '+nin+' y escribiste esto:</p>'+
         '<p class="ct" style="font-style:italic;color:var(--gold3);padding-left:12px;border-left:2px solid var(--gb)">"'+resig[quien].trim().replace(/</g,'&lt;')+'"</p>'+
-        '<p class="ct dim" style="margin-top:8px;font-size:13px">Desde esa comprensión, ahora vas a soltar el juicio. Ya empezaste — este es el paso que lo completa.</p>'+
+        '<p class="ct dim" style="margin-top:8px;font-size:var(--t-body)">Desde esa comprensión, ahora vas a soltar el juicio. Ya empezaste — este es el paso que lo completa.</p>'+
       '</div>';
     }
   }catch(e){}
@@ -479,7 +481,7 @@ function renderFamiliar(quien){
       '<div class="parte-guia">Reconoce lo que aprendiste de todo esto, y dale las gracias.</div>'+
       '<textarea placeholder="Gracias, porque de esto aprendí..." oninput="guardarFam(\''+quien+'\',\'gracias\',this.value)">'+ct.gracias+'</textarea></div>'+
     '<div class="sello'+(ct.estado==='hecho'?' on':'')+'" id="sello-'+quien+'" onclick="marcarFamHecho(\''+quien+'\')"><div class="sello-check">✓</div><div class="sello-texto">Completé el ritual: escribí la carta, la leí mirando su imagen, la rompí y la solté. Suelto el juicio y recuerdo sin dolor.</div></div>'+
-    '<div class="estado-linea"><span class="ct dim" style="font-size:13.5px">¿Aún no estás listo?</span><button class="btn-compromiso'+(ct.estado==='compromiso'?' on':'')+'" onclick="marcarFamCompromiso(\''+quien+'\')">Dejarlo como compromiso</button></div>';
+    '<div class="estado-linea"><span class="ct dim" style="font-size:var(--t-body)">¿Aún no estás listo?</span><button class="btn-compromiso'+(ct.estado==='compromiso'?' on':'')+'" onclick="marcarFamCompromiso(\''+quien+'\')">Dejarlo como compromiso</button></div>';
   cont.innerHTML=sel+energia+guia+resigPrevia+recordatorioRitual()+partes;
   var sc=document.getElementById('sel-'+quien); sc.innerHTML='';
   for(var i=1;i<=9;i++){
@@ -502,7 +504,7 @@ function renderOtros(){
   });
   cont.innerHTML=
     '<div class="add-ser"><div class="label">Agregar a alguien</div>'+
-    '<p class="ct dim" style="font-size:14px">Escribe su nombre o relación (abuela, tío, un maestro, mi jefe, una expareja, yo mismo...) y pulsa Enter.</p>'+
+    '<p class="ct dim" style="font-size:var(--t-body)">Escribe su nombre o relación (abuela, tío, un maestro, mi jefe, una expareja, yo mismo...) y pulsa Enter.</p>'+
     '<input type="text" id="nuevo-ser" placeholder="¿A quién quieres perdonar?" onkeydown="if(event.key===\'Enter\')agregarSer()"></div>'+
     (chips?'<div style="margin-bottom:14px">'+chips+'</div>':'<p class="ct dim" style="text-align:center;margin-bottom:14px">Aún no has agregado a nadie. Empieza por quien tu corazón te indique.</p>')+
     '<div id="ser-editor"></div>';
@@ -550,7 +552,7 @@ function renderAura(luzMap, size){
   });
   defs+='<radialGradient id="pvin-'+size+'" cx="50%" cy="50%" r="62%"><stop offset="62%" stop-color="#0A0F1E" stop-opacity="0"/><stop offset="100%" stop-color="#0A0F1E" stop-opacity="0.92"/></radialGradient>';
   var rc=(size*0.30).toFixed(0);
-  return '<svg viewBox="0 0 '+W+' '+H+'" width="'+size+'" xmlns="http://www.w3.org/2000/svg"><defs>'+defs+'</defs><rect width="'+W+'" height="'+H+'" fill="#0A0F1E"/><g>'+capas+'</g><rect width="'+W+'" height="'+H+'" fill="url(#pvin-'+size+')"/><circle cx="'+cx+'" cy="'+cy+'" r="'+rc+'" fill="#0A0F1E" stroke="rgba(255,255,255,.2)" stroke-width="1"/><text x="'+cx+'" y="'+(cy+7)+'" text-anchor="middle" font-family="Cormorant Garamond, serif" font-size="'+(size*0.18).toFixed(0)+'" fill="#E8C96A">'+iniciales()+'</text></svg>';
+  return '<svg viewBox="0 0 '+W+' '+H+'" width="'+size+'" xmlns="http://www.w3.org/2000/svg"><defs>'+defs+'</defs><rect width="'+W+'" height="'+H+'" fill="#0A0F1E"/><g>'+capas+'</g><rect width="'+W+'" height="'+H+'" fill="url(#pvin-'+size+')"/><circle cx="'+cx+'" cy="'+cy+'" r="'+rc+'" fill="#0A0F1E" stroke="rgba(255,255,255,.2)" stroke-width="1"/><text x="'+cx+'" y="'+(cy+7)+'" text-anchor="middle" font-family="Fraunces, serif" font-size="'+(size*0.18).toFixed(0)+'" fill="#E8C96A">'+iniciales()+'</text></svg>';
 }
 function cuentaHechos(){
   var h=0;
@@ -623,22 +625,22 @@ function barraNivelesHTML(grado){
   s+='</div>';
 
   // marcadores
-  s+='<div style="position:relative;height:52px;font-size:11px">';
-  s+='<div style="position:absolute;left:'+posEnBarra(200)+'%;transform:translateX(-50%);text-align:center;color:var(--dim);white-space:nowrap"><div style="font-size:9px;letter-spacing:.1em">UMBRAL</div><div style="color:#4ABF7A">200</div></div>';
+  s+='<div style="position:relative;height:52px;font-size:var(--t-h2)">';
+  s+='<div style="position:absolute;left:'+posEnBarra(200)+'%;transform:translateX(-50%);text-align:center;color:var(--dim);white-space:nowrap"><div style="font-size:var(--t-h2);letter-spacing:.1em">UMBRAL</div><div style="color:#4ABF7A">200</div></div>';
   if(Math.abs(pM-posEnBarra(200))>8){
-    s+='<div style="position:absolute;left:'+pM+'%;transform:translateX(-50%);text-align:center;white-space:nowrap"><div style="font-size:9px;letter-spacing:.1em;color:var(--dim)">TU META</div><div style="color:var(--gold2)">'+meta+'</div></div>';
+    s+='<div style="position:absolute;left:'+pM+'%;transform:translateX(-50%);text-align:center;white-space:nowrap"><div style="font-size:var(--t-h2);letter-spacing:.1em;color:var(--dim)">TU META</div><div style="color:var(--gold2)">'+meta+'</div></div>';
   }
   s+='</div>';
 
   // antes → después
   s+='<div style="display:flex;justify-content:space-around;align-items:center;text-align:center;margin-top:6px">';
-  s+='<div><div style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);margin-bottom:3px">Antes</div>'+
-     '<div style="font-family:\'Cormorant Garamond\',serif;font-size:26px;color:'+iA.c+'">'+actual+'</div>'+
-     '<div style="font-size:12px;color:var(--dim)">'+iA.t+'</div></div>';
-  s+='<div style="font-size:22px;color:var(--gold)">→</div>';
-  s+='<div><div style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);margin-bottom:3px">Con tu perdón</div>'+
-     '<div style="font-family:\'Cormorant Garamond\',serif;font-size:26px;color:'+iP.c+'">'+proyectado+'</div>'+
-     '<div style="font-size:12px;color:var(--gold3)">'+iP.t+'</div></div>';
+  s+='<div><div style="font-size:var(--t-h2);letter-spacing:.1em;text-transform:uppercase;color:var(--dim);margin-bottom:3px">Antes</div>'+
+     '<div style="font-family:\'Fraunces\',serif;font-size:var(--t-h2);color:'+iA.c+'">'+actual+'</div>'+
+     '<div style="font-size:var(--t-h2);color:var(--dim)">'+iA.t+'</div></div>';
+  s+='<div style="font-size:var(--t-h2);color:var(--gold)">→</div>';
+  s+='<div><div style="font-size:var(--t-h2);letter-spacing:.1em;text-transform:uppercase;color:var(--dim);margin-bottom:3px">Con tu perdón</div>'+
+     '<div style="font-family:\'Fraunces\',serif;font-size:var(--t-h2);color:'+iP.c+'">'+proyectado+'</div>'+
+     '<div style="font-size:var(--t-h2);color:var(--gold3)">'+iP.t+'</div></div>';
   s+='</div>';
 
   // mensaje según el estado de las cartas
@@ -651,7 +653,7 @@ function barraNivelesHTML(grado){
   } else {
     s+='<p class="ct">Todavía no has escrito ninguna carta. <b>Ese número de la derecha es hasta dónde puedes llegar</b> cuando completes tus cuatro perdones. No hay prisa — pero ahí está esperándote.</p>';
   }
-  s+='<p class="ct dim" style="margin-top:10px;font-size:13.5px;font-style:italic">Y mientras más perdones en la vida real, más se sostiene este nivel.</p>';
+  s+='<p class="ct dim" style="margin-top:10px;font-size:var(--t-body);font-style:italic">Y mientras más perdones en la vida real, más se sostiene este nivel.</p>';
   s+='</div></div>';
   return s;
 }
@@ -667,7 +669,7 @@ function renderCierre(){
   if(comp.length){
     ch+='<div class="compromisos-box"><div class="compromisos-label">◷ Tus compromisos de perdón (para cuando estés listo)</div>';
     comp.forEach(function(c){ ch+='<div class="compromiso-item"><span style="color:var(--azul)">◷</span><span>'+c+'</span></div>'; });
-    ch+='<p class="ct dim" style="font-size:13.5px;margin-top:10px">No hay prisa. El perdón llega cuando el corazón está listo. Estos se guardan en tu repositorio de compromisos, esperándote.</p></div>';
+    ch+='<p class="ct dim" style="font-size:var(--t-body);margin-top:10px">No hay prisa. El perdón llega cuando el corazón está listo. Estos se guardan en tu repositorio de compromisos, esperándote.</p></div>';
   }
   // compromisos previos ya consolidados en el repositorio (sesiones anteriores)
   try{
@@ -676,7 +678,7 @@ function renderCierre(){
     if(previos.length){
       ch+='<div class="compromisos-box" style="border-color:var(--gb)"><div class="compromisos-label" style="color:var(--gold2)">✦ Tu repositorio de compromisos (de todo el proceso)</div>';
       previos.forEach(function(k){ var c=repoPrev[k]; ch+='<div class="compromiso-item"><span style="color:var(--gold)">·</span><span>'+(c.nombre||k)+'</span></div>'; });
-      ch+='<p class="ct dim" style="font-size:13.5px;margin-top:10px">Todos tus compromisos se siguen consolidando aquí y en tu Resumen de Conciencia.</p></div>';
+      ch+='<p class="ct dim" style="font-size:var(--t-body);margin-top:10px">Todos tus compromisos se siguen consolidando aquí y en tu Resumen de Conciencia.</p></div>';
     }
   }catch(e){}
   cw.innerHTML=ch;
