@@ -6,61 +6,64 @@
 <title>∀normal — Sesión 3 · ¿Quién soy?</title>
 <link rel="icon" type="image/png" href="favicon.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Barlow:wght@300;400;500&family=Barlow+Condensed:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#060A14;--bg2:#0A0F1E;--bg3:#0E1525;--bg4:#131D30;
-  --gold:#C9A84C;--gold2:#E8C96A;--gold3:#F5E0A0;
+  --serif:'Fraunces',serif;--sans:'Inter',sans-serif;
+  --sesion:#E9A56B;
+  --t-display:44px;--t-h1:28px;--t-h2:20px;--t-h3:20px;--t-body:17px;--t-small:17px;--t-micro:20px;
+  --bg:#1C1712;--bg2:#28211A;--bg3:#332A20;--bg4:#40352A;
+  --gold:#C9A84C;--gold2:#E4C878;--gold3:#F5E0A0;
   --gd:rgba(201,168,76,.13);--gb:rgba(201,168,76,.28);
-  --text:#EAE6DC;--dim:#8A95A8;--faint:#3A4558;--ffaint:#1E2A3A;
-  --grn:#4ABF7A;--rose:#D4537E;
+  --text:#EDE7D9;--dim:#A9B0C0;--faint:#3A4558;--ffaint:#52443A;
+  --grn:#6FA382;--rose:#C77A8E;
   --r:4px;--rm:8px;--rl:14px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font-weight:300;font-size:15px;line-height:1.65;min-height:100vh}
+body{background:var(--bg);color:var(--text);font-family:var(--serif);font-weight:300;font-size:var(--t-body);line-height:1.65;min-height:100vh;background-image:radial-gradient(ellipse 70% 45% at 50% -5%, rgba(233,165,107,.08), transparent)}
 .wrap{max-width:680px;margin:0 auto;padding:24px 20px 60px}
 
 .hdr{display:flex;align-items:center;justify-content:space-between;padding:16px 0 24px;border-bottom:1px solid var(--faint);margin-bottom:28px}
-.hdr-logo{font-family:"Cormorant Garamond",serif;font-size:22px;color:var(--gold2)}
-.hdr-info{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim)}
+.hdr-logo{font-family:var(--serif);font-size:var(--t-h2);color:var(--gold2)}
+.hdr-info{font-size:var(--t-h2);letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
 
 .sesion-marca{text-align:center;margin-bottom:24px}
-.sesion-num{font-family:"Cormorant Garamond",serif;font-size:13px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold)}
+.sesion-num{font-family:var(--serif);font-size:var(--t-body);letter-spacing:.3em;text-transform:uppercase;color:var(--gold)}
 .sesion-line{width:40px;height:1px;background:var(--gb);margin:10px auto}
 
-.label{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:10px}
-.titulo{font-family:"Cormorant Garamond",serif;font-size:clamp(24px,5.5vw,34px);font-weight:300;color:var(--gold2);line-height:1.18;margin-bottom:14px}
-.subtitulo{font-size:14px;color:var(--dim);line-height:1.8;margin-bottom:26px}
+.label{font-size:var(--t-h2);letter-spacing:.08em;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:10px}
+.titulo{font-family:var(--serif);font-size:var(--t-h1);font-weight:300;color:var(--gold2);line-height:1.18;margin-bottom:14px}
+.subtitulo{font-size:var(--t-body);color:var(--dim);line-height:1.8;margin-bottom:26px}
 
 .card{background:var(--bg2);border:1px solid rgba(255,255,255,.055);border-radius:var(--rl);padding:22px 24px;margin-bottom:14px}
 .card.gold{border-color:var(--gb);background:linear-gradient(135deg,var(--bg2),var(--bg3))}
-.ct{font-size:14px;color:var(--text);line-height:1.85}
-.ct.dim{color:var(--dim);font-size:13px}
+.ct{font-size:var(--t-body);color:var(--text);line-height:1.85}
+.ct.dim{color:var(--dim);font-size:var(--t-body)}
 
 .video-box{background:var(--bg3);border:1px dashed var(--faint);border-radius:var(--rl);padding:34px 24px;text-align:center;margin-bottom:18px}
-.video-play{font-size:30px;color:var(--gold);margin-bottom:8px}
-.video-txt{font-size:13px;color:var(--dim)}
-.video-soon{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--faint);margin-top:8px}
+.video-play{font-size:var(--t-h1);color:var(--gold);margin-bottom:8px}
+.video-txt{font-size:var(--t-body);color:var(--dim)}
+.video-soon{font-size:var(--t-h2);letter-spacing:.08em;text-transform:uppercase;color:var(--faint);margin-top:8px}
 
-.quote{font-family:"Cormorant Garamond",serif;font-style:italic;font-size:19px;color:var(--gold3);line-height:1.5;border-left:2px solid var(--gb);padding-left:18px;margin:22px 0}
-.quote-autor{display:block;font-size:11px;font-style:normal;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);margin-top:8px}
+.quote{font-family:var(--serif);font-style:italic;font-size:var(--t-h2);color:var(--gold3);line-height:1.5;border-left:2px solid var(--gb);padding-left:18px;margin:22px 0}
+.quote-autor{display:block;font-size:var(--t-h2);font-style:normal;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);margin-top:8px}
 
 .principio{display:flex;gap:13px;align-items:flex-start;background:var(--bg2);border:1px solid var(--ffaint);border-radius:var(--rl);padding:15px 17px;margin-bottom:9px}
-.principio-num{min-width:42px;height:42px;border-radius:50%;background:var(--gd);border:1px solid var(--gb);display:flex;align-items:center;justify-content:center;font-family:"Cormorant Garamond",serif;font-size:16px;color:var(--gold2);flex-shrink:0}
-.principio-info-tit{font-size:15px;font-weight:500;color:var(--gold2);margin-bottom:3px}
-.principio-info-txt{font-size:13.5px;color:var(--dim);line-height:1.65}
+.principio-num{min-width:42px;height:42px;border-radius:50%;background:var(--gd);border:1px solid var(--gb);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:var(--t-body);color:var(--gold2);flex-shrink:0}
+.principio-info-tit{font-size:var(--t-body);font-weight:500;color:var(--gold2);margin-bottom:3px}
+.principio-info-txt{font-size:var(--t-body);color:var(--dim);line-height:1.65}
 
 .recorrido-mini{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:18px 0 4px}
 .paso-mini{display:flex;align-items:center;gap:8px}
-.paso-dot{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:"Barlow Condensed",sans-serif;font-size:12px;border:1px solid var(--gb);color:var(--gold)}
+.paso-dot{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--sans);font-size:var(--t-h2);border:1px solid var(--gb);color:var(--gold)}
 .paso-dot.done{background:var(--gd);border-color:var(--gold)}
-.paso-label{font-size:11px;color:var(--dim)}
-.paso-sep{color:var(--faint);font-size:12px}
+.paso-label{font-size:var(--t-h2);color:var(--dim)}
+.paso-sep{color:var(--faint);font-size:var(--t-h2)}
 
-.bp{background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--bg);border:none;border-radius:var(--r);font-family:"Barlow Condensed",sans-serif;font-size:12px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;padding:14px 32px;cursor:pointer;transition:opacity .2s,transform .15s}
+.bp{background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--bg);border:none;border-radius:var(--r);font-family:var(--sans);font-size:var(--t-h2);font-weight:500;letter-spacing:.06em;text-transform:uppercase;padding:14px 32px;cursor:pointer;transition:opacity .2s,transform .15s}
 .bp:hover{opacity:.9;transform:translateY(-1px)}
-.bs{background:transparent;color:var(--gold);border:1px solid var(--gb);border-radius:var(--r);font-family:"Barlow Condensed",sans-serif;font-size:11px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;padding:12px 24px;cursor:pointer}
+.bs{background:transparent;color:var(--gold);border:1px solid var(--gb);border-radius:var(--r);font-family:var(--sans);font-size:var(--t-h2);font-weight:500;letter-spacing:.06em;text-transform:uppercase;padding:12px 24px;cursor:pointer}
 .nav{display:flex;gap:10px;justify-content:space-between;align-items:center;margin-top:30px;flex-wrap:wrap}
 .pantalla{display:none}
 .pantalla.visible{display:block;animation:fadeIn .4s ease}
@@ -70,10 +73,10 @@ body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font
 .p-dot.done{background:var(--grn)}
 .p-dot.active{background:var(--gold)}
 .principio-grande{background:linear-gradient(135deg,var(--bg2),var(--bg3));border:1px solid var(--gb);border-radius:var(--rl);padding:28px 26px;margin-bottom:16px;text-align:center}
-.pg-num{font-family:"Cormorant Garamond",serif;font-size:44px;color:var(--gold2);margin-bottom:8px}
-.pg-tit{font-size:20px;font-weight:500;color:var(--gold2);margin-bottom:12px}
-.pg-txt{font-size:15px;color:var(--text);line-height:1.85}
-.principio-comprometido{display:none;text-align:center;color:var(--grn);font-size:14px;margin-top:12px}
+.pg-num{font-family:var(--serif);font-size:var(--t-display);color:var(--gold2);margin-bottom:8px}
+.pg-tit{font-size:var(--t-h2);font-weight:500;color:var(--gold2);margin-bottom:12px}
+.pg-txt{font-size:var(--t-body);color:var(--text);line-height:1.85}
+.principio-comprometido{display:none;text-align:center;color:var(--grn);font-size:var(--t-body);margin-top:12px}
 .principio-comprometido.visible{display:block;animation:fadeIn .3s ease}
 </style>
 </head>
@@ -169,12 +172,12 @@ function hiloLineaHTML(momento){
     cierre: 'Antes de cerrar: ¿cómo lo que descubriste hoy te acerca a transformar <b style="color:'+cfg.color+'">'+cfg.lbl+'</b>? Esa es tu brújula.'
   }[momento] || 'Tu foco en este proceso es <b style="color:'+cfg.color+'">'+cfg.lbl+'</b>.';
   var html = '<div style="background:rgba(255,255,255,.02);border-left:3px solid '+cfg.color+';border-radius:0 10px 10px 0;padding:16px 18px;margin-bottom:18px">';
-  html += '<div style="font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:'+cfg.color+';margin-bottom:8px">'+cfg.emoji+' Tu hilo conductor</div>';
-  html += '<p style="font-size:14.5px;line-height:1.7;color:#EAE6DC;margin:0">'+intro+'</p>';
+  html += '<div style="font-size:var(--t-h2);letter-spacing:.08em;text-transform:uppercase;color:'+cfg.color+';margin-bottom:8px">'+cfg.emoji+' Tu hilo conductor</div>';
+  html += '<p style="font-size:var(--t-body);line-height:1.7;color:#EAE6DC;margin:0">'+intro+'</p>';
   if(reflexion){
     html += '<div style="margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,.06)">';
-    html += '<div style="font-size:11px;color:#9AA5B8;margin-bottom:5px;font-style:italic">Tus propias palabras, sobre de dónde viene:</div>';
-    html += '<p style="font-size:14px;line-height:1.65;color:#C9A84C;margin:0;font-style:italic">"'+reflexion.replace(/</g,'&lt;')+'"</p>';
+    html += '<div style="font-size:var(--t-h2);color:#9AA5B8;margin-bottom:5px;font-style:italic">Tus propias palabras, sobre de dónde viene:</div>';
+    html += '<p style="font-size:var(--t-body);line-height:1.65;color:#C9A84C;margin:0;font-style:italic">"'+reflexion.replace(/</g,'&lt;')+'"</p>';
     html += '</div>';
   }
   html += '</div>';
@@ -220,7 +223,7 @@ function mostrarPrincipio(idx){
   if(!vozEl){
     vozEl=document.createElement('div');
     vozEl.id='pg-voz';
-    vozEl.style.cssText='font-family:"Cormorant Garamond",serif;font-size:19px;font-style:italic;line-height:1.5;color:var(--gold2);margin:10px 0 14px;padding-left:14px;border-left:2px solid var(--gb)';
+    vozEl.style.cssText='font-family:var(--serif);font-size:var(--t-h2);font-style:italic;line-height:1.5;color:var(--gold2);margin:10px 0 14px;padding-left:14px;border-left:2px solid var(--gb)';
     var tit=document.getElementById('pg-tit');
     tit.parentNode.insertBefore(vozEl, tit.nextSibling);
   }
