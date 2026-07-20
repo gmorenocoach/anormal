@@ -9,7 +9,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
-  --serif:'Fraunces',serif;--sans:'Inter',sans-serif;
+  --serif:'Fraunces',serif;--lienzo:#F4EFE3;--sans:'Inter',sans-serif;
   --sesion:#7FA98A;
   --t-display:44px;--t-h1:28px;--t-h2:20px;--t-h3:20px;--t-body:17px;--t-small:17px;--t-micro:20px;--bg:#0C1512;--bg2:#13201A;--bg3:#192B22;--bg4:#20372C;--gold:#C9A84C;--gold2:#E4C878;--gold3:#F5E0A0;--gd:rgba(201,168,76,.13);--gb:rgba(201,168,76,.28);--text:#EDE7D9;--dim:#A9B0C0;--faint:#3A4558;--ffaint:#26402F;--grn:#6FA382;--rose:#C77A8E;--azul:#5A8CC0;--r:4px;--rm:8px;--rl:14px;}
 *{box-sizing:border-box;margin:0;padding:0}
@@ -45,9 +45,10 @@ body{background:var(--bg);color:var(--text);font-family:var(--serif);font-weight
 .activar-btn:hover{border-color:var(--faint)}
 .activar-btn.on{background:rgba(74,191,122,.15);border-color:var(--grn);color:var(--grn)}
 .flecha-card.activar-on{background:rgba(74,191,122,.05)}
+.lienzo-grafico{background:var(--lienzo,#F4EFE3);border-radius:16px;padding:20px 16px;margin:0 0 16px}
 .cuadro-demo{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;max-width:180px;margin:0 auto 14px}
-.cd-cell{aspect-ratio:1;display:flex;align-items:center;justify-content:center;border:1px solid var(--ffaint);border-radius:var(--rm);font-family:var(--serif);font-size:var(--t-h2);color:var(--dim);background:var(--bg3)}
-.cd-cell.on{border-color:var(--gold);background:var(--gd);color:var(--gold2)}
+.cd-cell{aspect-ratio:1;display:flex;align-items:center;justify-content:center;border:1px solid #D8CBB2;border-radius:var(--rm);font-family:var(--serif);font-size:var(--t-h2);color:#9A8060;background:#EAE0CC}
+.cd-cell.on{border-color:#A88A2E;background:#F0E4C0;color:#7A5F1E}
 .cuadro-res{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;max-width:200px;margin:0 auto 20px}
 .seccion-lbl.fort{color:var(--grn)}
 .seccion-lbl.vac{color:var(--azul)}
@@ -80,11 +81,11 @@ body{background:var(--bg);color:var(--text);font-family:var(--serif);font-weight
 
     <div class="card gold"><div class="label">El cuadro numerológico</div>
       <p class="ct" style="margin-bottom:14px">Cada número tiene una posición fija. Los que están en tu fecha se "encienden"; los que faltan quedan apagados. Las líneas que se forman son tus flechas.</p>
-      <div class="cuadro-demo">
+      <div class="lienzo-grafico"><div class="cuadro-demo">
         <div class="cd-cell">3</div><div class="cd-cell">6</div><div class="cd-cell">9</div>
         <div class="cd-cell">2</div><div class="cd-cell">5</div><div class="cd-cell">8</div>
         <div class="cd-cell">1</div><div class="cd-cell">4</div><div class="cd-cell">7</div>
-      </div>
+      </div></div>
       <p class="ct dim" style="font-size:var(--t-body)">Ejemplo: si tienes el 1, el 4 y el 7 (la columna izquierda), formas la Flecha de la Determinación.</p>
     </div>
 
@@ -397,7 +398,7 @@ function chipNums(nums, pres){
 }
 function cuadroUsuario(){
   var orden=[3,6,9,2,5,8,1,4,7];
-  return '<div class="cuadro-res">'+orden.map(function(n){var on=presentes.indexOf(n)>=0;return '<div class="cd-cell'+(on?' on':'')+'">'+n+'</div>';}).join('')+'</div>';
+  return '<div class="lienzo-grafico"><div class="cuadro-res">'+orden.map(function(n){var on=presentes.indexOf(n)>=0;return '<div class="cd-cell'+(on?' on':'')+'">'+n+'</div>';}).join('')+'</div></div>';
 }
 function renderFlechas(){
   var cont=document.getElementById('flechas-contenido');
