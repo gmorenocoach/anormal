@@ -9,7 +9,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
-  --serif:'Fraunces',serif;--sans:'Inter',sans-serif;
+  --serif:'Fraunces',serif;--lienzo:#F4EFE3;--sans:'Inter',sans-serif;
   --sesion:#7FA98A;
   --t-display:44px;--t-h1:28px;--t-h2:20px;--t-h3:20px;--t-body:17px;--t-small:17px;--t-micro:20px;
   --bg:#0C1512;--bg2:#13201A;--bg3:#192B22;--bg4:#20372C;
@@ -78,12 +78,12 @@ textarea:focus{outline:none;border-color:var(--gold)}
 .nav{display:flex;gap:10px;justify-content:space-between;align-items:center;margin-top:26px;flex-wrap:wrap}
 
 .cifras-grid{display:flex;gap:12px;margin-bottom:18px}
-.cifras-col{flex:1;background:var(--bg3);border:1px solid var(--ffaint);border-radius:var(--rl);padding:14px}
-.cifras-tit{font-size:var(--t-h2);letter-spacing:.12em;text-transform:uppercase;color:var(--gold2);text-align:center;margin-bottom:10px}
-.cifra-chip{display:flex;justify-content:space-between;align-items:center;padding:6px 10px;margin-bottom:5px;background:var(--bg2);border-radius:var(--rm)}
-.cifra-chip.destac{border:1px solid var(--gb)}
-.cifra-rol{font-size:var(--t-h2);color:var(--dim);letter-spacing:.06em;text-transform:uppercase}
-.cifra-num{font-family:var(--serif);font-size:var(--t-h2);color:var(--gold2)}
+.cifras-col{flex:1;background:var(--lienzo,#F4EFE3);border:1px solid #D8CBB2;border-radius:var(--rl);padding:14px}
+.cifras-tit{font-size:var(--t-h2);letter-spacing:.06em;text-transform:uppercase;color:#7A5F1E;text-align:center;margin-bottom:10px}
+.cifra-chip{display:flex;justify-content:space-between;align-items:center;padding:6px 10px;margin-bottom:5px;background:#EAE0CC;border-radius:var(--rm)}
+.cifra-chip.destac{border:1px solid #A88A2E}
+.cifra-rol{font-size:var(--t-h2);color:#9A8060;letter-spacing:.06em;text-transform:uppercase}
+.cifra-num{font-family:var(--serif);font-size:var(--t-h2);color:#7A5F1E}
 .cap{margin-bottom:16px}
 .cap-lbl{font-size:var(--t-h2);letter-spacing:.06em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--ffaint)}
 .cap .ct{margin-bottom:10px}
