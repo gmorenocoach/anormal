@@ -30,6 +30,9 @@ body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font
 
 .pantalla{display:none;animation:fadeIn .4s ease}
 .pantalla.visible{display:block}
+.video-wrap{position:relative;width:100%;padding-bottom:56.25%;height:0;margin-bottom:24px;border-radius:14px;overflow:hidden;border:1px solid var(--gb);background:var(--bg2)}
+.video-wrap iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0}
+
 @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 
 .label{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:10px}
@@ -96,6 +99,14 @@ body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font
     <div class="label" id="p0-label">Tu punto de partida</div>
     <h1 class="titulo" id="p0-titulo">¿Desde dónde estás operando hoy?</h1>
     <p class="subtitulo" id="p0-sub"></p>
+
+    <div class="video-wrap">
+      <iframe src="https://www.youtube.com/embed/RLINbgM819c?rel=0"
+              title="Tu línea de trabajo — ∀normal"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen></iframe>
+    </div>
 
     <div class="card gold" style="margin-bottom:16px">
       <div class="label">Lo que nadie te explicó</div>
