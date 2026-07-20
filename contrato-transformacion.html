@@ -6,49 +6,51 @@
 <title>∀normal — Tu Reto de Transformación</title>
 <link rel="icon" type="image/png" href="favicon.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Barlow:wght@300;400;500&family=Barlow+Condensed:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#060A14;--bg2:#0A0F1E;--bg3:#0E1525;--gold:#C9A84C;--gold2:#E8C96A;--gb:rgba(201,168,76,.28);--gd:rgba(201,168,76,.13);--text:#EAE6DC;--dim:#8A95A8;--faint:#3A4558;--ffaint:#1E2A3A;--r:4px;--rm:8px;--rl:14px}
+:root{
+  --serif:'Fraunces',serif;--sans:'Inter',sans-serif;
+  --t-display:44px;--t-h1:28px;--t-h2:20px;--t-h3:20px;--t-body:17px;--t-small:17px;--t-micro:20px;--bg:#0A101E;--bg2:#111A2C;--bg3:#16223A;--gold:#C9A84C;--gold2:#E4C878;--gb:rgba(201,168,76,.28);--gd:rgba(201,168,76,.13);--text:#EDE7D9;--dim:#A9B0C0;--faint:#3A4558;--ffaint:#22304A;--r:4px;--rm:8px;--rl:14px}
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font-weight:300;font-size:17px;line-height:1.7;min-height:100vh}
+body{background:var(--bg);color:var(--text);font-family:var(--serif);font-weight:300;font-size:var(--t-body);line-height:1.7;min-height:100vh;background-image:radial-gradient(ellipse 70% 45% at 50% -5%, rgba(201,168,76,.06), transparent)}
 .wrap{max-width:680px;margin:0 auto;padding:24px 20px 60px}
 .hdr{display:flex;align-items:center;justify-content:space-between;padding:16px 0 24px;border-bottom:1px solid var(--faint);margin-bottom:32px}
-.logo{font-family:"Cormorant Garamond",serif;font-size:22px;color:var(--gold2)}
-.label{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:10px}
+.logo{font-family:var(--serif);font-size:var(--t-h2);color:var(--gold2)}
+.label{font-size:var(--t-h2);letter-spacing:.08em;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:10px}
 .video-placeholder{background:var(--bg2);border:1px solid var(--faint);border-radius:var(--rl);aspect-ratio:16/9;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;margin-bottom:24px}
-.vp-icono{width:52px;height:52px;border-radius:50%;border:1px solid var(--gb);display:flex;align-items:center;justify-content:center;color:var(--gold2);font-size:17px}
-.vp-txt{font-size:14px;color:var(--dim);text-align:center;line-height:1.5}
-.vp-sub{font-size:11px;opacity:.6}
+.vp-icono{width:52px;height:52px;border-radius:50%;border:1px solid var(--gb);display:flex;align-items:center;justify-content:center;color:var(--gold2);font-size:var(--t-body)}
+.vp-txt{font-size:var(--t-body);color:var(--dim);text-align:center;line-height:1.5}
+.vp-sub{font-size:var(--t-h2);opacity:.6}
 .video-wrap{position:relative;width:100%;padding-bottom:56.25%;height:0;margin-bottom:24px;border-radius:var(--rl);overflow:hidden;border:1px solid var(--gb);background:var(--bg2)}
 .video-wrap iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0}
-.titulo{font-family:"Cormorant Garamond",serif;font-size:clamp(28px,5.5vw,40px);font-weight:300;color:var(--gold2);line-height:1.2;margin-bottom:16px}
-.subtitulo{font-size:15.5px;color:var(--dim);line-height:1.8;margin-bottom:24px}
+.titulo{font-family:var(--serif);font-size:var(--t-h1);font-weight:300;color:var(--gold2);line-height:1.2;margin-bottom:16px}
+.subtitulo{font-size:var(--t-body);color:var(--dim);line-height:1.8;margin-bottom:24px}
 .card{background:var(--bg2);border:1px solid rgba(255,255,255,.055);border-radius:var(--rl);padding:20px 24px;margin-bottom:16px}
 .card.gold{border-color:var(--gb);background:linear-gradient(135deg,var(--bg2),var(--bg3))}
-.ct{font-size:15.5px;color:var(--text);line-height:1.8}
+.ct{font-size:var(--t-body);color:var(--text);line-height:1.8}
 .compromiso-item{display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--ffaint)}
 .compromiso-item:last-child{border-bottom:none}
 .check-box{min-width:20px;height:20px;border-radius:4px;border:2px solid var(--faint);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;margin-top:2px}
 .check-box.marcado{background:var(--gold);border-color:var(--gold)}
-.check-box.marcado::after{content:"✓";color:var(--bg);font-size:11px;font-weight:700}
-.compromiso-texto{font-size:13px;color:var(--text);line-height:1.65}
-.declaracion-input{width:100%;background:var(--bg3);border:1px solid var(--faint);border-radius:var(--rm);padding:12px 14px;font-size:14px;color:var(--text);font-family:"Barlow",sans-serif;font-weight:300;margin-bottom:8px;outline:none;transition:border-color .2s}
+.check-box.marcado::after{content:"✓";color:var(--bg);font-size:var(--t-h2);font-weight:700}
+.compromiso-texto{font-size:var(--t-body);color:var(--text);line-height:1.65}
+.declaracion-input{width:100%;background:var(--bg3);border:1px solid var(--faint);border-radius:var(--rm);padding:12px 14px;font-size:var(--t-body);color:var(--text);font-family:var(--sans);font-weight:300;margin-bottom:8px;outline:none;transition:border-color .2s}
 .declaracion-input:focus{border-color:var(--gold)}
-.firma-area{border-bottom:2px solid var(--gold);padding:8px 0;margin-bottom:16px;font-family:"Cormorant Garamond",serif;font-size:18px;color:var(--gold2);min-height:40px}
-.progreso{font-size:11px;color:var(--dim);text-align:center;margin:8px 0}
-.bp{background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--bg);border:none;border-radius:var(--r);font-family:"Barlow Condensed",sans-serif;font-size:12px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;padding:13px 30px;cursor:pointer;transition:opacity .2s}
+.firma-area{border-bottom:2px solid var(--gold);padding:8px 0;margin-bottom:16px;font-family:var(--serif);font-size:var(--t-h2);color:var(--gold2);min-height:40px}
+.progreso{font-size:var(--t-h2);color:var(--dim);text-align:center;margin:8px 0}
+.bp{background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--bg);border:none;border-radius:var(--r);font-family:var(--sans);font-size:var(--t-h2);font-weight:500;letter-spacing:.06em;text-transform:uppercase;padding:13px 30px;cursor:pointer;transition:opacity .2s}
 .bp:disabled{opacity:.4;cursor:not-allowed}
-.bs{background:transparent;color:var(--gold);border:1px solid var(--gb);border-radius:var(--r);font-family:"Barlow Condensed",sans-serif;font-size:11px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;padding:11px 22px;cursor:pointer}
+.bs{background:transparent;color:var(--gold);border:1px solid var(--gb);border-radius:var(--r);font-family:var(--sans);font-size:var(--t-h2);font-weight:500;letter-spacing:.06em;text-transform:uppercase;padding:11px 22px;cursor:pointer}
 .nav{display:flex;gap:10px;justify-content:flex-end;margin-top:24px}
 .pantalla{display:none;animation:fadeIn .4s ease}
 .pantalla.visible{display:block}
 @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
-.yo-soy-line{font-family:"Cormorant Garamond",serif;font-size:28px;color:var(--gold2);border-bottom:1px solid var(--gold);padding-bottom:6px;margin-bottom:20px;display:flex;align-items:baseline;gap:10px}
-.yo-soy-nombre{flex:1;background:transparent;border:none;outline:none;font-family:"Cormorant Garamond",serif;font-size:28px;color:var(--gold2);font-weight:300}
+.yo-soy-line{font-family:var(--serif);font-size:var(--t-h1);color:var(--gold2);border-bottom:1px solid var(--gold);padding-bottom:6px;margin-bottom:20px;display:flex;align-items:baseline;gap:10px}
+.yo-soy-nombre{flex:1;background:transparent;border:none;outline:none;font-family:var(--serif);font-size:var(--t-h1);color:var(--gold2);font-weight:300}
 .sello{text-align:center;padding:32px 20px}
-.sello-icono{font-family:"Cormorant Garamond",serif;font-size:72px;color:var(--gold2);margin-bottom:12px;display:block}
-.sello-titulo{font-family:"Cormorant Garamond",serif;font-size:28px;color:var(--gold2);margin-bottom:8px}
-.sello-sub{font-size:13px;color:var(--dim);line-height:1.8;max-width:460px;margin:0 auto 24px}
+.sello-icono{font-family:var(--serif);font-size:var(--t-display);color:var(--gold2);margin-bottom:12px;display:block}
+.sello-titulo{font-family:var(--serif);font-size:var(--t-h1);color:var(--gold2);margin-bottom:8px}
+.sello-sub{font-size:var(--t-body);color:var(--dim);line-height:1.8;max-width:460px;margin:0 auto 24px}
 </style>
 </head>
 <body>
@@ -89,9 +91,9 @@ body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font
       <div style="border-top:1px solid var(--ffaint);padding-top:14px">
         <div class="label" style="margin-bottom:8px">Fecha de nacimiento</div>
         <input id="input-fecha" type="date"
-          style="width:100%;background:var(--bg3);border:1px solid var(--faint);border-radius:var(--rm);padding:11px 14px;font-size:14px;color:var(--text);outline:none;font-family:'Barlow',sans-serif;font-weight:300"
+          style="width:100%;background:var(--bg3);border:1px solid var(--faint);border-radius:var(--rm);padding:11px 14px;font-size:var(--t-body);color:var(--text);outline:none;font-family:var(--sans);font-weight:300"
           onchange="verificarNombre()">
-        <p class="ct" style="font-size:11px;margin-top:6px">Tu fecha de nacimiento alimenta los cálculos numerológicos del proceso. Ingrésala tal como aparece en tu documento.</p>
+        <p class="ct" style="font-size:var(--t-h2);margin-top:6px">Tu fecha de nacimiento alimenta los cálculos numerológicos del proceso. Ingrésala tal como aparece en tu documento.</p>
       </div>
     </div>
 
@@ -125,10 +127,10 @@ body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font
 
     <div class="card gold" style="margin-bottom:16px">
       <div class="label" style="margin-bottom:8px">Mi propósito más profundo al emprender este camino ∀normal es:</div>
-      <textarea id="intencion" placeholder="Al completar este proceso, quiero ser capaz de..." style="width:100%;background:var(--bg3);border:1px solid var(--faint);border-radius:var(--rm);padding:12px 14px;font-size:14px;color:var(--text);font-family:Barlow,sans-serif;font-weight:300;resize:none;min-height:80px;line-height:1.7;outline:none;margin-bottom:12px" oninput="this.style.height='auto';this.style.height=this.scrollHeight+'px';verificarIntencion()"></textarea>
+      <textarea id="intencion" placeholder="Al completar este proceso, quiero ser capaz de..." style="width:100%;background:var(--bg3);border:1px solid var(--faint);border-radius:var(--rm);padding:12px 14px;font-size:var(--t-body);color:var(--text);font-family:var(--sans);font-weight:300;resize:none;min-height:80px;line-height:1.7;outline:none;margin-bottom:12px" oninput="this.style.height='auto';this.style.height=this.scrollHeight+'px';verificarIntencion()"></textarea>
 
       <div class="label" style="margin-bottom:8px">Al completar esta mentoría, me veré a mí mismo como:</div>
-      <textarea id="vision" placeholder="Una persona que..." style="width:100%;background:var(--bg3);border:1px solid var(--faint);border-radius:var(--rm);padding:12px 14px;font-size:14px;color:var(--text);font-family:Barlow,sans-serif;font-weight:300;resize:none;min-height:60px;line-height:1.7;outline:none" oninput="this.style.height='auto';this.style.height=this.scrollHeight+'px';verificarIntencion()"></textarea>
+      <textarea id="vision" placeholder="Una persona que..." style="width:100%;background:var(--bg3);border:1px solid var(--faint);border-radius:var(--rm);padding:12px 14px;font-size:var(--t-body);color:var(--text);font-family:var(--sans);font-weight:300;resize:none;min-height:60px;line-height:1.7;outline:none" oninput="this.style.height='auto';this.style.height=this.scrollHeight+'px';verificarIntencion()"></textarea>
     </div>
 
     <div class="nav">
@@ -143,15 +145,15 @@ body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font
     <h1 class="titulo">La firma.</h1>
 
     <div class="card" style="margin-bottom:20px">
-      <p class="ct" style="margin-bottom:16px;font-style:italic;font-size:14px;line-height:1.8">"Con esta firma, declaro la guerra a mi mediocridad. Elijo conscientemente el camino menos transitado, sabiendo que me llevará a convertirme en la persona extraordinaria que está destinada a emerger de mí."</p>
-      <p class="ct" style="margin-bottom:16px;font-style:italic;font-size:14px;line-height:1.8">"Acepto que habrá días difíciles, momentos de duda y voces que me inviten a regresar a lo normal. En esos momentos, recordaré este compromiso y elegiré nuevamente ser ∀normal."</p>
-      <p class="ct" style="font-style:italic;font-size:14px;line-height:1.8">"Este reto es mi pacto con mi potencial más elevado."</p>
+      <p class="ct" style="margin-bottom:16px;font-style:italic;font-size:var(--t-body);line-height:1.8">"Con esta firma, declaro la guerra a mi mediocridad. Elijo conscientemente el camino menos transitado, sabiendo que me llevará a convertirme en la persona extraordinaria que está destinada a emerger de mí."</p>
+      <p class="ct" style="margin-bottom:16px;font-style:italic;font-size:var(--t-body);line-height:1.8">"Acepto que habrá días difíciles, momentos de duda y voces que me inviten a regresar a lo normal. En esos momentos, recordaré este compromiso y elegiré nuevamente ser ∀normal."</p>
+      <p class="ct" style="font-style:italic;font-size:var(--t-body);line-height:1.8">"Este reto es mi pacto con mi potencial más elevado."</p>
     </div>
 
     <div class="card gold">
       <div class="label" style="margin-bottom:12px">Escribe tu nombre para firmar</div>
-      <input id="firma-input" type="text" placeholder="Firma con tu nombre completo..." style="width:100%;background:transparent;border:none;border-bottom:2px solid var(--gold);padding:8px 0;font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--gold2);outline:none;margin-bottom:12px" oninput="verificarFirma()">
-      <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--dim)">
+      <input id="firma-input" type="text" placeholder="Firma con tu nombre completo..." style="width:100%;background:transparent;border:none;border-bottom:2px solid var(--gold);padding:8px 0;font-family:var(--serif);font-size:var(--t-h2);color:var(--gold2);outline:none;margin-bottom:12px" oninput="verificarFirma()">
+      <div style="display:flex;justify-content:space-between;font-size:var(--t-h2);color:var(--dim)">
         <span id="firma-fecha"></span>
         <span id="firma-lugar">Colombia</span>
       </div>
@@ -170,7 +172,7 @@ body{background:var(--bg);color:var(--text);font-family:"Barlow",sans-serif;font
       <h2 class="sello-titulo">Aceptaste el reto.</h2>
       <p class="sello-sub">Desde este momento, eres ∀normal. No porque seas perfecto — sino porque elegiste conscientemente dejar de ser ordinario. Ese es el único requisito.</p>
       <div style="padding:14px 18px;border-left:3px solid var(--gold);background:var(--bg3);border-radius:0 var(--rl) var(--rl) 0;text-align:left;margin-bottom:24px">
-        <p style="font-family:'Cormorant Garamond',serif;font-size:16px;font-style:italic;color:var(--gold2);line-height:1.7">"El momento en que te comprometes de verdad, la providencia también se mueve. Todo tipo de cosas ocurren para ayudarte, cosas que nunca hubieran ocurrido de otra manera."</p>
+        <p style="font-family:var(--serif);font-size:var(--t-body);font-style:italic;color:var(--gold2);line-height:1.7">"El momento en que te comprometes de verdad, la providencia también se mueve. Todo tipo de cosas ocurren para ayudarte, cosas que nunca hubieran ocurrido de otra manera."</p>
       </div>
       <button class="bp" onclick="irAlProceso()">Comenzar la Sesión 1 →</button>
     </div>
