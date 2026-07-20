@@ -9,7 +9,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
-  --serif:'Fraunces',serif;--sans:'Inter',sans-serif;
+  --serif:'Fraunces',serif;--lienzo:#F4EFE3;--sans:'Inter',sans-serif;
   --sesion:#7FA98A;
   --t-display:44px;--t-h1:28px;--t-h2:20px;--t-h3:20px;--t-body:17px;--t-small:17px;--t-micro:20px;--bg:#0C1512;--bg2:#13201A;--bg3:#192B22;--bg4:#20372C;--gold:#C9A84C;--gold2:#E4C878;--gold3:#F5E0A0;--gd:rgba(201,168,76,.13);--gb:rgba(201,168,76,.28);--text:#EDE7D9;--dim:#A9B0C0;--faint:#3A4558;--ffaint:#26402F;--grn:#6FA382;--rose:#C77A8E;--azul:#5A8CC0;--r:4px;--rm:8px;--rl:14px;}
 *{box-sizing:border-box;margin:0;padding:0}
@@ -37,12 +37,13 @@ body{background:var(--bg);color:var(--text);font-family:var(--serif);font-weight
 .video-opcional .vo-play{font-size:var(--t-h2);color:var(--gold);flex-shrink:0}
 .video-opcional .vo-tit{font-size:var(--t-body);color:var(--text)}
 .video-opcional .vo-sub{font-size:var(--t-h2);letter-spacing:.06em;text-transform:uppercase;color:var(--faint);margin-top:3px}
-.grid-nums{display:flex;gap:5px;margin:16px 0;justify-content:center;flex-wrap:nowrap}
-.gn{flex:1;max-width:52px;min-width:28px;aspect-ratio:1;border-radius:var(--rm);display:flex;flex-direction:column;align-items:center;justify-content:center;border:1px solid var(--ffaint);background:var(--bg3);cursor:pointer;transition:all .25s}
-.gn.pres{border-color:var(--gold);background:var(--gd);box-shadow:0 0 0 1px var(--gb)}
-.gn.aus{border-color:var(--ffaint);opacity:.45}
-.gn-num{font-family:var(--serif);font-size:var(--t-h2);color:var(--gold2)}
-.gn.aus .gn-num{color:var(--faint)}
+.lienzo-grafico{background:var(--lienzo,#F4EFE3);border-radius:16px;padding:20px 14px;margin:16px 0}
+.grid-nums{display:flex;gap:5px;margin:0;justify-content:center;flex-wrap:nowrap}
+.gn{flex:1;max-width:52px;min-width:28px;aspect-ratio:1;border-radius:var(--rm);display:flex;flex-direction:column;align-items:center;justify-content:center;border:1px solid #D8CBB2;background:#EAE0CC;cursor:pointer;transition:all .25s}
+.gn.pres{border-color:#A88A2E;background:#F0E4C0;box-shadow:0 0 0 1px rgba(168,138,46,.4)}
+.gn.aus{border-color:#D8CBB2;opacity:.4}
+.gn-num{font-family:var(--serif);font-size:var(--t-h2);color:#7A5F1E}
+.gn.aus .gn-num{color:#B0A085}
 .gn-estado{display:none}
 @keyframes resaltar{0%{transform:scale(1)}50%{transform:scale(1.15)}100%{transform:scale(1)}}
 .gn.pres.animar{animation:resaltar .5s ease}
@@ -84,7 +85,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--serif);font-weight
     <h1 class="titulo">Esto tienes, esto vienes a desarrollar.</h1>
     <p class="subtitulo" style="margin-bottom:14px">Aquí están los números del 1 al 9. Los <b style="color:var(--gold2)">dorados</b> son los que tienes en tu fecha: tus <b>habilidades</b>. Los <b>apagados</b> son los que te faltan: lo que <b>viniste a aprender</b> — y que la vida, o alguien que llegará a ella, te ayudará a desarrollar. Toca cada uno para ver su significado.</p>
     <div class="leyenda"><span><span class="dot p"></span>Presente (habilidad)</span><span><span class="dot a"></span>Ausente (aprendizaje)</span></div>
-    <div class="grid-nums" id="grid"></div>
+    <div class="lienzo-grafico"><div class="grid-nums" id="grid"></div></div>
     <div id="mapa-detalle"></div>
     <div class="nav"><button class="bs" onclick="irA(0)">← Anterior</button><button class="bp" onclick="continuar()">Continuar con mis Flechas →</button></div>
   </div>
