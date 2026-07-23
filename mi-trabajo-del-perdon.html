@@ -84,6 +84,8 @@ body{background:var(--bg);color:var(--text);font-family:var(--serif);font-weight
 .parte-tit{font-size:var(--t-body);font-weight:500;color:var(--text)}
 .parte-guia{font-size:var(--t-body);color:var(--dim);line-height:1.7;margin-bottom:10px;font-style:italic}
 .descarga-carta{text-align:center;margin:16px 0}
+.btn-borrador{background:var(--gd);border:1px solid var(--gold);color:var(--gold2);border-radius:var(--rm);padding:11px 20px;font-family:var(--sans);font-size:var(--t-body);cursor:pointer;margin-top:12px;transition:all .2s}
+.btn-borrador:hover{background:rgba(201,168,76,.22)}
 .btn-descarga{background:transparent;border:1px solid var(--gb);color:var(--gold2);border-radius:var(--rm);padding:12px 22px;font-family:var(--sans);font-size:var(--t-body);cursor:pointer;transition:all .2s}
 .btn-descarga:hover{background:var(--gd);border-color:var(--gold)}
 .intro-carta{background:var(--bg3);border-left:2px solid var(--gold);border-radius:var(--rm);padding:14px 16px;margin-bottom:16px}
@@ -493,7 +495,11 @@ function descargarCarta(quien){
   html += '.blq h2{font-size:12pt;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:#8A6D24;margin:0 0 .4cm;padding-bottom:.2cm;border-bottom:1px solid #E0D5BC}';
   html += '.blq p{margin:0;white-space:pre-wrap;font-weight:300}';
   html += '.vacio{color:#A89B85;font-style:italic}';
-  html += '.pie{margin-top:2.5cm;padding-top:1cm;border-top:1px solid #C9A84C;text-align:center;font-size:10pt;color:#7A6A55;font-style:italic}';
+  html += '.ritual-llamado{margin-top:2.5cm;padding:1cm;background:#F7F2E6;border:1px solid #C9A84C;border-radius:.3cm;page-break-inside:avoid}';
+  html += '.ritual-llamado h3{font-size:13pt;font-weight:500;color:#8A6D24;margin:0 0 .5cm;text-align:center}';
+  html += '.ritual-llamado p{font-size:11pt;margin:0 0 .4cm;font-weight:300;line-height:1.7}';
+  html += '.ritual-llamado .cierre{text-align:center;font-style:italic;color:#8A6D24;margin-top:.6cm;margin-bottom:0}';
+  html += '.pie{margin-top:1.2cm;text-align:center;font-size:10pt;color:#7A6A55;font-style:italic}';
   html += '</style></head><body>';
   html += '<div class="cab"><h1>'+titulo+'</h1><div class="meta">'+(nombre?nombre+' · ':'')+hoy+'</div></div>';
   bloques.forEach(function(b){
@@ -501,7 +507,13 @@ function descargarCarta(quien){
     html += b.v.trim() ? '<p>'+b.v.replace(/</g,'&lt;')+'</p>' : '<p class="vacio">— sin escribir —</p>';
     html += '</div>';
   });
-  html += '<div class="pie">Esta carta no se entrega. Se escribe para soltar.<br>∀normal · abraza tu esencia</div>';
+  html += '<div class="ritual-llamado">';
+  html += '<h3>Llegó la hora de escribirla de tu puño y letra</h3>';
+  html += '<p>Este es solo tu borrador. La carta que sana es la que <b>escribes a mano</b>, porque ahí el cuerpo participa y algo se mueve que no se mueve tecleando.</p>';
+  html += '<p><b>Completa el ritual:</b> una hoja en blanco, la foto de esa persona, un vaso de agua cerca. Escribe la carta con tu letra, agrega lo que sientas, lee en voz alta mirando la imagen. Y al final, rompe la carta y suéltala.</p>';
+  html += '<p class="cierre">Esta carta no se entrega. Se escribe para soltar.</p>';
+  html += '</div>';
+  html += '<div class="pie">∀normal · abraza tu esencia</div>';
   html += '</body></html>';
 
   var w = window.open('', '_blank');
@@ -511,51 +523,128 @@ function descargarCarta(quien){
   setTimeout(function(){ w.print(); }, 600);
 }
 
-// ── GUÍA PROFUNDA: EL SENTIDO DE CADA PALABRA ────────────────────────────
-// La esencia: cada palabra no libera al otro — te libera a ti.
+
+// ── BORRADOR ASISTIDO: rompe la página en blanco ─────────────────────────
+// Toma lo que la persona YA identificó en su proceso y arma un punto de partida.
+function construirBorrador(quien){
+  var nombre = localStorage.getItem('anormal_nombre') || '';
+  var rol = (quien==='madre') ? 'Mamá' : (quien==='padre') ? 'Papá' : (quien==='nino') ? 'Pequeño' : '';
+  var nin = (quien==='madre') ? 'niña' : 'niño';
+  var vivo = (quien==='madre') ? 'viva' : 'vivo';
+
+  // Recuperar lo que ya escribió en su proceso
+  var resig = '';
+  try{
+    var r = JSON.parse(localStorage.getItem('anormal_resignificacion')||'{}');
+    if(r[quien] && r[quien].trim()) resig = r[quien].trim();
+  }catch(e){}
+
+  var linea = '';
+  try{ linea = localStorage.getItem('anormal_linea')||''; }catch(e){}
+  var reflexion = '';
+  try{ reflexion = (localStorage.getItem('anormal_linea_reflexion')||'').trim(); }catch(e){}
+
+  var b = {};
+
+  // ── I · LO SIENTO ──
+  b.frente = rol + ', hay cosas que sentí y nunca dije.\n\n';
+  if(reflexion){
+    b.frente += 'Durante mucho tiempo cargué esto: ' + reflexion.substring(0,180) + (reflexion.length>180?'...':'') + '\n\n';
+  }
+  b.frente += 'Lo siento por no haberme dado cuenta antes de que, al señalarte, seguía alimentando mi propio dolor. Lo siento por haber respondido al dolor con más dolor.\n\n';
+  b.frente += 'Hoy me hago cargo de lo que me corresponde, y te libero de la culpa de lo que sentí.\n\n';
+  b.frente += '[Aquí escribe tú: ¿qué sentiste que nunca dijiste?]';
+
+  // ── II · PERDÓN ──
+  b.aprend = 'Hoy te veo como ' + (quien==='nino' ? 'el niño que fui' : 'el/la ' + nin + ' que fuiste') + '.\n\n';
+  if(resig){
+    b.aprend += 'Cuando recorrí mis ciclos, pude verte así: "' + resig.substring(0,200) + (resig.length>200?'...':'') + '"\n\n';
+  }
+  b.aprend += 'Te perdono por no haber podido responder a lo que yo esperaba. Y me perdono a mí por no haber sabido amar sin condiciones.\n\n';
+  b.aprend += 'Creí que tener la razón valía más que estar en paz. Hoy sé que no.\n\n';
+  b.aprend += 'Te perdono, porque al perdonarte a ti, me perdono yo.\n\n';
+  b.aprend += '[Aquí escribe tú: ¿qué necesitas perdonarle, y qué necesitas perdonarte?]';
+
+  // ── III · GRACIAS ──
+  b.gracias = 'Gracias por haber llegado a mi vida a mostrarme lo que tenía que sanar.\n\n';
+  b.gracias += 'Gracias por ser el espejo donde por fin pude mirarme de frente. Lo que más me dolió de ti, resultó ser justo lo que vine a sanar en mí.\n\n';
+  if(linea){
+    var lineaTxt = (linea==='salud') ? 'mi salud' : (linea==='dinero') ? 'mi relación con la abundancia' : 'mi forma de amar';
+    b.gracias += 'Hoy entiendo cómo todo esto marcó ' + lineaTxt + '. Y entenderlo es el principio de sanarlo.\n\n';
+  }
+  b.gracias += '[Aquí escribe tú: ¿qué aprendiste de todo esto?]';
+
+  // ── IV · TE AMO ──
+  b.amor = 'Te amo por ser quien eres, con todo lo que fuiste y lo que no pudiste ser.\n\n';
+  b.amor += 'Te amo en tu imperfección, porque eres parte de mi propia sanación. Te amo porque al perdonarte, me estoy perdonando a mí.\n\n';
+  b.amor += 'Te amo aquí y ahora, en paz.\n\n';
+  b.amor += 'Y hoy te dejo marchar.\n\n';
+  b.amor += '[Aquí escribe tú: ¿qué le quieres decir desde el amor?]';
+
+  return b;
+}
+
+function generarBorrador(quien){
+  var ct = (quien==='nino') ? cartas.nino : cartas[quien];
+  if(!ct) return;
+  var yaTiene = (ct.frente||ct.aprend||ct.gracias||ct.amor||'').trim();
+  if(yaTiene){
+    if(!confirm('Ya escribiste algo en esta carta. ¿Quieres reemplazarlo con el borrador? (Lo que escribiste se perderá)')) return;
+  }
+  var b = construirBorrador(quien);
+  ct.frente = b.frente; ct.aprend = b.aprend; ct.gracias = b.gracias; ct.amor = b.amor;
+  if(quien==='nino') renderNino(); else renderFamiliar(quien);
+  setTimeout(function(){
+    var el = document.querySelector('.parte-frente textarea');
+    if(el) el.scrollIntoView({behavior:'smooth', block:'center'});
+  }, 200);
+}
+
+// ── EL CAMINO DEL PERDÓN: cuatro palabras, cuatro movimientos ────────────
+// Cada palabra tiene un para qué. Y todas apuntan al mismo lugar: tu libertad.
 var SENTIDO_PALABRAS = {
   frente: {
     palabra: 'Lo siento',
-    esencia: 'No es una disculpa. Es reconocer el dolor.',
-    profundo: 'Cuando dices "lo siento", no estás pidiendo perdón — estás <b>sintiendo</b>. Estás dejando de negar lo que dolió. Y lo que se nombra, deja de gobernarte desde la sombra.',
-    llave: 'Lo siento por el dolor que cargué tantos años sin nombrarlo.',
+    esencia: 'Me hago cargo de lo que me corresponde.',
+    profundo: 'Decir "lo siento" no es pedir disculpas. Es <b>hacerte cargo de tu parte</b> y soltar la tuya del otro.<br><br>Porque mientras señalas con el dedo, sostienes la guerra. Y esa guerra no se pelea allá afuera — se pelea dentro de ti, todos los días, desde hace años.<br><br><b>Lo siento por no haberme dado cuenta de que al señalarte, seguía alimentando mi propio dolor.</b>',
+    llave: 'Me hago cargo de lo mío, y te libero de la culpa de mi dolor.',
     ejemplos: [
       'Lo siento por todo lo que sentí y me callé.',
-      'Siento el vacío que quedó cuando no estuviste.',
-      'Me dolió, y hoy por fin lo digo.'
+      'Lo siento por haber respondido al dolor con más dolor.',
+      'Lo siento por no haber visto que al culparte, me encadenaba.'
     ]
   },
   aprend: {
     palabra: 'Perdón',
     esencia: 'Al perdonarte a ti, me perdono yo.',
-    profundo: 'Este es el corazón de todo. <b>El perdón no es un regalo que le das al otro — es la llave de tu propia celda.</b> Mientras no perdonas, sigues atado a quien te hirió. Al soltarlo, te sueltas tú. Y hay algo más: mucho de lo que no le perdonas al otro, es lo que no te perdonas a ti.',
+    profundo: 'Este es el corazón de todo. <b>El perdón no es un regalo para el otro — es la llave de tu propia celda.</b><br><br>Te perdono por no haber podido responder a lo que yo esperaba. Y me perdono a mí por no haber sabido amar sin condiciones.<br><br>Porque creíste —como yo creí— que tener la razón valía más que estar en paz. Y no. <b>Nunca valió más.</b>',
     llave: 'Te perdono, porque al perdonarte a ti, me perdono yo.',
     ejemplos: [
       'Te perdono porque hoy entiendo lo que cargabas.',
-      'Ya no te juzgo. Diste lo que tenías.',
-      'Me perdono a mí por haberme culpado tanto tiempo.'
+      'Me perdono por haberme exigido lo que no podía dar.',
+      'Ya no te juzgo. Diste lo que tenías, no lo que yo necesitaba.'
     ]
   },
   gracias: {
     palabra: 'Gracias',
-    esencia: 'Agradecer no es aprobar lo que pasó.',
-    profundo: 'Dar gracias no significa que estuvo bien lo que viviste. Significa que <b>encontraste el aprendizaje</b>, y que dejas de ser víctima de esa historia para volverte dueño de ella. La gratitud es lo que transforma la herida en sabiduría.',
-    llave: 'Gracias, porque de ese dolor nació la persona que soy hoy.',
+    esencia: 'Fuiste el espejo donde pude verme.',
+    profundo: 'Agradecer no es decir que estuvo bien lo que pasó. Es reconocer que <b>ahí había algo para ti</b>.<br><br>Gracias por haber llegado a mi vida a mostrarme lo que tenía que sanar. Gracias por ser el espejo donde por fin me miré de frente.<br><br>Lo que más te dolió del otro, casi siempre es lo que viniste a sanar en ti. <b>Y eso convierte la herida en maestra.</b>',
+    llave: 'Gracias por mostrarme lo que tenía que sanar en mí.',
     ejemplos: [
-      'Gracias porque de eso aprendí a valerme.',
-      'Gracias por la vida, aunque lo demás faltara.',
-      'Hoy entiendo que eso me hizo fuerte.'
+      'Gracias porque de ese dolor nació mi fuerza.',
+      'Gracias por enseñarme, sin saberlo, a perdonar.',
+      'Gracias por la vida, aunque lo demás faltara.'
     ]
   },
   amor: {
     palabra: 'Te amo',
-    esencia: 'Amar sin necesitar que cambie.',
-    profundo: 'Este es el cierre que libera. <b>No es decir "te amo" porque todo esté bien</b> — es reconocer el vínculo que existe y siempre existirá. Amas lo que hubo, amas a esa persona con sus heridas, y sobre todo, <b>te amas a ti por haber sido capaz de llegar hasta aquí</b>.',
-    llave: 'Te amo. Y me amo por haber tenido el valor de soltarte.',
+    esencia: 'Te amo, y hoy te dejo marchar.',
+    profundo: 'Este es el cierre que libera. No es amar porque todo esté bien — es <b>amar en la imperfección</b>.<br><br>Te amo por ser quien eres, con todo lo que fuiste y lo que no pudiste ser. Te amo porque eres parte de mi sanación, y porque al perdonarte, me estoy perdonando a mí.<br><br>Y desde ese amor, <b>hoy te dejo marchar</b>. No con rencor. En paz.',
+    llave: 'Te amo aquí y ahora, en paz. Y hoy te dejo marchar.',
     ejemplos: [
-      'Te amo, con todo lo que fuiste y no pudiste ser.',
-      'Te amo y te dejo ir en paz.',
-      'Me amo por haber sanado esto.'
+      'Te amo con todo lo que fuiste y no pudiste ser.',
+      'Te amo porque al perdonarte, me perdono yo.',
+      'Te amo, y te suelto. En paz.'
     ]
   }
 };
@@ -620,7 +709,9 @@ function renderFamiliar(quien){
     }
   }catch(e){}
   var partes=
-    '<div class="intro-carta"><p class="ct">Tu carta recorre cuatro momentos. Cada uno tiene una palabra, y cada palabra tiene un sentido que <b>no libera al otro — te libera a ti</b>. Ábrelas si quieres entenderlas antes de escribir.</p></div>'+
+    '<div class="intro-carta"><p class="ct">Tu carta recorre cuatro momentos. Cada uno tiene una palabra, y cada palabra tiene un sentido que <b>no libera al otro — te libera a ti</b>. Ábrelas si quieres entenderlas antes de escribir.</p>'+
+      '<p class="ct" style="margin-top:10px">¿Se te dificulta empezar? Es normal — esta carta no es fácil. <b>Puedo darte un punto de partida</b> con lo que ya reconociste en tu proceso, y tú la completas con lo tuyo.</p>'+
+      '<button class="btn-borrador" onclick="generarBorrador(\''+quien+'\')" type="button">✎ Ayúdame a empezar</button></div>'+
     '<div class="parte parte-frente"><div class="parte-cab"><div class="parte-icono">1</div><div class="parte-tit">Lo que sentiste</div></div>'+
       guiaPalabraHTML('frente', quien)+
       '<div class="parte-guia">Dile lo que sentiste por lo que vivió. No como juicio, sino como verdad. Por ejemplo: «me abandonaste, y me dolió».</div>'+
@@ -637,7 +728,7 @@ function renderFamiliar(quien){
       guiaPalabraHTML('amor', quien)+
       '<div class="parte-guia">Cierra reconociendo el vínculo. No porque todo esté bien — porque el amor es lo que queda cuando el juicio se va.</div>'+
       '<textarea placeholder="Te amo, y me amo por haber llegado hasta aquí..." oninput="guardarFam(\''+quien+'\',\'amor\',this.value)">'+(ct.amor||'')+'</textarea></div>'+
-    '<div class="descarga-carta"><button class="btn-descarga" onclick="descargarCarta(\''+quien+'\')" type="button">↓ Guardar mi carta en PDF</button><p class="ct dim" style="margin-top:8px;font-size:var(--t-body)">Puedes imprimirla para leerla en voz alta y luego romperla, como parte del ritual.</p></div>'+
+    '<div class="descarga-carta"><button class="btn-descarga" onclick="descargarCarta(\''+quien+'\')" type="button">↓ Ver mi carta completa</button><p class="ct dim" style="margin-top:8px;font-size:var(--t-body)">Léela entera, y luego <b>escríbela de tu puño y letra</b> para completar el ritual.</p></div>'+
     '<div class="sello'+(ct.estado==='hecho'?' on':'')+'" id="sello-'+quien+'" onclick="marcarFamHecho(\''+quien+'\')"><div class="sello-check">✓</div><div class="sello-texto">Completé el ritual: escribí la carta, la leí mirando su imagen, la rompí y la solté. Suelto el juicio y recuerdo sin dolor.</div></div>'+
     '<div class="estado-linea"><span class="ct dim" style="font-size:var(--t-body)">¿Aún no estás listo?</span><button class="btn-compromiso'+(ct.estado==='compromiso'?' on':'')+'" onclick="marcarFamCompromiso(\''+quien+'\')">Dejarlo como compromiso</button></div>';
   cont.innerHTML=sel+energia+guia+resigPrevia+recordatorioRitual()+partes;
