@@ -83,6 +83,26 @@ body{background:var(--bg);color:var(--text);font-family:var(--serif);font-weight
 .parte-gracias .parte-icono{background:rgba(74,191,122,.15);color:var(--grn);border:1px solid rgba(74,191,122,.35)}
 .parte-tit{font-size:var(--t-body);font-weight:500;color:var(--text)}
 .parte-guia{font-size:var(--t-body);color:var(--dim);line-height:1.7;margin-bottom:10px;font-style:italic}
+.descarga-carta{text-align:center;margin:16px 0}
+.btn-descarga{background:transparent;border:1px solid var(--gb);color:var(--gold2);border-radius:var(--rm);padding:12px 22px;font-family:var(--sans);font-size:var(--t-body);cursor:pointer;transition:all .2s}
+.btn-descarga:hover{background:var(--gd);border-color:var(--gold)}
+.intro-carta{background:var(--bg3);border-left:2px solid var(--gold);border-radius:var(--rm);padding:14px 16px;margin-bottom:16px}
+.parte-amor{border-color:var(--gb)}
+.guia-palabra{margin-bottom:12px}
+.guia-toggle{width:100%;display:flex;align-items:center;gap:10px;background:var(--gd);border:1px solid var(--gb);border-radius:var(--rm);padding:12px 14px;cursor:pointer;text-align:left;font-family:var(--serif);transition:all .2s}
+.guia-toggle:hover{background:rgba(201,168,76,.18)}
+.gp-palabra{font-family:var(--serif);font-size:var(--t-h2);color:var(--gold2);flex-shrink:0}
+.gp-esencia{flex:1;font-size:var(--t-body);color:var(--dim);font-style:italic}
+.gp-flecha{color:var(--gold);font-size:var(--t-body);flex-shrink:0}
+.guia-cuerpo{display:none;padding:14px 16px;margin-top:6px;background:var(--bg3);border-radius:var(--rm);border-left:2px solid var(--gold)}
+.guia-cuerpo.abierta{display:block;animation:fadeIn .3s ease}
+.gp-profundo{font-size:var(--t-body);color:var(--text);line-height:1.75;margin-bottom:12px}
+.gp-llave{font-family:var(--serif);font-size:var(--t-h2);font-style:italic;color:var(--gold3);line-height:1.5;padding:12px 14px;background:var(--gd);border-radius:var(--rm);margin-bottom:12px;text-align:center}
+.gp-ejemplos-lbl{font-size:var(--t-body);color:var(--dim);margin-bottom:6px}
+.gp-ejemplos{list-style:none;padding:0;margin:0}
+.gp-ejemplos li{font-size:var(--t-body);color:var(--text);opacity:.85;padding:6px 0 6px 16px;position:relative;line-height:1.6}
+.gp-ejemplos li:before{content:'·';position:absolute;left:4px;color:var(--gold)}
+@media(max-width:520px){.guia-toggle{flex-wrap:wrap}.gp-esencia{flex-basis:100%}}
 textarea{width:100%;background:var(--bg3);border:1px solid var(--faint);border-radius:var(--rm);color:var(--text);font-family:var(--sans);font-size:var(--t-body);line-height:1.75;padding:13px 15px;resize:vertical;min-height:90px}
 textarea:focus{outline:none;border-color:var(--gold)}
 
@@ -332,11 +352,11 @@ var CICLO_TEMA={
 };
 
 var ciclosData=null, edad=null, idxNino=0, ciclosNino=[1,2,3];
-// cada carta: {frente, aprend, gracias, estado:'pendiente'|'hecho'|'compromiso'}
+// cada carta: {frente, aprend, gracias, amor, estado:'pendiente'|'hecho'|'compromiso'}
 var cartas={nino:{}, madre:null, padre:null, otros:[]};
 var cicloElegido={madre:null, padre:null};
 
-function nuevaCarta(){ return {frente:'', aprend:'', gracias:'', estado:'pendiente'}; }
+function nuevaCarta(){ return {frente:'', aprend:'', gracias:'', amor:'', estado:'pendiente'}; }
 
 function init0(){
   ciclosData=leerJSON('anormal_ciclos',null);
@@ -442,6 +462,132 @@ function ninoAnterior(){
 }
 
 // ── PASO 2-3: MADRE / PADRE ───────────────────────────────────────────────
+
+
+// ── DESCARGAR LA CARTA (PDF vía impresión) ───────────────────────────────
+function descargarCarta(quien){
+  var ct = (quien==='nino') ? cartas.nino : cartas[quien];
+  if(!ct){ alert('Aún no has escrito esta carta.'); return; }
+  var titulo = (quien==='nino') ? 'Carta a mi niño interior'
+             : (quien==='madre') ? 'Carta a mi madre'
+             : (quien==='padre') ? 'Carta a mi padre' : 'Mi carta de perdón';
+  var nombre = localStorage.getItem('anormal_nombre') || '';
+  var hoy = new Date().toLocaleDateString('es-CO', {day:'numeric', month:'long', year:'numeric'});
+
+  var bloques = [
+    {t:'Lo que sentí', v:ct.frente||''},
+    {t:'Te entiendo y te perdono', v:ct.aprend||''},
+    {t:'Aprendizajes y gracias', v:ct.gracias||''},
+    {t:'El amor que queda', v:ct.amor||''}
+  ];
+
+  var html = '<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><title>'+titulo+'</title>';
+  html += '<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300&display=swap" rel="stylesheet">';
+  html += '<style>';
+  html += '@page{margin:2.5cm}';
+  html += 'body{font-family:"Fraunces",Georgia,serif;color:#2B2117;line-height:1.8;font-size:12pt;max-width:17cm;margin:0 auto}';
+  html += '.cab{text-align:center;margin-bottom:2.2cm;padding-bottom:1cm;border-bottom:1px solid #C9A84C}';
+  html += '.cab h1{font-size:22pt;font-weight:400;margin:0 0 .3cm;color:#8A6D24}';
+  html += '.cab .meta{font-size:10pt;color:#7A6A55;font-style:italic}';
+  html += '.blq{margin-bottom:1.6cm;page-break-inside:avoid}';
+  html += '.blq h2{font-size:12pt;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:#8A6D24;margin:0 0 .4cm;padding-bottom:.2cm;border-bottom:1px solid #E0D5BC}';
+  html += '.blq p{margin:0;white-space:pre-wrap;font-weight:300}';
+  html += '.vacio{color:#A89B85;font-style:italic}';
+  html += '.pie{margin-top:2.5cm;padding-top:1cm;border-top:1px solid #C9A84C;text-align:center;font-size:10pt;color:#7A6A55;font-style:italic}';
+  html += '</style></head><body>';
+  html += '<div class="cab"><h1>'+titulo+'</h1><div class="meta">'+(nombre?nombre+' · ':'')+hoy+'</div></div>';
+  bloques.forEach(function(b){
+    html += '<div class="blq"><h2>'+b.t+'</h2>';
+    html += b.v.trim() ? '<p>'+b.v.replace(/</g,'&lt;')+'</p>' : '<p class="vacio">— sin escribir —</p>';
+    html += '</div>';
+  });
+  html += '<div class="pie">Esta carta no se entrega. Se escribe para soltar.<br>∀normal · abraza tu esencia</div>';
+  html += '</body></html>';
+
+  var w = window.open('', '_blank');
+  if(!w){ alert('Permite las ventanas emergentes para descargar tu carta.'); return; }
+  w.document.write(html);
+  w.document.close();
+  setTimeout(function(){ w.print(); }, 600);
+}
+
+// ── GUÍA PROFUNDA: EL SENTIDO DE CADA PALABRA ────────────────────────────
+// La esencia: cada palabra no libera al otro — te libera a ti.
+var SENTIDO_PALABRAS = {
+  frente: {
+    palabra: 'Lo siento',
+    esencia: 'No es una disculpa. Es reconocer el dolor.',
+    profundo: 'Cuando dices "lo siento", no estás pidiendo perdón — estás <b>sintiendo</b>. Estás dejando de negar lo que dolió. Y lo que se nombra, deja de gobernarte desde la sombra.',
+    llave: 'Lo siento por el dolor que cargué tantos años sin nombrarlo.',
+    ejemplos: [
+      'Lo siento por todo lo que sentí y me callé.',
+      'Siento el vacío que quedó cuando no estuviste.',
+      'Me dolió, y hoy por fin lo digo.'
+    ]
+  },
+  aprend: {
+    palabra: 'Perdón',
+    esencia: 'Al perdonarte a ti, me perdono yo.',
+    profundo: 'Este es el corazón de todo. <b>El perdón no es un regalo que le das al otro — es la llave de tu propia celda.</b> Mientras no perdonas, sigues atado a quien te hirió. Al soltarlo, te sueltas tú. Y hay algo más: mucho de lo que no le perdonas al otro, es lo que no te perdonas a ti.',
+    llave: 'Te perdono, porque al perdonarte a ti, me perdono yo.',
+    ejemplos: [
+      'Te perdono porque hoy entiendo lo que cargabas.',
+      'Ya no te juzgo. Diste lo que tenías.',
+      'Me perdono a mí por haberme culpado tanto tiempo.'
+    ]
+  },
+  gracias: {
+    palabra: 'Gracias',
+    esencia: 'Agradecer no es aprobar lo que pasó.',
+    profundo: 'Dar gracias no significa que estuvo bien lo que viviste. Significa que <b>encontraste el aprendizaje</b>, y que dejas de ser víctima de esa historia para volverte dueño de ella. La gratitud es lo que transforma la herida en sabiduría.',
+    llave: 'Gracias, porque de ese dolor nació la persona que soy hoy.',
+    ejemplos: [
+      'Gracias porque de eso aprendí a valerme.',
+      'Gracias por la vida, aunque lo demás faltara.',
+      'Hoy entiendo que eso me hizo fuerte.'
+    ]
+  },
+  amor: {
+    palabra: 'Te amo',
+    esencia: 'Amar sin necesitar que cambie.',
+    profundo: 'Este es el cierre que libera. <b>No es decir "te amo" porque todo esté bien</b> — es reconocer el vínculo que existe y siempre existirá. Amas lo que hubo, amas a esa persona con sus heridas, y sobre todo, <b>te amas a ti por haber sido capaz de llegar hasta aquí</b>.',
+    llave: 'Te amo. Y me amo por haber tenido el valor de soltarte.',
+    ejemplos: [
+      'Te amo, con todo lo que fuiste y no pudiste ser.',
+      'Te amo y te dejo ir en paz.',
+      'Me amo por haber sanado esto.'
+    ]
+  }
+};
+
+function guiaPalabraHTML(clave, quien){
+  var p = SENTIDO_PALABRAS[clave];
+  if(!p) return '';
+  var id = 'guia-'+clave+'-'+quien;
+  var s = '<div class="guia-palabra">';
+  s += '<button class="guia-toggle" onclick="toggleGuia(\''+id+'\')" type="button">';
+  s += '<span class="gp-palabra">'+p.palabra+'</span>';
+  s += '<span class="gp-esencia">'+p.esencia+'</span>';
+  s += '<span class="gp-flecha" id="fl-'+id+'">▾</span>';
+  s += '</button>';
+  s += '<div class="guia-cuerpo" id="'+id+'">';
+  s += '<p class="gp-profundo">'+p.profundo+'</p>';
+  s += '<div class="gp-llave">'+p.llave+'</div>';
+  s += '<div class="gp-ejemplos-lbl">Si te trabas, puedes empezar así:</div>';
+  s += '<ul class="gp-ejemplos">';
+  p.ejemplos.forEach(function(e){ s += '<li>'+e+'</li>'; });
+  s += '</ul></div></div>';
+  return s;
+}
+
+function toggleGuia(id){
+  var el = document.getElementById(id);
+  var fl = document.getElementById('fl-'+id);
+  if(!el) return;
+  var abierto = el.classList.toggle('abierta');
+  if(fl) fl.textContent = abierto ? '▴' : '▾';
+}
+
 function renderFamiliar(quien){
   var cont=document.getElementById(quien+'-contenido');
   var art=(quien==='madre')?'la':'lo';
@@ -474,15 +620,24 @@ function renderFamiliar(quien){
     }
   }catch(e){}
   var partes=
-    '<div class="parte parte-frente"><div class="parte-cab"><div class="parte-icono">1</div><div class="parte-tit">El frente: lo que sentiste</div></div>'+
+    '<div class="intro-carta"><p class="ct">Tu carta recorre cuatro momentos. Cada uno tiene una palabra, y cada palabra tiene un sentido que <b>no libera al otro — te libera a ti</b>. Ábrelas si quieres entenderlas antes de escribir.</p></div>'+
+    '<div class="parte parte-frente"><div class="parte-cab"><div class="parte-icono">1</div><div class="parte-tit">Lo que sentiste</div></div>'+
+      guiaPalabraHTML('frente', quien)+
       '<div class="parte-guia">Dile lo que sentiste por lo que vivió. No como juicio, sino como verdad. Por ejemplo: «me abandonaste, y me dolió».</div>'+
       '<textarea placeholder="'+(quien==='madre'?'Mamá':'Papá')+', yo sentí..." oninput="guardarFam(\''+quien+'\',\'frente\',this.value)">'+ct.frente+'</textarea></div>'+
-    '<div class="parte parte-aprend"><div class="parte-cab"><div class="parte-icono">2</div><div class="parte-tit">El reverso (1): te entiendo y te perdono</div></div>'+
+    '<div class="parte parte-aprend"><div class="parte-cab"><div class="parte-icono">2</div><div class="parte-tit">Te entiendo y te perdono</div></div>'+
+      guiaPalabraHTML('aprend', quien)+
       '<div class="parte-guia">Ahora que '+art+' ves como '+nin+', entiéndele. «Te perdono porque te entiendo, ya no te juzgo, y te honro».</div>'+
       '<textarea placeholder="Hoy te entiendo. Tú también fuiste '+herido+'. Te perdono y te honro..." oninput="guardarFam(\''+quien+'\',\'aprend\',this.value)">'+ct.aprend+'</textarea></div>'+
-    '<div class="parte parte-gracias"><div class="parte-cab"><div class="parte-icono">3</div><div class="parte-tit">El reverso (2): aprendizajes y gracias</div></div>'+
+    '<div class="parte parte-gracias"><div class="parte-cab"><div class="parte-icono">3</div><div class="parte-tit">Aprendizajes y gracias</div></div>'+
+      guiaPalabraHTML('gracias', quien)+
       '<div class="parte-guia">Reconoce lo que aprendiste de todo esto, y dale las gracias.</div>'+
       '<textarea placeholder="Gracias, porque de esto aprendí..." oninput="guardarFam(\''+quien+'\',\'gracias\',this.value)">'+ct.gracias+'</textarea></div>'+
+    '<div class="parte parte-amor"><div class="parte-cab"><div class="parte-icono">4</div><div class="parte-tit">El cierre: el amor que queda</div></div>'+
+      guiaPalabraHTML('amor', quien)+
+      '<div class="parte-guia">Cierra reconociendo el vínculo. No porque todo esté bien — porque el amor es lo que queda cuando el juicio se va.</div>'+
+      '<textarea placeholder="Te amo, y me amo por haber llegado hasta aquí..." oninput="guardarFam(\''+quien+'\',\'amor\',this.value)">'+(ct.amor||'')+'</textarea></div>'+
+    '<div class="descarga-carta"><button class="btn-descarga" onclick="descargarCarta(\''+quien+'\')" type="button">↓ Guardar mi carta en PDF</button><p class="ct dim" style="margin-top:8px;font-size:var(--t-body)">Puedes imprimirla para leerla en voz alta y luego romperla, como parte del ritual.</p></div>'+
     '<div class="sello'+(ct.estado==='hecho'?' on':'')+'" id="sello-'+quien+'" onclick="marcarFamHecho(\''+quien+'\')"><div class="sello-check">✓</div><div class="sello-texto">Completé el ritual: escribí la carta, la leí mirando su imagen, la rompí y la solté. Suelto el juicio y recuerdo sin dolor.</div></div>'+
     '<div class="estado-linea"><span class="ct dim" style="font-size:var(--t-body)">¿Aún no estás listo?</span><button class="btn-compromiso'+(ct.estado==='compromiso'?' on':'')+'" onclick="marcarFamCompromiso(\''+quien+'\')">Dejarlo como compromiso</button></div>';
   cont.innerHTML=sel+energia+guia+resigPrevia+recordatorioRitual()+partes;
@@ -515,7 +670,7 @@ function renderOtros(){
 function agregarSer(){
   var inp=document.getElementById('nuevo-ser');
   var nom=(inp.value||'').trim(); if(!nom) return;
-  cartas.otros.push({nombre:nom, frente:'', aprend:'', gracias:'', estado:'pendiente'});
+  cartas.otros.push({nombre:nom, frente:'', aprend:'', gracias:'', amor:'', estado:'pendiente'});
   inp.value='';
   renderOtros();
   editarSer(cartas.otros.length-1);
