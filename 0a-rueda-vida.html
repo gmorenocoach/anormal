@@ -875,6 +875,27 @@ function bInicio(){
     cexp.appendChild(tl);
     var nota=mk("div","ct");nota.style.cssText="font-size:var(--t-h2);color:#8A95A8;margin-top:12px;font-style:italic";nota.textContent="Las fechas se proyectan desde que activaste la plataforma. Tu mentoría completa dura 75 días.";
     cexp.appendChild(nota);
+
+    // ── EL TRABAJO ESTÁ EN LOS 15 DÍAS, NO EN LA ESPERA ──
+    var bloqueAccion = mk("div");
+    bloqueAccion.style.cssText = "margin-top:18px;padding-top:18px;border-top:1px solid var(--ffaint)";
+    bloqueAccion.innerHTML =
+      '<div style="font-size:var(--t-h2);letter-spacing:.06em;text-transform:uppercase;color:var(--gold2);margin-bottom:10px">Estos 15 días son el trabajo</div>'+
+      '<p class="ct" style="margin-bottom:12px">La sesión no te transforma. <b>Lo que haces entre sesiones, sí.</b> Estos días no son de espera — son el espacio donde tus compromisos se vuelven vida.</p>'+
+      '<p class="ct" style="margin-bottom:0">Vuelve cuando quieras a tu <b style="color:var(--gold2)">Resumen de Conciencia</b>: ahí ves tu nivel, tus compromisos y cómo vas avanzando.</p>';
+    cexp.appendChild(bloqueAccion);
+
+    // ── CANAL DE YOUTUBE (slot listo para el link) ──
+    var CANAL_URL = ""; // ← Poner aquí el link del canal cuando esté listo
+    var bloqueCanal = mk("div");
+    bloqueCanal.style.cssText = "margin-top:16px;padding:16px 18px;background:var(--bg3);border:1px solid var(--gb);border-radius:var(--rl)";
+    bloqueCanal.innerHTML =
+      '<div style="font-size:var(--t-h2);letter-spacing:.06em;text-transform:uppercase;color:var(--gold2);margin-bottom:8px">Sigue conmigo mientras tanto</div>'+
+      '<p class="ct" style="margin-bottom:'+(CANAL_URL?'12px':'0')+'">En mi canal encuentras contenido para profundizar: los niveles de conciencia, meditaciones y herramientas que te acompañan en estos días de trabajo.</p>'+
+      (CANAL_URL
+        ? '<a href="'+CANAL_URL+'" target="_blank" rel="noopener" style="display:inline-block;padding:10px 18px;background:var(--gd);border:1px solid var(--gold);border-radius:var(--rm);color:var(--gold2);text-decoration:none;font-family:var(--sans);font-size:var(--t-body)">Ver el canal →</a>'
+        : '<p class="ct dim" style="margin-top:10px;font-style:italic">Próximamente</p>');
+    cexp.appendChild(bloqueCanal);
   })();
 
   p.appendChild(cexp);
