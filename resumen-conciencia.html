@@ -120,6 +120,14 @@ body{background:var(--bg);color:var(--text);font-family:var(--serif);font-weight
 .cv-texto{font-size:var(--t-small);color:var(--text);line-height:1.6;margin-bottom:10px}
 .cv-btn{background:var(--gd);border:1px solid var(--gold);color:var(--gold2);border-radius:var(--rm);padding:8px 16px;font-family:var(--sans);font-size:var(--t-small);cursor:pointer;transition:all .2s}
 .cv-btn:hover{background:rgba(201,168,76,.2)}
+
+.agregar-comp{margin-top:16px;padding-top:16px;border-top:1px solid var(--ffaint)}
+.ag-lbl{font-size:var(--t-small);color:var(--gold2);margin-bottom:8px}
+.ag-row{display:flex;gap:8px;flex-wrap:wrap}
+.ag-input{flex:1;min-width:180px;background:var(--bg3);border:1px solid var(--faint);border-radius:var(--rm);padding:10px 12px;color:var(--text);font-family:var(--sans);font-size:var(--t-small);outline:none}
+.ag-input:focus{border-color:var(--gold)}
+.ag-btn{background:var(--gd);border:1px solid var(--gold);color:var(--gold2);border-radius:var(--rm);padding:10px 18px;font-family:var(--sans);font-size:var(--t-small);cursor:pointer;white-space:nowrap;transition:all .2s}
+.ag-btn:hover{background:rgba(201,168,76,.2)}
 </style>
 </head>
 <body>
@@ -470,10 +478,37 @@ function reprogramarCompromiso(key){
   localStorage.setItem('anormal_fechas_compromisos',JSON.stringify(fechasCompromisos));
   render();
   setTimeout(function(){
-    var inp=document.querySelector('input.comp-dias-input');
     var cont=document.getElementById('bloque-compromisos');
     if(cont) cont.scrollIntoView({behavior:'smooth',block:'start'});
   },150);
+}
+
+function agregarCompromiso(){
+  var inp=document.getElementById('nuevo-comp-txt');
+  if(!inp) return;
+  var txt=(inp.value||'').trim();
+  if(txt.length<3){ inp.focus(); return; }
+  var lista=leerJSON('anormal_compromisos_personales',[]);
+  lista.push({id:Date.now(), texto:txt, sesion:(parseInt(leer('anormal_sesion_actual','1'))||1)});
+  localStorage.setItem('anormal_compromisos_personales',JSON.stringify(lista));
+  render();
+  setTimeout(function(){
+    var c=document.getElementById('bloque-compromisos');
+    if(c) c.scrollIntoView({behavior:'smooth',block:'start'});
+  },150);
+}
+
+function borrarCompromisoPersonal(idx){
+  var lista=leerJSON('anormal_compromisos_personales',[]);
+  if(lista[idx]){
+    var key='personal_'+lista[idx].id;
+    // limpiar su estado y fecha
+    delete cumplidasComp[key]; localStorage.setItem('anormal_compromisos_cumplidos',JSON.stringify(cumplidasComp));
+    fechasCompromisos=leerJSON('anormal_fechas_compromisos',{}); delete fechasCompromisos[key]; localStorage.setItem('anormal_fechas_compromisos',JSON.stringify(fechasCompromisos));
+    lista.splice(idx,1);
+    localStorage.setItem('anormal_compromisos_personales',JSON.stringify(lista));
+    render();
+  }
 }
 
 function reconstruirAutoconocimiento(){
@@ -730,6 +765,18 @@ function render(){
       });
     });
   }
+  // Compromisos personalizados (los que la persona agrega manualmente)
+  var compPersonales = leerJSON('anormal_compromisos_personales',[]);
+  compPersonales.forEach(function(cp,i){
+    listaCompromisos.push({
+      key:'personal_'+cp.id,
+      etiqueta:'Compromiso propio',
+      texto: cp.texto,
+      tipo:'personal',
+      sesion: cp.sesion || sesionActual,
+      personalIdx: i
+    });
+  });
 
   if(listaCompromisos.length>0){
     html += '<div class="card" id="bloque-compromisos"><div class="cl">Mis compromisos y acciones — ponles fecha y cúmplelos</div>';
@@ -751,7 +798,7 @@ function render(){
         var infoFecha = calcInfoFecha(fechaComp, cumplido);
         html += '<div class="comp-item'+(cumplido?' cumplido':'')+'">';
         html += '<div class="comp-check'+(cumplido?' on':'')+'" onclick="guardarCumplido(\''+item.key+'\')" title="Marcar como cumplido">✓</div>';
-        html += '<div class="comp-body"><div class="comp-area" style="color:'+colorTipo+'">'+item.etiqueta+'</div><div class="comp-texto">'+item.texto+'</div>';
+        html += '<div class="comp-body"><div class="comp-area" style="color:'+colorTipo+'">'+item.etiqueta+(item.tipo==='personal'?' <span onclick="borrarCompromisoPersonal('+item.personalIdx+')" style="color:var(--dim);cursor:pointer;font-size:var(--t-small);margin-left:6px" title="Eliminar">✕</span>':'')+'</div><div class="comp-texto">'+item.texto+'</div>';
         // Principio que refuerza esta acción (no para los que ya son principios)
         if(item.tipo!=='principio'){ html += principioAccionHTML(item.texto); }
         if(!cumplido){
@@ -777,6 +824,11 @@ function render(){
     });
     var totalCump = listaCompromisos.filter(function(it){return cumplidasComp[it.key];}).length;
     html += '<p style="font-size:var(--t-small);color:var(--dim);text-align:right;margin-top:8px">'+totalCump+' de '+listaCompromisos.length+' cumplidos</p>';
+    // Agregar compromiso propio
+    html += '<div class="agregar-comp">';
+    html += '<div class="ag-lbl">¿Surgió un nuevo compromiso? Agrégalo</div>';
+    html += '<div class="ag-row"><input type="text" id="nuevo-comp-txt" class="ag-input" placeholder="Ej: comprar el medicamento, llamar a mi hermano..." maxlength="120"><button class="ag-btn" onclick="agregarCompromiso()" type="button">+ Agregar</button></div>';
+    html += '</div>';
     html += '</div>';
   }
 
@@ -1021,7 +1073,7 @@ function pruebaReiniciar(){
     var claves = ['anormal_nombre','anormal_fecha_nac','anormal_numero_camino','anormal_linea',
       'anormal_contrato','anormal_contrato_firmado','anormal_entrada_completa','anormal_diagnostico',
       'anormal_acciones','anormal_prioridades','anormal_compromisos_areas','anormal_compromiso_inicial',
-      'anormal_principios_nuevos','anormal_puntos_conciencia','anormal_compromisos_cumplidos','anormal_sesion_actual','anormal_rueda_areas','widget_visto_rueda','anormal_fecha_inicio_proceso'];
+      'anormal_principios_nuevos','anormal_puntos_conciencia','anormal_compromisos_cumplidos','anormal_compromisos_personales','anormal_fechas_cumplimiento','anormal_sesion_actual','anormal_rueda_areas','widget_visto_rueda','anormal_fecha_inicio_proceso'];
     claves.forEach(function(k){ localStorage.removeItem(k); });
     // Borrar también fechas de sesiones
     for(var s=2;s<=5;s++){ localStorage.removeItem('anormal_fecha_sesion_'+s); }
