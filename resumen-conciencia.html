@@ -113,6 +113,13 @@ body{background:var(--bg);color:var(--text);font-family:var(--serif);font-weight
 .bs{background:transparent;color:var(--gold);border:1px solid var(--gb);border-radius:var(--r);font-family:var(--sans);font-size:var(--t-micro);font-weight:500;letter-spacing:.06em;text-transform:uppercase;padding:11px 22px;cursor:pointer;text-decoration:none;display:inline-block}
 .empty-state{text-align:center;padding:40px 20px;color:var(--dim)}
 .empty-icon{font-size:var(--t-display);color:var(--faint);margin-bottom:12px}
+
+.toast-cumplido{position:fixed;left:50%;bottom:30px;transform:translateX(-50%) translateY(20px);background:var(--bg2);border:1px solid var(--gold);color:var(--gold2);padding:14px 24px;border-radius:999px;font-family:var(--serif);font-size:var(--t-body);display:flex;align-items:center;gap:10px;box-shadow:0 8px 30px rgba(0,0,0,.4);opacity:0;transition:all .4s cubic-bezier(.2,.8,.2,1);z-index:1000;max-width:90%}
+.toast-cumplido.visible{opacity:1;transform:translateX(-50%) translateY(0)}
+.comp-vencido{margin-top:10px;padding:12px 14px;background:rgba(199,122,142,.08);border:1px solid rgba(199,122,142,.3);border-radius:var(--rm)}
+.cv-texto{font-size:var(--t-small);color:var(--text);line-height:1.6;margin-bottom:10px}
+.cv-btn{background:var(--gd);border:1px solid var(--gold);color:var(--gold2);border-radius:var(--rm);padding:8px 16px;font-family:var(--sans);font-size:var(--t-small);cursor:pointer;transition:all .2s}
+.cv-btn:hover{background:rgba(201,168,76,.2)}
 </style>
 </head>
 <body>
@@ -428,13 +435,45 @@ var principiosActivos = PRINCIPIOS_18.filter(function(p){ return p.sesion<=sesio
 
 // ── RENDERIZAR ───────────────────────────────────────────────────────
 function guardarCumplido(key){
+  var estaba = !!cumplidasComp[key];
   cumplidasComp[key]=!cumplidasComp[key];
   localStorage.setItem('anormal_compromisos_cumplidos',JSON.stringify(cumplidasComp));
   // Ajustar puntos
   var pts=parseInt(leer('anormal_puntos_conciencia','0'))||0;
   pts+=cumplidasComp[key]?10:-10; if(pts<0)pts=0;
   localStorage.setItem('anormal_puntos_conciencia',pts);
+  // Registrar fecha de cumplimiento
+  var fechasCump = leerJSON('anormal_fechas_cumplimiento',{});
+  if(cumplidasComp[key]){ fechasCump[key]=new Date().toISOString().slice(0,10); }
+  else { delete fechasCump[key]; }
+  localStorage.setItem('anormal_fechas_cumplimiento',JSON.stringify(fechasCump));
   render();
+  // Celebrar el cumplimiento (solo al marcar, no al desmarcar)
+  if(!estaba && cumplidasComp[key]){ celebrarCumplimiento(); }
+}
+
+function celebrarCumplimiento(){
+  var frases=['Una acción cumplida. Así se sube.','Eso es volverse ∀normal.','Del dicho al hecho. Bien.','Tu nivel de conciencia acaba de subir.','Cada acción cuenta. Sigue.'];
+  var msg=frases[Math.floor(Math.random()*frases.length)];
+  var t=document.createElement('div');
+  t.className='toast-cumplido';
+  t.innerHTML='<span style="font-size:20px">✓</span> '+msg;
+  document.body.appendChild(t);
+  setTimeout(function(){ t.classList.add('visible'); },50);
+  setTimeout(function(){ t.classList.remove('visible'); setTimeout(function(){t.remove();},400); },2600);
+}
+
+function reprogramarCompromiso(key){
+  // Limpiar la fecha vencida para que la persona ponga una nueva
+  fechasCompromisos = leerJSON('anormal_fechas_compromisos',{});
+  delete fechasCompromisos[key];
+  localStorage.setItem('anormal_fechas_compromisos',JSON.stringify(fechasCompromisos));
+  render();
+  setTimeout(function(){
+    var inp=document.querySelector('input.comp-dias-input');
+    var cont=document.getElementById('bloque-compromisos');
+    if(cont) cont.scrollIntoView({behavior:'smooth',block:'start'});
+  },150);
 }
 
 function reconstruirAutoconocimiento(){
@@ -572,6 +611,26 @@ function render(){
   html += '<div class="nivel-proceso">'+msgNivel+' Subir tu nivel de conciencia no es tachar tareas — es volverte ∀normal de forma permanente. Es un proceso de por vida, no una meta que se alcanza y se olvida.</div>';
   html += '</div></div>';
 
+  // ACCESO RÁPIDO A COMPROMISOS (punto 9) — calcular pendientes y vencidos
+  var totalComp=0, pendComp=0, vencComp=0;
+  (function(){
+    var claves = Object.keys(compromisosAreas);
+    claves.forEach(function(areaId){
+      var k='comp_'+areaId; totalComp++;
+      if(!cumplidasComp[k]){ pendComp++; var f=fechasCompromisos[k]; if(f && diasDesdeHoy(f)<0) vencComp++; }
+    });
+    prioridades.forEach(function(num){
+      var k='accion_'+num; totalComp++;
+      if(!cumplidasComp[k]){ pendComp++; var f=fechasCompromisos[k]; if(f && diasDesdeHoy(f)<0) vencComp++; }
+    });
+  })();
+  if(totalComp>0){
+    html += '<a onclick="document.getElementById(\'bloque-compromisos\').scrollIntoView({behavior:\'smooth\'})" style="display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:22px;padding:14px 18px;background:var(--bg2);border:1px solid var(--gb);border-radius:var(--rl);cursor:pointer;transition:all .2s">'+
+      '<div><div style="font-family:var(--serif);font-size:var(--t-h3);color:var(--gold2)">Mis compromisos</div>'+
+      '<div style="font-size:var(--t-small);color:var(--dim);margin-top:2px">'+(pendComp>0?pendComp+' pendiente'+(pendComp>1?'s':''):'todos cumplidos ✓')+(vencComp>0?' · <span style="color:var(--rose)">'+vencComp+' vencido'+(vencComp>1?'s':'')+'</span>':'')+'</div></div>'+
+      '<div style="font-size:var(--t-h2);color:var(--gold)">→</div></a>';
+  }
+
   // SELECTOR DE META (la persona elige a dónde quiere llegar)
   var metaGuardada = parseInt(leer('anormal_nivel_meta','0'))||0;
   if(!metaGuardada){
@@ -673,7 +732,7 @@ function render(){
   }
 
   if(listaCompromisos.length>0){
-    html += '<div class="card"><div class="cl">Mis compromisos y acciones — ponles fecha y cúmplelos</div>';
+    html += '<div class="card" id="bloque-compromisos"><div class="cl">Mis compromisos y acciones — ponles fecha y cúmplelos</div>';
     html += '<p class="ct" style="margin-bottom:8px">Un compromiso sin fecha es un deseo. Para cada uno, define <b style="color:var(--gold2)">en cuántos días te comprometes a cumplirlo</b>, y márcalo cuando lo logres. Solo las acciones cumplidas suben tu nivel de conciencia.</p>';
     html += '<div style="font-size:var(--t-small);color:var(--gold2);line-height:1.7;margin-bottom:14px;padding:10px 14px;background:var(--gd);border-radius:8px;border-left:3px solid var(--gold)">Tu mentoría dura 75 días. No dejes todo para el final: ponle plazo a cada compromiso, cúmplelo a tiempo, y mantén el entusiasmo vivo día a día. La constancia es lo que te vuelve ∀normal.</div>';
     // Agrupar por sesión
@@ -704,6 +763,13 @@ function render(){
           html += '</div>';
         } else {
           html += '<div class="comp-fecha-row"><span class="comp-dias cf-ok">✓ Cumplido'+(fechaComp?' · comprometido para '+formatoFechaCorta(fechaComp):'')+'</span></div>';
+        }
+        // Si está vencido y no cumplido: invitar a tomar conciencia y reprogramar
+        if(!cumplido && fechaComp && diasDesdeHoy(fechaComp)<0){
+          html += '<div class="comp-vencido">';
+          html += '<div class="cv-texto">Este compromiso venció y no lo cumpliste. <b>No te castigues — toma conciencia.</b> ¿Qué te lo impidió? Reprográmalo con una nueva fecha y vuelve a comprometerte.</div>';
+          html += '<button class="cv-btn" onclick="reprogramarCompromiso(\''+item.key+'\')" type="button">↻ Reprogramar</button>';
+          html += '</div>';
         }
         html += '</div>';
         html += '</div>';
