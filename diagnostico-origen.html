@@ -54,6 +54,8 @@ body{background:var(--bg);color:var(--text);font-family:var(--serif);font-weight
 .escala-content{flex:1;padding:10px 14px}
 .escala-nombre{font-size:var(--t-body);font-weight:500;margin-bottom:2px}
 .escala-desc{font-size:var(--t-h2);opacity:.75;line-height:1.5}
+.escala-cuerpo{font-size:var(--t-h2);line-height:1.55;margin-top:7px;padding:7px 10px;background:rgba(0,0,0,.18);border-radius:6px}
+.escala-cuerpo-lbl{color:var(--gold2);font-style:italic}
 .escala-zona{font-size:var(--t-h2);letter-spacing:.06em;text-transform:uppercase;opacity:.6;margin-top:3px}
 .escala-check{min-width:24px;display:flex;align-items:center;justify-content:center;font-size:var(--t-body);opacity:0;transition:opacity .2s}
 .escala-item.selected .escala-check{opacity:1}
@@ -178,20 +180,20 @@ var DATOS = {
     p0: {
       titulo: "¿Desde dónde está operando tu cuerpo hoy?",
       sub: "El cuerpo no miente. Lo que no se resuelve emocionalmente, se expresa físicamente. Esta escala te muestra en qué nivel emocional estás operando — y por qué eso importa para tu salud.",
-      intro: "Los estudios en psiconeuroinmunología confirman lo que la experiencia demuestra: los estados emocionales sostenidos en el tiempo alteran directamente el sistema inmune, hormonal y nervioso. La enfermedad no aparece de la nada — emerge de un estado emocional crónico que el cuerpo ya no puede sostener en silencio.",
-      escalaLabel: "Identifica en qué nivel reconoces tu estado emocional más frecuente",
+      intro: "Los estudios en psiconeuroinmunología confirman lo que la experiencia demuestra: los estados emocionales sostenidos en el tiempo alteran directamente el sistema inmune, hormonal y nervioso. La enfermedad no aparece de la nada — emerge de un estado emocional crónico que el cuerpo ya no puede sostener en silencio. Por eso, en cada nivel vas a ver <b style=\"color:var(--gold2)\">cómo lo expresa el cuerpo</b>: identifícate no solo con la emoción, sino con lo que sientes físicamente.",
+      escalaLabel: "Reconoce tu estado por lo que sientes — en la emoción y en el cuerpo",
       escala: [
-        {num:700, nombre:"Paz e iluminación", desc:"El cuerpo opera en coherencia total. Energía alta, recuperación rápida.", zona:"Zona de regeneración", color:"#5C2FA0", texto:"EFE"},
-        {num:540, nombre:"Alegría y amor", desc:"Sistema inmune fortalecido. Pocas enfermedades, alta vitalidad.", zona:"Zona de regeneración", color:"#2979A0", texto:"EFE"},
-        {num:400, nombre:"Razón y aceptación", desc:"Equilibrio general. El cuerpo se mantiene estable con buenos hábitos.", zona:"Zona de estabilidad", color:"#297A4A", texto:"EFE"},
-        {num:200, nombre:"Coraje", desc:"Punto de inflexión. Con disciplina, el cuerpo puede recuperarse.", zona:"Zona de inflexión", color:"#7A6B29", texto:"EFE"},
-        {num:175, nombre:"Orgullo", desc:"Tendencia a ignorar síntomas. El cuerpo ya habla pero no se escucha.", zona:"Zona de alerta", color:"#A05A20", texto:"EFE"},
-        {num:150, nombre:"Ira y rabia", desc:"Inflamación crónica. El sistema nervioso en alerta constante.", zona:"Zona de alerta", color:"#A03520", texto:"EFE"},
-        {num:125, nombre:"Deseo compulsivo", desc:"Agotamiento suprarrenal. Ansiedad que el cuerpo siente físicamente.", zona:"Zona de escasez", color:"#A02020", texto:"EFE"},
-        {num:100, nombre:"Miedo", desc:"Sistema inmune deprimido. El cuerpo en modo supervivencia permanente.", zona:"Zona de escasez", color:"#8A1515", texto:"EFE"},
-        {num:75, nombre:"Pena y tristeza", desc:"Depresión del sistema. Dolores difusos, cansancio sin causa clara.", zona:"Zona de escasez", color:"#6A1010", texto:"EFE"},
-        {num:50, nombre:"Apatía y culpa", desc:"El cuerpo se rinde. Enfermedades crónicas, recuperación muy lenta.", zona:"Zona crítica", color:"#4A0A0A", texto:"EFE"},
-        {num:20, nombre:"Vergüenza", desc:"El nivel más bajo. El cuerpo como enemigo. Enfermedades autoinmunes.", zona:"Zona crítica", color:"#2A0505", texto:"EFE"},
+        {num:700, nombre:"Paz e iluminación", desc:"El cuerpo opera en coherencia total. Energía alta, recuperación rápida.", cuerpo:"Vitalidad plena, sueño profundo, el cuerpo se siente ligero.", zona:"Zona de regeneración", color:"#5C2FA0", texto:"EFE"},
+        {num:540, nombre:"Alegría y amor", desc:"Sistema inmune fortalecido. Pocas enfermedades, alta vitalidad.", cuerpo:"Buena digestión, energía estable, te enfermas poco y sanas rápido.", zona:"Zona de regeneración", color:"#2979A0", texto:"EFE"},
+        {num:400, nombre:"Razón y aceptación", desc:"Equilibrio general. El cuerpo se mantiene estable con buenos hábitos.", cuerpo:"Molestias ocasionales que se resuelven. El cuerpo responde bien.", zona:"Zona de estabilidad", color:"#297A4A", texto:"EFE"},
+        {num:200, nombre:"Coraje", desc:"Punto de inflexión. Con disciplina, el cuerpo puede recuperarse.", cuerpo:"Tensiones que aparecen y ceden. El cuerpo empieza a recuperar equilibrio.", zona:"Zona de inflexión", color:"#7A6B29", texto:"EFE"},
+        {num:175, nombre:"Orgullo", desc:"Tendencia a ignorar síntomas. El cuerpo ya habla pero no se escucha.", cuerpo:"Rigidez en cuello y hombros, mandíbula apretada, tensión que no reconoces.", zona:"Zona de alerta", color:"#A05A20", texto:"EFE"},
+        {num:150, nombre:"Ira y rabia", desc:"Inflamación crónica. El sistema nervioso en alerta constante.", cuerpo:"Gastritis, acidez, presión alta, dolores de cabeza, problemas de hígado y piel.", zona:"Zona de alerta", color:"#A03520", texto:"EFE"},
+        {num:125, nombre:"Deseo compulsivo", desc:"Agotamiento suprarrenal. Ansiedad que el cuerpo siente físicamente.", cuerpo:"Ansiedad en el pecho, comer por impulso, insomnio, fatiga que no descansa.", zona:"Zona de escasez", color:"#A02020", texto:"EFE"},
+        {num:100, nombre:"Miedo", desc:"Sistema inmune deprimido. El cuerpo en modo supervivencia permanente.", cuerpo:"Problemas digestivos y renales, colon irritable, tensión lumbar, opresión al respirar.", zona:"Zona de escasez", color:"#8A1515", texto:"EFE"},
+        {num:75, nombre:"Pena y tristeza", desc:"Depresión del sistema. Dolores difusos, cansancio sin causa clara.", cuerpo:"Congestión y problemas respiratorios (pulmón), cansancio profundo, dolores difusos sin causa clara.", zona:"Zona de escasez", color:"#6A1010", texto:"EFE"},
+        {num:50, nombre:"Apatía y culpa", desc:"El cuerpo se rinde. Enfermedades crónicas, recuperación muy lenta.", cuerpo:"Enfermedades crónicas que no ceden, agotamiento extremo, el cuerpo que ya no responde.", zona:"Zona crítica", color:"#4A0A0A", texto:"EFE"},
+        {num:20, nombre:"Vergüenza", desc:"El nivel más bajo. El cuerpo como enemigo. Enfermedades autoinmunes.", cuerpo:"El cuerpo se ataca a sí mismo: enfermedades autoinmunes, degenerativas, graves.", zona:"Zona crítica", color:"#2A0505", texto:"EFE"},
       ]
     },
     p1: {
@@ -415,6 +417,7 @@ datos.p0.escala.forEach(function(item) {
     '<div class="escala-content" style="background:' + item.color + '22">' +
       '<div class="escala-nombre">' + item.nombre + '</div>' +
       '<div class="escala-desc">' + item.desc + '</div>' +
+      (item.cuerpo ? '<div class="escala-cuerpo"><span class="escala-cuerpo-lbl">Tu cuerpo lo expresa así:</span> ' + item.cuerpo + '</div>' : '') +
       '<div class="escala-zona">' + item.zona + '</div>' +
     '</div>' +
     '<div class="escala-check" style="color:var(--gold2)">✓</div>';
