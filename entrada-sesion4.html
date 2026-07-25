@@ -252,10 +252,10 @@ renderAvanceSesion();
 })();
 
 var PRINCIPIOS=[
-  {num:11, titulo:"Aprende a pagar el precio", voz:"Todo lo que vale cuesta. Pago el precio sin quejarme, porque sé lo que gano.", txt:"Todo propósito tiene un costo: tiempo, esfuerzo, renuncias. Descubrir tu razón de ser también es aceptar lo que estás dispuesto a pagar por vivirla. Nada valioso es gratis."},
-  {num:12, titulo:"Adoptas lo que toleras", voz:"Mi vida es lo que permito. Dejo de tolerar lo que no quiero vivir.", txt:"Tu vida es el reflejo de lo que permites. Si toleras la mediocridad, se vuelve tu estándar. Tu Ikigai te muestra qué dejar de tolerar para vivir en tu propósito."},
-  {num:13, titulo:"Aprópiate la insatisfacción", voz:"Mi insatisfacción no es queja: es la señal de que nací para más.", txt:"La insatisfacción no es tu enemiga: es la señal de que naciste para más. No la calles — úsala como combustible para buscar tu razón de ser y no conformarte."},
-  {num:14, titulo:"Adopta métodos probados", voz:"No invento el camino: sigo el que ya funciona, con humildad y disciplina.", txt:"No tienes que inventar el camino. El Ikigai es un método probado por miles de años. Confía en el proceso, síguelo con honestidad, y déjate sorprender por lo que revela."}
+  {num:11, titulo:"Aprende a pagar el precio", voz:"Todo lo que vale cuesta. Pago el precio sin quejarme, porque sé lo que gano.", exige:"Todo propósito tiene un costo: tiempo, esfuerzo, renuncias, comodidades que sueltas. Este principio te exige aceptar ese precio sin quejarte, porque sabes lo que ganas a cambio. Querer el resultado sin pagar el precio es la fantasía de los que nunca llegan. Nada valioso es gratis.", cita:"\"¿Quién de ustedes, queriendo construir una torre, no calcula primero el costo?\" Todos quieren la cima, pocos quieren la subida. El día que dejas de quejarte del precio y empiezas a pagarlo con gusto —porque sabes lo que vale— el camino se vuelve liviano.", txt:"Todo propósito tiene un costo: tiempo, esfuerzo, renuncias. Descubrir tu razón de ser también es aceptar lo que estás dispuesto a pagar por vivirla. Nada valioso es gratis."},
+  {num:12, titulo:"Adoptas lo que toleras", voz:"Mi vida es lo que permito. Dejo de tolerar lo que no quiero vivir.", exige:"Tu vida es el reflejo exacto de lo que toleras. Si toleras la mediocridad, se vuelve tu estándar; si toleras el maltrato, se vuelve tu normal. Este principio te exige revisar qué estás permitiendo, porque en silencio lo estás adoptando. Subir tu estándar empieza por dejar de tolerar lo que no quieres vivir.", cita:"\"Un poco de levadura fermenta toda la masa.\" Lo que toleras en pequeño, crece hasta gobernarte. Tu vida no mejora por lo que sueñas, sino por lo que dejas de permitir. El estándar lo pones tú, con lo que aceptas y con lo que ya no.", txt:"Tu vida es el reflejo de lo que permites. Si toleras la mediocridad, se vuelve tu estándar. Tu Ikigai te muestra qué dejar de tolerar para vivir en tu propósito."},
+  {num:13, titulo:"Aprópiate la insatisfacción", voz:"Mi insatisfacción no es queja: es la señal de que nací para más.", exige:"La insatisfacción bien entendida no es un defecto: es una brújula. Este principio te exige dejar de acallarla con distracciones y empezar a escucharla, porque te está diciendo que naciste para más. No la conviertas en queja crónica ni en conformismo — conviértela en combustible para buscar tu razón de ser.", cita:"\"Bienaventurados los que tienen hambre y sed, porque serán saciados.\" El conformista murió por dentro y sigue caminando. Tu insatisfacción no es una condena, sino la prueba de que hay algo más grande esperándote. Esa hambre es sagrada — no la calles.", txt:"La insatisfacción no es tu enemiga: es la señal de que naciste para más. No la calles — úsala como combustible para buscar tu razón de ser y no conformarte."},
+  {num:14, titulo:"Adopta métodos probados", voz:"No invento el camino: sigo el que ya funciona, con humildad y disciplina.", exige:"El orgullo quiere inventar el camino desde cero; la sabiduría sigue el que ya funciona. Este principio te exige la humildad de adoptar métodos probados —como este proceso— en vez de tropezar solo por terquedad. No tienes que reinventar lo que miles ya recorrieron. Confía en el proceso, síguelo con disciplina, y déjate sorprender.", cita:"\"Pregunta por los senderos antiguos, cuál es el buen camino, y anda por él.\" Se pierden años queriendo hacerlo a la propia manera. La humildad de seguir un método probado te ahorra el sufrimiento de aprender todo a golpes. No inventes el camino: recórrelo.", txt:"No tienes que inventar el camino. El Ikigai es un método probado por miles de años. Confía en el proceso, síguelo con honestidad, y déjate sorprender por lo que revela."}
 ];
 var estado={principioActual:0, principiosAceptados:[]};
 
@@ -282,7 +282,11 @@ function mostrarPrincipio(idx){
   }
   if(p.voz){ vozEl.textContent='"'+p.voz+'"'; vozEl.style.display='block'; }
   else { vozEl.style.display='none'; }
-  document.getElementById('pg-txt').textContent=p.txt;
+  var txtEl=document.getElementById('pg-txt');
+  var html='';
+  if(p.exige){ html+='<div style="font-size:var(--t-micro);letter-spacing:.07em;text-transform:uppercase;color:var(--gold);margin-bottom:6px">No negociable</div>'; html+='<div style="margin-bottom:16px">'+p.exige+'</div>'; }
+  if(p.cita){ html+='<div style="font-size:var(--t-micro);letter-spacing:.07em;text-transform:uppercase;color:var(--gold);margin-bottom:6px">Una verdad que me sostiene</div>'; html+='<div style="color:var(--dim);font-style:italic">'+p.cita+'</div>'; }
+  if(html){ txtEl.innerHTML=html; } else { txtEl.textContent=p.txt||''; }
   document.getElementById('btn-principio').style.display='inline-block';
   document.getElementById('p-comprometido').classList.remove('visible');
 }
@@ -318,7 +322,7 @@ function comenzar(){
   // Guardar/fusionar las voces de los principios de la Sesión 4 (mantras)
   try{
     var voces={}; try{ voces=JSON.parse(localStorage.getItem('anormal_voces_principios')||'{}'); }catch(e){}
-    PRINCIPIOS.forEach(function(p){ if(p.voz) voces['∀'+p.num]={titulo:p.titulo, voz:p.voz, color:'#9B7FD4'}; });
+    PRINCIPIOS.forEach(function(p){ if(p.voz) voces['∀'+p.num]={titulo:p.titulo, voz:p.voz, exige:p.exige, cita:p.cita, color:'#9B7FD4'}; });
     localStorage.setItem('anormal_voces_principios', JSON.stringify(voces));
   }catch(e){}
   window.location.href='ikigai.html';
