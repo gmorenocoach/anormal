@@ -166,21 +166,43 @@ body.foco-compromisos .foco-hdr{display:block}
 var PRINCIPIO_INFO={
   1:{n:'Agradecer',c:'#C9A84C'},
   2:{n:'Apúntale al compromiso',c:'#C9A84C'},
-  3:{n:'Normaliza lo extraordinario',c:'#C9A84C'},
+  3:{n:'Normaliza lo extraordinario',c:'#9B7FD4'},
   4:{n:'Avanza en el perdón',c:'#D4537E'},
   5:{n:'Aprovecha el dolor',c:'#D4537E'},
-  6:{n:'Ataca el miedo',c:'#D4537E'},
-  8:{n:'Asume responsabilidad total',c:'#5A8CC0'}
+  6:{n:'Ataca el miedo',c:'#E8C96A'},
+  7:{n:'Aprende cero excusas',c:'#4ABF7A'},
+  8:{n:'Asume responsabilidad total',c:'#4ABF7A'},
+  9:{n:'Apalancamiento: la verdad contigo mismo',c:'#4ABF7A'},
+  10:{n:'Apoyo emocional como combustible',c:'#4ABF7A'},
+  11:{n:'Aprende a pagar el precio',c:'#3E6B8C'},
+  12:{n:'Adoptas lo que toleras',c:'#3E6B8C'},
+  13:{n:'Aprópiate la insatisfacción',c:'#3E6B8C'},
+  14:{n:'Adopta métodos probados',c:'#3E6B8C'},
+  15:{n:'Alcanza el resultado luego mejora',c:'#5C2FA0'},
+  16:{n:'Acelera el proceso',c:'#5C2FA0'},
+  17:{n:'Atención y enfoque constante',c:'#5C2FA0'},
+  18:{n:'Alcanzas la anormalidad',c:'#C9A84C'}
 };
 function principioParaAccion(texto){
   var t=(texto||'').toLowerCase();
   var reglas=[
     {kw:['perdon','perdón','soltar','dejar ir','reconcili','cerrar ciclo','rencor'], p:4, como:'Soltar es liberarte. No cargues lo que ya no te sirve — el perdón es para ti, no para el otro.'},
-    {kw:['miedo','enfrentar','atrever','confront','exponer','pedir ayuda','hablar con','decir lo que','arriesg'], p:6, como:'Lo que te da miedo es justo donde está tu crecimiento. Da el paso pequeño, a pesar del miedo.'},
+    {kw:['pedir ayuda','pedir apoyo','apoyar','acompañ','no cargar solo','buscar ayuda','red de apoyo','comunidad','rodearme','delegar'], p:10, como:'No tienes que cargar solo. Pedir apoyo es sabiduría, no debilidad — el que se rodea bien, se multiplica.'},
+    {kw:['miedo','enfrentar','atrever','confront','exponer','hablar con','decir lo que','arriesg'], p:6, como:'Lo que te da miedo es justo donde está tu crecimiento. Da el paso pequeño, a pesar del miedo.'},
     {kw:['emoci','sentir','dolor','sanar','terapia','nombrar','duelo','herida'], p:5, como:'El dolor es maestro cuando lo escuchas. Pregúntate qué te enseña, en vez de evitarlo.'},
     {kw:['agradec','valorar','reconoc','celebrar','apreciar','gratitud'], p:1, como:'Agradecer cambia tu enfoque: de lo que falta a lo que ya tienes. Empieza por ahí.'},
+    {kw:['ser honesto','decir la verdad','sincer','dejar de mentir','verdad conmigo','reconocer que','admitir'], p:9, como:'La verdad sobre ti no te limita: es tu mayor palanca. Dítela, aunque duela.'},
+    {kw:['dejar de excus','sin excusa','sin pretexto','no justific','dejar de justific'], p:7, como:'No hay excusas, solo resultados. Lo que no funciona, lo cambias tú.'},
+    {kw:['límite','limite','poner freno','dejar de tolerar','dejar de permitir','no permit','subir mi estándar','subir el estándar','no aguant'], p:12, como:'Tu vida es lo que permites. Deja de tolerar lo que no quieres vivir — ahí subes tu estándar.'},
+    {kw:['no conform','no me conformo','buscar más','salir de la zona','ir por más','merezco más','aspirar'], p:13, como:'Tu insatisfacción no es queja: es la señal de que naciste para más. Úsala como combustible.'},
+    {kw:['renunciar','sacrificar','invertir tiempo','esforzar','pagar el precio','dejar de lado','priorizar esto sobre'], p:11, como:'Todo lo que vale cuesta. Paga el precio sin quejarte, porque sabes lo que ganas.'},
+    {kw:['seguir el proceso','método','metodo','aprender de','estudiar','capacitar','formar','leer sobre','investigar cómo','seguir el método'], p:14, como:'No inventes el camino: sigue el que ya funciona, con humildad y disciplina.'},
+    {kw:['terminar','completar','ejecutar','lanzar','entregar','finalizar','sacar adelante','aunque no sea perfecto'], p:15, como:'Primero alcanza el resultado, aunque sea imperfecto — después lo mejoras. La acción vence a la espera.'},
+    {kw:['ya','hoy mismo','no posponer','no aplazar','acelerar','cuanto antes','de una vez','esta semana'], p:16, como:'Lo que decidiste, hazlo ya. Cada día que pospones es un día que no vives.'},
+    {kw:['enfocar','concentrar','priorizar','eliminar distrac','sin distrac','poner atención','dejar de dispersar'], p:17, como:'Tu enfoque es tu poder. Lo que no te acerca a tu meta, no te ocupa.'},
+    {kw:['superar','dar lo mejor','máximo potencial','maximo potencial','ser extraordinario','excelencia','mejor versión'], p:18, como:'Normaliza lo que otros creen imposible. Esa es tu anormalidad — y es tu vida.'},
     {kw:['rutina','hábito','habito','diario','21 día','7 día','21 dias','7 dias','registrar','cada día','cada dia','practicar','constan','todos los días','todos los dias'], p:3, como:'La constancia vuelve extraordinario lo cotidiano. Repítelo hasta que sea parte de ti, no un esfuerzo.'},
-    {kw:['decidir','asumir','hacerme cargo','responsab','dejar de excus','depende de mí','depende de mi','tomar control'], p:8, como:'Nada cambia hasta que asumes que depende de ti. Deja las excusas y toma el control.'},
+    {kw:['decidir','asumir','hacerme cargo','responsab','depende de mí','depende de mi','tomar control'], p:8, como:'Nada cambia hasta que asumes que depende de ti. Deja las excusas y toma el control.'},
     {kw:['iniciar','empezar','crear','comenzar','pedir cita','buscar','definir','establecer','primer paso'], p:2, como:'Empezar es el acto de compromiso. Ponle fecha y da el primer paso — sin fecha, es solo un deseo.'}
   ];
   for(var i=0;i<reglas.length;i++){
