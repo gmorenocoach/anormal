@@ -256,10 +256,10 @@ renderAvanceSesion();
 })();
 
 var PRINCIPIOS=[
-  {num:7, titulo:"Aprende cero excusas", voz:"No hay excusas, solo resultados. Lo que no funciona, lo cambio yo.", txt:"Conocerte es dejar de excusarte. Cuando sabes quién eres, ya no tienes dónde esconderte: asumes tu potencial y tus sombras sin pretextos."},
-  {num:8, titulo:"Asume responsabilidad total", voz:"Yo soy la causa. Si depende de mí cambiarlo, entonces puedo.", txt:"Tu número no es tu destino — es tu punto de partida. Lo que hagas con él es tu responsabilidad, y ahí está tu poder."},
-  {num:9, titulo:"Apalancamiento: la verdad contigo mismo", voz:"Me digo la verdad, aunque duela. La honestidad conmigo es mi mayor palanca.", txt:"Verte con honestidad —dones y sombras— es la palanca de tu crecimiento. La verdad sobre ti no te limita: te libera."},
-  {num:10, titulo:"Apoyo emocional como combustible", voz:"No cargo solo. Pedir apoyo es sabiduría, no debilidad.", txt:"Conocer tu esencia te da un ancla en los días difíciles. Saber quién eres es el apoyo que te sostiene y te impulsa."}
+  {num:7, titulo:"Aprende cero excusas", voz:"No hay excusas, solo resultados. Lo que no funciona, lo cambio yo.", exige:"Conocerte de verdad te quita el escondite. Cuando sabes quién eres —tus dones y tus sombras— ya no puedes justificarte con 'así soy yo'. Este principio te exige cambiar la excusa por la acción: lo que no funciona en tu vida, lo cambias tú. Nadie más va a hacerlo.", cita:"\"Al que sabe hacer lo bueno y no lo hace, le es pecado.\" La excusa es cómoda porque te deja igual. Pero cada excusa es una renuncia disfrazada. El día que dejas de justificarte y empiezas a responsabilizarte, tu vida cambia de dueño: pasas a serlo tú.", txt:"Conocerte es dejar de excusarte. Cuando sabes quién eres, ya no tienes dónde esconderte: asumes tu potencial y tus sombras sin pretextos."},
+  {num:8, titulo:"Asume responsabilidad total", voz:"Yo soy la causa. Si depende de mí cambiarlo, entonces puedo.", exige:"Mientras la culpa esté afuera, la solución también. Este principio te exige asumir que eres la causa de tu vida —no de todo lo que te pasó, pero sí de lo que haces con ello. Tu número, tu historia, tu linaje son el punto de partida; lo que construyas desde ahí es tu responsabilidad. Y ahí está tu poder.", cita:"\"Cada uno cargará con su propia responsabilidad.\" Culpar a otros se siente bien un rato, pero te deja sin poder. El día que asumes que eres la causa —y por tanto puedes ser la solución— dejas de ser víctima de tu historia y te vuelves su autor.", txt:"Tu número no es tu destino — es tu punto de partida. Lo que hagas con él es tu responsabilidad, y ahí está tu poder."},
+  {num:9, titulo:"Apalancamiento: la verdad contigo mismo", voz:"Me digo la verdad, aunque duela. La honestidad conmigo es mi mayor palanca.", exige:"No puedes mover lo que no reconoces. Este principio te exige la honestidad radical contigo mismo: verte sin maquillaje, nombrar tus sombras sin dramatizarlas ni negarlas. La verdad sobre ti no te limita — es la palanca que mueve todo lo demás. Mentirte es cómodo; te cuesta tu crecimiento.", cita:"\"La verdad os hará libres.\" La mentira más peligrosa es la que te dices a ti mismo, porque no la ves. Cuando te atreves a decirte la verdad —toda, incluso la incómoda— encuentras la palanca que llevabas años buscando afuera. Estaba adentro.", txt:"Verte con honestidad —dones y sombras— es la palanca de tu crecimiento. La verdad sobre ti no te limita: te libera."},
+  {num:10, titulo:"Apoyo emocional como combustible", voz:"No cargo solo. Pedir apoyo es sabiduría, no debilidad.", exige:"El llanero solitario no llega lejos. Este principio te exige soltar el orgullo de 'poder solo con todo' y reconocer que necesitas apoyo — y que pedirlo es de sabios, no de débiles. Conocer tu esencia también es saber quién te sostiene. El que se aísla se agota; el que se rodea bien, se multiplica.", cita:"\"Es mejor ser dos que uno, porque si uno cae, el otro lo levanta.\" Querer demostrar que puedes solo casi siempre cuesta caro. Pedir apoyo no es rendirse — es tener la humildad de dejarse ayudar. Nadie construye algo grande en soledad.", txt:"Conocer tu esencia te da un ancla en los días difíciles. Saber quién eres es el apoyo que te sostiene y te impulsa."}
 ];
 var estado={principioActual:0, principiosAceptados:[]};
 
@@ -286,7 +286,11 @@ function mostrarPrincipio(idx){
   }
   if(p.voz){ vozEl.textContent='"'+p.voz+'"'; vozEl.style.display='block'; }
   else { vozEl.style.display='none'; }
-  document.getElementById('pg-txt').textContent=p.txt;
+  var txtEl=document.getElementById('pg-txt');
+  var html='';
+  if(p.exige){ html+='<div style="font-size:var(--t-micro);letter-spacing:.07em;text-transform:uppercase;color:var(--gold);margin-bottom:6px">No negociable</div>'; html+='<div style="margin-bottom:16px">'+p.exige+'</div>'; }
+  if(p.cita){ html+='<div style="font-size:var(--t-micro);letter-spacing:.07em;text-transform:uppercase;color:var(--gold);margin-bottom:6px">Una verdad que me sostiene</div>'; html+='<div style="color:var(--dim);font-style:italic">'+p.cita+'</div>'; }
+  if(html){ txtEl.innerHTML=html; } else { txtEl.textContent=p.txt||''; }
   document.getElementById('btn-principio').style.display='inline-block';
   document.getElementById('p-comprometido').classList.remove('visible');
 }
@@ -322,7 +326,7 @@ function comenzar(){
   // Guardar/fusionar las voces de los principios de la Sesión 3 (mantras)
   try{
     var voces={}; try{ voces=JSON.parse(localStorage.getItem('anormal_voces_principios')||'{}'); }catch(e){}
-    PRINCIPIOS.forEach(function(p){ if(p.voz) voces['∀'+p.num]={titulo:p.titulo, voz:p.voz, color:'#5A8CC0'}; });
+    PRINCIPIOS.forEach(function(p){ if(p.voz) voces['∀'+p.num]={titulo:p.titulo, voz:p.voz, exige:p.exige, cita:p.cita, color:'#5A8CC0'}; });
     localStorage.setItem('anormal_voces_principios', JSON.stringify(voces));
   }catch(e){}
   window.location.href='camino-de-vida.html';
