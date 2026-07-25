@@ -1127,12 +1127,60 @@ function pruebaReiniciar(){
 
 // ── MODAL DE PRINCIPIO ───────────────────────────────────────────────
 var PRINC_DETALLE = {
-  1:{voz:"\"Den gracias en toda circunstancia.\" La gratitud no es una emoción pasajera — es una decisión consciente de ver cada experiencia como parte de un proceso mayor. Quien no reconoce lo que ya tiene, no puede construir nada sólido sobre esa base.",
-     exige:"La gratitud no es opcional. Es el lente desde el que lees cada resultado, cada ejercicio, cada descubrimiento sobre ti mismo. Un resultado que te incomoda, visto con gratitud, se convierte en información. Visto sin gratitud, se convierte en excusa."},
-  2:{voz:"\"Nadie que pone la mano en el arado y mira hacia atrás es apto para lo que viene.\" El compromiso que tomaste hoy es más inteligente que cualquier excusa que vayas a construir mañana.",
-     exige:"Ya te comprometiste al entrar. Ese compromiso no vence. Cada vez que sientas que quieres pausar, recuerda: te comprometiste antes de saber el cómo. Eso es lo que distingue a quien transforma de quien solo aprende."},
-  3:{voz:"\"Quien cree en lo que está haciendo hará obras mayores de las que imagina.\" Ver algo extraordinario en ti mismo es fácil. Normalizarlo — vivirlo, aplicarlo, habitarlo — eso es lo extraordinario.",
-     exige:"Lo que descubras sobre ti en este proceso debe convertirse en tu nueva normalidad, no en un dato interesante que olvidas en una semana. No son revelaciones temporales. Son tu nueva forma de verte."}
+  1:{voz:"Agradezco lo que tengo y lo que soy. La gratitud es la puerta de mi abundancia.",
+     exige:"La gratitud no es opcional. Es el lente desde el que lees cada resultado, cada ejercicio, cada descubrimiento sobre ti mismo. Un resultado que te incomoda, visto con gratitud, se convierte en información. Visto sin gratitud, se convierte en excusa.",
+     cita:"\"Den gracias en toda circunstancia.\" La gratitud no es una emoción pasajera — es una decisión consciente de ver cada experiencia como parte de un proceso mayor. Quien no reconoce lo que ya tiene, no puede construir nada sólido sobre esa base."},
+  2:{voz:"Mi palabra es sagrada. Lo que me comprometo, lo cumplo — pase lo que pase.",
+     exige:"Ya te comprometiste al entrar. Ese compromiso no vence. Cada vez que sientas que quieres pausar, recuerda: te comprometiste antes de saber el cómo. Eso es lo que distingue a quien transforma de quien solo aprende.",
+     cita:"\"Nadie que pone la mano en el arado y mira hacia atrás es apto para lo que viene.\" El compromiso que tomaste hoy es más inteligente que cualquier excusa que vayas a construir mañana."},
+  3:{voz:"Lo que para otros es imposible, para mí es mi nuevo normal.",
+     exige:"Lo que descubras sobre ti en este proceso debe convertirse en tu nueva normalidad, no en un dato interesante que olvidas en una semana. No son revelaciones temporales. Son tu nueva forma de verte.",
+     cita:"\"Quien cree en lo que está haciendo hará obras mayores de las que imagina.\" Ver algo extraordinario en ti mismo es fácil. Normalizarlo — vivirlo, aplicarlo, habitarlo — eso es lo extraordinario."},
+  4:{voz:"Perdono para liberarme. Suelto la piedra que solo a mí me pesa.",
+     exige:"El perdón no es un favor que le haces al otro. Es la llave de tu propia celda. Mientras no perdonas, sigues atado a quien te hirió — cargando un peso que ya no tiene por qué ser tuyo. Perdonar no significa que estuvo bien lo que pasó. Significa que eliges tu libertad por encima de tu resentimiento.",
+     cita:"\"Perdona, y serás perdonado.\" El resentimiento es un veneno que tomas tú, esperando que le haga daño al otro. Cada día que no perdonas, no lo castigas a él — te castigas a ti. El perdón es lo único que te devuelve la paz."},
+  5:{voz:"Mi dolor es mi maestro. Lo escucho, aprendo, y lo transformo en fuerza.",
+     exige:"El dolor que no se transforma, se transmite. Puedes huir de él, anestesiarlo, fingir que no está — o puedes escucharlo, porque tiene algo que enseñarte. Todo dolor trae un mensaje sobre lo que tienes que sanar. Ignorarlo lo perpetúa. Atravesarlo lo convierte en tu mayor fuente de fuerza.",
+     cita:"\"La perla nace de la herida de la ostra.\" Nadie crece en la comodidad. Lo que hoy te está quebrando, si lo atraviesas con conciencia, es exactamente lo que mañana te va a sostener."},
+  6:{voz:"Actúo a pesar del miedo. El miedo señala justo donde tengo que crecer.",
+     exige:"El miedo no se va esperando a que se vaya. Se disuelve actuando. La única respuesta ∀normal ante el miedo es dar el paso con el miedo puesto — no después de que desaparezca. Porque el miedo casi siempre marca la dirección exacta de tu crecimiento: le temes justo a lo que necesitas hacer.",
+     cita:"\"No temas, solo cree.\" El miedo te grita catástrofes que casi nunca ocurren. La valentía no es ausencia de miedo — es actuar aunque el miedo esté ahí. Cada vez que le haces caso al miedo, te quedas pequeño. Cada vez que actúas a pesar de él, creces."},
+  7:{voz:"Me miro sin anestesia. Conocer quién soy es el principio de todo poder.",
+     exige:"No puedes transformar lo que no conoces. Mirarte de verdad —tus dones y tus sombras— exige un valor que pocos tienen: el de dejar de contarte historias cómodas sobre ti mismo. Lo que descubras no es tu sentencia, es tu punto de partida. Pero solo si te atreves a verlo tal cual es.",
+     cita:"\"La verdad te hará libre.\" Durante años te cuentas una versión de ti que te sirve para no cambiar. El día que te miras sin excusas, duele — pero es el día que empiezas a ser libre. No puedes sanar lo que no te atreves a nombrar."},
+  8:{voz:"Mi historia no me define, me forma. Acepto de dónde vengo para elegir a dónde voy.",
+     exige:"Tu historia —tu familia, tus heridas, tu linaje— no es una cadena, es un cimiento. Aceptarla no es resignarte a ella; es dejar de pelearte con lo que ya fue para tener la energía de construir lo que sigue. Lo que niegas te gobierna. Lo que aceptas, lo trasciendes.",
+     cita:"\"Honra a tu padre y a tu madre.\" No se trata de estar de acuerdo con todo lo que viviste. Se trata de honrar que de ahí vienes, y que incluso lo más difícil te dio algo. Cuando dejas de culpar a tu historia, empiezas a usarla como material para tu propósito."},
+  9:{voz:"Vivo desde mi centro. Cuando soy fiel a mi esencia, todo lo demás se ordena.",
+     exige:"Vivir desalineado con lo que eres agota más que cualquier esfuerzo. Cuando tus actos, tus palabras y tu esencia apuntan al mismo lugar, aparece una fuerza que no se puede fingir: la coherencia. Este principio te exige dejar de traicionarte para agradar, y empezar a vivir desde tu centro.",
+     cita:"\"¿De qué le sirve al hombre ganar el mundo si pierde su alma?\" Puedes lograr mucho viviendo como otros esperan, y aun así sentirte vacío. La verdadera abundancia empieza cuando dejas de perseguir lo que deberías querer y empiezas a honrar lo que de verdad eres."},
+  10:{voz:"Cada paso que doy tiene una razón. No me muevo por moverme, avanzo hacia mi porqué.",
+     exige:"Saber tu propósito sin actuar es solo un sueño bonito. Este principio te exige convertir la claridad en movimiento: cada decisión, cada día, alineada con tu razón de ser. La acción sin propósito es agotamiento. El propósito sin acción es fantasía. Los dos juntos son tu poder.",
+     cita:"\"A cada uno se le dio según sus talentos, para que diera fruto.\" Descubrir tu don es solo la mitad. La otra mitad es ponerlo al servicio, hacerlo fruto. No viniste a guardar lo que eres, sino a entregarlo. Ahí está el sentido."},
+  11:{voz:"No me rindo antes de tiempo. La constancia es más fuerte que el talento.",
+     exige:"El propósito se prueba en la constancia, no en la inspiración del primer día. Habrá momentos donde no veas resultados y quieras soltar — ahí es donde se decide todo. Perseverar no es terquedad: es fidelidad a lo que decidiste cuando estabas claro, sostenida incluso cuando la claridad se nubla.",
+     cita:"\"El que persevere hasta el final, ese se salvará.\" Casi todos abandonan justo antes del quiebre, cuando faltaba poco. El éxito muchas veces es simplemente no rendirse el día que más ganas tienes de hacerlo."},
+  12:{voz:"Fluyo con lo que viene sin traicionar lo que soy. Me adapto en la forma, no en la esencia.",
+     exige:"La vida no sale como la planeas, y aferrarte rígido a un solo camino te quiebra. Este principio te exige flexibilidad inteligente: cambiar la estrategia sin cambiar el propósito, ajustar el cómo sin renunciar al porqué. El que no se adapta se rompe; el que se adapta sin centro se pierde. El equilibrio es el arte.",
+     cita:"\"El junco que se dobla no se quiebra con el viento.\" Ser firme no es ser rígido. Se puede ceder en la forma y mantenerse inquebrantable en el fondo. Adaptarse no es debilidad — es la inteligencia de seguir en pie."},
+  13:{voz:"Doy gracias por el camino, no solo por la meta. Cada paso me está formando.",
+     exige:"La meta es un instante; el proceso es la vida. Si solo agradeces cuando llegas, te pierdes el 99% del camino. Este principio te exige encontrar sentido en el trayecto —en lo difícil, en lo lento, en lo incierto— porque ahí es donde realmente te transformas. El resultado te lo dan; el proceso te hace.",
+     cita:"\"Considérenlo motivo de gozo cuando enfrenten pruebas, porque forjan el carácter.\" La persona en la que te conviertes durante el camino vale más que cualquier meta. Da gracias por el proceso — es ahí donde de verdad creces."},
+  14:{voz:"Doy el paso aunque no vea todo el camino. Confío en que se abre al andar.",
+     exige:"Nunca vas a tener todas las certezas antes de empezar. Este principio te exige avanzar con lo que tienes, confiando en que el camino se revela al caminarlo. La fe no es ausencia de dudas: es actuar a pesar de ellas, dar el primer paso sin ver la escalera completa. Esperar a estar seguro es la forma más elegante de no empezar nunca.",
+     cita:"\"La fe es la certeza de lo que se espera, la convicción de lo que no se ve.\" Nadie te garantiza nada cuando empiezas. Avanzas con fe, y el camino se abre con cada paso. Primero das el paso, después aparece el piso."},
+  15:{voz:"Primero lo hago, después lo perfecciono. La acción vence a la espera.",
+     exige:"El perfeccionismo es miedo disfrazado de excelencia. Este principio te exige alcanzar el resultado primero —aunque sea imperfecto— y mejorarlo después. Lo terminado siempre le gana a lo perfecto que nunca se hizo. La acción imperfecta construye; la perfección imaginada paraliza.",
+     cita:"\"Todo tiene su tiempo; hay un tiempo para actuar.\" Se aprende haciendo, no planeando. Alcanza el resultado, y desde ahí mejora — pero muévete. El momento perfecto no llega; se crea."},
+  16:{voz:"Lo que decidí hacer, lo hago ya. Cada día que pospongo es un día que no vivo.",
+     exige:"El tiempo es el único recurso que no se recupera. Este principio te exige velocidad con dirección: lo que decidiste, hazlo ya. La dilación mata más sueños que el fracaso. Cada día que pospones tu propósito es un día menos viviéndolo — y no te sobran.",
+     cita:"\"Lo que vas a hacer, hazlo pronto.\" La urgencia bien entendida es un regalo: entender que no hay tiempo que perder te enfoca. Deja de decir 'algún día' y empieza a decir 'hoy'. Ahí todo cambia."},
+  17:{voz:"Mi enfoque es mi poder. Lo que no me acerca a mi meta, no me ocupa.",
+     exige:"Vives en un mundo diseñado para dispersarte. Este principio te exige proteger tu atención como tu bien más valioso: concentrarte en lo que quieres lograr y en lo que puedes controlar, soltando el resto. El que persigue dos liebres no atrapa ninguna. La justificación te desenfoca; el enfoque te hace imparable.",
+     cita:"\"Nadie puede servir a dos señores.\" La dispersión es la enemiga silenciosa del propósito. Cuando aprendes a decir 'no' a lo que no te acerca a tu meta, empiezas a avanzar de verdad. El enfoque crea ganadores."},
+  18:{voz:"Normalizo lo que otros creen imposible. Esta es mi anormalidad — y es mi vida.",
+     exige:"Este es el destino de todo el camino. Cuando normalizas el esfuerzo, la disciplina, el perdón, el propósito y el enfoque, dejas de ser ordinario sin siquiera darte cuenta. La anormalidad no es un logro que alcanzas una vez: es una forma de vivir que habitas cada día. Ya no vuelves a ser el de antes.",
+     cita:"\"Ustedes son la luz del mundo; no se esconde una ciudad puesta sobre un monte.\" No naciste para vivir en el promedio. Ser ∀normal no es un certificado que cuelgas en la pared — es una forma de vivir desde tu máximo potencial. Y una vez que la pruebas, ya no hay vuelta atrás."}
 };
 
 function abrirPrincipio(n){
@@ -1149,9 +1197,15 @@ function abrirPrincipio(n){
     h += '<div style="font-size:var(--t-small);color:var(--text);line-height:1.8;margin-bottom:16px">'+det.exige+'</div>';
   }
   if(det.voz){
-    h += '<div style="padding:14px 16px;background:var(--bg3);border-left:3px solid '+p.color+';border-radius:0 var(--rm) var(--rm) 0">';
-    h += '<div style="font-size:var(--t-micro);letter-spacing:.08em;text-transform:uppercase;color:var(--gold);margin-bottom:8px">Una voz que me acompaña</div>';
-    h += '<div style="font-size:var(--t-small);color:var(--dim);line-height:1.8;font-style:italic">'+det.voz+'</div>';
+    h += '<div style="padding:14px 16px;background:var(--bg3);border-left:3px solid '+p.color+';border-radius:0 var(--rm) var(--rm) 0;margin-bottom:14px">';
+    h += '<div style="font-size:var(--t-micro);letter-spacing:.08em;text-transform:uppercase;color:var(--gold);margin-bottom:8px">Mi voz — lo que me digo</div>';
+    h += '<div style="font-size:var(--t-h3);color:var(--gold2);line-height:1.7;font-style:italic;font-family:var(--serif)">'+det.voz+'</div>';
+    h += '</div>';
+  }
+  if(det.cita){
+    h += '<div style="padding:14px 16px;background:var(--bg2);border:1px solid var(--gb);border-radius:var(--rm)">';
+    h += '<div style="font-size:var(--t-micro);letter-spacing:.08em;text-transform:uppercase;color:var(--gold);margin-bottom:8px">Una verdad que me sostiene</div>';
+    h += '<div style="font-size:var(--t-small);color:var(--dim);line-height:1.8">'+det.cita+'</div>';
     h += '</div>';
   }
   // ── CÓMO LO ESTOY VIVIENDO (práctica constante, no tarea con fecha) ──
