@@ -76,6 +76,22 @@ body{background:var(--bg);color:var(--text);font-family:var(--serif);font-size:v
   .cap-tit{font-size:var(--t-h2)}
   body{font-size:var(--t-body)}
 }
+
+.pacto-bloque{margin-bottom:22px}
+.pacto-lbl{font-family:var(--sans);font-size:var(--t-micro);letter-spacing:.08em;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+.pacto-txt{font-size:var(--t-body);color:var(--text);line-height:1.8;font-style:italic}
+.pacto-comp{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid var(--ffaint)}
+.pacto-check{color:var(--gold2);font-size:var(--t-body);flex-shrink:0;margin-top:2px}
+.pacto-comp-body{flex:1;display:flex;flex-direction:column;gap:2px}
+.pacto-comp-txt{font-size:var(--t-body);color:var(--text);line-height:1.6}
+.pacto-comp-ses{font-size:var(--t-micro);color:var(--dim);letter-spacing:.04em}
+.pacto-resumen{font-size:var(--t-small);color:var(--gold2);text-align:right;margin-top:10px;font-style:italic}
+.pacto-declaracion{font-family:var(--serif);font-size:var(--t-h3);color:var(--gold3);line-height:1.7;font-style:italic;padding:16px 18px;background:var(--bg2);border-left:3px solid var(--gold);border-radius:0 var(--rm) var(--rm) 0}
+.pacto-firma{text-align:center;margin-top:30px;padding-top:24px;border-top:1px solid var(--gb)}
+.pacto-firma-txt{font-family:var(--serif);font-size:32px;color:var(--gold2);font-style:italic;margin-bottom:6px}
+.pacto-firma-linea{width:200px;height:1px;background:var(--gold);margin:0 auto 10px}
+.pacto-firma-lbl{font-size:var(--t-small);color:var(--dim)}
+.pacto-firma-sello{font-size:var(--t-micro);color:var(--gold);font-style:italic;margin-top:10px;letter-spacing:.04em}
 </style>
 </head>
 <body>
@@ -265,6 +281,73 @@ function render(){
     }
     if(puntos>0) h+='<p style="font-size:var(--t-body);color:var(--text)">Mi nivel de conciencia subió <b style="color:var(--gold2)">'+puntos+' puntos</b> — cada uno ganado con acciones cumplidas, no con intenciones.</p>';
     h+='</div></div>';
+  }
+
+  // ── CAPÍTULO FINAL: MI PACTO ──
+  var contrato = leerJSON('anormal_contrato',{});
+  var compromisosAreas = leerJSON('anormal_compromisos_areas',{});
+  var cumplidos = leerJSON('anormal_compromisos_cumplidos',{});
+  // Recopilar todos los compromisos del proceso
+  var pactoItems=[];
+  // Acciones de la rueda
+  var accLista=(prioridades&&prioridades.length)?prioridades:[];
+  accLista.forEach(function(num){
+    var acc=acciones.find&&acciones.find(function(a){return String(a.num)===String(num);});
+    if(acc&&acc.texto) pactoItems.push({txt:acc.texto, ses:'Sesión 1', cumplido:!!cumplidos['accion_'+num]});
+  });
+  // Compromisos por sesión (principios)
+  var nombresSes={principios_sesion2:'Sesión 2',principios_sesion3:'Sesión 3',principios_sesion4:'Sesión 4',principios_sesion5:'Sesión 5'};
+  Object.keys(compromisosAreas).forEach(function(k){
+    var comp=compromisosAreas[k]; var txt=comp&&(comp.texto||comp);
+    if(txt&&nombresSes[k]) pactoItems.push({txt:txt, ses:nombresSes[k], cumplido:!!cumplidos['comp_'+k]});
+  });
+  // Compromisos personales
+  var personales=leerJSON('anormal_compromisos_personales',[]);
+  personales.forEach(function(cp){ if(cp.texto) pactoItems.push({txt:cp.texto, ses:'Propio', cumplido:!!cumplidos['personal_'+cp.id]}); });
+
+  var tieneDeclaracion = planVida.declaracion && planVida.declaracion.trim();
+  if(pactoItems.length>0 || tieneDeclaracion || contrato.firma){
+    hayAlgo=true;
+    h+='<div class="cap"><div class="cap-num">Capítulo Final</div><div class="cap-tit">Mi pacto</div>';
+    h+='<div class="cap-intro">Un proceso no termina en una página — termina en un compromiso. Este es el pacto que hiciste contigo mismo: todo lo que declaraste, reunido en un solo lugar, sellado con tu nombre.</div>';
+
+    // Intención y visión del contrato inicial
+    if(contrato.intencion && contrato.intencion.trim()){
+      h+='<div class="pacto-bloque"><div class="pacto-lbl">Lo que vine a buscar</div><p class="pacto-txt">'+contrato.intencion.replace(/</g,'&lt;')+'</p></div>';
+    }
+    if(contrato.vision && contrato.vision.trim()){
+      h+='<div class="pacto-bloque"><div class="pacto-lbl">La persona que elijo ser</div><p class="pacto-txt">'+contrato.vision.replace(/</g,'&lt;')+'</p></div>';
+    }
+
+    // Los compromisos
+    if(pactoItems.length>0){
+      h+='<div class="pacto-bloque"><div class="pacto-lbl">Mis compromisos</div>';
+      pactoItems.forEach(function(it){
+        h+='<div class="pacto-comp"><span class="pacto-check">'+(it.cumplido?'✓':'○')+'</span><div class="pacto-comp-body"><span class="pacto-comp-txt">'+it.txt.replace(/</g,'&lt;')+'</span><span class="pacto-comp-ses">'+it.ses+'</span></div></div>';
+      });
+      var totalCump=pactoItems.filter(function(x){return x.cumplido;}).length;
+      h+='<p class="pacto-resumen">'+totalCump+' de '+pactoItems.length+' cumplidos al cerrar mi proceso</p>';
+      h+='</div>';
+    }
+
+    // Declaración de vida
+    if(tieneDeclaracion){
+      h+='<div class="pacto-bloque"><div class="pacto-lbl">Mi declaración de vida plena</div><p class="pacto-declaracion">'+planVida.declaracion.replace(/</g,'&lt;')+'</p></div>';
+    }
+
+    // La firma
+    var firmaTxt = contrato.firma || nombre || '';
+    var fechaFirma = '';
+    if(contrato.fecha){ try{ var fd=new Date(contrato.fecha); fechaFirma=fd.toLocaleDateString('es-CO',{day:'numeric',month:'long',year:'numeric'}); }catch(e){} }
+    if(firmaTxt){
+      h+='<div class="pacto-firma">';
+      h+='<div class="pacto-firma-txt">'+firmaTxt+'</div>';
+      h+='<div class="pacto-firma-linea"></div>';
+      h+='<div class="pacto-firma-lbl">Firmado por '+firmaTxt+(fechaFirma?', el '+fechaFirma:'')+'</div>';
+      h+='<div class="pacto-firma-sello">✦ El día que le declaré la guerra a mi mediocridad</div>';
+      h+='</div>';
+    }
+    h+='</div>';
   }
 
   // ── CIERRE ──
