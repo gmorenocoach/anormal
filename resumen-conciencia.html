@@ -136,6 +136,11 @@ body{background:var(--bg);color:var(--text);font-family:var(--serif);font-weight
 body.foco-compromisos #contenido > *{display:none !important}
 body.foco-compromisos #contenido > #bloque-compromisos{display:block !important}
 body.foco-compromisos .foco-hdr{display:block}
+
+.viv-escala{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.viv-opt{background:var(--bg3);border:1px solid var(--faint);border-radius:var(--rm);padding:12px 10px;font-family:var(--sans);font-size:var(--t-small);color:var(--dim);cursor:pointer;transition:all .2s}
+.viv-opt:hover{border-color:var(--gold)}
+.viv-opt.on{background:var(--gd);font-weight:500}
 </style>
 </head>
 <body>
@@ -446,7 +451,23 @@ var PRINCIPIOS_18=[
   {n:18,nombre:"Alcanzas la anormalidad",sesion:5,color:"#C9A84C"}
 ];
 // La sesión actual del participante (por ahora Sesión 1)
-var sesionActual = parseInt(leer('anormal_sesion_actual','1'))||1;
+var sesionGuardada = parseInt(leer('anormal_sesion_actual','1'))||1;
+// Detectar la sesión REAL por el progreso: qué datos ha generado la persona.
+// Esto arregla que solo aparezcan los 3 primeros principios cuando ya avanzó.
+function detectarSesionReal(){
+  var s = 1;
+  // S2: hizo trabajo del perdón o guardó principios de S2
+  var comps = leerJSON('anormal_compromisos_areas',{});
+  if(leerJSON('anormal_perdon',null) || comps['principios_sesion2'] || leerJSON('anormal_resignificacion',null)) s = Math.max(s,2);
+  // S3: identidad — mapa, numerología, autoconocimiento, o principios S3
+  if(leerJSON('anormal_mapa',null) || leerJSON('anormal_transgeneracional',null) || comps['principios_sesion3']) s = Math.max(s,3);
+  // S4: ikigai o principios S4
+  if(leerJSON('anormal_ikigai',null) || comps['principios_sesion4']) s = Math.max(s,4);
+  // S5: plan de vida / declaración o principios S5
+  if(leerJSON('anormal_plan_vida',null) || leer('anormal_declaracion_vida','') || comps['principios_sesion5'] || leer('anormal_proceso_completo','')) s = Math.max(s,5);
+  return s;
+}
+var sesionActual = Math.max(sesionGuardada, detectarSesionReal());
 var principiosActivos = PRINCIPIOS_18.filter(function(p){ return p.sesion<=sesionActual; });
 
 // ── RENDERIZAR ───────────────────────────────────────────────────────
@@ -913,7 +934,7 @@ function render(){
 
   // PRINCIPIOS INQUEBRANTABLES (acumulados) + cómo me comprometo con ellos
   html += '<div class="card"><div class="cl">Mis principios y cómo los vivo</div>';
-  html += '<p class="ct" style="margin-bottom:14px">Estos son los principios que ya activaste, agrupados por sesión. Bajo cada grupo verás el compromiso que escribiste para vivirlos. Cada uno es no negociable — son tu ruta para subir la conciencia.</p>';
+  html += '<p class="ct" style="margin-bottom:14px">Los principios no se cumplen una vez — se <b style="color:var(--gold2)">viven cada día</b>. Estos son los que ya activaste. Toca cualquiera para releerlo y marcar, con honestidad, qué tan presente está en tu vida hoy. Los puntos muestran cómo vas.</p>';
   var compromisoPorSesion = {2:'principios_sesion2', 3:'principios_sesion3', 4:'principios_sesion4', 5:'principios_sesion5'};
   var sesionesVistas = {};
   principiosActivos.forEach(function(p){
@@ -925,6 +946,13 @@ function render(){
     html += '<div class="princ-item princ-click" style="border-left-color:'+p.color+';cursor:pointer" onclick="abrirPrincipio('+p.n+')">';
     html += '<div class="princ-num" style="color:'+p.color+'">∀'+p.n+'</div>';
     html += '<div class="princ-nombre">'+p.nombre+'</div>';
+    (function(){
+      var vivs=leerJSON('anormal_vivencia_principios',{});
+      var nv=vivs[p.n]||0;
+      var puntos='';
+      for(var d=1;d<=4;d++){ puntos+='<span style="width:6px;height:6px;border-radius:50%;display:inline-block;margin-left:3px;background:'+(d<=nv?p.color:'var(--ffaint)')+'"></span>'; }
+      html += '<div style="display:flex;align-items:center;margin-right:8px" title="Cómo lo vivo">'+puntos+'</div>';
+    })();
     html += '<div class="princ-flecha" style="color:'+p.color+';font-size:var(--t-h3)">›</div>';
     html += '</div>';
     // Después del último principio de cada sesión, mostrar el compromiso de esa sesión
@@ -1089,7 +1117,7 @@ function pruebaReiniciar(){
     var claves = ['anormal_nombre','anormal_fecha_nac','anormal_numero_camino','anormal_linea',
       'anormal_contrato','anormal_contrato_firmado','anormal_entrada_completa','anormal_diagnostico',
       'anormal_acciones','anormal_prioridades','anormal_compromisos_areas','anormal_compromiso_inicial',
-      'anormal_principios_nuevos','anormal_puntos_conciencia','anormal_compromisos_cumplidos','anormal_compromisos_personales','anormal_fechas_cumplimiento','anormal_sesion_actual','anormal_rueda_areas','widget_visto_rueda','anormal_fecha_inicio_proceso'];
+      'anormal_principios_nuevos','anormal_puntos_conciencia','anormal_compromisos_cumplidos','anormal_compromisos_personales','anormal_fechas_cumplimiento','anormal_vivencia_principios','anormal_sesion_actual','anormal_rueda_areas','widget_visto_rueda','anormal_fecha_inicio_proceso'];
     claves.forEach(function(k){ localStorage.removeItem(k); });
     // Borrar también fechas de sesiones
     for(var s=2;s<=5;s++){ localStorage.removeItem('anormal_fecha_sesion_'+s); }
@@ -1126,8 +1154,28 @@ function abrirPrincipio(n){
     h += '<div style="font-size:var(--t-small);color:var(--dim);line-height:1.8;font-style:italic">'+det.voz+'</div>';
     h += '</div>';
   }
+  // ── CÓMO LO ESTOY VIVIENDO (práctica constante, no tarea con fecha) ──
+  var vivencias = leerJSON('anormal_vivencia_principios',{});
+  var nivelViv = vivencias[n] || 0;
+  var etiquetasViv = ['No aún','A veces','Cada día más','Ya lo vivo'];
+  h += '<div style="height:1px;background:var(--faint);margin:18px 0 14px"></div>';
+  h += '<div style="font-size:var(--t-micro);letter-spacing:.07em;text-transform:uppercase;color:'+p.color+';margin-bottom:4px">¿Cómo lo estás viviendo?</div>';
+  h += '<p style="font-size:var(--t-small);color:var(--dim);line-height:1.6;margin-bottom:12px">Un principio no se cumple una vez — se vive cada día. Marca con honestidad qué tan presente está en tu vida hoy. Volverás a esto muchas veces.</p>';
+  h += '<div class="viv-escala">';
+  for(var vi=0; vi<4; vi++){
+    h += '<button class="viv-opt'+(nivelViv===vi+1?' on':'')+'" onclick="calificarVivencia('+n+','+(vi+1)+')" type="button" style="'+(nivelViv===vi+1?'border-color:'+p.color+';color:'+p.color:'')+'">'+etiquetasViv[vi]+'</button>';
+  }
+  h += '</div>';
   body.innerHTML = h;
   modal.style.display = 'flex';
+}
+
+function calificarVivencia(n, nivel){
+  var v = leerJSON('anormal_vivencia_principios',{});
+  v[n] = (v[n]===nivel) ? 0 : nivel; // volver a tocar el mismo lo desmarca
+  localStorage.setItem('anormal_vivencia_principios',JSON.stringify(v));
+  abrirPrincipio(n); // refrescar el modal
+  render(); // refrescar el conteo en la tarjeta
 }
 
 function abrirContrato(){
