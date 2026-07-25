@@ -262,10 +262,10 @@ function renderReevaluacion(){
 }
 
 var PRINCIPIOS=[
-  {num:15, titulo:"Alcanza el resultado, luego mejora", voz:"Primero lo hago, después lo perfecciono. La acción vence a la espera.", txt:"No esperes a estar listo o a que sea perfecto. Primero alcanza el resultado, aunque sea imperfecto — y después lo mejoras. La acción vence a la parálisis del perfeccionismo."},
-  {num:16, titulo:"Acelera el proceso", voz:"Lo que decidí hacer, lo hago ya. Cada día que pospongo es un día que no vivo.", txt:"Lo que decidiste hacer, hazlo ya. Cada día que pospones tu propósito es un día menos viviéndolo. La velocidad, con dirección, es una ventaja anormal."},
-  {num:17, titulo:"Atención y enfoque constante", voz:"Mi enfoque es mi poder. Lo que no me acerca a mi meta, no me ocupa.", txt:"El enfoque crea ganadores. Concéntrate en lo que quieres lograr y en lo que puedes controlar — no te disperses, no te distraigas. La justificación te desenfoca."},
-  {num:18, titulo:"Alcanzas la anormalidad", voz:"Normalizo lo que otros creen imposible. Esta es mi anormalidad — y es mi vida.", txt:"Este es el último principio, y también el destino. Cuando normalizas el esfuerzo, la disciplina y el enfoque, dejas de ser ordinario. Alcanzas tu anormalidad — vives desde tu máximo potencial."}
+  {num:15, titulo:"Alcanza el resultado, luego mejora", voz:"Primero lo hago, después lo perfecciono. La acción vence a la espera.", exige:"El perfeccionismo es miedo disfrazado de excelencia. Este principio te exige alcanzar el resultado primero —aunque sea imperfecto— y mejorarlo después. Lo terminado siempre le gana a lo perfecto que nunca se hizo. La acción imperfecta construye; la perfección imaginada paraliza.", cita:"\"Todo tiene su tiempo; hay un tiempo para actuar.\" Se aprende haciendo, no planeando. Alcanza el resultado, y desde ahí mejora — pero muévete. El momento perfecto no llega; se crea."},
+  {num:16, titulo:"Acelera el proceso", voz:"Lo que decidí hacer, lo hago ya. Cada día que pospongo es un día que no vivo.", exige:"El tiempo es el único recurso que no se recupera. Este principio te exige velocidad con dirección: lo que decidiste, hazlo ya. La dilación mata más sueños que el fracaso. Cada día que pospones tu propósito es un día menos viviéndolo — y no te sobran.", cita:"\"Lo que vas a hacer, hazlo pronto.\" La urgencia bien entendida es un regalo: entender que no hay tiempo que perder te enfoca. Deja de decir 'algún día' y empieza a decir 'hoy'. Ahí todo cambia."},
+  {num:17, titulo:"Atención y enfoque constante", voz:"Mi enfoque es mi poder. Lo que no me acerca a mi meta, no me ocupa.", exige:"Vives en un mundo diseñado para dispersarte. Este principio te exige proteger tu atención como tu bien más valioso: concentrarte en lo que quieres lograr y en lo que puedes controlar, soltando el resto. El que persigue dos liebres no atrapa ninguna. La justificación te desenfoca; el enfoque te hace imparable.", cita:"\"Nadie puede servir a dos señores.\" La dispersión es la enemiga silenciosa del propósito. Cuando aprendes a decir 'no' a lo que no te acerca a tu meta, empiezas a avanzar de verdad. El enfoque crea ganadores."},
+  {num:18, titulo:"Alcanzas la anormalidad", voz:"Normalizo lo que otros creen imposible. Esta es mi anormalidad — y es mi vida.", exige:"Este es el destino de todo el camino. Cuando normalizas el esfuerzo, la disciplina, el perdón, el propósito y el enfoque, dejas de ser ordinario sin siquiera darte cuenta. La anormalidad no es un logro que alcanzas una vez: es una forma de vivir que habitas cada día. Ya no vuelves a ser el de antes.", cita:"\"Ustedes son la luz del mundo; no se esconde una ciudad puesta sobre un monte.\" No naciste para vivir en el promedio. Ser ∀normal no es un certificado que cuelgas en la pared — es una forma de vivir desde tu máximo potencial. Y una vez que la pruebas, ya no hay vuelta atrás."}
 ];
 var estado={principioActual:0, principiosAceptados:[]};
 
@@ -292,7 +292,12 @@ function mostrarPrincipio(idx){
   }
   if(p.voz){ vozEl.textContent='"'+p.voz+'"'; vozEl.style.display='block'; }
   else { vozEl.style.display='none'; }
-  document.getElementById('pg-txt').textContent=p.txt;
+  // Las tres capas: lo no negociable + la cita con reflexión
+  var txtEl=document.getElementById('pg-txt');
+  var html='';
+  if(p.exige){ html+='<div style="font-size:var(--t-micro);letter-spacing:.07em;text-transform:uppercase;color:var(--gold);margin-bottom:6px">No negociable</div>'; html+='<div style="margin-bottom:16px">'+p.exige+'</div>'; }
+  if(p.cita){ html+='<div style="font-size:var(--t-micro);letter-spacing:.07em;text-transform:uppercase;color:var(--gold);margin-bottom:6px">Una verdad que me sostiene</div>'; html+='<div style="color:var(--dim);font-style:italic">'+p.cita+'</div>'; }
+  if(html){ txtEl.innerHTML=html; } else { txtEl.textContent=p.txt||''; }
   document.getElementById('btn-principio').style.display='inline-block';
   document.getElementById('p-comprometido').classList.remove('visible');
 }
@@ -328,7 +333,7 @@ function comenzar(){
   // Guardar/fusionar las voces de los principios de la Sesión 5 (mantras) - completa los 18
   try{
     var voces={}; try{ voces=JSON.parse(localStorage.getItem('anormal_voces_principios')||'{}'); }catch(e){}
-    PRINCIPIOS.forEach(function(p){ if(p.voz) voces['∀'+p.num]={titulo:p.titulo, voz:p.voz, color:'#C9A84C'}; });
+    PRINCIPIOS.forEach(function(p){ if(p.voz) voces['∀'+p.num]={titulo:p.titulo, voz:p.voz, exige:p.exige, cita:p.cita, color:'#C9A84C'}; });
     localStorage.setItem('anormal_voces_principios', JSON.stringify(voces));
   }catch(e){}
   window.location.href='siguiente-ciclo.html';
