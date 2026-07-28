@@ -100,6 +100,9 @@ body{background:var(--bg);color:var(--text);font-family:var(--serif);font-weight
     <div class="nav">
       <button class="bp" id="btn-nombre" disabled onclick="irA(1)">Continuar →</button>
     </div>
+    <div id="empezar-cero-box" style="display:none;text-align:center;margin-top:18px">
+      <a onclick="empezarDeCero()" style="color:var(--dim);font-size:14px;cursor:pointer;text-decoration:underline">¿No eres tú? Empezar de cero</a>
+    </div>
   </div>
 
   <!-- P1: LOS COMPROMISOS -->
@@ -204,12 +207,29 @@ var pantalla='A';
     if(inf){inf.value=f;}
   }
   if(n||f){setTimeout(verificarNombre,100);}
+  // Si hay datos previos, ofrecer empezar de cero (por si otra persona usa el dispositivo)
+  if(n||f||localStorage.getItem('anormal_contrato_firmado')){
+    var box=document.getElementById('empezar-cero-box');
+    if(box) box.style.display='block';
+  }
   // Fecha de firma
   var hoy=new Date();
   var opciones={year:'numeric',month:'long',day:'numeric'};
   var fd=document.getElementById('firma-fecha');
   if(fd)fd.textContent=hoy.toLocaleDateString('es-CO',opciones);
 })();
+
+// Empezar de cero: borra TODO el estado de ∀normal (robusto)
+function empezarDeCero(){
+  if(!confirm('¿Empezar de cero? Se borrarán todos los datos guardados en este dispositivo para comenzar limpio.')) return;
+  var aBorrar=[];
+  for(var i=0;i<localStorage.length;i++){
+    var k=localStorage.key(i);
+    if(k && (k.indexOf('anormal_')===0 || k.indexOf('widget_')===0)) aBorrar.push(k);
+  }
+  aBorrar.forEach(function(k){ localStorage.removeItem(k); });
+  location.reload();
+}
 
 // Construir lista de compromisos
 (function(){
