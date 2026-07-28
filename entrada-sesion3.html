@@ -102,10 +102,13 @@ body{background:var(--bg);color:var(--text);font-family:var(--serif);font-weight
 
   <div id="avance-sesion"></div>
 
-  <div class="video-box">
-    <div class="video-play">▶</div>
-    <div class="video-txt">Video de apertura — Sesión 3</div>
-    <div class="video-soon">Próximamente disponible</div>
+  <div style="border-radius:var(--rl);overflow:hidden;margin-bottom:8px;border:1px solid var(--gb)">
+    <div style="position:relative;width:100%;padding-bottom:56.25%;height:0">
+      <div id="player-s3" style="position:absolute;top:0;left:0;width:100%;height:100%"></div>
+    </div>
+  </div>
+  <div id="video-aviso-s3" style="text-align:center;font-size:var(--t-small);color:var(--dim);margin-bottom:18px">
+    <span class="va-icono">▶</span> <span class="va-txt">Mira el video para continuar</span>
   </div>
 
   <div class="card gold">
@@ -141,7 +144,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--serif);font-weight
 
   <div class="nav">
     <button class="bs" onclick="volverResumen()">← Volver al resumen</button>
-    <button class="bp" onclick="irPrincipios()">Aceptar los principios →</button>
+    <button class="bp" id="btn-princ-s3" onclick="irPrincipios()">Aceptar los principios →</button>
   </div>
   </div>
 
@@ -168,7 +171,37 @@ body{background:var(--bg);color:var(--text);font-family:var(--serif);font-weight
   </div>
 </div>
 
+<script src="https://www.youtube.com/iframe_api"></script>
 <script>
+// ── BLOQUEO DE VIDEO DE APERTURA (V8) ──
+var videoVistoS3=false, playerS3;
+function onYouTubeIframeAPIReady(){
+  playerS3=new YT.Player('player-s3',{
+    videoId:'PQhUrBiOeBE',
+    playerVars:{rel:0,modestbranding:1,playsinline:1},
+    events:{'onStateChange':function(e){ if(e.data===YT.PlayerState.ENDED){ desbloquearS3(); } }}
+  });
+}
+function desbloquearS3(){
+  if(videoVistoS3) return; videoVistoS3=true;
+  var av=document.getElementById('video-aviso-s3');
+  if(av){ av.querySelector('.va-icono').textContent='✓'; av.querySelector('.va-txt').textContent='Listo. Ahora sí, comencemos.'; av.style.color='var(--gold2)'; }
+  var btn=document.getElementById('btn-princ-s3');
+  if(btn){ btn.disabled=false; btn.style.opacity='1'; }
+}
+window.addEventListener('DOMContentLoaded',function(){
+  var btn=document.getElementById('btn-princ-s3');
+  if(btn){ btn.disabled=true; btn.style.opacity='.5'; }
+});
+setTimeout(function(){
+  if(videoVistoS3) return;
+  var av=document.getElementById('video-aviso-s3');
+  if(av){
+    var esc=document.createElement('div'); esc.style.cssText='margin-top:8px';
+    esc.innerHTML='<a onclick="desbloquearS3()" style="color:var(--faint);font-size:13px;text-decoration:underline;cursor:pointer">¿Problemas con el video? Continuar de todos modos</a>';
+    av.appendChild(esc);
+  }
+},180000);
 /* ── Hilo conductor de la línea escogida (recordatorio reutilizable) ── */
 function hiloLineaHTML(momento){
   var linea = localStorage.getItem('anormal_linea') || '';
