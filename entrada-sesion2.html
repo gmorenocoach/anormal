@@ -84,10 +84,13 @@ body{background:var(--bg);color:var(--text);font-family:var(--serif);font-weight
 
   <div id="avance-sesion"></div>
 
-  <div class="video-box">
-    <div class="video-play">▶</div>
-    <div class="video-txt">Video de apertura — Sesión 2</div>
-    <div class="video-soon">Próximamente disponible</div>
+  <div style="border-radius:var(--rl);overflow:hidden;margin-bottom:8px;border:1px solid var(--gb)">
+    <div style="position:relative;width:100%;padding-bottom:56.25%;height:0">
+      <div id="player-s2" style="position:absolute;top:0;left:0;width:100%;height:100%"></div>
+    </div>
+  </div>
+  <div id="video-aviso-s2" style="text-align:center;font-size:var(--t-small);color:var(--dim);margin-bottom:18px">
+    <span class="va-icono">▶</span> <span class="va-txt">Mira el video para continuar</span>
   </div>
 
   <div class="card gold">
@@ -122,12 +125,52 @@ body{background:var(--bg);color:var(--text);font-family:var(--serif);font-weight
 
   <div class="nav">
     <button class="bs" onclick="volverResumen()">← Volver al resumen</button>
-    <button class="bp" onclick="comenzar()">Comenzar la Sesión 2 →</button>
+    <button class="bp" id="btn-comenzar-s2" onclick="comenzar()">Comenzar la Sesión 2 →</button>
   </div>
 </div>
 
+<script src="https://www.youtube.com/iframe_api"></script>
+
 <script>
 function leer(k,def){var v=localStorage.getItem(k);return (v===null||v===undefined)?def:v;}
+
+// ── BLOQUEO DE VIDEO DE APERTURA (V5) ──
+var videoVistoS2=false, playerS2;
+function onYouTubeIframeAPIReady(){
+  playerS2=new YT.Player('player-s2',{
+    videoId:'qesrg8TfG_o',
+    playerVars:{rel:0,modestbranding:1,playsinline:1},
+    events:{'onStateChange':function(e){ if(e.data===YT.PlayerState.ENDED){ desbloquearS2(); } }}
+  });
+}
+function desbloquearS2(){
+  if(videoVistoS2) return; videoVistoS2=true;
+  var av=document.getElementById('video-aviso-s2');
+  if(av){ av.querySelector('.va-icono').textContent='✓'; av.querySelector('.va-txt').textContent='Listo. Ahora sí, comencemos.'; av.style.color='var(--gold2)'; }
+}
+// Bloquear el botón hasta ver el video
+window.addEventListener('DOMContentLoaded',function(){
+  var btn=document.getElementById('btn-comenzar-s2');
+  if(btn){ btn.disabled=true; btn.style.opacity='.5'; }
+});
+function habilitarBtnS2(){
+  var btn=document.getElementById('btn-comenzar-s2');
+  if(btn){ btn.disabled=false; btn.style.opacity='1'; }
+}
+// Escape discreto tras 3 min por si el video no carga
+setTimeout(function(){
+  if(videoVistoS2) return;
+  var av=document.getElementById('video-aviso-s2');
+  if(av){
+    var esc=document.createElement('div');
+    esc.style.cssText='margin-top:8px';
+    esc.innerHTML='<a onclick="desbloquearS2();habilitarBtnS2()" style="color:var(--faint);font-size:13px;text-decoration:underline;cursor:pointer">¿Problemas con el video? Continuar de todos modos</a>';
+    av.appendChild(esc);
+  }
+},180000);
+// Cuando el video termina, habilitar el botón
+var _desbloquearS2Orig=desbloquearS2;
+desbloquearS2=function(){ _desbloquearS2Orig(); habilitarBtnS2(); };
 
 function leerJSON(k,def){ try{ var v=localStorage.getItem(k); return v?JSON.parse(v):def; }catch(e){ return def; } }
 var NIVELES_ESC=[
