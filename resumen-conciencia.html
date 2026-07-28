@@ -1135,16 +1135,20 @@ function pruebaVolverSesion1(){
   location.reload();
 }
 function pruebaReiniciar(){
-  if(confirm('¿Reiniciar todo el proceso? Se borrarán todos los datos para empezar de cero.')){
-    var claves = ['anormal_nombre','anormal_fecha_nac','anormal_numero_camino','anormal_linea',
-      'anormal_contrato','anormal_contrato_firmado','anormal_entrada_completa','anormal_diagnostico',
-      'anormal_acciones','anormal_prioridades','anormal_compromisos_areas','anormal_compromiso_inicial',
-      'anormal_principios_nuevos','anormal_puntos_conciencia','anormal_compromisos_cumplidos','anormal_compromisos_personales','anormal_fechas_cumplimiento','anormal_vivencia_principios','anormal_sesion_actual','anormal_rueda_areas','widget_visto_rueda','anormal_fecha_inicio_proceso'];
-    claves.forEach(function(k){ localStorage.removeItem(k); });
-    // Borrar también fechas de sesiones
-    for(var s=2;s<=5;s++){ localStorage.removeItem('anormal_fecha_sesion_'+s); }
+  if(confirm('¿Reiniciar todo el proceso? Se borrarán TODOS los datos para empezar de cero.')){
+    reiniciarProcesoCompleto();
     window.location.href='contrato-transformacion.html';
   }
+}
+
+// Borra TODO el estado de ∀normal — robusto, no depende de una lista
+function reiniciarProcesoCompleto(){
+  var aBorrar=[];
+  for(var i=0;i<localStorage.length;i++){
+    var k=localStorage.key(i);
+    if(k && (k.indexOf('anormal_')===0 || k.indexOf('widget_')===0)) aBorrar.push(k);
+  }
+  aBorrar.forEach(function(k){ localStorage.removeItem(k); });
 }
 
 // ── MODAL DE PRINCIPIO ───────────────────────────────────────────────
